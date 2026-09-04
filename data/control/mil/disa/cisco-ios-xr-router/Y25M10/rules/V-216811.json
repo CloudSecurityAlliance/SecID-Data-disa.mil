@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216811",
+  "rule_id": "SV-216811r1117237_rule",
+  "stig_id": "CISC-RT-000830",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco multicast Rendezvous Point (RP) router must be configured to filter Protocol Independent Multicast (PIM) Register messages received from the Designated Router (DR) for any undesirable multicast groups and sources.",
+  "group_title": "SRG-NET-000019-RTR-000013",
+  "idents": {
+    "legacy": [
+      "SV-105967",
+      "V-96829"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-18043r288807_chk",
+  "check_content": "Verify that the RP router is configured to filter PIM register messages. The example below will deny any multicast streams for groups 239.5.0.0/16 and allow from only sources 10.1.2.6 and 10.1.2.7. \n\nipv4 access-list PIM_REGISTER_FILTER\n 10 deny ipv4 any 239.5.0.0 0.0.255.255\n 20 permit ipv4 host 10.1.2.6 any\n 30 permit ipv4 host 10.1.2.7 any\n 40 deny ipv4 any any \n…\n…\n…\nrouter pim\n address-family ipv4\n  rp-address 2.2.2.2\n  accept-register PIM_REGISTER_FILTER\n\nIf the RP router peering with PIM-SM routers is not configured with a policy to block registration messages for any undesirable multicast groups and sources, this is a finding.",
+  "fixtext": "Configure the router to filter PIM register messages received from a multicast DR for any undesirable multicast groups and sources. The example below will deny any multicast streams for groups 239.5.0.0/16 and allow from only sources 10.1.2.6 and 10.1.2.7. \n\nRP/0/0/CPU0:R2(config)#ipv4 access-list PIM_REGISTER_FILTER\nRP/0/0/CPU0:R2(config-ipv4-acl)#deny ipv4 any 239.5.0.0 0.0.255.255\nRP/0/0/CPU0:R2(config-ipv4-acl)#permit ipv4 host 10.1.2.6 any\nRP/0/0/CPU0:R2(config-ipv4-acl)#permit ipv4 host 10.1.2.7 any\nRP/0/0/CPU0:R2(config-ipv4-acl)#deny ipv4 any any\nRP/0/0/CPU0:R2(config-ipv4-acl)#exit\nRP/0/0/CPU0:R2(config)#router pim\nRP/0/0/CPU0:R2(config-pim)#address-family ipv4\nRP/0/0/CPU0:R2(config-pim-default-ipv4)#accept-register PIM_REGISTER_FILTER\nRP/0/0/CPU0:R2(config-pim-default-ipv4)#end",
+  "fix_id": "F-18041r288808_fix",
+  "VulnDiscussion": "Real-time multicast traffic can entail multiple large flows of data. An attacker can flood a network segment with multicast packets, over-using the available bandwidth and thereby creating a denial-of-service (DoS) condition. Hence, it is imperative that register messages are accepted only for authorized multicast groups and sources.",
+  "Documentable": "false"
+}

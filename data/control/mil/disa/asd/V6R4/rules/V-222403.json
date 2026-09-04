@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222403",
+  "rule_id": "SV-222403r960759_rule",
+  "stig_id": "APSC-DV-000230",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The application must use the NotOnOrAfter condition when using the SubjectConfirmation element in a SAML assertion.",
+  "group_title": "SRG-APP-000014",
+  "idents": {
+    "legacy": [
+      "SV-83909",
+      "V-69287"
+    ],
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-24073r493117_chk",
+  "check_content": "Ask the application representative for the design document.\n\nReview the design document for web services using SAML assertions.\n\nIf the application does not utilize SAML assertions, this check is not applicable.\n\nExamine the contents of a SOAP message using the <SubjectConfirmation> element. All messages should contain the <NotOnOrAfter> element. This can be accomplished if the application allows the ability to view XML messages or via a protocol analyzer like Wireshark.\n\nIf SOAP messages do not contain <NotOnOrAfter> elements, this is a finding.",
+  "fixtext": "Design and configure the application to use the <NotOnOrAfter> condition when using the <SubjectConfirmation> element in a SAML assertion.",
+  "fix_id": "F-24062r493118_fix",
+  "VulnDiscussion": "SAML is a standard for exchanging authentication and authorization data between security domains.  SAML uses security tokens containing assertions to pass information about a principal (usually an end user) between a SAML authority, (identity provider), and a SAML consumer, (service provider).  SAML assertions are usually made about a subject, (user) represented by the <Subject> element.\n\nWhen a SAML assertion is used with a <SubjectConfirmation> element, a begin and end time for the <SubjectConfirmation> should be set to prevent reuse of the message at a later time. Not setting a specific time period for the <SubjectConfirmation>, may grant immediate access to an attacker and result in an immediate loss of confidentiality.",
+  "Documentable": "false"
+}

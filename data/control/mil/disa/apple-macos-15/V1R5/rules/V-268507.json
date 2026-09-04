@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268507",
+  "rule_id": "SV-268507r1034461_rule",
+  "stig_id": "APPL-15-002053",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable the system settings pane for Siri.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-72537r1034459_chk",
+  "check_content": "Verify the macOS system is configured to disable the system settings pane for Siri with the following command:\n\n/usr/bin/profiles show -output stdout-xml | /usr/bin/xmllint --xpath '//key[text()=\"DisabledSystemSettings\"]/following-sibling::*[1]' - | /usr/bin/grep -c com.apple.Siri-Settings.extension\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable the system settings pane for Siri by installing the \"com.apple.systempreferences\" configuration profile.",
+  "fix_id": "F-72438r1034460_fix",
+  "VulnDiscussion": "The System Settings pane for Siri must be hidden.\n\nHiding the System Settings pane prevents users from configuring Siri. Enabling any service increases the attack surface for an intruder. By disabling unnecessary services, the attack surface is minimized.",
+  "Documentable": "false"
+}

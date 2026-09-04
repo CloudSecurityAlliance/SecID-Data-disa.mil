@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269398",
+  "rule_id": "SV-269398r1050281_rule",
+  "stig_id": "ALMA-09-037200",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 PAM must be configured to use a sufficient number of password hashing rounds.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-004062"
+    ]
+  },
+  "check_id": "C-73429r1048570_chk",
+  "check_content": "Verify the number of rounds for the password hashing algorithm is configured with the following command:\n\n$ grep rounds /etc/pam.d/password-auth /etc/pam.d/system-auth \n\n/etc/pam.d/password-auth:password    sufficient       pam_unix.so sha512 shadow rounds=100000  use_authtok\n/etc/pam.d/system-auth:password    sufficient       pam_unix.so sha512 shadow rounds=100000  use_authtok\n\nIf a matching line is not returned in both files, or \"rounds\" is less than \"100000\", this a finding.\n\nAdd/modify the appropriate sections of the \"/etc/pam.d/password-auth\" file to match the following lines, ensuring that the \"preauth\" line is listed before pam_unix.so",
+  "fixtext": "Configure AlmaLinux OS 9 to use at least 100000 hashing rounds for hashing passwords.\n\nAdd or modify the following line in \"/etc/pam.d/password-auth\" and \"/etc/pam.d/system-auth\" and set \"rounds\" to \"100000\" or higher:\n\npassword sufficient pam_unix.so sha512 rounds=100000",
+  "fix_id": "F-73330r1049631_fix",
+  "VulnDiscussion": "Passwords must be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nUsing more hashing rounds makes password cracking attacks more difficult.",
+  "Documentable": "false"
+}

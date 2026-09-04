@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217007",
+  "rule_id": "SV-217007r856462_rule",
+  "stig_id": "CISC-RT-000470",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco BGP router must be configured to enable the Generalized TTL Security Mechanism (GTSM).",
+  "group_title": "SRG-NET-000362-RTR-000124",
+  "idents": {
+    "legacy": [
+      "SV-105895",
+      "V-96757"
+    ],
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-18237r288861_chk",
+  "check_content": "Review the BGP configuration to verify that TTL security has been configured for each external neighbor as shown in the example below.\n\nrouter bgp n\n address-family ipv4 unicast\n !\n neighbor x.1.23.3\n  remote-as n\n  ttl-security\n  address-family ipv4 unicast\n  !\n !\n!\n\nIf the router is not configured to use GTSM for all Exterior Border Gateway Protocol peering sessions, this is a finding.",
+  "fixtext": "Configure TTL security on all external BGP neighbors as shown in the example below.\n\nRP/0/0/CPU0:R2(config)#router bgp n\nRP/0/0/CPU0:R2(config-bgp)#neighbor x.1.23.3   \nRP/0/0/CPU0:R2(config-bgp-nbr)#ttl-security",
+  "fix_id": "F-18235r288862_fix",
+  "VulnDiscussion": "As described in RFC 3682, GTSM is designed to protect a router's IP-based control plane from DoS attacks. Many attacks focused on CPU load and line-card overload can be prevented by implementing GTSM on all Exterior Border Gateway Protocol speaking routers. \n\nGTSM is based on the fact that the vast majority of control plane peering is established between adjacent routers; that is, the Exterior Border Gateway Protocol peers are either between connecting interfaces or between loopback interfaces. Since TTL spoofing is considered nearly impossible, a mechanism based on an expected TTL value provides a simple and reasonably robust defense from infrastructure attacks based on forged control plane traffic.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216779",
+  "rule_id": "SV-216779r1117236_rule",
+  "stig_id": "CISC-RT-000510",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco BGP router must be configured to reject inbound route advertisements from a customer edge (CE) router for prefixes that are not allocated to that customer.",
+  "group_title": "SRG-NET-000018-RTR-000004",
+  "idents": {
+    "legacy": [
+      "V-96765",
+      "SV-105903"
+    ],
+    "cci": [
+      "CCI-001368"
+    ]
+  },
+  "check_id": "C-18011r288714_chk",
+  "check_content": "Review the router configuration to verify that there are ACLs defined to only accept routes for prefixes that belong to specific customers. \n\nStep 1: Verify that an inbound route policy has been configured for each customer neighbor as shown in the example below.\n\nrouter bgp xx\n address-family ipv4 unicast\n !\n neighbor x.12.4.14\n  remote-as 64514\n    address-family ipv4 unicast\n   route-policy CUST1_PREFIX_FILTER in\n  !\n !\n neighbor x.12.4.16\n  remote-as 64516\n  address-family ipv4 unicast\n   route-policy CUST2_PREFIX_FILTER in\n !\n!\n\nStep 2: Review the route policies to determine if it is accepting only prefixes belonging to each customer as shown in the example below.\n\nroute-policy CUST1_PREFIX_FILTER\n  if destination in CUST1_PREFIX then\n    pass\n  else\n    drop\n  endif\nend-policy\n!\nroute-policy CUST2_PREFIX_FILTER\n  if destination in CUST2_PREFIX then\n    pass\n  else\n    drop\n  endif\nend-policy\n\nStep 3: Review the prefix sets referenced in the route policies above to determine if they include only prefixes belonging to each customer.\n\nprefix-set CUST1_PREFIX\n  x.1.1.0/24 le 32\nend-set\n!\nprefix-set CUST2_PREFIX\n  x.2.1.0/24 le 32\nend-set\n\nNote: Routes to PE-CE links within a VPN are needed for troubleshooting end-to-end connectivity across the MPLS/IP backbone. Hence, these prefixes are an exception to this requirement.\n\nIf the router is not configured to reject inbound route advertisements from each CE router for prefixes that are not allocated to that customer, this is a finding.",
+  "fixtext": "Configure the router to reject inbound route advertisements from each CE router for prefixes that are not allocated to that customer.\n\nStep 1: Configure a prefix set for each customer containing prefixes belonging to each as shown in the example.\n\nRP/0/0/CPU0:R2(config)#prefix-set CUST1_PREFIX\nRP/0/0/CPU0:R2(config-pfx)#x.1.1.0/24 le 32\nRP/0/0/CPU0:R2(config-pfx)#end-set\nRP/0/0/CPU0:R2(config)#prefix-set CUST2_PREFIX\nRP/0/0/CPU0:R2(config-pfx)#x.2.1.0/24 le 32\nRP/0/0/CPU0:R2(config-pfx)#end-set \n\nStep 2: Configure a route policy filter for each customer as shown in the example.\n\nRP/0/0/CPU0:R2(config)#route-policy CUST1_PREFIX_FILTER          \nRP/0/0/CPU0:R2(config-rpl)#if destination in CUST1_PREFIX then\nRP/0/0/CPU0:R2(config-rpl-if)#pass\nRP/0/0/CPU0:R2(config-rpl-if)#else\nRP/0/0/CPU0:R2(config-rpl-else)#drop\nRP/0/0/CPU0:R2(config-rpl-else)#endif\nRP/0/0/CPU0:R2(config-rpl)#end-policy\nRP/0/0/CPU0:R2(config)#route-policy CUST2_PREFIX_FILTER          \nRP/0/0/CPU0:R2(config-rpl)#if destination in CUST2_PREFIX then\nRP/0/0/CPU0:R2(config-rpl-if)#pass\nRP/0/0/CPU0:R2(config-rpl-if)#else\nRP/0/0/CPU0:R2(config-rpl-else)#drop\nRP/0/0/CPU0:R2(config-rpl-else)#endif\nRP/0/0/CPU0:R2(config-rpl)#end-policy\n\nStep 3: Apply the route policy to each customer neighbor as shown in the example.\n\nRP/0/0/CPU0:R2(config)#router bgp xx\nRP/0/0/CPU0:R2(config-bgp)#neighbor x.12.4.14\nRP/0/0/CPU0:R2(config-bgp-nbr)#address-family ipv4 unicast \nRP/0/0/CPU0:R2(config-bgp-nbr-af)#route-policy CUST1_PREFIX_FILTER in\nRP/0/0/CPU0:R2(config-bgp)#neighbor x.12.4.16\nRP/0/0/CPU0:R2(config-bgp-nbr)#address-family ipv4 unicast \nRP/0/0/CPU0:R2(config-bgp-nbr-af)#route-policy CUST2_PREFIX_FILTER in",
+  "fix_id": "F-18009r288715_fix",
+  "VulnDiscussion": "As a best practice, a service provider should only accept customer prefixes that have been assigned to that customer and any peering autonomous systems. A multi-homed customer with BGP speaking routers connected to the Internet or other external networks could be breached and used to launch a prefix de-aggregation attack. Without ingress route filtering of customers, the effectiveness of such an attack could impact the entire IP core and its customers.",
+  "Documentable": "false"
+}

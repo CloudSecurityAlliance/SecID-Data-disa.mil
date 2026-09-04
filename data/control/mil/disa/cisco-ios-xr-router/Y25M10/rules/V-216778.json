@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216778",
+  "rule_id": "SV-216778r1117236_rule",
+  "stig_id": "CISC-RT-000500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco BGP router must be configured to reject inbound route advertisements for any prefixes belonging to the local autonomous system (AS).",
+  "group_title": "SRG-NET-000018-RTR-000003",
+  "idents": {
+    "legacy": [
+      "SV-105901",
+      "V-96763"
+    ],
+    "cci": [
+      "CCI-001368"
+    ]
+  },
+  "check_id": "C-18010r288711_chk",
+  "check_content": "Review the router configuration to verify that it will reject routes belonging to the local AS.\n\nStep 1: verify that an inbound route policy has been configured for each external neighbor as shown in the example below.\n\nrouter bgp xx\n address-family ipv4 unicast\n !\n neighbor x.1.23.3\n  remote-as yy\n  keychain YYY_KEY_CHAIN\n  ttl-security\n  address-family ipv4 unicast\n   route-policy BGP_FILTER_INBOUND in\n  !\n !\n neighbor x.1.24.4\n  remote-as zz\n  keychain ZZZ_KEY_CHAIN\n  ttl-security\n  address-family ipv4 unicast\n   route-policy BGP_FILTER_INBOUND in\n !\n!\n\nStep 2: Review the route policy to determine if it is filtering at a minimum local prefixes as shown in the example below.\n\nroute-policy BGP_FILTER_INBOUND\n  if destination in LOCAL_PREFIX then\n    drop\n  else\n    pass\n  endif\nend-policy \n\nNote: If bogons are also filtered per previous requirement, the route policy would look similar to the following example:\n\nroute-policy BGP_FILTER_INBOUND\n  if destination in BOGON_PREFIXES then\n    drop\n  elseif destination in LOCAL_PREFIX then\n    drop\n  else\n    pass\n  endif\nend-policy\n\nStep 3: Review the prefix set referenced in the route policy above to determine if it includes the local global prefix as shown in the example below.\n\nprefix-set LOCAL_PREFIX\n x.13.1.0/24 le 32\nend-set\n\nIf the router is not configured to reject inbound route advertisements belonging to the local AS, this is a finding.",
+  "fixtext": "Step 1: Configure a prefix set containing the current Bogon prefixes as shown below.\n\nRP/0/0/CPU0:R2(config)#prefix-set Step 1: Configure a prefix set containing the current Bogon prefixes as shown below.\n\nRP/0/0/CPU0:R2(config)#prefix-set LOCAL_PREFIX\nRP/0/0/CPU0:R2(config-pfx)#x.13.1.0/24 le 32\nRP/0/0/CPU0:R2(config-pfx)#end-set\n\nStep 2: Configure the route policy to drop routes with BOGON prefixes as shown in the example below.\n\nRP/0/0/CPU0:R2(config)#route-policy BGP_FILTER_INBOUND\nRP/0/0/CPU0:R2(config-rpl)#if destination in LOCAL_PREFIX then \nRP/0/0/CPU0:R2(config-rpl-if)#drop\nRP/0/0/CPU0:R2(config-rpl-if)#else pass endif\nRRP/0/0/CPU0:R2(config-rpl)#end-policy \nRP/0/0/CPU0:R2(config)#exit\n\nStep 3: Apply the route policy to each external BGP neighbor as shown in the example.\n\nRP/0/0/CPU0:R2(config)#router bgp xx\nRP/0/0/CPU0:R2(config-bgp)#neighbor x.1.23.3\nRP/0/0/CPU0:R2(config-bgp-nbr)#address-family ipv4 unicast \nRP/0/0/CPU0:R2(config-bgp-nbr-af)#route-policy BGP_FILTER_INBOUND in\nRP/0/0/CPU0:R2(config-bgp)#neighbor x.1.24.4\nRP/0/0/CPU0:R2(config-bgp-nbr)#address-family ipv4 unicast \nRP/0/0/CPU0:R2(config-bgp-nbr-af)#route-policy BGP_FILTER_INBOUND in",
+  "fix_id": "F-18008r288712_fix",
+  "VulnDiscussion": "Accepting route advertisements belonging to the local AS can result in traffic looping or being black holed, or at a minimum using a non-optimized path.",
+  "Documentable": "false"
+}

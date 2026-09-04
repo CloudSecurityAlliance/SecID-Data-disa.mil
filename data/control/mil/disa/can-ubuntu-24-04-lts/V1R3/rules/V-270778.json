@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270778",
+  "rule_id": "SV-270778r1066823_rule",
+  "stig_id": "UBTU-24-900070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 24.04 LTS must generate audit records for successful/unsuccessful uses of the su command.",
+  "group_title": "SRG-OS-000064-GPOS-00033",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-74811r1066821_chk",
+  "check_content": "Verify Ubuntu 24.04 LTS generates audit records upon successful/unsuccessful attempts to use the \"su\" command with the following command: \n \n$ sudo auditctl -l | grep /bin/su \n-a always,exit -F path=/bin/su -F perm=x -F auid>=1000 -F auid!=-1 -k privileged-priv_change \n \nIf the command does not return lines that match the example or the lines are commented out, this is a finding. \n \nNote: The \"-k\" allows for specifying an arbitrary identifier, and the string after it does not need to match the example output above.",
+  "fixtext": "Configure Ubuntu 24.04 LTS to generate audit records when successful/unsuccessful attempts to use the \"su\" command occur. \n \nAdd or update the following rules in the \"/etc/audit/rules.d/stig.rules\" file: \n \n-a always,exit -F path=/bin/su -F perm=x -F auid>=1000 -F auid!=-1 -k privileged-priv_change  \n \nTo reload the rules file, issue the following command: \n \n$ sudo augenrules --load",
+  "fix_id": "F-74712r1066822_fix",
+  "VulnDiscussion": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. \n \nAudit records can be generated from various components within the information system (e.g., module or policy filter).",
+  "Documentable": "false"
+}

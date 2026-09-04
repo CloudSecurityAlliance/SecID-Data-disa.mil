@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-258611",
+  "rule_id": "SV-258611r961863_rule",
+  "stig_id": "IVCS-NM-000370",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ICS must be configured to obtain its public key certificates from an appropriate certificate policy through an approved service provider.",
+  "group_title": "SRG-APP-000516-NDM-000344",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-001159"
+    ]
+  },
+  "check_id": "C-62351r930519_chk",
+  "check_content": "In the ICS Web UI, navigate to System >> Configuration >> Certificates >> Device Certificates.\n\n1. Verify there is a device certificate that is signed by a valid DOD CA.\n2. Verify the certificate is used by all interfaces on the ICS.\n\nIf the ICS does not obtain its public key certificates from an appropriate certificate policy through an approved service provider, this is a finding.",
+  "fixtext": "In the ICS Web UI, navigate to System >> Configuration >> Certificates >> Device Certificates.\n1. Click \"New CSR\".\n2. Add a Common Name in FQDN format.\n3. Add a Country code of US.\n4. Under key type, if using RSA, select \"RSA\". If using ECC, select \"ECC\".\n5. Under the key length, if using RSA, select at least \"2048\". If using ECC, select \"P-384\".\n6. Type in \"Random Data\" in the text field.\n7. Click \"Create CSR\".\n8. Copy the Base 64/PEM encoded certificate request that is shown on the screen and paste it to a text file. Ensure the file has the file suffix of .csr.\n9. Go through the local RA process for DOD Web Server certificate requests. Ensure that SANs are added to the certificate by the issuing CA to include the hostname, cluster names, and all FQDNs.\n10. Once the certificate is provided by the CA, go to System >> Configuration >> Certificates >> Device Certificates.\n11. Click \"Browse\" and select the certificate file issued by the CA, then click \"Import\".\n12. Click \"Save Changes\".\n13. Click on the imported certificate.\n14. On the \"Internal Port\", click \"add\" for the cluster internal VIP and <Internal Port>.\n15. On the \"External Port\", click \"add\" for the cluster external VIP and <External Port>.\n16. Check the box for \"Management Port\".\n17. Under \"Certificate Status Checking\", click the box for \"Use CRLs\".\n18. Click \"Save Changes\".",
+  "fix_id": "F-62260r930520_fix",
+  "VulnDiscussion": "For user certificates, each organization obtains certificates from an approved and shared service provider, as required by OMB policy. For federal agencies operating a legacy public key infrastructure cross-certified with the Federal Bridge Certification Authority at medium assurance or higher, this Certification Authority will suffice.",
+  "Documentable": "false"
+}

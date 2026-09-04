@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269111",
+  "rule_id": "SV-269111r1050605_rule",
+  "stig_id": "ALMA-09-002770",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must log SSH connection attempts and failures to the server.",
+  "group_title": "SRG-OS-000032-GPOS-00013",
+  "idents": {
+    "cci": [
+      "CCI-000067"
+    ]
+  },
+  "check_id": "C-73142r1049110_chk",
+  "check_content": "Verify AlmaLinux OS 9 logs SSH connection attempts and failures to the server.\n\nCheck what the SSH daemon's \"LogLevel\" option is set to with the following command:\n\n$ sshd -T | grep loglevel\n\nloglevel VERBOSE\n\nIf a value of \"VERBOSE\" is not returned, or is commented out, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to log SSH connection attempts by running the following command:\n\n$ echo \"LogLevel VERBOSE\" > /etc/ssh/sshd_config.d/40-loglevel.conf",
+  "fix_id": "F-73043r1049111_fix",
+  "VulnDiscussion": "Remote access services, such as those providing remote access to network devices and information systems, which lack automated monitoring capabilities, increase risk, and make remote user access management difficult at best.\n\nRemote access is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nAutomated monitoring of remote access sessions allows organizations to detect cyber attacks and also ensure ongoing compliance with remote access policies by auditing connection activities of remote access capabilities, such as Remote Desktop Protocol (RDP), on a variety of information system components (e.g., servers, workstations, notebook computers, smartphones, and tablets).\n\nSSH provides several logging levels with varying amounts of verbosity. \"DEBUG\" is specifically not recommended other than strictly for debugging SSH communications since it provides so much data that it is difficult to identify important security information. \"INFO\" or \"VERBOSE\" level is the basic level that only records login activity of SSH users. In many situations, such as Incident Response, it is important to determine when a particular user was active on a system. The logout record can eliminate those users who disconnected, which helps narrow the field.",
+  "Documentable": "false"
+}

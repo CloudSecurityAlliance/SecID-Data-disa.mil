@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230530",
+  "rule_id": "SV-230530r1069317_rule",
+  "stig_id": "RHEL-08-040171",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The x86 Ctrl-Alt-Delete key sequence in RHEL 8 must be disabled if a graphical user interface is installed.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-33199r1069243_chk",
+  "check_content": "Verify RHEL 8 is not configured to reboot the system when Ctrl-Alt-Delete is pressed when using a graphical user interface with the following command:\n\nThis requirement assumes the use of the RHEL 8 default graphical user interface, Gnome Shell. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\n$ sudo grep -r logout /etc/dconf/db/local.d/*\n\n/etc/dconf/db/local.d/00-disable-CAD:logout=''\n\nIf the \"logout\" key is bound to an action, is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure the system to disable the Ctrl-Alt-Delete sequence when using a graphical user interface by creating or editing the /etc/dconf/db/local.d/00-disable-CAD file.\n\nAdd the setting to disable the Ctrl-Alt-Delete sequence for a graphical user interface:\n\n[org/gnome/settings-daemon/plugins/media-keys]\nlogout=''\n\nNote: The value above is set to two single quotations.\n\nThen update the dconf settings:\n\n$ sudo dconf update",
+  "fix_id": "F-33174r568337_fix",
+  "VulnDiscussion": "A locally logged-on user, who presses Ctrl-Alt-Delete, when at the console, can reboot the system. If accidentally pressed, as could happen in the case of a mixed OS environment, this can create the risk of short-term loss of availability of systems due to unintentional reboot. In a graphical user environment, risk of unintentional reboot from the Ctrl-Alt-Delete sequence is reduced because the user will be prompted before any action is taken.",
+  "Documentable": "false"
+}

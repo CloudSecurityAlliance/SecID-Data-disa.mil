@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253285",
+  "rule_id": "SV-253285r958478_rule",
+  "stig_id": "WN11-00-000155",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Windows PowerShell 2.0 feature must be disabled on the system.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-56738r828937_chk",
+  "check_content": "Run \"Windows PowerShell\" with elevated privileges (run as administrator).\n\nEnter the following:\nGet-WindowsOptionalFeature -Online | Where FeatureName -like *PowerShellv2*\n\nIf either of the following have a \"State\" of \"Enabled\", this is a finding.\n\nFeatureName : MicrosoftWindowsPowerShellV2\nState : Enabled\nFeatureName : MicrosoftWindowsPowerShellV2Root\nState : Enabled\n\nAlternately:\nSearch for \"Features\".\n\nSelect \"Turn Windows features on or off\".\n\nIf \"Windows PowerShell 2.0\" (whether the subcategory of \"Windows PowerShell 2.0 Engine\" is selected or not) is selected, this is a finding.",
+  "fixtext": "Disable \"Windows PowerShell 2.0\" on the system.\n\nRun \"Windows PowerShell\" with elevated privileges (run as administrator).\nEnter the following:\nDisable-WindowsOptionalFeature -Online -FeatureName MicrosoftWindowsPowerShellV2Root\n\nThis command must disable both \"MicrosoftWindowsPowerShellV2Root\" and \"MicrosoftWindowsPowerShellV2\" which correspond to \"Windows PowerShell 2.0\" and \"Windows PowerShell 2.0 Engine\" respectively in \"Turn Windows features on or off\".\n\nAlternately:\nSearch for \"Features\".\nSelect \"Turn Windows features on or off\".\nDe-select \"Windows PowerShell 2.0\".",
+  "fix_id": "F-56688r828938_fix",
+  "VulnDiscussion": "Windows PowerShell 5.0 added advanced logging features which can provide additional detail when malware has been run on a system. Disabling the Windows PowerShell 2.0 mitigates against a downgrade attack that evades the Windows PowerShell 5.0 script block logging feature.",
+  "Documentable": "false"
+}

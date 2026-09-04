@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216629",
+  "rule_id": "SV-216629r864157_rule",
+  "stig_id": "CISC-RT-000860",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco multicast Designated Router (DR) must be configured to filter the Internet Group Management Protocol (IGMP) and Multicast Listener Discovery (MLD) Report messages to allow hosts to join only multicast groups that have been approved by the organization.",
+  "group_title": "SRG-NET-000364-RTR-000114",
+  "idents": {
+    "legacy": [
+      "SV-105795",
+      "V-96657"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-17864r508008_chk",
+  "check_content": "Review the configuration of the DR to verify that it is filtering IGMP or MLD Membership Report messages, allowing hosts to join only those groups that have been approved.\n\nStep 1: Verify that all host facing interfaces are configured to filter IGMP Membership Report messages (IGMP joins) as shown in the example below.\n\ninterface GigabitEthernet0/0\n ip address 10.3.3.3 255.255.255.0\n ip pim sparse-mode\n ip igmp access-group IGMP_JOIN_FILTER\n ip igmp version 3\n\nStep 2: Verify that the Access Control List (ACL) denies unauthorized groups or permits only authorized groups. The example below denies all groups from 239.8.0.0/16 range.\n\nip access-list standard IGMP_JOIN_FILTER\n deny   239.8.0.0 0.0.255.255\n permit any\n\nNote: This requirement is only applicable to Source Specific Multicast (SSM) implementation. This requirement is not applicable to Any Source Multicast (ASM) since the filtering is being performed by the Rendezvous Point router.\n\nIf the DR is not filtering IGMP or MLD Membership Report messages, this is a finding.",
+  "fixtext": "Configure the DR to filter the IGMP or MLD Membership Report messages to allow hosts to join only those multicast groups that have been approved.\n\nStep 1: Configure the ACL to filter IGMP Membership Report messages as shown in the example.\n\nR3(config)#ip access-list standard IGMP_JOIN_FILTER\nR3(config-std-nacl)#deny 239.8.0.0 0.0.255.255\nR3(config-std-nacl)#permit any\nR3(config-std-nacl)#exit\n\nStep 2: Apply the filter to all host facing interfaces.\n\nR3(config)#int g0/0\nR3(config-if)#ip igmp access-group IGMP_JOIN_FILTER",
+  "fix_id": "F-17860r508009_fix",
+  "VulnDiscussion": "Real-time multicast traffic can entail multiple large flows of data. Large unicast flows tend to be fairly isolated (i.e., someone doing a file download here or there), whereas multicast can have broader impact on bandwidth consumption, resulting in extreme network congestion. Hence, it is imperative that there is multicast admission control to restrict which multicast groups hosts are allowed to join via IGMP or MLD.",
+  "Documentable": "false"
+}

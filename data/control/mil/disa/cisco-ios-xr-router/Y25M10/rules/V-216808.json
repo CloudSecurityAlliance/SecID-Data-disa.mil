@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216808",
+  "rule_id": "SV-216808r1117237_rule",
+  "stig_id": "CISC-RT-000800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco multicast router must be configured to bind a Protocol Independent Multicast (PIM) neighbor filter to interfaces that have PIM enabled.",
+  "group_title": "SRG-NET-000019-RTR-000004",
+  "idents": {
+    "legacy": [
+      "SV-105961",
+      "V-96823"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-18040r288798_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone.\n\nStep 1: Verify all interfaces enabled for PIM have a neighbor ACL bound to the interface as shown in the example below.\n\nrouter pim\n address-family ipv4\n  interface GigabitEthernet0/0/0/1\n   enable\n   neighbor-filter PIM_NEIGHBOR_1\n  !\n  interface GigabitEthernet0/0/0/2\n   enable\n   neighbor-filter PIM_NEIGHBOR_2\n  !\n !\n!\n\nStep 2: Review the configured ACL for filtering PIM neighbors as shown in the example below.\n\nipv4 access-list PIM_NEIGHBOR_1\n 10 permit ipv4 host 10.1.1.2 any\n!\nipv4 access-list PIM_NEIGHBOR_2\n 10 permit ipv4 host 10.1.2.8 any\n!\n\nIf PIM neighbor ACLs are not bound to all interfaces that have PIM enabled, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN Backbone.\n\nConfigure neighbor ACLs to only accept PIM control plane traffic from documented PIM neighbors. Bind neighbor ACLs to all PIM enabled interfaces.\n\nStep 1: Configure ACL for PIM neighbors.\n\nRP/0/0/CPU0:R2(config)#ipv4 access-list PIM_NEIGHBOR_1\nRP/0/0/CPU0:R2(config-ipv4-acl)#permit ipv4 host 10.1.1.2 any\nRP/0/0/CPU0:R2(config-ipv4-acl)#exit\n\nStep 2: Apply the ACL to all interfaces enabled for PIM.\n\nRP/0/0/CPU0:R2(config)#router pim\nRP/0/0/CPU0:R2(config-pim)#address-family ipv4\nRP/0/0/CPU0:R2(config-pim-default-ipv4)#int g0/0/0/1\nRP/0/0/CPU0:R2(config-pim-ipv4-if)#neighbor-filter PIM_NEIGHBOR_1\nRP/0/0/CPU0:R2(config-pim-ipv4-if)#exit\nRP/0/0/CPU0:R2(config-pim-default-ipv4)#int g0/0/0/2                  \nRP/0/0/CPU0:R2(config-pim-ipv4-if)#neighbor-filter PIM_NEIGHBOR_2\nRP/0/0/CPU0:R2(config-pim-ipv4-if)#end",
+  "fix_id": "F-18038r288799_fix",
+  "VulnDiscussion": "PIM is a routing protocol used to build multicast distribution trees for forwarding multicast traffic across the network infrastructure. PIM traffic must be limited to only known PIM neighbors by configuring and binding a PIM neighbor filter to those interfaces that have PIM enabled. If a PIM neighbor filter is not applied to those interfaces that have PIM enabled, unauthorized routers can join the PIM domain, discover and use the rendezvous points, and also advertise their rendezvous points into the domain. This can result in a denial of service by traffic flooding or result in the unauthorized transfer of data.",
+  "Documentable": "false"
+}

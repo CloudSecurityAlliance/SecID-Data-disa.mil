@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269404",
+  "rule_id": "SV-269404r1050287_rule",
+  "stig_id": "ALMA-09-037860",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must not have any telnet packages installed.",
+  "group_title": "SRG-OS-000074-GPOS-00042",
+  "idents": {
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-73435r1049642_chk",
+  "check_content": "Verify that AlmaLinux OS 9 does not have a telnet client or server package installed with the following command:\n\n$ rpm -qa | grep telnet\n\nIf the \"telnet-server\" server or \"telnet\" client packages are installed, this is a finding.\n\nNote that there may be third-party or alternative packages that provide the same functionality, which should also be removed.",
+  "fixtext": "Remove the default telnet client and server packages using the following command:\n\n$ dnf remove telnet-server telnet",
+  "fix_id": "F-73336r1048589_fix",
+  "VulnDiscussion": "Passwords must be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nA telnet server provides an unencrypted remote access mechanism that does not protect the confidentiality of user credentials or the remote session.\n\nIf a privileged user were to log on using this service, the privileged user password could be compromised. SSH or other encrypted session methods must be used instead.\n\nRemoving the server and client packages prevents inbound and outbound communications from being compromised.",
+  "Documentable": "false"
+}

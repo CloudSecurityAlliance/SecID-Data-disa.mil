@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253762",
+  "rule_id": "SV-253762r961821_rule",
+  "stig_id": "MADB-10-011000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must generate audit records when categories of information (e.g., classification levels/security levels) are deleted.",
+  "group_title": "SRG-APP-000502-DB-000348",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-57214r841809_chk",
+  "check_content": "If category tracking is not required in the database, this is not applicable.\n\nCheck what filters are in place by running the following as an administrative user: \n\nMariaDB> SELECT * FROM mysql.server_audit_filters;\n\nVerify query_events ALL is included in corresponding audit filters. If not, this is a finding.",
+  "fixtext": "Update necessary audit filters to include query_event ALL. Example: \n\nMariaDB> DELETE FROM mysql.server_audit_filters WHERE filtername = 'default';\n\nMariaDB> INSERT INTO mysql.server_audit_filters (filtername, rule)\n   VALUES ('default',\n      JSON_COMPACT(\n         '{\n            \"connect_event\": [\n               \"CONNECT\",\n               \"DISCONNECT\"\n            ],\n            \"query_event\": [\n                \"ALL\"\n            ]\n         }'\n      ));",
+  "fix_id": "F-57165r841810_fix",
+  "VulnDiscussion": "Changes in categories of information must be tracked. Without an audit trail, unauthorized access to protected data could go undetected.\n\nFor detailed information on categorizing information, refer to FIPS Publication 199, Standards for Security Categorization of Federal Information and Information Systems, and FIPS Publication 200, Minimum Security Requirements for Federal Information and Information Systems.",
+  "Documentable": "false"
+}

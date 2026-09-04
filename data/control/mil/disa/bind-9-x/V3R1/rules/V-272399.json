@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272399",
+  "rule_id": "SV-272399r1124058_rule",
+  "stig_id": "BIND-9X-001430",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BIND 9.x server implementation must implement internal/external role separation.",
+  "group_title": "SRG-APP-000516-DNS-000101",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-76449r1124057_chk",
+  "check_content": "Severity override guidance:\n\nIf the internal and external views are on separate network segments, this finding may be downgraded to a CAT II.\n\nIf the BIND 9.x name server is not configured for split DNS, this is not applicable.\n\nVerify that the BIND 9.x server is configured to use separate views and address space for internal and external DNS operations when operating in a split configuration.\n\nInspect the \"named.conf\" file for the following:\n\nview \"internal\" {\nmatch-clients { <ip_address> | <address_match_list> };\nzone \"example.com\" {\ntype Primary;\nfile \"internals.example.com\";\n};\n};\nview \"external\" {\nmatch-clients { <ip_address> | <address_match_list> };\nzone \"example.com\" {\ntype Primary;\nfile \"externals.db.example.com\";\nallow-transfer { Secondarys; };\n};\n};\n\nIf an external view is listed before an internal view, this is a finding.\n\nIf the internal and external views are on the same network segment, this is a finding.\n\nNote: BIND 9.x reads the \"named.conf\" file from top to bottom. If a less stringent \"match-clients\" statement is processed before a more stringent \"match-clients\" statement, the more stringent statement will be ignored. With this in mind, all internal view statements must be listed before any external view statement in the \"named.conf\" file.",
+  "fixtext": "Edit the \"named.conf\" file.\n\nConfigure the internal and external view statements to use separate network segments.\n\nConfigure all internal view statements to be listed before any external view statement.\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76356r1123509_fix",
+  "VulnDiscussion": "DNS servers with an internal role only process name/address resolution requests from within the organization (i.e., internal clients). DNS servers with an external role only process name/address resolution information requests from clients external to the organization (i.e., on the external networks, including the internet). The set of clients that can access an authoritative DNS server in a particular role is specified by the organization using address ranges, explicit access control lists, etc. To protect internal DNS resource information, it is important to isolate the requests to internal DNS servers. \n\nFailure to separate internal and external roles in DNS may lead to address space that is private (e.g., 10.0.0.0/24) or is otherwise concealed by some form of Network Address Translation from leaking into the public DNS system. Allowing private IP space to leak into the public DNS system may provide a person with malicious intent the ability to footprint the network and identify potential attack targets residing on the private network.",
+  "Documentable": "false"
+}

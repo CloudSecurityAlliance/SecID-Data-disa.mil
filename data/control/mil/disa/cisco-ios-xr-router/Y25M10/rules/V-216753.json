@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216753",
+  "rule_id": "SV-216753r1117237_rule",
+  "stig_id": "CISC-RT-000250",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco perimeter router must be configured to enforce approved authorizations for controlling the flow of information between interconnected networks in accordance with applicable policy.",
+  "group_title": "SRG-NET-000019-RTR-000002",
+  "idents": {
+    "legacy": [
+      "SV-105851",
+      "V-96713"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-17985r288648_chk",
+  "check_content": "Review the router configuration to verify that ACLs are configured to allow or deny traffic for specific source and destination addresses as well as ports and protocols. In the example below, the router is peering BGP with DISN. ICMP echo and echo-reply packets are allowed for troubleshooting connectivity. WWW traffic is permitted inbound to the NIPRNet host-facing web server (x.12.1.22).\n\nipv4 access-list EXTERNAL_ACL_INBOUND\n 10 permit tcp host x.11.1.1 eq bgp host x.11.1.2\n 20 permit tcp host x.11.1.1 host x.11.1.2 eq bgp\n 30 permit icmp host x.11.1.1 host x.11.1.2 echo\n 40 permit icmp host x.11.1.1 host x.11.1.2 echo-reply\n 50 deny ipv4 any host x.11.1.1 log \n 60 permit tcp any host x.12.1.22 eq www\n 70 permit tcp any any established\n 80 deny ipv4 any any log-input \n…\n…\n…\ninterface GigabitEthernet0/0/0/1\n ipv4 address x.11.1.2 255.255.255.252\n ipv4 access-group EXTERNAL_ACL_INBOUND ingress\n\nIf the router is not configured to enforce approved authorizations for controlling the flow of information between interconnected networks, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN Backbone.\n\nStep 1: Configure an ACL to allow or deny traffic as shown in the example below.\n\nRP/0/0/CPU0:R3(config)#ipv4 access-list EXTERNAL_ACL_INBOUND\nRP/0/0/CPU0:R3(config-ipv4-acl)#permit tcp host x.11.1.1 eq bgp host x.11.1.2\nRP/0/0/CPU0:R3(config-ipv4-acl)#permit tcp host x.11.1.1 host x.11.1.2 eq bgp\nRP/0/0/CPU0:R3(config-ipv4-acl)#permit icmp host x.11.1.1 host x.11.1.2 echo\nRP/0/0/CPU0:R3(config-ipv4-acl)#permit icmp host x.11.1.1 host x.11.1.2 echo-reply\nRP/0/0/CPU0:R3(config-ipv4-acl)#deny ip any host x.11.1.1 log-input \nRP/0/0/CPU0:R3(config-ipv4-acl)#permit tcp any host x.12.1.22 eq www\nRP/0/0/CPU0:R3(config-ipv4-acl)#permit tcp any any established\nRP/0/0/CPU0:R3(config-ipv4-acl)#deny ip any any log-input \nRP/0/0/CPU0:R3(config-ipv4-acl)#exit\n\nStep 2: Apply the ACL inbound on all external interfaces.\n\nRP/0/0/CPU0:R3(config)#int g0/0/0/1  \nRP/0/0/CPU0:R3(config-if)#ipv4 access-group EXTERNAL_ACL_INBOUND in\nRP/0/0/CPU0:R3(config-if)#end",
+  "fix_id": "F-17983r288649_fix",
+  "VulnDiscussion": "Information flow control regulates authorized information to travel within a network and between interconnected networks. Controlling the flow of network traffic is critical so it does not introduce any unacceptable risk to the network infrastructure or data. An example of a flow control restriction is blocking outside traffic claiming to be from within the organization. For most routers, internal information flow control is a product of system design.",
+  "Documentable": "false"
+}

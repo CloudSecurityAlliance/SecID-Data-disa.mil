@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222532",
+  "rule_id": "SV-222532r960999_rule",
+  "stig_id": "APSC-DV-001640",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The application must utilize mutual authentication when endpoint device non-repudiation protections are required by DoD policy or by the data owner.",
+  "group_title": "SRG-APP-000158",
+  "idents": {
+    "legacy": [
+      "V-69547",
+      "SV-84169"
+    ],
+    "cci": [
+      "CCI-000778"
+    ]
+  },
+  "check_id": "C-24202r493504_chk",
+  "check_content": "Review the application documentation and interview the application administrator.\n\nDetermine if mutual authentication is mandated by the data owner or by mission data protection objectives and data type.\n\nReview application architecture and design documents.\n\nIdentify endpoint devices that interact with the application. These can be SOA gateways, VOIP phones, or other devices that are used to connect to and exchange data with the application.\n\nIf the design documentation specifies, this could potentially also include remote client workstations.\n\nIn order for two way SSL/mutual authentication to work properly, the server must be configured to request client certificates.\n\nAccess the applications management console.\n\nNavigate to the SSL management utility or web page that is used to configure two way mutual authentication.\n\nVerify endpoints are configured for client authentication (mutual authentication).\n\nSome application architectures such as Java configure their settings in text/xml formatted files; in that case, have the application administrator identify the configuration files used by the application.\nE.g., web.xml stored in WEB-INF/ sub directory of the application root folder.\n\nOpen the web.xml file using a text editor.\n\nVerify the application deployment descriptor for the application and the resource requiring protection under the \"login-config\" element is set to CLIENT-CERT.\n\nIf SSL mutual authentication is required and is not being utilized, this is a finding.",
+  "fixtext": "Configure the application to utilize mutual authentication when specified by data protection requirements.",
+  "fix_id": "F-24191r493505_fix",
+  "VulnDiscussion": "Without identifying devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity.\n\nWith one way SSL authentication which is the typical form of SSL authentication done between a web browser client and a web server, the client requests the server certificate to validate the server's identity and establish a secure connection.\n\nWhen SSL mutual authentication is used, the server is configured to request the client’s certificate as well so the server can also identify the client.\n\nFor distributed architectures (e.g., service-oriented architectures), the decisions regarding the validation of identification claims may be made by services separate from the services acting on those decisions. In such situations, it is necessary to provide the identification decisions (as opposed to the actual identifiers) to the services that need to act on those decisions.\n\nThis requirement applies to applications that connect either locally, remotely, or through a network to an endpoint device (including but not limited to: workstations, printers, servers (outside a datacenter), VoIP Phones, VTC CODECs). Gateways and SOA applications are examples of where this requirement would apply.",
+  "Documentable": "false"
+}

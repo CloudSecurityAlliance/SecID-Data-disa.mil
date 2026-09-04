@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-230271",
+  "rule_id": "SV-230271r1101896_rule",
+  "stig_id": "RHEL-08-010380",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must require users to provide a password for privilege escalation.",
+  "group_title": "SRG-OS-000373-GPOS-00156",
+  "idents": {
+    "cci": [
+      "CCI-002038",
+      "CCI-004895"
+    ]
+  },
+  "check_id": "C-32940r1101895_chk",
+  "check_content": "Verify that \"/etc/sudoers\" has no occurrences of \"NOPASSWD\".\n\nCheck that the \"/etc/sudoers\" file has no occurrences of \"NOPASSWD\" by running the following command:\n\n$ sudo grep -iR 'NOPASSWD' /etc/sudoers /etc/sudoers.d/\n\n%admin ALL=(ALL) NOPASSWD: ALL\n\nIf any occurrences of \"NOPASSWD\" are returned from the command and have not been documented with the information system security officer (ISSO) as an organizationally defined administrative group utilizing multifactor authentication (MFA), this is a finding.",
+  "fixtext": "Remove any occurrence of \"NOPASSWD\" found in \"/etc/sudoers\" file or files in the \"/etc/sudoers.d\" directory.",
+  "fix_id": "F-32915r854025_fix",
+  "VulnDiscussion": "Without reauthentication, users may access resources or perform tasks for which they do not have authorization.\n\nWhen operating systems provide the capability to escalate a functional capability, it is critical the user reauthenticate.\n\nSatisfies: SRG-OS-000373-GPOS-00156, SRG-OS-000373-GPOS-00157, SRG-OS-000373-GPOS-00158",
+  "Documentable": "false"
+}

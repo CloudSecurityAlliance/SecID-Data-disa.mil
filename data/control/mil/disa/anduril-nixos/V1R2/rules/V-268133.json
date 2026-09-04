@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268133",
+  "rule_id": "SV-268133r1131071_rule",
+  "stig_id": "ANIX-00-000800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must enforce a 60-day maximum password lifetime restriction.",
+  "group_title": "SRG-OS-000076-GPOS-00044",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-72057r1039285_chk",
+  "check_content": "Verify NixOS enforces a 60-day maximum password lifetime for new user accounts by running the following command:\n\n$ grep PASS_MAX_DAYS /etc/login.defs\n\nPASS_MAX_DAYS 60\n\nIf the \"PASS_MAX_DAYS\" parameter value is less than 60 or commented out, this is a finding.",
+  "fixtext": "Configure NixOS operating system to enforce a 60-day maximum password lifetime.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\nsecurity.loginDefs.settings.PASS_MAX_DAYS = \"60\";\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71960r1131070_fix",
+  "VulnDiscussion": "Any password, no matter how complex, can eventually be cracked. Therefore, passwords need to be changed periodically. If the operating system does not limit the lifetime of passwords and force users to change their passwords, there is the risk that the operating system passwords could be compromised.",
+  "Documentable": "false"
+}

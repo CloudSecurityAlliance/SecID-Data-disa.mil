@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216990",
+  "rule_id": "SV-216990r945859_rule",
+  "stig_id": "CISC-RT-000350",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco perimeter router must be configured to block all packets with any IP options.",
+  "group_title": "SRG-NET-000205-RTR-000015",
+  "idents": {
+    "legacy": [
+      "SV-105705",
+      "V-96567"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-18220r287298_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone.\n\nReview the router configuration to determine if it will block all packets with IP options.\n\nip access-list extended EXTERNAL_ACL\n permit tcp any any established\ndeny   ip any any option any-options\npermit …\n …\n …     \n …\ndeny   ip any any log-input\n\nIf the router is not configured to drop all packets with IP options, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN Backbone.\n\nConfigure the router to drop all packets with IP options.\n\nR1(config)#ip access-list extended EXTERNAL_ACL\nR1(config-ext-nacl)#15 deny ip any any option any-options",
+  "fix_id": "F-18218r287299_fix",
+  "VulnDiscussion": "Packets with IP options are not fast switched and henceforth must be punted to the router processor. Hackers who initiate denial-of-service (DoS) attacks on routers commonly send large streams of packets with IP options. Dropping the packets with IP options reduces the load of IP options packets on the router. The end result is a reduction in the effects of the DoS attack on the router and on downstream routers.",
+  "Documentable": "false"
+}

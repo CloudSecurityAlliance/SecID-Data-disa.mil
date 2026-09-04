@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216822",
+  "rule_id": "SV-216822r1117236_rule",
+  "stig_id": "CISC-RT-000940",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco Multicast Source Discovery Protocol (MSDP) router must be configured to limit the amount of source-active messages it accepts on a per-peer basis.",
+  "group_title": "SRG-NET-000018-RTR-000009",
+  "idents": {
+    "legacy": [
+      "V-96851",
+      "SV-105989"
+    ],
+    "cci": [
+      "CCI-001368"
+    ]
+  },
+  "check_id": "C-18054r288840_chk",
+  "check_content": "Review the router configuration to determine if it is configured to limit the amount of source-active messages it accepts on a per-peer basis.\n\nrouter msdp\n …\n …\n …\n peer 4.4.4.4\n  remote-as 33\n  maximum external-sa 555\n !\n peer 5.5.5.5\n  remote-as 44\n  maximum external-sa 555\n !\n!\n\nIf the router is not configured to limit the source-active messages it accepts, this is a finding.",
+  "fixtext": "Configure the router to limit the amount of source-active messages it accepts from each peer.\n\nRP/0/0/CPU0:R2(config)#router msdp\nRP/0/0/CPU0:R2(config-msdp)#peer x.14.2.1\nRP/0/0/CPU0:R2(config-msdp-peer)#maximum external-sa nnn\nRP/0/0/CPU0:R2(config-msdp-peer)#exit\nRP/0/0/CPU0:R2(config-msdp)#peer x.15.3.5\nRP/0/0/CPU0:R2(config-msdp-peer)#maximum external-sa nnn\nRP/0/0/CPU0:R2(config-msdp-peer)#end",
+  "fix_id": "F-18052r288841_fix",
+  "VulnDiscussion": "To reduce any risk of a denial-of-service (DoS) attack from a rogue or misconfigured MSDP router, the router must be configured to limit the number of source-active messages it accepts from each peer.",
+  "Documentable": "false"
+}

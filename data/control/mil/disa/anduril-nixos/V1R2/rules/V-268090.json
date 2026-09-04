@@ -1,0 +1,36 @@
+{
+  "vuln_id": "V-268090",
+  "rule_id": "SV-268090r1130981_rule",
+  "stig_id": "ANIX-00-000160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The NixOS audit package must be installed.",
+  "group_title": "SRG-OS-000037-GPOS-00015",
+  "idents": {
+    "cci": [
+      "CCI-000130",
+      "CCI-000131",
+      "CCI-000132",
+      "CCI-000133",
+      "CCI-000134",
+      "CCI-000135",
+      "CCI-000158",
+      "CCI-000159",
+      "CCI-000163",
+      "CCI-000164",
+      "CCI-001403",
+      "CCI-001404",
+      "CCI-001405",
+      "CCI-001487",
+      "CCI-002130",
+      "CCI-002234"
+    ]
+  },
+  "check_id": "C-72014r1130979_chk",
+  "check_content": "Verify that NixOS has the audit service installed with the following command:\n\n$ systemctl is-active audit\nactive\n\nIf the \"audit\" service is not active, this is a finding.",
+  "fixtext": "Configure NixOS to have the audit service package.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\n environment.systemPackages = [\n  audit\n ];\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71917r1130980_fix",
+  "VulnDiscussion": "Without establishing what type of events occurred, it would be difficult to establish, correlate, and investigate the events leading up to an outage or attack.\n\nAudit record content that may be necessary to satisfy this requirement includes, for example, time stamps, source and destination addresses, user/process identifiers, event descriptions, success/fail indications, filenames involved, and access control or flow control rules invoked.\n\nAssociating event types with detected events in the operating system audit logs provides a means of investigating an attack; recognizing resource utilization or capacity thresholds; or identifying an improperly configured operating system.\n\nSatisfies: SRG-OS-000037-GPOS-00015, SRG-OS-000038-GPOS-00016, SRG-OS-000039-GPOS-00017, SRG-OS-000040-GPOS-00018, SRG-OS-000041-GPOS-00019, SRG-OS-000042-GPOS-00021, SRG-OS-000054-GPOS-00025, SRG-OS-000055-GPOS-00026, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029, SRG-OS-000239-GPOS-00089, SRG-OS-000240-GPOS-00090, SRG-OS-000241-GPOS-00091, SRG-OS-000255-GPOS-00096, SRG-OS-000303-GPOS-00120, SRG-OS-000327-GPOS-00127",
+  "Documentable": "false"
+}

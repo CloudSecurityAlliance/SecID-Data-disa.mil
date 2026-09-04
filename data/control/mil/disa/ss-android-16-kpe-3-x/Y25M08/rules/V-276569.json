@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276569",
+  "rule_id": "SV-276569r1139229_rule",
+  "stig_id": "KNOX-16-005700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Samsung Android allowlist must be configured to not include artificial intelligence (AI) applications that process device data in the cloud, including Google Gemini.",
+  "group_title": "PP-MDF-333070",
+  "idents": {
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-80724r1139227_chk",
+  "check_content": "Review managed Samsung Android 16 device configuration settings to determine if the mobile device has an AI application that processes device data in the cloud, including Google Gemini.\n\nVerify requirement KNOX-16-009200 (disallow modify accounts) has been implemented.\n\nVerify the KPE API \"isIntelligenceOnlineProcessingAllowed()\" returns false or that the KSP configuration has the restriction \"Allow process data only on device\" set to true.\n\nIf any AI applications that processes data in the cloud are included in the MDM console of allowed apps or \"Allow process data only on device\" is not set to true, this is a finding.",
+  "fixtext": "This validation procedure is performed only on the EMM Administration Console.\n\nOn the EMM console:\n\n1. Review the list of selected Managed Google Play apps.\n2. Verify no AI applications that processes device data in the cloud, including Google Gemini, are included.\n\nNote: This restriction does not include Galaxy on device AI. Galaxy on device AI is a \"built-in\" capability of Android 16 and processes device data on the device.\n\nIf the EMM console device policy includes AI applications that processes device data in the cloud, including Google Gemini, this is a finding.\n\nDisallow modify accounts (refer to requirement KNOX-16-009200).\n\nIf \"disallow modify accounts\" has not been implemented, this is a finding.\n\nApply the \"Disallow Intelligence Online Processing\" using the KPE API or KSP. The KPE API is allowIntelligenceOnlineProcessing(false) and the KSP restriction is \"Allow process data only on device\", which should be set to true.\n\nKPE: allowIntelligenceOnlineProcessing",
+  "fix_id": "F-80629r1139228_fix",
+  "VulnDiscussion": "Sensitive DOD data could be exposed when an AI app processes device data in the cloud.\n\nSFR ID: FMT_SMF.1.1 #8",
+  "Documentable": "false"
+}

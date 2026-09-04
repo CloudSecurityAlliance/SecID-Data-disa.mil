@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269155",
+  "rule_id": "SV-269155r1050037_rule",
+  "stig_id": "ALMA-09-008380",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must configure the appropriate SELinux context on the nondefault faillock tally directory.",
+  "group_title": "SRG-OS-000329-GPOS-00128",
+  "idents": {
+    "cci": [
+      "CCI-002238"
+    ]
+  },
+  "check_id": "C-73186r1047841_chk",
+  "check_content": "Note: If the system does not have SELinux enabled and enforcing, a targeted policy, or if the pam_faillock module is not configured for use, this requirement is Not Applicable.\n\nVerify the location of the nondefault tally directory for the pam_faillock module with the following command:\n\n$ grep \"dir =\" /etc/security/faillock.conf\n\ndir = /var/log/faillock\n\nCheck the security context type of the nondefault tally directory with the following command:\n\n$ ls -Zd /var/log/faillock\n\nsystem_u:object_r:faillog_t:s0 /var/log/faillock\n\nIf the security context type of the nondefault tally directory is not \"faillog_t\", this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to allow the use of a nondefault faillock tally directory while SELinux enforces a targeted policy.\n\nCreate a nondefault faillock tally directory (if it does not already exist) using the following command:\n\n$ mkdir /var/log/faillock\n\nUpdate the /etc/selinux/targeted/contexts/files/file_contexts.local file with the \"faillog_t\" context type for the nondefault faillock tally directory using the following command:\n\n$ semanage fcontext -a -t faillog_t \"/var/log/faillock(/.*)?\"\n\nUpdate the context type of the nondefault faillock directory and files within using the following command:\n\n$ restorecon -RFv /var/log/faillock",
+  "fix_id": "F-73087r1049220_fix",
+  "VulnDiscussion": "By limiting the number of failed logon attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-forcing, is reduced. Limits are imposed by locking the account.\n\nNot having the correct SELinux context on the faillock directory may lead to unauthorized access to the directory meaning that accounts could be unlocked by a nonadministrator.",
+  "Documentable": "false"
+}

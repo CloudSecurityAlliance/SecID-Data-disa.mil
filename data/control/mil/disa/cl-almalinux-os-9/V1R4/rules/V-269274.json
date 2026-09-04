@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269274",
+  "rule_id": "SV-269274r1050156_rule",
+  "stig_id": "ALMA-09-021910",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 effective dconf policy must match the policy keyfiles.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73305r1049422_chk",
+  "check_content": "Note: This requirement assumes the use of the AlmaLinux OS 9 default graphical user interface, the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\nCheck the last modification time of the local databases, comparing it to the last modification time of the related keyfiles. The following command will check every dconf database and compare its modification time to the related system keyfiles:\n\n$ function dconf_needs_update { for db in $(find /etc/dconf/db -maxdepth 1 -type f); do db_mtime=$(stat -c %Y \"$db\"); keyfile_mtime=$(stat -c %Y \"$db\".d/* | sort -n | tail -1); if [ -n \"$db_mtime\" ] && [ -n \"$keyfile_mtime\" ] && [ \"$db_mtime\" -lt \"$keyfile_mtime\" ]; then echo \"$db needs update\"; return 1; fi; done; }; dconf_needs_update\n\nIf the command has any output, then a dconf database needs to be updated, and this is a finding.",
+  "fixtext": "Update the dconf databases by running the following command:\n\n$ dconf update",
+  "fix_id": "F-73206r1048199_fix",
+  "VulnDiscussion": "Unlike text-based keyfiles, the binary database is impossible to check through most automated and all manual means; therefore, to evaluate dconf configuration, both have to be true at the same time—configuration files have to be compliant, and the database needs to be more recent than those keyfiles, which gives confidence that it reflects them.",
+  "Documentable": "false"
+}

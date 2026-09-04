@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268137",
+  "rule_id": "SV-268137r1131078_rule",
+  "stig_id": "ANIX-00-000890",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must not allow direct login to the root account via SSH.",
+  "group_title": "SRG-OS-000109-GPOS-00056",
+  "idents": {
+    "cci": [
+      "CCI-004045"
+    ]
+  },
+  "check_id": "C-72061r1039297_chk",
+  "check_content": "Verify the NixOS configuration disallows directly logging into the root account via SSH with the following command:\n\n$ grep PermitRootLogin /etc/ssh/sshd_config\n\nPermitRootLogin no\n\nIf the value is anything other than \"no\", this is a finding.",
+  "fixtext": "Configure NixOS to ensure the root user login via SSH is disabled.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\nservices.openssh.permitRootLogin = \"no\";\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71964r1131077_fix",
+  "VulnDiscussion": "To ensure individual accountability and prevent unauthorized access, organizational users must be individually identified and authenticated.\n\nA group authenticator is a generic account used by multiple individuals. Use of a group authenticator alone does not uniquely identify individual users. Examples of the group authenticator are the UNIX OS \"root\" user account, the Windows \"Administrator\" account, the \"sa\" account, or a \"helpdesk\" account.\n\nFor example, the UNIX and Windows operating systems offer a \"switch user\" capability allowing users to authenticate with their individual credentials and, when needed, \"switch\" to the administrator role. This method provides for unique individual authentication prior to using a group authenticator.\n\nUsers (and any processes acting on behalf of users) must be uniquely identified and authenticated for all accesses other than those explicitly identified and documented by the organization, which outlines specific user actions that can be performed on the operating system without identification or authentication.\n\nRequiring individuals to be authenticated with an individual authenticator prior to using a group authenticator allows for traceability of actions, as well as adding an additional level of protection of the actions that can be taken with group account knowledge.",
+  "Documentable": "false"
+}

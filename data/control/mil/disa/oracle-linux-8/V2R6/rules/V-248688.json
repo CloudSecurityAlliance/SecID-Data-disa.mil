@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-248688",
+  "rule_id": "SV-248688r1015048_rule",
+  "stig_id": "OL08-00-020120",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "OL 8 must enforce password complexity by requiring that at least one lowercase character be used.",
+  "group_title": "SRG-OS-000070-GPOS-00038",
+  "idents": {
+    "cci": [
+      "CCI-004066",
+      "CCI-000193"
+    ]
+  },
+  "check_id": "C-52122r833221_chk",
+  "check_content": "Verify the value for \"lcredit\" in \"/etc/security/pwquality.conf\" or \"/etc/security/pwquality.conf.d/*.conf\" files with the following command: \n \n$ sudo grep -r lcredit /etc/security/pwquality.conf*\n \n/etc/security/pwquality.conf:lcredit = -1 \n \nIf the value of \"lcredit\" is a positive number or is commented out, this is a finding.\nIf conflicting results are returned, this is a finding.",
+  "fixtext": "Configure OL 8 to enforce password complexity by requiring that at least one lowercase character be used by setting the \"lcredit\" option.\n\nAdd or update the following line in the \"/etc/security/pwquality.conf\" file or a configuration file in the \"/etc/security/pwquality.conf.d/\" directory:\n\nlcredit = -1\n\nRemove any configurations that conflict with the above value.",
+  "fix_id": "F-52076r858632_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. \n \nPassword complexity is one factor of several that determines how long it takes to crack a password. The more complex the password, the greater the number of possible combinations that need to be tested before the password is compromised. \n \nOL 8 uses pwquality as a mechanism to enforce password complexity. Note that in order to require lowercase characters without degrading the \"minlen\" value, the credit value must be expressed as a negative number in \"/etc/security/pwquality.conf\".",
+  "Documentable": "false"
+}

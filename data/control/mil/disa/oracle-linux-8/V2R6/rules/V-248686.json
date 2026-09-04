@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248686",
+  "rule_id": "SV-248686r982195_rule",
+  "stig_id": "OL08-00-020100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must ensure the password complexity module is enabled in the password-auth file.",
+  "group_title": "SRG-OS-000069-GPOS-00037",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52120r902807_chk",
+  "check_content": "Verify the operating system uses \"pwquality\" to enforce the password complexity rules. \n\nCheck for the use of \"pwquality\" in the password-auth file with the following command:\n\n     $ sudo cat /etc/pam.d/password-auth | grep pam_pwquality\n\n     password requisite pam_pwquality.so \n\nIf the command does not return a line containing the value \"pam_pwquality.so\" as shown, or the line is commented out, this is a finding.",
+  "fixtext": "Configure the operating system to use \"pwquality\" to enforce password complexity rules.\n\nAdd the following line to the \"/etc/pam.d/password-auth\" file (or modify the line to have the required value):\n\n     password requisite pam_pwquality.so",
+  "fix_id": "F-52074r902808_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. Use of \"pwquality\" enforces complex password construction configuration and has the ability to limit brute-force attacks on the system. \n \nOL 8 uses \"pwquality\" as a mechanism to enforce password complexity. This is set in both of the following: \n/etc/pam.d/password-auth \n/etc/pam.d/system-auth \n \nSatisfies: SRG-OS-000069-GPOS-00037, SRG-OS-000070-GPOS-00038",
+  "Documentable": "false"
+}

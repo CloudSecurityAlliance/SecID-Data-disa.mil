@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272392",
+  "rule_id": "SV-272392r1124046_rule",
+  "stig_id": "BIND-9X-001360",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BIND 9.x server implementation must prohibit the forwarding of queries to servers controlled by organizations outside of the U.S. government.",
+  "group_title": "SRG-APP-000516-DNS-000500",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-76442r1124045_chk",
+  "check_content": "If the server is not a caching server, this is not applicable.\n\nNote: The use of the Defense Research and Engineering Network (DREN) Enterprise Recursive DNS servers, as mandated by the DODIN service provider DREN, meets the intent of this requirement. \n\nVerify that the server is configured to forward all DNS traffic to the DISA ERS anycast IP addresses ( <IP_ADDRESS_LIST>; ).\n\nInspect the \"named.conf\" file for the following:\n\nforward only;\nforwarders { <IP_ADDRESS_LIST>; };\n\nIf the \"named.conf\" options are not set to forward queries only to the ERS anycast IPs, this is a finding.",
+  "fixtext": "Configure the BIND 9.x caching name server to use the DISA ERS anycast IP addresses.\n\nEdit the \"named.conf\" file and add the following to the global options statement:\n\nforward only;\nforwarders { <IP_ADDRESS_LIST>; };\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76349r1123893_fix",
+  "VulnDiscussion": "If remote servers to which DOD DNS servers send queries are controlled by entities outside of the U.S. government the possibility of a DNS attack is increased. \n\nThe Enterprise Recursive Service (ERS) provides the ability to apply enterprise-wide policy to all recursive DNS traffic that traverses the NIPRNet-to-Internet boundary. All recursive DNS servers on the NIPRNet must be configured to exclusively forward DNS traffic traversing NIPRNet-to-Internet boundary to the ERS anycast IPs.\n\nOrganizations need to carefully configure any forwarding that is being used by their caching name servers. They should only configure \"forwarding of all queries\" to servers within the DOD. Systems configured to use domain-based forwarding should not forward queries for mission critical domains to any servers that are not under the control of the U.S. government.",
+  "Documentable": "false"
+}

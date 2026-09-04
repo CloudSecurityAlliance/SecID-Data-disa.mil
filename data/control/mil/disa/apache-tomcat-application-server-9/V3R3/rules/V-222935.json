@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222935",
+  "rule_id": "SV-222935r1117167_rule",
+  "stig_id": "TCAT-AS-000100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Connectors must be secured.",
+  "group_title": "SRG-APP-000033-AS-000024",
+  "idents": {
+    "legacy": [
+      "SV-111401",
+      "V-102453"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-24607r426249_chk",
+  "check_content": "From the Tomcat server console, run the following command:\n\nsudo cat $CATALINA_BASE/conf/server.xml. \n\nExamine each <Connector/> element. \n\nFor each connector, verify the secure= flag is set to \"true\" and the scheme= flag is set to \"https\" on each connector.\n\nIf the secure flag is not set to \"true\" and/or the scheme flag is not set to \"https\" for each HTTP connector element, this is a finding.",
+  "fixtext": "From the Tomcat server as a privileged user, edit the server.xml file.\n\nsudo nano $CATALINA_BASE/conf/server.xml. \n\nLocate each <Connector/> element which is lacking a secure setting.  \n\nEXAMPLE Connector:\n<Connector port=\"8080\" protocol=\"HTTP/1.1\"\n               connectionTimeout=\"20000\"\n               redirectPort=\"443\" />\n\nSet or add scheme=\"https\" and secure=\"true\" for each HTTP connector element.\n\nEXAMPLE:\n<Connector port=\"443\" protocol=\"org.apache.coyote.http11.Http11NioProtocol\" SSLEnabled=\"true\"\n    maxThreads=\"150\" scheme=\"https\" secure=\"true\".../>\n\nSave the server.xml file and restart Tomcat:\nsudo systemctl restart tomcat\nsudo systemctl reload-daemon",
+  "fix_id": "F-24596r426250_fix",
+  "VulnDiscussion": "The unencrypted HTTP protocol does not protect data from interception or alteration which can subject users to eavesdropping, tracking, and the modification of received data. To secure an HTTP connector, both the secure and scheme flags must be set.",
+  "Documentable": "false"
+}

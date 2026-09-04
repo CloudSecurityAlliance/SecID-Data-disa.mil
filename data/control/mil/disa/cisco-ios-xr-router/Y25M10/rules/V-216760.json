@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216760",
+  "rule_id": "SV-216760r1007832_rule",
+  "stig_id": "CISC-RT-000320",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco perimeter router must be configured to filter traffic destined to the enclave in accordance with the guidelines contained in DoD Instruction 8551.1.",
+  "group_title": "SRG-NET-000205-RTR-000003",
+  "idents": {
+    "legacy": [
+      "SV-105865",
+      "V-96727"
+    ],
+    "cci": [
+      "CCI-001097"
+    ]
+  },
+  "check_id": "C-17992r288666_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone.\n\nReview the router configuration to verify that the ingress ACL is in accordance with DoD 8551.1.\n\nStep 1: Verify that an inbound ACL is configured on all external interfaces.\n\ninterface GigabitEthernet0/0/0/1\n ipv4 address x.11.1.2 255.255.255.252\n ipv4 access-group EXTERNAL_ACL_INBOUND ingress\n\nStep 2. Review the inbound ACL to verify that it is filtering traffic in accordance with DoD 8551.1.\n\nipv4 access-list EXTERNAL_ACL_INBOUND\n 10 permit tcp host x.11.1.1 eq bgp host x.11.1.2\n 20 permit tcp host x.11.1.1 host x.11.1.2 eq bgp\n 30 permit icmp host x.11.1.1 host x.11.1.2 echo\n 40 permit icmp host x.11.1.1 host x.11.1.2 echo-reply\n 50 deny ipv4 any host x.11.1.1 log \n 60 permit tcp any host x.12.1.22 eq www\n 70 permit tcp any any established\n …\n …    < must be in accordance with DoD Instruction 8551.1>\n …\n160 deny ipv4 any any log-input \n \nIf the router does not filter traffic in accordance with the guidelines contained in DoD 8551.1, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN Backbone.\n\nConfigure the router to use an inbound ACL on all external interfaces as shown in the example below to restrict traffic in accordance with the guidelines contained in DOD Instruction 8551.1.\n\nRP/0/0/CPU0:R3(config)#ipv4 access-list EXTERNAL_ACL_INBOUND\nRP/0/0/CPU0:R3(config-ipv4-acl)#permit tcp host x.11.1.1 eq bgp host x.11.1.2\nRP/0/0/CPU0:R3(config-ipv4-acl)#permit tcp host x.11.1.1 host x.11.1.2 eq bgp\nRP/0/0/CPU0:R3(config-ipv4-acl)#permit icmp host x.11.1.1 host x.11.1.2 echo\nRP/0/0/CPU0:R3(config-ipv4-acl)#permit icmp host x.11.1.1 host x.11.1.2 echo-reply\nRP/0/0/CPU0:R3(config-ipv4-acl)#deny ip any host x.11.1.1 log-input \nRP/0/0/CPU0:R3(config-ipv4-acl)#permit tcp any host x.12.1.22 eq www\nRP/0/0/CPU0:R3(config-ipv4-acl)#permit tcp any any established\n…\n…    < must be in accordance with DoD Instruction 8551.1>\n…\nRP/0/0/CPU0:R3(config-ipv4-acl)#deny ip any any log-input \nRP/0/0/CPU0:R3(config-ipv4-acl)#exit\n\nStep 2: Apply the ACL inbound on all applicable interfaces.\n\nRP/0/0/CPU0:R3(config)#int g0/0/0/1  \nRP/0/0/CPU0:R3(config-if)#ipv4 access-group EXTERNAL_ACL_INBOUND in\nRP/0/0/CPU0:R3(config-if)#end",
+  "fix_id": "F-17990r288667_fix",
+  "VulnDiscussion": "Vulnerability assessments must be reviewed by the System Administrator, and protocols must be approved by the Information Assurance (IA) staff before entering the enclave.\n\nAccess control lists (ACLs) are the first line of defense in a layered security approach. They permit authorized packets and deny unauthorized packets based on port or service type. They enhance the posture of the network by not allowing packets to reach a potential target within the security domain. The lists provided are highly susceptible ports and services that should be blocked or limited as much as possible without adversely affecting customer requirements. Auditing packets attempting to penetrate the network but that are stopped by an ACL will allow network administrators to broaden their protective ring and more tightly define the scope of operation.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268132",
+  "rule_id": "SV-268132r1131069_rule",
+  "stig_id": "ANIX-00-000790",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must enforce 24 hours/one day as the minimum password lifetime.",
+  "group_title": "SRG-OS-000075-GPOS-00043",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-72056r1039282_chk",
+  "check_content": "Verify NixOS enforces 24 hours/one day as the minimum password lifetime with the following command: \n\n$ grep PASS_MIN_DAYS /etc/login.defs \n\nPASS_MIN_DAYS 1\n\nIf PASS_MIN_DAYS_1 is not present, is commented out, or is a value different from 1, this is a finding.",
+  "fixtext": "Configure NixOS operating system to enforce 24 hours/one day as the minimum password lifetime. \n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\nsecurity.loginDefs.settings.PASS_MIN_DAYS = \"1\";\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71959r1131068_fix",
+  "VulnDiscussion": "Enforcing a minimum password lifetime helps to prevent repeated password changes to defeat the password reuse or history enforcement requirement. If users are allowed to immediately and continually change their password, then the password could be repeatedly changed in a short period of time to defeat the organization's policy regarding password reuse.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268123",
+  "rule_id": "SV-268123r1131052_rule",
+  "stig_id": "ANIX-00-000690",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS system configuration files and directories must be group-owned by root.",
+  "group_title": "SRG-OS-000063-GPOS-00032",
+  "idents": {
+    "cci": [
+      "CCI-000171"
+    ]
+  },
+  "check_id": "C-72047r1131050_chk",
+  "check_content": "Verify that the NixOS audit configuration files and directories are group-owned by root with the following commands:\n\n$ sudo find /etc/audit -exec stat -L -c \"%G %n\" {} \\;\n$ sudo find /etc/systemd/system -follow -iname \"audit*service\" -exec stat -c \"%G %n\" {} \\;\n\nroot /etc/audit\nroot /etc/audit/auditd.conf\nroot /etc/systemd/system/audit.service\nroot /etc/systemd/system/auditd.service\nroot /etc/systemd/system/basic.target.wants/audit.service\nroot /etc/systemd/system/sysinit.target.wants/auditd.service\n\nIf the system configuration files and directories are not group-owned by root or other privileged group (such as shadow), this is a finding.",
+  "fixtext": "Update the NixOS config, typically stored either in /etc/nixos/configuration.nix or /etc/nixos/flake.nix, to only use the root group for files under /etc/audit.\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71950r1131051_fix",
+  "VulnDiscussion": "Without the capability to restrict the roles and individuals that can select which events are audited, unauthorized personnel may be able to prevent the auditing of critical events. Misconfigured audits may degrade the system's performance by overwhelming the audit log. Misconfigured audits may also make it more difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.",
+  "Documentable": "false"
+}

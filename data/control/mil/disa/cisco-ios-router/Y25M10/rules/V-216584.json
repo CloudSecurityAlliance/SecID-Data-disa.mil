@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216584",
+  "rule_id": "SV-216584r856189_rule",
+  "stig_id": "CISC-RT-000360",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco perimeter router must be configured to have Link Layer Discovery Protocol (LLDP) disabled on all external interfaces.",
+  "group_title": "SRG-NET-000364-RTR-000111",
+  "idents": {
+    "legacy": [
+      "SV-105707",
+      "V-96569"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-17819r287130_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone.\n\nStep 1: Verify LLDP is not enabled globally via the command  \n\nlldp run\n\nBy default LLDP is not enabled globally. If LLDP is enabled, proceed to step 2.\n\nStep 2: Verify LLDP is not enabled on any external interface as shown in the example below.\n\ninterface GigabitEthernet0/1\n ip address x.1.12.1 255.255.255.252\n no lldp transmit\n\nNote: LLDP is enabled by default on all interfaces once it is enabled globally; hence the command lldp transmit will not be visible on the interface configuration.\n\nIf LLDP transmit is enabled on any external interface, this is a finding.",
+  "fixtext": "Disable LLDP transmit on all external interfaces as shown in the example below.\n\nR5(config)#int g0/1\nR5(config-if)#no lldp transmit",
+  "fix_id": "F-17815r287131_fix",
+  "VulnDiscussion": "LLDP is a neighbor discovery protocol used to advertise device capabilities, configuration information, and device identity. LLDP is media- and protocol-independent as it runs over layer 2; therefore, two network nodes that support different layer 3 protocols can still learn about each other. Allowing LLDP messages to reach external network nodes provides an attacker a method to obtain information of the network infrastructure that can be useful to plan an attack.",
+  "Documentable": "false"
+}

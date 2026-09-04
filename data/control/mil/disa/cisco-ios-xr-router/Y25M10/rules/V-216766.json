@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216766",
+  "rule_id": "SV-216766r856444_rule",
+  "stig_id": "CISC-RT-000380",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco perimeter router must be configured to have Proxy ARP disabled on all external interfaces.",
+  "group_title": "SRG-NET-000364-RTR-000112",
+  "idents": {
+    "legacy": [
+      "SV-105877",
+      "V-96739"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-17998r288681_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone.\n\nReview the router configuration to determine if IP Proxy ARP is enabled on any external interfaces as shown in the example below.\n\ninterface GigabitEthernet0/0/0/1\n description link to DISN\n ipv4 address x.1.12.2 255.255.255.252\n proxy-arp\n\nIf IP Proxy ARP is enabled on any external interface, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN Backbone.\n\nDisable Proxy ARP on all external interfaces as shown in the example below.\n\nRP/0/0/CPU0:R3(config)#interface g0/0/0/1\nRP/0/0/CPU0:R3(config-if)#no proxy-arp",
+  "fix_id": "F-17996r288682_fix",
+  "VulnDiscussion": "When Proxy ARP is enabled on a router, it allows that router to extend the network (at Layer 2) across multiple interfaces (LAN segments). Because proxy ARP allows hosts from different LAN segments to look like they are on the same segment, proxy ARP is only safe when used between trusted LAN segments. Attackers can leverage the trusting nature of proxy ARP by spoofing a trusted host and then intercepting packets. Proxy ARP should always be disabled on router interfaces that do not require it, unless the router is being used as a LAN bridge.",
+  "Documentable": "false"
+}

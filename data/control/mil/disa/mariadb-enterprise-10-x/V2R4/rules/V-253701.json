@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253701",
+  "rule_id": "SV-253701r961044_rule",
+  "stig_id": "MADB-10-004200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must map PKI ID to an associated user account.",
+  "group_title": "SRG-APP-000177-DB-000069",
+  "idents": {
+    "cci": [
+      "CCI-000187"
+    ]
+  },
+  "check_id": "C-57153r841626_chk",
+  "check_content": "Query all users to confirm issuer and subject are configured correctly: \n\nMariaDB>SELECT user, host, ssl_type, CAST(x509_issuer AS CHAR) AS issuer, CAST(x509_subject AS CHAR) AS subject FROM mysql.user;\n\nIf users are not mapped correctly, this is a finding.",
+  "fixtext": "Example command to create users with proper X509 certificate subject and issuer: \n\nMariaDB>CREATE USER 'janedoe'@'%' IDENTIFIED BY 'Some_Password_Here_$9'\nREQUIRE SUBJECT '/C=US/ST=Ohio/L=Columbus/O=MariaDB Corporation/CN=Jane Doe'\nAND ISSUER '/C=US/ST=Ohio/L=Columbus/O=MariaDB Corporation/CN=MariaDB CA';",
+  "fix_id": "F-57104r841627_fix",
+  "VulnDiscussion": "The DoD standard for authentication is DoD-approved PKI certificates. Once a PKI is validated, it is mapped to the DBMS user account for the authentication identity and then can be used for authorization decisions.",
+  "Documentable": "false"
+}

@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-222542",
+  "rule_id": "SV-222542r1015704_rule",
+  "stig_id": "APSC-DV-001740",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The application must only store cryptographic representations of passwords.",
+  "group_title": "SRG-APP-000171",
+  "idents": {
+    "legacy": [
+      "V-69567",
+      "SV-84189"
+    ],
+    "cci": [
+      "CCI-004062",
+      "CCI-000196"
+    ]
+  },
+  "check_id": "C-24212r985953_chk",
+  "check_content": "Review the application documentation and interview the application administrator to identify if the application uses passwords for user authentication.\n\nIf the application does not use passwords, this requirement is Not Applicable.\n\nHave the application administrator identify the application's password storage locations. Potential locations include the local file system where the application is stored or in an application-related database table that should not be accessible to application users.\n\nReview application files and folders using a text editor or by using a database tool that allows you to view data stored in database tables. Look for indications of stored user information and review that information. Determine if password strings are readable/discernable.\n\nDetermine if the application uses the MD5 hashing algorithm to create password hashes.\n\nIf the passwords are readable or there is no indication the application utilizes cryptographic hashing to protect passwords, or if the MD5 hash algorithm is used to create password hashes, this is a finding.",
+  "fixtext": "Use strong cryptographic hash functions when creating password hash values.\n\nUtilize random salt values when creating the password hash.\n\nEnsure strong access control permissions on data files containing authentication data.",
+  "fix_id": "F-24201r493535_fix",
+  "VulnDiscussion": "Use of passwords for application authentication is intended only for limited situations and should not be used as a replacement for two-factor CAC-enabled authentication.\n\nExamples of situations where a user ID and password might be used include but are not limited to:\n\n- When the application user base does not have a CAC and is not a current DOD employee, member of the military, or a DOD contractor.\n- When an application user has been officially designated as a Temporary Exception User; one who is temporarily unable to present a CAC for some reason (lost, damaged, not yet issued, broken card reader) and to satisfy urgent organizational needs must be temporarily permitted to use user ID/password authentication until the problem with CAC use has been remedied.\n- When the application is publicly available and or hosting publicly releasable data requiring some degree of need-to-know protection.\n\nPasswords need to be protected at all times and using a strong one-way hashing encryption algorithm with a salt is the standard method for providing a means to validate a user's password without having to store the actual password. \n\nPerformance and time required to access are factors that must be considered and the one way hash is the most feasible means of securing the password and providing an acceptable measure of password security. If passwords are stored in clear text, they can be plainly read and easily compromised.\n\nIn many instances, verifying the user knows a password is performed using a password verifier. In its simplest form, a password verifier is a computational function that is capable of creating a hash of a password and determining if the value provided by the user matches the hash. \n\nA more secure version of verifying a user knowing a password is to store the result of an iterating hash function and a large random SALT value as follows:\n\nH0 = H(pwd, H(salt))\nHn = H(Hn-1,H(salt))\n\nWhere n is a cryptographically-strong random [*3] number. Hn is stored, along with the salt. When the application wishes to verify that the user knows a password, it simply repeats the process and compares Hn with the stored Hn.\n\nA SALT is essentially a fixed-length cryptographically-strong random value. \n\nAnother method used is utilizing a keyed hash message authentication code (HMAC). HMAC calculates a message authentication code via a cryptographic hash function used in conjunction with an encryption key. The key must be protected as with any private key.\n \nApplications must only store passwords that have been cryptographically protected.",
+  "Documentable": "false"
+}

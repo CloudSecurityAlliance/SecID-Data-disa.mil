@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276563",
+  "rule_id": "SV-276563r1139211_rule",
+  "stig_id": "KNOX-16-005000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Samsung Android must be configured to not allow passwords that include more than four repeating or sequential characters.",
+  "group_title": "PP-MDF-333025",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-80718r1139209_chk",
+  "check_content": "Review the configuration to determine if the Samsung Android devices are disallowing passwords containing more than four repeating or sequential characters.\n\nThis validation procedure is performed on both the management tool and the Samsung Android device.\n\nOn the management tool, in the device password policies, verify \"minimum password quality\" is set to \"Numeric(Complex)\" or better.\n\nOn the Samsung Android device: \n1. Open Settings >> Lock screen and AOD >> Screen lock and biometrics. \n2. Enter current password. \n3. Tap \"PIN\". \n4. Verify PINs with more than four repeating or sequential numbers are not accepted.\n\nIf on the management tool \"minimum password quality\" is not set to \"Numeric(Complex)\" or better, or on the Samsung Android device a password with more than four repeating or sequential numbers is accepted, this is a finding.",
+  "fixtext": "Configure the Samsung Android devices to disallow passwords containing more than four repeating or sequential characters.\n\nOn the management tool, in the device password policies, set \"minimum password quality\" to \"Numeric(Complex)\" or better.\n\nIf the management tool does not support \"Numeric(Complex)\" but does support \"Numeric\", Knox Platform for Enterprise (KPE) can be used to achieve STIG compliance. In this case, configure this policy with value \"Numeric\" and use an additional KPE policy (innately by the management tool or via KSP) \"Maximum Numeric Sequence Length\" with value \"4\".\n\nAPI: setPasswordQuality or setRequiredPasswordComplexity",
+  "fix_id": "F-80623r1139210_fix",
+  "VulnDiscussion": "Password strength is a measure of the effectiveness of a password in resisting guessing and brute force attacks. Passwords that contain repeating or sequential characters are significantly easier to guess than those that do not. Therefore, disallowing repeating or sequential characters increases password strength and decreases risk.\n\nSFR ID: FMT_SMF.1.1 #1",
+  "Documentable": "false"
+}

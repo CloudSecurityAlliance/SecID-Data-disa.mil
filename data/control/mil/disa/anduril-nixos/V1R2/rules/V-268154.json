@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268154",
+  "rule_id": "SV-268154r1131111_rule",
+  "stig_id": "ANIX-00-001480",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "NixOS must prevent the installation of patches, service packs, device drivers, or operating system components without verification they have been digitally signed using a certificate that is recognized and approved by the organization.",
+  "group_title": "SRG-OS-000366-GPOS-00153",
+  "idents": {
+    "cci": [
+      "CCI-003992"
+    ]
+  },
+  "check_id": "C-72078r1131109_chk",
+  "check_content": "Verify NixOS prevents installations that have not been digitally signed with the following command:\n \n$ grep -R require-sigs /etc/nix/nix.conf\n\nrequire-sigs = true\n\nIf \"require-sigs\" is not set to \"true\" or is missing, this is a finding.",
+  "fixtext": "Configure NixOS to require signatures.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\nnix.settings.require-sigs = true;\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71981r1131110_fix",
+  "VulnDiscussion": "Changes to any software components can have significant effects on the overall security of the operating system. This requirement ensures the software has not been tampered with and that it has been provided by a trusted vendor.\n\nAccordingly, patches, service packs, device drivers, or operating system components must be signed with a certificate recognized and approved by the organization.\n\nVerifying the authenticity of the software prior to installation validates the integrity of the patch or upgrade received from a vendor. This ensures the software has not been tampered with and that it has been provided by a trusted vendor. Self-signed certificates are disallowed by this requirement. The operating system should not have to verify the software again. This requirement does not mandate DOD certificates for this purpose; however, the certificate used to verify the software must be from an approved certificate authority (CA).",
+  "Documentable": "false"
+}

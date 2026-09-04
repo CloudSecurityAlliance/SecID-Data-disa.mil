@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216770",
+  "rule_id": "SV-216770r1117237_rule",
+  "stig_id": "CISC-RT-000420",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco out-of-band management (OOBM) gateway router must be configured to have separate IGP instances for the managed network and management network.",
+  "group_title": "SRG-NET-000019-RTR-000011",
+  "idents": {
+    "legacy": [
+      "SV-105885",
+      "V-96747"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-18002r288693_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone.\n\nVerify that the OOBM interface is an adjacency in the IGP domain for the management network via separate VRF as shown in the example below.\n\nrouter ospf 2\n vrf MGMT\n  area 0\n   interface GigabitEthernet0/0/0/0.2\n   !\n  !\n !\n!\nrouter ospf 3\n vrf PROD\n  area 0\n   interface GigabitEthernet0/0/0/0.3\n   !\n  !\n !\n!\n\nIf the router is not configured to have separate IGP instances for the managed network and management network, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN Backbone.\n\nConfigure the router to have a separate IGP instance for the management network as shown in the example below.\n\nRP/0/0/CPU0:R2(config)#router ospf 2 vrf MGMT\nRP/0/0/CPU0:R2(config-ospf-vrf)#area 0\nRP/0/0/CPU0:R2(config-ospf-vrf-ar)#interface GigabitEthernet0/0/0/0.2\nRP/0/0/CPU0:R2(config-ospf-vrf-ar-if)#exit\nRP/0/0/CPU0:R2(config-ospf-vrf-ar)#exit\nRP/0/0/CPU0:R2(config-ospf-vrf)#exit\nRP/0/0/CPU0:R2(config-ospf)#exit\nRP/0/0/CPU0:R2(config)#router ospf 3 vrf PROD\nRP/0/0/CPU0:R2(config-ospf-vrf)#area 0\nRP/0/0/CPU0:R2(config-ospf-vrf-ar)#interface GigabitEthernet0/0/0/0.3\nRP/0/0/CPU0:R2(config-ospf-vrf-ar-if)#end",
+  "fix_id": "F-18000r288694_fix",
+  "VulnDiscussion": "If the gateway router is not a dedicated device for the OOBM network, implementation of several safeguards for containment of management and production traffic boundaries must occur. Since the managed and management network are separate routing domains, configuration of separate Interior Gateway Protocol routing instances is critical on the router to segregate traffic from each network.",
+  "Documentable": "false"
+}

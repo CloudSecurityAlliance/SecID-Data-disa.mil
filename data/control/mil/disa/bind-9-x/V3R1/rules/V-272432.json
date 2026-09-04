@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272432",
+  "rule_id": "SV-272432r1123950_rule",
+  "stig_id": "BIND-9X-001910",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The BIND 9.x server implementation must be configured with a channel to send audit records to at least two remote syslogs.",
+  "group_title": "SRG-APP-000125-DNS-000012",
+  "idents": {
+    "cci": [
+      "CCI-001348"
+    ]
+  },
+  "check_id": "C-76482r1123948_chk",
+  "check_content": "Verify that the BIND 9.x server is configured to send audit logs to at least two syslog servers.\n\nNote: syslog and local file channel must be defined for every defined category.\n\nInspect the \"named.conf\" file for the following:\n\nlogging {\nchannel <syslog_channel> {\nsyslog <syslog_facility>;\n};\n\ncategory <category_name> { <syslog_channel>; };\n\nlogging {\nchannel <syslog_channel> {\nsyslog <syslog_facility>;\n};\n\ncategory <category_name> { <syslog_channel>; };\n\nIf a logging channel is not defined for each syslog, this is a finding.\n\nIf a category is not defined to send messages to the syslog channels, this is a finding.",
+  "fixtext": "Configure the \"logging\" statement to send audit logs to the syslog daemons.\n\nlogging {\nchannel <syslog_channel> {\nsyslog <syslog_facility>;\n};\ncategory <category_name> { <syslog_channel>; };\n};\n\nlogging {\nchannel <syslog_channel> {\nsyslog <syslog_facility>;\n};\ncategory <category_name> { <syslog_channel>; };\n};\n\nNote: It is recommended to use a local syslog facility (i.e., local0 -7) when configuring the syslog channel. \n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76389r1123949_fix",
+  "VulnDiscussion": "Protection of log data includes assuring log data is not accidentally lost or deleted. Backing up audit records to a different system or onto separate media than the system being audited on a defined frequency helps to ensure, in the event of a catastrophic system failure, the audit records will be retained. \n\nThis helps to ensure a compromise of the information system being audited does not also result in a compromise of the audit records.",
+  "Documentable": "false"
+}

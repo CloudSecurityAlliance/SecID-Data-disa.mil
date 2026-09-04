@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222976",
+  "rule_id": "SV-222976r961170_rule",
+  "stig_id": "TCAT-AS-000930",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Default error pages for manager application must be customized.",
+  "group_title": "SRG-APP-000267-AS-000170",
+  "idents": {
+    "legacy": [
+      "SV-111475",
+      "V-102535"
+    ],
+    "cci": [
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-24648r426372_chk",
+  "check_content": "From the Tomcat server console, run the following command:\n\nsudo cat $CATALINA_BASE/webapps/manager/WEB-INF/jsp/401.jsp \n\nRepeat for the 402.jsp and 403.jsp files.\n\nThe default error files contain sample passwords and user accounts.\n\nIf the error files contained in this folder are not customized and sample information removed, this is a finding.",
+  "fixtext": "From the Tomcat server as a privileged user:\n\nsudo cd $CATALINA_BASE/webapps/manager/WEB-INF/jsp/\n\nUse a file editor like nano or vi and edit the 401, 402, and 403 jsp files. Remove account information and make the files reflect generic error information that assists users but does not provide sample data to users.\n\nSave the file and restart Tomcat:\nsudo systemctl restart tomcat\nsudo systemctl daemon-reload",
+  "fix_id": "F-24637r426373_fix",
+  "VulnDiscussion": "Default error pages that accompany the manager application provide educational information on how to configure user accounts and groups for accessing the manager application. These error pages provide responses to 401 (Unauthorized), 403 (Forbidden), and 404 (Not Found) JSP error codes and should not exist on production systems.",
+  "Documentable": "false"
+}

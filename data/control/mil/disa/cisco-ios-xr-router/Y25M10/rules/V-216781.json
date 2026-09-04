@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216781",
+  "rule_id": "SV-216781r531087_rule",
+  "stig_id": "CISC-RT-000530",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco BGP router must be configured to reject outbound route advertisements for any prefixes belonging to the IP core.",
+  "group_title": "SRG-NET-000205-RTR-000006",
+  "idents": {
+    "legacy": [
+      "SV-105907",
+      "V-96769"
+    ],
+    "cci": [
+      "CCI-001097"
+    ]
+  },
+  "check_id": "C-18013r288720_chk",
+  "check_content": "Step 1: verify that an outbound route policy has been configured for each external neighbor as shown in the example below.\n\nrouter bgp xx\n address-family ipv4 unicast\n !\n neighbor x.1.23.3\n  remote-as yy\n  address-family ipv4 unicast\n   route-policy BGP_FILTER_OUTBOUND out\n  !\n !\n neighbor x.1.24.4\n  remote-as zz\n  address-family ipv4 unicast\n   route-policy BGP_FILTER_OUTBOUND out\n !\n!\n\nStep 2: Review the route policy to determine if it is filtering at a minimum IP core prefixes as shown in the example below.\n\nroute-policy BGP_FILTER_OUTBOUND\n  if destination in CORE_PREFIX then\n    drop\n  else\n    pass\n  endif\nend-policy \n\nStep 3: Review the prefix set referenced in the route policy above to determine if it includes the IP core prefix as shown in the example below.\n\nprefix-set CORE_PREFIX\n 10.1.1.0/24 le 32\nend-set\n\nIf the router is not configured to reject outbound route advertisements for prefixes belonging to the IP core, this is a finding.",
+  "fixtext": "Step 1: Configure a prefix set containing the IP core prefix as shown below.\n\nRP/0/0/CPU0:R2(config)#prefix-set \n\nStep 2: Configure a prefix set containing the current Bogon prefixes as shown below.\n\nRP/0/0/CPU0:R2(config)#prefix-set CORE_PREFIX\nRP/0/0/CPU0:R2(config-pfx)#10.1.1.0/24 le 32\nRP/0/0/CPU0:R2(config-pfx)#end-set\n\nStep 3: Configure the route policy to drop route advertisements for IP core prefixes as shown in the example below.\n\nRP/0/0/CPU0:R2(config)#route-policy BGP_FILTER_OUTBOUND\nRP/0/0/CPU0:R2(config-rpl)#if destination in CORE_PREFIX then\nRP/0/0/CPU0:R2(config-rpl-if)#drop\nRP/0/0/CPU0:R2(config-rpl-if)#else\nRP/0/0/CPU0:R2(config-rpl-else)#pass\nRP/0/0/CPU0:R2(config-rpl-else)#endif\nRP/0/0/CPU0:R2(config-rpl)#end-policy\n\nStep 4: Apply the route policy to each external BGP neighbor as shown in the example.\n\nRP/0/0/CPU0:R2(config)#router bgp xx\nRP/0/0/CPU0:R2(config-bgp)#neighbor x.1.23.3\nRP/0/0/CPU0:R2(config-bgp-nbr)#address-family ipv4 unicast \nRP/0/0/CPU0:R2(config-bgp-nbr-af)#route-policy BGP_FILTER_OUTBOUND out\nRP/0/0/CPU0:R2(config-bgp)#neighbor x.1.24.4\nRP/0/0/CPU0:R2(config-bgp-nbr)#address-family ipv4 unicast \nRP/0/0/CPU0:R2(config-bgp-nbr-af)#route-policy BGP_FILTER_ OUTBOUND out",
+  "fix_id": "F-18011r288721_fix",
+  "VulnDiscussion": "Outbound route advertisements belonging to the core can result in traffic either looping or being black holed, or at a minimum, using a non-optimized path.",
+  "Documentable": "false"
+}

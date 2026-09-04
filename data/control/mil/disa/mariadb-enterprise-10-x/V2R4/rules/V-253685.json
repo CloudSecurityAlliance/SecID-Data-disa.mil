@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253685",
+  "rule_id": "SV-253685r960960_rule",
+  "stig_id": "MADB-10-002600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must limit privileges to change software modules, to include stored procedures, functions and triggers, and links to software external to the DBMS.",
+  "group_title": "SRG-APP-000133-DB-000179",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-57137r841578_chk",
+  "check_content": "Review documentation to determine which users are authorized to modify the MariaDB Enterprise Server binary files and shared library paths. \n \nIf any unauthorized users are granted modify rights, this is a finding.\n\nCheck what users have access to install/uninstall MariaDB Enterprise Server plugins. This privilege can be listed in one of three places: Table level, database level, or global. \n\nTable level:\n\nMariaDB> SELECT user, host FROM mysql.tables_priv WHERE db = 'mysql' and table_name = ' plugin';\n\nDatabase level:\n\nMariaDB> SELECT user, host FROM mysql.db WHERE db = 'mysql' and (insert_priv = 'y') or (delete_priv = 'y') or (insert_priv = 'y' and delete_priv = 'y');\n\nGlobal: \n\nSELECT user, host FROM mysql.user WHERE (insert_priv = 'y') or (delete_priv = 'y') or (insert_priv = 'y' and delete_priv = 'y');\n\nIf any user identified by the above queries is not authorized to install/uninstall MariaDB Enterprise Server plugins, this is a finding. \n\nReview monitoring procedures and implementation evidence to verify monitoring of changes to database software libraries, related applications, and configuration files is done.\n\nVerify the list of files and directories being monitored is complete.\n\nIf monitoring does not occur or is not complete, this is a finding.",
+  "fixtext": "Remove privileges from users identified as not authorized to install/uninstall MariaDB Enterprise Server plugins.  \n\nImplement procedures to monitor for unauthorized changes to DBMS software libraries, related software application libraries, and configuration files. If a third-party automated tool is not employed, an automated job that reports file information on the directories and files of interest and compares them to the baseline report for the same will meet the requirement.",
+  "fix_id": "F-57088r841579_fix",
+  "VulnDiscussion": "If the system were to allow any user to make changes to software libraries, those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n \nAccordingly, only qualified and authorized individuals must be allowed to obtain access to information system components for purposes of initiating changes, including upgrades and modifications.\n\nUnmanaged changes that occur to the database code can lead to unauthorized or compromised installations.",
+  "Documentable": "false"
+}

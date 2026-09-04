@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257542",
+  "rule_id": "SV-257542r960993_rule",
+  "stig_id": "CNTR-OS-000440",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must use FIPS-validated SHA-1 or higher hash function to provide replay-resistant authentication mechanisms for network access to privileged accounts.",
+  "group_title": "SRG-APP-000156-CTR-000380",
+  "idents": {
+    "cci": [
+      "CCI-001941"
+    ]
+  },
+  "check_id": "C-61277r921567_chk",
+  "check_content": "Verify the authentication operator is configured to use a secure transport to an OpenIDConnect provider:\n\noc get oauth cluster -o jsonpath=\"{.spec.identityProviders[*]}{'\\n'}\"\n\nIf the transport is not secure (ex. HTTPS), this is a finding.",
+  "fixtext": "Configure OpenShift to use an OpenIDConnect Identity Provider. Note: This STIG was written for OIC; do not use HTPasswd. Only use an approved identity provider.\n\nSteps to configure OpenID provider:\n\n1. Create Secret for Client Secret by executing the following:\n \noc create secret generic idp-secret --from-literal=clientSecret=<secret> -n openshift-config\n \n2. Create config map for OpenID Trust CA by executing the following:\n \noc create configmap ca-config-map --from-file=ca.crt=/path/to/ca -n openshift-config\n\n3. Create OpenID Auth Config Resource YAML.\nUsing the preferred text editor, create a file named oidcidp.yaml using the example content (replacing config values as appropriate).\n\napiVersion: config.openshift.io/v1\nkind: OAuth\nmetadata:\n  name: cluster\nspec:\n  identityProviders:\n  - name: oidcidp \n    mappingMethod: claim \n    type: OpenID\n    openID:\n      clientID: ... \n      clientSecret: \n        name: idp-secret\n      claims: \n        preferredUsername:\n        - preferred_username\n        name:\n        - name\n        email:\n        - email\n      issuer: https://www.idp-issuer.com \n \n4. Apply OpenID config to cluster by executing the following:\n \noc apply -f ldapidp.yaml\n \nNote: For more information on configuring an OpenID provider, refer to https://docs.openshift.com/container-platform/4.8/authentication/identity_providers/configuring-oidc-identity-provider.html.",
+  "fix_id": "F-61201r921568_fix",
+  "VulnDiscussion": "A replay attack may enable an unauthorized user to gain access to the application. Authentication sessions between the authenticator and the application validating the user credentials must not be vulnerable to a replay attack.\n\nAnti-replay is a cryptographically based mechanism; thus, it must use FIPS-approved algorithms. An authentication process resists replay attacks if it is impractical to achieve a successful authentication by recording and replaying a previous authentication message. Note that the anti-replay service is implicit when data contains monotonically increasing sequence numbers and data integrity is assured. Use of DOD PKI is inherently compliant with this requirement for user and device access. Use of Transport Layer Security (TLS), including application protocols such as HTTPS and DNSSEC, that use TLS/SSL as the underlying security protocol is also complaint.\n\nConfigure the information system to use the hash message authentication code (HMAC) algorithm for authentication services to Kerberos, SSH, web management tool, and any other access method.",
+  "Documentable": "false"
+}

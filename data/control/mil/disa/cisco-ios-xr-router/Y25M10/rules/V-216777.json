@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216777",
+  "rule_id": "SV-216777r1117236_rule",
+  "stig_id": "CISC-RT-000490",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco BGP router must be configured to reject inbound route advertisements for any Bogon prefixes.",
+  "group_title": "SRG-NET-000018-RTR-000002",
+  "idents": {
+    "legacy": [
+      "SV-105899",
+      "V-96761"
+    ],
+    "cci": [
+      "CCI-001368"
+    ]
+  },
+  "check_id": "C-18009r288708_chk",
+  "check_content": "Review the router configuration to verify that it will reject BGP routes for any Bogon prefixes.\n\nStep 1: verify that an inbound route policy has been configured for each external neighbor as shown in the example below.\n\nrouter bgp n\n address-family ipv4 unicast\n !\n neighbor x.1.23.3\n  remote-as y\n  keychain YYY_KEY_CHAIN\n  ttl-security\n  address-family ipv4 unicast\n   route-policy BGP_FILTER in\n  !\n !\n neighbor x.1.24.4\n  remote-as z\n  keychain ZZZ_KEY_CHAIN\n  ttl-security\n  address-family ipv4 unicast\n   route-policy BGP_FILTER in\n !\n!\n\nStep 2: Review the route policy to determine if it is filtering at a minimum BOGON prefixes as shown in the example below.\n\nroute-policy BGP_FILTER\n  if destination in BOGON_PREFIXES then\n    drop\n  else\n    pass\n  endif\nend-policy \n\nStep 3: Review the prefix set referenced in the route policy above has been configured containing the current Bogon prefixes as shown in the example below.\n\nprefix-set BOGON_PREFIXES\n  0.0.0.0/8 le 32,\n  10.0.0.0/8 le 32,\n  100.64.0.0/10 le 32,\n  127.0.0.0/8 le 32,\n  169.254.0.0/16 le 32,\n  172.16.0.0/12 le 32,\n  192.0.2.0/24 le 32,\n  192.88.99.0/24 le 32,\n  192.168.0.0/16 le 32,\n  198.18.0.0/15 le 32,\n  198.51.100.0/24 le 32,\n  203.0.113.0/24 le 32,\n  240.0.0.0/4 le 32,\n  224.0.0.0/4 le 32\nend-set\n\nIf the router is not configured to reject inbound route advertisements for any Bogon prefixes, this is a finding.",
+  "fixtext": "Configure the router to reject inbound route advertisements for any Bogon prefixes.\n\nStep 1: Configure a prefix set containing the current Bogon prefixes as shown below.\n\nRP/0/0/CPU0:R2(config)#prefix-set BOGON_PREFIXES   \nRP/0/0/CPU0:R2(config-pfx)#0.0.0.0/8 le 32,\nRP/0/0/CPU0:R2(config-pfx)#10.0.0.0/8 le 32,\nRP/0/0/CPU0:R2(config-pfx)#100.64.0.0/10 le 32,\nRP/0/0/CPU0:R2(config-pfx)#127.0.0.0/8 le 32,\nRP/0/0/CPU0:R2(config-pfx)#169.254.0.0/16 le 32,\nRP/0/0/CPU0:R2(config-pfx)#172.16.0.0/12 le 32,\nRP/0/0/CPU0:R2(config-pfx)#192.0.2.0/24 le 32,\nRP/0/0/CPU0:R2(config-pfx)#192.88.99.0/24 le 32,\nRP/0/0/CPU0:R2(config-pfx)#192.168.0.0/16 le 32,\nRP/0/0/CPU0:R2(config-pfx)#198.18.0.0/15 le 32,\nRP/0/0/CPU0:R2(config-pfx)#198.51.100.0/24 le 32,\nRP/0/0/CPU0:R2(config-pfx)#203.0.113.0/24 le 32,\nRP/0/0/CPU0:R2(config-pfx)#240.0.0.0/4 le 32,\nRP/0/0/CPU0:R2(config-pfx)#224.0.0.0/4 le 32\nRP/0/0/CPU0:R2(config-pfx)#end-set\n\nStep 2: Configure the route policy to drop routes with BOGON prefixes as shown in the example below.\n\nRP/0/0/CPU0:R2(config)#route-policy BGP_FILTER \nRP/0/0/CPU0:R2(config-rpl)#if destination in BOGON_PREFIXES then \nRP/0/0/CPU0:R2(config-rpl-if)#drop\nRP/0/0/CPU0:R2(config-rpl-if)#else pass endif\nRRP/0/0/CPU0:R2(config-rpl)#end-policy \nRP/0/0/CPU0:R2(config)#exit\n\nStep 3: Apply the route policy to each external BGP neighbor as shown in the example.\n\nRP/0/0/CPU0:R2(config)#router bgp xx\nRP/0/0/CPU0:R2(config-bgp)#neighbor x.1.23.3\nRP/0/0/CPU0:R2(config-bgp-nbr)#address-family ipv4 unicast \nRP/0/0/CPU0:R2(config-bgp-nbr-af)#route-policy BGP_FILTER in\nRP/0/0/CPU0:R2(config-bgp)#neighbor x.1.24.4\nRP/0/0/CPU0:R2(config-bgp-nbr)#address-family ipv4 unicast \nRP/0/0/CPU0:R2(config-bgp-nbr-af)#route-policy BGP_FILTER in",
+  "fix_id": "F-18007r288709_fix",
+  "VulnDiscussion": "Accepting route advertisements for Bogon prefixes can result in the local autonomous system (AS) becoming a transit for malicious traffic as it will in turn advertise these prefixes to neighbor autonomous systems.",
+  "Documentable": "false"
+}

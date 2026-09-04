@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216792",
+  "rule_id": "SV-216792r991939_rule",
+  "stig_id": "CISC-RT-000640",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco PE router must be configured to have each Virtual Routing and Forwarding (VRF) instance with the appropriate Route Target (RT).",
+  "group_title": "SRG-NET-000512-RTR-000006",
+  "idents": {
+    "legacy": [
+      "SV-105929",
+      "V-96791"
+    ],
+    "cci": [
+      "CCI-004931"
+    ]
+  },
+  "check_id": "C-18024r991938_chk",
+  "check_content": "Review the design plan for MPLS/L3VPN and VRF-lite to determine what RTs have been assigned for each VRF. Review the router configuration and verify that the correct RT is configured for each VRF. In the example below, route target 13:13 has been configured for COI1.\n\nvrf COI1\n address-family ipv4 unicast\n  import route-target\n   13:13\n  !\n  export route-target\n   13:13\n  !\n !\n!\n\nIf there are VRFs configured with the wrong RT, this is a finding.",
+  "fixtext": "Configure the router to have each VRF instance defined with the correct RT.\n\nRP/0/0/CPU0:R3(config)#vrf COI1\nRP/0/0/CPU0:R3(config-vrf)#address-family ipv4 unicast \nRP/0/0/CPU0:R3(config-vrf-af)#import route-target 13:13\nRP/0/0/CPU0:R3(config-vrf-af)#export route-target 13:13\nRP/0/0/CPU0:R3(config-vrf-af)#end",
+  "fix_id": "F-18022r288754_fix",
+  "VulnDiscussion": "The primary security model for an MPLS L3VPN as well as a VRF-lite infrastructure is traffic separation. Each interface can only be associated to one VRF, which is the fundamental framework for traffic separation. Forwarding decisions are made based on the routing table belonging to the VRF. Control of what routes are imported into or exported from a VRF is based on the RT. It is critical that traffic does not leak from one COI tenant or L3VPN to another; hence, it is imperative that the correct RT is configured for each VRF.",
+  "Documentable": "false"
+}

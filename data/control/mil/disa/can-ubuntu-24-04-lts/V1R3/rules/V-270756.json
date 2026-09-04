@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270756",
+  "rule_id": "SV-270756r1134814_rule",
+  "stig_id": "UBTU-24-700010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 24.04 LTS must generate error messages that provide information necessary for corrective actions without revealing information that could be exploited by adversaries.",
+  "group_title": "SRG-OS-000205-GPOS-00083",
+  "idents": {
+    "cci": [
+      "CCI-001312"
+    ]
+  },
+  "check_id": "C-74789r1134812_chk",
+  "check_content": "Verify Ubuntu 24.04 LTS has all system log files under the /var/log directory with a permission set to \"640\" or less permissive with the following command:\n\nNote: The btmp, wtmp, lastlog, history, and eipp.log.xz files are excluded from this check. Refer to the Discussion for details.\n\n$ sudo find /var/log -perm /137 ! -name '*[bw]tmp' ! -name '*lastlog' -type f -exec stat -c \"%n %a\" {} \\;\n\nIf the command displays any output, this is a finding.",
+  "fixtext": "Configure Ubuntu 24.04 LTS to set permissions of all log files under the /var/log directory to \"640\" or more restricted by using the following command:\n\nNote: The btmp, wtmp, lastlog, history, and eipp.log.xz files are excluded. Refer to the Discussion for details.\n\n$ sudo find /var/log -perm /137 ! -name '*[bw]tmp' ! -name '*lastlog' -type f -exec chmod 640 '{}' \\;",
+  "fix_id": "F-74690r1134813_fix",
+  "VulnDiscussion": "Any operating system providing too much information in error messages risks compromising the data and security of the structure, and organizations must carefully consider the content and structure of error messages. \n \nThe extent to which information systems are able to identify and handle error conditions is guided by organizational policy and operational requirements. Information that could be exploited by adversaries includes, for example, erroneous logon attempts with passwords entered by mistake as the username, mission/business information that can be derived from (if not stated explicitly by) information recorded, and personal information, such as account numbers, Social Security numbers, and credit card numbers.\n\nThe /var/log/btmp, /var/log/wtmp, and /var/log/lastlog files have group write and global read permissions to allow for the lastlog function to perform. Limiting the permissions beyond this configuration will result in the failure of functions that rely on the lastlog database. Additionally, Canonical recommends excluding the history.log and eipp.log.xz from consideration in this check.",
+  "Documentable": "false"
+}

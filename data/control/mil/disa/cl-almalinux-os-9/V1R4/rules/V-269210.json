@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269210",
+  "rule_id": "SV-269210r1050092_rule",
+  "stig_id": "ALMA-09-014760",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All AlmaLinux OS 9 local interactive user home directories must be group-owned by the home directory owner's primary group.",
+  "group_title": "SRG-OS-000480-GPOS-00230",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73241r1048006_chk",
+  "check_content": "Verify the assigned home directory of all local interactive users is group-owned by that user's primary GID with the following command:\n\nNote: This may miss local interactive users that have been assigned a privileged UID. Evidence of interactive use may be obtained from a number of log files containing system logon information. The returned directory \"/home/test\" is used as an example.\n\n$ stat --format=\"%n: GID=%g (%G), UID=%u (%U), MODE=%0.4a\" $(awk -F: '($3>=1000)&&($7 !~ /nologin/){print $6}' /etc/passwd)\n\n/home/test: GID=1001 (test), UID=1001 (test), MODE=0700\n\nCheck the user's primary group with the following command:\n\n$ grep $(grep -E '^test:' /etc/passwd | awk -F: '{print $4}') /etc/group\n\ntest:x:1001:\n\nIf the user home directory referenced in \"/etc/passwd\" is not group-owned by that user's primary GID (1001 in the above example) this is a finding.",
+  "fixtext": "Change the group owner of a local interactive user's home directory to the group found in \"/etc/passwd\". To change the group owner of a local interactive user's home directory, use the following command:\n\nNote: The example will be for the user \"test\", who has a home directory of \"/home/test\", and has a primary group of \"test\".\n\n$ chgrp test /home/test",
+  "fix_id": "F-73142r1048007_fix",
+  "VulnDiscussion": "If the Group Identifier (GID) of a local interactive users home directory is not the same as the primary GID of the user, this would allow unauthorized access to the users files, and users that share the same group may not be able to access files that they legitimately should.",
+  "Documentable": "false"
+}

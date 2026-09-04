@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268086",
+  "rule_id": "SV-268086r1130969_rule",
+  "stig_id": "ANIX-00-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must initiate a session lock after a 10-minute period of inactivity for graphical user logon.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-72010r1130967_chk",
+  "check_content": "Verify NixOS initiates a session lock after a 10-minute period of inactivity for graphical user logon with the following command: \n\n$ sudo gsettings get org.gnome.desktop.session idle-delay\n\nuint32 600\n\n$ grep \"IdleAction\" /etc/systemd/logind.conf\n\n IdleAction = lock\n IdleActionSec = 600\n\n$ systemctl --user status xautolock.service\n xautolock.service - xautolock service\n     Loaded: loaded (/etc/systemd/user/xautolock.service; enabled; preset: ignored)\n     Active: active (running) since Wed 2025-03-19 22:56:13 UTC; 6min ago\n Invocation: 836d5b6b79444c62aa3c5285e3c8d92e\n   Main PID: 3233 (xautolock)\n      Tasks: 1 (limit: 38062)\n     Memory: 712K (peak: 2.4M)\n        CPU: 75ms\n     CGroup: /user.slice/user-1000.slice/user@1000.service/app.slice/xautolock.service\n             +-3233 /nix/store/4chq53fkkiimbx1qzdbxxs44diiqgj54-xautolock-2.2-7-ga23dd5c/bin/xautolock -noclose -time 10 -locker \"/nix/store/w9qcpyhjrxsqrps91wkz8r4mqvg9zrxc-systemd-256.10/bin/loginctl lock-session\"\n\nMar 19 22:56:13 gcs-generic-5-3 systemd[3136]: Started xautolock service.\n\nIf \"idle-delay\" is set to \"0\" or a value greater than \"600\", this is a finding.\n\nIf \"IdleAction\" is not \"lock\" and \"IdleActionSec\" is not \"600\", this is a finding.\n\nIf the xautolock service is not present or the process line does not contain \"-time 10\", this is a finding.",
+  "fixtext": "Configure NixOS to initiate a session lock after a 10-minute period of inactivity for graphical user logon.\n\nUpdate the NixOS config, typically stored either in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\n  programs.dconf.profiles.user.databases = with lib.gvariant; lib.mkBefore [\n   {\n     settings.\"org/gnome/desktop/session\".idle-delay = (mkUint32 600);\n     locks = [ \"org/gnome/desktop/session/idle-delay\" ];\n   }];\n services.logind.extraConfig = ''\n   IdleAction = lock\n   IdleActionSec = 600\n '';\n services.xserver = {\n   displayManager.gdm.wayland = true;\n   xautolock = {\n     enable = true;\n     time = 10;\n     locker = \"${lib.getExe' config.systemd.package \"loginctl\"} lock-session\";\n   };\n  };\n };\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71913r1130968_fix",
+  "VulnDiscussion": "A session time-out lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not log out because of the temporary nature of the absence. Rather than relying on the user to manually lock their operating system session prior to vacating the vicinity, operating systems need to be able to identify when a user's session has idled and take action to initiate the session lock.\n\nThe session lock is implemented at the point where session activity can be determined and/or controlled.",
+  "Documentable": "false"
+}

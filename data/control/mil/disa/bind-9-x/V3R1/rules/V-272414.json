@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272414",
+  "rule_id": "SV-272414r1123797_rule",
+  "stig_id": "BIND-9X-001610",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BIND 9.x implementation must not use a TSIG or DNSSEC key for more than one year.",
+  "group_title": "SRG-APP-000516-DNS-000500",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-76464r1123796_chk",
+  "check_content": "With the assistance of the DNS administrator, identify all of the cryptographic key files used by the BIND 9.x implementation.\n\nWith the assistance of the DNS administrator, determine the location of the cryptographic key files used by the BIND 9.x implementation.\n\n# ls -al <Crypto_Key_Location>\n-rw-------. 1 named named 76 May 10 20:35 crypto-example.key\n\nIf the server is in a classified network, the DNSSEC portion of the requirement is Not Applicable.\n\nFor DNSSEC keys:\n\nVerify that the \"Created\" date is less than one year from the date of inspection:\n\nNote: The date format will be displayed in YYYYMMDDHHMMSS.\n\n# cat <DNSSEC_Key_File> | grep -i \"created\"\nCreated: 20160704235959\n\nIf the \"Created\" date is more than one year old, this is a finding.\n\nFor TSIG keys:\n\nVerify with the information system security officer (ISSO)/information system security manager (ISSM) that the TSIG keys are less than one year old.\n\nIf a TSIG key is more than one year old, this is a finding.",
+  "fixtext": "Generate new DNSSEC and TSIG keys.\n\nFor DNSSEC keys:\n\nUse the newly generated keys to resign all of the zone files on the name server.\n\nFor TSIG keys:\n\nUpdate the named.conf file with the new keys.\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76371r1123554_fix",
+  "VulnDiscussion": "Configuration settings are the set of parameters that can be changed that affect the security posture and/or functionality of the system. Security-related parameters are those parameters impacting the security state of the application, including the parameters required to satisfy other security control requirements.\n\nConfiguring the DNS server implementation to follow organizationwide security implementation guides and security checklists ensures compliance with federal standards and establishes a common security baseline across DOD that reflects the most restrictive security posture consistent with operational requirements.",
+  "Documentable": "false"
+}

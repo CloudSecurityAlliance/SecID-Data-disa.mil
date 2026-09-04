@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216989",
+  "rule_id": "SV-216989r945858_rule",
+  "stig_id": "CISC-RT-000310",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco perimeter router must be configured to restrict it from accepting outbound IP packets that contain an illegitimate address in the source address field via egress filter or by enabling Unicast Reverse Path Forwarding (uRPF).",
+  "group_title": "SRG-NET-000205-RTR-000014",
+  "idents": {
+    "legacy": [
+      "SV-105697",
+      "V-96559"
+    ],
+    "cci": [
+      "CCI-001094"
+    ]
+  },
+  "check_id": "C-18219r287295_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone.\n\nReview the router configuration to verify uRPF or an egress ACL has been configured on all internal interfaces to restrict the router from accepting outbound IP packets that contain an illegitimate address in the source address field.\n\nuRPF example\n\ninterface GigabitEthernet0/1\n description downstream link to LAN\n ip address 10.1.25.5 255.255.255.0\n ip verify unicast source reachable-via rx\n\nEgress ACL example\n\ninterface GigabitEthernet0/1\n description downstream link to LAN\n ip address 10.1.25.5 255.255.255.0\n ip access-group EGRESS_FILTER in\n…\n…\n…\nip access-list extended EGRESS_FILTER\n permit udp 10.1.15.0 0.0.0.255 any eq domain\n permit tcp 10.1.15.0 0.0.0.255 any eq ftp\n permit tcp 10.1.15.0 0.0.0.255 any eq ftp-data\n permit tcp 10.1.15.0 0.0.0.255 any eq www\n permit icmp 10.1.15.0 0.0.0.255 any\n permit icmp 10.1.15.0 0.0.0.255 any echo\n deny   ip any any\n\nIf uRPF or an egress ACL to restrict the router from accepting outbound IP packets that contain an illegitimate address in the source address field has not been configured on all internal interfaces in an enclave, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN Backbone.\n\nConfigure the router to ensure that an egress ACL or uRPF is configured on internal interfaces to restrict the router from accepting any outbound IP packet that contains an  illegitimate address in the source field. The example below enables uRPF.\n\nR5(config)#int g0/1\nR5(config-if)#ip verify unicast source reachable-via rx",
+  "fix_id": "F-18217r287296_fix",
+  "VulnDiscussion": "A compromised host in an enclave can be used by a malicious platform to launch cyberattacks on third parties. This is a common practice in \"botnets\", which are a collection of compromised computers using malware to attack other computers or networks. DDoS attacks frequently leverage IP source address spoofing to send packets to multiple hosts that in turn will then send return traffic to the hosts with the IP addresses that were forged. This can generate significant amounts of traffic. Therefore, protection measures to counteract IP source address spoofing must be taken. When uRPF is enabled in strict mode, the packet must be received on the interface that the device would use to forward the return packet; thereby mitigating IP source address spoofing.",
+  "Documentable": "false"
+}

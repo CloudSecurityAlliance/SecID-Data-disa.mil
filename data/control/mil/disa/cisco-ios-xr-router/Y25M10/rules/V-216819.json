@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216819",
+  "rule_id": "SV-216819r856456_rule",
+  "stig_id": "CISC-RT-000910",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco Multicast Source Discovery Protocol (MSDP) router must be configured to authenticate all received MSDP packets.",
+  "group_title": "SRG-NET-000343-RTR-000002",
+  "idents": {
+    "legacy": [
+      "SV-105983",
+      "V-96845"
+    ],
+    "cci": [
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-18051r288831_chk",
+  "check_content": "Review the router configuration to determine if received MSDP packets are authenticated.\n\nrouter msdp\n peer x.14.2.1\n  password encrypted 094E410B1B1C\n  remote-as nn\n !\n peer x.15.3.5\n  password encrypted 04500A140A2F\n  remote-as nn\n !\n!\n\nIf the router does not require MSDP authentication, this is a finding.",
+  "fixtext": "Configure the router to authenticate MSDP messages as shown in the following example:\n\nRP/0/0/CPU0:R2(config)#router msdp\nRP/0/0/CPU0:R2(config-msdp)#peer x.14.2.1\nRP/0/0/CPU0:R2(config-msdp-peer)#password clear xxxxxxxxxxxx\nRP/0/0/CPU0:R2(config-msdp-peer)#exit\nRP/0/0/CPU0:R2(config-msdp)#peer x.15.3.5\nRP/0/0/CPU0:R2(config-msdp-peer)#password clear xxxxxxxxxxx \nRP/0/0/CPU0:R2(config-msdp-peer)#end",
+  "fix_id": "F-18049r288832_fix",
+  "VulnDiscussion": "MSDP peering with customer network routers presents additional risks to the core, whether from a rogue or misconfigured MSDP-enabled router. \n\nMSDP password authentication is used to validate each segment sent on the TCP connection between MSDP peers, protecting the MSDP session against the threat of spoofed packets being injected into the TCP connection stream.",
+  "Documentable": "false"
+}

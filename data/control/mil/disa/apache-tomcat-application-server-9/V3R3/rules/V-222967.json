@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-222967",
+  "rule_id": "SV-222967r985893_rule",
+  "stig_id": "TCAT-AS-000710",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Keystore file must be protected.",
+  "group_title": "SRG-APP-000176-AS-000125",
+  "idents": {
+    "legacy": [
+      "SV-111459",
+      "V-102517"
+    ],
+    "cci": [
+      "CCI-000186",
+      "CCI-004910"
+    ]
+  },
+  "check_id": "C-24639r985892_chk",
+  "check_content": "Identify the location of the .keystore file. Refer to system documentation or review the server.xml file for a specified .keystore file location.\n\nFrom the Tomcat server console, run the following command to check the server.xml file:\n\nsudo grep -i keystorefile $CATALINA_BASE/conf/server.xml\n\nExtract the location of the file from the output. \n\nExample:\n[keystorefile=/opt/tomcat/conf/<filename.jks>]\n\nsudo ls -la [keystorefile location]\n\nIf the file permissions are not set to 640 USER:root GROUP:tomcat, this is a finding.\n\nIf the keystore file is not stored within the tomcat folder path, i.e. [/opt/tomcat/], this is a finding.",
+  "fixtext": "Run the following commands on the Tomcat server:\n\nsudo chmod 640 [keystorefile]\nsudo chown root [keystorefile]\nsudo chgrp tomcat [keystorefile]\n\nStore the keystore file in a secured folder within the Tomcat folder path.",
+  "fix_id": "F-24628r426346_fix",
+  "VulnDiscussion": "Keystore file contains authentication information used to access application data and data resources. Access to the file must be protected.\n\nThe default location is in the .keystore file stored in the home folder of the user account used to run Tomcat, although some administrators may choose to locate the file elsewhere. The location will also be specified in the server.xml file.",
+  "Documentable": "false"
+}

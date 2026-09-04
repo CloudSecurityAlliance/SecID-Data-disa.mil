@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260576",
+  "rule_id": "SV-260576r1069114_rule",
+  "stig_id": "UBTU-22-612025",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must electronically verify personal identity verification (PIV) credentials.",
+  "group_title": "SRG-OS-000377-GPOS-00162",
+  "idents": {
+    "cci": [
+      "CCI-001954"
+    ]
+  },
+  "check_id": "C-64305r1069113_chk",
+  "check_content": "Verify Ubuntu 22.04 LTS electronically verifies PIV credentials via certificate status checking by using the following command:  \n  \n     $ sudo grep use_pkcs11_module /etc/pam_pkcs11/pam_pkcs11.conf | sudo awk '/pkcs11_module opensc {/,/}/' /etc/pam_pkcs11/pam_pkcs11.conf | grep cert_policy | grep ocsp_on \n     cert_policy = ca,signature,ocsp_on;  \n  \nIf every returned \"cert_policy\" line is not set to \"ocsp_on\", the line is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure Ubuntu 22.04 LTS to do certificate status checking for multifactor authentication.  \n \nAdd or modify all \"cert_policy\" lines in the \"/etc/pam_pkcs11/pam_pkcs11.conf\" file with the following: \n \nocsp_on",
+  "fix_id": "F-64213r953540_fix",
+  "VulnDiscussion": "The use of PIV credentials facilitates standardization and reduces the risk of unauthorized access.  \n  \nDOD has mandated the use of the common access card (CAC) to support identity management and personal authentication for systems covered under Homeland Security Presidential Directive (HSPD) 12, as well as making the CAC a primary component of layered protection for national security systems.",
+  "Documentable": "false"
+}

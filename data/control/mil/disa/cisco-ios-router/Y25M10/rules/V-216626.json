@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216626",
+  "rule_id": "SV-216626r1117237_rule",
+  "stig_id": "CISC-RT-000830",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco multicast Rendezvous Point (RP) router must be configured to filter Protocol Independent Multicast (PIM) Register messages received from the Designated Router (DR) for any undesirable multicast groups and sources.",
+  "group_title": "SRG-NET-000019-RTR-000013",
+  "idents": {
+    "legacy": [
+      "SV-105789",
+      "V-96651"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-17861r287247_chk",
+  "check_content": "Verify that the RP router is configured to filter PIM register messages. The example below will deny any multicast streams for groups 239.5.0.0/16 and allow from only sources 10.1.2.6 and 10.1.2.7. \n\nip pim rp-address 10.1.12.3\nip pim accept-register list PIM_REGISTER_FILTER\n…\n…\n…\nip access-list extended PIM_REGISTER_FILTER\n deny   ip any 239.5.0.0 0.0.255.255\n permit ip host 10.1.2.6 any\n permit ip host 10.1.2.7 any\n deny   ip any any\n\nIf the RP router peering with PIM-SM routers is not configured with a policy to block registration messages for any undesirable multicast groups and sources, this is a finding.",
+  "fixtext": "Configure the router to filter PIM register messages received from a multicast DR for any undesirable multicast groups and sources. The example below will deny any multicast streams for groups 239.5.0.0/16 and allow from only sources 10.1.2.6 and 10.1.2.7. \n\nR2(config)#ip access-list extended PIM_REGISTER_FILTER\nR2(config-ext-nacl)#deny ip any 239.5.0.0 0.0.255.255\nR2(config-ext-nacl)#permit ip host 10.1.2.6 any\nR2(config-ext-nacl)#permit ip host 10.1.2.7 any\nR2(config-ext-nacl)#deny ip any any\nR2(config-ext-nacl)#exit\nR2(config)#ip pim accept-register list PIM_REGISTER_FILTER\nR2(config)#end",
+  "fix_id": "F-17857r287248_fix",
+  "VulnDiscussion": "Real-time multicast traffic can entail multiple large flows of data. An attacker can flood a network segment with multicast packets, over-using the available bandwidth and thereby creating a denial-of-service (DoS) condition. Hence, it is imperative that register messages are accepted only for authorized multicast groups and sources.",
+  "Documentable": "false"
+}

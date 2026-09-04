@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270653",
+  "rule_id": "SV-270653r1067141_rule",
+  "stig_id": "UBTU-24-100200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 24.04 LTS must be configured to preserve log records from failure events.",
+  "group_title": "SRG-OS-000269-GPOS-00103",
+  "idents": {
+    "cci": [
+      "CCI-001665"
+    ]
+  },
+  "check_id": "C-74686r1067139_chk",
+  "check_content": "Verify the log service is installed properly with the following command: \n \n$ dpkg -l | grep rsyslog \nii  rsyslog     8.2312.0-3ubuntu9      amd64     reliable system and kernel logging daemon \n \nIf the \"rsyslog\" package is not installed, this is a finding. \n \nCheck that the log service is enabled with the following command: \n \n$ systemctl is-enabled rsyslog\nenabled \n \nIf the command above returns \"disabled\", this is a finding. \n \nCheck that the log service is properly running and active on the system with the following command: \n \n$ systemctl is-active rsyslog\nactive \n \nIf the command above returns \"inactive\", this is a finding.",
+  "fixtext": "Configure the log service to collect failure events. \n \nInstall the log service (if the log service is not already installed) with the following command: \n \n$ sudo apt install -y rsyslog \n \nEnable the log service with the following command: \n \n$ sudo systemctl enable --now rsyslog",
+  "fix_id": "F-74587r1067140_fix",
+  "VulnDiscussion": "Failure to a known state can address safety or security in accordance with the mission/business needs of the organization. Failure to a known secure state helps prevent a loss of confidentiality, integrity, or availability in the event of a failure of the information system or a component of the system.  \n \nPreserving operating system state information helps to facilitate operating system restart and return to the operational mode of the organization with least disruption to mission/business processes.",
+  "Documentable": "false"
+}

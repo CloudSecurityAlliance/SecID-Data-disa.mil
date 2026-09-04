@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274186",
+  "rule_id": "SV-274186r1120546_rule",
+  "stig_id": "AZLX-23-002620",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must configure the use of the pam_faillock.so module in the /etc/pam.d/system-auth file.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-78277r1120544_chk",
+  "check_content": "Verify Amazon Linux 2023 is configured so that the pam_faillock.so module is present in the \"/etc/pam.d/system-auth\" file:\n\n$ grep pam_faillock.so /etc/pam.d/system-auth\nauth required pam_faillock.so preauth\nauth required pam_faillock.so authfail\naccount required pam_faillock.so\n\nIf the pam_faillock.so module is not present in the \"/etc/pam.d/system-auth\" file with the \"preauth\" line listed before pam_unix.so, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to include the use of the pam_faillock.so module in the /etc/pam.d/system-auth file.\n\nAdd/modify the appropriate sections of the \"/etc/pam.d/system-auth\" file to match the following lines:\nNote: The \"preauth\" line must be listed before pam_unix.so.\n\nauth required pam_faillock.so preauth\nauth required pam_faillock.so authfail\naccount required pam_faillock.so",
+  "fix_id": "F-78182r1120545_fix",
+  "VulnDiscussion": "If the pam_faillock.so module is not loaded, the system will not correctly lockout accounts to prevent password guessing attacks.",
+  "Documentable": "false"
+}

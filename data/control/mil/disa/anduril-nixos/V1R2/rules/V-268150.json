@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268150",
+  "rule_id": "SV-268150r1131101_rule",
+  "stig_id": "ANIX-00-001430",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must synchronize internal information system clocks to the authoritative time source when the time difference is greater than one second.",
+  "group_title": "SRG-OS-000356-GPOS-00144",
+  "idents": {
+    "cci": [
+      "CCI-004926"
+    ]
+  },
+  "check_id": "C-72074r1039336_chk",
+  "check_content": "Verify NixOS synchronizes internal information system clocks to the authoritative time source when the time difference is greater than one second with the following command:\n\n$ grep -iR pollinterval /etc/nixos/\n\nservices.timesyncd.extraConfig = \"PollIntervalMaxSec=60\";\n\nIf \"PollIntervalMaxSec\" is greater than \"60\", is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure NixOS to regularly synchronize the system clock.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\nservices.timesyncd.extraConfig = ''\nPollIntervalMaxSec=60\n'';\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71977r1131100_fix",
+  "VulnDiscussion": "Inaccurate time stamps make it more difficult to correlate events and can lead to an inaccurate analysis. Determining the correct time a particular event occurred on a system is critical when conducting forensic analysis and investigating system events.\n\nSynchronizing internal information system clocks provides uniformity of time stamps for information systems with multiple system clocks and systems connected over a network. Organizations should consider setting time periods for different types of systems (e.g., financial, legal, or mission-critical systems).\n\nOrganizations should also consider endpoints that may not have regular access to the authoritative time server (e.g., mobile, teleworking, and tactical endpoints). This requirement is related to the comparison done every 24 hours in SRG-OS-000355 because a comparison must be done to determine the time difference.",
+  "Documentable": "false"
+}

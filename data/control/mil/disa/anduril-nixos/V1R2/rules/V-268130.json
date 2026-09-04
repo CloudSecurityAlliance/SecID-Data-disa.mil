@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268130",
+  "rule_id": "SV-268130r1131065_rule",
+  "stig_id": "ANIX-00-000770",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "NixOS must store only encrypted representations of passwords.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-004062"
+    ]
+  },
+  "check_id": "C-72054r1039276_chk",
+  "check_content": "Verify NixOS stores only encrypted representations of passwords with the following command: \n\n$ grep ENCRYPT_METHOD /etc/login.defs\n\nENCRYPT_METHOD SHA512\n\nIf \"ENCRYPT_METHOD\" does not equal SHA512 or greater, is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure NixOS to store only encrypted representations of passwords. \n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\nsecurity.loginDefs.settings.ENCRYPT_METHOD = \"SHA512\";\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71957r1131064_fix",
+  "VulnDiscussion": "Passwords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.",
+  "Documentable": "false"
+}

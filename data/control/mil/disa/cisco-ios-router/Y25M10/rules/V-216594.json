@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216594",
+  "rule_id": "SV-216594r531085_rule",
+  "stig_id": "CISC-RT-000460",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco router providing connectivity to the Network Operations Center (NOC) must be configured to forward all in-band management traffic via an IPsec tunnel.",
+  "group_title": "SRG-NET-000205-RTR-000013",
+  "idents": {
+    "legacy": [
+      "SV-105727",
+      "V-96589"
+    ],
+    "cci": [
+      "CCI-001097"
+    ]
+  },
+  "check_id": "C-17829r287160_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone.\n\nVerify that all traffic from the managed network to the management network or NOC and vice-versa is secured via IPsec tunnel.\n\nStep 1: Note the crypto map applied to the external interface.\n\n interface GigabitEthernet0/2\n description link to DISN\n ip address x.1.24.4 255.255.255.0\n crypto map IPSEC_MGMT_MAP\n\nStep 2: Review the ISAKMP policy for Phase 1 negotiations and Phase 2 policy for data encryption.\n\ncrypto isakmp policy 10\n authentication pre-share\n hash sha256\n crypto isakmp key xxxxxx address x.1.12.1\n!\n!\ncrypto ipsec transform-set TRANS_SET ah-sha256-hmac esp-aes \n\nStep 3: Review the crypto map that was bound to the external interface and note the ACL defined that identifies the interesting traffic for the IPsec tunnel.\n\ncrypto map IPSEC_MGMT_MAP 10 ipsec-isakmp\n set peer x.1.12.1\n set transform-set TRANS_SET\n match address MGMT_TRAFFIC_ACL\n\nStep 4: Review the ACL defined in the crypto map and verify that the destination is the management network.\n\nip access-list extended MGMT_TRAFFIC_ACL\n permit ip 10.1.34.0 0.0.0.255 10.22.2.0 0.0.0.255\n\nNote: The management network is this example is 10.22.2.0/24\n\nIf the management traffic is not secured via IPsec tunnel, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN Backbone.\n\nEnsure that all traffic from the managed network to the management network is secured via IPsec tunnel as shown in the configuration examples below.\n\nStep 1: Configure the ACL for the management network as the destination. This ACL will be defined in the crypto as the interesting traffic to be forwarded into the IPsec tunnel.\n\nR4(config)#ip access-list extended MGMT_TRAFFIC_ACL\nR4(config-ext-nacl)#permit ip 10.1.34.0 0.0.0.255 10.22.2.0 0.0.0.255\nR4(config-ext-nacl)#exit\n\nStep 2: Create an ISAKMP policy for Phase 1 negotiations\n\nR4(config)#crypto isakmp policy 10\nR4(config-isakmp)#hash sha256\nR4(config-isakmp)#authentication pre-share\nR4(config-isakmp)#exit\n\nStep 3: Specify the pre-shared key and the remote peer address\n\nR4(config)#crypto isakmp key 0 xxxxxx address 10.1.12.1\n\nNote: Digital certificates can be utilized as an alternative.\n \nStep 4: Create the Phase 2 policy for the data encryption\n\nR4(config)#crypto ipsec transform-set TRANS_SET ah-sha256-hmac esp-aes\nR4(cfg-crypto-trans)#mode tunnel\nR4(cfg-crypto-trans)#exit\n\nStep 5: Create the crypto map\n\nR4(config)#crypto map IPSEC_MGMT_MAP 10 ipsec-isakmp\nR4(config-crypto-map)#set peer 10.1.12.1\nR4(config-crypto-map)#match address MGMT_TRAFFIC_ACL\nR4(config-crypto-map)#set transform-set TRANS_SET\nR4(config-crypto-map)#end\n\nStep 6: Apply the crypto map to the external interface \nR4(config)#int g0/2\nR4(config-if)#crypto map IPSEC_MGMT_MAP",
+  "fix_id": "F-17825r287161_fix",
+  "VulnDiscussion": "When the production network is managed in-band, the management network could be housed at a NOC that is located remotely at single or multiple interconnected sites. NOC interconnectivity, as well as connectivity between the NOC and the managed network, must be enabled using IPsec tunnels to provide the separation and integrity of the managed traffic.",
+  "Documentable": "false"
+}

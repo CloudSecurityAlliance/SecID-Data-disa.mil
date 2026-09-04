@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230330",
+  "rule_id": "SV-230330r1069305_rule",
+  "stig_id": "RHEL-08-010830",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must not allow users to override SSH environment variables.",
+  "group_title": "SRG-OS-000480-GPOS-00229",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-32999r1069219_chk",
+  "check_content": "Verify that unattended or automatic logon via ssh is disabled with the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*permituserenvironment'\n\n/etc/ssh/sshd_config:PermitUserEnvironment no\n\nIf \"PermitUserEnvironment\" is set to \"yes\", is missing completely, or is commented out, this is a finding.\n\nIf conflicting results are returned, this is a finding.",
+  "fixtext": "Configure RHEL 8 to allow the SSH daemon to not allow unattended or automatic logon to the system.\n\nAdd or edit the following line in the \"/etc/ssh/sshd_config\" file:\n\nPermitUserEnvironment no\n\nThe SSH daemon must be restarted for the changes to take effect. To restart the SSH daemon, run the following command:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-32974r567737_fix",
+  "VulnDiscussion": "SSH environment options potentially allow users to bypass access restriction in some configurations.",
+  "Documentable": "false"
+}

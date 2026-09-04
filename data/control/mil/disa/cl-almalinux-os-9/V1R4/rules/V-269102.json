@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269102",
+  "rule_id": "SV-269102r1049984_rule",
+  "stig_id": "ALMA-09-001010",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must limit the number of concurrent sessions to ten for all accounts and/or account types.",
+  "group_title": "SRG-OS-000027-GPOS-00008",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-73133r1049084_chk",
+  "check_content": "Verify AlmaLinux OS 9 limits the number of concurrent sessions to \"10\" for all accounts and/or account types with the following command:\n\n$ grep -rs maxlogins /etc/security/limits.conf /etc/security/limits.d/*.conf\n\n/etc/security/limits.d/maxlogins.conf:* hard maxlogins 10\n\nThis can be set as a global domain (with the * wildcard) but may be set differently for multiple domains.\n\nIf the \"maxlogins\" item is missing, commented out, or the value is set greater than 10, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to limit the number of concurrent sessions to \"10\" for all accounts and/or account types.\n\nAdd the following line to the top of the /etc/security/limits.conf or in a \".conf\" file defined in /etc/security/limits.d/:\n\n* hard maxlogins 10",
+  "fix_id": "F-73034r1049085_fix",
+  "VulnDiscussion": "Operating system management includes the ability to control the number of users and user sessions that use an operating system. Limiting the number of allowed users and sessions per user is helpful in reducing the risks related to denial-of-service (DoS) attacks.\n\nThis requirement addresses concurrent sessions for information system accounts and does not address concurrent sessions by single users via multiple system accounts. The maximum number of concurrent sessions should be defined based upon mission needs and the operational environment for each system.",
+  "Documentable": "false"
+}

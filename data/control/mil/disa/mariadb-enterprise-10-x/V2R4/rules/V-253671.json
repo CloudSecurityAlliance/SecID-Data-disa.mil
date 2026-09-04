@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253671",
+  "rule_id": "SV-253671r960882_rule",
+  "stig_id": "MADB-10-000600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must allow only the ISSM (or individuals or roles appointed by the ISSM) to select which auditable events are to be audited.",
+  "group_title": "SRG-APP-000090-DB-000065",
+  "idents": {
+    "cci": [
+      "CCI-000171"
+    ]
+  },
+  "check_id": "C-57123r841536_chk",
+  "check_content": "MariaDB Enterprise Audit plugin stores audit filters in the table mysql.server_audit_filters. Any users with update/delete/insert access to this table can modify the audit filters. \n\nUsers with global insert, update, delete, and/or drop privileges can modify audit filters. Find users with global insert, update, delete, and/or drop privileges: \n\nMariaDB> SELECT user, host, insert_priv, update_priv, delete_priv, drop_priv \nFROM mysql.user \nWHERE insert_priv = 'y'\nOR update_priv = 'y'\nOR delete_priv = 'y'\nOR drop_priv = 'y';\n\nUsers with insert, update, delete, and/or drop privileges on the mysql database can modify audit filters. Find users with insert, update, delete, and/or drop privileges on the mysql database: \n\nMariaDB> SELECT user, host, insert_priv, update_priv, delete_priv, drop_priv \nFROM mysql.db \nWHERE db = 'mysql'\nAND (insert_priv = 'y' \n  OR update_priv = 'y'\n  OR delete_priv = 'y'\n  OR drop_priv = 'y'\n  );\n\nUsers with insert, update, delete, and/or drop privileges on the server_audit_filters and server_audit_users tables can modify audit filters. Find users with insert, update, delete, and/or drop privileges on the mysql database: \n\nMariaDB> SELECT user, host, db, table_name, grantor, table_priv, timestamp, column_priv\nFROM mysql.tables_priv\nWHERE db = 'mysql'\nAND table_name IN ('server_audit_filters','server_audit_users')\nAND (table_priv LIKE '%Insert%'\n  OR table_priv LIKE '%Update%'\n  OR table_priv LIKE '%Delete%'\n  OR table_priv LIKE '%Drop%'\n);\n\nIf any users with the above privileges are found which should not have access to modify audit filters, this is a finding.",
+  "fixtext": "Grant the necessary privileges to authorized users. Example: \n\nMariaDB> GRANT ALL PRIVILEGES ON mysql.server_audit_filters TO 'username'@'host';\nMariaDB> GRANT ALL PRIVILEGES ON mysql.server_audit_users TO 'username'@'host';\n\nFor users found with access who are not authorized to modify audit filters, review the user's privileges, and update accordingly.",
+  "fix_id": "F-57074r841537_fix",
+  "VulnDiscussion": "Without the capability to restrict which roles and individuals can select which events are audited, unauthorized personnel may be able to prevent or interfere with the auditing of critical events.\n\nSuppression of auditing could permit an adversary to evade detection.\n\nMisconfigured audits can degrade the systems performance by overwhelming the audit log. Misconfigured audits may also make it more difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220923",
+  "rule_id": "SV-220923r991589_rule",
+  "stig_id": "WN10-SO-000085",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Caching of logon credentials must be limited.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-78177",
+      "V-63687"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-22638r555254_chk",
+  "check_content": "This is the default configuration for this setting (10 logons to cache).\n\nIf the following registry value does not exist or is not configured as specified, this is a finding:\n\nRegistry Hive:  HKEY_LOCAL_MACHINE \nRegistry Path:  \\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\n\nValue Name:  CachedLogonsCount\n\nValue Type:  REG_SZ\nValue:  10 (or less)\n\nThis setting only applies to domain-joined systems, however, it is configured by default on all systems.",
+  "fixtext": "This is the default configuration for this setting (10 logons to cache).\n\nConfigure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> Security Options >> \"Interactive logon: Number of previous logons to cache (in case domain controller is not available)\" to \"10\" logons or less.\n\nThis setting only applies to domain-joined systems, however, it is configured by default on all systems.",
+  "fix_id": "F-22627r555255_fix",
+  "VulnDiscussion": "The default Windows configuration caches the last logon credentials for users who log on interactively to a system.  This feature is provided for system availability reasons, such as the user's machine being disconnected from the network or domain controllers being unavailable.  Even though the credential cache is well-protected, if a system is attacked, an unauthorized individual may isolate the password to a domain user account using a password-cracking program and gain access to the domain.",
+  "Documentable": "false"
+}

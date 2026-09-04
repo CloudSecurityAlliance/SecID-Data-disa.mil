@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220472",
+  "rule_id": "SV-220472r945859_rule",
+  "stig_id": "CISC-RT-000350",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco perimeter switch must be configured to block all packets with any IP options.",
+  "group_title": "SRG-NET-000205-RTR-000015",
+  "idents": {
+    "legacy": [
+      "SV-110743",
+      "V-101639"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-22187r508489_chk",
+  "check_content": "Review the switch configuration to determine if it will block all packets with IP options. \n\nip access-list extended EXTERNAL_ACL \n permit tcp any any established \ndeny ip any any option any-options \npermit … \n … \n … \n … \ndeny ip any any log-input \n\nIf the switch is not configured to drop all packets with IP options, this is a finding.",
+  "fixtext": "Configure the switch to drop all packets with IP options. \n\nSW1(config)#ip access-list extended EXTERNAL_ACL \nSW1(config-ext-nacl)#15 deny ip any any option any-options",
+  "fix_id": "F-22176r508490_fix",
+  "VulnDiscussion": "Packets with IP options are not fast switched and henceforth must be punted to the switch processor. Hackers who initiate denial-of-service (DoS) attacks on switches commonly send large streams of packets with IP options. Dropping the packets with IP options reduces the load of IP options packets on the switch. The end result is a reduction in the effects of the DoS attack on the switch and on downstream switches.",
+  "Documentable": "false"
+}

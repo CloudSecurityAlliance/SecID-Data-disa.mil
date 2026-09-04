@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268181",
+  "rule_id": "SV-268181r1131169_rule",
+  "stig_id": "ANIX-00-002180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must define default permissions for all authenticated users in such a way that the user can only read and modify their own files.",
+  "group_title": "SRG-OS-000480-GPOS-00228",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-72105r1131167_chk",
+  "check_content": "Verify the NixOS operating system defines default file permissions so users may only modify their own files.\n\n$ grep \"UMASK\" /etc/login.defs\n\nUMASK 077\n\nIf the UMASK setting is not present, is commented out, or is less restrictive than 077, this is a finding.",
+  "fixtext": "Configure the NixOS operating system to change default file permissions so users may only modify their own files.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\nsecurity.loginDefs.settings.UMASK = \"077\";\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-72008r1131168_fix",
+  "VulnDiscussion": "Setting the most restrictive default permissions ensures that when new accounts are created they do not have unnecessary access.",
+  "Documentable": "false"
+}

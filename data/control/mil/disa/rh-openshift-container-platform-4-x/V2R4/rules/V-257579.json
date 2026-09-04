@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257579",
+  "rule_id": "SV-257579r961824_rule",
+  "stig_id": "CNTR-OS-000970",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must generate audit records when successful/unsuccessful logon attempts occur.",
+  "group_title": "SRG-APP-000503-CTR-001275",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-61314r921678_chk",
+  "check_content": "Verify that logons are audited by executing the following:\n\nfor node in $(oc get node -oname); do oc debug $node -- chroot /host /bin/bash -c 'echo -n \"\"$HOSTNAME \"\"; grep \"\"logins\"\" /etc/audit/audit.rules /etc/audit/rules.d/*' 2>/dev/null; done\n\nThe output will look similar to:\n\nnode-name /etc/audit/<file>:-w /var/run/faillock -p wa -k logins\n/etc/audit/<file>:-w /var/log/lastlog -p wa -k logins\n\nIf the two rules above are not found on each node, this is a finding.",
+  "fixtext": "Apply the machine config to audit logons by executing the following:\n\nfor mcpool in $(oc get mcp -oname | sed \"s:.*/::\" ); do\necho \"apiVersion: machineconfiguration.openshift.io/v1\nkind: MachineConfig\nmetadata:\n  name: 75-logon-attempts-rules-$mcpool\n  labels:\n    machineconfiguration.openshift.io/role: $mcpool\nspec:\n  config:\n    ignition:\n      version: 3.1.0\n    storage:\n      files:\n      - contents:\n          source: data:,-w%20/var/run/faillock%20-p%20wa%20-k%20logins%0A\n        mode: 0644\n        path: /etc/audit/rules.d/75-faillock_login_events.rules\n        overwrite: true\n      - contents:\n          source: data:,-w%20/var/log/lastlog%20-p%20wa%20-k%20logins%0A\n        mode: 0644\n        path: /etc/audit/rules.d/75-lastlog_login_events.rules\n        overwrite: true\n      - contents:\n          source: data:,-w%20/etc/sudoers.d/%20-p%20wa%20-k%20actions%0A-w%20/etc/sudoers%20-p%20wa%20-k%20actions%0A\n        mode: 0644\n        path: /etc/audit/rules.d/75-audit-sysadmin-actions.rules\n        overwrite: true\n      - contents:\n          source: data:,-w%20/etc/group%20-p%20wa%20-k%20audit_rules_usergroup_modification%0A\n        mode: 0644\n        path: /etc/audit/rules.d/30-etc_group_usergroup_modification.rules\n        overwrite: true\n      - contents:\n          source: data:,-w%20/etc/gshadow%20-p%20wa%20-k%20audit_rules_usergroup_modification%0A\n        mode: 0644\n        path: /etc/audit/rules.d/30-etc_gshadow_usergroup_modification.rules\n        overwrite: true\n      - contents:\n          source: data:,-w%20/etc/security/opasswd%20-p%20wa%20-k%20audit_rules_usergroup_modification%0A\n        mode: 0644\n        path: /etc/audit/rules.d/30-etc_security_opasswd_usergroup_modification.rules\n        overwrite: true\n      - contents:\n          source: data:,-w%20/etc/passwd%20-p%20wa%20-k%20audit_rules_usergroup_modification%0A\n        mode: 0644\n        path: /etc/audit/rules.d/30-etc_passwd_usergroup_modification.rules\n        overwrite: true\n      - contents:\n          source: data:,-w%20/etc/shadow%20-p%20wa%20-k%20audit_rules_usergroup_modification%0A\n        mode: 0644\n        path: /etc/audit/rules.d/30-etc_shadow_usergroup_modification.rules\n        overwrite: true\n\" | oc apply -f -\ndone",
+  "fix_id": "F-61238r921679_fix",
+  "VulnDiscussion": "Audit records provide valuable information for security monitoring and intrusion detection. By generating audit logs for logon attempts, OpenShift enables administrators and security teams to track and investigate any unauthorized or suspicious access attempts. These records serve as a vital source of information for detecting and responding to potential security breaches or unauthorized logon activities.\n\nGenerating audit records for logon attempts supports user accountability. Audit logs provide a trail of logon activities, allowing administrators to attribute specific logon events to individual users or entities. This promotes accountability and helps in identifying any unauthorized access attempts or suspicious behavior by specific users.\n\nBy monitoring logon activity logs, administrators and security teams can identify unusual or suspicious patterns of logon attempts. Forensic analysts can examine these records to reconstruct the timeline of logon activities and determine the scope and nature of the incident.",
+  "Documentable": "false"
+}

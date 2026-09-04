@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268155",
+  "rule_id": "SV-268155r1131113_rule",
+  "stig_id": "ANIX-00-001500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must require users to reauthenticate for privilege escalation.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-72079r1039351_chk",
+  "check_content": "Verify NixOS enforces reauthentication with sudo with the following command:\n\n$ sudo grep timestamp_timeout /etc/sudoers\n\n Defaults timestamp_timeout=0\n\nIf \"timestamp_timeout\" is greater than 0, is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure NixOS to enforce reauthentication with sudo.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\n security.sudo.extraConfig = ''\nDefaults timestamp_timeout=0\n'';\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71982r1131112_fix",
+  "VulnDiscussion": "Without reauthentication, users may access resources or perform tasks for which they do not have authorization.\n\nWhen operating systems provide the capability to escalate a functional capability, it is critical the user reauthenticate.",
+  "Documentable": "false"
+}

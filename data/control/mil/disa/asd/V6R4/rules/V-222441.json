@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222441",
+  "rule_id": "SV-222441r960879_rule",
+  "stig_id": "APSC-DV-000620",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The application must provide audit record generation capability for the creation of session IDs.",
+  "group_title": "SRG-APP-000089",
+  "idents": {
+    "legacy": [
+      "V-69363",
+      "SV-83985"
+    ],
+    "cci": [
+      "CCI-000169"
+    ]
+  },
+  "check_id": "C-24111r493231_chk",
+  "check_content": "Access the management interface for the application or configuration file and evaluate the log/audit management settings.\n\nDetermine if the setting that enables session ID creation event auditing is activated.\n\nCreate a new user session by logging in to the application.\n\nReview the logs to ensure the session creation event was recorded.\n\nIf the application is not configured to log session ID creation events, or if no creation event was recorded, this is a finding.\n\nIf a web-based application delegates session ID creation to an application server, this is not a finding. \n\nIf the application generates session ID creation event logs by default, and that behavior cannot be disabled, this is not a finding.",
+  "fixtext": "Enable session ID creation event auditing.",
+  "fix_id": "F-24100r493232_fix",
+  "VulnDiscussion": "Applications create session IDs at the onset of a user session in order to manage user access to the application and differentiate between different user sessions. It is important to log the creation of these session ID creation events for forensic purposes.\n\nIt is equally important to not log the session ID itself. Logging the session ID puts active sessions at risk if log data is compromised. Specific session ID information should be removed, masked, sanitized, or encrypted.\n\nA hash value of the session ID that can be mapped to the session ID is an acceptable method for assuring active session protection when logging session ID information. Alternatively, logging protections that protect the logs and defend from unauthorized access are means to assure log confidentiality and protect session integrity.\n\nWeb based applications will often utilize an application server that creates, manages and logs user session IDs.  It is acceptable for the application to delegate this requirement to the application server.",
+  "Documentable": "false"
+}

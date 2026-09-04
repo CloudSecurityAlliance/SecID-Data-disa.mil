@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216812",
+  "rule_id": "SV-216812r1117237_rule",
+  "stig_id": "CISC-RT-000840",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco multicast Rendezvous Point (RP) router must be configured to filter Protocol Independent Multicast (PIM) Join messages received from the Designated Router (DR) for any undesirable multicast groups.",
+  "group_title": "SRG-NET-000019-RTR-000014",
+  "idents": {
+    "legacy": [
+      "SV-105969",
+      "V-96831"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-18044r288810_chk",
+  "check_content": "Verify that the RP router is configured to filter PIM join messages for any undesirable multicast groups. In the example below, groups from 239.8.0.0/16 are no allowed.\n\nipv4 access-list FILTER_PIM_JOINS\n 10 deny ipv4 239.8.0.0 0.0.255.255 any\n 20 permit ipv4 any any\n…\n…\n…\nrouter pim\n address-family ipv4\n  allow-rp group-list FILTER_PIM_JOINS\n\nIf the RP is not configured to filter join messages received from the DR for any undesirable multicast groups, this is a finding.",
+  "fixtext": "Configure the RP to filter PIM join messages for any undesirable multicast groups as shown in the example below.\n\nRP/0/0/CPU0:R2(config)#ipv4 access-list FILTER_PIM_JOINS\nRP/0/0/CPU0:R2(config-ipv4-acl)#deny 239.8.0.0 0.0.255.255\nRP/0/0/CPU0:R2(config-ipv4-acl)#permit any\nRP/0/0/CPU0:R2(config-ipv4-acl)#exit\nRP/0/0/CPU0:R2(config)#router pim\nRP/0/0/CPU0:R2(config-pim)#address-family ipv4\nRP/0/0/CPU0:R2(config-pim-default-ipv4)#allow-rp group-list FILTER_PIM_JOINS \nRP/0/0/CPU0:R2(config-pim-default-ipv4)#end",
+  "fix_id": "F-18042r288811_fix",
+  "VulnDiscussion": "Real-time multicast traffic can entail multiple large flows of data. An attacker can flood a network segment with multicast packets, over-using the available bandwidth and thereby creating a denial-of-service (DoS) condition. Hence, it is imperative that join messages are only accepted for authorized multicast groups.",
+  "Documentable": "false"
+}

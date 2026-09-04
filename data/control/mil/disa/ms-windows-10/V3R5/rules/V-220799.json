@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220799",
+  "rule_id": "SV-220799r958518_rule",
+  "stig_id": "WN10-CC-000037",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Local administrator accounts must have their privileged token filtered to prevent elevated privileges from being used over the network on domain systems.",
+  "group_title": "SRG-OS-000134-GPOS-00068",
+  "idents": {
+    "legacy": [
+      "V-63597",
+      "SV-78087"
+    ],
+    "cci": [
+      "CCI-001084"
+    ]
+  },
+  "check_id": "C-22514r554882_chk",
+  "check_content": "If the system is not a member of a domain, this is NA.\n\nIf the following registry value does not exist or is not configured as specified, this is a finding:\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\\n\nValue Name: LocalAccountTokenFilterPolicy\n\nValue Type: REG_DWORD\nValue: 0x00000000 (0)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Administrative Templates >> MS Security Guide >> \"Apply UAC restrictions to local accounts on network logons\" to \"Enabled\".\n\nThis policy setting requires the installation of the SecGuide custom templates included with the STIG package.  \"SecGuide.admx\" and \"SecGuide.adml\" must be copied to the \\Windows\\PolicyDefinitions and \\Windows\\PolicyDefinitions\\en-US directories respectively.",
+  "fix_id": "F-22503r554883_fix",
+  "VulnDiscussion": "A compromised local administrator account can provide means for an attacker to move laterally between domain systems.\n\nWith User Account Control enabled, filtering the privileged token for built-in administrator accounts will prevent the elevated privileges of these accounts from being used over the network.",
+  "Documentable": "false"
+}

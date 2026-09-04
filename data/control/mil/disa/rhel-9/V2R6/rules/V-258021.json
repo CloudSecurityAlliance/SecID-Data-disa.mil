@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-258021",
+  "rule_id": "SV-258021r1015088_rule",
+  "stig_id": "RHEL-09-271055",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must enable a user session lock until that user re-establishes access using established identification and authentication procedures for graphical user sessions.",
+  "group_title": "SRG-OS-000028-GPOS-00009",
+  "idents": {
+    "cci": [
+      "CCI-000056",
+      "CCI-000057",
+      "CCI-000058"
+    ]
+  },
+  "check_id": "C-61762r926048_chk",
+  "check_content": "Verify RHEL 9 enables a user's session lock until that user re-establishes access using established identification and authentication procedures with the following command:\n\nNote: This requirement assumes the use of the RHEL 9 default graphical user interface, the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\n$ gsettings get org.gnome.desktop.screensaver lock-enabled\n\ntrue\n\nIf the setting is \"false\", this is a finding.",
+  "fixtext": "Configure RHEL 9 to enable a user's session lock until that user re-establishes access using established identification and authentication procedures.\n\nCreate a database to contain the system-wide screensaver settings (if it does not already exist) with the following example:\n\n$ sudo vi /etc/dconf/db/local.d/00-screensaver\n\nEdit the \"[org/gnome/desktop/screensaver]\" section of the database file and add or update the following lines:\n\n# Set this to true to lock the screen when the screensaver activates\nlock-enabled=true\n\nUpdate the system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-61686r926049_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.\n\nThe session lock is implemented at the point where session activity can be determined.\n\nRegardless of where the session lock is determined and implemented, once invoked, the session lock must remain in place until the user reauthenticates. No other activity aside from reauthentication must unlock the system.\n\nSatisfies: SRG-OS-000028-GPOS-00009, SRG-OS-000030-GPOS-00011",
+  "Documentable": "false"
+}

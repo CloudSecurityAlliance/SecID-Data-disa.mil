@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-274162",
+  "rule_id": "SV-274162r1120474_rule",
+  "stig_id": "AZLX-23-002490",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 password-auth must be configured to use a sufficient number of hashing rounds.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-004062",
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-78253r1120472_chk",
+  "check_content": "Verify Amazon Linux 2023 has the required number of rounds for the password hashing algorithm is configured in password-auth with the following command:\n\n$ sudo grep rounds /etc/pam.d/password-auth\npassword sufficient pam_unix.so sha512 rounds=100000\n\nIf a matching line is not returned or \"rounds\" is less than \"100000\", this a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to use 100000 hashing rounds for hashing passwords.\n\nAdd or modify the following line in \"/etc/pam.d/password-auth\" and set \"rounds\" to \"100000\".\n\npassword sufficient pam_unix.so sha512 rounds=100000",
+  "fix_id": "F-78158r1120473_fix",
+  "VulnDiscussion": "Unapproved mechanisms, used for authentication to the cryptographic module are not verified and therefore, cannot be relied upon to provide confidentiality or integrity, and DOD data may be compromised.\n\nOperating systems utilizing encryption are required to use FIPS-compliant mechanisms for authenticating to cryptographic modules. \n\nFIPS 140-2/140-3 is the current standard for validating that mechanisms used to access cryptographic modules utilize authentication that meets DOD requirements. This allows for Security Levels 1, 2, 3, or 4 for use on a general purpose computing system.\n\nSatisfies: SRG-OS-000073-GPOS-00041, SRG-OS-000120-GPOS-00061",
+  "Documentable": "false"
+}

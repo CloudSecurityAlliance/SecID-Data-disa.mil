@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248816",
+  "rule_id": "SV-248816r958754_rule",
+  "stig_id": "OL08-00-030710",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must encrypt the transfer of audit records offloaded onto a different system or media from the system being audited.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-52250r818687_chk",
+  "check_content": "Verify the operating system encrypts audit records offloaded onto a different system or media from the system being audited with the following commands: \n \n$ sudo grep -i '$DefaultNetstreamDriver' /etc/rsyslog.conf /etc/rsyslog.d/*.conf \n \n/etc/rsyslog.conf:$DefaultNetstreamDriver gtls \n \nIf the value of the \"$DefaultNetstreamDriver\" option is not set to \"gtls\" or the line is commented out, this is a finding. \n \n$ sudo grep -i '$ActionSendStreamDriverMode' /etc/rsyslog.conf /etc/rsyslog.d/*.conf \n \n/etc/rsyslog.conf:$ActionSendStreamDriverMode 1 \n \nIf the value of the \"$ActionSendStreamDriverMode\" option is not set to \"1\" or the line is commented out, this is a finding. \n \nIf neither of the definitions above are set, ask the System Administrator to indicate how the audit logs are offloaded to a different system or media.  \n \nIf there is no evidence that the transfer of the audit logs being offloaded to another system or media is encrypted, this is a finding.",
+  "fixtext": "Configure the operating system to encrypt offloaded audit records by setting the following options in \"/etc/rsyslog.conf\" or \"/etc/rsyslog.d/[customfile].conf\": \n \n$DefaultNetstreamDriver gtls \n$ActionSendStreamDriverMode 1",
+  "fix_id": "F-52204r780013_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration. \n \nOffloading is a common process in information systems with limited audit storage capacity. \n \nOL 8 installation media provides \"rsyslogd\". This is a system utility providing support for message logging. Support for both internet and UNIX domain sockets enables this utility to support both local and remote logging. Coupling this utility with \"gnutls\" (which is a secure communications library implementing the SSL, TLS, and DTLS protocols) provides a method to securely encrypt and offload auditing.\n\nSatisfies: SRG-OS-000342-GPOS-00133, SRG-OS-000479-GPOS-00224",
+  "Documentable": "false"
+}

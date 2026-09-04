@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-268499",
+  "rule_id": "SV-268499r1034437_rule",
+  "stig_id": "APPL-15-002038",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The macOS system must disable Trivial File Transfer Protocol (TFTP) service.",
+  "group_title": "SRG-OS-000074-GPOS-00042",
+  "idents": {
+    "cci": [
+      "CCI-000197",
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-72529r1034435_chk",
+  "check_content": "Verify the macOS system is configured to disable TFTP service with the following command:\n\n/bin/launchctl print-disabled system | /usr/bin/grep -c '\"com.apple.tftpd\" => disabled'\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable TFTP service with the following command:\n\n/bin/launchctl disable system/com.apple.tftpd\n\nThe system may need to be restarted for the update to take effect.",
+  "fix_id": "F-72430r1034436_fix",
+  "VulnDiscussion": "If the system does not require TFTP support, it is nonessential and must be disabled.\n\nThe information system must be configured to provide only essential capabilities. Disabling TFTP helps prevent the unauthorized connection of devices and unauthorized transfer of information.\n\nNOTE: TFTP service is disabled at startup by default with macOS.\n\nSatisfies: SRG-OS-000074-GPOS-00042, SRG-OS-000080-GPOS-00048",
+  "Documentable": "false"
+}

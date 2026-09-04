@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260592",
+  "rule_id": "SV-260592r1101709_rule",
+  "stig_id": "UBTU-22-653020",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS audit event multiplexor must be configured to offload audit logs onto a different system from the system being audited.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-64321r953587_chk",
+  "check_content": "Verify the audit event multiplexor is configured to offload audit records to a different system from the system being audited.  \n  \nCheck if the \"audispd-plugins\" package is installed:  \n  \n     $ dpkg -l | grep audispd-plugins \n     ii     audispd-plugins     1:3.0.7-1build1     amd64     Plugins for the audit event dispatcher \n  \nIf the \"audispd-plugins\" package is not installed, this is a finding.  \n  \nCheck that the records are being offloaded to a remote server by using the following command:  \n  \n     $ sudo grep -i active /etc/audit/plugins.d/au-remote.conf \n     active = yes  \n  \nIf \"active\" is not set to \"yes\", or the line is commented out, or is missing, this is a finding.  \n  \nCheck that audisp-remote plugin is configured to send audit logs to a different system:  \n  \n     $ sudo grep -i remote_server /etc/audit/audisp-remote.conf \n     remote_server = 240.9.19.81 \n  \nIf the \"remote_server\" parameter is not set, is set with a local IP address, or is set with an invalid IP address, this is a finding.",
+  "fixtext": "Configure the audit event multiplexor to offload audit records to a different system from the system being audited.  \n  \nInstall the \"audispd-plugins\" package by using the following command:  \n  \n     $ sudo apt-get install audispd-plugins \n  \nSet the audisp-remote plugin as active by editing the \"/etc/audit/plugins.d/au-remote.conf\" file:  \n  \n     $ sudo sed -i -E 's/active\\s*=\\s*no/active = yes/' /etc/audit/plugins.d/au-remote.conf \n  \nSet the IP address of the remote system by editing the \"/etc/audit/audisp-remote.conf\" file:  \n  \n     $ sudo sed -i -E 's/(remote_server\\s*=).*/\\1 <remote_server_ip_address>/' /etc/audit/audisp-remote.conf \n  \nRestart the \"auditd.service\" for the changes to take effect:  \n  \n     $ sudo systemctl restart auditd.service",
+  "fix_id": "F-64229r1101708_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n  \nOffloading is a common process in information systems with limited audit storage capacity.\n \nThe auditd service does not include the ability to send audit records to a centralized server for management directly. However, it can use a plug-in for audit event multiplexor to pass audit records to a remote server.\n\nSatisfies: SRG-OS-000342-GPOS-00133, SRG-OS-000479-GPOS-00224",
+  "Documentable": "false"
+}

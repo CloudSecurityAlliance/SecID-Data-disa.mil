@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274166",
+  "rule_id": "SV-274166r1120486_rule",
+  "stig_id": "AZLX-23-002510",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must terminate idle user sessions.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-78257r1120484_chk",
+  "check_content": "Verify Amazon Linux 2023 logs out sessions that are idle for 15 minutes with the following command:\n\n$ sudo grep -i ^StopIdleSessionSec /etc/systemd/logind.conf\nStopIdleSessionSec=900\n\nIf \"StopIdleSessionSec\" is not configured to \"900\" seconds, is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to log out idle sessions by editing the /etc/systemd/logind.conf file with the following line:\n\nStopIdleSessionSec=900\n\nThe \"logind\" service must be restarted for the changes to take effect. To restart the \"logind\" service, run the following command:\n\n$ sudo systemctl restart systemd-logind",
+  "fix_id": "F-78162r1120485_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle session will also free up resources committed by the managed network element. \n\nTerminating network connections associated with communications sessions includes, for example, de-allocating associated TCP/IP address/port pairs at Amazon Linux 2023 level, and de-allocating networking assignments at the application level if multiple application sessions are using a single operating system-level network connection. This does not mean that Amazon Linux 2023 terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.",
+  "Documentable": "false"
+}

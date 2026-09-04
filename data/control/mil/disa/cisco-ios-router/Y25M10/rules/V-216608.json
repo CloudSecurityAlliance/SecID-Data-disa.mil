@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216608",
+  "rule_id": "SV-216608r531085_rule",
+  "stig_id": "CISC-RT-000600",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco MPLS router must be configured to synchronize IGP and LDP to minimize packet loss when an IGP adjacency is established prior to LDP peers completing label exchange.",
+  "group_title": "SRG-NET-000512-RTR-000003",
+  "idents": {
+    "legacy": [
+      "SV-105755",
+      "V-96617"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17843r287196_chk",
+  "check_content": "Review the router OSPF or IS-IS configuration and verify that LDP will synchronize with the link-state routing protocol as shown in the example below.\n\nOSPF Example\n\nrouter ospf 1\n mpls ldp sync\n\nIS-IS Example\n\nrouter isis\n mpls ldp sync\n net 49.0001.1234.1600.5531.00\n\nIf the router is not configured to synchronize IGP and LDP, this is a finding.",
+  "fixtext": "Configure the MPLS router to synchronize IGP and LDP, minimizing packet loss when an IGP adjacency is established prior to LDP peers completing label exchange.\n\nOSPF Example\n\nR2(config)#router ospf 1\nR2(config-router)#mpls ldp sync\n\nIS-IS Example\n\nR5(config)#router isis\nR5(config-router)#mpls ldp sync",
+  "fix_id": "F-17839r287197_fix",
+  "VulnDiscussion": "Packet loss can occur when an IGP adjacency is established and the router begins forwarding packets using the new adjacency before the LDP label exchange completes between the peers on that link. Packet loss can also occur if an LDP session closes and the router continues to forward traffic using the link associated with the LDP peer rather than an alternate pathway with a fully synchronized LDP session. The MPLS LDP-IGP Synchronization feature provides a means to synchronize LDP with OSPF or IS-IS to minimize MPLS packet loss. When an IGP adjacency is established on a link but LDP-IGP synchronization is not yet achieved or is lost, the IGP will advertise the max-metric on that link.",
+  "Documentable": "false"
+}

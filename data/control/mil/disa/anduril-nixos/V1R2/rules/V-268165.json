@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268165",
+  "rule_id": "SV-268165r1131135_rule",
+  "stig_id": "ANIX-00-001740",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must generate audit records when successful/unsuccessful attempts to delete security objects occur.",
+  "group_title": "SRG-OS-000468-GPOS-00212",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-72089r1039381_chk",
+  "check_content": "Verify that NixOS generates audit records when successful/unsuccessful attempts to delete security objects occur with the following command:\n\n $ sudo auditctl -l | grep /bin/ch\n\n-a always,exit -S all -F path=/run/current-system/sw/bin/chage -F perm=x -F auid>=1000 -F auid!=-1 -k privileged-chage\n-a always,exit -S all -F path=/run/current-system/sw/bin/chcon -F perm=x -F auid>=1000 -F auid!=-1 -k perm_mod\n\n\nIf the command does not return an audit rule for \"chage\" and \"chcon\", this is a finding.",
+  "fixtext": "Configure NixOS to audit attempts to delete security objects.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\n security.audit.rules = [\n  \"-a always,exit -F path=/run/current-system/sw/bin/chage -F perm=x -F auid>=1000 -F auid!=unset -k privileged-chage\"\n  \"-a always,exit -F path=/run/current-system/sw/bin/chcon -F perm=x -F auid>=1000 -F auid!=unset -k perm_mod\"\n ];\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71992r1131134_fix",
+  "VulnDiscussion": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254562",
+  "rule_id": "SV-254562r1117167_rule",
+  "stig_id": "CNTR-R2-000160",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Kubernetes API server must have anonymous authentication disabled.",
+  "group_title": "SRG-APP-000033-CTR-000100",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-58046r859254_chk",
+  "check_content": "Ensure anonymous-auth argument is set correctly.\n\nRun this command on the RKE2 Control Plane:\n/bin/ps -ef | grep kube-apiserver | grep -v grep\n\nIf --anonymous-auth is set to \"true\" or is not configured, this is a finding.",
+  "fixtext": "Edit the RKE2 Configuration File /etc/rancher/rke2/config.yaml on the RKE2 Control Plane and set the following \"kube-apiserver-arg\" argument:\n\n- anonymous-auth=false\n\nOnce the configuration file is updated, restart the RKE2 Server. Run the command:\nsystemctl restart rke2-server",
+  "fix_id": "F-57995r918235_fix",
+  "VulnDiscussion": "The Kubernetes API Server controls Kubernetes via an API interface. A user who has access to the API essentially has root access to the entire Kubernetes cluster. To control access, users must be authenticated and authorized. By allowing anonymous connections, the controls put in place to secure the API can be bypassed.\n\nSetting anonymous authentication to \"false\" also disables unauthenticated requests from kubelets.\n\nWhile there are instances where anonymous connections may be needed (e.g., health checks) and Role-Based Access Controls (RBAC) are in place to limit the anonymous access, this access should be disabled, and only enabled when necessary.",
+  "Documentable": "false"
+}

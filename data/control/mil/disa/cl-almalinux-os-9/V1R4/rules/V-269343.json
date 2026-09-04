@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269343",
+  "rule_id": "SV-269343r1050225_rule",
+  "stig_id": "ALMA-09-029830",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must disable the Controller Area Network (CAN) kernel module.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-73374r1049522_chk",
+  "check_content": "Verify that AlmaLinux OS 9 disables the ability to load the can kernel module with the following command:\n\n$ grep -r can /etc/modprobe.conf /etc/modprobe.d/* \n\n/etc/modprobe.d/can.conf:install can /bin/false\n/etc/modprobe.d/can.conf:blacklist can\n\nIf the command does not return any output, or the line is commented out, and use of CAN is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "To configure the system to prevent the can kernel module from being loaded, run the following command:\n\n$ cat << EOF | tee /etc/modprobe.d/can.conf \ninstall can /bin/false\nblacklist can\nEOF",
+  "fix_id": "F-73275r1048406_fix",
+  "VulnDiscussion": "The CAN protocol is a robust vehicle bus standard designed to allow microcontrollers and devices to communicate with each other's applications without a host computer. \n\nDisabling CAN protects the system against exploitation of any flaws in its implementation.",
+  "Documentable": "false"
+}

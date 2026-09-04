@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271447",
+  "rule_id": "SV-271447r1092464_rule",
+  "stig_id": "OL09-00-000044",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must disable the Transparent Inter Process Communication (TIPC) kernel module.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-75497r1091051_chk",
+  "check_content": "Verify that OL 9 disables the ability to load the tipc kernel module with the following command:\n\n$ grep -r tipc /etc/modprobe.conf /etc/modprobe.d/* \nblacklist tipc\n\nIf the command does not return any output, or the line is commented out, and use of TIPC is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure OL 9 to prevent the tipc kernel module from being loaded.\n\nAdd the following line to the file /etc/modprobe.d/tipc.conf (or create tipc.conf if it does not exist):\n\ninstall tipc /bin/false\nblacklist tipc",
+  "fix_id": "F-75404r1091052_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nFailing to disconnect unused protocols can result in a system compromise.\n\nThe TIPC is a protocol that is specially designed for intra-cluster communication. It can be configured to transmit messages either on UDP or directly across Ethernet. Message delivery is sequence guaranteed, loss free, and flow controlled. Disabling TIPC protects the system against exploitation of any flaws in its implementation.",
+  "Documentable": "false"
+}

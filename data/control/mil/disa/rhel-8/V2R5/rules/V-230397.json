@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230397",
+  "rule_id": "SV-230397r1017203_rule",
+  "stig_id": "RHEL-08-030080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 audit logs must be owned by root to prevent unauthorized read access.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162"
+    ]
+  },
+  "check_id": "C-33066r567937_chk",
+  "check_content": "Verify the audit logs are owned by \"root\". First, determine where the audit logs are stored with the following command:\n\n$ sudo grep -iw log_file /etc/audit/auditd.conf\n\nlog_file = /var/log/audit/audit.log\n\nUsing the location of the audit log file, determine if the audit log is owned by \"root\" using the following command:\n\n$ sudo ls -al /var/log/audit/audit.log\n\nrw------- 2 root root 23 Jun 11 11:56 /var/log/audit/audit.log\n\nIf the audit log is not owned by \"root\", this is a finding.",
+  "fixtext": "Configure the audit log to be protected from unauthorized read access, by setting the correct owner as \"root\" with the following command:\n\n$ sudo chown root [audit_log_file]\n\nReplace \"[audit_log_file]\" to the correct audit log path, by default this location is \"/var/log/audit/audit.log\".",
+  "fix_id": "F-33041r567938_fix",
+  "VulnDiscussion": "Only authorized personnel should be aware of errors and the details of the errors. Error messages are an indicator of an organization's operational state or can identify the RHEL 8 system or platform. Additionally, Personally Identifiable Information (PII) and operational information must not be revealed through error messages to unauthorized personnel or their designated representatives.\n\nThe structure and content of error messages must be carefully considered by the organization and development team. The extent to which the information system is able to identify and handle error conditions is guided by organizational policy and operational requirements.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029, SRG-OS-000206-GPOS-00084",
+  "Documentable": "false"
+}

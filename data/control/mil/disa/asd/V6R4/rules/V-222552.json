@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222552",
+  "rule_id": "SV-222552r961044_rule",
+  "stig_id": "APSC-DV-001830",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The application must map the authenticated identity to the individual user or group account for PKI-based authentication.",
+  "group_title": "SRG-APP-000177",
+  "idents": {
+    "legacy": [
+      "V-70153",
+      "SV-84775"
+    ],
+    "cci": [
+      "CCI-000187"
+    ]
+  },
+  "check_id": "C-24222r493564_chk",
+  "check_content": "Review the application documentation and interview the application administrator to identify how the application maps individual user certificates or group accounts to individual users.\n\nAccess the application as a regular user while reviewing the application logs to determine if the application records the individual name of the user or if the application only includes certificate information.\n\nIf the application only logs certificate information which contains no discernable user data, ask the system admin what their process is for mapping the certificate information to the user.\n\nIf the application does not map the certificate data to an individual user or group, or if the administrator has no automated process established for determining the identity of the user, this is a finding.",
+  "fixtext": "Configure the application to map certificate information to individual users or group accounts or create a process for automatically determining the individual user or group based on certificate information provided in the logs.",
+  "fix_id": "F-24211r493565_fix",
+  "VulnDiscussion": "Without mapping the certificate used to authenticate to a corresponding user account, the ability to determine the identity of the individual user or group will not be available for forensic analysis.\n\nSome CAs will include identifying information like an email address within the certificate itself. When the email is assigned to an individual, this helps to identify the individual user who has been assigned the certificate. When identifying information is not available within the certificate itself, the application must provide a mapping that allows administrators to quickly determine who the owner of the certificate is. When responding to a security incident, particularly involving user access violations, time is of the essence so this information must be readily available to investigators.",
+  "Documentable": "false"
+}

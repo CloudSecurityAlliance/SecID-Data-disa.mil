@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271666",
+  "rule_id": "SV-271666r1091710_rule",
+  "stig_id": "OL09-00-002070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must prevent device files from being interpreted on file systems that contain user home directories.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-75716r1091708_chk",
+  "check_content": "Verify that OL 9 is configured to mount /home with the nodev option.\n\nVerify \"/home\" is mounted with the \"nodev\" option with the following command:\n\nNote: If a separate file system has not been created for the user home directories (user home directories are mounted under \"/\"), this is automatically a finding, as the \"nodev\" option cannot be used on the \"/\" system.\n\n$ mount | grep /home\ntmpfs on /home type tmpfs (rw,nodev,nosuid,noexec,seclabel)\n\nIf the \"/home\" file system is mounted without the \"nodev\" option, this is a finding.",
+  "fixtext": "Configure OL 9 to prevent device files from being interpreted on file systems that contain user home directories.\n\nModify \"/etc/fstab\" to use the \"nodev\" option on the \"/home\" directory.",
+  "fix_id": "F-75623r1091709_fix",
+  "VulnDiscussion": "The \"nodev\" mount option causes the system to not interpret character or block special devices. Executing character or block special devices from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.\n\nThe only legitimate location for device files is the \"/dev\" directory located on the root partition, with the exception of chroot jails if implemented.",
+  "Documentable": "false"
+}

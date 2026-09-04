@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216809",
+  "rule_id": "SV-216809r1117237_rule",
+  "stig_id": "CISC-RT-000810",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco multicast edge router must be configured to establish boundaries for administratively scoped multicast traffic.",
+  "group_title": "SRG-NET-000019-RTR-000005",
+  "idents": {
+    "legacy": [
+      "SV-105963",
+      "V-96825"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-18041r288801_chk",
+  "check_content": "Review the router configuration and verify that admin-scope multicast traffic is blocked at the external edge as shown in the example below.\n\nipv4 access-list MULTICAST_SCOPE\n 10 deny ipv4 239.0.0.0 0.255.255.255 any\n 20 permit ipv4 any any\n…\n…\n…\n\nmulticast-routing\n address-family ipv4\n  interface GigabitEthernet0/0/0/1\n   enable\n   boundary MULTICAST_SCOPE\n  !\n  interface GigabitEthernet0/0/0/2\n   enable\n  !\n !\n!\n\nIf the router is not configured to establish boundaries for administratively scoped multicast traffic, this is a finding.",
+  "fixtext": "Step 1: Configure the ACL to deny packets with multicast administratively scoped destination addresses as shown in the example below.\n\nRP/0/0/CPU0:R2(config)#Ipv4 access-list MULTICAST_SCOPE\nRP/0/0/CPU0:R2(config-ipv4-acl)#deny 239.0.0.0 0.255.255.255\nRP/0/0/CPU0:R2(config-ipv4-acl)#permit any\n\nStep 2: Apply the multicast boundary at the appropriate interfaces as shown in the example below.\n\nRP/0/0/CPU0:R2(config)#multicast-routing \nRP/0/0/CPU0:R2(config-mcast)#address-family ipv4\nRP/0/0/CPU0:R2(config-mcast-default-ipv4)#int g0/0/0/1\nRP/0/0/CPU0:R2(config-mcast-default-ipv4-if)#boundary MULTICAST_SCOPE\nRP/0/0/CPU0:R2(config-mcast-default-ipv4-if)#end",
+  "fix_id": "F-18039r288802_fix",
+  "VulnDiscussion": "If multicast traffic is forwarded beyond the intended boundary, it is possible that it can be intercepted by unauthorized or unintended personnel.\n\nAdministrative scoped multicast addresses are locally assigned and are to be used exclusively by the enterprise network or enclave. Administrative scoped multicast traffic must not cross the enclave perimeter in either direction. Restricting multicast traffic makes it more difficult for a malicious user to access sensitive traffic.\n\nAdmin-Local scope is encouraged for any multicast traffic within a network intended for network management, as well as for control plane traffic that must reach beyond link-local destinations.",
+  "Documentable": "false"
+}

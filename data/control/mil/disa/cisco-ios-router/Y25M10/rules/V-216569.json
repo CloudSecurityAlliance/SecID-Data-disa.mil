@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216569",
+  "rule_id": "SV-216569r531085_rule",
+  "stig_id": "CISC-RT-000210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco router must be configured to produce audit records containing information to establish where the events occurred.",
+  "group_title": "SRG-NET-000076-RTR-000001",
+  "idents": {
+    "legacy": [
+      "SV-105677",
+      "V-96539"
+    ],
+    "cci": [
+      "CCI-000132"
+    ]
+  },
+  "check_id": "C-17804r287091_chk",
+  "check_content": "Review the router configuration to verify that events are logged containing information to establish where the events occurred as shown in the example below.\n\nip access-list extended INGRESS_FILTER\n permit tcp any any established\n permit tcp host x.11.1.1 eq bgp host x.11.1.2\n permit tcp host x.11.1.1 host x.11.1.2 eq bgp\n permit tcp any host x.11.1.5 eq www\n permit icmp host x.11.1.1 host x.11.1.2 echo\n permit icmp any any echo-reply\n …\n …\n …\ndeny   ip any any log-input\n\nNote: When the log-input parameter is configured on deny statements, the log record will contain the interface where ingress packet has been dropped.\n\nIf the router is not configured to produce audit records containing information to establish to establish where the events occurred, this is a finding.",
+  "fixtext": "Configure the router to log events containing information to establish where the events occurred as shown in the example below.\n \nR5(config)#ip access-list extended INGRESS_FILTER\n…\n…\n…\nR5(config-ext-nacl)#deny ip any any log-input",
+  "fix_id": "F-17800r287092_fix",
+  "VulnDiscussion": "Without establishing where events occurred, it is impossible to establish, correlate, and investigate the events leading up to an outage or attack.\n\nIn order to compile an accurate risk assessment and provide forensic analysis, it is essential for security personnel to know where events occurred, such as router components, modules, device identifiers, node names, and functionality.\n\nAssociating information about where the event occurred within the network provides a means of investigating an attack, recognizing resource utilization or capacity thresholds, or identifying an improperly configured router.",
+  "Documentable": "false"
+}

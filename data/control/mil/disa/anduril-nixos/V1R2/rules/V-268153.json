@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-268153",
+  "rule_id": "SV-268153r1131108_rule",
+  "stig_id": "ANIX-00-001460",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must notify designated personnel if baseline configurations are changed in an unauthorized manner.",
+  "group_title": "SRG-OS-000363-GPOS-00150",
+  "idents": {
+    "cci": [
+      "CCI-001744",
+      "CCI-002696",
+      "CCI-002699",
+      "CCI-002702"
+    ]
+  },
+  "check_id": "C-72077r1131106_chk",
+  "check_content": "Verify NixOS notifies if baseline configurations are changed with Advanced Intrusion Detection Environment with the following commands:\n\n$ systemctl is-active aide.service\n\nactive\n\nIf aide is not active and is not configured to alert on file system changes, this is a finding.",
+  "fixtext": "Configure NixOS to notify when baseline configuration changes.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\nnixpkgs.overlays = [\n  (final: prev: {\n    aide = prev.aide.overrideAttrs (old: {\n      configureFlags = (old.configureFlags or [ ]) ++ [ \"--sysconfdir=/etc\" ];\n     });\n  })\n];\n\nenvironment.systemPackages = [\n  pkgs.aide\n ];\nenvironment.etc = {\n    # Creates /etc/aide.conf\n    \"aide.conf\" = {\n      text = ''\n      <CONFIG_TEXT>\n      '';\n      mode = \"0444\";\n    };\n};\nservices.cron = {\n  enable = true;\n  systemCronJobs = [\n   \"00 0 * * 0\\troot\\taide -c /etc/aide.conf --check | /bin/mail -s \"aide integrity check run for ${config.networking.hostName}\" root@notareal.email\"\n  ];\n};\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71980r1131107_fix",
+  "VulnDiscussion": "Unauthorized changes to the baseline configuration could make the system vulnerable to various attacks or allow unauthorized access to the operating system. Changes to operating system configurations can have unintended side effects, some of which may be relevant to security.\n\nDetecting such changes and providing an automated response can help avoid unintended, negative consequences that could ultimately affect the security state of the operating system. The operating system's IMO/ISSO and SAs must be notified via email and/or monitoring system trap when there is an unauthorized modification of a configuration item.\n\nSatisfies: SRG-OS-000363-GPOS-00150, SRG-OS-000445-GPOS-00199, SRG-OS-000446-GPOS-00200, SRG-OS-000447-GPOS-00201",
+  "Documentable": "false"
+}

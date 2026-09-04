@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-274161",
+  "rule_id": "SV-274161r1120471_rule",
+  "stig_id": "AZLX-23-002489",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must ensure the password complexity module is enabled in the password-auth file.",
+  "group_title": "SRG-OS-000069-GPOS-00037",
+  "idents": {
+    "cci": [
+      "CCI-004066",
+      "CCI-000192",
+      "CCI-000193"
+    ]
+  },
+  "check_id": "C-78252r1120469_chk",
+  "check_content": "Verify Amazon Linux 2023 uses \"pwquality\" to enforce the password complexity rules in the password-auth file with the following command:\n\n$ grep pam_pwquality /etc/pam.d/password-auth\npassword required pam_pwquality.so \n\nIf the command does not return a line containing the value \"pam_pwquality.so\", or the line is commented out, this is a finding.\n\nIf the system administrator can demonstrate that the required configuration is contained in a PAM configuration file included or substacked from the system-auth file, this is not a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to use \"pwquality\" to enforce password complexity rules.\n\nAdd the following line to the \"/etc/pam.d/password-auth\" file (or modify the line to have the required value):\n\npassword required pam_pwquality.so",
+  "fix_id": "F-78157r1120470_fix",
+  "VulnDiscussion": "Enabling PAM password complexity permits enforcement of strong passwords and consequently makes the system less prone to dictionary attacks.",
+  "Documentable": "false"
+}

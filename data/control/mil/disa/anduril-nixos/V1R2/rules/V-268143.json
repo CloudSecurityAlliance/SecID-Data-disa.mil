@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268143",
+  "rule_id": "SV-268143r1131089_rule",
+  "stig_id": "ANIX-00-001000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must terminate all SSH connections after becoming unresponsive.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-72067r1039315_chk",
+  "check_content": "Verify that all network connections associated with SSH traffic are automatically terminated after becoming unresponsive with the following command:\n\n$ grep -i clientalivecount /etc/ssh/sshd_config\n\nClientAliveCountMax 1\n\nIf \"ClientAliveCountMax\" is not set to \"1\", is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure NixOS to automatically terminate all network connections associated with SSH traffic after being unresponsive. \n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\nservices.openssh.extraConfig = ''\n ClientAliveCountMax 1\n'';\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71970r1131088_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle session will also free up resources committed by the managed network element. \n\nTerminating network connections associated with communications sessions includes, for example, de-allocating associated TCP/IP address/port pairs at the operating system level, and de-allocating networking assignments at the application level if multiple application sessions are using a single operating system-level network connection. This does not mean that the operating system terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.",
+  "Documentable": "false"
+}

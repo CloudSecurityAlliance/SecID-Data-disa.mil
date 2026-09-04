@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271448",
+  "rule_id": "SV-271448r1091056_rule",
+  "stig_id": "OL09-00-000045",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "OL 9 must disable mounting of cramfs.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-75498r1091054_chk",
+  "check_content": "Verify that OL 9 disables the ability to load the cramfs kernel module with the following command:\n\n$ grep -ri cramfs /etc/modprobe.d/* | grep -i \"/bin/false\"\ninstall cramfs /bin/false\n\nIf the command does not return any output, or the line is commented out, and use of the cramfs protocol is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.\n\nVerify the operating system disables the ability to use the cramfs kernel module.\n\nDetermine if the cramfs kernel module is disabled with the following command:\n\n$ grep -ri cramfs /etc/modprobe.d/* | grep -i \"blacklist\"\nblacklist cramfs\n\nIf the command does not return any output or the output is not \"blacklist cramfs\", and use of the cramfs kernel module is not documented with the ISSO as an operational requirement, this is a finding.",
+  "fixtext": "Configure OL 9 to prevent the cramfs kernel module from being loaded. \n\nAdd the following line to the file /etc/modprobe.d/cramfs.conf (or create blacklist.conf if it does not exist):\n\ninstall cramfs /bin/false\nblacklist cramfs\n\nReboot the system for the settings to take effect.",
+  "fix_id": "F-75405r1091055_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nRemoving support for unneeded filesystem types reduces the local attack surface of the server.\n\nCompressed ROM/RAM file system (or cramfs) is a read-only file system designed for simplicity and space-efficiency. It is mainly used in embedded and small-footprint systems.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220488",
+  "rule_id": "SV-220488r1026069_rule",
+  "stig_id": "CISC-ND-000530",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must be configured to implement replay-resistant authentication mechanisms for network access to privileged accounts.",
+  "group_title": "SRG-APP-000156-NDM-000250",
+  "idents": {
+    "legacy": [
+      "SV-110625",
+      "V-101521"
+    ],
+    "cci": [
+      "CCI-001941"
+    ]
+  },
+  "check_id": "C-22203r1026068_chk",
+  "check_content": "Review the Cisco router configuration to verify it is compliant with this requirement as shown in the example below.\n\nSSH Example\n\nssh macs hmac-sha2-256 hmac-sha2-512\n\nNOTE: Using \"fips mode enable\" to enable all FIPS protocols disables TACACS+ and RADIUS, which is required for authentication server requirements. It is recommended to enable FIPS-validated protocols manually and keep FIPS mode disabled.\n\nIf the Cisco router is not configured to use FIPS-validated HMAC to protect the integrity of remote maintenance sessions, this is a finding.",
+  "fixtext": "Configure SSH to use FIPS-validated HMAC for remote maintenance sessions as shown in the following example:\n\nSSH Example\n\nR1(config)#ssh macs hmac-sha2-256 hmac-sha2-512",
+  "fix_id": "F-22192r1015484_fix",
+  "VulnDiscussion": "A replay attack may enable an unauthorized user to gain access to the application. Authentication sessions between the authenticator and the application validating the user credentials must not be vulnerable to a replay attack.\n\nAn authentication process resists replay attacks if it is impractical to achieve a successful authentication by recording and replaying a previous authentication message.",
+  "Documentable": "false"
+}

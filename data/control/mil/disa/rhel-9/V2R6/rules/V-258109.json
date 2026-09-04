@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-258109",
+  "rule_id": "SV-258109r1045220_rule",
+  "stig_id": "RHEL-09-611100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must enforce password complexity by requiring that at least one special character be used.",
+  "group_title": "SRG-OS-000266-GPOS-00101",
+  "idents": {
+    "cci": [
+      "CCI-004066",
+      "CCI-001619"
+    ]
+  },
+  "check_id": "C-61850r926312_chk",
+  "check_content": "Verify that RHEL 9 enforces password complexity by requiring at least one special character with the following command:\n\n$ sudo grep ocredit /etc/security/pwquality.conf /etc/security/pwquality.conf.d/*.conf \n\nocredit = -1 \n\nIf the value of \"ocredit\" is a positive number or is commented out, this is a finding.",
+  "fixtext": "Configure RHEL 9 to enforce password complexity by requiring at least one special character be used by setting the \"ocredit\" option.\n\nAdd or update the following line in the \"/etc/security/pwquality.conf\" file or a configuration file in the \"/etc/security/pwquality.conf.d/\" directory to contain the \"ocredit\" parameter:\n\nocredit = -1",
+  "fix_id": "F-61774r1045219_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. Password complexity is one factor of several that determines how long it takes to crack a password. The more complex the password, the greater the number of possible combinations that need to be tested before the password is compromised. RHEL 9 utilizes \"pwquality\" as a mechanism to enforce password complexity. Note that to require special characters without degrading the \"minlen\" value, the credit value must be expressed as a negative number in \"/etc/security/pwquality.conf\".",
+  "Documentable": "false"
+}

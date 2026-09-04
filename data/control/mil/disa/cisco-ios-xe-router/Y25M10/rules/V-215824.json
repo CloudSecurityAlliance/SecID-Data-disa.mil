@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215824",
+  "rule_id": "SV-215824r1051115_rule",
+  "stig_id": "CISC-ND-000490",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco router must be configured with only one local account to be used as the account of last resort in the event the authentication server is unavailable.",
+  "group_title": "SRG-APP-000148-NDM-000346",
+  "idents": {
+    "legacy": [
+      "SV-105381",
+      "V-96243"
+    ],
+    "cci": [
+      "CCI-001358",
+      "CCI-002111"
+    ]
+  },
+  "check_id": "C-17063r860783_chk",
+  "check_content": "Step 1: Review the Cisco router configuration to verify that a local account for last resort has been configured.\n\nusername xxxxxxxxxxx privilege nn common-criteria-policy PASSWORD_POLICY password xxxxxxxxxx\n\nNote: The configured Common Criteria policy must be used when creating or changing the local account password as shown in the example above.\n\nStep 2: Verify that local is defined after radius or tacas+ in the authentication order as shown in the example below.\n\naaa authentication login default group tacacs+ local\n\nIf the Cisco router is not configured with only one local account to be used as the account of last resort in the event the authentication server is unavailable, this is a finding.",
+  "fixtext": "Step 1: Configure a local account as shown in the example below.\n\nR2(config)#username xxxxxxxxx privilege nn secret xxxxxxx\n\nStep 2: Configure the authentication order to use the local account if the authentication server is not reachable as shown in the following example:\n\nR2(config)#aaa authentication login default group tacacs+ local",
+  "fix_id": "F-17061r287512_fix",
+  "VulnDiscussion": "Authentication for administrative (privileged level) access to the device is required at all times. An account can be created on the device's local database for use when the authentication server is down or connectivity between the device and the authentication server is not operable. This account is referred to as the account of last resort since it is intended to be used as a last resort and when immediate administrative access is absolutely necessary.\n\nThe account of last resort logon credentials must be stored in a sealed envelope and kept in a safe. The safe must be periodically audited to verify the envelope remains sealed. The signature of the auditor and the date of the audit should be added to the envelope as a record.\nAn alternative to using a sealed envelope in a safe would be credential files, separated by technology, located in a secured location on a file server, with the files only accessible to those administrators authorized to use the accounts of last resort, and access to that location monitored by a central log server. \nAdministrators should secure the credentials and disable the root account (if possible) when not needed for system administration functions.",
+  "Documentable": "false"
+}

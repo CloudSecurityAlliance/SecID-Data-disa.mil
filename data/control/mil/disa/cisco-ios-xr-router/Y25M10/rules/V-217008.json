@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-217008",
+  "rule_id": "SV-217008r945862_rule",
+  "stig_id": "CISC-RT-000480",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco BGP router must be configured to use a unique key for each autonomous system (AS) that it peers with.",
+  "group_title": "SRG-NET-000230-RTR-000002",
+  "idents": {
+    "legacy": [
+      "SV-105897",
+      "V-96759"
+    ],
+    "cci": [
+      "CCI-000366",
+      "CCI-002205"
+    ]
+  },
+  "check_id": "C-18238r288864_chk",
+  "check_content": "Review the BGP configuration to determine if it is peering with multiple autonomous systems. Interview the ISSM and router administrator to determine if unique keys are being used. \n\nrouter bgp n\n address-family ipv4 unicast\n !\n neighbor x.1.23.3\n  remote-as y\n  keychain YYY_KEY_CHAIN\n  ttl-security\n  address-family ipv4 unicast\n  !\n !\n neighbor x.1.24.4\n  remote-as z\n  keychain ZZZ_KEY_CHAIN\n  ttl-security\n  address-family ipv4 unicast\n !\n!\n\nIf unique keys are not being used, this is a finding.",
+  "fixtext": "Configure the router to use unique keys for each AS that it peers with as shown in the example below.\n\nRP/0/0/CPU0:R2(config)#router bgp n\nRP/0/0/CPU0:R2(config-bgp)#neighbor x.1.23.3\nRP/0/0/CPU0:R2(config-bgp-nbr)#keychain YYY_KEY_CHAIN \nRP/0/0/CPU0:R2(config-bgp-nbr)#neighbor x.1.24.4\nRP/0/0/CPU0:R2(config-bgp-nbr)#keychain ZZZ_KEY_CHAIN \nRP/0/0/CPU0:R2(config-bgp-nbr)#end",
+  "fix_id": "F-18236r288865_fix",
+  "VulnDiscussion": "If the same keys are used between eBGP neighbors, the chance of a hacker compromising any of the BGP sessions increases. It is possible that a malicious user exists in one autonomous system who would know the key used for the eBGP session. This user would then be able to hijack BGP sessions with other trusted neighbors.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220484",
+  "rule_id": "SV-220484r1026067_rule",
+  "stig_id": "CISC-ND-000290",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must produce audit records containing information to establish where the events occurred.",
+  "group_title": "SRG-APP-000097-NDM-000227",
+  "idents": {
+    "legacy": [
+      "SV-110617",
+      "V-101513"
+    ],
+    "cci": [
+      "CCI-000132"
+    ]
+  },
+  "check_id": "C-22199r1015481_chk",
+  "check_content": "Step 1: Review the deny statements in all ACLs to determine if the log parameter has been configured as shown in the example below:\n\nip access-list extended BLOCK_INBOUND\n deny icmp any any log\n\nStep 2: Verify that the Optimized Access-list Logging (OAL) has been configured.\n\nlogging ip access-list cache entries nnnn\n\nNote: Once OAL has been enabled, the logged ACL hits can be viewed via the show logging ip access-list cache command.\n\nIf the switch is not configured with the log parameter after any deny statements to note where packets have been dropped via an ACL, this is a finding.",
+  "fixtext": "Enable OAL as shown in the example below:\n\nSW1(config)# logging ip access-list cache entries nnnn\n\nSet the 'log' parameter after any 'deny' entries in the ACL as referenced in the check text above.",
+  "fix_id": "F-22188r1026066_fix",
+  "VulnDiscussion": "In order to compile an accurate risk assessment and provide forensic analysis, it is essential for security personnel to know where events occurred, such as device hardware components, device software modules, session identifiers, filenames, host names, and functionality.\n\nAssociating information about where the event occurred within the network device provides a means of investigating an attack; recognizing resource utilization or capacity thresholds; or identifying an improperly configured device.",
+  "Documentable": "false"
+}

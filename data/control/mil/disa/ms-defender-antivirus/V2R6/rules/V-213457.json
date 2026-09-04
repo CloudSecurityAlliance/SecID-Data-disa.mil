@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213457",
+  "rule_id": "SV-213457r961092_rule",
+  "stig_id": "WNDF-AV-000033",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Microsoft Defender AV must be configured block Office applications from creating child processes.",
+  "group_title": "SRG-APP-000210",
+  "idents": {
+    "legacy": [
+      "SV-92663",
+      "V-77967"
+    ],
+    "cci": [
+      "CCI-001170"
+    ]
+  },
+  "check_id": "C-14682r820218_chk",
+  "check_content": "This setting is applicable starting with v1709 of Windows 10. It is NA for prior versions.\n\nVerify the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Microsoft Defender Exploit Guard >> Attack Surface Reduction >> \"Configure Attack Surface Reduction rules\" is set to \"Enabled”.  Click \"Show...\". Verify the rule ID in the Value name column and the desired state in the Value column is set as follows:\nValue name: D4F940AB-401B-4EFC-AADC-AD5F3C50688A\nValue:  1\n\nProcedure: Use the Windows Registry Editor to navigate to the following key: \nHKLM\\Software\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules\n\nCriteria: If the value \"D4F940AB-401B-4EFC-AADC-AD5F3C50688A\" is REG_SZ = 1, this is not a finding.",
+  "fixtext": "Set the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Windows Defender Exploit Guard >> Attack Surface Reduction >> \"Configure Attack Surface Reduction rules\" to \"Enabled\". \n\nClick \"Show...\". Set the Value name to \"D4F940AB-401B-4EFC-AADC-AD5F3C50688A\" and the Value to \"1\".",
+  "fix_id": "F-14680r823082_fix",
+  "VulnDiscussion": "Office apps, such as Word or Excel, will not be allowed to create child processes. This is a typical malware behavior, especially for macro-based attacks that attempt to use Office apps to launch or download malicious executables.",
+  "Documentable": "false"
+}

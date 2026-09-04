@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269185",
+  "rule_id": "SV-269185r1050067_rule",
+  "stig_id": "ALMA-09-012010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 cron configuration directories must have a mode of 0700 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73216r1047931_chk",
+  "check_content": "Verify the permissions of the cron directories with the following command:\n\n$ find /etc/cron* -type d | xargs stat -c \"%#a %n\"\n\n0700 /etc/cron.d\n0700 /etc/cron.daily\n0700 /etc/cron.hourly\n0700 /etc/cron.monthly\n0700 /etc/cron.weekly\n\nIf any cron configuration directory is more permissive than \"700\", this is a finding.",
+  "fixtext": "Configure any AlmaLinux OS 9 cron configuration directory with a mode more permissive than \"0700\" as follows:\n\nchmod 0700 [cron configuration directory]",
+  "fix_id": "F-73117r1049278_fix",
+  "VulnDiscussion": "Service configuration files enable or disable features of their respective services that if configured incorrectly can lead to insecure and vulnerable configurations. Therefore, service configuration files should have the correct access rights to prevent unauthorized changes.",
+  "Documentable": "false"
+}

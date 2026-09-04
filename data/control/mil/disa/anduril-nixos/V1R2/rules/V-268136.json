@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-268136",
+  "rule_id": "SV-268136r1131076_rule",
+  "stig_id": "ANIX-00-000850",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must use multifactor authentication for network access to privileged accounts.",
+  "group_title": "SRG-OS-000105-GPOS-00052",
+  "idents": {
+    "cci": [
+      "CCI-000765",
+      "CCI-000766"
+    ]
+  },
+  "check_id": "C-72060r1131074_chk",
+  "check_content": "Verify NixOS has the packages required for multifactor authentication installed with the following command:\n\n$ which p11sak\n\n/run/current-system/sw/bin/p11sak\n\nIf the \"p11sak\" program is not found in PATH, this is a finding.",
+  "fixtext": "Configure NixOS to have a package that enforces multifactor authentication installed.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\n environment.systemPackages = [\n  pkgs.opencryptoki\n ];\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71963r1131075_fix",
+  "VulnDiscussion": "Without the use of multifactor authentication, the ease of access to privileged functions is greatly increased.\n\nMultifactor authentication requires using two or more factors to achieve authentication.\n\nFactors include: \n1) something a user knows (e.g., password/PIN);\n2) something a user has (e.g., cryptographic identification device, token); and\n3) something a user is (e.g., biometric).\n\nA privileged account is defined as an information system account with authorizations of a privileged user.\n\nNetwork access is defined as access to an information system by a user (or a process acting on behalf of a user) communicating through a network (e.g., local area network, wide area network, or the internet).\n\nThe DOD CAC with DOD-approved PKI is an example of multifactor authentication.\n\nSatisfies: SRG-OS-000105-GPOS-00052, SRG-OS-000106-GPOS-00053, SRG-OS-000107-GPOS-00054, SRG-OS-000108-GPOS-00055",
+  "Documentable": "false"
+}

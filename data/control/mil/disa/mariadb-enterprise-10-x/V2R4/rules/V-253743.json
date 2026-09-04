@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253743",
+  "rule_id": "SV-253743r961656_rule",
+  "stig_id": "MADB-10-009100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "When invalid inputs are received, MariaDB must behave in a predictable and documented manner that reflects organizational and system objectives.",
+  "group_title": "SRG-APP-000447-DB-000393",
+  "idents": {
+    "cci": [
+      "CCI-002754"
+    ]
+  },
+  "check_id": "C-57195r841752_chk",
+  "check_content": "As the database administrator, make a small SQL syntax error by running the following:\n \nMariaDB> CREAT TABLEincorrect_syntax(id INT) \nERROR 1064 (42000) at line 1: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near  CREAT TABLEincorrect_syntax(id INT)  at line 1\n  \nNow verify the syntax error was logged (change the log file name and part to suit the circumstances):\n\n$ cat $DATADIR/sql_errors.log\n\n2019-09-05 14:31:22 root[root] @ localhost [] ERROR 1064: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near  CREAT TABLEincorrect_syntax(id INT)  at line 1 : CREAT TABLEincorrect_syntax(id INT)\n\nReview security guide to determine how input errors from application to MariaDB are to be handled in general and if any special handling is defined for specific circumstances.\n\nIf it does not implement the documented behavior, this is a finding.",
+  "fixtext": "All errors and denials are logged to the sql errorlog. If the sql error log does not exist, install the sql error log plugin as follows:\n\nMariaDB> INSTALL SONAME 'sql_errlog';\n\nThe error log should by default be located as sql_errors.log within the data directory (/var/lib/mysql by default).",
+  "fix_id": "F-57146r841753_fix",
+  "VulnDiscussion": "A common vulnerability is unplanned behavior when invalid inputs are received. This requirement guards against adverse or unintended system behavior caused by invalid inputs, where information system responses to the invalid input may be disruptive or cause the system to fail into an unsafe state.\n\nThe behavior will be derived from the organizational and system requirements and includes, but is not limited to, notification of the appropriate personnel, creating an audit record, and rejecting invalid input.\n\nThis calls for inspection of application source code, which will require collaboration with the application developers. It is recognized that in many cases, the database administrator (DBA) is organizationally separate from the application developers, and may have limited, if any, access to source code. Nevertheless, protections of this type are so important to the secure operation of databases that they must not be ignored. At a minimum, the DBA must attempt to obtain assurances from the development organization that this issue has been addressed and must document what has been discovered.",
+  "Documentable": "false"
+}

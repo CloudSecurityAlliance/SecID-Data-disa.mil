@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216615",
+  "rule_id": "SV-216615r991845_rule",
+  "stig_id": "CISC-RT-000670",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco PE router providing MPLS Virtual Private Wire Service (VPWS) must be configured to have the appropriate virtual circuit identification (VC ID) for each attachment circuit.",
+  "group_title": "SRG-NET-000512-RTR-000008",
+  "idents": {
+    "legacy": [
+      "SV-105769",
+      "V-96631"
+    ],
+    "cci": [
+      "CCI-004931"
+    ]
+  },
+  "check_id": "C-17850r287217_chk",
+  "check_content": "Verify that the correct and unique VCID has been configured for the appropriate attachment circuit. In the example below GigabitEthernet0/1 is the CE-facing interface that is configured for VPWS with the VCID of 55.\n\ninterface GigabitEthernet0/1\n xconnect x.2.2.12 55 encapsulation mpls\n\nIf the correct VC ID has not been configured on both routers, this is a finding.",
+  "fixtext": "Assign globally unique VC IDs for each virtual circuit and configure the attachment circuits with the appropriate VC ID. \n\nR5(config)#int g0/1\nR5(config-if)#xconnect x.2.2.12 55 encapsulation mpls",
+  "fix_id": "F-17846r287218_fix",
+  "VulnDiscussion": "VPWS is an L2VPN technology that provides a virtual circuit between two PE routers to forward Layer 2 frames between two customer-edge routers or switches through an MPLS-enabled IP core. The ingress PE router (virtual circuit head-end) encapsulates Ethernet frames inside MPLS packets using label stacking and forwards them across the MPLS network to the egress PE router (virtual circuit tail-end). During a virtual circuit setup, the PE routers exchange VC label bindings for the specified VC ID. The VC ID specifies a pseudowire associated with an ingress and egress PE router and the customer-facing attachment circuits. \n\nTo guarantee that all frames are forwarded onto the correct pseudowire and to the correct customer and attachment circuits, it is imperative that the correct VC ID is configured for each attachment circuit.",
+  "Documentable": "false"
+}

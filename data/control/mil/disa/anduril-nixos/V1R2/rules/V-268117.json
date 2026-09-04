@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268117",
+  "rule_id": "SV-268117r1131034_rule",
+  "stig_id": "ANIX-00-000590",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS systemd-journald directory must have a mode of 2755 or less permissive.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162"
+    ]
+  },
+  "check_id": "C-72041r1131032_chk",
+  "check_content": "Verify NixOS protects log information from unauthorized read access by implementing a mode of 2755 or less on the creation of log directories with the following command: \n\n$ sudo find /var/log/journal -type d -perm -2755 -not -perm 2755 -printf \"%p %m\\n\"\n\nIf any directories have a permission of greater than 2755, this is a finding.",
+  "fixtext": "The systemd-journald directories are by design set to 2755 mode.\n\nIf any directories are found with incorrect perms, correct them with the following command:\n\n$ sudo find /var/log/journal -type d -exec chmod 2755 {} \\;",
+  "fix_id": "F-71944r1131033_fix",
+  "VulnDiscussion": "Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.\n\nAudit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit NixOS system activity.",
+  "Documentable": "false"
+}

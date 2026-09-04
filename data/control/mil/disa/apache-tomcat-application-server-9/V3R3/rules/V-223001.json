@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223001",
+  "rule_id": "SV-223001r1117181_rule",
+  "stig_id": "TCAT-AS-001640",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Application servers must use NIST-approved or NSA-approved key management technology and processes.",
+  "group_title": "SRG-APP-000514-AS-000137",
+  "idents": {
+    "legacy": [
+      "SV-111525",
+      "V-102585"
+    ],
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-24673r426447_chk",
+  "check_content": "For the systemd Ubuntu OS, check the tomcat.service file to read the content of the JAVA_OPTS environment variable setting.\n\nsudo cat /etc/systemd/system/tomcat.service |grep -i truststore\n\nEXAMPLE output:\nset JAVA_OPTS=\"-Djavax.net.ssl.trustStore=/path/to/truststore\" \"-Djavax.net.ssl.trustStorePassword=************\"\n\nIf the variable is not set, use the default location command below. If the variable is set, use the alternate location command below and include the path and truststore file. \n\n-Default location:\nkeytool -list -cacerts -v | grep -i issuer\n\n-Alternate location:\nkeytool -list -keystore <location of trust store file> -v |grep -i issuer\n\nIf there are no CA certificates issued by a Certificate Authority (CA) that is part of the DoD PKI/PKE, this is a finding.",
+  "fixtext": "Obtain and install the DoD PKI CA certificate bundles by accessing the DoD PKI office website at cyber.mil/pki-pke.\n\nImport the DoD CA certificates.",
+  "fix_id": "F-24662r426448_fix",
+  "VulnDiscussion": "Class 3 PKI certificates are used for servers and software signing rather than for identifying individuals. Class 4 certificates are used for business-to-business transactions. Utilizing unapproved certificates not issued or approved by DoD or CNS creates an integrity risk. The application server must utilize approved DoD or CNS Class 3 or Class 4 certificates for software signing and business-to-business transactions.",
+  "Documentable": "false"
+}

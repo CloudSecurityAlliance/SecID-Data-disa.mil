@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268324",
+  "rule_id": "SV-268324r1136874_rule",
+  "stig_id": "IVCS-NM-000015",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The ICS must be configured to protect against known types of denial-of-service (DoS) attacks by enabling JITC mode.",
+  "group_title": "SRG-APP-000435-NDM-000315",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-72347r1018741_chk",
+  "check_content": "In the ICS Web UI, navigate to System >> Configuration >> Security >> Inbound SSL Options.\n1. Verify \"Turn on JITC mode\" checkbox is enabled (checked).\n2. Verify \"Turn on NDcPP mode\" checkbox is enabled (checked).\n\nIf JITC mode is not enabled, this is a finding.",
+  "fixtext": "In the ICS Web UI, navigate to System >> Configuration >> Security >> Inbound SSL Options.\n1. Under \"DOD Certification Option\", check (enabled) \"Turn on JITC mode\" to enable the JITC mode security features.\n2. Once \"Turn on JITC mode\" is checked, \"Turn on NDcPP mode\" and \"Turn on FIPS mode\" are also checked automatically.\n3. Click \"Save changes\" and confirm after the web UI asks for SSL cipher configuration changes.",
+  "fix_id": "F-72250r1018742_fix",
+  "VulnDiscussion": "This configuration protects the confidentiality of Web UI sessions and guards against DoS attacks. If JITC Mode is enabled, the following protections are enforced:\n- Log support for detection and prevention of SMURF/SYN Flood/SSL Replay Attack.\n- Disable ICMPv6 echo response for multicast echo request.\n- Disable ICMPv6 destination unreachable response.\n- Password Strengthening.\n- Notification for unsuccessful admin login attempts.\n- Reauthentication of admin users.\n- Notification on admin status change.\n- Disable Roaming Sessions.\n- Disable Split Tunneling.\n- IP Lockout restrictions.\n- Disable Allowing Saving Login Information.\n- Disable Persistent Sessions.\n- Remove Browser Session Cookie.\n- Enable Server Certificate Trust Enforcement.\n\nWhen JITC and FIPS mode are enabled, this enables DoS attacks such as flooding and replay attack audit logs inherently. JITC and FIPS mode are required for ICS use in DOD. When the NDcPP option is enabled, only NDcPP approved crypto algorithms are allowed.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216794",
+  "rule_id": "SV-216794r878124_rule",
+  "stig_id": "CISC-RT-000660",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco PE router providing MPLS Layer 2 Virtual Private Network (L2VPN) services must be configured to authenticate targeted Label Distribution Protocol (LDP) sessions used to exchange virtual circuit (VC) information using a FIPS-approved message authentication code algorithm.",
+  "group_title": "SRG-NET-000343-RTR-000001",
+  "idents": {
+    "legacy": [
+      "SV-105933",
+      "V-96795"
+    ],
+    "cci": [
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-18026r507365_chk",
+  "check_content": "The Cisco router is not compliant with this requirement; hence, it is a finding. However, the severity level can be downgraded to a category 3 if the router is configured to authenticate targeted LDP sessions using MD5 as shown in the configuration example below.\n\nmpls ldp\nrouter-id 10.1.1.2\nneighbor 10.1.1.1\n  password encrypted xxxxxxxxxxxxxxx\nneighbor 10.1.2.1\n  password encrypted xxxxxxxxxxxxxxx\n\nIf the router is not configured to authenticate targeted LDP sessions using MD5, the finding will remain as a CAT II.",
+  "fixtext": "The severity level can be downgraded to a category 3 if the router is configured to authenticate targeted LDP sessions using MD5 as shown in the example below.\n\nRP/0/0/CPU0:R3(config)#mpls ldp\nRP/0/0/CPU0:R3(config-ldp)#neighbor 10.1.1.1\nRP/0/0/CPU0:R3(config-ldp)#neighbor password clear xxxxxxxx\nRP/0/0/CPU0:R3(config-ldp)#neighbor 10.1.2.1\nRP/0/0/CPU0:R3(config-ldp)#neighbor password clear xxxxxxxx\nRP/0/0/CPU0:R3(config-ldp)#commit",
+  "fix_id": "F-18024r507366_fix",
+  "VulnDiscussion": "LDP provides the signaling required for setting up and tearing down pseudowires (virtual circuits used to transport Layer 2 frames) across an MPLS IP core network. Using a targeted LDP session, each PE router advertises a virtual circuit label mapping that is used as part of the label stack imposed on the frames by the ingress PE router during packet forwarding. Authentication provides protection against spoofed TCP segments that can be introduced into the LDP sessions.",
+  "Documentable": "false"
+}

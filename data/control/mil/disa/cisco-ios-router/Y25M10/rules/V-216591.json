@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216591",
+  "rule_id": "SV-216591r1117237_rule",
+  "stig_id": "CISC-RT-000430",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco out-of-band management (OOBM) gateway router must be configured to not redistribute routes between the management network routing domain and the managed network routing domain.",
+  "group_title": "SRG-NET-000019-RTR-000012",
+  "idents": {
+    "legacy": [
+      "SV-105721",
+      "V-96583"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-17826r287151_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone.\n\nVerify the Interior Gateway Protocol (IGP) instance used for the managed network does not redistribute routes into the IGP instance used for the management network, and vice versa. The example below imports OSPF routes from the production route table (VRF PROD) into the management route table (VRF MGMT) using BGP.\n\nip vrf MGMT\n rd 4:4\n route-target export 4:4\n route-target import 4:4\n route-target import 8:8\n!\nip vrf PROD\n rd 8:8\n route-target import 8:8\n route-target export 8:8\n…\n…\n…\nrouter ospf 1 vrf MGMT\n log-adjacency-changes\n redistribute bgp 64512 subnets\n network 0.0.0.0 255.255.255.255 area 0\n!\nrouter ospf 2 vrf PROD\n log-adjacency-changes\n network 0.0.0.0 255.255.255.255 area 0\n!\nrouter bgp 64512\n no synchronization\n bgp log-neighbor-changes\n no auto-summary\n !\n address-family ipv4 vrf MGMT\n  no synchronization\n  redistribute ospf 1 vrf MGMT\n exit-address-family\n !\n address-family ipv4 vrf PROD\n  no synchronization\n  redistribute ospf 2 vrf PROD\n exit-address-family\n\nIf the IGP instance used for the managed network redistributes routes into the IGP instance used for the management network, or vice versa, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN Backbone.\n\nRemove the configuration that imports routes from the managed network into the management network or vice versa as shown in the example below.\n\nR1(config)#ip vrf MGMT\nR1(config-vrf)#no route-target import 8:8",
+  "fix_id": "F-17822r287152_fix",
+  "VulnDiscussion": "If the gateway router is not a dedicated device for the OOBM network, several safeguards must be implemented for containment of management and production traffic boundaries; otherwise, it is possible that management traffic will not be separated from production traffic.\n\nSince the managed network and the management network are separate routing domains, separate Interior Gateway Protocol routing instances must be configured on the router, one for the managed network and one for the OOBM network. In addition, the routes from the two domains must not be redistributed to each other.",
+  "Documentable": "false"
+}

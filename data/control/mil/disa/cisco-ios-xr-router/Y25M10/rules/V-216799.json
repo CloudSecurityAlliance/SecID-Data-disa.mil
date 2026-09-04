@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216799",
+  "rule_id": "SV-216799r856448_rule",
+  "stig_id": "CISC-RT-000710",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco PE router must be configured to implement Internet Group Management Protocol (IGMP) or Multicast Listener Discovery (MLD) snooping for each Virtual Private LAN Services (VPLS) bridge domain.",
+  "group_title": "SRG-NET-000362-RTR-000119",
+  "idents": {
+    "legacy": [
+      "SV-105943",
+      "V-96805"
+    ],
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-18031r288774_chk",
+  "check_content": "Review the router configuration to verify that IGMP or MLD snooping has been configured for IPv4 and IPv6 multicast traffic respectively for each VPLS bridge domain. \n\nl2vpn\n bridge group L2GROUP\n  bridge-domain L2_BRIDGE_COI1\n   interface GigabitEthernet0/0/0/2\n    igmp snooping profile default\n\nIf the router is not configured to implement IGMP or MLD snooping for each VPLS bridge domain, this is a finding.",
+  "fixtext": "Configure IGMP or MLD snooping for IPv4 and IPv6 multicast traffic respectively for each VPLS bridge domain.\n\nRP/0/0/CPU0:R3(config)#l2vpn\nRP/0/0/CPU0:R3(config-l2vpn)#bridge group L2GROUP\nRP/0/0/CPU0:R3(config-l2vpn-bg)# bridge-domain L2_BRIDGE_COI1\nRP/0/0/CPU0:R3(config-l2vpn-bg-bd)#interface GigabitEthernet0/0/0/2\nRP/0/0/CPU0:R3(config-l2vpn-bg-bd-ac)#igmp snooping profile default\nRP/0/0/CPU0:R3(config-l2vpn-bg-bd-ac)#end",
+  "fix_id": "F-18029r288775_fix",
+  "VulnDiscussion": "IGMP snooping provides a way to constrain multicast traffic at Layer 2. By monitoring the IGMP membership reports sent by hosts within the bridge domain, the snooping application can set up Layer 2 multicast forwarding tables to deliver traffic only to ports with at least one interested member within the VPLS bridge, thereby significantly reducing the volume of multicast traffic that would otherwise flood an entire VPLS bridge domain. The IGMP snooping operation applies to both access circuits and pseudowires within a VPLS bridge domain.",
+  "Documentable": "false"
+}

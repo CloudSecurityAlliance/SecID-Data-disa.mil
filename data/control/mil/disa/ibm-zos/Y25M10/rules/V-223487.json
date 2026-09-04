@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-223487",
+  "rule_id": "SV-223487r991589_rule",
+  "stig_id": "ACF2-ES-000690",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ACF2 BACKUP GSO record must be defined with a TIME value specifies greater than 00 unless the database is shared and backed up on another system.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-97673",
+      "SV-106777"
+    ],
+    "cci": [
+      "CCI-000366",
+      "CCI-000537"
+    ]
+  },
+  "check_id": "C-25160r504567_chk",
+  "check_content": "From the ACF command screen enter:\nSET CONTROL(GSO)\nLIST LIKE(BACKUP-)\n\nIf the GSO BACKUP record values conform to the following requirements, this is not a finding.\n\nExample: \nCPUID() PRISPACE(5) SECSPACE(5) STRING(S ACFBKUP) TIME(00:01) WORKUNIT(VIO)\n\nIf there is any deviation from the above requirements in the GSO BACKUP record values, this is a finding.",
+  "fixtext": "Configure the BACKUP GSO value to specify a time field and Time(00:00 ) is not specified unless the database is shared and backed up on another system.\n\nCPUID() PRISPACE(5) SECSPACE(5) STRING(S ACFBKUP) TIME(00:01) WORKUNIT(VIO)\n\nExample: \nSET C(GSO)\nINSERT BACKUP CPUID() PRISPACE(5) SECSPACE(5) STRING(S ACFBKUP) TIME(00:01) WORKUNIT(VIO) \n\nF ACF2,REFRESH(BACKUP)",
+  "fix_id": "F-25148r504568_fix",
+  "VulnDiscussion": "Configuring the operating system to implement organization-wide security implementation guides and security checklists ensures compliance with federal standards and establishes a common security baseline across DoD that reflects the most restrictive security posture consistent with operational requirements.\n\nConfiguration settings are the set of parameters that can be changed in hardware, software, or firmware components of the system that affect the security posture and/or functionality of the system. Security-related parameters are those parameters impacting the security state of the system, including the parameters required to satisfy other security control requirements. Security-related parameters include, for example: registry settings; account, file, directory permission settings; and settings for functions, ports, protocols, services, and remote connections.",
+  "Documentable": "false"
+}

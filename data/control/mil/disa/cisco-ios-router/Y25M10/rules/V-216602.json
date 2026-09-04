@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216602",
+  "rule_id": "SV-216602r1117236_rule",
+  "stig_id": "CISC-RT-000540",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco BGP router must be configured to reject route advertisements from BGP peers that do not list their autonomous system (AS) number as the first AS in the AS_PATH attribute.",
+  "group_title": "SRG-NET-000018-RTR-000006",
+  "idents": {
+    "legacy": [
+      "SV-105743",
+      "V-96605"
+    ],
+    "cci": [
+      "CCI-000032"
+    ]
+  },
+  "check_id": "C-17837r287178_chk",
+  "check_content": "Review the router configuration to verify the router is configured to deny updates received from eBGP peers that do not list their AS number as the first AS in the AS_PATH attribute.\n\nBy default Cisco IOS enforces the first AS in the AS_PATH attribute for all route advertisements. Review the router configuration to verify that the command no bgp enforce-first-as is not configured.\n\nrouter bgp xx\n no synchronization\n no bgp enforce-first-as\n\nIf the router is not configured to reject updates from peers that do not list their AS number as the first AS in the AS_PATH attribute, this is a finding.",
+  "fixtext": "Configure the router to deny updates received from eBGP peers that do not list their AS number as the first AS in the AS_PATH attribute.\n\nR1(config)#router bgp xx\nR1(config-router)#bgp enforce-first-as",
+  "fix_id": "F-17833r287179_fix",
+  "VulnDiscussion": "Verifying the path a route has traversed will ensure the IP core is not used as a transit network for unauthorized or possibly even Internet traffic. All autonomous system boundary routers (ASBRs) must ensure updates received from eBGP peers list their AS number as the first AS in the AS_PATH attribute.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216578",
+  "rule_id": "SV-216578r1117237_rule",
+  "stig_id": "CISC-RT-000300",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco perimeter router must be configured to not redistribute static routes to an approved gateway service provider into BGP, an IGP peering with the NIPRNet, or other autonomous systems.",
+  "group_title": "SRG-NET-000019-RTR-000010",
+  "idents": {
+    "legacy": [
+      "V-96557",
+      "SV-105695"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-17813r1050876_chk",
+  "check_content": "This requirement is not applicable for the DODIN backbone.\n\nStep 1: Review the IGP and BGP configurations. If there are redistribute static statements configured as shown in the examples below, proceed to step 2.\n\nOSPF Example\n\nrouter ospf 1\n log-adjacency-changes\n redistribute static subnets\n network 0.0.0.0 255.255.255.255 area 0\n\nEIGRP example\n\nrouter eigrp 1\n network 10.1.15.0 0.0.0.255\n redistribute static\n\nRIP example\n\nrouter rip\n version 2\n redistribute static\n network 10.0.0.0\n\nBGP example\n\nrouter bgp nn\n no synchronization\n bgp log-neighbor-changes\n redistribute static\n neighbor x.11.1.7 remote-as nn\n neighbor x.11.1.7 password xxxxxxx\n no auto-summary\n\nStep 2: Review the static routes that have been configured to determine if any contain the next hop address of the approved gateway.\n\nIf the static routes to the approved gateway are being redistributed into BGP or any IGP peering to a NIPRNet gateway or any other autonomous system, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN backbone.\n\nConfigure the router so that static routes are not redistributed to an approved gateway into either a BGP or any IGP peering with the NIPRNet or to any other autonomous systems. This can be done by excluding that route in the route-map as shown in the example below.\n\nStep 1: Configure a prefix list for any static routes with the approved gateway as the next-hop address.\n\nR5(config)#ip prefix-list ISP_PREFIX permit x.x.x.0/24\n\nStep 2: Configure a route map that will deny the state routes to the ISP.\n\nR5(config)#route-map FILTER_ISP_STATIC deny 10\nR5(config-route-map)#match ip address prefix-list ISP_PREFIX\nR5(config-route-map)#exit\nR5(config)#route-map FILTER_ISP_STATIC permit 20\nR5(config-route-map)#exit\n\nStep 3: Apply the route-map to the IGP and BGP redistribute static commands as shown in the EIGRP  example.\n\nR5(config)#router eigrp 1\nR5(config-router)#redistribute static route-map FILTER_ISP_STATIC",
+  "fix_id": "F-17809r1050877_fix",
+  "VulnDiscussion": "If the static routes to the approved gateway are being redistributed into an Exterior Gateway Protocol or Interior Gateway Protocol to a NIPRNet gateway, this could make traffic on NIPRNet flow to that particular router and not to the internet access point routers. This could not only wreak havoc with traffic flows on NIPRNet but could overwhelm the connection from the router to the NIPRNet gateway(s) and cause traffic destined for outside of NIPRNet to bypass the defenses of the internet access points.",
+  "Documentable": "false"
+}

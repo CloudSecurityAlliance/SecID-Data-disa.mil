@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-218819",
+  "rule_id": "SV-218819r1022659_rule",
+  "stig_id": "IIST-SV-000151",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The IIS 10.0 web server must be tuned to handle the operational requirements of the hosted application.",
+  "group_title": "SRG-APP-000435-WSR-000148",
+  "idents": {
+    "legacy": [
+      "SV-109277",
+      "V-100173"
+    ],
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-20291r1022610_chk",
+  "check_content": "If the IIS 10.0 web server is not hosting any applications, this is Not Applicable.\n\nIf the IIS 10.0 web server is hosting applications, consult with the system administrator to determine risk analysis performed when the application was written and deployed to the IIS 10.0 web server.\n\nObtain documentation on the configuration.\nVerify, at a minimum, the following tuning settings in the registry.\nAccess the IIS 10.0 web server registry.\nVerify the following keys are present and configured. The required setting depends upon the requirements of the application. \nRecommended settings are not provided as these settings must be explicitly configured to show a conscientious tuning has been made.\nNavigate to HKLM\\SYSTEM\\CurrentControlSet\\Services\\HTTP\\Parameters\\\nREG_DWORD \"URIEnableCache\"\nREG_DWORD \"UriMaxUriBytes\"\nREG_DWORD \"UriScavengerPeriod\"\n\nIf explicit settings are not configured for \"URIEnableCache\", \"UriMaxUriBytes\" and \"UriScavengerPeriod\", this is a finding.",
+  "fixtext": "Access the IIS 10.0 web server registry.\n\nVerify the following keys are present and configured. The required setting depends upon the requirements of the application. These settings must be explicitly configured to show a conscientious tuning has been made.\n\nNavigate to HKLM\\SYSTEM\\CurrentControlSet\\Services\\HTTP\\Parameters\\\n\nConfigure the following registry keys to levels to accommodate the hosted applications.\n\nCreate REG_DWORD \"URIEnableCache\"\nCreate REG_DWORD \"UriMaxUriBytes\"\nCreate REG_DWORD \"UriScavengerPeriod\"",
+  "fix_id": "F-20289r1022611_fix",
+  "VulnDiscussion": "A Denial of Service (DoS) can occur when the web server is overwhelmed and can no longer respond to additional requests. A web server not properly tuned may become overwhelmed and cause a DoS condition even with expected traffic from users. To avoid a DoS, the web server must be tuned to handle the expected traffic for the hosted applications.",
+  "Documentable": "false"
+}

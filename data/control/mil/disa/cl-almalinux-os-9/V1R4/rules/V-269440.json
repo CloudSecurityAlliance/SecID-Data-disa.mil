@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269440",
+  "rule_id": "SV-269440r1050323_rule",
+  "stig_id": "ALMA-09-043140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must implement DOD-approved encryption in the bind package.",
+  "group_title": "SRG-OS-000426-GPOS-00190",
+  "idents": {
+    "cci": [
+      "CCI-002422"
+    ]
+  },
+  "check_id": "C-73471r1048696_chk",
+  "check_content": "Note: If the \"bind\" package is not installed, this requirement is Not Applicable.\n\nVerify that BIND uses the system crypto policy with the following command:\n\n$ grep include /etc/named.conf \n\ninclude \"/etc/crypto-policies/back-ends/bind.config\";\n\nIf BIND is installed and the BIND config file does not contain the \"/etc/crypto-policies/back-ends/bind.config\" directive, or the line is commented out, this is a finding.",
+  "fixtext": "Configure BIND to use the systemwide crypto policy.\n\nAdd the following line to the \"options\" section in \"/etc/named.conf\":\n\ninclude \"/etc/crypto-policies/back-ends/bind.config\";",
+  "fix_id": "F-73372r1049715_fix",
+  "VulnDiscussion": "Without cryptographic integrity protections, information can be altered by unauthorized users without detection.\n\nCryptographic mechanisms used for protecting the integrity of information include, for example, signed hash functions using asymmetric cryptography enabling distribution of the public key to verify the hash information while maintaining the confidentiality of the secret key used to generate the hash.\n\nAlmaLinux OS 9 incorporates systemwide crypto policies by default. The employed algorithms can be viewed in the /etc/crypto-policies/back-ends/ directory.",
+  "Documentable": "false"
+}

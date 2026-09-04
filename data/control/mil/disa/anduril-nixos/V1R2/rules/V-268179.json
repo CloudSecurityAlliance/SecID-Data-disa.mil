@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268179",
+  "rule_id": "SV-268179r1131166_rule",
+  "stig_id": "ANIX-00-002060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "For PKI-based authentication, NixOS must implement a local cache of revocation data to support path discovery and validation in case of the inability to access revocation information via the network.",
+  "group_title": "SRG-OS-000384-GPOS-00167",
+  "idents": {
+    "cci": [
+      "CCI-004068"
+    ]
+  },
+  "check_id": "C-72103r1039423_chk",
+  "check_content": "Verify NixOS, for PKI-based authentication, uses local revocation data when unable to access the network to obtain it remotely with the following command:\n\n$ grep cert_policy /etc/pam_pkcs11/pam_pkcs11.conf\n\ncert_policy = ca,signature,ocsp_on, crl_auto;\n\nIf the cert_policy does not contain the options in the example output, this is a finding.",
+  "fixtext": "Configure NixOS, for PKI-based authentication, to use local revocation data when unable to access the network to obtain it remotely. \n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\n security.pam.p11.enable = true;\n environment.etc.\"pam_pkcs11/pam_pkcs11.conf\".text = ''\n    cert_policy = ca,signature,ocsp_on, crl_auto;\n   '';\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-72006r1131165_fix",
+  "VulnDiscussion": "Without configuring a local cache of revocation data, there is the potential to allow access to users who are no longer authorized (users with revoked certificates).",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248891",
+  "rule_id": "SV-248891r991589_rule",
+  "stig_id": "OL08-00-040283",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must restrict exposed kernel pointer addresses access.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52325r833281_chk",
+  "check_content": "Verify OL 8 restricts exposed kernel pointer addresses access with the following commands:\n \n$ sudo sysctl kernel.kptr_restrict \n \nkernel.kptr_restrict = 1 \n \nIf the returned line does not have a value of \"1\" or \"2\" or a line is not returned, this is a finding.\n\nCheck that the configuration files are present to enable this network parameter.\n\n$ sudo grep -r kernel.kptr_restrict /run/sysctl.d/*.conf /usr/local/lib/sysctl.d/*.conf /usr/lib/sysctl.d/*.conf /lib/sysctl.d/*.conf /etc/sysctl.conf /etc/sysctl.d/*.conf\n\n/etc/sysctl.d/99-sysctl.conf: kernel.kptr_restrict = 1\n\nIf \"kernel.kptr_restrict\" is not set to \"1\" or \"2\", is missing or commented out, this is a finding.\n\nIf conflicting results are returned, this is a finding.",
+  "fixtext": "Configure the system to restrict exposed kernel pointer addresses access by adding the following line to a file in the \"/etc/sysctl.d\" directory:\n\nkernel.kptr_restrict = 1\n\nRemove any configurations that conflict with the above from the following locations: \n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf\n/etc/sysctl.d/*.conf\n\nThe system configuration files must be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-52279r858684_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nThe sysctl --system command will load settings from all system configuration files. All configuration files are sorted by their filename in lexicographic order, regardless of which of the directories they reside in. If multiple files specify the same option, the entry in the file with the lexicographically latest name will take precedence. Files are read from directories in the following list from top to bottom. Once a file of a given filename is loaded, any file of the same name in subsequent directories is ignored.\n/etc/sysctl.d/*.conf\n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf",
+  "Documentable": "false"
+}

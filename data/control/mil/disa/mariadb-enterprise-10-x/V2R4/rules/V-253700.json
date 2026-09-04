@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253700",
+  "rule_id": "SV-253700r961041_rule",
+  "stig_id": "MADB-10-004100",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "MariaDB must enforce authorized access to all PKI private keys stored/used by the DBMS.",
+  "group_title": "SRG-APP-000176-DB-000068",
+  "idents": {
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-57152r841623_chk",
+  "check_content": "First, as the database administrator, verify the following settings: Note: If no specific directory given before the filename, the files are stored in DATADIR.\n \nMariaDB> SHOW GLOBAL VARIABLES LIKE 'ssl_ca';\nMariaDB> SHOW GLOBAL VARIABLES LIKE 'ssl_cert';\nMariaDB> SHOW GLOBAL VARIABLES LIKE 'ssl_key';\nMariaDB> SHOW GLOBAL VARIABLES LIKE 'ssl_crlpath';\nMariaDB> SHOW GLOBAL VARIABLES LIKE 'datadir';\n\nVerify the permissions of the above files. \n\nExample:\n\nls -al /path/to/ssl_cert \n\nMariaDB Enterprise Server runs as the mysql operating system user, thus should be owned by user mysql and group mysql with user read and group read file level permissions. \n\nExample: \n\n-r-------.  1 mysql\n \nIf the files and directories are not properly secured, this is a finding.",
+  "fixtext": "If the SSL files are not secured properly in the file system, change the ownership and permissions with operating system operations. \n\nExample: \n\nchown mysql:mysql /path/to/file\nchmod 440 /path/to/file",
+  "fix_id": "F-57103r841624_fix",
+  "VulnDiscussion": "The DoD standard for authentication is DoD-approved PKI certificates. PKI certificate-based authentication is performed by requiring the certificate holder to cryptographically prove possession of the corresponding private key.\n\nIf the private key is stolen, an attacker can use the private key(s) to impersonate the certificate holder. In cases where the MariaDB-stored private keys are used to authenticate MariaDB to the system's clients, loss of the corresponding private keys would allow an attacker to successfully perform undetected man in the middle attacks against the MariaDB system and its clients.\n\nBoth the holder of a digital certificate and the issuing authority must take careful measures to protect the corresponding private key. Private keys should always be generated and protected in FIPS 140-2 validated cryptographic modules.\n\nAll access to the private key(s) of MariaDB must be restricted to authorized and authenticated users. If unauthorized users have access to one or more of the MariaDB s private keys, an attacker could gain access to the key(s) and use them to impersonate the database on the network or otherwise perform unauthorized actions.",
+  "Documentable": "false"
+}

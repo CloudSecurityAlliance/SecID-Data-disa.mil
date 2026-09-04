@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-216588",
+  "rule_id": "SV-216588r991838_rule",
+  "stig_id": "CISC-RT-000400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco out-of-band management (OOBM) gateway router must be configured to transport management traffic to the Network Operations Center (NOC) via dedicated circuit, MPLS/VPN service, or IPsec tunnel.",
+  "group_title": "SRG-NET-000205-RTR-000009",
+  "idents": {
+    "legacy": [
+      "SV-105715",
+      "V-96577"
+    ],
+    "cci": [
+      "CCI-001097",
+      "CCI-004891"
+    ]
+  },
+  "check_id": "C-17823r991836_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone.\n\nReview the network topology diagram to determine connectivity between the managed network and the NOC. Review the OOBM gateway router configuration to validate the path and interface that the management traffic traverses. If an IPsec tunnel is used to transport the management traffic between the NOC and the managed network, review the configuration following the steps below.\n\nStep 1: Note the crypto map applied to the external interface.\n\n interface interface GigabitEthernet0/2\n description link to DISN\n ip address x.1.24.4 255.255.255.0\n crypto map IPSEC_MGMT_MAP\n\nStep 2: Review the ISAKMP policy for Phase 1 negotiations and Phase 2 policy for data encryption.\ncrypto isakmp policy 10\n authentication pre-share\n hash sha256\n crypto isakmp key xxxxxx address x.1.12.1\n!\n!\ncrypto IPsec transform-set TRANS_SET ah-sha256-hmac esp-aes \n\nStep 3: Review the crypto map that was bound to the external interface and note the ACL defined that identifies the interesting traffic for the IPsec tunnel.\n\ncrypto map IPSEC_MGMT_MAP 10 ipsec-isakmp\n set peer x.1.12.1\n set transform-set TRANS_SET\n match address MGMT_TRAFFIC_ACL\n\nStep 4: Review the ACL defined in the crypto map and verify that the destination is the management network.\nip access-list extended MGMT_TRAFFIC_ACL\n permit ip 10.1.34.0 0.0.0.255 10.22.2.0 0.0.0.255\n\nNote: The management network is this example is 10.22.2.0/24\n\nIf management traffic is not transported between the managed network and the NOC via dedicated circuit, MPLS/VPN service, or IPsec tunnel, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN Backbone.\n\nEnsure that a dedicated circuit, MPLS/VPN service, or IPsec tunnel is deployed to transport management traffic between the managed network and the NOC. If an IPsec tunnel is to be used, the steps below can be used as a guideline.\n\nStep 1: Configure the ACL for the management network as the destination. This ACL will be defined in the crypto as the interesting traffic to be forwarded into the IPsec tunnel.\n\nR4(config)#ip access-list extended MGMT_TRAFFIC_ACL\nR4(config-ext-nacl)#permit ip 10.1.34.0 0.0.0.255 10.22.2.0 0.0.0.255\nR4(config-ext-nacl)#exit\n\nStep 2: Create an ISAKMP policy for Phase 1 negotiations.\n\nR4(config)#crypto isakmp policy 10\nR4(config-isakmp)#hash sha256\nR4(config-isakmp)#authentication pre-share\nR4(config-isakmp)#exit\n\nStep 3: Specify the pre-shared key and the remote peer address.\n\nR4(config)#crypto isakmp key 0 xxxxxx address x.1.12.1\n\nNote: Digital certificates can be utilized as an alternative.\n \nStep 4: Create the IPSec transform set for the data encryption\n\nR4(config)#crypto ipsec transform-set TRANS_SET ah-sha256-hmac esp-aes\nR4(cfg-crypto-trans)#mode tunnel\nR4(cfg-crypto-trans)#exit\n\nStep 5: Create the crypto map.\n\nR4(config)#crypto map IPSEC_MGMT_MAP 10 ipsec-isakmp\nR4(config-crypto-map)#set peer x.1.12.1\nR4(config-crypto-map)#match address MGMT_TRAFFIC_ACL\nR4(config-crypto-map)#set transform-set TRANS_SET\nR4(config-crypto-map)#end\n\nStep 6: Apply the crypto map to the external interface.\n\nR4(config)#int g0/2\nR4(config-if)#crypto map IPSEC_MGMT_MAP",
+  "fix_id": "F-17819r991837_fix",
+  "VulnDiscussion": "Using dedicated paths, the OOBM backbone connects the OOBM gateway routers located at the edge of the managed network and at the NOC. Dedicated links can be deployed using provisioned circuits or MPLS Layer 2 and Layer 3 VPN services or implementing a secured path with gateway-to-gateway IPsec tunnels. The tunnel mode ensures that the management traffic will be logically separated from any other traffic traversing the same path.",
+  "Documentable": "false"
+}

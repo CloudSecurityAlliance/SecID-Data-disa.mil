@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272375",
+  "rule_id": "SV-272375r1123858_rule",
+  "stig_id": "BIND-9X-001180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The read and write access to a TSIG key file used by a BIND 9.x server must be restricted to only the account that runs the name server software.",
+  "group_title": "SRG-APP-000176-DNS-000019",
+  "idents": {
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-76425r1123856_chk",
+  "check_content": "Verify permissions assigned to the TSIG keys enforce read-write access to the key owner and deny access to group or system users.\n\nWith the assistance of the DNS administrator, determine the location of the TSIG keys used by the BIND 9.x implementation:\n\n# ls -al <TSIG_Key_Location>\n-rw-r-----. 1 root named 76 May 10 20:35 tsig-example.key\n\nIf the key files are more permissive than 640, this is a finding.",
+  "fixtext": "Change the permissions of the TSIG key files:\n\n# chmod 640 <TSIG_key_file>",
+  "fix_id": "F-76332r1123857_fix",
+  "VulnDiscussion": "Weak permissions of a TSIG key file could allow an adversary to modify the file, thus defeating the security objective.",
+  "Documentable": "false"
+}

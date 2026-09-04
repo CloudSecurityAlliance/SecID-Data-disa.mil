@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268147",
+  "rule_id": "SV-268147r1131095_rule",
+  "stig_id": "ANIX-00-001260",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must protect wireless access to the system using authentication of users and/or devices.",
+  "group_title": "SRG-OS-000300-GPOS-00118",
+  "idents": {
+    "cci": [
+      "CCI-001443"
+    ]
+  },
+  "check_id": "C-72071r1039327_chk",
+  "check_content": "Verify NixOS disables Bluetooth adapters by running the following command: \n\n$ grep -R hardware.bluetooth /etc/nixos/\n\n/etc/nixos/configuration.nix:hardware.bluetooth.enable = false;\n\nIf \"hardware.bluetooth.enable\", does not equal false, is missing, or is commented out, this is a finding.",
+  "fixtext": "Configure the audit service to disable Bluetooth adapters.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\n hardware.bluetooth.enable = false;\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71974r1131094_fix",
+  "VulnDiscussion": "Allowing devices and users to connect to the system without first authenticating them allows untrusted access and can lead to a compromise or attack.\n\nWireless technologies include, for example, microwave, packet radio (UHF/VHF), 802.11x, and Bluetooth. Wireless networks use authentication protocols (e.g., EAP/TLS, PEAP), which provide credential protection and mutual authentication.\n\nThis requirement applies to operating systems that control wireless devices.",
+  "Documentable": "false"
+}

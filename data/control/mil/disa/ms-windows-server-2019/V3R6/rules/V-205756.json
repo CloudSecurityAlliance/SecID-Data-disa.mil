@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-205756",
+  "rule_id": "SV-205756r958726_rule",
+  "stig_id": "WN19-UR-000090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2019 Create symbolic links user right must only be assigned to the Administrators group.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "legacy": [
+      "SV-103151",
+      "V-93063"
+    ],
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-6021r355186_chk",
+  "check_content": "Verify the effective setting in Local Group Policy Editor.\n\nRun \"gpedit.msc\".\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment.\n\nIf any accounts or groups other than the following are granted the \"Create symbolic links\" user right, this is a finding:\n\n- Administrators\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas User_Rights /cfg c:\\path\\filename.txt\n\nReview the text file.\n\nIf any SIDs other than the following are granted the \"SeCreateSymbolicLinkPrivilege\" user right, this is a finding:\n\nS-1-5-32-544 (Administrators)\n\nSystems that have the Hyper-V role will also have \"Virtual Machines\" given this user right (this may be displayed as \"NT Virtual Machine\\Virtual Machines\", SID S-1-5-83-0). This is not a finding.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment >> \"Create symbolic links\" to include only the following accounts or groups:\n\n- Administrators\n\nSystems that have the Hyper-V role will also have \"Virtual Machines\" given this user right. If this needs to be added manually, enter it as \"NT Virtual Machine\\Virtual Machines\".",
+  "fix_id": "F-6021r355187_fix",
+  "VulnDiscussion": "Inappropriate granting of user rights can provide system, administrative, and other high-level capabilities.\n\nAccounts with the \"Create symbolic links\" user right can create pointers to other objects, which could expose the system to attack.",
+  "Documentable": "false"
+}

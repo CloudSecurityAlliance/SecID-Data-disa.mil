@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274147",
+  "rule_id": "SV-274147r1120429_rule",
+  "stig_id": "AZLX-23-002420",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must automatically lock an account when three unsuccessful logon attempts occur.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-78238r1120427_chk",
+  "check_content": "Verify Amazon Linux 2023 locks an account after three unsuccessful logon attempts with the following commands:\n\nNote: If the system administrator demonstrates the use of an approved centralized account management method that locks an account after three unsuccessful logon attempts within a period of 15 minutes, this requirement is met by that method.\n\n$ sudo grep pam_faillock.so /etc/pam.d/password-auth\nauth required pam_faillock.so preauth dir=/var/log/faillock silent audit deny=3 even_deny_root fail_interval=900 unlock_time=0\nauth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0\naccount required pam_faillock.so\n\nIf the \"deny\" option is not set to \"3\" or less (but not \"0\") on the \"preauth\" line with the \"pam_faillock.so\" module, or is missing from this line, if any of the lines are commented out, or are missing, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to lock an account when three unsuccessful logon attempts occur.\n\nAdd/Modify the appropriate sections of the \"/etc/pam.d/system-auth\" and \"/etc/pam.d/password-auth\" files to match the following lines:\n\nauth required pam_faillock.so preauth dir=/var/log/faillock silent audit deny=3 even_deny_root fail_interval=900 unlock_time=0\nauth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0\naccount required pam_faillock.so\n\nThe \"sssd\" service must be restarted for the changes to take effect. To restart the \"sssd\" service, run the following command:\n\n$ sudo systemctl restart sssd.service",
+  "fix_id": "F-78143r1120428_fix",
+  "VulnDiscussion": "By limiting the number of failed logon attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-force attacks, is reduced. Limits are imposed by locking the account.\n\nAmazon Linux 2023 can utilize the \"pam_faillock.so\" for this purpose. Note that manual changes to the listed files may be overwritten by the \"authselect\" program.\n\nFrom \"Pam_Faillock\" man pages: Note that the default directory that \"pam_faillock\" uses is usually cleared on system boot so the access will be re-enabled after system reboot. If that is undesirable, a different tally directory must be set with the \"dir\" option.",
+  "Documentable": "false"
+}

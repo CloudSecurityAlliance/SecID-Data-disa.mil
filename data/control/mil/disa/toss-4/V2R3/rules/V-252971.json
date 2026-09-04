@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-252971",
+  "rule_id": "SV-252971r991592_rule",
+  "stig_id": "TOSS-04-020320",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All TOSS local interactive user home directories must be owned by the user's primary group.",
+  "group_title": "SRG-OS-000480-GPOS-00230",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56424r824235_chk",
+  "check_content": "Check that all user home directories are owned by the user's primary group with the following command:\n\n$ awk -F: '($3>=1000)&&($7 !~ /nologin/)&&(\"stat -c '%g' \" $6 | getline dir_group)&&(dir_group!=$4){print $1,$6}' /etc/passwd\nadmin /home/admin\n\nCheck each user's primary group with the following command (example command is for the \"admin\" user):\n\n$ sudo grep \"^admin\" /etc/group\nadmin:x:250:smithj,jonesj,jacksons\n\nIf the user home directory referenced in \"/etc/passwd\" is not group-owned by that user's primary GID, this is a finding.",
+  "fixtext": "Change the group owner of interactive user's home directories to that users primary group. To change the group owner of a local interactive user's home directory, use the following command:\n\nNote: The example will be for the user \"smithj.\"\n\n$ sudo chgrp smithj /home/smithj",
+  "fix_id": "F-56374r824236_fix",
+  "VulnDiscussion": "Users' home directories/folders may contain information of a sensitive nature. Non-privileged users should coordinate any sharing of information with an SA through shared resources.",
+  "Documentable": "false"
+}

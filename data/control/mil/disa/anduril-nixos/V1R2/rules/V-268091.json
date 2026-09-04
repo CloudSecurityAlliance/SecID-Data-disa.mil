@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-268091",
+  "rule_id": "SV-268091r1130983_rule",
+  "stig_id": "ANIX-00-000210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must generate audit records for all usage of privileged commands.",
+  "group_title": "SRG-OS-000042-GPOS-00020",
+  "idents": {
+    "cci": [
+      "CCI-000135",
+      "CCI-000169",
+      "CCI-000172",
+      "CCI-003938",
+      "CCI-002884",
+      "CCI-004188"
+    ]
+  },
+  "check_id": "C-72015r1039159_chk",
+  "check_content": "Verify NixOS generates audit records for all execution of privileged functions with the following command:\n\n$ sudo auditctl -l | grep execve\n\n-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -k execpriv\n-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -k execpriv\n-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -k execpriv \n-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -k execpriv \n\nIf the command does not return the example output, this is a finding.\n\nNote: The \"-k\" allows for specifying an arbitrary identifier. The string following \"-k\" does not need to match the example output above.",
+  "fixtext": "Configure NixOS to generate audit records for all execution of privileged functions.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\n security.audit.rules = [\n  \"-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -k execpriv\"\n  \"-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -k execpriv\"\n  \"-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -k execpriv \"\n  \"-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -k execpriv \"\n ];\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71918r1130982_fix",
+  "VulnDiscussion": "Reconstruction of harmful events or forensic analysis is not possible if audit records do not contain enough information.\n\nAt a minimum, the organization must audit the full-text recording of privileged commands. The organization must maintain audit trails in sufficient detail to reconstruct events to determine the cause and impact of compromise.\n\nMisuse of privileged functions, either intentionally or unintentionally by authorized users, or by unauthorized external entities that have compromised information system accounts, is a serious and ongoing concern and can have significant adverse impacts on organizations. Auditing the use of privileged functions is one way to detect such misuse and identify the risk from insider threats and the advanced persistent threat.\n\nSatisfies: SRG-OS-000042-GPOS-00020, SRG-OS-000062-GPOS-00031, SRG-OS-000064-GPOS-00033, SRG-OS-000365-GPOS-00152, SRG-OS-000392-GPOS-00172, SRG-OS-000471-GPOS-00215, SRG-OS-000755-GPOS-00220",
+  "Documentable": "false"
+}

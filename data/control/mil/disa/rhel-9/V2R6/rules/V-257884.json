@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257884",
+  "rule_id": "SV-257884r1106306_rule",
+  "stig_id": "RHEL-09-232020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 library files must have mode 755 or less permissive.",
+  "group_title": "SRG-OS-000259-GPOS-00100",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-61625r1101927_chk",
+  "check_content": "Verify the systemwide shared library files contained in the directories \"/lib\", \"/lib64\", \"/usr/lib\", and \"/usr/lib64\" have mode 0755 or less permissive.\n\nCheck that the systemwide shared library files have mode 0755 or less permissive with the following command:\n\n$ sudo find /lib /lib64 /usr/lib /usr/lib64 -type f -name '*.so*' -perm /022 -exec stat -c \"%n %a\" {} +\n\nIf any output is returned, this is a finding.",
+  "fixtext": "Configure the systemwide shared library files contained in the directories \"/lib\", \"/lib64\", \"/usr/lib\", and \"/usr/lib64\" to have mode 0755 or less permissive with the following command.\n\n$ sudo find /lib /lib64 /usr/lib /usr/lib64 -type f -name '*.so*' -perm /022 -exec chmod go-w {} +",
+  "fix_id": "F-61549r1106305_fix",
+  "VulnDiscussion": "If RHEL 9 allowed any user to make changes to software libraries, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n\nThis requirement applies to RHEL 9 with software libraries that are accessible and configurable, as in the case of interpreted languages. Software libraries also include privileged programs that execute with escalated privileges.",
+  "Documentable": "false"
+}

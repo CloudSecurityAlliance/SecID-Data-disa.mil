@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253692",
+  "rule_id": "SV-253692r960963_rule",
+  "stig_id": "MADB-10-003400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to external executables must be disabled or restricted.",
+  "group_title": "SRG-APP-000141-DB-000093",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-57144r841599_chk",
+  "check_content": "MariaDB's LOAD DATA LOCAL INFILE command can interact with the server's underlying OS.  \n\nTo check the value of this option, run the following command as the database administrator: \n\nMariaDB>  SHOW GLOBAL VARIABLES LIKE 'local_infile'; \n \nVerify the option is set according to the security guide. If it is not, this is a finding. \n \nIf the value of local_infile is set to ON per the security guide, user privileges must be checked. Only users with FILE privilege can use the LOAD DATA LOCAL INFILE command.\n\nTo check the users who have FILE privilege against the security guide, run the following commands as the database administrator.\n\n1. Check which users have FILE privilege and GRANT OPTION privileges and compare to the security guide to determine if a user has FILE privilege that should not or if a user has GRANT OPTION and should not.  \n\nIf the users have privileges they should not have, this is a finding.\n\nRun this script to create the SHOW GRANTS script for each user: \nMariaDB>  SELECT DISTINCT CONCAT( 'SHOW GRANTS FOR ', user,'@', host,';') AS grantQuery FROM mysql.user WHERE is_role = 'N';\n\nRun each SHOW GRANTS command for each user.\nMariaDB> SHOW GRANTS FOR 'user'@'host';\n \n2. Check which roles have FILE privilege and GRANT OPTION privileges and compare to the security guide to determine if a role has FILE privilege that should not or if a role has GRANT OPTION and should not. \n\nIf the roles have privileges they should not have, this is a finding.\n\nMariaDB>  SELECT DISTINCT CONCAT('SHOW GRANTS FOR ',role, ';') FROM mysql.roles_mapping;\n\nRun each SHOW GRANTS command for each role.\n \n3. From the two outputs above, check which users and roles can set roles and grant privileges by checking who has GRANT OPTION and FILE privileges and comparing to the security guide.\n\nIf any user or role has GRANT OPTION or FILE privileges they should not have, this is a finding.",
+  "fixtext": "To disable LOAD DATA LOCAL INFILE make the following update as the database administrator:\n\nEdit the mariadb-enterprise.cnf configuration file located in /etc/my.cnf.d/.\n\nUnder [mariadb], add the following: \n\nlocal_infile = 0 \n\nSave the configuration file. This change will not take effect until MariaDB Enterprise Server is restarted.  \n\nTo remove FILE and GRANT OPTION privileges use the right combination of the following commands:\n1. revoke FILE privilege from a user\nMariaDB> REVOKE FILE FROM 'user'@'host';\n\n2. revoke FILE privilege from a role\nMariaDB>  REVOKE FILE FROM role; \n\n3. revoke GRANT OPTION privilege from a user\nMariaDB> REVOKE GRANT OPTION FROM 'user'@'host'; \n\n4. revoke a role grant from a user\nMariaDB>  REVOKE ROLE FROM grantee;",
+  "fix_id": "F-57095r841600_fix",
+  "VulnDiscussion": "Information systems are capable of providing a wide variety of functions and services. Some of the functions and services, provided by default, may not be necessary to support essential organizational operations (e.g., key missions, functions). \n\nIt is detrimental for applications to provide, or install by default, functionality exceeding requirements or mission objectives. \n\nApplications must adhere to the principles of least functionality by providing only essential capabilities.\n\nMariaDB may spawn additional external processes to execute procedures that are defined in MariaDB but stored in external host files (external procedures). The spawned process used to execute the external procedure may operate within a different OS security context than MariaDB and provide unauthorized access to the host system.",
+  "Documentable": "false"
+}

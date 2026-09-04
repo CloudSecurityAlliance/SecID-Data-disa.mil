@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272367",
+  "rule_id": "SV-272367r1123978_rule",
+  "stig_id": "BIND-9X-001040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BIND 9.x server implementation must limit the number of concurrent session client connections.",
+  "group_title": "SRG-APP-000001-DNS-000115",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-76417r1123976_chk",
+  "check_content": "Verify the name server is configured to limit the number of concurrent client connections:\n\nInspect the \"named.conf\" file for the following:\n\noptions {\ntransfers-out 10;\n};\n\nIf the \"options\" statement does not contain a \"transfers-out\" sub-statement, this is a finding.",
+  "fixtext": "Edit the \"named.conf\" file.\n\nAdd the \"transfers-out\" sub-statement to the \"options\" statement block.\n\nThe value of the \"transfers-out\" will be based on organizational requirements needed to support DNS operations.\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76324r1123977_fix",
+  "VulnDiscussion": "Limiting the number of concurrent sessions reduces the risk of denial of service (DoS) to the DNS implementation. \n\nName servers do not have direct user connections but accept client connections for queries. Original restriction on client connections should be high enough to prevent a self-imposed denial of service, after which the connections are monitored and fine-tuned to best meet the organization's specific requirements.\n\nPrimary name servers also make outbound connections to secondary name servers to provide zone transfers and accept inbound connection requests from clients wishing to provide a dynamic update. Primary name servers should explicitly limit zone transfers to only be made to designated secondary name servers. Because zone transfers involve the transfer of entire zones and use TCP connections, they place substantial demands on network resources relative to normal DNS queries. Errant or malicious frequent zone transfer requests on the name servers of the enterprise can overload the primary zone server and result in DoS to legitimate users. Primary name servers should be configured to limit the hosts from which they will accept dynamic updates.\n\nAdditionally the number of concurrent clients, especially TCP clients, needs to be kept to a level that does not risk placing the system in a DoS state.",
+  "Documentable": "false"
+}

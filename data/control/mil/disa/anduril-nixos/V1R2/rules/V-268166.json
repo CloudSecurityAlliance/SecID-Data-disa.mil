@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-268166",
+  "rule_id": "SV-268166r1131137_rule",
+  "stig_id": "ANIX-00-001790",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must generate audit records when concurrent logons to the same account occur from different sources.",
+  "group_title": "SRG-OS-000473-GPOS-00218",
+  "idents": {
+    "cci": [
+      "CCI-000172",
+      "CCI-000135"
+    ]
+  },
+  "check_id": "C-72090r1039384_chk",
+  "check_content": "Verify NixOS is configured to generate audit records with the following command:\n\n$ sudo auditctl -l | grep -w lastlog\n\n-w /var/log/lastlog -p wa -k logins\n\nIf the command does not return a watch for the lastlog file, this is a finding.",
+  "fixtext": "Configure NixOS to generate audit logs on account creations and modifications.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\n security.audit.rules = [\n   \"-w /var/log/lastlog -p wa -k logins\"\n ];\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71993r1131136_fix",
+  "VulnDiscussion": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).\n\nSatisfies: SRG-OS-000473-GPOS-00218, SRG-OS-000042-GPOS-00020, SRG-OS-000475-GPOS-00220",
+  "Documentable": "false"
+}

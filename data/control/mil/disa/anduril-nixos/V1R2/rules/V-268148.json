@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268148",
+  "rule_id": "SV-268148r1131097_rule",
+  "stig_id": "ANIX-00-001280",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must prevent all software from executing at higher privilege levels than users executing the software.",
+  "group_title": "SRG-OS-000326-GPOS-00126",
+  "idents": {
+    "cci": [
+      "CCI-002233"
+    ]
+  },
+  "check_id": "C-72072r1039330_chk",
+  "check_content": "Verify NixOS audits and provides alerts of audit failures by running the following command: \n\n$grep A -15 security.auditd /etc/nixos/configuration.nix\n\n /etc/nixos/configuration.nix: \n\n security.auditd.enable = true;\n security.audit.enable = true;\n security.audit.rules = [\n  ''\n  <audit_rules>\n  ''\n ]; security.audit.rules = [\n  \"-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -k execpriv\"\n  \"-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -k execpriv\"\n  \"-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -k execpriv\"\n  \"-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -k execpriv\"\n ];\n\nIf \"security.auditd\", \"security.audit\" and the additional modifications do not equal true, are missing, or are commented out, this is a finding.",
+  "fixtext": "Configure the audit service to produce audit records.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\n security.auditd.enable = true;\n security.audit.enable = true;\n\nAdd the following audit rules:\n\n security.audit.rules = [\n  \"-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -k execpriv\"\n  \"-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -k execpriv\"\n  \"-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -k execpriv\"\n  \"-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -k execpriv\"\n ];\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71975r1131096_fix",
+  "VulnDiscussion": "In certain situations, software applications/programs need to execute with elevated privileges to perform required functions. However, if the privileges required for execution are at a higher level than the privileges assigned to organizational users invoking such applications/programs, those users are indirectly provided with greater privileges than assigned by the organizations.\n\nSome programs and processes are required to operate at a higher privilege level and therefore should be excluded from the organization-defined software list after review.",
+  "Documentable": "false"
+}

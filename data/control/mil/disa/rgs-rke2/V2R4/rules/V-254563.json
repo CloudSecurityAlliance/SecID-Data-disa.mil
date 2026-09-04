@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254563",
+  "rule_id": "SV-254563r960906_rule",
+  "stig_id": "CNTR-R2-000320",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All audit records must identify any containers associated with the event within Rancher RKE2.",
+  "group_title": "SRG-APP-000100-CTR-000200",
+  "idents": {
+    "cci": [
+      "CCI-001487"
+    ]
+  },
+  "check_id": "C-58047r859257_chk",
+  "check_content": "Ensure audit-log-maxage is set correctly.\n\nRun the below command on the RKE2 Control Plane:\n/bin/ps -ef | grep kube-apiserver | grep -v grep\n\nIf --audit-log-maxage argument is not set to at least 30 or is not configured, this is a finding. \n(By default, RKE2 sets the --audit-log-maxage argument parameter to 30.)",
+  "fixtext": "Edit the RKE2 Configuration File /etc/rancher/rke2/config.yaml on the RKE2 Control Plane and set the following \"kube-apiserver-arg\" argument:\n\n- audit-log-maxage=30\n\nOnce the configuration file is updated, restart the RKE2 Server. Run the command:\nsystemctl restart rke2-server",
+  "fix_id": "F-57996r918237_fix",
+  "VulnDiscussion": "Ensure that the --audit-log-maxage argument is set to 30 or as appropriate.\n\nRetaining logs for at least 30 days ensures that you can go back in time and investigate or correlate any events. Set your audit log retention period to 30 days or as per your business requirements.\nResult: Pass",
+  "Documentable": "false"
+}

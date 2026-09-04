@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269290",
+  "rule_id": "SV-269290r1050172_rule",
+  "stig_id": "ALMA-09-023780",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must prevent special devices on nonroot local partitions.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73321r1048246_chk",
+  "check_content": "Verify all nonroot local partitions are mounted with the \"nodev\" option with the following command:\n\n$ mount | grep '^/dev\\S* on /\\S' | grep --invert-match 'nodev'\n\nIf any output is produced, this is a finding.",
+  "fixtext": "Configure the \"/etc/fstab\" to use the \"nodev\" option on all nonroot local partitions.",
+  "fix_id": "F-73222r1048247_fix",
+  "VulnDiscussion": "The \"nodev\" mount option causes the system to not interpret character or block special devices. Executing character or block special devices from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.\n\nThe only legitimate location for device files is the \"/dev\" directory located on the root partition, with the exception of chroot jails if implemented.",
+  "Documentable": "false"
+}

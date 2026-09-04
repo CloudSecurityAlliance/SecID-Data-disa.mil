@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272384",
+  "rule_id": "SV-272384r1123744_rule",
+  "stig_id": "BIND-9X-001270",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "A BIND 9.x server NSEC3 must be used for all internal DNS zones.",
+  "group_title": "SRG-APP-000516-DNS-000084",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-76434r1123744_chk",
+  "check_content": "If the server is on an internal, restricted network with reserved IP space, this is Not Applicable.\n\nWith the assistance of the DNS administrator, identify each internal DNS zone listed in the \"named.conf\" file.\n\nFor each internal zone identified, inspect the signed zone file for the NSEC resource records:\n\n86400 NSEC example.com. A RRSIG NSEC\n\nIf the zone file does not contain an NSEC record for the zone, this is a finding.",
+  "fixtext": "Re-sign each zone that is missing NSEC records.\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76341r1123464_fix",
+  "VulnDiscussion": "To ensure that RRs associated with a query are really missing in a zone file and have not been removed in transit, the DNSSEC mechanism provides a means for authenticating the nonexistence of an RR. It generates a special RR called an NSEC (or NSEC3) RR that lists the RRTypes associated with an owner name as well as the next name in the zone file. It sends this special RR, along with its signatures, to the resolving name server. By verifying the signature, a DNSSEC-aware resolving name server can determine which authoritative owner name exists in a zone and which authoritative RRTypes exist at those owner names.",
+  "Documentable": "false"
+}

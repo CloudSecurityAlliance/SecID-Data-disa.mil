@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272430",
+  "rule_id": "SV-272430r1123947_rule",
+  "stig_id": "BIND-9X-001890",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BIND 9.x server implementation must maintain at least three file versions of the local log file.",
+  "group_title": "SRG-APP-000125-DNS-000012",
+  "idents": {
+    "cci": [
+      "CCI-001348"
+    ]
+  },
+  "check_id": "C-76480r1123945_chk",
+  "check_content": "Verify that the BIND 9.x server is configured to retain at least three versions of the local log file.\n\nInspect the \"named.conf\" file for the following:\n\nlogging {\nchannel local_file_channel {\nfile \"path_name\" versions 3;\nsize 10m;\n};\n\nIf the \"versions\" variable is not defined, this is a finding.\n\nIf the \"versions\" variable is configured to retain fewer than three versions of the local log file, this is a finding.",
+  "fixtext": "Edit the \"named.conf\" file.\n\nAdd the \"versions\" variable to the end of the \"file\" sub-statement in the channel statement.\n\nConfigure the \"versions\" sub-statement to a number that is greater than or equal to \"3\".\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76387r1123946_fix",
+  "VulnDiscussion": "DNS software administrators require DNS transaction logs for a wide variety of reasons including troubleshooting, intrusion detection, and forensics. Ensuring that the DNS transaction logs are recorded on the local system will provide the capability needed to support these actions.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271874",
+  "rule_id": "SV-271874r1092612_rule",
+  "stig_id": "OL09-00-006031",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must limit the number of bogus Internet Control Message Protocol (ICMP) response errors logs.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75924r1092611_chk",
+  "check_content": "Verify that OL 9 limits the number of bogus ICMP response errors logs.\n\nThe runtime status of the net.ipv4.icmp_ignore_bogus_error_responses kernel parameter can be queried by running the following command:\n\n$ sysctl net.ipv4.icmp_ignore_bogus_error_responses \nnet.ipv4.icmp_ignore_bogus_error_responses = 1\n\nIf \"net.ipv4.icmp_ignore_bogus_error_responses\" is not set to \"1\", this is a finding.",
+  "fixtext": "Configure OL 9 to not log bogus ICMP errors: \n\nAdd or edit the following line in a single system configuration file in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv4.icmp_ignore_bogus_error_responses = 1\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-75831r1092333_fix",
+  "VulnDiscussion": "Some routers will send responses to broadcast frames that violate RFC-1122, which fills up a log file system with many useless error messages. An attacker may take advantage of this and attempt to flood the logs with bogus error logs. Ignoring bogus ICMP error responses reduces log size, although some activity would not be logged.",
+  "Documentable": "false"
+}

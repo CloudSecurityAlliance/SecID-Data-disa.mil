@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-257826",
+  "rule_id": "SV-257826r1106299_rule",
+  "stig_id": "RHEL-09-215015",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "RHEL 9 must not have a File Transfer Protocol (FTP) server package installed.",
+  "group_title": "SRG-OS-000074-GPOS-00042",
+  "idents": {
+    "cci": [
+      "CCI-000197",
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-61567r1106298_chk",
+  "check_content": "Verify RHEL 9 does not have an FTP server package installed with the following command:\n\n$ sudo dnf list --installed vsftpd\n\nError: No matching Packages to list\n\nIf the \"ftp\" package is installed, this is a finding.",
+  "fixtext": "The ftp package can be removed with the following command (using vsftpd as an example):\n\n$ sudo dnf remove vsftpd",
+  "fix_id": "F-61491r925464_fix",
+  "VulnDiscussion": "The FTP service provides an unencrypted remote access that does not provide for the confidentiality and integrity of user passwords or the remote session. If a privileged user were to log on using this service, the privileged user password could be compromised. SSH or other encrypted file transfer methods must be used in place of this service.\n\nRemoving the \"vsftpd\" package decreases the risk of accidental activation.\n\nIf FTP is required for operational support (such as transmission of router configurations), its use must be documented with the information systems security manager (ISSM), restricted to only authorized personnel, and have access control rules established.\n\nSatisfies: SRG-OS-000074-GPOS-00042, SRG-OS-000095-GPOS-00049, SRG-OS-000480-GPOS-00227",
+  "Documentable": "false"
+}

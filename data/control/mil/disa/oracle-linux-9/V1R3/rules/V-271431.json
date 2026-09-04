@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271431",
+  "rule_id": "SV-271431r1092616_rule",
+  "stig_id": "OL09-00-000001",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The OL 9 operating system must implement cryptographic mechanisms to prevent unauthorized modification of all information at rest.",
+  "group_title": "SRG-OS-000780-GPOS-00240",
+  "idents": {
+    "cci": [
+      "CCI-004910"
+    ]
+  },
+  "check_id": "C-75481r1091003_chk",
+  "check_content": "Note: If there is a documented and approved reason for not having data at rest encryption, this requirement is Not Applicable.\n\nVerify that OL 9 prevents unauthorized disclosure or modification of all information requiring at rest protection by using disk encryption.\n\nDetermine the partition layout for the system with the following command: \n \n$ sudo fdisk -l \n(..) \nDisk /dev/vda: 15 GiB, 16106127360 bytes, 31457280 sectors \nUnits: sectors of 1 * 512 = 512 bytes \nSector size (logical/physical): 512 bytes / 512 bytes \nI/O size (minimum/optimal): 512 bytes / 512 bytes \nDisklabel type: gpt \nDisk identifier: 83298450-B4E3-4B19-A9E4-7DF147A5FEFB \n \nDevice       Start      End  Sectors Size Type \n/dev/vda1     2048     4095     2048   1M BIOS boot \n/dev/vda2     4096  2101247  2097152   1G Linux filesystem \n/dev/vda3  2101248 31455231 29353984  14G Linux filesystem \n(...) \n \nVerify that the system partitions are all encrypted with the following command: \n \n$ sudo more /etc/crypttab \n \nEvery persistent disk partition present must have an entry in the file. \n \nIf any partitions other than the boot partition or pseudo file systems (such as /proc or /sys) are not listed, this is a finding.",
+  "fixtext": "Configure the OL 9 operating system to implement cryptographic mechanisms to prevent unauthorized modification of all information at rest.\n\nTo encrypt an entire partition, dedicate a partition for encryption in the partition layout. \n \nNote: Encrypting a partition in an already-installed system is more difficult because it will need to be resized and existing partitions changed.",
+  "fix_id": "F-75388r1092615_fix",
+  "VulnDiscussion": "Operating systems handling data requiring \"data at rest\" protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest. \n \nSelection of a cryptographic mechanism is based on the need to protect the integrity of organizational information. The strength of the mechanism is commensurate with the security category and/or classification of the information. Organizations have the flexibility to either encrypt all information on storage devices (i.e., full disk encryption) or encrypt specific data structures (e.g., files, records, or fields).",
+  "Documentable": "false"
+}

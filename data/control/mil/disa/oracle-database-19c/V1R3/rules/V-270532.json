@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270532",
+  "rule_id": "SV-270532r1064874_rule",
+  "stig_id": "O19C-00-010000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Application role permissions must not be assigned to the Oracle PUBLIC role.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-74565r1064872_chk",
+  "check_content": "From SQL*Plus:\n\nselect granted_role from dba_role_privs where grantee = 'PUBLIC';\n\nIf any roles are listed, this is a finding.",
+  "fixtext": "Revoke role grants from PUBLIC.\n\nDo not assign role privileges to PUBLIC.\n\nFrom SQL*Plus:\n\nrevoke [role name] from PUBLIC;",
+  "fix_id": "F-74466r1064873_fix",
+  "VulnDiscussion": "Permissions granted to PUBLIC are granted to all users of the database. Custom roles must be used to assign application permissions to functional groups of application users. The installation of Oracle does not assign role permissions to PUBLIC.",
+  "Documentable": "false"
+}

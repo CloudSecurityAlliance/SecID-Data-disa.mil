@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222969",
+  "rule_id": "SV-222969r1117171_rule",
+  "stig_id": "TCAT-AS-000780",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to JMX management interface must be restricted.",
+  "group_title": "SRG-APP-000211-AS-000146",
+  "idents": {
+    "legacy": [
+      "SV-111461",
+      "V-102521"
+    ],
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-24641r426351_chk",
+  "check_content": "Review the system security plan and network documentation. Identify the management networks that are used for system management. \n\nFrom the Tomcat server as a privileged user, run the following command:\n\nsudo grep -i jmxremote /etc/systemd/system/tomcat.service\nsudo ps -ef |grep -i jmxremote\n\nIf there are no results, the JMX process is not being used, and this is not a finding.\n\nIf output includes jmxremote information, review the -Dcom.sun.management.jmxremote.host setting. \n\nCompare the IP address associated with the JMX process with the network information in the SSP. Ensure the IP address space is dedicated for system management purposes.\n\nIf the IP address that is associated with the JMX process is not dedicated to system management usage, this is a finding.\n\nIf jmxremote is in use but the host IP address is not specified, this is a finding.",
+  "fixtext": "Make an operational determination regarding the use of JMX. If JMX management is decided upon, identify the management networks that are used for system management. Update the system security plan and network documentation with the information. \n\nEdit the /etc/systemd/system/tomcat.service file.\n\nAdd or modify the existing CATALINA_OPTS  -Dcom.sun.management.jmxremote.host setting. Set the host parameter to an IP address that is only available on a management network.\n\nEXAMPLE:\nCATALINA_OPTS='-Dcom.sun.management.jmxremote.host=192.168.0.150'\n\nRestart Tomcat:\nsudo systemctl restart tomcat\nsudo systemctl daemon-reload\n\nVerify jmxmanagement access is restricted to the management network IP address range.",
+  "fix_id": "F-24630r426352_fix",
+  "VulnDiscussion": "Java Management Extensions (JMX) is used to provide programmatic access to Tomcat for management purposes. This includes monitoring and control of java applications running on Tomcat. If network access to the JMX port is not restricted, attackers can gain access to the application used to manage the system.",
+  "Documentable": "false"
+}

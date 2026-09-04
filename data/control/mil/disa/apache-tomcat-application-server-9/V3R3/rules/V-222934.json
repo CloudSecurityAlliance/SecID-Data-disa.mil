@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222934",
+  "rule_id": "SV-222934r1117167_rule",
+  "stig_id": "TCAT-AS-000090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DefaultServlet must be set to readonly for PUT and DELETE.",
+  "group_title": "SRG-APP-000033-AS-000024",
+  "idents": {
+    "legacy": [
+      "SV-111399",
+      "V-102451"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-24606r622485_chk",
+  "check_content": "From the Tomcat server run the following command:\n\nsudo cat $CATALINA_BASE/conf/web.xml |grep -i -A5 -B2 defaultservlet \n\nIf the \"readonly\" param-value for the \"DefaultServlet\" servlet class = \"false\" or does not exist, this is a finding.",
+  "fixtext": "From the Tomcat server console as a privileged user:\n\nEdit the $CATALINA_BASE/conf/web.xml file. \n\nIf the \"readonly\" param-value does not exist, it must be created.\n\nEnsure the \"readonly\" param-value for the \"DefaultServlet\" servlet class = \"true\".",
+  "fix_id": "F-24595r622486_fix",
+  "VulnDiscussion": "The DefaultServlet is a servlet provided with Tomcat. It is called when no other suitable page can be displayed to the client. The DefaultServlet serves static resources as well as directory listings and is declared globally in $CATALINA_BASE/conf/web.xml. By default, Tomcat behaves as if the DefaultServlet is set to \"true\" (HTTP commands like PUT and DELETE are rejected). However, the readonly parameter is not in the web.xml file by default so to ensure proper configuration and system operation, the \"readonly\" parameter in web.xml  must be created and set to \"true\". Creating the setting in web.xml provides assurances the system is operating as required. Changing the readonly parameter to false could allow clients to delete or modify static resources on the server and upload new resources.",
+  "Documentable": "false"
+}

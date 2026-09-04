@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230498",
+  "rule_id": "SV-230498r1069314_rule",
+  "stig_id": "RHEL-08-040025",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "RHEL 8 must disable mounting of cramfs.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-33167r1069237_chk",
+  "check_content": "Verify the operating system disables the ability to load the cramfs kernel module and ensure that the cramfs kernel module is disabled with the following command:\n\n$ sudo grep -r cramfs /etc/modprobe.d/* | grep \"blacklist\"\n\n/etc/modprobe.d/blacklist.conf:install cramfs /bin/false\n/etc/modprobe.d/blacklist.conf:blacklist cramfs\n\nIf the command does not return any output, or the line is commented out, and use of the cramfs protocol is not documented with the Information System Security Officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure the operating system to disable the ability to use the cramfs kernel module.\n\nAdd or update the following lines in the file \"/etc/modprobe.d/blacklist.conf\":\n\n     install cramfs /bin/false\n     blacklist cramfs\n\nReboot the system for the settings to take effect.",
+  "fix_id": "F-33142r942929_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nRemoving support for unneeded filesystem types reduces the local attack surface of the server.\n\nCompressed ROM/RAM file system (or cramfs) is a read-only file system designed for simplicity and space-efficiency.  It is mainly used in embedded and small-footprint systems.",
+  "Documentable": "false"
+}

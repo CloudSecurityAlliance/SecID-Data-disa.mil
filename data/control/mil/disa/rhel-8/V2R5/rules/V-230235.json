@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230235",
+  "rule_id": "SV-230235r1117265_rule",
+  "stig_id": "RHEL-08-010150",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "RHEL 8 operating systems booted with a BIOS must require authentication upon booting into single-user and maintenance modes.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-32904r743923_chk",
+  "check_content": "For systems that use UEFI, this is Not Applicable.\n\nCheck to see if an encrypted grub superusers password is set. On systems that use a BIOS, use the following command:\n\n$ sudo grep -iw grub2_password /boot/grub2/user.cfg\n\nGRUB2_PASSWORD=grub.pbkdf2.sha512.[password_hash]\n\nIf the grub superusers password does not begin with \"grub.pbkdf2.sha512\", this is a finding.",
+  "fixtext": "Configure the system to require a grub bootloader password for the grub superusers account with the grub2-setpassword command, which creates/overwrites the /boot/grub2/user.cfg file.\n\nGenerate an encrypted grub2 password for the grub superusers account with the following command:\n\n$ sudo grub2-setpassword\nEnter password:\nConfirm password:",
+  "fix_id": "F-32879r743924_fix",
+  "VulnDiscussion": "If the system does not require valid authentication before it boots into single-user or maintenance mode, anyone who invokes single-user or maintenance mode is granted privileged access to all files on the system. GRUB 2 is the default boot loader for RHEL 8 and is designed to require a password to boot into single-user mode or make modifications to the boot menu.",
+  "Documentable": "false"
+}

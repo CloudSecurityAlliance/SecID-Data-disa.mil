@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248540",
+  "rule_id": "SV-248540r1117265_rule",
+  "stig_id": "OL08-00-010150",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "OL 8 operating systems booted with a BIOS must require authentication upon booting into single-user and maintenance modes.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-51974r779184_chk",
+  "check_content": "For systems that use UEFI, this is not applicable. \n \nDetermine if an encrypted password is set for the grub superusers account. On systems that use a BIOS, use the following command: \n \n$ sudo grep -iw grub2_password /boot/grub2/user.cfg \n \nGRUB2_PASSWORD=grub.pbkdf2.sha512.[password_hash] \n \nIf the grub superusers account password does not begin with \"grub.pbkdf2.sha512\", this is a finding.",
+  "fixtext": "Configure the system to require a grub bootloader password for the grub superusers account with the grub2-setpassword command, which creates/overwrites the \"/boot/grub2/user.cfg\" file. \n \nGenerate an encrypted grub2 password for the grub superusers account with the following command: \n \n$ sudo grub2-setpassword \nEnter password: \nConfirm password:",
+  "fix_id": "F-51928r779185_fix",
+  "VulnDiscussion": "If the system does not require valid authentication before it boots into single-user or maintenance mode, anyone who invokes single-user or maintenance mode is granted privileged access to all files on the system. GRUB 2 is the default boot loader for OL 8 and is designed to require a password to boot into single-user mode or modify the boot menu.",
+  "Documentable": "false"
+}

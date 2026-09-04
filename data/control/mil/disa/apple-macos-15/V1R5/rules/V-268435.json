@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268435",
+  "rule_id": "SV-268435r1131188_rule",
+  "stig_id": "APPL-15-000051",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must configure SSHD ClientAliveInterval to 900.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-72465r1034243_chk",
+  "check_content": "Verify the macOS system is configured to set the SSHD ClientAliveInterval to 900 with the following command:\n\n/usr/sbin/sshd -G | /usr/bin/awk '/clientaliveinterval/{print $2}'\n\nIf the result is not \"900\", this is a finding.",
+  "fixtext": "Configure the macOS system to set the SSHD ClientAliveInterval to 900 with the following command:\n\ninclude_dir=$(/usr/bin/awk '/^Include/ {print $2}' /etc/ssh/sshd_config | /usr/bin/tr -d '*')\n\nif [[ -z $include_dir ]]; then\n/usr/bin/sed -i.bk \"1s/.*/Include \\/etc\\/ssh\\/sshd_config.d\\/\\*/\" /etc/ssh/sshd_config\nfi\n\n/usr/bin/grep -qxF 'clientaliveinterval 900' \"${include_dir}01-mscp-sshd.conf\" 2>/dev/null || echo \"clientaliveinterval 900\" >> \"${include_dir}01-mscp-sshd.conf\"\n\nfor file in $(ls ${include_dir}); do\nif [[ \"$file\" == \"100-macos.conf\" ]]; then\ncontinue\nfi\nif [[ \"$file\" == \"01-mscp-sshd.conf\" ]]; then\nbreak\nfi\n/bin/mv ${include_dir}${file} ${include_dir}20-${file}\ndone",
+  "fix_id": "F-72366r1131187_fix",
+  "VulnDiscussion": "If SSHD is enabled, it must be configured with the Client Alive Interval set to 900.\n\nThis sets a timeout interval in seconds, after which if no data has been received from the client, sshd(8) will send a message through the encrypted channel to request a response from the client.\n\nThis setting works in conjunction with ClientAliveCountMax to determine the termination of the connection after the threshold has been reached.\n\nNote: This setting is not intended to manage idle user sessions where there is no input from the client. Its purpose is to look for interruptions in network connectivity and force the session to terminate after the connection appears to be broken.\n\nNote: /etc/ssh/sshd_config will be automatically modified to its original state following any update or major upgrade to the operating system.",
+  "Documentable": "false"
+}

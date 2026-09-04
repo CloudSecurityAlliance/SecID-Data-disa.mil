@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223358",
+  "rule_id": "SV-223358r961893_rule",
+  "stig_id": "O365-OU-000013",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Outlook must be configured to allow retrieving of Certificate Revocation Lists (CRLs) always when online.",
+  "group_title": "SRG-APP-000605",
+  "idents": {
+    "legacy": [
+      "SV-108895",
+      "V-99791"
+    ],
+    "cci": [
+      "CCI-000185"
+    ]
+  },
+  "check_id": "C-25031r811490_chk",
+  "check_content": "Verify the policy value for User Configuration >> Administrative Templates >> Microsoft Outlook 2016 >> Security >> Cryptography >> Signature Status dialog box >> Retrieving CRLs (Certificate Revocation Lists) is set to \"Enabled\" \"When online always retrieve the CRL\".\n\nUse the Windows Registry to navigate to the following key:\n\nHKCU\\software\\policies\\microsoft\\office\\16.0\\outlook\\security\n\nIf the value for usecrlchasing is set to REG_DWORD = 1, this is not a finding.",
+  "fixtext": "Set the policy value for User Configuration >> Administrative Templates >> Microsoft Outlook 2016 >> Security >> Cryptography >> Signature Status dialog box >> Retrieving CRLs (Certificate Revocation Lists) to \"Enabled\" \"When online always retrieve the CRL\".",
+  "fix_id": "F-25019r442294_fix",
+  "VulnDiscussion": "This policy setting controls how Outlook retrieves Certificate Revocation Lists to verify the validity of certificates. Certificate revocation lists (CRLs) are lists of digital certificates that have been revoked by their controlling certificate authorities (CAs), typically because the certificates were issued improperly or their associated private keys were compromised. \n\nIf you enable this policy setting, you can choose from three options to govern how Outlook uses CRLs: \n- Use system Default. Outlook relies on the CRL download schedule that is configured for the operating system. \n- When online always retrieve the CRL. This option is the default configuration in Outlook. \n- Never retrieve the CRL. Outlook will not attempt to download the CRL for a certificate, even if it is online. This option can reduce security. \n\nIf you disable or do not configure this policy setting, when Outlook handles a certificate that includes a URL from which a CRL can be downloaded, Outlook will retrieve the CRL from the provided URL if Outlook is online.",
+  "Documentable": "false"
+}

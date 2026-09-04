@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258077",
+  "rule_id": "SV-258077r1014874_rule",
+  "stig_id": "RHEL-09-412080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must terminate idle user sessions.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-61818r926216_chk",
+  "check_content": "Verify that RHEL 9 logs out sessions that are idle for 15 minutes with the following command:\n\n$ sudo grep -i ^StopIdleSessionSec /etc/systemd/logind.conf\n\nStopIdleSessionSec=900\n\nIf \"StopIdleSessionSec\" is not configured to \"900\" seconds, this is a finding.",
+  "fixtext": "Configure RHEL 9 to log out idle sessions by editing the /etc/systemd/logind.conf file with the following line:\n\nStopIdleSessionSec=900\n\nThe \"logind\" service must be restarted for the changes to take effect. To restart the \"logind\" service, run the following command:\n\n$ sudo systemctl restart systemd-logind",
+  "fix_id": "F-61742r1014873_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended.",
+  "Documentable": "false"
+}

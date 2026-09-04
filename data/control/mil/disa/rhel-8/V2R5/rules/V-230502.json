@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230502",
+  "rule_id": "SV-230502r1017284_rule",
+  "stig_id": "RHEL-08-040070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RHEL 8 file system automounter must be disabled unless required.",
+  "group_title": "SRG-OS-000114-GPOS-00059",
+  "idents": {
+    "cci": [
+      "CCI-000778"
+    ]
+  },
+  "check_id": "C-33171r568252_chk",
+  "check_content": "Verify the operating system disables the ability to automount devices.\n\nCheck to see if automounter service is active with the following command:\n\nNote: If the autofs service is not installed, this requirement is not applicable.\n\n$ sudo systemctl status autofs\n\nautofs.service - Automounts filesystems on demand\nLoaded: loaded (/usr/lib/systemd/system/autofs.service; disabled)\nActive: inactive (dead)\n\nIf the \"autofs\" status is set to \"active\" and is not documented with the Information System Security Officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure the operating system to disable the ability to automount devices.\n\nTurn off the automount service with the following commands:\n\n$ sudo systemctl stop autofs\n$ sudo systemctl disable autofs\n\nIf \"autofs\" is required for Network File System (NFS), it must be documented with the ISSO.",
+  "fix_id": "F-33146r568253_fix",
+  "VulnDiscussion": "Automatically mounting file systems permits easy introduction of unknown devices, thereby facilitating malicious activity.",
+  "Documentable": "false"
+}

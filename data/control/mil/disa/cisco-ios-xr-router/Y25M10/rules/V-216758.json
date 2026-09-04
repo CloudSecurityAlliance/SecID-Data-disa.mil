@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216758",
+  "rule_id": "SV-216758r1117237_rule",
+  "stig_id": "CISC-RT-000300",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco perimeter router must be configured to not redistribute static routes to an alternate gateway service provider into BGP or an IGP peering with the NIPRNet or to other autonomous systems.",
+  "group_title": "SRG-NET-000019-RTR-000010",
+  "idents": {
+    "legacy": [
+      "SV-105861",
+      "V-96723"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-17990r288663_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone.\n\nStep 1: Review the IGP and BGP configurations. If there are redistribute static statements configured as shown in examples below proceed to step 2.\n\nOSPF Example\n\nrouter ospf 1\n redistribute static\n\nEIGRP example\n\nrouter eigrp 1\n address-family ipv4\n  redistribute static\n\nRIP example\n\nrouter rip\n version 2\n redistribute static\n\nBGP example\n\nrouter bgp n\n address-family ipv4 unicast\n  redistribute static\n\nStep 2: Review the static routes that have been configured to determine if any contain the next hop address of the alternate gateway.\n\nIf the static routes to the alternate gateway are being redistributed into BGP or any IGP peering to a NIPRNet gateway or any other autonomous system, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN Backbone.\n\nConfigure the router so that static routes are not redistributed to an alternate gateway into either a BGP or any IGP peering with the NIPRNet or to any other autonomous systems. This can be done by excluding that route in the route policy as shown in the example below.\n\nStep 1: Configure a prefix list for any static routes with the alternate gateway as the next-hop address\n\nRP/0/0/CPU0:R3(config)#prefix-set ISP_PREFIX \nRP/0/0/CPU0:R3(config-pfx)#x.x.0.0/24 ge 8 le 32\nRP/0/0/CPU0:R3(config-pfx)#end-set\n\nStep 2: Configure a route policy\n\nRP/0/0/CPU0:R3(config)#route-policy FILTER_ISP_ROUTES  \nRP/0/0/CPU0:R3(config-rpl)#if destination in ISP_PREFIX then\nRP/0/0/CPU0:R3(config-rpl-if)#drop\nRP/0/0/CPU0:R3(config-rpl-if)#else\nRP/0/0/CPU0:R3(config-rpl-else)#pass\nRP/0/0/CPU0:R3(config-rpl-else)#endif \nRP/0/0/CPU0:R3(config-rpl)#end-pol\n\nStep 3: Apply the route policy to the IGP and BGP redistribute static commands as shown in the OSPF example.\n\nRP/0/0/CPU0:R3(config-ospf)#redistribute static route-policy FILTER_ISP_ROUTES",
+  "fix_id": "F-17988r288664_fix",
+  "VulnDiscussion": "If the static routes to the alternate gateway are being redistributed into an Exterior Gateway Protocol or Interior Gateway Protocol to a NIPRNet gateway, this could make traffic on NIPRNet flow to that particular router and not to the Internet Access Point routers. This could not only wreak havoc with traffic flows on NIPRNet, but it could overwhelm the connection from the router to the NIPRNet gateway(s) and also cause traffic destined for outside of NIPRNet to bypass the defenses of the Internet Access Points.",
+  "Documentable": "false"
+}

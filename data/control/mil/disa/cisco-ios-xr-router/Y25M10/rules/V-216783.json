@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216783",
+  "rule_id": "SV-216783r1117236_rule",
+  "stig_id": "CISC-RT-000550",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco BGP router must be configured to reject route advertisements from CE routers with an originating AS in the AS_PATH attribute that does not belong to that customer.",
+  "group_title": "SRG-NET-000018-RTR-000010",
+  "idents": {
+    "legacy": [
+      "SV-105911",
+      "V-96773"
+    ],
+    "cci": [
+      "CCI-000032"
+    ]
+  },
+  "check_id": "C-18015r288726_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone.\n\nReview the router configuration to verify the router is configured to deny updates received from CE routers with an originating AS in the AS_PATH attribute that does not belong to that customer.\n\nStep 1: verify that an inbound route policy has been configured for each customer neighbor as shown in the example below.\n\nrouter bgp xx\n address-family ipv4 unicast\n !\n neighbor x.12.4.14\n  remote-as 64514\n    address-family ipv4 unicast\n     route-policy FILTER _64514_ROUTES in\n  !\n !\n neighbor x.12.4.16\n  remote-as 64516\n  address-family ipv4 unicast\n   route-policy FILTER_64516_ROUTES in\n !\n\nStep 2: Verify that the route policy permits only routes from each CE router with an originating AS that does not belong to that customer.\n\nroute-policy FILTER_64514_ROUTES\n  if as-path originates-from 64514'  then\n    pass\n  else\n    drop\n  endif\nend-policy\n!\nroute-policy FILTER_64516_ROUTES\n  if as-path originates-from 64516'  then\n    pass\n  else\n    drop\n  endif\nend-policy\n\nNote: The inbound route policy to filter customer prefixes can be nested with the above route policy as shown in the example below.\n\nroute-policy CUST1_INBOUND_FILTER\n  apply CUST1_FILTER\n  apply FILTER_64514_ROUTES\nend-policy\n\nIf the router is not configured to reject updates from CE routers with an originating AS in the AS_PATH attribute that does not belong to that customer, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN Backbone.\n\nConfigure the router to reject updates from CE routers with an originating AS in the AS_PATH attribute that does not belong to that customer.\n\nStep 1: Configure an inbound route policy for each customer to only accept routes with an originating AS that belongs to that customer as shown in the example below.\n\nRP/0/0/CPU0:R2(config)#route-policy FILTER_64514_ROUTES\nRP/0/0/CPU0:R2(config-rpl)#if as-path originates-from '64514' then\nRP/0/0/CPU0:R2(config-rpl-if)#pass\nRP/0/0/CPU0:R2(config-rpl-if)#else\nRP/0/0/CPU0:R2(config-rpl-else)#drop\nRP/0/0/CPU0:R2(config-rpl-else)#endif \nRP/0/0/CPU0:R2(config-rpl)#end-policy \nRP/0/0/CPU0:R2(config)#route-policy FILTER_64516_ROUTES\nRP/0/0/CPU0:R2(config-rpl)#if as-path originates-from '64516' then\nRP/0/0/CPU0:R2(config-rpl-if)#pass\nRP/0/0/CPU0:R2(config-rpl-if)#else\nRP/0/0/CPU0:R2(config-rpl-else)#drop\nRP/0/0/CPU0:R2(config-rpl-else)#endif \nRP/0/0/CPU0:R2(config-rpl)#end-policy \n\nStep 2: Apply the appropriate inbound route policy with each peering CE router as shown in the example below.\n\nRP/0/0/CPU0:R2(config)#router bgp xx\nRP/0/0/CPU0:R2(config-bgp)#neighbor x.12.4.14\nRP/0/0/CPU0:R2(config-bgp-nbr)#address-family ipv4 unicast \nRP/0/0/CPU0:R2(config-bgp-nbr-af)#route-policy route-policy FILTER_64514_ROUTES in\nRP/0/0/CPU0:R2(config-bgp)#neighbor x.12.4.16\nRP/0/0/CPU0:R2(config-bgp-nbr)#address-family ipv4 unicast \nRP/0/0/CPU0:R2(config-bgp-nbr-af)#route-policy FILTER_64516_ROUTES in\nRP/0/0/CPU0:R2(config-bgp-nbr-af)#end",
+  "fix_id": "F-18013r288727_fix",
+  "VulnDiscussion": "Verifying the path a route has traversed will ensure that the local AS is not used as a transit network for unauthorized traffic. To ensure that the local AS does not carry any prefixes that do not belong to any customers, all PE routers must be configured to reject routes with an originating AS other than that belonging to the customer.",
+  "Documentable": "false"
+}

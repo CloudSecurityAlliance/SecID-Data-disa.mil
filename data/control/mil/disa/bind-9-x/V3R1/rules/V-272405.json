@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272405",
+  "rule_id": "SV-272405r1123528_rule",
+  "stig_id": "BIND-9X-001520",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The host running a BIND 9.x implementation must use an interface that is configured to process only DNS traffic.",
+  "group_title": "SRG-APP-000516-DNS-000109",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-76455r1123526_chk",
+  "check_content": "Verify that the BIND 9.x server is configured to use an interface that is configured to process only DNS traffic.\n\n# ifconfig -a\neth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST> mtu 1500\ninet 10.0.1.252 netmask 255.255.255.0 broadcast 10.0.1.255\ninet6 fd80::21c:d8ff:fab7:1dba prefixlen 64 scopeid 0x20<link>\nether 00:1a:b8:d7:1a:bf txqueuelen 1000 (Ethernet)\nRX packets 2295379 bytes 220126493 (209.9 MiB)\nRX errors 0 dropped 31 overruns 0 frame 0\nTX packets 70507 bytes 12284940 (11.7 MiB)\nTX errors 0 dropped 0 overruns 0 carrier 0 collisions 0\n\neth1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST> mtu 1458\ninet 10.0.0.5 netmask 255.255.255.0 broadcast 10.0.0.255\ninet6 fe81::21c:a8bf:fad7:1dca prefixlen 64 scopeid 0x20<link>\nether 00:1d:d8:b5:1c:dd txqueuelen 1000 (Ethernet)\nRX packets 39090 bytes 4196802 (4.0 MiB)\nRX errors 0 dropped 0 overruns 0 frame 0\nTX packets 93250 bytes 18614094 (17.7 MiB)\nTX errors 0 dropped 0 overruns 0 carrier 0 collisions 0\n\nIf one of the interfaces listed is not dedicated to only process DNS traffic, this is a finding.",
+  "fixtext": "On the host machine, configure an interface to only process DNS traffic.\n\nRestart the host machine.",
+  "fix_id": "F-76362r1123527_fix",
+  "VulnDiscussion": "Configuring hosts that run a BIND 9.x implementation to only accept DNS traffic on a DNS interface allows a system to be configured to segregate DNS traffic from all other host traffic.\n\nThe TCP/IP stack in DNS hosts (stub resolver, caching/resolving/recursive name server, authoritative name server, etc.) could be subjected to packet flooding attacks (such as SYNC and smurf), resulting in disruption of communication. \n\nThe use of a dedicated interface for DNS traffic allows for these threats to be mitigated by creating a means to limit what types of traffic can be processed using a host-based firewall solution.",
+  "Documentable": "false"
+}

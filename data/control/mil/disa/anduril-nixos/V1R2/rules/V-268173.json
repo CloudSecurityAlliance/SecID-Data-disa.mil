@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-268173",
+  "rule_id": "SV-268173r1131154_rule",
+  "stig_id": "ANIX-00-001890",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must be configured to use AppArmor.",
+  "group_title": "SRG-OS-000480-GPOS-00230",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-72097r1039405_chk",
+  "check_content": "Verify NixOS is configured to use AppArmor with the following command:\n\n$ sudo systemctl status apparmor.service\n\napparmor.service - Load AppArmor policies\n  Loaded: loaded (/etc/systemd/system/apparmor.service; enabled; present: enabled)\n  Active: active (running) since Sat 2022-06-04 02:51:43 UTC; 13min ago\n\n If the \"apparmor.service\" is not enabled and active, this is a finding.",
+  "fixtext": "Configure NixOS to use AppArmor.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\n security.apparmor.enable = true;\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch\n\nA reboot is required for the changes to take effect.",
+  "fix_id": "F-72000r1131153_fix",
+  "VulnDiscussion": "Users' home directories/folders may contain information of a sensitive nature. Nonprivileged users should coordinate any sharing of information with a system administrator (SA) through shared resources.\n\nSatisfies: SRG-OS-000480-GPOS-00230, SRG-OS-000368-GPOS-00154",
+  "Documentable": "false"
+}

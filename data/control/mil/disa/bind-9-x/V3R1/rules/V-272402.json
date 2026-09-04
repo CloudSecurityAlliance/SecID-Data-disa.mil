@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272402",
+  "rule_id": "SV-272402r1124060_rule",
+  "stig_id": "BIND-9X-001490",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "On the BIND 9.x server, the platform on which the name server software is hosted must be configured to send outgoing DNS messages from a random port.",
+  "group_title": "SRG-APP-000516-DNS-000110",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-76452r1123913_chk",
+  "check_content": "Verify that the BIND 9.x server does not limit outgoing DNS messages to a specific port.\n\nInspect the \"named.conf\" file. The \"query-source\" and \"query-source-v6\" must not limit the ports available to be used.\n\noptions {\nquery-source address  <v4_address>;\nquery-source-v6 address <v6_address>;\n};\n\nIf the port flag is used on the query-source address or query-source-v6 address, this is a finding.",
+  "fixtext": "Edit the \"named.conf\" file.\n\nConfigure the BIND 9.x server to not specify ports for the query-source address or query-source-v6 address statements:\n\noptions {\nquery-source address  <v4_address>;\nquery-source-v6 address <v6_address>;\n};\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76359r1123914_fix",
+  "VulnDiscussion": "OS configuration practices as issued by the U.S. Computer Emergency Response Team (US CERT) and the National Institute of Standards and Technology's (NIST's) National Vulnerability Database (NVD), based on identified vulnerabilities that pertain to the application profile into which the name server software fits should be always followed. In particular, hosts that run the name server software should not provide any other services and therefore should be configured to respond to DNS traffic only. In other words, the only allowed incoming ports/protocols to these hosts should be 53/udp and 53/tcp. \n\nOutgoing DNS messages should be sent from a random port to minimize the risk of an attacker guessing the outgoing message port and sending forged replies.",
+  "Documentable": "false"
+}

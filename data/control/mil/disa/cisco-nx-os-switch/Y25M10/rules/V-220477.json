@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220477",
+  "rule_id": "SV-220477r960783_rule",
+  "stig_id": "CISC-ND-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must be configured to automatically audit account disabling actions.",
+  "group_title": "SRG-APP-000028-NDM-000210",
+  "idents": {
+    "legacy": [
+      "SV-110601",
+      "V-101497"
+    ],
+    "cci": [
+      "CCI-001404"
+    ]
+  },
+  "check_id": "C-22192r539152_chk",
+  "check_content": "Review the switch configuration to determine if it automatically audits account disabling. \n\nStep 1: Verify that account records will be sent to an AAA server as shown in the example below:\n\naaa accounting default group RADIUS_SERVERS\n\nStep 2: Verify that the referenced group name has defined AAA servers that are online.\n\naaa group server radius RADIUS_SERVERS \n server 10.1.48.10 \n server 10.1.48.12\n\nNote: Cisco NX-OS devices report configuration activity to TACACS+ or RADIUS servers in the form of accounting records. Each accounting record contains accounting attribute-value (AV) pairs and is stored on the AAA server.\n\nIf account disabling is not automatically audited, this is a finding.",
+  "fixtext": "Configure the switch to log account disabling using the following steps:\n\nStep 1: Configure the AAA servers as shown in the example below:\n\nSW1(config)# radius-server host 10.1.48.10 \nSW1(config)# radius-server host 10.1.48.12\n\nStep 2: Configure an AAA server group as shown in the example below:\n\nSW1(config)# aaa group server radius RADIUS_SERVERS\nSW1(config-radius)# server 10.1.48.10 \nSW1(config-radius)# server 10.1.48.12\nSW1(config-radius)# exit\n\nStep 3: Enable AAA accounting as shown in the example below:\n\nSW1(config)# aaa accounting default group RADIUS_SERVERS\nSW1(config)# end",
+  "fix_id": "F-22181r539153_fix",
+  "VulnDiscussion": "Account management, as a whole, ensures access to the network device is being controlled in a secure manner by granting access to only authorized personnel. Auditing account disabling actions will support account management procedures. When device management accounts are disabled, user or service accessibility may be affected. Auditing also ensures authorized active accounts remain enabled and available for use when required.",
+  "Documentable": "false"
+}

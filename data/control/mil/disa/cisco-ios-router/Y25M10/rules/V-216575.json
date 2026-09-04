@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216575",
+  "rule_id": "SV-216575r863237_rule",
+  "stig_id": "CISC-RT-000270",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco perimeter router must be configured to block inbound packets with source Bogon IP address prefixes.",
+  "group_title": "SRG-NET-000364-RTR-000110",
+  "idents": {
+    "legacy": [
+      "SV-105689",
+      "V-96551"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-17810r863235_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone.\n\nReview the router configuration to verify that an ingress Access Control List (ACL) applied to all external interfaces is blocking packets with Bogon source addresses.\n\nStep 1: Verify an ACL has been configured containing the current Bogon prefixes as shown in the example below.\n\nip access-list extended FILTER_PERIMETER\n deny   ip 0.0.0.0 0.255.255.255 any log-input\n deny   ip 10.0.0.0 0.255.255.255 any log-input\n deny   ip 100.64.0.0 0.63.255.255 any log-input\n deny   ip 127.0.0.0 0.255.255.255 any log-input\n deny   ip 169.254.0.0 0.0.255.255 any log-input\n deny   ip 172.16.0.0 0.15.255.255 any log-input\n deny   ip 192.0.0.0 0.0.0.255 any log-input\n deny   ip 192.0.2.0 0.0.0.255 any log-input\n deny   ip 192.168.0.0 0.0.255.255 any log-input\n deny   ip 198.18.0.0 0.1.255.255 any log-input\n deny   ip 198.51.100.0 0.0.0.255 any log-input\n deny   ip 203.0.113.0 0.0.0.255 any log-input\n deny   ip 224.0.0.0 31.255.255.255 any log-input\n deny   ip 240.0.0.0 15.255.255.255 any log-input\n permit tcp any any established\n permit tcp host x.12.1.9 host x.12.1.10 eq bgp\n permit tcp host x.12.1.9 eq bgp host x.12.1.10\n permit icmp host x.12.1.9 host x.12.1.10 echo\n permit icmp host x.12.1.9 host x.12.1.10 echo-reply\n …\n …\n …\n deny   ip any any log-input\n\nStep 2: Verify that the inbound ACL applied to all external interfaces will block all traffic from Bogon source addresses.\n\ninterface GigabitEthernet0/1\n description Link to DISN\n ip address x.12.1.10 255.255.255.254\n ip access-group FILTER_PERIMETER in\n\nIf the router is not configured to block inbound packets with source Bogon IP address prefixes, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN Backbone.\n\nConfigure the perimeter to block inbound packets with Bogon source addresses.\n\nStep 1: Configure an ACL containing the current Bogon prefixes as shown below.\n\nR5(config)#ip access-list extended FILTER_PERIMETER\nR5(config-ext-nacl)#deny ip 0.0.0.0 0.255.255.255 any log-input\nR5(config-ext-nacl)#deny ip 10.0.0.0 0.255.255.255 any log-input\nR5(config-ext-nacl)#deny ip 100.64.0.0 0.63.255.255 any log-input\nR5(config-ext-nacl)#deny ip 127.0.0.0 0.255.255.255 any log-input\nR5(config-ext-nacl)#deny ip 169.254.0.0 0.0.255.255 any log-input\nR5(config-ext-nacl)#deny ip 172.16.0.0 0.15.255.255 any log-input\nR5(config-ext-nacl)#deny ip 192.0.0.0 0.0.0.255 any log-input\nR5(config-ext-nacl)#deny ip 192.0.2.0 0.0.0.255 any log-input\nR5(config-ext-nacl)#deny ip 192.168.0.0 0.0.255.255 any log-input\nR5(config-ext-nacl)#deny ip 198.18.0.0 0.1.255.255 any log-input\nR5(config-ext-nacl)#deny ip 198.51.100.0 0.0.0.255 any log-input\nR5(config-ext-nacl)#deny ip 203.0.113.0 0.0.0.255 any log-input\nR5(config-ext-nacl)#deny ip 224.0.0.0 31.255.255.255 any log-input\nR5(config-ext-nacl)#deny ip 240.0.0.0 15.255.255.255 any log-input\nR5(config-ext-nacl)#permit tcp any any established\nR5(config-ext-nacl)#permit tcp host x.12.1.9 host x.12.1.10 eq bgp\nR5(config-ext-nacl)#permit tcp host x.12.1.9 eq bgp host x.12.1.10\nR5(config-ext-nacl)#permit icmp host x.12.1.9 host x.12.1.10 echo\nR5(config-ext-nacl)#permit icmp host x.12.1.9 host x.12.1.10 echo-reply\n…\n…\n…\nR5(config-ext-nacl)#deny ip any any log-input\nR5(config-ext-nacl)#end\n\nStep 2: Apply the ACL inbound on all external interfaces.\n\nR2(config)#int g0/0\nR1(config-if)#ip access-group  FILTER_PERIMETER in\nR1(config-if)#end",
+  "fix_id": "F-17806r863236_fix",
+  "VulnDiscussion": "Packets with Bogon IP source addresses should never be allowed to traverse the IP core. Bogon IP networks are RFC1918 addresses or address blocks that have never been assigned by the IANA or have been reserved.",
+  "Documentable": "false"
+}

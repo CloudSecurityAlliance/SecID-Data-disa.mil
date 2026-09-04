@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248813",
+  "rule_id": "SV-248813r991589_rule",
+  "stig_id": "OL08-00-030680",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must have the packages required for encrypting offloaded audit logs installed.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52247r780003_chk",
+  "check_content": "Verify the operating system has the packages required for encrypting offloaded audit logs installed with the following commands: \n \n$ sudo yum list installed rsyslog-gnutls \n \nrsyslog-gnutls.x86_64 8.1911.0-6.el8 @AppStream \n \nIf the \"rsyslog-gnutls\" package is not installed, ask the administrator to indicate how audit logs are being encrypted during offloading and what packages are installed to support it.  \n \nIf there is no evidence of audit logs being encrypted during offloading, this is a finding.",
+  "fixtext": "Configure the operating system to encrypt offloaded audit logs by installing the required packages with the following command: \n \n$ sudo yum install rsyslog-gnutls",
+  "fix_id": "F-52201r780004_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration. \n \nOffloading is a common process in information systems with limited audit storage capacity. \n \nOL 8 installation media provides \"rsyslogd\". This is a system utility providing support for message logging. Support for both internet and UNIX domain sockets enables this utility to support both local and remote logging. Coupling this utility with \"gnutls\" (which is a secure communications library implementing the SSL, TLS and DTLS protocols) provides a method to securely encrypt and offload auditing. \n \nRsyslog provides three ways to forward message: the traditional UDP transport, which is extremely lossy but standard; the plain TCP based transport, which loses messages only during certain situations but is widely available; and the RELP transport, which does not lose messages but is currently available only as part of the rsyslogd 3.15.0 and above. \n \nExamples of each configuration follow: \nUDP *.* @remotesystemname \nTCP *.* @@remotesystemname \nRELP *.* :omrelp:remotesystemname:2514 \n \nNote that a port number was given as there is no standard port for RELP.",
+  "Documentable": "false"
+}

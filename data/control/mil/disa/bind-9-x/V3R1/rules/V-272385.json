@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272385",
+  "rule_id": "SV-272385r1124044_rule",
+  "stig_id": "BIND-9X-001280",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "On the BIND 9.x server, the private keys corresponding to both the zone signing key (ZSK) and the key signing key (KSK) must not be kept on the BIND 9.x DNSSEC-aware primary authoritative name server when the name server does not support dynamic updates.",
+  "group_title": "SRG-APP-000516-DNS-000112",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-76435r1123873_chk",
+  "check_content": "Determine if the BIND 9.x server is configured to allow dynamic updates.\n\nReview the \"named.conf\" file for any instance of the \"allow-update\" statement. The following example disables dynamic updates:\n\nallow-update {none;};\n\nIf the BIND 9.x implementation is not configured to allow dynamic updates or inline signing, verify with the system administrator (SA) that the private ZSKs and private KSKs are stored offline. If not, this is a finding.",
+  "fixtext": "Remove any ZSK or KSK private key from any BIND 9.x server that does not support dynamic updates.\n\nNote: Any ZSK or KSK that is not needed to support dynamic updates must be stored offline in a secure location.",
+  "fix_id": "F-76342r1123874_fix",
+  "VulnDiscussion": "The private keys in the KSK and ZSK key pairs must be protected from unauthorized access. If possible, the private keys should be stored offline (with respect to the internet-facing, DNSSEC-aware name server) in a physically secure, nonnetwork-accessible machine along with the zone file primary copy. \n\nThis strategy is not feasible in situations in which the DNSSEC-aware name server has to support dynamic updates. To support dynamic update transactions, the DNSSEC-aware name server (which usually is a primary authoritative name server) has to have both the zone file primary copy and the private key corresponding to the zone-signing key (ZSK-private) online to immediately update the signatures for the updated RRsets. The private key corresponding to the key-signing key (KSK-private) can still be kept offline.",
+  "Documentable": "false"
+}

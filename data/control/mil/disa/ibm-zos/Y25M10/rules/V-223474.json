@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223474",
+  "rule_id": "SV-223474r991589_rule",
+  "stig_id": "ACF2-ES-000560",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS batch jobs with restricted ACF2 LOGONIDs must have the PGM(xxxxxxxx) and SUBAUTH attributes or the SOURCE(xxxxxxxx) attribute assigned to the corresponding LOGONIDs.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-97647",
+      "SV-106751"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-25147r504537_chk",
+  "check_content": "From the ACF command screen enter:\nSET LID \nSET VERBOSE \nLIST IF(RESTRICT)\n\nIf the logonids that are associated with batch jobs have the RESTRICT attribute, then the logonids must also have the PGM(xxxxxxxx) and SUBAUTH attributes, or the SOURCE(xxxxxxxx) attribute specified.\n\nIf all restricted logonids have the PGM(xxxxxxxx) and SUBAUTH attributes, and/or the SOURCE(xxxxxxxx) attribute, this is not a finding.\n\nIf the PGM(xxxxxxxx) and SUBAUTH attributes or the SOURCE(xxxxxxxx) attribute is not specified for any restricted logonids, this is a finding.",
+  "fixtext": "All batch jobs scheduled via an automation process will use the //*LOGONID xxxxxxxx card in the JCL stream to identify the userid. Use restricted logonids with the following parameter coded:\n\nRESTRICT\n\nOne or both of the following will also be specified:\n\nPGM(xxxxxxxx) and SUBAUTH\nSOURCE(xxxxxxxx)\n\nThe use of default IDs prevents the identification of tasks with individual users as mandated by policy, and prevents adequate accountability. Default IDs for batch processing will not be used.\n\nThe use of USER= can also be used in the jobcard to identify the userid to be used for a job's processing.",
+  "fix_id": "F-25135r504538_fix",
+  "VulnDiscussion": "Activity under unusual conditions can indicate hostile activity. For example, what is normal activity during business hours can indicate hostile activity if it occurs during off hours.\n\nDepending on mission needs and conditions, account usage restrictions based on conditions and circumstances may be critical to limit access to resources and data to comply with operational or mission access control requirements. Thus, the operating system must be configured to enforce the specific conditions or circumstances under which organization-defined accounts can be used (e.g., by restricting usage to certain days of the week, time of day, or specific durations of time).",
+  "Documentable": "false"
+}

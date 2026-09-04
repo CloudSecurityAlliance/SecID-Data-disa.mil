@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-257983",
+  "rule_id": "SV-257983r1045024_rule",
+  "stig_id": "RHEL-09-255035",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 SSHD must accept public key authentication.",
+  "group_title": "SRG-OS-000105-GPOS-00052",
+  "idents": {
+    "cci": [
+      "CCI-000765",
+      "CCI-000766",
+      "CCI-000767",
+      "CCI-000768"
+    ]
+  },
+  "check_id": "C-61724r1045022_chk",
+  "check_content": "Note: If the system administrator demonstrates the use of an approved alternate multifactor authentication method, this requirement is Not Applicable.\n\nVerify that RHEL 9 SSH daemon accepts public key encryption with the following command:\n \n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*pubkeyauthentication'\n\nPubkeyAuthentication yes\n \nIf \"PubkeyAuthentication\" is set to no, the line is commented out, or the line is missing, this is a finding.",
+  "fixtext": "To configure the system, add or modify the following line in \"/etc/ssh/sshd_config\" or in a file in \"/etc/ssh/sshd_config.d\".\n\nPubkeyAuthentication yes\n\nRestart the SSH daemon for the settings to take effect:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-61648r1045023_fix",
+  "VulnDiscussion": "Without the use of multifactor authentication, the ease of access to privileged functions is greatly increased. Multifactor authentication requires using two or more factors to achieve authentication. A privileged account is defined as an information system account with authorizations of a privileged user. A DOD common access card (CAC) with DOD-approved PKI is an example of multifactor authentication.\n\nSatisfies: SRG-OS-000105-GPOS-00052, SRG-OS-000106-GPOS-00053, SRG-OS-000107-GPOS-00054, SRG-OS-000108-GPOS-00055",
+  "Documentable": "false"
+}

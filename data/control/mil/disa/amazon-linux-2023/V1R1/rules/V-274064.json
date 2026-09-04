@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274064",
+  "rule_id": "SV-274064r1120180_rule",
+  "stig_id": "AZLX-23-001315",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023, for PKI-based authentication, must enforce authorized access to the corresponding private key.",
+  "group_title": "SRG-OS-000067-GPOS-00035",
+  "idents": {
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-78155r1120178_chk",
+  "check_content": "Verify Amazon Linux 2023 SSH private key files have a passcode.\n\nFor each private key stored on the system, use the following command:\n\n$ sudo ssh-keygen -y -f /path/to/file\n\nIf the contents of the key are displayed, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 SSH private key files to have a passcode.\n\nCreate a new private and public key pair that utilizes a passcode with the following command:\n\n$ sudo ssh-keygen -n [passphrase]",
+  "fix_id": "F-78060r1120179_fix",
+  "VulnDiscussion": "If the private key is discovered, an attacker can use the key to authenticate as an authorized user and gain access to the network infrastructure.\n\nThe cornerstone of the PKI is the private key used to encrypt or digitally sign information.\n\nIf the private key is stolen, this will lead to the compromise of the authentication and nonrepudiation gained through PKI because the attacker can use the private key to digitally sign documents and pretend to be the authorized user.\n\nBoth the holders of a digital certificate and the issuing authority must protect the computers, storage devices, or whatever they use to keep the private keys.",
+  "Documentable": "false"
+}

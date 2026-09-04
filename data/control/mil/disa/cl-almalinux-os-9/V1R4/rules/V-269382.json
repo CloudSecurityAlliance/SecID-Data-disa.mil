@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269382",
+  "rule_id": "SV-269382r1050265_rule",
+  "stig_id": "ALMA-09-035440",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must block unauthorized peripherals before establishing a connection.",
+  "group_title": "SRG-OS-000378-GPOS-00163",
+  "idents": {
+    "cci": [
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-73413r1048522_chk",
+  "check_content": "Note: If the system is virtual machine with no virtual or physical USB peripherals attached, this is not a finding.\n\nVerify the USBGuard has a policy configured with the following command:\n\n$ usbguard list-rules\n\n1: allow id 1d6b:0002 serial \"0000:03:00.0\" name \"xHCI Host Controller\" with-interface 09:00:00 with-connect-type \"\"\n2: allow id 1d6b:0003 serial \"0000:03:00.0\" name \"xHCI Host Controller\" with-interface 09:00:00 with-connect-type \"\"\n3: allow id 0627:0001 serial \"28754-0000:00:02.2:00.0-1\" name \"QEMU USB Tablet\" with-interface 03:00:00 with-connect-type \"unknown\"\n\nIf the command does not return results or an error is returned, ask the SA to indicate how unauthorized peripherals are being blocked.\n\nIf there is no evidence that unauthorized peripherals are being blocked before establishing a connection, this is a finding.",
+  "fixtext": "Configure the operating system to enable the blocking of unauthorized peripherals with the following command:\n\nNote: This command will create an allow list for any USB devices currently connect to the system.\n\n$ usbguard generate-policy --no-hashes | tee /etc/usbguard/rules.conf\n\nNote: Enabling and starting USBGuard without properly configuring it for an individual system will immediately prevent any access over a USB device such as a keyboard or mouse.",
+  "fix_id": "F-73314r1048523_fix",
+  "VulnDiscussion": "The USBGuard-daemon is the main component of the USBGuard software framework. It runs as a service in the background and enforces the USB device authorization policy for all USB devices. The policy is defined by a set of rules using a rule language described in the usbguard-rules.conf file. The policy and the authorization state of USB devices can be modified during runtime using the USBGuard tool.\n\nThe system administrator (SA) must work with the site information system security officer (ISSO) to determine a list of authorized peripherals and establish rules within the USBGuard software framework to allow only authorized devices.",
+  "Documentable": "false"
+}

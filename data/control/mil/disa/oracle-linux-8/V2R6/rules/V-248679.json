@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-248679",
+  "rule_id": "SV-248679r1015046_rule",
+  "stig_id": "OL08-00-020050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must be able to initiate directly a session lock for all connection types using smartcard when the smartcard is removed.",
+  "group_title": "SRG-OS-000028-GPOS-00009",
+  "idents": {
+    "cci": [
+      "CCI-000056",
+      "CCI-000057",
+      "CCI-000058"
+    ]
+  },
+  "check_id": "C-52113r818654_chk",
+  "check_content": "Verify the operating system enables a user's session lock until that user reestablishes access using established identification and authentication procedures with the following command:\n \nThis requirement assumes the use of the OL 8 default graphical user interface, Gnome Shell. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\n$ sudo grep -r removal-action /etc/dconf/db/*\n\n/etc/dconf/db/distro.d/20-authselect:removal-action='lock-screen'\n\nIf the \"removal-action='lock-screen'\" setting is missing or commented out from the \"dconf\" database files, this is a finding.",
+  "fixtext": "Configure OL 8 to enable a user's session lock until that user reestablishes access using established identification and authentication procedures. \n \nSelect/create an \"authselect\" profile and incorporate the \"with-smartcard-lock-on-removal\" feature as in the following example: \n \n$ sudo authselect select sssd with-smartcard with-smartcard-lock-on-removal \n \nAlternatively, the \"dconf\" settings can be edited in the \"/etc/dconf/db/*\" location. \n \nEdit or add the \"[org/gnome/settings-daemon/peripherals/smartcard]\" section of the database file and add or update the following line: \n \nremoval-action='lock-screen' \n \nUpdate the system databases: \n \n$ sudo dconf update",
+  "fix_id": "F-52067r779602_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence. \n \nThe session lock is implemented at the point where session activity can be determined. \n \nRegardless of where the session lock is determined and implemented, once invoked, the session lock must remain in place until the user reauthenticates. No other activity aside from reauthentication must unlock the system. \n \nOL 8 includes \"authselect\" as a tool to configure system identity, authentication sources, and providers by selecting a specific profile. A profile is a set of files that describes the resulting system configuration. When a profile is selected, \"authselect\" will create the \"nsswitch.conf\" and \"PAM\" stack to use identity and authentication sources defined by the profile.\n\nSatisfies: SRG-OS-000028-GPOS-00009, SRG-OS-000030-GPOS-00011",
+  "Documentable": "false"
+}

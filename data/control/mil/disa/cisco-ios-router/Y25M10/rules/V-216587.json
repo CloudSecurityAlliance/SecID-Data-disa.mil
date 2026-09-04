@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216587",
+  "rule_id": "SV-216587r945857_rule",
+  "stig_id": "CISC-RT-000390",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco perimeter router must be configured to block all outbound management traffic.",
+  "group_title": "SRG-NET-000364-RTR-000113",
+  "idents": {
+    "legacy": [
+      "SV-105713",
+      "V-96575"
+    ],
+    "cci": [
+      "CCI-001097"
+    ]
+  },
+  "check_id": "C-17822r287139_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone.\n\nThe perimeter router of the managed network must be configured with an outbound ACL on the egress interface to block all management traffic as shown in the example below.\n\nStep 1: Verify that all external interfaces have been configured with an outbound ACL as shown in the example below.\n\ninterface GigabitEthernet0/2\n description link to DISN\n ip address x.11.1.2 255.255.255.254\n ip access-group EXTERNAL_ACL_OUTBOUND out\n\nStep 2: Verify that the outbound ACL discards management traffic as shown in the example below.\n\nip access-list extended EXTERNAL_ACL_OUTBOUND\n deny   tcp any any eq tacacs log-input\n deny   tcp any any eq 22 log-input\n deny   udp any any eq snmp log-input\n deny   udp any any eq snmptrap log-input\n deny   udp any any eq syslog log-input\n permit tcp any any eq www log-input\n deny   ip any any log-input\n\nIf management traffic is not blocked at the perimeter, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN Backbone.\n\nConfigure the perimeter router of the managed network with an outbound ACL on the egress interface to block all management traffic.\n\nStep 1: Configure an ACL to block egress management traffic.\n\nR5(config)#ip access-list extended EXTERNAL_ACL_OUTBOUND\nR5(config-ext-nacl)#deny tcp any any eq tacacs log-input\nR5(config-ext-nacl)#deny tcp any any eq 22 log-input\nR5(config-ext-nacl)#deny udp any any eq snmp log-input\nR5(config-ext-nacl)#deny udp any any eq snmptrap log-input\nR5(config-ext-nacl)#deny udp any any eq syslog log-input\nR5(config-ext-nacl)#permit tcp any any eq www\nR5(config-ext-nacl)#deny ip any any log-input\nR5(config-ext-nacl)#exit\n\nNote: Permit commands would be configured to allow applicable outbound traffic. The example above  is allowing web traffic.\n\nStep 2: Configure the external interfaces with the outbound ACL.\n\nR1(config)#int g0/2\nR1(config-if)#ip access-group EXTERNAL_ACL_OUTBOUND out",
+  "fix_id": "F-17818r287140_fix",
+  "VulnDiscussion": "For in-band management, the management network must have its own subnet in order to enforce control and access boundaries provided by Layer 3 network nodes, such as routers and firewalls. Management traffic between the managed network elements and the management network is routed via the same links and nodes as that used for production or operational traffic. Safeguards must be implemented to ensure that the management traffic does not leak past the perimeter of the managed network.",
+  "Documentable": "false"
+}

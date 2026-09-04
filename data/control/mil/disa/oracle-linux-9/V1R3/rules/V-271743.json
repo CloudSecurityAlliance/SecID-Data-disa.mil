@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271743",
+  "rule_id": "SV-271743r1092635_rule",
+  "stig_id": "OL09-00-002404",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 IP tunnels must use 140-3 approved cryptographic algorithms.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-75793r1092601_chk",
+  "check_content": "Note: If the IPsec service is not installed, this requirement is Not Applicable.\n\nVerify that the IPsec service uses the systemwide cryptographic policy with the following command:\n\n$ grep include /etc/ipsec.conf /etc/ipsec.d/*.conf\n/etc/ipsec.conf:include /etc/crypto-policies/back-ends/libreswan.config\n\nIf the IPsec configuration file does not contain \"include /etc/crypto-policies/back-ends/libreswan.config\", this is a finding.",
+  "fixtext": "Configure IPsec to use the systemwide cryptographic policy.\n\nAdd the following line to \"/etc/ipsec.conf\":\n\ninclude /etc/crypto-policies/back-ends/libreswan.config",
+  "fix_id": "F-75700r1092602_fix",
+  "VulnDiscussion": "Overriding the system crypto policy makes the behavior of the Libreswan service violate expectations and makes system configuration more fragmented.",
+  "Documentable": "false"
+}

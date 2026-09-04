@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274115",
+  "rule_id": "SV-274115r1120333_rule",
+  "stig_id": "AZLX-23-002260",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must produce audit records containing information to establish the identity of any individual or process associated with the event.",
+  "group_title": "SRG-OS-000255-GPOS-00096",
+  "idents": {
+    "cci": [
+      "CCI-001487"
+    ]
+  },
+  "check_id": "C-78206r1120331_chk",
+  "check_content": "Verify Amazon Linux 2023 is configured so that the audit system resolves audit information before writing to disk, with the following command:\n\n$ sudo grep log_format /etc/audit/auditd.conf\nlog_format = ENRICHED\n\nIf the \"log_format\" option is not \"ENRICHED\", or the line is commented out, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 so that the audit system resolves audit information before writing to disk.\n\nEdit the /etc/audit/auditd.conf file and add or update the \"log_format\" option:\n\nlog_format = ENRICHED\n\nThe audit daemon must be restarted for changes to take effect.",
+  "fix_id": "F-78111r1120332_fix",
+  "VulnDiscussion": "Without information that establishes the identity of the subjects (i.e., users or processes acting on behalf of users) associated with the events, security personnel cannot determine responsibility for the potentially harmful event.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222404",
+  "rule_id": "SV-222404r960759_rule",
+  "stig_id": "APSC-DV-000240",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The application must use both the NotBefore and NotOnOrAfter elements or OneTimeUse element when using the Conditions element in a SAML assertion.",
+  "group_title": "SRG-APP-000014",
+  "idents": {
+    "legacy": [
+      "V-69289",
+      "SV-83911"
+    ],
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-24074r493120_chk",
+  "check_content": "Ask the application representative for the design document.\n\nReview the design document for web services using SAML assertions.\n\nIf the application does not utilize SAML assertions, this check is not applicable.\n\nExamine the contents of a SOAP message using the <Conditions> element; all messages should contain the <NotBefore> and <NotOnOrAfter> or <OneTimeUse> element when in a SAML Assertion. This can be accomplished using a protocol analyzer such as Wireshark.\n\nIf SOAP using the <Conditions> element does not contain <NotBefore> and <NotOnOrAfter> or <OneTimeUse> elements, this is a finding.",
+  "fixtext": "Design and configure the application to implement the use of the <NotBefore> and <NotOnOrAfter> or <OneTimeUse> when using the <Conditions> element in a SAML assertion.",
+  "fix_id": "F-24063r493121_fix",
+  "VulnDiscussion": "SAML is a standard for exchanging authentication and authorization data between security domains.  SAML uses security tokens containing assertions to pass information about a principal (usually an end user) between a SAML authority, (identity provider), and a SAML consumer, (service provider).  SAML assertions are usually made about a subject, (user) represented by the <Subject> element.\n\nWhen a SAML assertion is used with a <Conditions> element, a begin and end time for the <Conditions> element should be set in order to specify a timeframe in which the assertion is valid. Not setting a specific time period for the <Conditions> element, the possibility exists of granting immediate access or elevated privileges to an attacker which results in an immediate loss of confidentiality.",
+  "Documentable": "false"
+}

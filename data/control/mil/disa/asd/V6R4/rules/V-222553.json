@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-222553",
+  "rule_id": "SV-222553r1015707_rule",
+  "stig_id": "APSC-DV-001840",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The application, for PKI-based authentication, must implement a local cache of revocation data to support path discovery and validation in case of the inability to access revocation information via the network.",
+  "group_title": "SRG-APP-000401",
+  "idents": {
+    "legacy": [
+      "SV-84777",
+      "V-70155"
+    ],
+    "cci": [
+      "CCI-004068",
+      "CCI-001991"
+    ]
+  },
+  "check_id": "C-24223r985962_chk",
+  "check_content": "Review the application documentation and interview the system administrator to identify how the application checks certificate revocation.\n\nIf the application resides on the SIPRnet and does not have access to the root CAs, this requirement is Not Applicable.\n\nDifferent application frameworks may handle this requirement for the developer or the developer may have chosen to implement their own implementation for managing and implementing the CRL.\n\nHave the administrator demonstrate the process used for obtaining and importing the CRL. CAs may publish the CRL in an LDAP directory or it may be posted to an HTTP server.\n\nVerify the application is configured to import the CRL on a regular basis.\n\nHave the administrator demonstrate the configuration setting that enables CRL checking in the event the OCSP server is not available.\n\nIf the application is not configured to implement a CRL, this is a finding.",
+  "fixtext": "Implement a CRL import process and configure the application to check the CRL if OCSP is not available.",
+  "fix_id": "F-24212r985963_fix",
+  "VulnDiscussion": "A local cache of revocation data is also known as a CRL list. This list contains a list of revoked certificates and can be periodically downloaded to ensure certificates can still be checked for revocation when network access is not available or access to the Online Certificate Status Protocol (OCSP) server is not available.\n\nWithout configuring a local cache of revocation data, there is the potential to allow access to users who are no longer authorized (users with revoked certificates).",
+  "Documentable": "false"
+}

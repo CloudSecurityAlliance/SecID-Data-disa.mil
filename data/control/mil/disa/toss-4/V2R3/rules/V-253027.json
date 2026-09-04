@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253027",
+  "rule_id": "SV-253027r958684_rule",
+  "stig_id": "TOSS-04-030820",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must generate audit records for all account creations, modifications, disabling, and termination events that affect \"/etc/security/opasswd\".",
+  "group_title": "SRG-OS-000303-GPOS-00120",
+  "idents": {
+    "cci": [
+      "CCI-002130"
+    ]
+  },
+  "check_id": "C-56480r825990_chk",
+  "check_content": "Verify TOSS generates audit records for all account creations, modifications, disabling, and termination events that affect \"/etc/security/opasswd\".\n\nCheck the auditing rules in \"/etc/audit/audit.rules\" with the following command:\n\n$ sudo grep /etc/security/opasswd /etc/audit/audit.rules\n\n-w /etc/security/opasswd -p wa -k identity\n\nIf the command does not return a line, or the line is commented out, this is a finding.",
+  "fixtext": "Configure TOSS to generate audit records for all account creations, modifications, disabling, and termination events that affect \"/etc/security/opasswd\".\n\nAdd or update the following file system rule to \"/etc/audit/rules.d/audit.rules\":\n\n-w /etc/security/opasswd -p wa -k identity\n\nThe audit daemon must be restarted for the changes to take effect.",
+  "fix_id": "F-56430r825991_fix",
+  "VulnDiscussion": "Once an attacker establishes access to a system, the attacker often attempts to create a persistent method of reestablishing access. One way to accomplish this is for the attacker to enable a new or disabled account. Auditing account modification actions provides logging that can be used for forensic purposes.",
+  "Documentable": "false"
+}

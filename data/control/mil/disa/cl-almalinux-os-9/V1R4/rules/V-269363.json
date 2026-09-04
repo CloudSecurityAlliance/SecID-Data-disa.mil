@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-269363",
+  "rule_id": "SV-269363r1050246_rule",
+  "stig_id": "ALMA-09-032470",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must restrict the use of the \"su\" command.",
+  "group_title": "SRG-OS-000109-GPOS-00056",
+  "idents": {
+    "cci": [
+      "CCI-004045",
+      "CCI-002165"
+    ]
+  },
+  "check_id": "C-73394r1049553_chk",
+  "check_content": "Verify that AlmaLinux OS 9 requires uses to be members of the \"wheel\" group with the following command:\n\n$ grep pam_wheel /etc/pam.d/su \n\nauth             required        pam_wheel.so use_uid \n\nIf a line for \"pam_wheel.so\" does not exist, or is commented out, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to require users to be in the \"wheel\" group to run \"su\" command.\n\nIn the \"/etc/pam.d/su\" file, uncomment the \"pam_wheel.so\" line as per the instructions in the file:\n\n# Uncomment the following line to require a user to be in the \"wheel\" group.\n#auth required pam_wheel.so use_uid\n\nIf necessary, create a \"wheel\" group and add administrative users to the group.",
+  "fix_id": "F-73295r1049554_fix",
+  "VulnDiscussion": "The \"su\" program provides a \"switch user\" capability. It is commonly used to become root but can be used to switch to any user.\n\nLimiting access to such commands is considered a good security practice.\n\nSatisfies: SRG-OS-000109-GPOS-00056, SRG-OS-000312-GPOS-00124, SRG-OS-000312-GPOS-00122, SRG-OS-000312-GPOS-00123",
+  "Documentable": "false"
+}

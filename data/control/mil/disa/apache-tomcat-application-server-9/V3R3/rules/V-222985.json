@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222985",
+  "rule_id": "SV-222985r961362_rule",
+  "stig_id": "TCAT-AS-001080",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Application user name must be logged.",
+  "group_title": "SRG-APP-000343-AS-000030",
+  "idents": {
+    "legacy": [
+      "SV-111493",
+      "V-102553"
+    ],
+    "cci": [
+      "CCI-002234"
+    ]
+  },
+  "check_id": "C-24657r426399_chk",
+  "check_content": "As an elevated user on the Tomcat server:\n\nEdit the $CATALINA_BASE/conf/server.xml file.\n\nReview all \"Valve\" elements.\n\nIf the pattern= statement does not include %u, this is a finding.\n\nEXAMPLE:\n<Host name=\"localhost\"  appBase=\"webapps\"\n            unpackWARs=\"true\" autoDeploy=\"false\">\n...\n<Valve className=\"org.apache.catalina.valves.AccessLogValve\" directory=\"logs\"\n               prefix=\"localhost_access_log\" suffix=\".txt\"\n               pattern=\"%h %l %t %u &quot;%r&quot; %s %b\" />\n  ...\n</Host>",
+  "fixtext": "As a privileged user on the Tomcat server:\n\nEdit the $CATALINA_BASE/conf/server.xml file.\n\nModify the <Valve> element that is nested beneath the <Host> element. Change the AccessLogValve setting to include %u in the pattern= statement.\n\nEXAMPLE:\n<Host name=\"localhost\"  appBase=\"webapps\"\n            unpackWARs=\"true\" autoDeploy=\"false\">\n...\n<Valve className=\"org.apache.catalina.valves.AccessLogValve\" directory=\"logs\"\n               prefix=\"localhost_access_log\" suffix=\".txt\"\n               pattern=\"%h %l %t %u &quot;%r&quot; %s %b\" />\n  ...\n</Host>\n\nRestart the Tomcat server:\nsudo systemctl restart tomcat\nsudo systemctl daemon-reload",
+  "fix_id": "F-24646r426400_fix",
+  "VulnDiscussion": "The access logfile format is defined within a Valve that implements the org.apache.catalina.valves.AccessLogValve interface within the /opt/tomcat/server.xml configuration file: The %u pattern code is included in the pattern element and logs the username used to authenticate to an application. Including the username pattern in the log configuration provides useful information about the application user who is logging in, which is critical for troubleshooting and forensic investigations.",
+  "Documentable": "false"
+}

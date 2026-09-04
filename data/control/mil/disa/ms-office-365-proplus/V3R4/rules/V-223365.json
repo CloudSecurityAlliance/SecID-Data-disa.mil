@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223365",
+  "rule_id": "SV-223365r961779_rule",
+  "stig_id": "O365-OU-000020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "When a custom action is executed that uses the Outlook object model, Outlook must automatically deny it.",
+  "group_title": "SRG-APP-000488",
+  "idents": {
+    "legacy": [
+      "SV-108909",
+      "V-99805"
+    ],
+    "cci": [
+      "CCI-002460"
+    ]
+  },
+  "check_id": "C-25038r953844_chk",
+  "check_content": "Verify the policy value for User Configuration >> Administrative Templates >> Microsoft Outlook 2016 >> Security >> Security Form Settings >> Custom Form Security >> Set Outlook object model custom actions execution prompt is set to \"Enabled\" and \"Automatically Deny\".\n\nUse the Windows Registry to navigate to the following key:\n\nHKCU\\software\\policies\\microsoft\\office\\16.0\\outlook\\security\n\nIf the value for \"promptoomcustomaction\" is set to \"REG_DWORD = 0\", this is not a finding.",
+  "fixtext": "Set the policy value for User Configuration >> Administrative Templates >> Microsoft Outlook 2016 >> Security >> Security Form Settings >> Custom Form Setting >> Set Outlook object model custom actions execution prompt to \"Enabled\" and select \"Automatically Deny\".",
+  "fix_id": "F-25026r953845_fix",
+  "VulnDiscussion": "This policy setting controls whether Outlook prompts users before executing a custom action. Custom actions add functionality to Outlook that can be triggered as part of a rule. Among other possible features, custom actions can be created that reply to messages in ways that circumvent the Outlook model's programmatic send protections. If this policy is enabled, four options are available to control how Outlook functions when a custom action is executed that uses the Outlook object model: \n- Prompt User\n- Automatically Approve\n- Automatically Deny \n- Prompt user based on computer security. This option enforces the default configuration in Outlook. \n\nIf this policy is disabled or not configured, when Outlook or another program initiates a custom action using the Outlook object model, users are prompted to allow or reject the action. If this configuration is changed, malicious code can use the Outlook object model to compromise sensitive information or otherwise cause data and computing resources to be at risk. This is the equivalent of choosing Enabled -- Prompt user based on computer security.",
+  "Documentable": "false"
+}

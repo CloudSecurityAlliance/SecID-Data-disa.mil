@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216633",
+  "rule_id": "SV-216633r856201_rule",
+  "stig_id": "CISC-RT-000900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco Multicast Source Discovery Protocol (MSDP) router must be configured to only accept MSDP packets from known MSDP peers.",
+  "group_title": "SRG-NET-000364-RTR-000116",
+  "idents": {
+    "legacy": [
+      "SV-105803",
+      "V-96665"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-17868r287268_chk",
+  "check_content": "Review the router configuration to determine if there is a receive path or interface filter to only accept MSDP packets from known MSDP peers.\n\nStep 1: Verify that interfaces used for MSDP peering have an inbound ACL as shown in the example.\n\ninterface GigabitEthernet1/1\n ip address x.1.28.8 255.255.255.0\n ip access-group EXTERNAL_ACL_INBOUND in\n ip pim sparse-mode\n\nStep 2: Verify that the ACL restricts MSDP peering to only known sources.\n\nip access-list extended EXTERNAL_ACL_INBOUND\n permit tcp any any established\n permit tcp host x.1.28.2 host x.1.28.8 eq 639\n deny   tcp any host x.1.28.8 eq 639 log\n permit tcp host x.1.28.2 host 10.1.28.8 eq bgp\n permit tcp host x.1.28.2 eq bgp host x.1.28.8\n permit pim host x.1.28.2 pim host x.1.28.8\n …\n …\n …\n deny ip any any log\n\nNote: MSDP connections is via TCP port 639\n\nIf the router is not configured to only accept MSDP packets from known MSDP peers, this is a finding.",
+  "fixtext": "Configure the receive path or interface ACLs to only accept MSDP packets from known MSDP peers.\n\nR8(config)#ip access-list extended EXTERNAL_ACL_INBOUND\nR8(config-ext-nacl)#permit tcp any any established\nR8(config-ext-nacl)#permit tcp host x.1.28.2 host x.1.28.8 eq 639\nR8(config-ext-nacl)#deny tcp any host x1.28.8 eq 639\nR8(config-ext-nacl)#permit tcp host x.1.28.2 host x.1.28.8 eq bgp\nR8(config-ext-nacl)#permit tcp host x.1.28.2 eq bgp host x.1.28.8\nR8(config-ext-nacl)#permit pim host x.1.28.2 host x.1.28.8\n…\n…\n…\nR8(config-ext-nacl)#deny ip any any",
+  "fix_id": "F-17864r287269_fix",
+  "VulnDiscussion": "MSDP peering with customer network routers presents additional risks to the DISN Core, whether from a rogue or misconfigured MSDP-enabled router. To guard against an attack from malicious MSDP traffic, the receive path or interface filter for all MSDP-enabled RP routers must be configured to only accept MSDP packets from known MSDP peers.",
+  "Documentable": "false"
+}

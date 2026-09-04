@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222977",
+  "rule_id": "SV-222977r961170_rule",
+  "stig_id": "TCAT-AS-000940",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ErrorReportValve showReport must be set to false.",
+  "group_title": "SRG-APP-000267-AS-000170",
+  "idents": {
+    "legacy": [
+      "SV-111477",
+      "V-102537"
+    ],
+    "cci": [
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-24649r426375_chk",
+  "check_content": "As an elevated user on the Tomcat server run the following command:\n\nsudo grep -i ErrorReportValve $CATALINA_BASE/conf/server.xml file.\n\nIf the ErrorReportValve element is not defined and showReport set to \"false\", this is a finding.\n\nEXAMPLE:\n<Host ...>\n  ...\n  <Valve className=\"org.apache.catalina.valves.ErrorReportValve\" showReport=\"false\"/>\n  ...\n</Host>",
+  "fixtext": "As a privileged user on the Tomcat server:\n\nEdit the $CATALINA_BASE/conf/server.xml file.\n\nCreate or modify an ErrorReportValve <Valve> element nested beneath each <Host> element.\n\nEXAMPLE:\n<Host name=\"localhost\"  appBase=\"webapps\"\n            unpackWARs=\"true\" autoDeploy=\"false\">\n...\n<Valve className=\"org.apache.catalina.valves.ErrorReportValve\" \nshowReport=\"false\" />\n\n</Host>\n\nRestart the Tomcat server:\nsudo systemctl restart tomcat\nsudo systemctl daemon-reload",
+  "fix_id": "F-24638r426376_fix",
+  "VulnDiscussion": "The Error Report Valve is a simple error handler for HTTP status codes that will generate and return HTML error pages. It can also be configured to return pre-defined static HTML pages for specific status codes and/or exception types. Disabling showReport will result in no error message or stack trace being send to the client. This setting can be tailored on a per-application basis within each application specific web.xml.",
+  "Documentable": "false"
+}

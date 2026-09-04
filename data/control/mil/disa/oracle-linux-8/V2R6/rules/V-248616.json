@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248616",
+  "rule_id": "SV-248616r991589_rule",
+  "stig_id": "OL08-00-010570",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must prevent files with the setuid and setgid bit set from being executed on file systems that contain user home directories.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52050r779412_chk",
+  "check_content": "Verify that file systems containing user home directories are mounted with the \"nosuid\" option.\n \nFind the file system(s) that contain the user home directories with the following command: \n \n$ sudo awk -F: '($3>=1000)&&($1!=\"nobody\"){print $1,$3,$6}' /etc/passwd \n \nsmithj 1001 /home/smithj \nrobinst 1002 /home/robinst \n \nCheck the file systems that are mounted at boot time with the following command: \n \n$ sudo more /etc/fstab \n \nUUID=a411dc99-f2a1-4c87-9e05-184977be8539 /home ext4 rw,relatime,discard,data=ordered,nosuid,nodev,noexec 0 2 \n \nIf a file system found in \"/etc/fstab\" refers to the user home directory file system and it does not have the \"nosuid\" option set, this is a finding.",
+  "fixtext": "Configure \"/etc/fstab\" to use the \"nosuid\" option on file systems that contain user home directories for interactive users.",
+  "fix_id": "F-52004r779413_fix",
+  "VulnDiscussion": "The \"nosuid\" mount option causes the system not to execute \"setuid\" and \"setgid\" files with owner privileges. This option must be used for mounting any file system not containing approved \"setuid\" and \"setguid\" files. Executing files from untrusted file systems increases the opportunity for unprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

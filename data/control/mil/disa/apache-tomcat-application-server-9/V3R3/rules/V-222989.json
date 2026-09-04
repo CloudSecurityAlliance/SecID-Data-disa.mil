@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222989",
+  "rule_id": "SV-222989r961461_rule",
+  "stig_id": "TCAT-AS-001260",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "$CATALINA_BASE/temp/ folder must be owned by tomcat user, group tomcat.",
+  "group_title": "SRG-APP-000380-AS-000088",
+  "idents": {
+    "legacy": [
+      "SV-111501",
+      "V-102561"
+    ],
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-24661r426411_chk",
+  "check_content": "Access the Tomcat server from the command line and execute the following OS command:\n\nsudo find $CATALINA_BASE/temp -follow -maxdepth 0 \\(  ! -user tomcat -o ! -group tomcat \\) -ls\n\nIf ISSM risk acceptance specifies deviation from requirement based on operational/application needs, this is not a finding if the permissions are set in accordance with the risk acceptance.\n\nIf no folders are displayed, this is not a finding.\n\nIf results indicate the $CATALINA_BASE/temp folder ownership and group membership is not set to tomcat:tomcat, this is a finding.",
+  "fixtext": "If operational/application requirements specify different file permissions, obtain ISSM risk acceptance and set permissions according to risk acceptance.\n\nRun the following commands on the Tomcat server:\n\nsudo find $CATALINA_BASE/temp -maxdepth 0 \\( ! -user tomcat \\) | sudo xargs chown tomcat\n\nsudo find $CATALINA_BASE/temp -maxdepth 0 \\( ! -group tomcat \\) | sudo xargs chgrp tomcat",
+  "fix_id": "F-24650r426412_fix",
+  "VulnDiscussion": "Tomcat file permissions must be restricted. The standard configuration is to have all Tomcat files owned by root with group Tomcat. While root has read/write privileges, group only has read permissions, and world has no permissions. The exceptions are the logs, temp, and work directories that are owned by the Tomcat user rather than root. This means that even if an attacker compromises the Tomcat process, they cannot change the Tomcat configuration, deploy new web applications, or modify existing web applications. The Tomcat process runs with a umask of 0027 to maintain these permissions.\n\nIf operational needs require application administrators to be able to change application configurations, the group permissions can be modified to allow specific application admins the access they require with an ISSM risk acceptance.  Ownership may not change. The exposure of the system to high risk networks should always be taken into account.",
+  "Documentable": "false"
+}

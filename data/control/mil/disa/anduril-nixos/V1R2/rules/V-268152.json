@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268152",
+  "rule_id": "SV-268152r1131105_rule",
+  "stig_id": "ANIX-00-001450",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must prohibit user installation of system software without explicit privileged status.",
+  "group_title": "SRG-OS-000362-GPOS-00149",
+  "idents": {
+    "cci": [
+      "CCI-003980"
+    ]
+  },
+  "check_id": "C-72076r1039342_chk",
+  "check_content": "Verify NixOS prevents unauthorized users from using nix with the following command:\n\n$ grep -R allowed-users /etc/nixos/\n\n/etc/nixos/configuration.nix:nix.settings.allowed-users = [ \"root\" \"@wheel\" ];\n\nIf any other groups or users are included in \"nix.settings.allowed-users\" other than \"root\" and \"wheel\", or the configuration setting does not exist, this is a finding.",
+  "fixtext": "Configure NixOS to prevent unauthorized users from using nix.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\n nix.settings.allowed-users = [ \"root\" \"@wheel\" ];\n\nNote: Extra usergroups may be permitted by adding them with the format \"@group\" (e.g.: \"@users\").\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71979r1131104_fix",
+  "VulnDiscussion": "Allowing regular users to install software, without explicit privileges, creates the risk that untested or potentially malicious software will be installed on the system. Explicit privileges (escalated or administrative privileges) provide the regular user with explicit capabilities and control that exceeds the rights of a regular user.\n\nOperating system functionality will vary, and while users are not permitted to install unapproved software, there may be instances where the organization allows the user to install approved software packages, such as from an approved software repository.\n\nThe operating system or software configuration management utility must enforce control of software installation by users based upon what types of software installations are permitted (e.g., updates and security patches to existing software) and what types of installations are prohibited (e.g., software whose pedigree with regard to being potentially malicious is unknown or suspect) by the organization.",
+  "Documentable": "false"
+}

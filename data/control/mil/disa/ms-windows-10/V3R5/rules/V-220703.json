@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-220703",
+  "rule_id": "SV-220703r958552_rule",
+  "stig_id": "WN10-00-000031",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Windows 10 systems must use a BitLocker PIN for pre-boot authentication.",
+  "group_title": "SRG-OS-000185-GPOS-00079",
+  "idents": {
+    "legacy": [
+      "SV-104689",
+      "V-94859"
+    ],
+    "cci": [
+      "CCI-001199",
+      "CCI-002475",
+      "CCI-002476"
+    ]
+  },
+  "check_id": "C-22418r819652_chk",
+  "check_content": "If the following registry value does not exist or is not configured as specified, this is a finding.\n\nFor virtual desktop implementations (VDIs) in which the virtual desktop instance is deleted or refreshed upon logoff, this is NA.\n\nFor Azure Virtual Desktop (AVD) implementations with no data at rest, this is NA.\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\FVE\\\n\nValue Name: UseAdvancedStartup\nType: REG_DWORD\nValue: 0x00000001 (1)\n\nIf one of the following registry values does not exist or is not configured as specified, this is a finding.\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\FVE\\\n\nValue Name: UseTPMPIN\nType: REG_DWORD\nValue: 0x00000001 (1)\n\nValue Name: UseTPMKeyPIN\nType: REG_DWORD\nValue: 0x00000001 (1)\n\nWhen BitLocker network unlock is used:\n\nValue Name: UseTPMPIN\nType: REG_DWORD\nValue: 0x00000002 (2)\n\nValue Name: UseTPMKeyPIN\nType: REG_DWORD\nValue: 0x00000002 (2)\n\nBitLocker network unlock may be used in conjunction with a BitLocker PIN. Refer to the article at the link below for information about network unlock.\n\nhttps://docs.microsoft.com/en-us/windows/security/information-protection/bitlocker/bitlocker-how-to-enable-network-unlock",
+  "fixtext": "Configure the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> BitLocker Drive Encryption >> Operating System Drives \"Require additional authentication at startup\" to \"Enabled\" with \"Configure TPM Startup PIN:\" set to \"Require startup PIN with TPM\" or with \"Configure TPM startup key and PIN:\" set to \"Require startup key and PIN with TPM\".",
+  "fix_id": "F-22407r554595_fix",
+  "VulnDiscussion": "If data at rest is unencrypted, it is vulnerable to disclosure. Even if the operating system enforces permissions on data access, an adversary can remove non-volatile memory and read it directly, thereby circumventing operating system controls. Encrypting the data ensures that confidentiality is protected even when the operating system is not running. Pre-boot authentication prevents unauthorized users from accessing encrypted drives.",
+  "Documentable": "false"
+}

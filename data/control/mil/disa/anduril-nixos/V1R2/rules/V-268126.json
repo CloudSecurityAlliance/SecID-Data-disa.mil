@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268126",
+  "rule_id": "SV-268126r1131057_rule",
+  "stig_id": "ANIX-00-000730",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must enforce password complexity by requiring that at least one uppercase character be used.",
+  "group_title": "SRG-OS-000069-GPOS-00037",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-72050r1039264_chk",
+  "check_content": "Verify NixOS enforces password complexity by requiring at least one uppercase character with the following command:\n\n$ grep ucredit /etc/security/pwquality.conf\n\n ucredit=-1\n\nIf the value of \"ucredit\" is a positive number or is commented out, this is a finding.",
+  "fixtext": "Configure NixOS to enforce password complexity. \n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\nenvironment.etc.\"/security/pwquality.conf\".text = ''\nucredit=-1\n'';\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71953r1131056_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks.",
+  "Documentable": "false"
+}

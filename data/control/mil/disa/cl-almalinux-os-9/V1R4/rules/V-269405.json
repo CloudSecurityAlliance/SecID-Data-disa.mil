@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269405",
+  "rule_id": "SV-269405r1050288_rule",
+  "stig_id": "ALMA-09-037970",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Passwords for existing users must have a 60-day maximum password lifetime restriction in /etc/shadow.",
+  "group_title": "SRG-OS-000076-GPOS-00044",
+  "idents": {
+    "cci": [
+      "CCI-000199"
+    ]
+  },
+  "check_id": "C-73436r1048591_chk",
+  "check_content": "Check whether the maximum time period for existing passwords is restricted to 60 days with the following command:\n\n$ awk -F: '$5 <= 0 || $5 > 60 {print $1 \" \" $5}' /etc/shadow\n\nIf any results are returned that are not associated with a system account, this is a finding.",
+  "fixtext": "Configure noncompliant accounts to enforce a 60-day maximum password lifetime restriction using the following command, substituting in the username:\n\n$ chage -M 60 [user]",
+  "fix_id": "F-73337r1048592_fix",
+  "VulnDiscussion": "Any password, no matter how complex, can eventually be cracked. Therefore, Passwords must be changed periodically. If the operating system does not limit the lifetime of passwords and force users to change their passwords, there is the risk that the operating system passwords could be compromised.",
+  "Documentable": "false"
+}

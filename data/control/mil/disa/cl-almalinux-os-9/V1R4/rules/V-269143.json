@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269143",
+  "rule_id": "SV-269143r1050025_rule",
+  "stig_id": "ALMA-09-006950",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AlmaLinux OS 9 debug-shell systemd service must be disabled.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-73174r1049188_chk",
+  "check_content": "Verify AlmaLinux OS 9 is configured to mask the debug-shell systemd service with the following command:\n\n$ systemctl status debug-shell.service\n\ndebug-shell.service\nLoaded: masked (Reason: Unit debug-shell.service is masked.)\nActive: inactive (dead)\n\nIf the \"debug-shell.service\" is loaded and not masked, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to mask the debug-shell systemd service with the following command:\n\n$ systemctl mask --now debug-shell.service",
+  "fix_id": "F-73075r1049189_fix",
+  "VulnDiscussion": "The debug-shell requires no authentication and provides root privileges to anyone who has physical access to the machine.\n\nWhile this feature is disabled by default, masking it adds an additional layer of assurance that it will not be enabled via a dependency in systemd. \n\nThis also prevents attackers with physical access from easily bypassing security on the machine through valid troubleshooting configurations and gaining root access when the system is rebooted.",
+  "Documentable": "false"
+}

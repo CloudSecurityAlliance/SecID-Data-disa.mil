@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268108",
+  "rule_id": "SV-268108r1131020_rule",
+  "stig_id": "ANIX-00-000480",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The NixOS audit records must be off-loaded onto a different system or storage media from the system being audited.",
+  "group_title": "SRG-OS-000051-GPOS-00024",
+  "idents": {
+    "cci": [
+      "CCI-000154"
+    ]
+  },
+  "check_id": "C-72032r1131018_chk",
+  "check_content": "Verify the audit system off-loads audit records onto a different system or media from the system being audited.\n\nList the configured destinations with the following command:\n\n$ grep -i \"Url\" /etc/systemd/journal-upload.conf\"\n\nIf no URL is configured, this is a finding.",
+  "fixtext": "Configure the operating system to off-load audit records onto a different system or media from the system being audited by specifying a remote destination in the systemd-journald configuration.\n\nOn the client, modify /etc/nixos/configuration.nix or /etc/nixos/flake.nix to include the following lines:\n\nservices.journald.upload = {\n  enable = true;\n  Upload = {\n     ServerKeyFile = $PATH_TO_CLIENT_PEM_SSL_KEY;\n     URL = $URL_OF_REMOTE_SERVER;\n     ServerCertificateFile = $PATH_TO_SSL_CERT;\n     TrustedCertificateFile = $PATH_TO_SERVER_CERT;\n   };\n  };\n}\n\nOn the server, modify /etc/nixos/configuration.nix or /etc/nixos/flake.nix to include the following lines:\nservices.journald.remote = {\n  enable = true;\n  listen = \"https\";\n  URL = $URL_OF_REMOTE_SERVER;\n  ServerKeyFile = $PATH_TO_SERVER_PEM_SSL_KEY;\n  ServerCertificateFile = $PATH_TO_SSL_CERT;\n  };\n};",
+  "fix_id": "F-71935r1131019_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.\n\nNixOS supports \"systemd-journald\", which is a common system utility providing support for message logging. Support for both internet and UNIX domain sockets enables this utility to support both local and remote logging. This utility also natively supports TLS to securely encrypt and off-load auditing.",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-268118",
+  "rule_id": "SV-268118r1131037_rule",
+  "stig_id": "ANIX-00-000600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS systemd-journald logs must have a mode of 0640 or less permissive.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-001312"
+    ]
+  },
+  "check_id": "C-72042r1131035_chk",
+  "check_content": "Verify NixOS protects log information from unauthorized read access by implementing a mode of 0640 or less on the creation of log files with the following command: \n\n$ sudo find /var/log/journal -type f -perm -640 -not -perm 640 -printf \"%p %m\\n\"\n\nIf any log files have a permission of greater than 0640, this is a finding.",
+  "fixtext": "The systemd-journald files are by design set to 0640 mode.\n\nIf any files are found with incorrect perms, correct them with the following command:\n\n$ sudo find /var/log/journal -type f -exec chmod 0640 {} \\;",
+  "fix_id": "F-71945r1131036_fix",
+  "VulnDiscussion": "Only authorized personnel should be aware of errors and the details of the errors. Error messages are an indicator of an organization's operational state or can identify the NixOS system or platform. Additionally, Personally Identifiable Information (PII) and operational information must not be revealed through error messages to unauthorized personnel or their designated representatives.\n\nThe structure and content of error messages must be carefully considered by the organization and development team. The extent to which the information system is able to identify and handle error conditions is guided by organizational policy and operational requirements.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000205-GPOS-00083",
+  "Documentable": "false"
+}

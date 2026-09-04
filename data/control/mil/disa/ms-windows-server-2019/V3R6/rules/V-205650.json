@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-205650",
+  "rule_id": "SV-205650r1107646_rule",
+  "stig_id": "WN19-PK-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2019 must have the US DoD CCEB Interoperability Root CA cross-certificates in the Untrusted Certificates Store on unclassified systems.",
+  "group_title": "SRG-OS-000066-GPOS-00034",
+  "idents": {
+    "legacy": [
+      "V-93491",
+      "SV-103577"
+    ],
+    "cci": [
+      "CCI-000185",
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-5915r1016377_chk",
+  "check_content": "This is applicable to unclassified systems. It is NA for others.\n\nOpen \"PowerShell\" as an administrator.\n\nExecute the following command:\n\nGet-ChildItem -Path Cert:Localmachine\\disallowed | Where Issuer -Like \"*CCEB Interoperability*\" | FL Subject, Issuer, Thumbprint, NotAfter\n\nIf the following certificate \"Subject\", \"Issuer\", and \"Thumbprint\" information is not displayed, this is a finding. \n\nSubject: CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US\nIssuer: CN=US DoD CCEB Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\nThumbprint: 9B74964506C7ED9138070D08D5F8B969866560C8\nNotAfter: 7/18/2025 9:56:22 AM     \n\nSubject: CN=DoD Root CA 6, OU=PKI, OU=DoD, O=U.S. Government, C=US\nIssuer: CN=US DoD CCEB Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\nThumbprint: D471CA32F7A692CE6CBB6196BD3377FE4DBCD106\nNotAfter: 7/18/2026 12:15:05 PM                                                                                                                                                                                                                                                 \nAlternately, use the Certificates MMC snap-in:\n\nRun \"MMC\".\n\nSelect \"File\", \"Add/Remove Snap-in\".\n\nSelect \"Certificates\" and click \"Add\".\n\nSelect \"Computer account\" and click \"Next\".\n\nSelect \"Local computer: (the computer this console is running on)\" and click \"Finish\".\n\nClick \"OK\".\n\nExpand \"Certificates\" and navigate to Untrusted Certificates >> Certificates.\n\nFor each certificate with \"US DoD CCEB Interoperability Root CA ...\" under \"Issued By\":\n\nRight-click on the certificate and select \"Open\".\n\nSelect the \"Details\" tab.\n\nScroll to the bottom and select \"Thumbprint\".\n\nIf the certificate below is not listed or the value for the \"Thumbprint\" field is not as noted, this is a finding.\n\nSubject: CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US\nIssuer: CN=US DoD CCEB Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\nThumbprint: 9B74964506C7ED9138070D08D5F8B969866560C8\nNotAfter: 7/18/2025 9:56:22 AM\n\nSubject: CN=DoD Root CA 6, OU=PKI, OU=DoD, O=U.S. Government, C=US\nIssuer: CN=US DoD CCEB Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\nThumbprint: D471CA32F7A692CE6CBB6196BD3377FE4DBCD106\nNotAfter: 7/18/2026 12:15:05 PM",
+  "fixtext": "Install the US DoD CCEB Interoperability Root CA cross-certificate on unclassified systems.\n\nIssued To - Issued By - Thumbprint\n\nDoD Root CA 3 - US DoD CCEB Interoperability Root CA 2 - 9B74964506C7ED9138070D08D5F8B969866560C8                 \nDoD Root CA 6 - US DOD CCEB Interoperability Root CA 2 -D471CA32F7A692CE6CBB6196BD3377FE4DBCD106              \n\nAdministrators should run the Federal Bridge Certification Authority (FBCA) Cross-Certificate Removal Tool once as an administrator and once as the current user.\n\nThe FBCA Cross-Certificate Remover Tool and User Guide are available on Cyber Exchange at https://dl.cyber.mil/pki-pke/msi/InstallRoot_5.6x32.msi. Certificate bundles published by the PKI can be found at https://crl.gds.disa.mil/.",
+  "fix_id": "F-5915r1107645_fix",
+  "VulnDiscussion": "To ensure users do not experience denial of service when performing certificate-based authentication to DoD websites due to the system chaining to a root other than DoD Root CAs, the US DoD CCEB Interoperability Root CA cross-certificates must be installed in the Untrusted Certificate Store. This requirement only applies to unclassified systems.\n\nSatisfies: SRG-OS-000066-GPOS-00034, SRG-OS-000403-GPOS-00182",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-273998",
+  "rule_id": "SV-273998r1119982_rule",
+  "stig_id": "AZLX-23-000125",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must have GPG signature verification enabled for all software repositories.",
+  "group_title": "SRG-OS-000366-GPOS-00153",
+  "idents": {
+    "cci": [
+      "CCI-003992"
+    ]
+  },
+  "check_id": "C-78089r1119980_chk",
+  "check_content": "Verify Amazon Linux 2023 software repositories enforce a signature check on the packages prior to allowing installation with the following command:\n\n$ grep -w gpgcheck /etc/yum.repos.d/*.repo | more\n/etc/yum.repos.d/amazonlinux.repo:gpgcheck=1\n/etc/yum.repos.d/amazonlinux.repo:gpgcheck=1\n/etc/yum.repos.d/amazonlinux.repo:gpgcheck=1\n/etc/yum.repos.d/kernel-livepatch.repo:gpgcheck=1\n/etc/yum.repos.d/kernel-livepatch.repo:gpgcheck=1\n\nIf any repository has \"gpgcheck=0\" or \"False\", or if the option is commented out, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to verify the signature of packages from a repository prior to installation by setting the following option in the \"/etc/yum.repos.d/[your_repo_name].repo\" file:\n\ngpgcheck=1",
+  "fix_id": "F-77994r1119981_fix",
+  "VulnDiscussion": "Changes to any software components can have significant effects on the overall security of Amazon Linux 2023. This requirement ensures the software has not been tampered with and that it has been provided by a trusted vendor.\n\nAll software packages must be signed with a cryptographic key recognized and approved by the organization.\n\nVerifying the authenticity of software prior to installation validates the integrity of the software package received from a vendor. This verifies the software has not been tampered with and that it has been provided by a trusted vendor.",
+  "Documentable": "false"
+}

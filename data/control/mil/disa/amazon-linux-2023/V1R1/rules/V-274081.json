@@ -1,0 +1,31 @@
+{
+  "vuln_id": "V-274081",
+  "rule_id": "SV-274081r1120231_rule",
+  "stig_id": "AZLX-23-002085",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/sudoers.",
+  "group_title": "SRG-OS-000004-GPOS-00004",
+  "idents": {
+    "cci": [
+      "CCI-000018",
+      "CCI-000130",
+      "CCI-000135",
+      "CCI-000169",
+      "CCI-000015",
+      "CCI-002884",
+      "CCI-000172",
+      "CCI-001403",
+      "CCI-001404",
+      "CCI-001405",
+      "CCI-002130"
+    ]
+  },
+  "check_id": "C-78172r1120229_chk",
+  "check_content": "Verify Amazon Linux 2023 generates audit records for all account creations, modifications, disabling, and termination events that affect \"/etc/sudoers\" with the following command:\n\n$ sudo auditctl -l | grep '/etc/sudoers[^.]'\n-w /etc/sudoers -p wa -k identity\n\nIf the command does not return a line, or the line is commented out, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to generate audit records for all account creations, modifications, disabling, and termination events that affect \"/etc/sudoers\".\n\nAdd or update the following file system rule to \"/etc/audit/rules.d/audit.rules\":\n\n-w /etc/sudoers -p wa -k identity\n\nTo load the rules to the kernel immediately, use the following command:\n\n$ sudo augenrules --load",
+  "fix_id": "F-78077r1120230_fix",
+  "VulnDiscussion": "The actions taken by system administrators must be audited to keep a record of what was executed on the system, as well as for accountability purposes. Editing the sudoers file may be sign of an attacker trying to establish persistent methods to a system, auditing the editing of the sudoers files mitigates this risk.\n\nSatisfies: SRG-OS-000004-GPOS-00004, SRG-OS-000037-GPOS-00015, SRG-OS-000042-GPOS-00020, SRG-OS-000062-GPOS-00031, SRG-OS-000304-GPOS-00121, SRG-OS-000392-GPOS-00172, SRG-OS-000462-GPOS-00206, SRG-OS-000470-GPOS-00214, SRG-OS-000471-GPOS-00215, SRG-OS-000239-GPOS-00089, SRG-OS-000240-GPOS-00090, SRG-OS-000241-GPOS-00091, SRG-OS-000303-GPOS-00120, SRG-OS-000466-GPOS-00210, SRG-OS-000476-GPOS-00221",
+  "Documentable": "false"
+}

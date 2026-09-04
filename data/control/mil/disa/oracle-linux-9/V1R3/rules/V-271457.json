@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271457",
+  "rule_id": "SV-271457r1134853_rule",
+  "stig_id": "OL09-00-000105",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must not install packages from the Extra Packages for Enterprise Linux (EPEL) repository.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-75507r1134851_chk",
+  "check_content": "Verify that OL 9 is not able to install packages from the EPEL with the following command:\n\n$ dnf repolist\nrepo id                                               repo name\nol9_UEKR7                                             Oracle Linux 9 UEK Release 7 (x86_64)\nol9_appstream                                         Oracle Linux 9 Application Stream Packages (x86_64)\nol9_baseos_latest                                     Oracle Linux 9 BaseOS Latest (x86_64)\nol9_oraclelinuxmanager210_client                      Oracle Linux Manager Client 2.10 for Oracle Linux 9 (x86_64)\n\nIf any repositories containing the word \"epel\" in the name exist, this is a finding.",
+  "fixtext": "The repo package can be manually removed with the following command:\n\n$ sudo dnf remove epel-release\n\nConfigure the operating system to disable use of the EPEL repository with the following command:\n\n$ sudo dnf config-manager --set-disabled epel",
+  "fix_id": "F-75414r1134852_fix",
+  "VulnDiscussion": "The EPEL is a repository of high-quality open-source packages for enterprise-class Linux distributions such as RHEL, CentOS, AlmaLinux, Rocky Linux, and Oracle Linux. These packages are not part of the official distribution but are built using the same Fedora build system to ensure compatibility and maintain quality standards.",
+  "Documentable": "false"
+}

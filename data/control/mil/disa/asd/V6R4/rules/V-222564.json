@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222564",
+  "rule_id": "SV-222564r961560_rule",
+  "stig_id": "APSC-DV-001960",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Applications used for non-local maintenance sessions must verify remote disconnection at the termination of non-local maintenance and diagnostic sessions.",
+  "group_title": "SRG-APP-000413",
+  "idents": {
+    "legacy": [
+      "SV-84801",
+      "V-70179"
+    ],
+    "cci": [
+      "CCI-002891"
+    ]
+  },
+  "check_id": "C-24234r493600_chk",
+  "check_content": "Review the application documentation and interview the application administrator to identify application maintenance functions.\n\nIf the application does not provide non-local maintenance and diagnostic capability, this requirement is not applicable.\n\nIdentify the maintenance functions/capabilities that are provided by the application, performed by an individual/admin and which can be performed remotely.\n\nExamples include but are not limited to:\n\nThe application may provide the ability to clean up a folder of temporary files, add users, remove users, restart processes, backup certain files, manage logs, or execute diagnostic sessions.\n\nIdentify the IP address of the source system used to originate testing traffic. The IP address will be used to identify sessions on the application host so verify traffic is not traversing a proxy connection in order to reach the application host.\n\nAccess the operating system of the application host and execute the relevant OS commands to identify active TCP/IP sessions on the application host.\n\nFor example, the \"netstat -a\" command will provide a status of all TCP/IP connections on both Windows and UNIX systems.\n\nNetstat output can be redirected to a file or the grep command can be used on UNIX systems to identify the specific application processes and network connections.\n\nnetstat -a |grep -i \"application process name\" > filename\nor\nnetstat  -a |grep -i source IP address > filename\n\nUtilizing the application, access using the appropriate role needed to execute maintenance tasks.\n\nExecute a maintenance task or tasks from within the application.\n\nRe-execute the netstat commands and identify what network connections and process IDs were created to handle the new application session.\n\nTerminate the application session via the application interface and then execute the netstat commands a third time. The network connections should terminate or change to a state that indicates the connections are closed or are in the process of closing. Continue to execute netstat command until it is verified that the application has terminated the process sessions and closed the network connections.\n\nReview the application logs to ensure the application has logged the disconnection event thereby verifying the disconnection.\n\nIf the application provides remote access to maintenance functions and capabilities and the remote access connections are not terminated and then verified, this is a finding.",
+  "fixtext": "Configure the application to verify termination of remote maintenance sessions.",
+  "fix_id": "F-24223r493601_fix",
+  "VulnDiscussion": "Non-local maintenance and diagnostic activities are those activities conducted by individuals communicating through a network, either an external network (e.g., the Internet) or an internal network. Local maintenance and diagnostic activities are those activities carried out by individuals physically present at the information system or information system component and not communicating across a network connection.\n\nIf the remote connection is not closed and verified as closed, the session may remain open and be exploited by an attacker; this is referred to as a zombie session. Remote connections must be disconnected and verified as disconnected when non-local maintenance sessions have been terminated and are no longer available for use.",
+  "Documentable": "false"
+}

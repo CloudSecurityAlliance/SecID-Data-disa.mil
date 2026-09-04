@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216627",
+  "rule_id": "SV-216627r1117237_rule",
+  "stig_id": "CISC-RT-000840",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco multicast Rendezvous Point (RP) router must be configured to filter Protocol Independent Multicast (PIM) Join messages received from the Designated Router (DR) for any undesirable multicast groups.",
+  "group_title": "SRG-NET-000019-RTR-000014",
+  "idents": {
+    "legacy": [
+      "SV-105791",
+      "V-96653"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-17862r287250_chk",
+  "check_content": "Verify that the RP router is configured to filter PIM join messages for any undesirable multicast groups. In the example below, groups from 239.8.0.0/16 are not allowed.\n\nip pim rp-address 10.2.2.2\nip pim accept-rp 10.2.2.2 FILTER_PIM_JOINS\n…\n…\n…\nip access-list standard FILTER_PIM_JOINS\n deny   239.8.0.0 0.0.255.255\n permit any\n!\n\nIf the RP is not configured to filter join messages received from the DR for any undesirable multicast groups, this is a finding.",
+  "fixtext": "Configure the RP to filter PIM join messages for any undesirable multicast groups as shown in the example below.\n\nR2(config)#ip access-list standard PIM_JOIN_FILTER\nR2(config-std-nacl)#deny 239.8.0.0 0.0.255.255\nR2(config-std-nacl)#permit any\nR2(config-std-nacl)#exit\nR2(config)#ip pim accept-rp 10.2.2.2 PIM_JOIN_FILTER \nR2(config)#end",
+  "fix_id": "F-17858r287251_fix",
+  "VulnDiscussion": "Real-time multicast traffic can entail multiple large flows of data. An attacker can flood a network segment with multicast packets, over-using the available bandwidth and thereby creating a denial-of-service (DoS) condition. Hence, it is imperative that join messages are only accepted for authorized multicast groups.",
+  "Documentable": "false"
+}

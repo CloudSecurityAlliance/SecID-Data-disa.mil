@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-274002",
+  "rule_id": "SV-274002r1119994_rule",
+  "stig_id": "AZLX-23-000205",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must prevent kernel profiling by nonprivileged users.",
+  "group_title": "SRG-OS-000132-GPOS-00067",
+  "idents": {
+    "cci": [
+      "CCI-001082",
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-78093r1119992_chk",
+  "check_content": "Verify Amazon Linux 2023 is configured to prevent kernel profiling by nonprivileged users with the following commands:\n\nCheck the status of the kernel.perf_event_paranoid kernel parameter.\n\n$ sudo sysctl kernel.perf_event_paranoid\nkernel.perf_event_paranoid = 2\n\nIf \"kernel.perf_event_paranoid\" is not set to \"2\" or is missing, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to prevent kernel profiling by nonprivileged users.\n\nAdd or edit the following line in a system configuration file, in the \"/etc/sysctl.d/\" directory:\n\nkernel.perf_event_paranoid = 2\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-77998r1119993_fix",
+  "VulnDiscussion": "Preventing unauthorized information transfers mitigates the risk of information, including encrypted representations of information, produced by the actions of prior users/roles (or the actions of processes acting on behalf of prior users/roles) from being available to any current users/roles (or current processes) that obtain access to shared system resources (e.g., registers, main memory, hard disks) after those resources have been released back to information systems. The control of information in shared resources is also commonly referred to as object reuse and residual information protection.\n\nThis requirement generally applies to the design of an information technology product, but it can also apply to the configuration of particular information system components that are, or use, such products. This can be verified by acceptance/validation processes in DOD or other government agencies.\n\nThere may be shared resources with configurable protections (e.g., files in storage) that may be assessed on specific information system components.\n\nSetting the kernel.perf_event_paranoid kernel parameter to \"2\" prevents attackers from gaining additional system information as a nonprivileged user.\n\nSatisfies: SRG-OS-000132-GPOS-00067, SRG-OS-000138-GPOS-00069",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253431",
+  "rule_id": "SV-253431r958726_rule",
+  "stig_id": "WN11-RG-000005",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-56884r829375_chk",
+  "check_content": "Verify the default registry permissions for the keys note below of the HKEY_LOCAL_MACHINE hive.\n\nIf any non-privileged groups such as Everyone, Users or Authenticated Users have greater than Read permission, this is a finding.\n\nRun \"Regedit\".\nRight click on the registry areas noted below.\nSelect \"Permissions...\" and the \"Advanced\" button.\n\nHKEY_LOCAL_MACHINE\\SECURITY\nType - \"Allow\" for all\nInherited from - \"None\" for all\nPrincipal - Access - Applies to\nSYSTEM - Full Control - This key and subkeys\nAdministrators - Special - This key and subkeys\n\nHKEY_LOCAL_MACHINE\\SOFTWARE\nType - \"Allow\" for all\nInherited from - \"None\" for all\nPrincipal - Access - Applies to\nUsers - Read - This key and subkeys\nAdministrators - Full Control - This key and subkeys\nSYSTEM - Full Control - This key and subkeys\nCREATOR OWNER - Full Control - This key and subkeys\nALL APPLICATION PACKAGES - Read - This key and subkeys\n\nHKEY_LOCAL_MACHINE\\SYSTEM\nType - \"Allow\" for all\nInherited from - \"None\" for all\nPrincipal - Access - Applies to\nUsers - Read - This key and subkeys\nAdministrators - Full Control - This key and subkeys\nSYSTEM - Full Control - This key and subkeys\nCREATOR OWNER - Full Control - This key and subkeys\nALL APPLICATION PACKAGES - Read - This key and subkeys\n\nOther subkeys under the noted keys may also be sampled. There may be some instances where non-privileged groups have greater than read permission.\n\nMicrosoft has given Read permission to the SOFTWARE and SYSTEM registry keys in later versions of Windows 11 to the following SID, this is currently not a finding.\n\nS-1-15-3-1024-1065365936-1281604716-3511738428-1654721687-432734479-3232135806-4053264122-3456934681\n\nIf the defaults have not been changed, these are not a finding.",
+  "fixtext": "Maintain the default permissions for the HKEY_LOCAL_MACHINE registry hive.\n\nThe default permissions of the higher level keys are noted below.\n\nHKEY_LOCAL_MACHINE\\SECURITY\nType - \"Allow\" for all\nInherited from - \"None\" for all\nPrincipal - Access - Applies to\nSYSTEM - Full Control - This key and subkeys\nAdministrators - Special - This key and subkeys\n\nHKEY_LOCAL_MACHINE\\SOFTWARE\nType - \"Allow\" for all\nInherited from - \"None\" for all\nPrincipal - Access - Applies to\nUsers - Read - This key and subkeys\nAdministrators - Full Control - This key and subkeys\nSYSTEM - Full Control - This key and subkeys\nCREATOR OWNER - Full Control - This key and subkeys\nALL APPLICATION PACKAGES - Read - This key and subkeys\n\nHKEY_LOCAL_MACHINE\\SYSTEM\nType - \"Allow\" for all\nInherited from - \"None\" for all\nPrincipal - Access - Applies to\nUsers - Read - This key and subkeys\nAdministrators - Full Control - This key and subkeys\nSYSTEM - Full Control - This key and subkeys\nCREATOR OWNER - Full Control - This key and subkeys\nALL APPLICATION PACKAGES - Read - This key and subkeys\n\nMicrosoft has also given read permission to the SOFTWARE and SYSTEM registry keys in later versions of Windows 11 to the following SID.\n\nS-1-15-3-1024-1065365936-1281604716-3511738428-1654721687-432734479-3232135806-4053264122-3456934681",
+  "fix_id": "F-56834r829376_fix",
+  "VulnDiscussion": "The registry is integral to the function, security, and stability of the Windows system. Changing the system's registry permissions allows the possibility of unauthorized and anonymous modification to the operating system.",
+  "Documentable": "false"
+}

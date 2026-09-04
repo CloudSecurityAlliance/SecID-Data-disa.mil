@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274041",
+  "rule_id": "SV-274041r1120111_rule",
+  "stig_id": "AZLX-23-001200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 SSH server must be configured to use systemwide crypto policies.",
+  "group_title": "SRG-OS-000250-GPOS-00093",
+  "idents": {
+    "cci": [
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-78132r1120109_chk",
+  "check_content": "Verify Amazon Linux 2023 employs systemwide crypto policies for SSH with the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*include'\n/etc/ssh/sshd_config:Include /etc/ssh/sshd_config.d/*.conf\n/etc/ssh/sshd_config.d/50-redhat.conf:Include /etc/crypto-policies/back-ends/opensshserver.config\n\nIf \"Include /etc/ssh/sshd_config.d/*.conf\" or \"Include /etc/crypto-policies/back-ends/opensshserver.config\" are not included in the system sshd config or the file /etc/ssh/sshd_config.d/50-redhat.conf is missing, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 so that the SSH daemon uses systemwide crypto policies by running the following commands:\n\n$ sudo dnf reinstall -y openssh-server",
+  "fix_id": "F-78037r1120110_fix",
+  "VulnDiscussion": "Without cryptographic integrity protections, information can be altered by unauthorized users without detection.\n\nRemote access (e.g., RDP) is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nCryptographic mechanisms used for protecting the integrity of information include, for example, signed hash functions using asymmetric cryptography enabling distribution of the public key to verify the hash information while maintaining the confidentiality of the secret key used to generate the hash.",
+  "Documentable": "false"
+}

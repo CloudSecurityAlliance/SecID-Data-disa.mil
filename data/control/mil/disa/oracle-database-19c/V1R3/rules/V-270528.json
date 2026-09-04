@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270528",
+  "rule_id": "SV-270528r1064862_rule",
+  "stig_id": "O19C-00-009600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "System Privileges must not be granted to PUBLIC.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-74561r1064860_chk",
+  "check_content": "From SQL*Plus:\n\nSelect privilege from dba_sys_privs where grantee = 'PUBLIC';\n\nIf any records are returned, this is a finding.",
+  "fixtext": "Revoke any system privileges assigned to PUBLIC:\n\nFrom SQL*Plus:\n\nrevoke [system privilege] from PUBLIC;\n\nReplace [system privilege] with the named system privilege.\n\nNote: System privileges are not granted to PUBLIC by default and would indicate a custom action.",
+  "fix_id": "F-74462r1064861_fix",
+  "VulnDiscussion": "System privileges can be granted to users and roles and to the user group PUBLIC. All privileges granted to PUBLIC are accessible to every user in the database. Many of these privileges convey considerable authority over the database and should be granted only to those persons responsible for administering the database. In general, these privileges should be granted to roles and then the appropriate roles should be granted to users. System privileges must never be granted to PUBLIC as this could allow users to compromise the database.",
+  "Documentable": "false"
+}

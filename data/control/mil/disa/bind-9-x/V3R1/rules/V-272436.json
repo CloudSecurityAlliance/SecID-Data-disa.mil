@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272436",
+  "rule_id": "SV-272436r1123956_rule",
+  "stig_id": "BIND-9X-002050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "A BIND 9.x server must implement NIST FIPS-validated cryptography for provisioning digital signatures and generating cryptographic hashes.",
+  "group_title": "SRG-APP-000514-DNS-000075",
+  "idents": {
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-76486r1123954_chk",
+  "check_content": "Verify that the DNSSEC and TSIG keys used by the BIND 9.x implementation are FIPS compliant.\n\nIf the server is in a classified network, the DNSSEC portion of the requirement is Not Applicable.\n\nDNSSEC keys:\n\nInspect the \"named.conf\" file and identify all of the DNSSEC signed zone files:\n\nzone \"example.com\" {\nfile \"signed_zone_file\";\n};\n\nFor each signed zone file identified, inspect the file for the \"DNSKEY\" records: \n\n86400 DNSKEY 257 3 8 (\n<KEY HASH>\n) ; KSK; \n86400 DNSKEY 256 3 8 (\n<KEY HASH>\n) ; ZSK; \n\nThe fifth field in the above example identifies what algorithm was used to create the DNSKEY. \n\nIf the fifth field, if the KSK DNSKEY is less than \"8\" (SHA256), this is a finding.\n\nIf the algorithm used to create the ZSK is less than \"8\" (SHA256), this is a finding.\n\nTSIG keys: \n\nInspect the \"named.conf\" file and identify all of the TSIG key statements: \n\nkey tsig_example. {\nalgorithm hmac-SHA256;\ninclude \"tsig-example.key\";\n};\n\nIf each key statement does not use \"hmac-SHA256\" or a stronger algorithm, this is a finding.",
+  "fixtext": "Create new DNSSEC and TSIG keys using a FIPS-approved cryptographic algorithm that meets or exceeds the strength of SHA-256.",
+  "fix_id": "F-76393r1123955_fix",
+  "VulnDiscussion": "Use of weak or untested encryption algorithms undermines the purposes of using encryption to protect data. The application must implement cryptographic modules adhering to the higher standards approved by the federal government since this provides assurance they have been tested and validated.",
+  "Documentable": "false"
+}

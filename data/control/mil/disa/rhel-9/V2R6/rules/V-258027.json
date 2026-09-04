@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258027",
+  "rule_id": "SV-258027r1045106_rule",
+  "stig_id": "RHEL-09-271085",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must conceal, via the session lock, information previously visible on the display with a publicly viewable image.",
+  "group_title": "SRG-OS-000031-GPOS-00012",
+  "idents": {
+    "cci": [
+      "CCI-000060"
+    ]
+  },
+  "check_id": "C-61768r1045104_chk",
+  "check_content": "Note: This requirement assumes the use of the RHEL 9 default graphical user interface, the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\nTo ensure the screensaver is configured to be blank, run the following command:\n\n$ gsettings writable org.gnome.desktop.screensaver picture-uri\n \nfalse\n \nIf \"picture-uri\" is writable and the result is \"true\", this is a finding.",
+  "fixtext": "Configure RHEL 9 to prevent a user from overriding the picture-uri setting for graphical user interfaces.\n\nIn the file \"/etc/dconf/db/local.d/00-security-settings\", add or update the following lines:\n\n[org/gnome/desktop/screensaver]\npicture-uri=''\n\nPrevent user modification by adding the following line to \"/etc/dconf/db/local.d/locks/00-security-settings-lock\":\n\n/org/gnome/desktop/screensaver/picture-uri\n\nUpdate the dconf system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-61692r1045105_fix",
+  "VulnDiscussion": "Setting the screensaver mode to blank-only conceals the contents of the display from passersby.",
+  "Documentable": "false"
+}

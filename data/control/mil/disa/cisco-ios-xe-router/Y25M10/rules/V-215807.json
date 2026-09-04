@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215807",
+  "rule_id": "SV-215807r960735_rule",
+  "stig_id": "CISC-ND-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco router must be configured to limit the number of concurrent management sessions to an organization-defined number.",
+  "group_title": "SRG-APP-000001-NDM-000200",
+  "idents": {
+    "legacy": [
+      "SV-105327",
+      "V-96189"
+    ],
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-17046r835099_chk",
+  "check_content": "Note: This requirement is not applicable to file transfer actions such as FTP, SCP, and SFTP.\n\nReview the router configuration to determine if concurrent management sessions are limited as shown in the example below:\n\nip http secure-server \nip http max-connections 2 \n… \n… \n… \nline vty 0 1 \ntransport input ssh \nline vty 2 4 \ntransport input none \n\nIf the router is not configured to limit the number of concurrent management sessions, this is a finding.",
+  "fixtext": "Configure the router to limit the number of concurrent management sessions to an organization-defined number as shown in the example below.\n\nR4(config)#ip http max-connections 2 \nR4(config)#line vty 0 1 \nR4(config-line)#transport input ssh\nR4(config-line)#exit\nR4(config)#line vty 2 4 \nR4(config-line)# transport input none  \nR4(config-line)#end",
+  "fix_id": "F-17044r835100_fix",
+  "VulnDiscussion": "Device management includes the ability to control the number of administrators and management sessions that manage a device. Limiting the number of allowed administrators and sessions per administrator based on account type, role, or access type is helpful in limiting risks related to denial-of-service (DoS) attacks.\n\nThis requirement addresses concurrent sessions for administrative accounts and does not address concurrent sessions by a single administrator via multiple administrative accounts. The maximum number of concurrent sessions should be defined based upon mission needs and the operational environment for each system. At a minimum, limits must be set for SSH, HTTPS, account of last resort, and root account sessions.",
+  "Documentable": "false"
+}

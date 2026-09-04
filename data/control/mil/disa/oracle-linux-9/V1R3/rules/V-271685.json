@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271685",
+  "rule_id": "SV-271685r1091767_rule",
+  "stig_id": "OL09-00-002127",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must disable the ability of a user to restart the system from the login screen.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75735r1091765_chk",
+  "check_content": "This requirement assumes the use of the OL 9 default graphical user interface—the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\nVerify that OL 9 disables a user's ability to restart the system with the following command:\n\n$ grep -R disable-restart-buttons /etc/dconf/db/*\n/etc/dconf/db/distro.d/20-authselect:disable-restart-buttons='true'\n\nIf the \"disable-restart-button\" setting is not set to \"true\", is missing or commented out from the dconf database files, this is a finding.",
+  "fixtext": "Configure OL 9 to disable a user's ability to restart the system.\n\nAdd or update the [org/gnome/settings-daemon/] section of the /etc/dconf/db/local.d/00-security-settings\" database file and add or update the following lines:\n\n[org/gnome/settings-daemon/peripherals/smartcard]\ndisable-restart-buttons='true'\n\nThen update the dconf system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-75642r1091766_fix",
+  "VulnDiscussion": "A user who is at the console can reboot the system at the login screen. If restart or shutdown buttons are pressed at the login screen, this can create the risk of short-term loss of availability of systems due to reboot.",
+  "Documentable": "false"
+}

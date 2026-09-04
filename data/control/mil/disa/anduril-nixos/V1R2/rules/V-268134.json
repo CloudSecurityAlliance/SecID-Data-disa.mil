@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268134",
+  "rule_id": "SV-268134r1131073_rule",
+  "stig_id": "ANIX-00-000810",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must enforce a minimum 15-character password length.",
+  "group_title": "SRG-OS-000078-GPOS-00046",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-72058r1039288_chk",
+  "check_content": "Verify NixOS enforces a minimum 15-character password length with the following command:\n\n$ grep minlen /etc/security/pwquality.conf\n\n minlen=15\n\nIf the value of \"minlen\" is set to less than \"15\", or is commented out, this is a finding.",
+  "fixtext": "Configure NixOS to enforce password complexity. \n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\nenvironment.etc.\"/security/pwquality.conf\".text = ''\nminlen=15\n'';\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71961r1131072_fix",
+  "VulnDiscussion": "The shorter the password, the lower the number of possible combinations that need to be tested before the password is compromised.\n\nPassword complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. Password length is one factor of several that helps to determine strength and how long it takes to crack a password. Use of more characters in a password helps to exponentially increase the time and/or resources required to compromise the password.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257785",
+  "rule_id": "SV-257785r1044833_rule",
+  "stig_id": "RHEL-09-211050",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The x86 Ctrl-Alt-Delete key sequence must be disabled on RHEL 9.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-61526r925340_chk",
+  "check_content": "Verify RHEL 9 is not configured to reboot the system when Ctrl-Alt-Delete is pressed with the following command:\n\n$ sudo systemctl status ctrl-alt-del.target\n\nctrl-alt-del.target\nLoaded: masked (Reason: Unit ctrl-alt-del.target is masked.)\nActive: inactive (dead)\n\nIf the \"ctrl-alt-del.target\" is loaded and not masked, this is a finding.",
+  "fixtext": "Configure RHEL 9 to disable the ctrl-alt-del.target with the following command:\n\n$ sudo systemctl disable --now ctrl-alt-del.target\n$ sudo systemctl mask --now ctrl-alt-del.target",
+  "fix_id": "F-61450r925341_fix",
+  "VulnDiscussion": "A locally logged-on user who presses Ctrl-Alt-Delete when at the console can reboot the system. If accidentally pressed, as could happen in the case of a mixed OS environment, this can create the risk of short-term loss of availability of systems due to unintentional reboot. In a graphical user environment, risk of unintentional reboot from the Ctrl-Alt-Delete sequence is reduced because the user will be prompted before any action is taken.\n\nSatisfies: SRG-OS-000324-GPOS-00125, SRG-OS-000480-GPOS-00227",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276752",
+  "rule_id": "SV-276752r1140048_rule",
+  "stig_id": "GOOG-16-006400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Google Android 16 must be configured to not allow more than 10 consecutive failed authentication attempts.",
+  "group_title": "PP-MDF-333040",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-80907r1140046_chk",
+  "check_content": "Review managed Google Android 16 device configuration settings to determine if the mobile device has the maximum number of consecutive failed authentication attempts set at 10 or fewer. \n\nThis validation procedure is performed on both the EMM Administration Console and the managed Google Android 16 device. \n\nOn the EMM console:\n\nCOBO:\n\n1. Open \"Lock screen\" settings.\n2. Open \"Lock screen restrictions\".\n3. Verify that \"Max password failures for local wipe\" is set to a number between 1 and 10.\n\nCOPE:\n\n1. Open \"Lock screen\" settings.\n2. Open \"Lock screen restrictions\".\n3. Select \"Personal Profile\".\n4. Verify that \"Max password failures for local wipe\" is set to a number between 1 and 10.\n_________________________\n\nOn the managed Google Android 16 device:\n\nCOBO and COPE:\n\n1. Lock the device screen.\n2. Attempt to unlock the screen and validate that the device autowipes after the specified number of invalid entries. \nNote: Perform this verification only with a test phone set up with a production profile.\n\nIf the EMM console device policy is not set for a maximum number of consecutive failed authentication attempts of 10 or fewer, or if on the managed Google Android 16 device the device policy is not set for a maximum number of consecutive failed authentication attempts of 10 or fewer, this is a finding.",
+  "fixtext": "Configure the Google Android 16 device to allow only 10 or fewer consecutive failed authentication attempts.\n\nOn the EMM console:\n\nCOBO:\n\n1. Open \"Lock screen\" settings.\n2. Open \"Lock screen restrictions\".\n3. Set \"Max password failures for local wipe\" to a number between 1 and 10.\n\nCOPE:\n\n1. Open \"Lock screen\" settings.\n2. Open \"Lock screen restrictions\".\n3. Select \"Personal Profile\".\n4. Set \"Max password failures for local wipe\" to a number between 1 and 10.\n\nConfiguration API: setMaximumFailedPasswordsForWipe()",
+  "fix_id": "F-80812r1140047_fix",
+  "VulnDiscussion": "The more attempts an adversary has to guess a password, the more likely the adversary will enter the correct password and gain access to resources on the device. Setting a limit on the number of attempts mitigates this risk. Setting the limit at 10 or fewer gives authorized users the ability to make a few mistakes when entering the password but still provides adequate protection against dictionary or brute force attacks on the password.\n\nSFR ID: FMT_SMF.1.1 #2, FIA_AFL_EXT.1.5",
+  "Documentable": "false"
+}

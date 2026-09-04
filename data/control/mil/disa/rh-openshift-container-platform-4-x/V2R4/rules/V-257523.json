@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257523",
+  "rule_id": "SV-257523r1050555_rule",
+  "stig_id": "CNTR-OS-000210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must take appropriate action upon an audit failure.",
+  "group_title": "SRG-APP-000109-CTR-000215",
+  "idents": {
+    "cci": [
+      "CCI-000140"
+    ]
+  },
+  "check_id": "C-61258r921510_chk",
+  "check_content": "Verify there is a Prometheus rule to watch for audit events by executing the following:\n\noc get prometheusrule -o yaml --all-namespaces | grep apiserver_audit\n\nOutput:\n         sum by (apiserver,instance)(rate(apiserver_audit_error_total{apiserver=~\".+-apiserver\"}[5m])) / sum by (apiserver,instance) (rate(apiserver_audit_event_total{apiserver=~\".+-apiserver\"}[5m])) > 0\n\nIf the output above is not displayed, this is a finding.",
+  "fixtext": "Apply the following Prometheus rule by executing the following:\n\noc apply -f - << 'EOF'\n---\n# platform = multi_platform_ocp\napiVersion: monitoring.coreos.com/v1\nkind: PrometheusRule\nmetadata:\n  name: audit-errors\n  namespace: openshift-kube-apiserver\nspec:\n  groups:\n  - name: apiserver-audit\n    rules:\n    - alert: AuditLogError\n      annotations:\n        summary: |-\n          An API Server instance was unable to write audit logs. This could be\n          triggered by the node running out of space, or a malicious actor\n          tampering with the audit logs.\n        description: An API Server had an error writing to an audit log.\n      expr: |\n        sum by (apiserver,instance)(rate(apiserver_audit_error_total{apiserver=~\".+-apiserver\"}[5m])) / sum by (apiserver,instance) (rate(apiserver_audit_event_total{apiserver=~\".+-apiserver\"}[5m])) > 0\n      for: 1m\n      labels:\n        severity: warning\nEOF",
+  "fix_id": "F-61182r921511_fix",
+  "VulnDiscussion": "It is critical that when the container platform is at risk of failing to process audit logs as required that it takes action to mitigate the failure. Audit processing failures include software/hardware errors, failures in the audit capturing mechanisms, and audit storage capacity being reached or exceeded. Responses to audit failure depend upon the nature of the failure mode.\n\nBecause availability of the services provided by the container platform, approved actions in response to an audit failure are as follows:\n\n(i) If the failure was caused by the lack of audit record storage capacity, the container platform must continue generating audit records if possible (automatically restarting the audit service if necessary), overwriting the oldest audit records in a first-in-first-out manner.\n\n(ii) If audit records are sent to a centralized collection server and communication with this server is lost or the server fails, the container platform must queue audit records locally until communication is restored or until the audit records are retrieved manually. Upon restoration of the connection to the centralized collection server, action must be taken to synchronize the local audit data with the collection server.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223596",
+  "rule_id": "SV-223596r1117265_rule",
+  "stig_id": "ACF2-SM-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS DFMSM resource class(es)must be defined to the GSO SAFDEF record in accordance with security requirements.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "legacy": [
+      "SV-107001",
+      "V-97897"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-25269r504758_chk",
+  "check_content": "From the ISPF Command Shell enter:\nACF\nSET CONTROL(GSO)\nSHOW SAFDEF\n\nIf both FACILITY and PROGRAM resource classes are defined, this is not a finding.",
+  "fixtext": "Define the GSO SAFDEF record with the following definitions:\n\nFACILITY\nPROGRAM\n\nEnsure both resource classes above are defined.\n\nExample:\nSHOW SAFDEF\n\nSET C(GSO)\nINSERT SAFDEF.FAC FUNCRET(4) FUNCRSN(0) ID(FACILITY) MODE(GLOBAL) RACROUTE(REQUEST=AUTH CLASS=FACILITY) RETCODE(4)\n\nF ACF2,REFRESH(ALL)",
+  "fix_id": "F-25257r504759_fix",
+  "VulnDiscussion": "To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DoD-approved PKIs, all DoD systems (e.g., web servers and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. Successful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement.\n\nAccess control policies include: identity-based policies, role-based policies, and attribute-based policies. Access enforcement mechanisms include: access control lists, access control matrices, and cryptography. These policies and mechanisms must be employed by the application to control access between users (or processes acting on behalf of users) and objects (e.g., devices, files, records, processes, programs, and domains) in the information system.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269276",
+  "rule_id": "SV-269276r1050158_rule",
+  "stig_id": "ALMA-09-022130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All AlmaLinux OS 9 local initialization files must have mode 0740 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73307r1048204_chk",
+  "check_content": "Verify that all local initialization files have a mode of \"0740\" or less permissive with the following command:\n\nNote: The example will be for the \"testuser\" account, who has a home directory of \"/home/testuser\".\n\n$ find /home/testuser/.[^.]* -maxdepth 0 -perm -740 -exec stat -c \"%a %n\" {} \\; | more\n\n755 /home/testuser/.cache\n755 /home/testuser/.mozilla\n\nIf any local initialization files have a mode more permissive than \"0740\", this is a finding.",
+  "fixtext": "Set the mode of the local initialization files to \"0740\" with the following command:\n\nNote: The example will be for the \"testuser\" account, who has a home directory of \"/home/testuser\".\n\n$ chmod 0740 /home/testuser/.<INIT_FILE>",
+  "fix_id": "F-73208r1048205_fix",
+  "VulnDiscussion": "Local initialization files are used to configure the user's shell environment upon logon. Malicious modification of these files could compromise accounts upon logon.\n\nWorld-readable \"dot files\" such as .bash_history or .netrc can reveal plaintext credentials, such files should be further protected (e.g., 0600).",
+  "Documentable": "false"
+}

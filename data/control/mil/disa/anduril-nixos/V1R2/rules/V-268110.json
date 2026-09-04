@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-268110",
+  "rule_id": "SV-268110r1131025_rule",
+  "stig_id": "ANIX-00-000520",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS audit daemon must generate logs that are group-owned by root.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-72034r1039216_chk",
+  "check_content": "Verify the audit daemon is configured to generate logs that are group-owned by root with the following command:\n\n$ sudo grep log_group /etc/audit/auditd.conf\n\nlog_group = root\n\nIf the audit daemon is not configured to generate logs that are group-owned by \"root\", this is a finding.",
+  "fixtext": "Configure the audit daemon to generate logs that are group-owned by root.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix or /etc/nixos/flake.nix:\n\n environment.etc.\"audit/auditd.conf\".text = [\n  ''\n   log_group = root\n  ''\n ];\n\nRebuild and switch to the new NixOS configuration:\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71937r1131024_fix",
+  "VulnDiscussion": "Only authorized personnel should be aware of errors and the details of the errors. Error messages are an indicator of an organization's operational state or can identify the NixOS system or platform. Additionally, Personally Identifiable Information (PII) and operational information must not be revealed through error messages to unauthorized personnel or their designated representatives.\n\nThe structure and content of error messages must be carefully considered by the organization and development team. The extent to which the information system is able to identify and handle error conditions is guided by organizational policy and operational requirements.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000206-GPOS-00084",
+  "Documentable": "false"
+}

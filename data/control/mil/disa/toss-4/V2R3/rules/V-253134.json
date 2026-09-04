@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253134",
+  "rule_id": "SV-253134r991589_rule",
+  "stig_id": "TOSS-04-040930",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must use reverse path filtering on all IPv4 interfaces.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56587r825072_chk",
+  "check_content": "Verify TOSS uses reverse path filtering on all IPv4 interfaces with the following commands:\n\n$ sudo sysctl net.ipv4.conf.all.rp_filter\n\nnet.ipv4.conf.all.rp_filter = 1\n\nIf the returned line does not have a value of \"1\", or a line is not returned, this is a finding.",
+  "fixtext": "Configure TOSS to use reverse path filtering on all IPv4 interfaces by adding the following line to a file in the \"/etc/sysctl.d\" directory:\n\nnet.ipv4.conf.all.rp_filter = 1\n\nThe system configuration files need to be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-56537r825073_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nEnabling reverse path filtering drops packets with source addresses that are not routable. There is not an equivalent filter for IPv6 traffic.",
+  "Documentable": "false"
+}

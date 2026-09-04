@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216577",
+  "rule_id": "SV-216577r1117237_rule",
+  "stig_id": "CISC-RT-000290",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco perimeter router must be configured to not be a Border Gateway Protocol (BGP) peer to an approved gateway service provider.",
+  "group_title": "SRG-NET-000019-RTR-000009",
+  "idents": {
+    "legacy": [
+      "SV-105693",
+      "V-96555"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-17812r1050873_chk",
+  "check_content": "This requirement is not applicable for the DODIN backbone.\n\nReview the router configuration and verify that it is not BGP peering with an approved gateway service provider.\n\nStep 1: Determine the IP address of the ISP router.\n\ninterface GigabitEthernet0/2\n description Link to ISP\n ip address x.22.1.15 255.255.255.240\n\nStep 2: Verify that the router is not BGP peering with this router.\n\nrouter bgp nn\n no synchronization\n bgp log-neighbor-changes\n neighbor x.11.1.7 remote-as nn\n neighbor x.11.1.7 password xxxxxxx\n no auto-summary\n\nIn the example above, the router is not peering with the ISP.\n\nIf the router is BGP peering with an approved gateway service provider, this is a finding.",
+  "fixtext": "This requirement is not applicable for the DODIN backbone.\n\nRemove any BGP neighbors belonging to the approved gateway service provider and configure a static route to forward internet-bound traffic to the approved gateway as shown in the example below.\n\nR5(config)#ip route 0.0.0.0 0.0.0.0 x.22.1.14",
+  "fix_id": "F-17808r1050874_fix",
+  "VulnDiscussion": "ISPs use BGP to share route information with other autonomous systems (i.e., other ISPs and corporate networks). If the perimeter router was configured to BGP peer with an ISP, NIPRNet routes could be advertised to the ISP, thereby creating a backdoor connection from the internet to the NIPRNet.",
+  "Documentable": "false"
+}

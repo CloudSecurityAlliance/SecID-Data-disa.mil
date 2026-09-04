@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222602",
+  "rule_id": "SV-222602r961158_rule",
+  "stig_id": "APSC-DV-002490",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The application must protect from Cross-Site Scripting (XSS) vulnerabilities.",
+  "group_title": "SRG-APP-000251",
+  "idents": {
+    "legacy": [
+      "SV-84879",
+      "V-70257"
+    ],
+    "cci": [
+      "CCI-001310"
+    ]
+  },
+  "check_id": "C-36251r602316_chk",
+  "check_content": "Review the application documentation and the vulnerability assessment scan results from automated vulnerability assessment tools.\n\nVerify scan configuration settings include web-based applications settings which include XSS tests.\n\nReview scan results for XSS vulnerabilities.\n\nIf the scan results indicate aspects of the application are vulnerable to XSS, request subsequent scan data that shows the XSS vulnerabilities previously detected have been fixed.\n\nIf results that show compliance are not available, request proof of any steps that have been taken to mitigate the risk. This can include using network-based IPS to detect and prevent XSS attacks from occurring.\n\nIf scan results are not available, perform manual testing in various data entry fields to determine if XSS exist.\n\nNavigate through the web application as a regular user and identify any data entry fields where data can be input.\n\nInput the following strings:\n\n<script>alert('hello')</script>\n<img src=x onerror=\"alert(document.cookie);\"\n\nIf the script pop up box is displayed, or if scan reports show unremediated XSS results and no mitigating steps have been taken, this is a finding.",
+  "fixtext": "Verify user input is validated and encode or escape user input to prevent embedded script code from executing.\n\nDevelop your application using a web template system or a web application development framework that provides auto escaping features rather than building your own escape logic.",
+  "fix_id": "F-36215r602317_fix",
+  "VulnDiscussion": "XSS attacks are essentially code injection attacks against the various language interpreters contained within the browser. XSS can be executed via HTML, JavaScript, VBScript, ActiveX; essentially any scripting language a browser is capable of processing.\n\nXSS vulnerabilities are created when a website does not properly sanitize, escape, or encode user input. For example, \"&lt;\" is the HTML encoding for the \"<\" character. If the encoding is performed, the script code will not execute.\n\nThere are 3 parties involved in an XSS attack, the attacker, the trusted and vulnerable website, and the victim. An attacker will take advantage of a vulnerable website that does not properly validate user input by inserting malicious code into any data entry field.\n\nWhen the victim visits the trusted website and clicks on the malicious link left by the attacker, the attacker’s script is executed in the victims browser with the trust permissions assigned to the site.\n\nThere are several different types of XSS attack and the complete details regarding XSS cannot be described completely here.\n\nTo address the issue of XSS, web application developers must escape, encode or otherwise validate all user input that is processed and output by the web server. They should also use web templates or a web development framework that provides the capability to encode or otherwise validate user input.\n\nExamples of XSS vulnerabilities can be obtained from the Open Web Application Security Project (OWASP) website.\n  \nThe site is available by pointing your browser to https://www.owasp.org.",
+  "Documentable": "false"
+}

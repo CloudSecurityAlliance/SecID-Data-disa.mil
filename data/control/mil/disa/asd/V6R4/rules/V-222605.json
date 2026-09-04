@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222605",
+  "rule_id": "SV-222605r961158_rule",
+  "stig_id": "APSC-DV-002520",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The application must protect from canonical representation vulnerabilities.",
+  "group_title": "SRG-APP-000251",
+  "idents": {
+    "legacy": [
+      "SV-84885",
+      "V-70263"
+    ],
+    "cci": [
+      "CCI-001310"
+    ]
+  },
+  "check_id": "C-36252r602319_chk",
+  "check_content": "Review the application documentation and interview the application administrator for details regarding security assessment code reviews or vulnerability scans.\n\nReview the scan results from the entire application. This can be provided as results from an automated code review or a vulnerability scanning tool.\n\nReview the scan results to determine if there are any existing canonical representation vulnerabilities.\n\nReview web server and application configuration.\n\nThe OWASP website provides the following test procedures:\n\n\"Investigate the web application to determine if it asserts an internal code page, locale, or culture.\n\nIf the default character set, locale is not asserted it will be one of the following:\n\nHTTP Posts. Interesting tidbit: All HTTP posts are required to be ISO 8859-1, which will lose data for most double byte character sets. You must test your application with your supported browsers to determine if they pass in fully encoded double byte characters safely\n\nHTTP Gets. Depends on the previously rendered page and per-browser implementations, but URL encoding is not properly defined for double byte character sets. IE can be optionally forced to do all submits as UTF-8 which is then properly canonicalized on the server\n\n.NET: Unicode (little endian)\n\nJSP implementations, such as Tomcat: UTF8 - see “javaEncoding” in web.xml by many servlet containers\n\nJava: Unicode (UTF-16, big endian, or depends on the OS during JVM startup)\n\nPHP: Set in php.ini, ISO 8859-1”\n\nIf the results are not provided or the application representative cannot demonstrate that the application does not use Unicode encoding, this is a finding.",
+  "fixtext": "A suitable canonical form should be chosen and all user input canonicalized into that form before any authorization decisions are performed.\n\nSecurity checks should be carried out after decoding is completed. Moreover, it is recommended to check that the encoding method chosen is a valid canonical encoding for the symbol it represents.",
+  "fix_id": "F-36216r602320_fix",
+  "VulnDiscussion": "Canonical representation vulnerabilities can occur when a data conversion process does not convert the data to its simplest form resulting in the possible misrepresentation of the data.\n\nThe application may behave in an unexpected manner when acting on input that has not been sanitized or normalized.\n\nVulnerable application code is written to expect one form of data and executes its program logic on another form of data thereby creating instability or unexpected behavior.\n\nThe Open Web Application Security Project (OWASP) website provides test and remediation procedures that can be used for testing if vulnerability scan tools or results are not available.\n\nThe site is available by pointing your browser to https://www.owasp.org.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269189",
+  "rule_id": "SV-269189r1050071_rule",
+  "stig_id": "ALMA-09-012450",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All AlmaLinux OS 9 local files and directories must have a valid group owner.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73220r1049288_chk",
+  "check_content": "Verify all local files and directories on AlmaLinux OS 9 have a valid group with the following command:\n\n$ df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -nogroup\n\nIf any files on the system do not have an assigned group, this is a finding.",
+  "fixtext": "Either remove all files and directories from AlmaLinux OS 9 that do not have a valid group, or assign a valid group to all files and directories on the system with the \"chgrp\" command:\n\n$ chgrp <group> <file>",
+  "fix_id": "F-73121r1049289_fix",
+  "VulnDiscussion": "Files without a valid group owner may be unintentionally inherited if a group is assigned the same Group Identifier (GID) as the GID of the files without a valid group owner.",
+  "Documentable": "false"
+}

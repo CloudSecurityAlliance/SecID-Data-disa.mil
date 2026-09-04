@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271722",
+  "rule_id": "SV-271722r1091878_rule",
+  "stig_id": "OL09-00-002360",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must require reauthentication when using the \"sudo\" command.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75772r1091876_chk",
+  "check_content": "Verify that OL 9 requires reauthentication when using the \"sudo\" command to elevate privileges with the following command:\n\n$ sudo grep -i 'timestamp_timeout' /etc/sudoers /etc/sudoers.d/*\n/etc/sudoers:Defaults timestamp_timeout=0\n\nIf results are returned from more than one file location, this is a finding.\n\nIf \"timestamp_timeout\" is set to a negative number, is commented out, or no results are returned, this is a finding.",
+  "fixtext": "Configure OL 9 to reauthenticate \"sudo\" commands after the specified timeout:\n\nAdd the following line to \"/etc/sudoers\":\n\nDefaults timestamp_timeout=0",
+  "fix_id": "F-75679r1091877_fix",
+  "VulnDiscussion": "Without reauthentication, users may access resources or perform tasks for which they do not have authorization. \n\nWhen operating systems provide the capability to escalate a functional capability, it is critical the organization requires the user to reauthenticate when using the \"sudo\" command.\n\nIf the value is set to an integer less than \"0\", the user's time stamp will not expire and the user will not have to reauthenticate for privileged actions until the user's session is terminated.",
+  "Documentable": "false"
+}
