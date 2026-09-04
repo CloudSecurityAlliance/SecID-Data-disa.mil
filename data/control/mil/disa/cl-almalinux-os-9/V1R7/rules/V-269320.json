@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269320",
+  "rule_id": "SV-269320r1050202_rule",
+  "stig_id": "ALMA-09-027190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must mount /var/log/audit with the nodev option.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-73351r1048336_chk",
+  "check_content": "Verify \"/var/log/audit\" is mounted with the \"nodev\" option:\n\n$ mount | grep /var/log/audit\n\n/dev/mapper/luks-29b74747-2f82-4472-82f5-0b5eb763effc on /var/log/audit type xfs (rw,nosuid,nodev,noexec,relatime,seclabel,attr2,inode64,logbufs=8,logbsize=32k,noquota)\n\nIf the \"/var/log/audit\" file system is mounted without the \"nodev\" option, this is a finding.",
+  "fixtext": "Modify \"/etc/fstab\" to use the \"nodev\" option on the \"/var/log/audit\" directory.",
+  "fix_id": "F-73252r1048337_fix",
+  "VulnDiscussion": "The \"nodev\" mount option causes the system to not interpret character or block special devices. Executing character or block special devices from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.\n\nThe only legitimate location for device files is the \"/dev\" directory located on the root partition, with the exception of chroot jails if implemented.",
+  "Documentable": "false"
+}

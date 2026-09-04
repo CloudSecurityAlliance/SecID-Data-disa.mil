@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271844",
+  "rule_id": "SV-271844r1184222_rule",
+  "stig_id": "OL09-00-003050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 local interactive user home directories defined in the /etc/passwd file must exist.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75894r1184220_chk",
+  "check_content": "Verify OL 9 assigned home directories of all interactive users on the system exist with the following command:\n\n$ sudo pwck -r \n\nThe output should not return any interactive users.\n\nIf users home directory does not exist, this is a finding.",
+  "fixtext": "Create home directories to all local interactive users that currently do not have a home directory assigned. Use the following commands to create the user home directory assigned in \"/etc/ passwd\":\n\nNote: The example will be for the user disauser, who has a home directory of \"/home/disauser\", a user identifier (UID) of \"disauser\", and a Group Identifier (GID) of \"users assigned\" in \"/etc/passwd\".\n\n$ sudo mkdir /home/disauser \n$ sudo chown disauser /home/disauser\n$ sudo chgrp users /home/disauser\n$ sudo chmod 0750 /home/disauser",
+  "fix_id": "F-75801r1184221_fix",
+  "VulnDiscussion": "If a local interactive user has a home directory defined that does not exist, the user may be given access to the / directory as the current working directory upon logon. This could create a denial of service because the user would not be able to access their logon configuration files, and it may give them visibility to system files they normally would not be able to access.",
+  "Documentable": "false"
+}

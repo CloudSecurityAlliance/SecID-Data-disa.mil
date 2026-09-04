@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282503",
+  "rule_id": "SV-282503r1200489_rule",
+  "stig_id": "TOSS-05-000471",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must use mechanisms meeting the requirements of applicable federal laws, executive orders, directives, policies, regulations, standards, and guidance for authentication to a cryptographic module.",
+  "group_title": "SRG-OS-000120-GPOS-00061",
+  "idents": {
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-87064r1200487_chk",
+  "check_content": "Verify the symlink exists and targets the correct Kerberos crypto policy, using the following command:\n\nfile /etc/crypto-policies/back-ends/krb5.config\n\nIf command output shows the following line, Kerberos is configured to use the systemwide crypto policy:\n\n/etc/crypto-policies/back-ends/krb5.config: symbolic link to /usr/share/crypto-policies/FIPS/krb5.txt\n\nIf the symlink does not exist or points to a different target, this is a finding.",
+  "fixtext": "Configure Kerberos to use system crypto policy.\n\nCreate a symlink pointing to system crypto policy in the Kerberos configuration using the following command:\n\n$ sudo ln -s /etc/crypto-policies/back-ends/krb5.config /usr/share/crypto-policies/FIPS/krb5.txt",
+  "fix_id": "F-86969r1200488_fix",
+  "VulnDiscussion": "Overriding the system crypto policy makes the behavior of Kerberos violate expectations and makes system configuration more fragmented.",
+  "Documentable": "false"
+}

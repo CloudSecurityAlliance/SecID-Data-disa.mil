@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271873",
+  "rule_id": "SV-271873r1092331_rule",
+  "stig_id": "OL09-00-006030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must not respond to Internet Control Message Protocol (ICMP) echoes sent to a broadcast address.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75923r1092329_chk",
+  "check_content": "Verify that OL 9 does not respond to ICMP echoes sent to a broadcast address.\n\nCheck the value of the \"icmp_echo_ignore_broadcasts\" variable with the following command:\n\n$ sysctl net.ipv4.icmp_echo_ignore_broadcasts\nnet.ipv4.icmp_echo_ignore_broadcasts = 1\n\nIf the returned line does not have a value of \"1\", a line is not returned, or the retuned line is commented out, this is a finding.",
+  "fixtext": "Configure OL 9 to not respond to IPv4 ICMP echoes sent to a broadcast address.\n\nAdd or edit the following line in a single system configuration file in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv4.icmp_echo_ignore_broadcasts = 1\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-75830r1092330_fix",
+  "VulnDiscussion": "Responding to broadcast (ICMP) echoes facilitates network mapping and provides a vector for amplification attacks.\n\nIgnoring ICMP echo requests (pings) sent to broadcast or multicast addresses makes the system slightly more difficult to enumerate on the network.",
+  "Documentable": "false"
+}

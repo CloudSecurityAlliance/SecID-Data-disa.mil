@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-271859",
+  "rule_id": "SV-271859r1092289_rule",
+  "stig_id": "OL09-00-006001",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 wireless network adapters must be disabled.",
+  "group_title": "SRG-OS-000299-GPOS-00117",
+  "idents": {
+    "cci": [
+      "CCI-001444",
+      "CCI-001443",
+      "CCI-002421",
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-75909r1092287_chk",
+  "check_content": "Note: For systems that do not have physical wireless network radios, this requirement is Not Applicable.\n\nVerify that OL 9 allows no wireless interfaces to be configured on the system with the following command:\n\n$ nmcli device status\nDEVICE           TYPE       STATE         CONNECTION\nvirbr0           bridge     connected     virbr0\nwlp7s0           wifi       connected     wifiSSID\nenp6s0           ethernet   disconnected  --\np2p-dev-wlp7s0   wifi-p2p   disconnected  --\nlo               loopback   unmanaged     --\nvirbr0-nic       tun        unmanaged     --\n\nIf a wireless interface is configured and has not been documented and approved by the information system security officer (ISSO), this is a finding.",
+  "fixtext": "Configure the system to disable all wireless network interfaces with the following command:\n\n$ sudo nmcli radio all off",
+  "fix_id": "F-75816r1092288_fix",
+  "VulnDiscussion": "This requirement applies to wireless peripheral technologies (e.g., wireless mice, keyboards, displays, etc.) used with OL 9 systems. Wireless peripherals (e.g., Wi-Fi/Bluetooth/IR keyboards, mice and pointing devices, and near field communications [NFC]) present a unique challenge by creating an open, unsecured port on a computer. Wireless peripherals must meet DOD requirements for wireless data transmission and be approved for use by the authorizing official (AO). Even though some wireless peripherals, such as mice and pointing devices, do not ordinarily carry information that need to be protected, modification of communications with these wireless peripherals may be used to compromise the OL 9 operating system.\n\nSatisfies: SRG-OS-000299-GPOS-00117, SRG-OS-000300-GPOS-00118, SRG-OS-000424-GPOS-00188, SRG-OS-000481-GPOS-00481",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233874",
+  "rule_id": "SV-233874r1082643_rule",
+  "stig_id": "IDNS-8X-400016",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Infoblox DNS service member must use current and valid root DNS service members.",
+  "group_title": "SRG-APP-000516-DNS-000102",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-37059r1082641_chk",
+  "check_content": "Review the Root DNS service members configured and validate that the entries are correct. \"G\" and \"H\" root servers are required on the NIPRNet as a minimum. Note: Validate against the current available DNS root list at the time of check.  \n\n1. Validate the current root DNS service member list using external tools at the time of the check.\n2. Navigate to Data Management >> DNS >> Grid DNS Properties. \n3. Toggle Advanced mode and review the \"Root DNS service members\" tab to ensure it is configured correctly. \n\nIf valid root DNS service members are not configured, this is a finding.",
+  "fixtext": "1. Navigate to Data Management >> DNS >> Grid DNS Properties. \n2. Toggle Advanced mode and select the \"Root DNS service members\" tab.  \n3. Use the radio button to select \"Use custom root DNS service members\" and configure the desired root DNS service members.  \n4. When complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen. \n5. Perform a service restart if necessary.",
+  "fix_id": "F-37024r1082642_fix",
+  "VulnDiscussion": "All caching name servers must be authoritative for the root zone because, without this starting point, they would have no knowledge of the DNS infrastructure and thus would be unable to respond to any queries. \n\nAn adversary could change the root hints and direct the caching name server to a bogus root server. At that point, every query response from that name server is suspect, which would give the adversary substantial control over the network communication of the name servers' clients. \n\nWhen authoritative servers are sent queries for zones for which they are not authoritative, and configured as a noncaching server (as recommended), they can either be configured to return a referral to the root servers or to refuse to answer the query. The recommendation is to configure authoritative servers to refuse to answer queries for any zones for which they are not authoritative. This is more efficient for the server and allows it to spend more of its resources serving its intended purpose: answering authoritatively for its zone.",
+  "Documentable": "false"
+}

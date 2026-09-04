@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274080",
+  "rule_id": "SV-274080r1120228_rule",
+  "stig_id": "AZLX-23-002080",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must be configured to off-load audit records onto a different system from the system being audited via syslog.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-78171r1120226_chk",
+  "check_content": "Verify Amazon Linux 2023 off-loads audit records onto a different system with the following command:\n\n$ more /etc/systemd/journal-upload.conf\n[Upload]\nURL=192.168.21.2\nServerKeyFile=/etc/ssl/private/journal-upload.pem\nServerCertificateFile=/etc/ssl/certs/journal-upload.pem\nTrustedCertificateFile=/etc/ssl/ca/trusted.pem\n\nIf all of the entries do not have values, are commented out, or are missing, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to off-load audit records onto a different system or media from the system being audited.\n\nIf using systemd-journal-upload:\nEdit \"/etc/systemd/journal-upload.conf\" with the appropriate configuration:\n\n[Upload]\nURL=https://[server.domain]:[port]",
+  "fix_id": "F-78076r1120227_fix",
+  "VulnDiscussion": "The auditd service does not include the ability to send audit records to a centralized server for management directly. However, it can use a plug-in for audit event multiplexor (audispd) to pass audit records to the local syslog server.\n\nSatisfies: SRG-OS-000342-GPOS-00133, SRG-OS-000479-GPOS-00224",
+  "Documentable": "false"
+}

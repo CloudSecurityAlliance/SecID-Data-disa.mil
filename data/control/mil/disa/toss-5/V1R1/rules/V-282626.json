@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282626",
+  "rule_id": "SV-282626r1200858_rule",
+  "stig_id": "TOSS-05-000088",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "TOSS 5 must enable the hardware random number generator entropy gatherer service.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87187r1200856_chk",
+  "check_content": "Verify TOSS 5 enabled the hardware random number generator entropy gatherer service using the following command:\n\nNote: For TOSS 5 systems running with kernel FIPS mode enabled as specified by TOSS-05-000470, this requirement is not applicable.\n\n$ systemctl is-active rngd\n\nactive\n\nIf the \"rngd\" service is not active, this is a finding.",
+  "fixtext": "Install the \"rng-tools\" package using the following command:\n\n$ sudo dnf install rng-tools\n\nEnable the \"rngd\" service using the following command:\n\n$ sudo systemctl enable --now rngd",
+  "fix_id": "F-87092r1200857_fix",
+  "VulnDiscussion": "The most important characteristic of a random number generator is its randomness, namely its ability to deliver random numbers that are impossible to predict. Entropy in computer security is associated with the unpredictability of a source of randomness. The random source with high entropy tends to achieve a uniform distribution of random values. Random number generators are one of the most important building blocks of cryptosystems.\n\nThe \"rngd\" service feeds random data from hardware device to kernel random device. Quality (nonpredictable) random number generation is important for several security functions (i.e., ciphers).",
+  "Documentable": "false"
+}

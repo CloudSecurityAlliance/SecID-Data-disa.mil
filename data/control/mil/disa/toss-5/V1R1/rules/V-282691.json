@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282691",
+  "rule_id": "SV-282691r1201053_rule",
+  "stig_id": "TOSS-05-000219",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must not forward IPv4 source-routed packets by default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87252r1201051_chk",
+  "check_content": "Verify TOSS 5 does not accept IPv4 source-routed packets by default using the following command:\n\n$ sudo sysctl net.ipv4.conf.default.accept_source_route\n\nnet.ipv4.conf.default.accept_source_route = 0\n\nIf the returned line does not have a value of \"0\", a line is not returned, this is a finding.",
+  "fixtext": "Configure TOSS 5 to not forward IPv4 source-routed packets by default.\n\nAdd or edit the following line in a single system configuration file, in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv4.conf.default.accept_source_route = 0\n\nLoad settings from all system configuration files using the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-87157r1201052_fix",
+  "VulnDiscussion": "Source-routed packets allow the source of the packet to suggest routers forward the packet along a different path than configured on the router, which can be used to bypass network security measures.\n\nAccepting source-routed packets in the IPv4 protocol has few legitimate uses. It must be disabled unless it is absolutely required, such as when IPv4 forwarding is enabled and the system is legitimately functioning as a router.",
+  "Documentable": "false"
+}

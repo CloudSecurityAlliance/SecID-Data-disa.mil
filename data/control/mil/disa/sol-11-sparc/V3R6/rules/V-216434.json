@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216434",
+  "rule_id": "SV-216434r959010_rule",
+  "stig_id": "SOL-11.1-070180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "World-writable files must not exist.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-60935",
+      "V-48063"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17670r371390_chk",
+  "check_content": "The root role is required.\n\nCheck for the existence of world-writable files.\n\n# find / \\( -fstype nfs -o -fstype cachefs -o -fstype autofs \\\n-o -fstype ctfs -o -fstype mntfs -o -fstype objfs \\\n-o -fstype proc \\) -prune -o -type f -perm -0002 -print\nIf output is produced, this is a finding.",
+  "fixtext": "The root role is required.\n\nChange the permissions of the files identified in the check step to remove the world-writable permission.\n\n# pfexec chmod o-w [filename]",
+  "fix_id": "F-17668r371391_fix",
+  "VulnDiscussion": "Data in world-writable files can be read, modified, and potentially compromised by any user on the system. World-writable files may also indicate an incorrectly written script or program that could potentially be the cause of a larger compromise to the system's integrity.",
+  "Documentable": "false"
+}

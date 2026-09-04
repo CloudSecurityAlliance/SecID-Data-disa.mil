@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-266162",
+  "rule_id": "SV-266162r1024392_rule",
+  "stig_id": "F5BI-AP-300151",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "When the Access Profile Type is LTM+APM and it is not using any connectivity resources (such as Network Access, Portal Access, etc.) in the VPE, the F5 BIG-IP appliance must be configured to enable the HTTP Only flag.",
+  "group_title": "SRG-NET-000233-ALG-000115",
+  "idents": {
+    "cci": [
+      "CCI-001664"
+    ]
+  },
+  "check_id": "C-70086r1023732_chk",
+  "check_content": "If the Access Profile Type is not LTM+APM and it uses connectivity resources (such as Network Access, Portal Access, etc.) in the VPE, then this is not a finding.\n\nFrom the BIG-IP GUI:\n1. Access.\n2. Profiles/Policies.\n3. Access Profiles.\n4. Click the access profile name.\n5. SSO/Auth Domains.\n6. Under Cookie Options, verify HTTP Only is enabled.\n\nIf the F5 BIG-IP appliance does not enable the HTTP Only flag, this is a finding.",
+  "fixtext": "When the Access Profile Type is LTM+APM and it is not using any connectivity resources (such as Network Access, Portal Access, etc.) in the VPE, set the HTTP Only flag.\n\nFrom the BIG-IP GUI:\n1. Access.\n2. Profiles/Policies.\n3. Access Profiles.\n4. Click the access profile name.\n5. SSO/Auth Domains.\n6. Under Cookie Options, Check the box next to HTTP Only.\n7. Click \"Update\".\n8. Click \"Apply Access Policy\".",
+  "fix_id": "F-69989r1023733_fix",
+  "VulnDiscussion": "To guard against cookie hijacking, only the BIG-IP APM controller and client must be able to view the full session ID. Setting the APM HTTP Only flag ensures that a third party will not have access to the active session cookies.\n\nThis option is only applicable to the LTM+APM access profile type. Other access profile types require access to various session cookies to fully function. Sites must conduct operational testing prior to enabling this setting. For implementations with connectivity resources (such as Network Access, Portal Access, etc.), do not set BIG-IP APM cookies with the HTTP Only flag.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-284952",
+  "rule_id": "SV-284952r1208920_rule",
+  "stig_id": "SLES-15-010036",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The SUSE operating system must use FIPS 140-3-approved cryptographic algorithms for IP tunnels.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-89521r1208903_chk",
+  "check_content": "Note: If the IPsec service is not installed, this requirement is Not Applicable.\n\nVerify the SUSE operating system sets the IPsec service to use the systemwide cryptographic policy with the following command:\n\n> sudo grep -s include /etc/ipsec.conf /etc/ipsec.d/*.conf\n/etc/ipsec.conf:include /etc/crypto-policies/back-ends/libreswan.config\n\nIf the ipsec configuration file does not contain \"include /etc/crypto-policies/back-ends/libreswan.config\", this is a finding.",
+  "fixtext": "Configure the SUSE operating system so that Libreswan uses the systemwide cryptographic policy.\n\nAdd the following line to \"/etc/ipsec.conf\":\n\ninclude /etc/crypto-policies/back-ends/libreswan.config",
+  "fix_id": "F-89426r1208904_fix",
+  "VulnDiscussion": "Overriding the systemwide cryptographic policy makes the behavior of the Libreswan service violate expectations and makes system configuration more fragmented.",
+  "Documentable": "false"
+}

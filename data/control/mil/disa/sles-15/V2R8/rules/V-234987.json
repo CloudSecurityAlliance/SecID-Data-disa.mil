@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234987",
+  "rule_id": "SV-234987r991589_rule",
+  "stig_id": "SLES-15-040050",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The SUSE operating system file integrity tool must be configured to verify extended attributes.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-38175r880969_chk",
+  "check_content": "Verify that the SUSE operating system file integrity tool is configured to verify extended attributes.\n\nIf there is no application installed to perform integrity checks, this is a finding.\n\nCheck the \"/etc/aide.conf\" file to determine if the \"xattrs\" rule has been added to the rule list being applied to the files and directories selection lists.\n\nAn example rule that includes the \"xattrs\" rule follows:\n\n     All= p+i+n+u+g+s+m+S+sha512+acl+xattrs+selinux\n     /bin All > apply the custom rule to the files in bin \n     /sbin All > apply the same custom rule to the files in sbin \n\nIf the \"xattrs\" rule is not being used on all selection lines in the \"/etc/aide.conf\" file, or extended attributes are not being checked by another file integrity tool, this is a finding.",
+  "fixtext": "Configure the SUSE operating system file integrity tool to check file and directory extended attributes. \n\nIf AIDE is installed, ensure the \"xattrs\" rule is present on all file and directory selection lists.",
+  "fix_id": "F-38138r619231_fix",
+  "VulnDiscussion": "Extended attributes in file systems are used to contain arbitrary data and file metadata with security implications.",
+  "Documentable": "false"
+}

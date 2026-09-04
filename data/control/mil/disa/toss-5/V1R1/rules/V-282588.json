@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282588",
+  "rule_id": "SV-282588r1200744_rule",
+  "stig_id": "TOSS-05-000266",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must disable the graphical user interface autorun function unless required.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-87149r1200742_chk",
+  "check_content": "Verify TOSS 5 disables the graphical user interface autorun function using the following command:\n\nNote: This requirement assumes the use of the TOSS 5 default graphical user interface—the GNOME desktop environment. If the system does not have a graphical user interface installed, this requirement is not applicable.\n\n$ gsettings get org.gnome.desktop.media-handling autorun-never \n\ntrue\n\nIf \"autorun-never\" is set to \"false\" and is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure the GNOME desktop to disable the autorun function on removable media.\n\nThe dconf settings can be edited in the /etc/dconf/db/* location.\n\nUpdate the [org/gnome/desktop/media-handling] section of the \"/etc/dconf/db/local.d/00-security-settings\" database file and add or update the following lines:\n\n[org/gnome/desktop/media-handling]\nautorun-never=true\n\nUpdate the dconf system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-87054r1200743_fix",
+  "VulnDiscussion": "Allowing autorun commands to execute may introduce malicious code to a system. Configuring this setting prevents users from executing autorun commands.",
+  "Documentable": "false"
+}

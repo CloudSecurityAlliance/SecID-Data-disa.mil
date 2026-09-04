@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-265916",
+  "rule_id": "SV-265916r1051115_rule",
+  "stig_id": "MD7X-00-003600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MongoDB must uniquely identify and authenticate organizational users (or processes acting on behalf of organizational users).",
+  "group_title": "SRG-APP-000148-DB-000103",
+  "idents": {
+    "cci": [
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-69834r1028532_chk",
+  "check_content": "For each database in the system, run the following command:\n\n> use <database>\n> db.getUsers()\n\nEnsure each user identified is a member of an appropriate organization that can access the database.\n\nAlternatively, if LDAP/AD is being used for authentication/authorization, the mongoldap tool can be used to verify user account access.\n\nIf a user is found not be a member of an appropriate organization that can access the database, this is a finding.\n\nVerify that the MongoDB configuration file (default location: /etc/mongod.conf) contains the following:\n\nsecurity:\n  authorization: \"enabled\"\n \nIf this parameter is not present, this is a finding.",
+  "fixtext": "For any user not a member of an appropriate organization and has access to a database in the system run the following command:\n\n// Change to the appropriate database\n> use <database>\n> db.dropUser(\"<username>\", {w: \"majority\", wtimeout: 5000})\n\nThe MongoDB configuration file (default location: /etc/mongod.conf) must contain the following:\n\nsecurity: \n  authorization: \"enabled\"\n\nIf not, edit the MongoDB configuration file. Add the parameters and stop/start (restart) any mongod or mongos process using this MongoDB configuration file.",
+  "fix_id": "F-69738r1028533_fix",
+  "VulnDiscussion": "To ensure accountability and prevent unauthenticated access, organizational users must be identified and authenticated to prevent potential misuse and compromise of the system.\n\nOrganizational users include organizational employees or individuals the organization deems to have equivalent status of employees (e.g., contractors). Organizational users (and any processes acting on behalf of users) must be uniquely identified and authenticated for all accesses, except the following:\n\n(i) Accesses explicitly identified and documented by the organization. Organizations document specific user actions that can be performed on the information system without identification or authentication; and\n(ii) Accesses that occur through authorized use of group authenticators without individual authentication. Organizations may require unique identification of individuals using shared accounts, for detailed accountability of individual activity.",
+  "Documentable": "false"
+}

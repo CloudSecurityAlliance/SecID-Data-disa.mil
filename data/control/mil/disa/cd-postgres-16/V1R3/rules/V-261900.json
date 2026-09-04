@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261900",
+  "rule_id": "SV-261900r1043181_rule",
+  "stig_id": "CD16-00-004900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must maintain the authenticity of communications sessions by guarding against man-in-the-middle attacks that guess at Session ID values.",
+  "group_title": "SRG-APP-000224-DB-000384",
+  "idents": {
+    "cci": [
+      "CCI-001188"
+    ]
+  },
+  "check_id": "C-65754r1000703_chk",
+  "check_content": "To check if PostgreSQL is configured to use ssl, as the database administrator (shown here as \"postgres\"), run the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"SHOW ssl\"\n\nIf this is not set to on, this is a finding.",
+  "fixtext": "Note: The following instructions use the PGDATA and PGVER environment variables. Refer to APPENDIX-F for instructions on configuring PGDATA and APPENDIX-H for PGVER.\n\nTo configure PostgreSQL to use SSL, as a database owner (shown here as \"postgres\"), edit postgresql.conf:\n\n$ sudo su - postgres\n$ vi ${PGDATA?}/postgresql.conf\n\nAdd the following parameter:\n\nssl = on\n\nAs the system administrator, reload the server with the new configuration:\n\n$ sudo systemctl reload postgresql-${PGVER?}\n\nFor more information on configuring PostgreSQL to use SSL, refer to supplementary content APPENDIX-G.\n\nFor further SSL configurations, refer to the official documentation: https://www.postgresql.org/docs/current/static/ssl-tcp.html.",
+  "fix_id": "F-65662r1000704_fix",
+  "VulnDiscussion": "One class of man-in-the-middle, or session hijacking, attack involves the adversary guessing at valid session identifiers based on patterns in identifiers already known.\n\nThe preferred technique for thwarting guesses at Session IDs is the generation of unique session identifiers using a FIPS 140-2 or 140-3 approved random number generator.\n\nHowever, it is recognized that available DBMS products do not all implement the preferred technique yet may have other protections against session hijacking. Therefore, other techniques are acceptable, provided they are demonstrated to be effective.",
+  "Documentable": "false"
+}

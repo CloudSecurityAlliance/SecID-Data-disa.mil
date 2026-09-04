@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215395",
+  "rule_id": "SV-215395r958820_rule",
+  "stig_id": "AIX7-00-003090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If automated file system mounting tool is not required on AIX, it must be disabled.",
+  "group_title": "SRG-OS-000378-GPOS-00163",
+  "idents": {
+    "legacy": [
+      "V-91543",
+      "SV-101641"
+    ],
+    "cci": [
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-16593r294636_chk",
+  "check_content": "Determine if the system uses \"automated\" by using command:\n\n# lssrc -s automountd\nSubsystem         Group            PID          Status\nautomountd       autofs                        inoperative\n\nIf the automountd process is active, this is a finding.",
+  "fixtext": "Disable the automated file system mounting tools. \n\nEmpty the /etc/auto_master file.\n\nFrom the command prompt, run the following command:\n# stopsrc -s automountd",
+  "fix_id": "F-16591r294637_fix",
+  "VulnDiscussion": "Automated file system mounting tools may provide unprivileged users with the ability to access local media and network shares. If this access is not necessary for the system’s operation, it must be disabled to reduce the risk of unauthorized access to these resources.",
+  "Documentable": "false"
+}

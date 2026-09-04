@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213456",
+  "rule_id": "SV-213456r961092_rule",
+  "stig_id": "WNDF-AV-000032",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Microsoft Defender AV must be configured to block executable content from email client and webmail.",
+  "group_title": "SRG-APP-000210",
+  "idents": {
+    "legacy": [
+      "SV-92661",
+      "V-77965"
+    ],
+    "cci": [
+      "CCI-001170"
+    ]
+  },
+  "check_id": "C-14681r820215_chk",
+  "check_content": "This setting is applicable starting with v1709 of Windows 10. It is NA for prior versions.\n\nVerify the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Microsoft Defender Exploit Guard >> Attack Surface Reduction >> \"Configure Attack Surface Reduction rules\" is set to \"Enabled”.  Click \"Show...\". Verify the rule ID in the Value name column and the desired state in the Value column is set as follows:\nValue name: BE9BA2D9-53EA-4CDC-84E5-9B1EEEE46550\nValue:  1\n\nProcedure: Use the Windows Registry Editor to navigate to the following key: \nHKLM\\Software\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules\n\nCriteria: If the value \"BE9BA2D9-53EA-4CDC-84E5-9B1EEEE46550\" is REG_SZ = 1, this is not a finding.",
+  "fixtext": "Set the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Windows Defender Exploit Guard >> Attack Surface Reduction >> \"Configure Attack Surface Reduction rules\" to \"Enabled\". \n\nClick \"Show...\". Set the Value name to \"BE9BA2D9-53EA-4CDC-84E5-9B1EEEE46550\" and the Value to \"1\".",
+  "fix_id": "F-14679r823080_fix",
+  "VulnDiscussion": "This rule blocks the following file types from being run or launched from an email seen in either Microsoft Outlook or webmail (such as Gmail.com or Outlook.com):\nExecutable files (such as .exe, .dll, or .scr)\nScript files (such as a PowerShell .ps, VisualBasic .vbs, or JavaScript .js file)\nScript archive files",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282494",
+  "rule_id": "SV-282494r1200462_rule",
+  "stig_id": "TOSS-05-000239",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must not permit direct logins to the root account using remote access via SSH.",
+  "group_title": "SRG-OS-000109-GPOS-00056",
+  "idents": {
+    "cci": [
+      "CCI-004045"
+    ]
+  },
+  "check_id": "C-87055r1200460_chk",
+  "check_content": "Verify TOSS 5 remote access using SSH prevents users from logging on directly as \"root\" using the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*permitrootlogin'\n\nPermitRootLogin no\n\nIf the \"PermitRootLogin\" keyword is set to \"yes\", is missing, or is commented out, this is a finding.",
+  "fixtext": "Configure the system to prevent SSH users from logging on directly as \"root\" by adding or modifying the following line in \"/etc/ssh/sshd_config\":\n\n PermitRootLogin no\n\nRestart the SSH daemon for the settings to take effect:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-86960r1200461_fix",
+  "VulnDiscussion": "Even though the communications channel may be encrypted, an additional layer of security is gained by extending the policy of not logging directly on as root. In addition, logging in with a user-specific account provides individual accountability of actions performed on the system and also helps to minimize direct attack attempts on root's password.",
+  "Documentable": "false"
+}

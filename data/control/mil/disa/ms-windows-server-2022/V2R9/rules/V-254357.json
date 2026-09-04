@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254357",
+  "rule_id": "SV-254357r991589_rule",
+  "stig_id": "WN22-CC-000260",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Windows Server 2022 Windows Update must not obtain updates from other PCs on the internet.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-57842r890543_chk",
+  "check_content": "If the following registry value does not exist or is not configured as specified, this is a finding:\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization\\\n\nValue Name: DODownloadMode\n\nValue Type: REG_DWORD\nValue: 0x00000000 (0) - No peering (HTTP Only)\n0x00000001 (1) - Peers on same NAT only (LAN)\n0x00000002 (2) - Local Network / Private group peering (Group)\n0x00000063 (99) - Simple download mode, no peering (Simple)\n\nA value of 0x00000003 (3), Internet, is a finding.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Delivery Optimization >> Download Mode to \"Enabled\" with any option except \"Internet\" selected.\n\nAcceptable selections include:\n\nHTTP only (0)\nLAN (1)\nGroup (2)\nInternet (3)\nSimple (99)",
+  "fix_id": "F-57793r890544_fix",
+  "VulnDiscussion": "Windows Update can obtain updates from additional sources instead of Microsoft. In addition to Microsoft, updates can be obtained from and sent to PCs on the local network as well as on the internet. This is part of the Windows Update trusted process; however, to minimize outside exposure, obtaining updates from or sending to systems on the internet must be prevented.",
+  "Documentable": "false"
+}

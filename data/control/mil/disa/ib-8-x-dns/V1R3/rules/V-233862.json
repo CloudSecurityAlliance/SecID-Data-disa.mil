@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233862",
+  "rule_id": "SV-233862r1156952_rule",
+  "stig_id": "IDNS-8X-400004",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NSEC3 must be used for all DNSSEC signed zones.",
+  "group_title": "SRG-APP-000516-DNS-000084",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-37047r1082610_chk",
+  "check_content": "Note: For Infoblox DNS systems on a classified network, this requirement is Not Applicable.\n\n1. Review the zone configuration and confirm that, if DNSSEC is enabled NSEC3 is used.\n2. Navigate to Data Management >> DNS >> Grid DNS Properties. Toggle Advanced Mode and review the \"DNSSEC\" tab.\n3. Ensure \"Resource Record Type for Nonexistent Proof\" is set to NSEC3.\n4. When complete, click \"Cancel\" to exit the \"Properties\" screen.\n5. Review zone data or use Global Search string \".\". Type \"Equals NSEC Record\" to verify no undesired NSEC records exist. \n\nIf NSEC records exist in an active zone, or NSEC3 is not configured, this is a finding.",
+  "fixtext": "1. Navigate to Data Management >> DNS >> Grid DNS Properties.\n2. Toggle Advanced Mode and edit the \"DNSSEC\" tab.\n3. Ensure \"Resource Record Type for Nonexistent Proof\" is set to NSEC3. \n4. Re-sign all DNSSEC zones that previously used NSEC.",
+  "fix_id": "F-37012r1082611_fix",
+  "VulnDiscussion": "To ensure that resource records (RRs) associated with a query are really missing in a zone file and have not been removed in transit, the DNSSEC mechanism provides a means for authenticating the nonexistence of an RR. It generates a special RR called an NSEC (or NSEC3) RR that lists the RRTypes associated with an owner name as well as the next name in the zone file. It sends this special RR, along with its signatures, to the resolving name server. By verifying the signature, a DNSSEC-aware resolving name server can determine which authoritative owner name exists in a zone and which authoritative RRTypes exist at those owner names.\n\nThe Internet Engineering Task Force's (IETF's) design criteria consider DNS data to be public. Confidentiality is not one of the security goals of DNSSEC. DNSSEC is not designed to directly protect against denial-of-service threats but does so indirectly by providing message integrity and source authentication. An artifact of how DNSSEC performs negative responses allows a client to map all the names in a zone (zone walking). \n\nA zone that contains zone data the administrator does not want to be made public must use the NSEC3 RR option for providing authenticated denial of existence.\n\nIf DNSSEC is enabled for a server, the ability to verify a particular server that may attempt to update the DNS server actually exists. This is done through the use of NSEC3 records to provide an \"authenticated denial of existence\" for specific systems whose addresses indicate that they lie within a particular zone. \n\nDNSSEC is intended for third-party authenticity determination. Attempting to utilize DNSSEC internally was never an intended use case as it would require every consumer to have a third-party validating resolver installed along with a mechanism for periodic trust anchor distribution/update. It is recommended for external zones only.",
+  "Documentable": "false"
+}

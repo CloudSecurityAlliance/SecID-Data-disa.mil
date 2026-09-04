@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272412",
+  "rule_id": "SV-272412r1124064_rule",
+  "stig_id": "BIND-9X-001590",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "On the BIND 9.x server, a zone file must not include resource records that resolve to a fully qualified domain name residing in another zone.",
+  "group_title": "SRG-APP-000516-DNS-000113",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-76462r1123547_chk",
+  "check_content": "Verify that the zone files used by the BIND 9.x server do not contain resource records for a domain in which the server is not authoritative.\n\nThe exceptions are glue records supporting zone delegations, CNAME records supporting a system migration, or CNAME records that point to third-party Content Delivery Networks (CDN) or cloud computing platforms. In the case of third-party CDNs or cloud offerings, an approved mission need must be demonstrated.\n\nInspect the \"named.conf\" file to identify the zone files, for which the server is authoritative:\n\nzone example.com {\nfile \"db.example.com.signed\";\n};\n\nInspect each zone file for which the server is authoritative. \n\nIf there are CNAME records that point to third-party Content Delivery Networks (CDN) or cloud computing platforms without an authorizing official (AO)-approved and documented mission need, this is a finding.\n\nIf a zone file contains records that resolve to another zone, excluding the above, this is a finding.",
+  "fixtext": "In the case of third-party CDNs or cloud offerings, document the mission need with the AO.\n\nEdit the zone file.\n\nRemove any record that points to a different zone, with the exception of approved CDNs or cloud offerings.\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76369r1123548_fix",
+  "VulnDiscussion": "If a name server were able to claim authority for a resource record in a domain for which it was not authoritative, this would pose a security risk. In this environment, an adversary could use illicit control of a name server to impact IP address resolution beyond the scope of that name server (i.e., by claiming authority for records outside of that server's zones). Fortunately, all but the oldest versions of BIND and most other DNS implementations do not allow for this behavior. Nevertheless, the best way to eliminate this risk is to eliminate from the zone files any records for hosts in another zone.\n\nThe exceptions are glue records supporting zone delegations, CNAME records supporting a system migration, or CNAME records that point to third-party Content Delivery Networks (CDN) or cloud computing platforms. In the case of third-party CDNs or cloud offerings, an approved mission need must be demonstrated.",
+  "Documentable": "false"
+}

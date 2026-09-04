@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281213",
+  "rule_id": "SV-281213r1166591_rule",
+  "stig_id": "RHEL-10-600610",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must configure the use of the pam_faillock.so module in the \"/etc/pam.d/password-auth\" file.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-85774r1166589_chk",
+  "check_content": "Verify RHEL 10 includes the pam_faillock.so module in the \"/etc/pam.d/password-auth\" file:\n\n$ sudo grep pam_faillock.so /etc/pam.d/password-auth\nauth required pam_faillock.so preauth\nauth required pam_faillock.so authfail\naccount required pam_faillock.so\n\nIf the pam_faillock.so module is not present in the \"/etc/pam.d/password-auth\" file with the \"preauth\" line listed before pam_unix.so, this is a finding.\n\nIf the system administrator can demonstrate that the required configuration is contained in a Pluggable Authentication Module (PAM) configuration file included or substacked from the \"system-auth\" file, this is not a finding.",
+  "fixtext": "Configure RHEL 10 to include the use of the pam_faillock.so module in the \"/etc/pam.d/password-auth\" file. If PAM is managed with \"authselect\", enable the feature with the following command:\n\n$ sudo authselect enable-feature with-faillock\n\nOtherwise, add/modify the appropriate sections of the \"/etc/pam.d/password-auth\" file to match the following lines:\n\nNote: The \"preauth\" line must be listed before pam_unix.so.\n\nauth required pam_faillock.so preauth\nauth required pam_faillock.so authfail\naccount required pam_faillock.so",
+  "fix_id": "F-85679r1166590_fix",
+  "VulnDiscussion": "If the pam_faillock.so module is not loaded, the system will not correctly lock out accounts to prevent password guessing attacks.",
+  "Documentable": "false"
+}

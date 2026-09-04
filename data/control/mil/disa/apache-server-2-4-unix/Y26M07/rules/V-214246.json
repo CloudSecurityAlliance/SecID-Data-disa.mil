@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-214246",
+  "rule_id": "SV-214246r1043177_rule",
+  "stig_id": "AS24-U1-000360",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Apache web server must be configured to use a specified IP address and port.",
+  "group_title": "SRG-APP-000142-WSR-000089",
+  "idents": {
+    "legacy": [
+      "SV-102749",
+      "V-92661"
+    ],
+    "cci": [
+      "CCI-000186",
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-15460r881428_chk",
+  "check_content": "Determine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nNote: The apachectl front end is the preferred method for locating the Apache httpd file. For some Linux distributions, \"apache2ctl -V\" or  \"httpd -V\" can also be used. \nSearch for the \"Listen\" directive:\n\n# cat /<path_to_file>/httpd.conf | grep -i \"Listen\"\n\nVerify that any enabled \"Listen\" directives specify both an IP address and port number.\n\nIf the \"Listen\" directive is found with only an IP address or only a port number specified, this is finding.\n\nIf the IP address is all zeros (i.e., 0.0.0.0:80 or [::ffff:0.0.0.0]:80), this is a finding.\n\nIf the \"Listen\" directive does not exist, this is a finding.",
+  "fixtext": "Determine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nSet the \"Listen\" directive to listen on a specific IP address and port.\n\nRestart Apache: apachectl restart",
+  "fix_id": "F-15458r881429_fix",
+  "VulnDiscussion": "The web server must be configured to listen on a specified IP address and port. Without specifying an IP address and port for the web server to use, the web server will listen on all IP addresses available to the hosting server. If the web server has multiple IP addresses, i.e., a management IP address, the web server will also accept connections on the management IP address.\n\nAccessing the hosted application through an IP address normally used for non-application functions opens the possibility of user access to resources, utilities, files, ports, and protocols that are protected on the desired application IP address.\n\nSatisfies: SRG-APP-000142-WSR-000089, SRG-APP-000176-WSR-000096",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-282594",
+  "rule_id": "SV-282594r1200762_rule",
+  "stig_id": "TOSS-05-000286",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must have the USBGuard package enabled.",
+  "group_title": "SRG-OS-000378-GPOS-00163",
+  "idents": {
+    "cci": [
+      "CCI-001958",
+      "CCI-003959"
+    ]
+  },
+  "check_id": "C-87155r1200760_chk",
+  "check_content": "Verify TOSS 5 has USBGuard enabled using the following command:\n\n$ systemctl is-active usbguard\n\nactive\n\nIf usbguard is not active, ask the SA to indicate how unauthorized peripherals are blocked.\n\nIf there is no evidence that unauthorized peripherals are being blocked before establishing a connection, this is a finding.",
+  "fixtext": "Enable the USBGuard service using the following command:\n\n$ sudo systemctl enable --now usbguard",
+  "fix_id": "F-87060r1200761_fix",
+  "VulnDiscussion": "The USBguard-daemon is the main component of the USBGuard software framework. It runs as a service in the background and enforces the USB device authorization policy for all USB devices. The policy is defined by a set of rules using a rule language described in the usbguard-rules.conf file. The policy and the authorization state of USB devices can be modified during runtime using the usbguard tool.\n\nThe system administrator (SA) must work with the site information system security officer (ISSO) to determine a list of authorized peripherals and establish rules within the USBGuard software framework to allow only authorized devices.\n\nSatisfies: SRG-OS-000378-GPOS-00163, SRG-OS-000690-GPOS-00140",
+  "Documentable": "false"
+}

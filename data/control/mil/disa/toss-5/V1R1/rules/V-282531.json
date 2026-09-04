@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282531",
+  "rule_id": "SV-282531r1201577_rule",
+  "stig_id": "TOSS-05-000144",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 audit tools must have a mode of 0755 or less permissive.",
+  "group_title": "SRG-OS-000256-GPOS-00097",
+  "idents": {
+    "cci": [
+      "CCI-001493"
+    ]
+  },
+  "check_id": "C-87092r1201575_chk",
+  "check_content": "Verify the audit tools have a mode of \"0755\" or less using the following command:\n\n$ stat -c \"%a %n\" /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/rsyslogd /sbin/augenrules\n\n755 /sbin/auditctl\n755 /sbin/aureport\n755 /sbin/ausearch\n755 /sbin/autrace\n755 /sbin/auditd\n755 /sbin/rsyslogd\n755 /sbin/augenrules\n\nIf any of the audit tool files have a mode more permissive than \"0755\", this is a finding.",
+  "fixtext": "Configure the audit tools to have a mode of \"0755\" using the following command:\n\n$ sudo chmod 0755 [audit_tool]\n\nReplace \"[audit_tool]\" with each audit tool that has a more permissive mode than \"0755\".",
+  "fix_id": "F-86997r1201576_fix",
+  "VulnDiscussion": "Protecting audit information also includes identifying and protecting the tools used to view and manipulate log data. Therefore, protecting audit tools is necessary to prevent unauthorized operation on audit information.\n\nTOSS 5 systems providing tools to interface with audit information leverage user permissions and roles identifying the user accessing the tools, and the corresponding rights the user has, to make access decisions regarding the access to audit tools.\n\nAudit tools include, but are not limited to, vendor-provided and open source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.",
+  "Documentable": "false"
+}

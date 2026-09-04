@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260517",
+  "rule_id": "SV-260517r958902_rule",
+  "stig_id": "UBTU-22-251025",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must configure the Uncomplicated Firewall (ufw) to rate-limit impacted network interfaces.",
+  "group_title": "SRG-OS-000420-GPOS-00186",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-64246r953362_chk",
+  "check_content": "Verify an application firewall is configured to rate limit any connection to the system.  \n  \nCheck all the services listening to the ports by using the following command:  \n  \n     $ ss -l46ut \n     Netid               State          Recv-Q          Send-Q                               Local Address:Port            Peer Address:Port               Process                 \n     tcp                 LISTEN               0                     511                                           *:http                                          *:*  \n     tcp                 LISTEN               0                     128                                           [::]:ssh                                        [::]:* \n     tcp                 LISTEN               0                     128                                           [::]:ipp                                        [::]:*  \n     tcp                 LISTEN               0                     128                                           [::]:smtp                                    [::]:* \n \n  \nFor each entry, verify that the ufw is configured to rate limit the service ports by using the following command:  \n  \n     $ sudo ufw status  \n     Status: active  \n  \n     To                           Action     From  \n     --                             ------         ----  \n     80/tcp                    LIMIT       Anywhere \n     25/tcp                    LIMIT       Anywhere \n     Anywhere            DENY       240.9.19.81 \n     443                           LIMIT      Anywhere        \n     22/tcp                     LIMIT      Anywhere     \n     80/tcp (v6)            LIMIT      Anywhere \n     25/tcp (v6)            LIMIT      Anywhere                \n     22/tcp (v6)            LIMIT      Anywhere (v6)  \n \n     25                             DENY OUT    Anywhere \n     25 (v6)                    DENY OUT    Anywhere (v6) \n \nIf any port with a state of \"LISTEN\" that does not have an action of \"DENY\", is not marked with the \"LIMIT\" action, this is a finding.",
+  "fixtext": "Configure the application firewall to protect against or limit the effects of DoS attacks by ensuring Ubuntu 22.04 LTS is implementing rate-limiting measures on impacted network interfaces.  \n  \nFor each service with a port listening to connections, run the following command, replacing \"<service_name>\" with the service that needs to be rate limited.  \n  \n     $ sudo ufw limit <service_name>  \n  \nRate-limiting can also be done on an interface. An example of adding a rate limit on the \"ens160\" interface follows:  \n  \n     $ sudo ufw limit in on ens160",
+  "fix_id": "F-64154r953363_fix",
+  "VulnDiscussion": "Denial of service (DoS) is a condition when a resource is not available for legitimate users. When this occurs, the organization either cannot accomplish its mission or must operate at degraded capacity.  \n  \nThis requirement addresses the configuration of the operating system to mitigate the impact of DoS attacks that have occurred or are ongoing on system availability. For each system, known and potential DoS attacks must be identified and solutions for each type implemented. A variety of technologies exist to limit or, in some cases, eliminate the effects of DoS attacks (e.g., limiting processes or establishing memory partitions). Employing increased capacity and bandwidth, combined with service redundancy, may reduce the susceptibility to some DoS attacks.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283687",
+  "rule_id": "SV-283687r1204134_rule",
+  "stig_id": "NOKI-L2-000150",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Nokia layer 2 switch must have Internet Group Management Protocol (IGMP) or Multicast Listener Discovery (MLD) snooping configured on all virtual local area networks (VLANs).",
+  "group_title": "SRG-NET-000512-L2S-000002",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-88252r1204133_chk",
+  "check_content": "Review the switch configuration to verify IGMP or MLD snooping has been configured for IPv4 and IPv6 multicast traffic respectively.\n\nUse the command below for each virtual private local area network service (VPLS) and verify the state of IGMP snooping and MLD snooping:\n\n- show service id 10 igmp-snooping base\n\nIGMP Snooping Base info for service 10\n\nAdmin State : Up\nQuerier     : No querier found\nSBD service : N/A\nEvpn-proxy  : Disabled\nPort                       Oper MRtr Pim  Send Max  Max  Max   MVR       Num\nId                         Stat Port Port Qrys Grps Srcs Grp   From-VPLS Grps\n                                                         Srcs\n\nsap:1/1/c3/10              Up No   No   No   None None None  Local     0\n\n- show service id 10 mld-snooping base\n\nMLD Snooping Base info for service 10\n\nAdmin State : Up\nQuerier     : No querier found\nSBD service : N/A\nEvpn-proxy  : Disabled\n\nPort                                       Oper MRtr Send Max  MVR       Num\nId                                         Stat Port Qrys Grps From-VPLS Grps\n\nsap:1/1/c3/10                              Up No   No   None Local     0\n\nIf the switch is not configured to implement IGMP or MLD snooping for each VLAN, this is a finding.",
+  "fixtext": "Configure IGMP or MLD snooping for IPv4 and IPv6 multicast traffic respectively for each VLAN.\n\nThe igmp-snooping and mld-snooping can be configured at the VPLS service level or for each access point (VLAN).\n\nFor VPLS service-level configuration:\n\n- configure service vpls <service id> igmp-snooping no shutdown\n- configure service vpls <service id> mld-snooping no shutdown\n\nFor VPLS service access point-level configuration:\n\n- configure service vpls <service id> sap <sap id> igmp-snooping\n- configure service vpls <service id> sap <sap id> mld-snooping",
+  "fix_id": "F-88157r1204088_fix",
+  "VulnDiscussion": "IGMP and MLD snooping provides a way to constrain multicast traffic at layer 2. By monitoring the IGMP or MLD membership reports sent by hosts within a VLAN, the snooping application can set up layer 2 multicast forwarding tables to deliver specific multicast traffic only to interfaces connected to hosts interested in receiving the traffic. This significantly reduces the volume of multicast traffic that would otherwise flood the VLAN.",
+  "Documentable": "false"
+}

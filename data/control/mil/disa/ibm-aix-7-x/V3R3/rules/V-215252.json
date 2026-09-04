@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215252",
+  "rule_id": "SV-215252r971541_rule",
+  "stig_id": "AIX7-00-002032",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must provide the function for assigned ISSOs or designated SAs to change the auditing to be performed on all operating system components, based on all selectable event criteria in near real time.",
+  "group_title": "SRG-OS-000337-GPOS-00129",
+  "idents": {
+    "legacy": [
+      "V-91515",
+      "SV-101613"
+    ],
+    "cci": [
+      "CCI-001914"
+    ]
+  },
+  "check_id": "C-16450r294207_chk",
+  "check_content": "Verify that an audit admin role has been configured to include the authorizations for auditing, namely \"aix.security.audit,aix.security.user.audit,aix.security.role.audit\": \n\n# lsrole ALL |grep \"aix.security.audit\" |grep \"aix.security.user.audit\" |grep \"aix.security.role.audit\"\nauditadm authorizations=aix.security.audit,aix.security.user.audit,aix.security.role.audit rolelist= groups= visibility=1 screens=* dfltmsg=Audit Administrator msgcat=role_desc.cat msgnum=15 msgset=1 auth_mode=INVOKER id=16\n\nIf the above command has no output, this is a finding.",
+  "fixtext": "Create a role \"auditadm\" that is assigned with security related authorization with the following commend:\n# mkrole authorizations=\"aix.security.audit,aix.security.user.audit,aix.security.role.audit\" auditadm",
+  "fix_id": "F-16448r294208_fix",
+  "VulnDiscussion": "If authorized individuals do not have the ability to modify auditing parameters in response to a changing threat environment, the organization may not be able to effectively respond, and important forensic information may be lost.\n\nThis requirement enables organizations to extend or limit auditing as necessary to meet organizational requirements. Auditing that is limited to conserve information system resources may be extended to address certain threat situations. In addition, auditing may be limited to a specific set of events to facilitate audit reduction, analysis, and reporting.",
+  "Documentable": "false"
+}

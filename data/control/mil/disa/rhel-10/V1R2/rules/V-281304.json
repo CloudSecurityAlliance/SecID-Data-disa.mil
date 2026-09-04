@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281304",
+  "rule_id": "SV-281304r1167062_rule",
+  "stig_id": "RHEL-10-701020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must enable mitigations against processor-based vulnerabilities.",
+  "group_title": "SRG-OS-000433-GPOS-00193",
+  "idents": {
+    "cci": [
+      "CCI-002824",
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-85865r1167060_chk",
+  "check_content": "Verify RHEL 10 enables kernel page-table isolation with the following command:\n\n$ sudo grubby --info=ALL | grep args | grep -v 'pti=on'\n\nIf any output is returned, this is a finding.\n\nCheck that kernel page-table isolation is enabled by default to persist in kernel updates:\n\n$ sudo grep pti /etc/default/grub\nGRUB_CMDLINE_LINUX=\"pti=on\"\n\nIf \"pti\" is not set to \"on\", is missing, or is commented out, this is a finding.",
+  "fixtext": "Configure RHEL 10 to enable kernel page-table isolation with the following command:\n\n$ sudo grubby --update-kernel=ALL --args=\"pti=on\"",
+  "fix_id": "F-85770r1167061_fix",
+  "VulnDiscussion": "Kernel page-table isolation is a kernel feature that mitigates the Meltdown security vulnerability and hardens the kernel against attempts to bypass kernel address space layout randomization (KASLR).\n\nSatisfies: SRG-OS-000433-GPOS-00193, SRG-OS-000095-GPOS-00049",
+  "Documentable": "false"
+}

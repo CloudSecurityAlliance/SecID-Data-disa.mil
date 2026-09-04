@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-282554",
+  "rule_id": "SV-282554r1201608_rule",
+  "stig_id": "TOSS-05-000103",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must enable kernel parameters to enforce discretionary access control (DAC) on symlinks.",
+  "group_title": "SRG-OS-000312-GPOS-00123",
+  "idents": {
+    "cci": [
+      "CCI-002165",
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-87115r1200640_chk",
+  "check_content": "Verify TOSS 5 is configured to enable DAC on symlinks using the following command:\n\n$ sudo sysctl fs.protected_symlinks\n\nfs.protected_symlinks = 1\n\nIf \"fs.protected_symlinks \" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Configure TOSS 5 to enable DAC on symlinks with the following:\n\nAdd or edit the following line in a system configuration file in the \"/etc/sysctl.d/\" directory:\n\nfs.protected_symlinks = 1\n\nLoad settings from all system configuration files using the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-87020r1200641_fix",
+  "VulnDiscussion": "By enabling the \"fs.protected_symlinks\" kernel parameter, symbolic links are permitted to be followed only when outside a sticky world-writable directory, or when the user identifier (UID) of the link and follower match, or when the directory owner matches the symlink's owner. Disallowing such symlinks helps mitigate vulnerabilities based on insecure file system accessed by privileged programs, avoiding an exploitation vector exploiting unsafe use of open() or creat().\n\nSatisfies: SRG-OS-000312-GPOS-00123, SRG-OS-000324-GPOS-00125",
+  "Documentable": "false"
+}

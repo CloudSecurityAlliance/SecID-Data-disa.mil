@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213716",
+  "rule_id": "SV-213716r1138540_rule",
+  "stig_id": "DB2X-00-006600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "When supporting applications that require security labeling of data, DB2 must associate organization-defined types of security labels having organization-defined security label values with information in storage.",
+  "group_title": "SRG-APP-000311-DB-000308",
+  "idents": {
+    "legacy": [
+      "SV-89235",
+      "V-74561"
+    ],
+    "cci": [
+      "CCI-002262"
+    ]
+  },
+  "check_id": "C-14937r295197_chk",
+  "check_content": "If security labeling is not required, this is not a finding.\n\nQuery the system catalog to find out the existing security labels:\nDB2> SELECT * FROM SYSCAT.SECURITYLABELS\n\nIf the required labels are not created in database this is a finding.\n\nQuery the following catalog views find details of existing security labels:\nDB2> SELECT * FROM SYSCAT.SECURITYLABELACCESS\nDB2> SELECT * FROM SYSCAT.SECURITYLABELCOMPONENTELEMENTS\nDB2> SELECT * FROM SYSCAT.SECURITYLABELCOMPONENTS\n\nIf the security labels are not defined as per organization security policies, this is a finding.",
+  "fixtext": "Use Create security Label statement to create the security labels: \n\nSee the following example to create the components, policy and then security labels:\n\nCreate the components for Security labels:\nDB2> CREATE SECURITY LABEL COMPONENT LEVEL ARRAY ['Top Secret', 'Secret', 'Confidential', 'Unclassified'];\nDB2> CREATE SECURITY LABEL COMPONENT COMPARTMENTS SET {'Collection', 'Research', 'Analysis'};\n\nCreate the Policy:\nDB2> CREATE SECURITY POLICY DATA_ACCESS COMPONENTS LEVEL, COMPARTMENTS WITH DB2LBACRULES;\n\nCreate Security Label:\nDB2> CREATE SECURITY LABEL DATA_ACCESS.EMPLOYEESECLABEL COMPONENT LEVEL 'Top Secret', COMPONENT COMPARTMENTS 'Research', 'Analysis'\n\nAfter creating the security labels, use one of the following statements to attach the labels to the table:\nDB2>  CREATE TABLE\n  Or\nDB2> ALTER TABLE\n\nFor advice and examples, see the tutorial at:\nhttps://www.ibm.com/developerworks/data/tutorials/dm0605wong/\nhttps://www.ibm.com/developerworks/data/tutorials/dm0605wong/section2.html\n\nNote: Select the following knowledgebase link for information regarding LBAC Details: \nhttp://www.ibm.com/support/knowledgecenter/SSEPGG_10.5.0/com.ibm.db2.luw.admin.sec.doc/doc/c0021114.html\n\nSelect the following knowledgebase link for information regarding Create Security Label: \nhttp://www.ibm.com/support/knowledgecenter/SSEPGG_10.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0020026.html?cp=SSEPGG_10.5.0%2F2-12-7-94",
+  "fix_id": "F-14935r295198_fix",
+  "VulnDiscussion": "Without the association of security labels to information, there is no basis for the DBMS to make security-related access-control decisions.\n\nSecurity labels are abstractions representing the basic properties or characteristics of an entity (e.g., subjects and objects) with respect to safeguarding information. \n\nThese labels are typically associated with internal data structures (e.g., tables, rows) within the database and are used to enable the implementation of access control and flow control policies, reflect special dissemination, handling or distribution instructions, or support other aspects of the information security policy. \n\nOne example includes marking data as classified or FOUO. These security labels may be assigned manually or during data processing, but, either way, it is imperative these assignments are maintained while the data is in storage. If the security labels are lost when the data is stored, there is the risk of a data compromise.\n\nThe mechanism used to support security labeling may be a feature of the DBMS product, a third-party product, or custom application code.",
+  "Documentable": "false"
+}

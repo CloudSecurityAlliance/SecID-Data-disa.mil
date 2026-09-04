@@ -1,0 +1,33 @@
+{
+  "vuln_id": "V-215670",
+  "rule_id": "SV-215670r1205833_rule",
+  "stig_id": "CISC-ND-000210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco device must be configured to audit all administrator activity.",
+  "group_title": "SRG-APP-000080-NDM-000345",
+  "idents": {
+    "legacy": [
+      "SV-105173",
+      "V-96035"
+    ],
+    "cci": [
+      "CCI-000166",
+      "CCI-002234",
+      "CCI-000172",
+      "CCI-002130",
+      "CCI-000135",
+      "CCI-001405",
+      "CCI-001404",
+      "CCI-001403",
+      "CCI-000018"
+    ]
+  },
+  "check_id": "C-16864r1205832_chk",
+  "check_content": "Review the Cisco router configuration to verify that it is compliant with this requirement as shown in the example below.\n\nhostname R1\n!\nlogging userinfo\n!\n…\n…\n…\narchive\n log config\n logging enable\n logging size 1000\n notify syslog contenttype plaintext\n hidekeys\n!\n\nNote: The logging userinfo global configuration command will generate a log when a user increases their privilege level.\n\nIf logging of administrator activity is not configured, this is a finding.",
+  "fixtext": "Configure the router to log administrator activity as shown in the example below.\n\nR1(config)#logging userinfo\nR1(config)#archive\nR1(config-archive)#log config\nR1(config-archive-log-cfg)#logging enable\nR1(config-archive-log-cfg)#logging size 1000\nR1(config-archive-log-cfg)#notify syslog contenttype plaintext\nR1(config-archive-log-cfg)#hidekeys\nR1(config-archive-log-cfg)#end",
+  "fix_id": "F-16862r1192896_fix",
+  "VulnDiscussion": "This requirement supports nonrepudiation of actions taken by an administrator and is required to maintain the integrity of the configuration management process. All configuration changes to the network device are logged, and administrators authenticate with two-factor authentication before gaining administrative access. Together, these processes will ensure the administrators can be held accountable for the configuration changes they implement.\n\nTo meet this requirement, the network device must log administrator access and activity.",
+  "Documentable": "false"
+}

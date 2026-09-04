@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282476",
+  "rule_id": "SV-282476r1200408_rule",
+  "stig_id": "TOSS-05-000106",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must be configured to disable the FireWire kernel module.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-87037r1200406_chk",
+  "check_content": "Verify TOSS 5 disables the ability to load the \"firewire-core\" kernel module using the following command:\n\n$ sudo grep -r firewire-core /etc/modprobe.conf /etc/modprobe.d/* \n\nblacklist firewire-core\n\nIf the command does not return any output, or the line is commented out, and use of firewire-core is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "To configure the system to prevent the \"firewire-core\" kernel module from being loaded, add the following line to the file /etc/modprobe.d/firewire-core.conf (or create firewire-core.conf if it does not exist):\n\ninstall firewire-core /bin/false\nblacklist firewire-core",
+  "fix_id": "F-86942r1200407_fix",
+  "VulnDiscussion": "Disabling FireWire protects the system against exploitation of any flaws in its implementation.",
+  "Documentable": "false"
+}

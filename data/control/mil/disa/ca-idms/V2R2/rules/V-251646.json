@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251646",
+  "rule_id": "SV-251646r961638_rule",
+  "stig_id": "IDMS-DB-000820",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The cache table procedures and views used for performance enhancements for dynamic SQL must be protected.",
+  "group_title": "SRG-APP-000441-DB-000378",
+  "idents": {
+    "cci": [
+      "CCI-002420"
+    ]
+  },
+  "check_id": "C-55081r807803_chk",
+  "check_content": "For CA IDMS CV, issue \"SELECT * FROM SYSCA.DSCCACHEOPT\". If rows are returned, caching is on. \n\nFor local, if no statement, SQL_CACHE_ENTRIES=0 exists in the SYSIDMS specification, caching is on. \n\nExamine RHDCSRTT in security domain for security on table procedures and views of DSCCACHE table; those supplied at installation (SYSCA.DSCCACHE, SYSCA.DSCCACHEOPT,SYSCA.DSCCACHECTRL, SYSCA.DSCCACHEV) or those created by organization. \n\nIf no security is found for these table procedures and views, this is a finding.",
+  "fixtext": "Either turn off use of SQL cache or secure SQL cache tables.\n\nTurn off SQL cache use in local using SYSIDMS parameter SQL_CACHE_ENTRIES=0. Turn off SQL cache use in IDMS CV and modify sysgen with statement DELETE SQL CACHE.\n \nTo secure SQL cache tables add RESTYPE DB entry and RESTYPE TABL occurrences for SQL cache tables (table procedures and views) SYSCA.DSCCACHE, SYSCA.DSCCACHEOPT,SYSCA.DSCCACHECTRL, SYSCA.DSCCACHEV) and any other views of SYSCA.DSCCACHE created by the organization.\n\nFor example: \n#SECRTT TYPE=ENTRY,RESTYPE=DB,EXTCLS='CA@IDMS',\n  EXTNAME=(RESTYPE,ENVI,RESNAME),SECBY=OFF\n \n#SECRTT  TYPE=ENTRY,RESTYPE=TABL,EXTCLS='CA@IDMS',\n   EXTNAME=(ENVI,RESTYPE,SCHEMA,RESNAME),SECBY=EXTERNAL\n                ... (other DB-covered ENTRYs e.g., NRU, DACC. etc.)  \n  #SECRTT  TYPE=OCCUR,RESNAME='<db/segment to secure>',RESTYPE=DB,SECBY=EXTERNAL\n\nSecure SQL cache tables in external security manager (ESM) using the corresponding chosen external name (e.g., PROD.TABL.SYSCA.DSCCACHE).",
+  "fix_id": "F-55035r807804_fix",
+  "VulnDiscussion": "Information can be either unintentionally or maliciously disclosed or modified during preparation for transmission, including, for example, during aggregation, at protocol transformation points, and during packing/unpacking. These unauthorized disclosures or modifications compromise the confidentiality or integrity of the information.\n\nUse of this requirement will be limited to situations where the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process.\n\nWhen transmitting data, the DBMS, associated applications, and infrastructure must leverage transmission protection mechanisms.",
+  "Documentable": "false"
+}

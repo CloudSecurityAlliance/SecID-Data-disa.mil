@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258765",
+  "rule_id": "SV-258765r933356_rule",
+  "stig_id": "ESXI-80-000210",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The ESXi host Secure Shell (SSH) daemon must set a timeout count on idle sessions.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62505r933354_chk",
+  "check_content": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config list -k clientalivecountmax\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$esxcli.system.ssh.server.config.list.invoke() | Where-Object {$_.Key -eq 'clientalivecountmax'}\n\nExample result:\n\nclientalivecountmax 3\n\nIf \"clientalivecountmax\" is not configured to \"3\", this is a finding.",
+  "fixtext": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config set -k clientalivecountmax -v 3\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$arguments = $esxcli.system.ssh.server.config.set.CreateArgs()\n$arguments.keyword = 'clientalivecountmax'\n$arguments.value = '3'\n$esxcli.system.ssh.server.config.set.Invoke($arguments)",
+  "fix_id": "F-62414r933355_fix",
+  "VulnDiscussion": "Setting a timeout ensures that a user login will be terminated as soon as the \"ClientAliveCountMax\" is reached.",
+  "Documentable": "false"
+}

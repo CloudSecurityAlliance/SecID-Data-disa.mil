@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253429",
+  "rule_id": "SV-253429r958448_rule",
+  "stig_id": "WN11-PK-000015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DoD Interoperability Root CA cross-certificates must be installed in the Untrusted Certificates Store on unclassified systems.",
+  "group_title": "SRG-OS-000066-GPOS-00034",
+  "idents": {
+    "cci": [
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-56882r890462_chk",
+  "check_content": "Verify the DoD Interoperability cross-certificates are installed on unclassified systems as Untrusted Certificates.\n\nRun \"PowerShell\" as an administrator.\n\nExecute the following command:\n\nGet-ChildItem -Path Cert:Localmachine\\disallowed | Where {$_.Issuer -Like \"*DoD Interoperability*\" -and $_.Subject -Like \"*DoD*\"} | FL Subject, Issuer, Thumbprint, NotAfter\n\nIf the following certificate \"Subject\", \"Issuer\", and \"Thumbprint\" information is not displayed, this is a finding.\n\nSubject: CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US\nIssuer: CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\nThumbprint: 49CBE933151872E17C8EAE7F0ABA97FB610F6477\nNotAfter: 11/16/2024 \n           \nSubject: CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US\nIssuer: CN=DoD Interoperability Root CA 2, OU=PKI, OU=DoD, O=U.S. Government, C=US\nThumbprint: AC06108CA348CC03B53795C64BF84403C1DBD341\nNotAfter: 1/22/2022 \n\nAlternately, use the Certificates MMC snap-in:\n\nRun \"MMC\".\n\nSelect \"File\", \"Add/Remove Snap-in\".\n\nSelect \"Certificates\", click \"Add\".\n\nSelect \"Computer account\", click \"Next\".\n\nSelect \"Local computer: (the computer this console is running on)\", click \"Finish\".\n\nClick \"OK\".\n\nExpand \"Certificates\" and navigate to Untrusted Certificates >> Certificates.\n\nFor each certificate with \"DoD Root CA....\" under \"Issued To\" and \"DoD Interoperability Root CA....\" under \"Issued By\":\n\nRight-click on the certificate and select \"Open\".\n\nSelect the \"Details\" tab.\n\nScroll to the bottom and select \"Thumbprint\".\n\nIf the certificates below are not listed or the value for the \"Thumbprint\" field is not as noted, this is a finding.\n\nIssued To: DoD Root CA 3\nIssued By: Interoperability Root CA 2\nThumbprint : 49CBE933151872E17C8EAE7F0ABA97FB610F6477\nValid to: Saturday, November 16, 2024",
+  "fixtext": "Install the DoD Interoperability Root CA cross-certificates on unclassified systems.  \n                                           \nIssued To - Issued By - Thumbprint\nDoD Root CA 3 - DoD Interoperability Root CA 2 - 49CBE933151872E17C8EAE7F0ABA97FB610F6477\n\nThe certificates can be installed using the InstallRoot tool. The tool and user guide are available on Cyber Exchange at https://cyber.mil/pki-pke/tools-configuration-files. Certificate bundles published by the PKI can be found at https://crl.gds.disa.mil/.",
+  "fix_id": "F-56832r890463_fix",
+  "VulnDiscussion": "To ensure users do not experience denial of service when performing certificate-based authentication to DoD websites due to the system chaining to a root other than DoD Root CAs, the DoD Interoperability Root CA cross-certificates must be installed in the Untrusted Certificate Store. This requirement only applies to unclassified systems.",
+  "Documentable": "false"
+}

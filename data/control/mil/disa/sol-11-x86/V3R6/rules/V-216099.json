@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216099",
+  "rule_id": "SV-216099r958388_rule",
+  "stig_id": "SOL-11.1-040140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The system must disable accounts after three consecutive unsuccessful login attempts.",
+  "group_title": "SRG-OS-000021",
+  "idents": {
+    "legacy": [
+      "V-48245",
+      "SV-61117"
+    ],
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-17337r372679_chk",
+  "check_content": "Verify RETRIES is set in the login file.\n\n# grep ^RETRIES /etc/default/login\n\nIf the output is not RETRIES=3 or fewer, this is a finding.\n\nVerify the account locks after invalid login attempts.\n\n# grep ^LOCK_AFTER_RETRIES /etc/security/policy.conf\n\nIf the output is not LOCK_AFTER_RETRIES=YES, this is a finding.\n\nFor each user in the system, use the command:\n\n# userattr lock_after_retries [username]\n\nto determine if the user overrides the system value. If the output of this command is \"no\", this is a finding.",
+  "fixtext": "The root role is required.\n\n# pfedit /etc/default/login\n\nChange the line:\n\n#RETRIES=5\n\nto read\n\nRETRIES=3 \n\npfedit /etc/security/policy.conf\n\nChange the line containing\n\n#LOCK_AFTER_RETRIES \n\nto read:\n\nLOCK_AFTER_RETRIES=YES\n\n\nIf a user has lock_after_retries set to \"no\", update the user's attributes using the command:\n\n# usermod -K lock_after_retries=yes [username]",
+  "fix_id": "F-17335r372680_fix",
+  "VulnDiscussion": "Allowing continued access to accounts on the system exposes them to brute-force password-guessing attacks.",
+  "Documentable": "false"
+}

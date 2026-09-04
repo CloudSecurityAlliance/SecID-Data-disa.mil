@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233866",
+  "rule_id": "SV-233866r1156954_rule",
+  "stig_id": "IDNS-8X-400008",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "An External authoritative DNS service member must be configured to enable DNSSEC resource records.",
+  "group_title": "SRG-APP-000516-DNS-000089",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-37051r1082622_chk",
+  "check_content": "Note: For Infoblox DNS systems on a classified network, this requirement is Not Applicable. \n\n1. Navigate to Data Management >> DNS >> Grid DNS properties. \n2. Toggle Advanced Mode and click on the \"DNSSEC\" tab.\n3. Validate that DNSSEC is enabled using the check box.\n4. When complete, click \"Cancel\" to exit the \"Properties\" screen. \n\nIf \"Enable DNSSEC\" is not configured, this is a finding.",
+  "fixtext": "DNSSEC must be enabled prior to zone signing.  \n\n1. Enable by navigating to Data Management >> DNS >> Grid DNS properties. \n2. Toggle Advanced Mode and click on the \"DNSSEC\" tab. \n3. Enable the \"Enable DNSSEC\" option.  \n4. When complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen. \n5. Perform a service restart if necessary.",
+  "fix_id": "F-37016r611119_fix",
+  "VulnDiscussion": "The specification for a digital signature mechanism in the context of the DNS infrastructure is in the Internet Engineering Task Force's (IETF's) DNSSEC standard. In DNSSEC, trust in the public key (for signature verification) of the source is established not by going to a third party or a chain of third parties (as in public key infrastructure [PKI] chaining), but by starting from a trusted zone (such as the root zone) and establishing the chain of trust down to the current source of response through successive verifications of signature of the public key of a child by its parent. \n\nThe public key of the trusted zone is called the trust anchor. After authenticating the source, the next process DNSSEC calls for is to authenticate the response. DNSSEC mechanisms involve two main processes: sign and serve, and verify signature.\n\nBefore a DNSSEC-signed zone can be deployed, a name server must be configured to enable DNSSEC processing.\n\nDNSSEC is intended for third-party authenticity determination. Attempting to utilize DNSSEC internally was never an intended use case as it would require every consumer to have a third-party validating resolver installed along with a mechanism for periodic trust anchor distribution/update.",
+  "Documentable": "false"
+}

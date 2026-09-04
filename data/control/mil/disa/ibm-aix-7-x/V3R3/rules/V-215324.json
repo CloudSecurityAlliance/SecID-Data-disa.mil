@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215324",
+  "rule_id": "SV-215324r958566_rule",
+  "stig_id": "AIX7-00-003007",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX log files must not have extended ACLs, except as needed to support authorized software.",
+  "group_title": "SRG-OS-000206-GPOS-00084",
+  "idents": {
+    "legacy": [
+      "V-91457",
+      "SV-101555"
+    ],
+    "cci": [
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-16522r294423_chk",
+  "check_content": "With the assistance of the system administrator, identify all of the system log files.\n\nFor each system log file identified, verify that extended ACL's are disabled:\n\n#aclget <system_log_file>\n*\n* ACL_type   AIXC\n*\nattributes:\nbase permissions\n    owner(root):  rw-\n    group(system):  r--\n    others:  r--\nextended permissions\n    disabled\n\nIf \"extended permissions\" is set to \"enabled\" and is not documented, this is a finding.",
+  "fixtext": "Remove the extended ACL(s) from the system log file(s):\n# acledit <system_log_file>\n\nSet \"extended permissions\" to \"disabled\".",
+  "fix_id": "F-16520r294424_fix",
+  "VulnDiscussion": "Only authorized personnel should be aware of errors and the details of the errors. Error messages are an indicator of an organization's operational state or can identify AIX or platform. Additionally, Personally Identifiable Information (PII) and operational information must not be revealed through error messages to unauthorized personnel or their designated representatives.\n\nThe structure and content of error messages must be carefully considered by the organization and development team. The extent to which the information system is able to identify and handle error conditions is guided by organizational policy and operational requirements.",
+  "Documentable": "false"
+}

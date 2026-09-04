@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282641",
+  "rule_id": "SV-282641r1200903_rule",
+  "stig_id": "TOSS-05-000145",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 cron configuration directories must have a mode of 0700 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87202r1200901_chk",
+  "check_content": "Verify the permissions of the cron directories using the following command:\n\n$ find /etc/cron* -type d | xargs stat -c \"%a %n\"\n\n700 /etc/cron.d\n700 /etc/cron.daily\n700 /etc/cron.hourly\n700 /etc/cron.monthly\n700 /etc/cron.weekly\n\nIf any cron configuration directory is more permissive than \"700\", this is a finding.",
+  "fixtext": "Configure any TOSS 5 cron configuration directory with a mode more permissive than \"0700\" as follows:\n\n$ sudo chmod 0700 [cron configuration directory]",
+  "fix_id": "F-87107r1200902_fix",
+  "VulnDiscussion": "Service configuration files enable or disable features of their respective services that if configured incorrectly can lead to insecure and vulnerable configurations. Therefore, service configuration files should have the correct access rights to prevent unauthorized changes.",
+  "Documentable": "false"
+}

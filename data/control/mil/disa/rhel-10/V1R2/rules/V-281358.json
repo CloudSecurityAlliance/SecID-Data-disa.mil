@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281358",
+  "rule_id": "SV-281358r1167224_rule",
+  "stig_id": "RHEL-10-800260",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must not accept router advertisements on all Internet Protocol version 6 (IPv6) interfaces by default.",
+  "group_title": "SRG-OS-000420-GPOS-00186",
+  "idents": {
+    "cci": [
+      "CCI-002385",
+      "CCI-001113"
+    ]
+  },
+  "check_id": "C-85919r1167222_chk",
+  "check_content": "Note: If IPv6 is disabled on the system, this requirement is not applicable.\n\nVerify RHEL 10 does not accept router advertisements on all IPv6 interfaces by default, unless the system is a router.\n\nCheck the value of the \"net.ipv6.conf.default.accept_ra\" variable with the following command:\n\n$ sudo sysctl net.ipv6.conf.default.accept_ra\nnet.ipv6.conf.default.accept_ra = 0\n\nIf \"net.ipv6.conf.default.accept_ra\" is not set to \"0\" or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 10 to not accept router advertisements on all IPv6 interfaces by default, unless the system is a router.\n\nCreate a configuration file if it does not already exist:\n\n$ sudo vi /etc/sysctl.d/ipv6_accept_ra.conf\n\nAdd the following line to the file:\n\nnet.ipv6.conf.default.accept_ra = 0\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-85824r1167223_fix",
+  "VulnDiscussion": "An illicit router advertisement message could result in a man-in-the-middle attack.\n\nSatisfies: SRG-OS-000420-GPOS-00186, SRG-OS-000142-GPOS-00089",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215417",
+  "rule_id": "SV-215417r991589_rule",
+  "stig_id": "AIX7-00-003122",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SMTP service HELP command must not be enabled on AIX.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101773",
+      "V-91675"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16615r294702_chk",
+  "check_content": "Run the following command to get the \"HELP\" file location:\n# grep \"^O HelpFile\" /etc/mail/sendmail.cf\n\nThe above command should yield the following output:\nO HelpFile=/etc/mail/helpfile\n\nIf the above command does not yield any output, this is not a finding.\n\nThe \"HELP\" file should be referenced by the \"HelpFile\" option.\n \nCheck to see if the \"HELP\" file exists:\n# ls <helpfile_path>\n\nIf the \"HELP\" file exists, this is a finding.",
+  "fixtext": "To disable the SMTP service HELP command remove the HELP file using command:\n# rm <helpfile_path>",
+  "fix_id": "F-16613r294703_fix",
+  "VulnDiscussion": "The HELP command should be disabled to mask version information. The version of the SMTP service software could be used by attackers to target vulnerabilities present in specific software versions.",
+  "Documentable": "false"
+}

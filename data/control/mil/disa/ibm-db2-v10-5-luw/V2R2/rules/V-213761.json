@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213761",
+  "rule_id": "SV-213761r961839_rule",
+  "stig_id": "DB2X-00-012200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DB2 must generate audit records for all direct access to the database(s).",
+  "group_title": "SRG-APP-000508-DB-000358",
+  "idents": {
+    "legacy": [
+      "SV-89251",
+      "V-74577"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-14982r295332_chk",
+  "check_content": "Run the following SQL statement to ensure that an audit policy is defined upon the database: \nDB2> SELECT AUDITPOLICYNAME, AUDITPOLICYID \n           FROM SYSCAT.AUDITUSE  \n           WHERE OBJECTTYPE IN (' ')\n\nIf no rows are returned, this is a finding. \n\nUsing the AUDITPOLICYID from above query find the details of audit policy: \nDB2> SELECT AUDITPOLICYNAME, CONTEXTSTATUS, VALIDATESTATUS, ERRORTYPE AS ERRORTYPE \n           FROM SYSCAT.AUDITPOLICIES \n           WHERE AUDITPOLICYID = <audit policy ID>\n\nIf the values for CONTEXTSTATUS and VALIDATESTATUS are not 'B' (Both) or ERRORTYPE is not 'A' (Audit), this is a finding.",
+  "fixtext": "Run the following command to define an audit policy with the needed subset using the CREATE AUDIT POLICY SQL statement: \nDB2> CREATE AUDIT POLICY <DB audit policy name> \n           CATEGORIES VALIDATE STATUS BOTH, CONTEXT STATUS BOTH \n           ERROR TYPE AUDIT\n\nTo modify an existing audit policy, replace \"CREATE\" with \"ALTER\" in the preceding statement. Only the categories explicitly named in the statement will be affected.  In this case, the changes take effect immediately.\n\nIf CREATE was used above, run the following command to apply the policy created above to the database: \nDB2> AUDIT DATABASE USING POLICY <DB audit policy name>",
+  "fix_id": "F-14980r295333_fix",
+  "VulnDiscussion": "In this context, direct access is any query, command, or call to the DBMS that comes from any source other than the application(s) that it supports. Examples would be the command line or a database management utility program. The intent is to capture all activity from administrative and non-standard sources.",
+  "Documentable": "false"
+}

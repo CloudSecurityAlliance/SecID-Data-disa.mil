@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215212",
+  "rule_id": "SV-215212r958404_rule",
+  "stig_id": "AIX7-00-001101",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX CDE must conceal, via the session lock, information previously visible on the display with a publicly viewable image.",
+  "group_title": "SRG-OS-000031-GPOS-00012",
+  "idents": {
+    "legacy": [
+      "SV-101337",
+      "V-91237"
+    ],
+    "cci": [
+      "CCI-000060"
+    ]
+  },
+  "check_id": "C-16410r294087_chk",
+  "check_content": "If CDE (X11) is not used on AIX, this is Not Applicable.\n\nEnsure that the screen saver and session timeout are not disabled.\n\nFrom the command prompt, run the following script:\n\n# AIX7-00-001101_Check.sh\n\nNote: This script is included in the STIG package.\n\nThe above script should yield the following output:\n\nChecking config file /etc/dt/config/C/sys.resources...\nMissing config file /etc/dt/config/C/sys.resources\n\nChecking config file /etc/dt/config/POSIX/sys.resources...\ndtsession*saverTimeout: 15\ndtsession*lockTimeout: 30\n\nChecking config file /etc/dt/config/en_US/sys.resources...\ndtsession*saverTimeout: 15\ndtsession*lockTimeout: 25\n\nIf the result of the script shows any config file missing, or any of the \"dtsession*saverTimeout\" or \"dtsession*lockTimeout\" values is greater than \"15\", this is a finding.",
+  "fixtext": "From the command prompt, run the following script to set the default timeout parameters \"dtsession*saverTimeout:\" and \"dtsession*lockTimeout:\" as \"15\" minutes: \n\n# AIX7-00-001101_Fix.sh\n\nNote: This script is included in the STIG package.",
+  "fix_id": "F-16408r294088_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not log out because of the temporary nature of the absence.\n\nThe session lock is implemented at the point where session activity can be determined. The operating system session lock event must include an obfuscation of the display screen so as to prevent other users from reading what was previously displayed.\n\nPublicly viewable images can include static or dynamic images, for example, patterns used with screen savers, photographic images, solid colors, a clock, a battery life indicator, or a blank screen, with the additional caveat that none of the images convey sensitive information.",
+  "Documentable": "false"
+}

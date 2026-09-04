@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281244",
+  "rule_id": "SV-281244r1166684_rule",
+  "stig_id": "RHEL-10-700180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must mount \"/var/log\" with the \"nosuid\" option.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-85805r1166682_chk",
+  "check_content": "Verify RHEL 10 is configured so that \"/var/log\" is mounted with the \"nosuid\" option:\n\n$ mount | grep /var/log\n/dev/mapper/luks-c651f493-9fdc-4c6e-a711-0a4f03149661 on /var/log type xfs (rw,nosuid,nodev,noexec,relatime,seclabel,attr2)\n\nIf the \"/var/log\" file system is mounted without the \"nosuid\" option, this is a finding.",
+  "fixtext": "Configure RHEL 10 to mount \"/var/log\" with the \"nosuid\" option.\n\nModify \"/etc/fstab\" to use the \"nosuid\" option on the \"/var/log\" directory.\n\nTo reload all implicit mount units and update the dependency graph so that new options will apply correctly at next remount, run the following command:\n\n$ sudo systemctl daemon-reload\n\nUse the following command to apply the changes immediately without a reboot:\n\n$ sudo mount -o remount /var/log",
+  "fix_id": "F-85710r1166683_fix",
+  "VulnDiscussion": "The \"nosuid\" mount option causes the system to not execute \"setuid\" and \"setgid\" files with owner privileges. This option must be used for mounting any file system not containing approved \"setuid\" and \"setguid\" files. Executing files from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

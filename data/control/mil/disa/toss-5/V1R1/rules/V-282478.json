@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282478",
+  "rule_id": "SV-282478r1200414_rule",
+  "stig_id": "TOSS-05-000108",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must disable the Transparent Inter Process Communication (TIPC) kernel module.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-87039r1200412_chk",
+  "check_content": "Verify TOSS 5 disables the ability to load the \"tipc\" kernel module using the following command:\n\n$ sudo grep -r tipc /etc/modprobe.conf /etc/modprobe.d/* \n\nblacklist tipc\n\nIf the command does not return any output, or the line is commented out, and use of TIPC is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "To configure the system to prevent the \"tipc\" kernel module from being loaded, add the following line to the file /etc/modprobe.d/tipc.conf (or create tipc.conf if it does not exist):\n\ninstall tipc /bin/false\nblacklist tipc",
+  "fix_id": "F-86944r1200413_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nFailing to disconnect unused protocols can result in a system compromise.\n\nThe TIPC is a protocol that is specially designed for intra-cluster communication. It can be configured to transmit messages either on UDP or directly across Ethernet. Message delivery is sequence guaranteed, loss free and flow controlled. Disabling TIPC protects the system against exploitation of any flaws in its implementation.",
+  "Documentable": "false"
+}

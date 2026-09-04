@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282642",
+  "rule_id": "SV-282642r1200906_rule",
+  "stig_id": "TOSS-05-000146",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All TOSS 5 local initialization files must have mode 0740 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87203r1200904_chk",
+  "check_content": "Verify all local initialization files have a mode of \"0740\" or less permissive using the following command:\n\nNote: The example will be for the \"wadea\" user, who has a home directory of \"/home/wadea\".\n\n$ sudo ls -al /home/wadea/.[^.]* | more\n\n-rwxr---- 1 wadea users 896 Mar 10 2011 .profile\n-rwxr---- 1 wadea users 497 Jan 6 2007 .login\n-rwxr---- 1 wadea users 886 Jan 6 2007 .something\n\nIf any local initialization files have a mode more permissive than \"0740\", and is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Set the mode of the local initialization files to \"0740\" using the following command:\n\nNote: The example will be for the wadea user, who has a home directory of \"/home/wadea\".\n\n$ sudo chmod 0740 /home/wadea/.<INIT_FILE>",
+  "fix_id": "F-87108r1200905_fix",
+  "VulnDiscussion": "Local initialization files are used to configure the user's shell environment upon logon. Maliciously modifying these files could compromise accounts upon logon.",
+  "Documentable": "false"
+}

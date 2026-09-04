@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233903",
+  "rule_id": "SV-233903r1082697_rule",
+  "stig_id": "IDNS-8X-500006",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Infoblox Grid Master must be configured as a stealth (hidden) domain DNS service member to protect the Key Signing Key (KSK) residing on it.",
+  "group_title": "SRG-APP-000176-DNS-000094",
+  "idents": {
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-37088r1082695_chk",
+  "check_content": "Note: For Infoblox DNS systems on a classified network, this requirement is Not Applicable. \n\nBy default, ZSK private keys are stored encrypted within the Infoblox database on the Grid Master. The Grid Master will by default enable the DNS service when DNSSEC is enabled for internal processing. Clients must not be permitted to use the Grid Master DNS service. Refer to the Infoblox STIG Overview document for additional information on HSM usage. \n\n1. Navigate to Data Management >> DNS >> Zones.  \n2. Review each zone by selecting the zone, clicking \"Edit\", and selecting the \"DNS service members\" tab. \n3. When complete, click \"Cancel\" to exit the \"Properties\" screen.  \n\nIf the Grid Master is a listed DNS service member and not marked \"Stealth\", this is a finding.",
+  "fixtext": "1. Navigate to Data Management >> DNS >> Zones.\n2. Select the zone, click \"Edit\", and select the \"DNS service members\" tab. \n3. Mark the Grid Master as \"Stealth\". \n4. If no other DNS service members are listed, one must be added before the configuration can be valid. \n5. When complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen. \n6. Perform a service restart if necessary.",
+  "fix_id": "F-37053r1082696_fix",
+  "VulnDiscussion": "The private keys in the KSK and Zone Signing Keys (ZSK) key pairs must be protected from unauthorized access. If possible, the private keys should be stored offline (with respect to the internet-facing, DNSSEC-aware name server) in a physically secure, non-network-accessible machine along with the zone file master copy.\n\nThis strategy is not feasible in situations in which the DNSSEC-aware name server has to support dynamic updates. To support dynamic update transactions, the DNSSEC-aware name server (which usually is a primary authoritative name server) must have both the zone file master copy and the private key corresponding to the ZSK (ZSK-private) online to immediately update the signatures for the updated resource record (RR) sets. The private key corresponding to the KSK (KSK-private) can still be kept offline.\n\nOn Infoblox, Domain Name System Security Extension (DNSSEC) ZSKs are stored on either a Hardware Security Module or the Infoblox Grid Master. By configuring the Grid Master as \"stealth\" to prevent client communications to the Infoblox Grid Master and ensuring the Grid Master uses an encrypted management tunnel to update DNS members serving DNSSEC signed zones, the DNSSEC keys are protected.",
+  "Documentable": "false"
+}

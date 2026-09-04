@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282701",
+  "rule_id": "SV-282701r1201355_rule",
+  "stig_id": "TOSS-05-000229",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must not enable Internet Protocol version 6 (IPv6) packet forwarding unless the system is a router.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87262r1201353_chk",
+  "check_content": "Verify TOSS 5 is not performing IPv6 packet forwarding unless the system is a router.\n\nNote: If IPv6 is disabled on the system, this requirement is not applicable.\n\nCheck that IPv6 forwarding is disabled using the following commands:\n\n$ sudo sysctl net.ipv6.conf.all.forwarding\n\nnet.ipv6.conf.all.forwarding = 0\n\nIf the IPv6 forwarding value is not \"0\" and is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure TOSS 5 to not allow IPv6 packet forwarding unless the system is a router.\n\nAdd or edit the following line in a single system configuration file, in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv6.conf.all.forwarding = 0\n\nLoad settings from all system configuration files using the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-87167r1201354_fix",
+  "VulnDiscussion": "IP forwarding permits the kernel to forward packets from one network interface to another. The ability to forward packets between two networks is only appropriate for systems acting as routers.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282700",
+  "rule_id": "SV-282700r1201352_rule",
+  "stig_id": "TOSS-05-000228",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must not forward Internet Protocol version 6 (IPv6) source-routed packets.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87261r1201078_chk",
+  "check_content": "Verify TOSS 5 does not accept IPv6 source-routed packets.\n\nNote: If IPv6 is disabled on the system, this requirement is not applicable.\n\nCheck the value of the accept source route variable using the following command:\n\n$ sudo sysctl net.ipv6.conf.all.accept_source_route\n\nnet.ipv6.conf.all.accept_source_route = 0\n\nIf the returned line does not have a value of \"0\", or a line is not returned, this is a finding.",
+  "fixtext": "Configure TOSS 5 to not forward IPv6 source-routed packets.\n\nAdd or edit the following line in a single system configuration file, in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv6.conf.all.accept_source_route = 0\n\nLoad settings from all system configuration files using the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-87166r1201079_fix",
+  "VulnDiscussion": "Source-routed packets allow the source of the packet to suggest that routers forward the packet along a different path than configured on the router, which can be used to bypass network security measures. This requirement applies only to the forwarding of source-routed traffic, such as when forwarding is enabled and the system is functioning as a router.",
+  "Documentable": "false"
+}

@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-223589",
+  "rule_id": "SV-223589r1225812_rule",
+  "stig_id": "ACF2-SH-000050",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "IBM z/OS SSH daemon must be configured to use a FIPS 140-3-compliant cryptographic algorithm.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "legacy": [
+      "V-97883",
+      "SV-106987"
+    ],
+    "cci": [
+      "CCI-000068",
+      "CCI-000803",
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-25262r1212283_chk",
+  "check_content": "Locate the SSH daemon configuration file, which may be found in \"/etc/ssh/\" directory.\n\nAlternately:\n\nFrom the UNIX System Services ISPF Shell, navigate to ribbon select tools.\n\nSelect option 1 - Work with Processes.\n\nIf SSH Daemon is not active, this is not a finding.\n\nExamine the SSH daemon configuration file:\nsshd_config\n\nIf there are no ciphers lines, or the ciphers list contains any cipher not starting with \"aes\", this is a finding.\n\nIf the MACs line is not configured to \"hmac-sha1\" or greater, this is a finding.\n\nExamine the z/OS-specific sshd server systemwide configuration: \nzos_sshd_config\n\nIf any of the following is untrue, this is a finding:\n\nFIPSMODE=YES\nCiphersSource=ICSF\nMACsSource=ICSF",
+  "fixtext": "Edit the SSH daemon configuration and remove any ciphers not starting with \"aes\". If necessary, add a \"Ciphers\" line using FIPS 140-3-compliant algorithms.\n\nConfigure for message authentication to MACs \"hmac-sha1\" or greater.\n\nEdit the z/OS-specific sshd server systemwide configuration file configuration as follows:\nFIPSMODE=YES\nCiphersSource=ICSF\nMACsSource=ICSF",
+  "fix_id": "F-25250r1212284_fix",
+  "VulnDiscussion": "Without confidentiality protection mechanisms, unauthorized individuals may gain access to sensitive information via a remote access session.\n\nRemote access is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nEncryption provides a means to secure the remote connection to prevent unauthorized access to the data traversing the remote access connection (e.g., RDP), thereby providing a degree of confidentiality. The encryption strength of a mechanism is selected based on the security categorization of the information.\n\nSatisfies: SRG-OS-000033-GPOS-00014, SRG-OS-000120-GPOS-00061",
+  "Documentable": "false"
+}

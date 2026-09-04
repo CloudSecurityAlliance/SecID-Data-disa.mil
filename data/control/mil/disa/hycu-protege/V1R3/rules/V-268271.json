@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268271",
+  "rule_id": "SV-268271r1038746_rule",
+  "stig_id": "HYCU-ND-000640",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must be configured to implement cryptographic mechanisms using a FIPS 140-2-approved algorithm to protect the confidentiality of remote maintenance sessions.",
+  "group_title": "SRG-APP-000412-NDM-000331",
+  "idents": {
+    "cci": [
+      "CCI-003123"
+    ]
+  },
+  "check_id": "C-72292r1038511_chk",
+  "check_content": "When FIPS mode is enabled, the HYCU application will use FIPS-compliant behavior. Validation of FIPS status can be done using the following commands:\n'cat /proc/sys/crypto/fips_enabled' \n\nIf command output does not show \"1\", this is a finding.\n\n'fips-mode-setup --check'\n\nIf command output does not show \"FIPS mode is enabled\", this is a finding.\n\n'update-crypto-policies --show'\n\nIf command output does not show \"FIPS\", this is a finding.",
+  "fixtext": "Stop the HYCU web server: \nsudo systemctl stop grizzly.service\n\nEnable FIPS-compliant mode: \nsudo /opt/grizzly/bin/enable_fips.sh\n\nReboot the HYCU virtual appliance:\nshutdown -r now",
+  "fix_id": "F-72195r1038512_fix",
+  "VulnDiscussion": "This requires the use of secure protocols instead of their unsecured counterparts, such as SSH instead of telnet, SCP instead of FTP, and HTTPS instead of HTTP. If unsecured protocols (lacking cryptographic mechanisms) are used for sessions, the contents of those sessions will be susceptible to eavesdropping, potentially putting sensitive data (including administrator passwords) at risk of compromise and potentially allowing hijacking of maintenance sessions.",
+  "Documentable": "false"
+}

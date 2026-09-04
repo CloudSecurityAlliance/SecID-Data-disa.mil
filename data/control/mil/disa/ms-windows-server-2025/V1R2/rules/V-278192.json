@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-278192",
+  "rule_id": "SV-278192r1212173_rule",
+  "stig_id": "WN25-PK-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2025 must have the DOD Root Certificate Authority (CA) certificates installed in the Trusted Root Store.",
+  "group_title": "SRG-OS-000066-GPOS-00034",
+  "idents": {
+    "cci": [
+      "CCI-000185",
+      "CCI-002470",
+      "CCI-004909"
+    ]
+  },
+  "check_id": "C-82722r1211162_chk",
+  "check_content": "The certificates and thumbprints referenced below apply to unclassified systems. Refer to the PKE documentation for other networks.\n\nOpen PowerShell as an administrator.\n\nExecute the following command:\n\nGet-ChildItem -Path Cert:Localmachine\\root | Where Subject -Like \"*DOD*\" | FL Subject, NotAfter\n\nIf valid (unexpired) DOD Root CA certificates (such as those below) are not listed, this is a finding.\n\nNote: The Common Names (CN) below are examples. Verify that the \"CN\" displayed is a DOD Root CA and is not expired. \n\nSubject: CN=DOD Root CA 3, OU=PKI, OU=DOD, O=U.S. Government, C=US\nNotAfter: 12/30/2029\n\nSubject: CN=DOD Root CA 5, OU=PKI, OU=DOD, O=U.S. Government, C=US\nNotAfter: 6/14/2041\n\nSubject: CN=DOD Root CA 6, OU=PKI, OU=DOD, O=U.S. Government, C=US\nNotAfter: 1/24/2053\n\nAlternately, use the Certificates MMC snap-in:\n\nRun \"MMC\".\n\nSelect \"File\", \"Add/Remove Snap-in\".\n\nSelect \"Certificates\" and click \"Add\".\n\nSelect \"Computer account\" and click \"Next\".\n\nSelect \"Local computer: (the computer this console is running on)\" and click \"Finish\".\n\nClick \"OK\".\n\nExpand \"Certificates\" and navigate to \"Trusted Root Certification Authorities >> Certificates\".\n\nFor each of the DOD Root CA certificates noted below:\n\nRight-click the certificate and select \"Open\".\n\nSelect the \"Details\" tab.\n\nVerify that expiration date is in the future.\n\nIf valid (unexpired) DOD Root CA certificates (such as those below) are not listed, this is a finding.\n\nDOD Root CA 3\n\nDOD Root CA 5\n\nDOD Root CA 6",
+  "fixtext": "Install the DOD Root CA certificates:\n\nDOD Root CA 3\n\nDOD Root CA 5\n\nDOD Root CA 6\n\nThe InstallRoot tool is available on Cyber Exchange at https://cyber.mil/pki-pke/tools-configuration-files.",
+  "fix_id": "F-82627r1212172_fix",
+  "VulnDiscussion": "To ensure secure DOD websites and DOD-signed code are properly validated, the system must trust the DOD Root CAs. The DOD root certificates will ensure that the trust chain is established for server certificates issued from the DOD CAs.\n\nSatisfies: SRG-OS-000066-GPOS-00034, SRG-OS-000403-GPOS-00182, SRG-OS-000775-GPOS-00230",
+  "Documentable": "false"
+}

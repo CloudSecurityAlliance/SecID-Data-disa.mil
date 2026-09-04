@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-282501",
+  "rule_id": "SV-282501r1200483_rule",
+  "stig_id": "TOSS-05-000284",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must be configured to disable USB mass storage.",
+  "group_title": "SRG-OS-000114-GPOS-00059",
+  "idents": {
+    "cci": [
+      "CCI-000778",
+      "CCI-001958",
+      "CCI-003959"
+    ]
+  },
+  "check_id": "C-87062r1200481_chk",
+  "check_content": "Verify TOSS 5 disables the ability to load the USB Storage kernel module using the following command:\n\n$ sudo grep -r usb-storage /etc/modprobe.conf /etc/modprobe.d/* \n\nblacklist usb-storage\n\nIf the command does not return any output, the line is commented out, and use of USB Storage is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure the system to prevent the usb-storage kernel module from being loaded by adding the following line to the file /etc/modprobe.d/usb-storage.conf (or create usb-storage.conf if it does not exist):\n\ninstall usb-storage /bin/false\nblacklist usb-storage",
+  "fix_id": "F-86967r1200482_fix",
+  "VulnDiscussion": "USB mass storage permits easy introduction of unknown devices, thereby facilitating malicious activity.\n\nSatisfies: SRG-OS-000114-GPOS-00059, SRG-OS-000378-GPOS-00163, SRG-OS-000690-GPOS-00140",
+  "Documentable": "false"
+}

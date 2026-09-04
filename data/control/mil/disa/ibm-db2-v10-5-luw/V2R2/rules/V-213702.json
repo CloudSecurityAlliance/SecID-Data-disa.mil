@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213702",
+  "rule_id": "SV-213702r961050_rule",
+  "stig_id": "DB2X-00-004600",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "DB2 must use NIST FIPS 140-2 validated cryptographic modules for cryptographic operations.",
+  "group_title": "SRG-APP-000179-DB-000114",
+  "idents": {
+    "legacy": [
+      "SV-89167",
+      "V-74493"
+    ],
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-14923r917665_chk",
+  "check_content": "If it has been determined that encryption is not required, this is not a finding.\n\nReview the cryptographic configuration.  \n\nIf SSL/TLS is not specified for encryption of communications, this is a finding. See below for more detailed instructions.\n\nIf IBM Database Native Encryption is not specified for encryption of data at rest, this is a finding. See below for more detailed instructions.\n\nTo Verify SSL is in use:\nCheck the DB2 registry variable DB2COMM to include SSL.\n\n     $db2set -all\n\nIf DB2COMM does not include SSL, this is a finding. \n\nFind the value of SSL_VERSIONS by running:\n\n     $db2 get dbm cfg\n\nIf SSL_VERSIONS is not set to TLSV12, this is a finding.\n\nFind the value of SSL_CIPHERSPECS by running:\n\n     $db2 get dbm cfg\n\nIf SSL_CIPHERSPECS is not set to a symmetric algorithm key length that is greater than or equal to 112, this is a finding. \n\nFind the value of SSL_SVC_LABEL by running: \n\n     $db2 get dbm cfg\n\nIf the parameter SSL_SVC_LABEL is not set to a certificate with RSA key length that is greater than or equal to 2048, this is a finding. \n\nIf the certificate does not have a digital signature with minimum SHA2, this is a finding.\n\nThe above settings ensure that all connections over SSL in any CLP or Java application strictly adhere to NIST SP 800-131A.\n\nTo Verify DB2 native encryption is being used, run the following SQL Query:\nDB2> SELECT SUBSTR(object_name,1,8) AS NAME, SUBSTR(object_type,1,8) TYPE, SUBSTR(algorithm,1,8) ALGORITHM \n           FROM TABLE(sysproc.admin_get_encryption_info())\n\nIf value of Algorithm is NULL for the database, this is a finding.\n\nIf the database is not encrypted with native encryption or any third-party tool, this is a finding.",
+  "fixtext": "Modify the cryptographic configuration to employ SSL/TLS for encryption of communications.\n\nModify the cryptographic configuration to employ IBM Database Native Encryption for encryption of data at rest.",
+  "fix_id": "F-14921r295156_fix",
+  "VulnDiscussion": "Use of weak or not validated cryptographic algorithms undermines the purposes of utilizing encryption and digital signatures to protect data.  Weak algorithms can be easily broken and not validated cryptographic modules may not implement algorithms correctly. Unapproved cryptographic modules or algorithms should not be relied on for authentication, confidentiality or integrity. Weak cryptography could allow an attacker to gain access to and modify data stored in the database as well as the administration settings of the DBMS.\n\nApplications, including DBMSs, utilizing cryptography are required to use approved NIST FIPS 140-2 validated cryptographic modules that meet the requirements of applicable federal laws, Executive Orders, directives, policies, regulations, standards, and guidance.  \n\nThe security functions validated as part of FIPS 140-2 for cryptographic modules are described in FIPS 140-2 Annex A.\n\nThe cryptographic functionality in IBM DB2 for LUW includes features that are fully FIPS 140-2 validated, and others that are not.  To be sure of using only FIPS 140-2 validated modules, specify SSL (TLS) for communication and IBM Database Native Encryption for data at rest.\n\nThe decision whether to employ cryptography is the responsibility of the information owner/steward, who exercises discretion within the framework of applicable rules, policies, and law.",
+  "Documentable": "false"
+}

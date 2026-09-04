@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281319",
+  "rule_id": "SV-281319r1184633_rule",
+  "stig_id": "RHEL-10-701170",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must disable core dumps for all users.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-85880r1167105_chk",
+  "check_content": "Note: If kernel dumps are disabled in accordance with RHEL-10-701090, this requirement is not applicable.\n\nVerify RHEL 10 disables core dumps for all users by issuing the following command:\n\n$ sudo grep -r core /etc/security/ | grep -v '#'\n/etc/security/limits.d/core_dumps.conf:* hard core 0\n\nThis can be set as a global domain (with the * wildcard) but may be set differently for multiple domains.\n\nIf the \"core\" item is missing or the value is anything other than \"0\", and the need for core dumps is not documented with the information system security officer as an operational requirement for all domains that have the \"core\" item assigned, this is a finding.",
+  "fixtext": "Configure RHEL 10 to disable core dumps for all users.\n\nCreate or edit the setting in a drop-in configuration file:\n\n$ sudo vi /etc/security/limits.d/core_dumps.conf\n\nAdd the following line:\n\n* hard core 0\n\nRemove any entries for users or groups with a value set to anything other than \"0\".",
+  "fix_id": "F-85785r1184632_fix",
+  "VulnDiscussion": "A core dump includes a memory image taken at the time the operating system terminates an application. The memory image could contain sensitive data and is generally useful only for developers trying to debug problems.",
+  "Documentable": "false"
+}

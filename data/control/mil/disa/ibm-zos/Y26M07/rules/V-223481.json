@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223481",
+  "rule_id": "SV-223481r1225711_rule",
+  "stig_id": "ACF2-ES-000630",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ACF2 maintenance LOGONIDs must have corresponding GSO MAINT records.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-106765",
+      "V-97661"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-25154r695417_chk",
+  "check_content": "From the ACF Command screen enter:\nSET LID\nLIST IF(MAINT)\n\nSET CONTROL(GSO)\nLIST LIKE(MAINT-)\n\nIf every maintenance logonid has a corresponding GSO MAINT record, this is not a finding.",
+  "fixtext": "Ensure that an associated GSO maintenance record exists for each special user logonid identifying the program(s) that it is permitted to access and the library where the program(s) resides.\n\nDefine associated GSO MAINT record for each special user logonid, identifying the program(s) that it is permitted to access and the library where the program(s) resides.\n\nEvery maintenance logonid has a corresponding GSO MAINT record.\n\nExample:\n\nSET C(GSO)\nINSERT MAINT.DFSMSHSM LIBRARY(SYS1.LINKLIB) LID(HSMDFDSS) PGM(ADRDSSU) \n\nF ACF2,REFRESH(MAINT)",
+  "fix_id": "F-25142r695418_fix",
+  "VulnDiscussion": "Activity under unusual conditions can indicate hostile activity. For example, what is normal activity during business hours can indicate hostile activity if it occurs during off hours.\n\nDepending on mission needs and conditions, account usage restrictions based on conditions and circumstances may be critical to limit access to resources and data to comply with operational or mission access control requirements. Thus, the operating system must be configured to enforce the specific conditions or circumstances under which organization-defined accounts can be used (e.g., by restricting usage to certain days of the week, time of day, or specific durations of time).",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271769",
+  "rule_id": "SV-271769r1092019_rule",
+  "stig_id": "OL09-00-002500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must be configured so that all system device files are correctly labeled to prevent unauthorized modification.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75819r1092017_chk",
+  "check_content": "Verify that OL 9 configures all system device files to be correctly labeled to prevent unauthorized modification.\n\nList all device files on the system that are incorrectly labeled with the following commands:\n\nNote: Device files are normally found under \"/dev\", but applications may place device files in other directories and may necessitate a search of the entire system.\n\n$ sudo find /dev -context *:device_t:* \\( -type c -o -type b \\) -printf \"%p %Z\\n\"\n\n$ sudo find /dev -context *:unlabeled_t:* \\( -type c -o -type b \\) -printf \"%p %Z\\n\"\n\nNote: There are device files, such as \"/dev/dtrace/helper\" or \"/dev/vmci\", that are used for system trace capabilities or when the operating system is a host virtual machine. They will not be owned by a user on the system and require the \"device_t\" label to operate. These device files are not a finding.\n\nIf there is output from either of these commands, other than already noted, this is a finding.",
+  "fixtext": "Configure OL 9 to correctly label all system devices.\n\nRestore the SELinux policy for the affected device file from the system policy database using the following command:\n\n$ sudo restorecon -v <device_path>\n\nSubstituting \"<device_path>\" with the path to the affected device file (from the output of the previous commands). An example device file path would be \"/dev/ttyUSB0\". If the output of the above command does not indicate that the device was relabeled to a more specific SELinux type label, then the SELinux policy of the system must be updated with more specific policy for the device class specified. If a package was used to install support for a device class, that package could be reinstalled using the following command:\n\n$ sudo dnf reinstall -y <package_name>\n\nIf a package was not used to install the SELinux policy for a given device class, then it must be generated manually and provide specific type labels.",
+  "fix_id": "F-75726r1092018_fix",
+  "VulnDiscussion": "If an unauthorized or modified device is allowed to exist on the system, there is the possibility the system may perform unintended or unauthorized operations.",
+  "Documentable": "false"
+}

@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-258744",
+  "rule_id": "SV-258744r933293_rule",
+  "stig_id": "ESXI-80-000114",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must off-load logs via syslog.",
+  "group_title": "SRG-OS-000342-VMM-001230",
+  "idents": {
+    "cci": [
+      "CCI-001683",
+      "CCI-001684",
+      "CCI-001686",
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-62484r933291_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"Syslog.global.logHost\" value and verify it is set to a site-specific syslog server.\n\nSyslog servers are specified in the following formats:\n\nudp://<IP or FQDN>:514\ntcp://<IP or FQDN>:514\nssl://<IP or FQDN>:1514\n\nMultiple servers can also be specified when separated by commas.\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Syslog.global.logHost\n\nIf the \"Syslog.global.logHost\" setting is not set to a valid, site-specific syslog server, this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"Syslog.global.logHost\" value and configure it to a site-specific syslog server.\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Syslog.global.logHost | Set-AdvancedSetting -Value \"enter site specific servers\"",
+  "fix_id": "F-62393r933292_fix",
+  "VulnDiscussion": "Remote logging to a central log host provides a secure, centralized store for ESXi logs. By gathering host log files onto a central host, it can more easily monitor all hosts with a single tool. It can also do aggregate analysis and searching to look for such things as coordinated attacks on multiple hosts.\n\nLogging to a secure, centralized log server also helps prevent log tampering and provides a long-term audit record.\n\nSatisfies: SRG-OS-000342-VMM-001230, SRG-OS-000274-VMM-000960, SRG-OS-000275-VMM-000970, SRG-OS-000277-VMM-000990, SRG-OS-000479-VMM-001990",
+  "Documentable": "false"
+}

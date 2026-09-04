@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215277",
+  "rule_id": "SV-215277r991592_rule",
+  "stig_id": "AIX7-00-002086",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All AIX interactive users home directories must be group-owned by the home directory owner primary group.",
+  "group_title": "SRG-OS-000480-GPOS-00230",
+  "idents": {
+    "legacy": [
+      "SV-101861",
+      "V-91763"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16475r294282_chk",
+  "check_content": "Check the group ownership for each user in the \"/etc/passwd\" file using command: \n\n# cut -d: -f6 /etc/passwd | xargs ls -lLd\n\ndrwxr-xr-x   21 root     system         4096 Jan 29 09:58 /\n\ndrwxr-xr-x    4 bin      bin           45056 Jan 24 12:31 /bin\n\ndrwxr-xr-x    2 doejohn  staff           256 Jan 25 13:18 /home/doejohn\n\ndrwxr-xr-x    2 sshd     system          256 Aug 11 2017  /home/srvproxy\n\ndrwx------    2 root     system          256 Jan 30 12:54 /root\n\ndrwxrwxr-x    4 bin      bin             256 Mar 23 2017  /usr/sys\n\ndrwxrwxr-x   15 root     adm            4096 Jan 24 12:26 /var/adm\n\ndrwxr-xr-x    6 root     system         4096 Jan 24 07:34 /var/adm/invscout\n\ndrwxr-xr-x    8 esaadmin system          256 Jan 24 09:02 /var/esa\n\nIf any user's home directory is not group-owned by the assigned user's primary group, this is a finding. \n\nHome directories for application accounts requiring different group ownership must be documented using site-defined procedures.",
+  "fixtext": "Change the group owner for users home directories to the primary group of the assigned user: \n# chgrp <groupname> <directoryname> \n\n(Replace examples with appropriate group and home directory.) \n\nDocument all changes.",
+  "fix_id": "F-16473r294283_fix",
+  "VulnDiscussion": "If the Group Identifier (GID) of the home directory is not the same as the GID of the user, this would allow unauthorized access to files.",
+  "Documentable": "false"
+}

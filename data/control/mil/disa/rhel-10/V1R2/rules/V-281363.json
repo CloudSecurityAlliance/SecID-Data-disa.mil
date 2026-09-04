@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281363",
+  "rule_id": "SV-281363r1195454_rule",
+  "stig_id": "RHEL-10-800310",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must be configured to operate in secure mode if the Trivial File Transfer Protocol (TFTP) server service is required.",
+  "group_title": "SRG-OS-000074-GPOS-00042",
+  "idents": {
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-85924r1195453_chk",
+  "check_content": "Note: If a TFTP server is not installed, this rule is not applicable.\n\nVerify RHEL 10 is configured to operate in secure mode if the TFTP server service is required.\n\nDetermine if the TFTP server is installed with the following command:\n\n$ sudo dnf list installed | grep tftp-server\ntftp-server.x86_64                                   5.2-48.el10                     @rhel-10-for-x86_64-appstream-rpms\n\nVerify that the TFTP daemon, if \"tftp.server\" is installed, is configured to operate in secure mode with the following command:\n\n$ systemctl cat tftp.service | grep -i execstart\nExecStart=/usr/sbin/in.tftpd -s /var/lib/tftpboot\n\nNote: The \"-s\" option ensures that the TFTP server serves only files from the specified directory, which is a security measure to prevent unauthorized access to other parts of the file system.\n\nIf the TFTP server is installed, but the TFTP daemon is not configured to operate in secure mode, and tftp is not documented as critical to the mission with the information system security officer, this is a finding.",
+  "fixtext": "Configure RHEL 10 TFTP to operate in secure mode with the following command:\n\n$ sudo systemctl edit tftp.service\n\nIn the editor, enter the following:\n\n[Service]\nExecStart=/usr/sbin/in.tftpd -s /var/lib/tftpboot\n\nAfter making changes, reload the systemd daemon and restart the TFTP service as follows:\n\n$ sudo systemctl daemon-reload\n$ sudo systemctl restart tftp.service",
+  "fix_id": "F-85829r1167238_fix",
+  "VulnDiscussion": "Restricting TFTP to a specific directory prevents remote users from copying, transferring, or overwriting system files.",
+  "Documentable": "false"
+}

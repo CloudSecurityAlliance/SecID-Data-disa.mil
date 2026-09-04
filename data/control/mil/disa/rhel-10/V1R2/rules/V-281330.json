@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281330",
+  "rule_id": "SV-281330r1167140_rule",
+  "stig_id": "RHEL-10-701280",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must map the authenticated identity to the user or group account for public key infrastructure (PKI)-based authentication.",
+  "group_title": "SRG-OS-000068-GPOS-00036",
+  "idents": {
+    "cci": [
+      "CCI-000187"
+    ]
+  },
+  "check_id": "C-85891r1167138_chk",
+  "check_content": "Note: If the system administrator (SA) demonstrates the use of an approved alternate multifactor authentication method, this requirement is not applicable.\n\nVerify RHEL 10 maps the authenticated identity to the user or group account for PKI-based authentication.\n\nVerify the certificate of the user or group is mapped to the corresponding user or group in the \"sssd.conf\" file with the following command:\n\n$ sudo find /etc/sssd/sssd.conf /etc/sssd/conf.d/ -type f -exec cat {} \\;\n[certmap/testing.test/rule_name]\nmatchrule =<SAN>.*EDIPI@mil\nmaprule = (userCertificate;binary={cert!bin})\ndomains = testing.test\n\nIf the certmap section does not exist, ask the SA to indicate how certificates are mapped to accounts.\n\nIf there is no evidence of certificate mapping, this is a finding.",
+  "fixtext": "Configure RHEL 10 to map the authenticated identity to the user or group account by adding or modifying the certmap section of the \"/etc/sssd/sssd.conf\" file based on the following example:\n\n[certmap/testing.test/rule_name]\nmatchrule = .*EDIPI@mil\nmaprule = (userCertificate;binary={cert!bin})\ndomains = testing.test\n\nRestart the \"sssd\" service with the following command for the changes to take effect:\n\n$ sudo systemctl restart sssd.service",
+  "fix_id": "F-85796r1167139_fix",
+  "VulnDiscussion": "Without mapping the certificate used to authenticate to the user account, the ability to determine the identity of the individual user or group will not be available for forensic analysis.",
+  "Documentable": "false"
+}

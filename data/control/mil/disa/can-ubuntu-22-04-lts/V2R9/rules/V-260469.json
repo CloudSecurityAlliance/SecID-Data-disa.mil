@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260469",
+  "rule_id": "SV-260469r991589_rule",
+  "stig_id": "UBTU-22-211015",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must disable the x86 Ctrl-Alt-Delete key sequence.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-64198r953218_chk",
+  "check_content": "Verify Ubuntu 22.04 LTS is not configured to reboot the system when Ctrl-Alt-Delete is pressed by using the following command: \n \n     $ systemctl status ctrl-alt-del.target \n     ctrl-alt-del.target \n          Loaded: masked (Reason: Unit ctrl-alt-del.target is masked.) \n          Active: inactive (dead) \n \nIf the \"ctrl-alt-del.target\" is not masked, this is a finding.",
+  "fixtext": "Configure Ubuntu 22.04 LTS to disable the Ctrl-Alt-Delete sequence for the command line by using the following commands: \n \n     $ sudo systemctl disable ctrl-alt-del.target \n \n     $ sudo systemctl mask ctrl-alt-del.target \n \nReload the daemon to take effect:  \n \n     $ sudo systemctl daemon-reload",
+  "fix_id": "F-64106r953219_fix",
+  "VulnDiscussion": "A locally logged-on user who presses Ctrl-Alt-Delete, when at the console, can reboot the system. If accidentally pressed, as could happen in the case of a mixed OS environment, this can create the risk of short-term loss of availability of systems due to unintentional reboot.",
+  "Documentable": "false"
+}

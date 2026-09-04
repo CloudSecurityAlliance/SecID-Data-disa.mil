@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258761",
+  "rule_id": "SV-258761r933344_rule",
+  "stig_id": "ESXI-80-000202",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host Secure Shell (SSH) daemon must not allow host-based authentication.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62501r933342_chk",
+  "check_content": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config list -k hostbasedauthentication\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$esxcli.system.ssh.server.config.list.invoke() | Where-Object {$_.Key -eq 'hostbasedauthentication'}\n\nExample result:\n\nhostbasedauthentication no\n\nIf \"hostbasedauthentication\" is not configured to \"no\", this is a finding.",
+  "fixtext": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config set -k hostbasedauthentication -v no\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$arguments = $esxcli.system.ssh.server.config.set.CreateArgs()\n$arguments.keyword = 'hostbasedauthentication'\n$arguments.value = 'no'\n$esxcli.system.ssh.server.config.set.Invoke($arguments)",
+  "fix_id": "F-62410r933343_fix",
+  "VulnDiscussion": "SSH trust relationships mean a compromise on one host can allow an attacker to move trivially to other hosts. SSH's cryptographic host-based authentication is more secure than \".rhosts\" authentication since hosts are cryptographically authenticated. However, it is not recommended that hosts unilaterally trust one another, even within an organization.",
+  "Documentable": "false"
+}

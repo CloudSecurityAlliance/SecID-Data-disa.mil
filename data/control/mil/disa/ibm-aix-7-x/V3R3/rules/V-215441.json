@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215441",
+  "rule_id": "SV-215441r958816_rule",
+  "stig_id": "AIX7-00-003205",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX operating system must accept and verify Personal Identity Verification (PIV) credentials.",
+  "group_title": "SRG-OS-000376-GPOS-00161",
+  "idents": {
+    "legacy": [
+      "SV-103039",
+      "V-92951"
+    ],
+    "cci": [
+      "CCI-001953",
+      "CCI-001954"
+    ]
+  },
+  "check_id": "C-16639r294774_chk",
+  "check_content": "Verify that the \" bos.ahafs\" package is installed:\n\n# lslpp -l |grep bos.ahafs\n                \n  bos.ahafs                7.1.5.15  COMMITTED  Aha File System\n\nIf the \"bos.ahafs\" package is not installed, this is a finding.\n\nVerify \"pmfahotplugd\" service is running:\n\n# lssrc -s pmfahotplugd\n\nIf the \" pmfahotplugd\" service is not running, this is a finding.",
+  "fixtext": "Install \"bos.ahafs\" fileset from the PowerSC MFA DVD using the following command (assuming that the DVD device is mounted to /dev/cd0):\n\n# installp -aXYgd /dev/cd0 -e /tmp/install.log bos.ahafs\n\nStart the \"pmfahotplugd\" service:\n\n# startsrc-s pmfahotplugd",
+  "fix_id": "F-16637r294775_fix",
+  "VulnDiscussion": "The use of PIV credentials facilitates standardization and reduces the risk of unauthorized access.\n\nDoD has mandated the use of the CAC to support identity management and personal authentication for systems covered under Homeland Security Presidential Directive (HSPD) 12, as well as making the CAC a primary component of layered protection for national security systems.\n\nSatisfies: SRG-OS-000376-GPOS-00161, SRG-OS-000377-GPOS-00162",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215198",
+  "rule_id": "SV-215198r991592_rule",
+  "stig_id": "AIX7-00-001039",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX root accounts home directory (other than /) must have mode 0700.",
+  "group_title": "SRG-OS-000480-GPOS-00230",
+  "idents": {
+    "legacy": [
+      "V-91753",
+      "SV-101851"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16396r294045_chk",
+  "check_content": "Check the mode of the root home directory by running the following commands:\n# ls -ld `grep \"^root\" /etc/passwd | awk -F\":\" '{print $6}'`\n\nThe above command should yield the following output:\ndrwx------   22 root     system     4096 Sep 06 18:00 /root\n\nIf the mode of the directory is not equal to \"0700\", this is a finding.",
+  "fixtext": "Use the following command to change protections for the root home directory: \n# chmod 0700 /root.",
+  "fix_id": "F-16394r294046_fix",
+  "VulnDiscussion": "Users' home directories/folders may contain information of a sensitive nature. Non-privileged users should coordinate any sharing of information with an SA through shared resources.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279937",
+  "rule_id": "SV-279937r1208676_rule",
+  "stig_id": "UBTU-22-215040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must not have the nfs-kernel-server package installed.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-84497r1208675_chk",
+  "check_content": "Note: If NFS mounts are authorized and in use on the system, this control is not applicable.\n\nVerify that Ubuntu does not have the nfs-kernel-server package installed.\n\nDetermine if packages are installed:\n$ sudo dpkg -l | grep -E 'nfs-kernel-server'\n\nIf the nfs-kernel-server package is installed, this is a finding.",
+  "fixtext": "Configure the Ubuntu operating system to disable nonessential capabilities by removing the nfs-kernel-server package from the system with the following commands:\n\nRemove packages if present:\n$ sudo apt purge --yes nfs-kernel-server\n\nRemove any unneeded dependencies:\n$ sudo apt autoremove --yes\n\nVerify that NFS services are gone:\n$ sudo systemctl list-units --type=service | grep nfs",
+  "fix_id": "F-84402r1208272_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors. \n \nOperating systems are capable of providing a wide variety of functions and services. Some of the functions and services, provided by default, may not be necessary to support essential organizational operations (e.g., key missions, functions). \n \nExamples of nonessential capabilities include, but are not limited to, games, software packages, tools, and demonstration software not related to requirements or providing a wide array of functionality not required for every mission but that cannot be disabled.",
+  "Documentable": "false"
+}

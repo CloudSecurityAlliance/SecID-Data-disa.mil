@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-272418",
+  "rule_id": "SV-272418r1156948_rule",
+  "stig_id": "BIND-9X-001660",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "In the event of an error when validating the binding of other DNS servers' identity to the BIND 9.x information, when anomalies in the operation of the signed zone transfers are discovered, for the success and failure of start and stop of the name server service or daemon, and for the success and failure of all name server events, a BIND 9.x server implementation must generate a log entry.",
+  "group_title": "SRG-APP-000350-DNS-000044",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-001906",
+      "CCI-000169",
+      "CCI-000172",
+      "CCI-002702"
+    ]
+  },
+  "check_id": "C-76468r1124001_chk",
+  "check_content": "Verify the name server is configured to log error messages with a severity of \"info\":\n\nInspect the \"named.conf\" file for the following:\n\nlogging {\nchannel channel_name {\nseverity info;\n};\n\nIf the \"severity\" sub-statement is not set to \"info\", this is a finding.\n\nNote: Setting the \"severity\" sub-statement to \"info\" will log all messages for the following severity levels: Critical, Error, Warning, Notice, and Info.",
+  "fixtext": "Edit the \"named.conf\" file.\n\nAdd the \"severity\" sub-statement to the \"channel\" statement.\n\nConfigure the \"severity\" sub-statement to \"info\".\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76375r1124002_fix",
+  "VulnDiscussion": "Auditing and logging are key components of any security architecture. It is essential for security personnel to know what is being performed on the system, where an event occurred, when an event occurred, and by whom the event was triggered to compile an accurate risk assessment. Logging the actions of specific events provides a means to investigate an attack, recognize resource utilization or capacity thresholds, or identify an improperly configured DNS system. If auditing is not comprehensive, it will not be useful for intrusion monitoring, security investigations, and forensic analysis.\n\nThe DNS server must audit all failed attempts at server authentication through DNSSEC and TSIG. The actual auditing is performed by the OS/NDM, but the configuration to trigger the auditing is controlled by the DNS server.\n\nFailing to act on the validation errors may result in the use of invalid, corrupted, or compromised information. The validation of bindings can be achieved, for example, by the use of cryptographic checksums. Validations must be performed automatically.\n\nThe DNS server does not have the capability of shutting down or restarting the information system. The DNS server can be configured to generate audit records when anomalies are discovered.\n\nSatisfies: SRG-APP-000350-DNS-000044, SRG-APP-000089-DNS-000005, SRG-APP-000504-DNS-000074, SRG-APP-000504-DNS-000082, SRG-APP-000474-DNS-000073",
+  "Documentable": "false"
+}

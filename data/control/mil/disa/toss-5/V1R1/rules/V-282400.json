@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-282400",
+  "rule_id": "SV-282400r1201523_rule",
+  "stig_id": "TOSS-05-000424",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must audit all uses of the delete_module system call.",
+  "group_title": "SRG-OS-000037-GPOS-00015",
+  "idents": {
+    "cci": [
+      "CCI-000130",
+      "CCI-000135",
+      "CCI-000169",
+      "CCI-002884",
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-86961r1200178_chk",
+  "check_content": "Verify that TOSS 5 is configured to audit the execution of the \"delete_module\" system call with the following command:\n\n$ sudo auditctl -l | grep delete_module\n\n-a always,exit -F arch=b32 -S delete_module -F auid>=1000 -F auid!=unset -k module_chng\n-a always,exit -F arch=b64 -S delete_module -F auid>=1000 -F auid!=unset -k module_chng\n\nIf both the \"b32\" and \"b64\" audit rules are not defined for the \"delete_module\" system call, or any of the lines returned are commented out, this is a finding.",
+  "fixtext": "Configure TOSS 5 to generate an audit event for any successful/unsuccessful use of the \"delete_module\" system call by adding or updating the following rules in the \"/etc/audit/rules.d/audit.rules\" file:\n\n-a always,exit -F arch=b32 -S delete_module -F auid>=1000 -F auid!=unset -k module_chng\n-a always,exit -F arch=b64 -S delete_module -F auid>=1000 -F auid!=unset -k module_chng\n\nRestart the audit daemon for changes to take effect.",
+  "fix_id": "F-86866r1201522_fix",
+  "VulnDiscussion": "Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).\n\nWhen a user logs on, the auid is set to the uid of the account being authenticated. Daemons are not user sessions and have the loginuid set to -1. The auid representation is an unsigned 32-bit integer, which equals 4294967295. The audit system interprets -1, 4294967295, and \"unset\" in the same way.\n\nThe system call rules are loaded into a matching engine that intercepts each system call made by all programs on the system. Therefore, it is very important to use system call rules only when absolutely necessary since these affect performance. The more rules, the bigger the performance hit. The performance can be helped, however, by combining system calls into one rule whenever possible.\n\nSatisfies: SRG-OS-000037-GPOS-00015, SRG-OS-000042-GPOS-00020, SRG-OS-000062-GPOS-00031, SRG-OS-000392-GPOS-00172, SRG-OS-000477-GPOS-00222",
+  "Documentable": "false"
+}

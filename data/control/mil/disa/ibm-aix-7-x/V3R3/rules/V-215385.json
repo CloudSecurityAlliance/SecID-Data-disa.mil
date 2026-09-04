@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215385",
+  "rule_id": "SV-215385r958478_rule",
+  "stig_id": "AIX7-00-003080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The rquotad daemon must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "V-91401",
+      "SV-101499"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16583r294606_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^rquotad[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"rquotad\" entry by running command: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'rquotad' -p 'udp'\n\nRestart inetd:\n# refresh -s inetd",
+  "fix_id": "F-16581r294607_fix",
+  "VulnDiscussion": "The rquotad service allows NFS clients to enforce disk quotas on file systems that are mounted on the local system. This service should be disabled if to prevent attacks.",
+  "Documentable": "false"
+}

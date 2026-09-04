@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281312",
+  "rule_id": "SV-281312r1167086_rule",
+  "stig_id": "RHEL-10-701100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must be configured to disable the Controller Area Network (CAN) kernel module.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-85873r1167084_chk",
+  "check_content": "Verify RHEL 10 disables the ability to load the CAN kernel module with the following command:\n\n$ sudo grep -rs can /etc/modprobe.conf /etc/modprobe.d/* | grep -v '#'\n/etc/modprobe.d/can.conf:install can /bin/false\n/etc/modprobe.d/can.conf:blacklist can\n\nIf the command does not return any output, or the lines are commented out, and use of CAN is not documented with the information system security officer as an operational requirement, this is a finding.",
+  "fixtext": "Configure RHEL 10 to disable the ability to load the CAN kernel module.\n\nCreate a drop-in if it does not already exist:\n\n$ sudo vi /etc/modprobe.d/can.conf\n\nAdd the following lines to the file:\n\ninstall can /bin/false\nblacklist can",
+  "fix_id": "F-85778r1167085_fix",
+  "VulnDiscussion": "Disabling CAN protects the system against exploitation of any flaws in its implementation.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282729",
+  "rule_id": "SV-282729r1201167_rule",
+  "stig_id": "TOSS-05-000307",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The root account must be the only account with unrestricted access to TOSS 5 system.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87290r1201165_chk",
+  "check_content": "Verify only the \"root\" account has a UID \"0\" assignment using the following command:\n\n$ awk -F: '$3 == 0 {print $1}' /etc/passwd\n\nroot\n\nIf any accounts other than \"root\" have a UID of \"0\", this is a finding.",
+  "fixtext": "Change the UID of any account on the system, other than root, that has a UID of \"0\". \n\nIf the account is associated with system commands or applications, the UID should be changed to one greater than \"0\" but less than \"1000\". Otherwise, assign a UID of greater than \"1000\" that has not already been assigned.",
+  "fix_id": "F-87195r1201166_fix",
+  "VulnDiscussion": "An account has root authority if it has a user identifier (UID) of \"0\". Multiple accounts with a UID of \"0\" afford more opportunity for potential intruders to guess a password for a privileged account. Properly configuring sudo is recommended to afford multiple system administrators (SAs) access to root privileges in an accountable manner.",
+  "Documentable": "false"
+}

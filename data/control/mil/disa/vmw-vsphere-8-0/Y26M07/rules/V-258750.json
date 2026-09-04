@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258750",
+  "rule_id": "SV-258750r933311_rule",
+  "stig_id": "ESXI-80-000187",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host Secure Shell (SSH) daemon must be configured to only use FIPS 140-2 validated ciphers.",
+  "group_title": "SRG-OS-000478-VMM-001980",
+  "idents": {
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-62490r933309_chk",
+  "check_content": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config list -k ciphers\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$esxcli.system.ssh.server.config.list.invoke() | Where-Object {$_.Key -eq 'ciphers'}\n\nExpected result:\n\nciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr\n\nIf the output matches the ciphers in the expected result or a subset thereof, this is not a finding.\n\nIf the ciphers in the output contain any ciphers not listed in the expected result, this is a finding.",
+  "fixtext": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config set -k ciphers -v aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$arguments = $esxcli.system.ssh.server.config.set.CreateArgs()\n$arguments.keyword = 'ciphers'\n$arguments.value = 'aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes192-ctr,aes128-ctr'\n$esxcli.system.ssh.server.config.set.Invoke($arguments)",
+  "fix_id": "F-62399r933310_fix",
+  "VulnDiscussion": "Use of weak or untested encryption algorithms undermines the purposes of utilizing encryption to protect data. ESXi must implement cryptographic modules adhering to the higher standards approved by the federal government since this provides assurance they have been tested and validated.",
+  "Documentable": "false"
+}

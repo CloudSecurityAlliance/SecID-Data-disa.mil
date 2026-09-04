@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-269540",
+  "rule_id": "SV-269540r1050423_rule",
+  "stig_id": "ALMA-09-056120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 audit logs must have 0600 permissions to prevent unauthorized read access.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000164"
+    ]
+  },
+  "check_id": "C-73571r1048996_chk",
+  "check_content": "Verify the audit log files have 0600 (u=rw-) permissions.\n\nFirst determine where the audit logs are stored with the following command:\n\n$ grep -w log_file /etc/audit/auditd.conf\n\nlog_file = /var/log/audit/audit.log\n\nThen using the location of the audit log file, determine if the audit logs have 0600 permissions using the following command:\n\n$ stat -c \"%U:%G %#a %n\" /var/log/audit/*\n\nroot:root 0600 /var/log/audit/audit.log\n\nIf the audit log files do not have 0600 permissions, this is a finding.",
+  "fixtext": "Change the audit logs to have 0600 permissions:\n\n$ chmod 0600 /var/log/audit/*",
+  "fix_id": "F-73472r1048997_fix",
+  "VulnDiscussion": "Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.\n\nAudit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit operating system activity.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000059-GPOS-00029",
+  "Documentable": "false"
+}

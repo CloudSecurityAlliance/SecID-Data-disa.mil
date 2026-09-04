@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-279069",
+  "rule_id": "SV-279069r1171551_rule",
+  "stig_id": "APAS-CF-000475",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ColdFusion systems must provide clustering.",
+  "group_title": "SRG-APP-000225-AS-000154",
+  "idents": {
+    "cci": [
+      "CCI-001190",
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-83617r1171550_chk",
+  "check_content": "Verify that systems are configured to support redundancy through clustering or load balancing.\n\n1. Confirm whether the system is designated as mission critical and requires high availability.\n\n2. From the Admin Console Landing Screen, navigate to Enterprise Manager >> Cluster Manager.\n\n3. Verify clusters are defined and each cluster includes more than one server.\n\n4. If no clusters are defined or a cluster contains only one server, interview the system administrator to determine whether the server is part of an external load balancer configuration.\n\n5. Verify that the load balancer includes multiple backend servers for redundancy.\n\nIf the system is mission critical and no clusters are configured, and the server is not part of an external load balancer with more than one backend server, this is a finding.",
+  "fixtext": "If using an external load balancer, configure and associate multiple servers behind the load balancer to ensure redundancy and high availability.\n\n1. Confirm that the load balancer distributes traffic across all configured servers. If using ColdFusion clustering capabilities, from the Admin Console Landing Screen, navigate to Enterprise Manager >> Cluster Manager.\n\n2. Enter a Cluster Name and click \"Add\".\n\n3. Under \"Actions\", click the Edit icon for the new cluster.\n\n4. Add the required servers to the cluster configuration.\n\n5. Click \"Submit\" to save the cluster.\n\n6. Edit an Existing Cluster (if applicable). Under \"Actions\", click the Edit icon next to the existing cluster.\n\n7. Add additional servers to ensure the cluster contains more than one server.\n\n8. Click \"Submit\" to update the configuration.",
+  "fix_id": "F-83522r1171389_fix",
+  "VulnDiscussion": "Clustering enables ColdFusion to distribute workloads across multiple application server instances, providing load balancing, session replication, and failover capabilities. Without clustering, ColdFusion operates as a single point of failure.\n\nClustering ensures service continuity by allowing traffic to be rerouted to healthy nodes in the event of a failure. It also enhances performance by distributing resource-intensive operations across multiple servers, reducing response times and increasing application scalability. This capability supports the organization's high availability and disaster recovery objectives by reducing the risk of downtime or service degradation.\n\nClustering supports secure session management by enabling session failover and persistence. This helps maintain user experience and security during node transitions, ensuring continuity of authenticated sessions without requiring users to reauthenticate.\n\nColdFusion must be capable of supporting clustering to meet enterprise availability requirements, enable horizontal scaling, and ensure that critical applications remain resilient under varying load and failure conditions.\n\nSatisfies: SRG-APP-000225-AS-000154, SRG-APP-000435-AS-000069",
+  "Documentable": "false"
+}

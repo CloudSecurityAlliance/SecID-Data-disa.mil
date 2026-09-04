@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-239865",
+  "rule_id": "SV-239865r991797_rule",
+  "stig_id": "CASA-FW-000230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco ASA must be configured to filter inbound traffic on all external interfaces.",
+  "group_title": "SRG-NET-000364-FW-000031",
+  "idents": {
+    "cci": [
+      "CCI-002403",
+      "CCI-004891"
+    ]
+  },
+  "check_id": "C-43098r665879_chk",
+  "check_content": "Review the ASA configuration to verify that it is filtering inbound traffic on all external interfaces.\n\naccess-list OUTSIDE_2_DMZ extended permit tcp any host 10.1.33.2 eq www \naccess-list OUTSIDE_2_DMZ extended permit tcp any host 10.1.33.2 eq https \naccess-list OUTSIDE_2_DMZ extended permit tcp any host 10.1.33.3 eq ftp \naccess-list OUTSIDE_2_DMZ extended permit tcp any host 10.1.33.3 eq ftp-data \naccess-list OUTSIDE_2_DMZ extended deny ip any any log\n…\n…\n…\naccess-group  OUTSIDE_2_DMZ in interface OUTSIDE\n\nIf the ASA is not configured to filter inbound traffic on all external interfaces, this is a finding.",
+  "fixtext": "Step 1: Configure the ACL to allow specific inbound traffic.\n\nASA(config)# access-list OUTSIDE_2_DMZ extended permit tcp any host 10.1.33.2 eq www \nASA(config)# access-list OUTSIDE_2_DMZ extended permit tcp any host 10.1.33.2 eq https \nASA(config)# access-list OUTSIDE_2_DMZ extended permit tcp any host 10.1.33.3 eq ftp \nASA(config)# access-list OUTSIDE_2_DMZ extended permit tcp any host 10.1.33.3 eq ftp-data \nASA(config)# access-list OUTSIDE_2_DMZ extended deny ip any any log\n\nStep 2: Apply the ACL inbound to the external interface.\n\nASA(config)#  access-group  OUTSIDE_2_DMZ in interface OUTSIDE",
+  "fix_id": "F-43057r665880_fix",
+  "VulnDiscussion": "Unrestricted traffic to the trusted networks may contain malicious traffic that poses a threat to an enclave or to other connected networks. Additionally, unrestricted traffic may transit a network, which uses bandwidth and other resources.\n\nFirewall filters control the flow of network traffic, ensure the flow of traffic is only allowed from authorized sources to authorized destinations. Networks with different levels of trust (e.g., the Internet) must be kept separated.",
+  "Documentable": "false"
+}

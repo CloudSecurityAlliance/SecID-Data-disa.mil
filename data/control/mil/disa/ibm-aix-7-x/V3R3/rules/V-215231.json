@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215231",
+  "rule_id": "SV-215231r991589_rule",
+  "stig_id": "AIX7-00-001135",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If SNMP service is enabled on AIX, the default SNMP password must not be used in the /etc/snmpd.conf config file.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91583",
+      "SV-101681"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16429r294144_chk",
+  "check_content": "Inspect \"/etc/snmpd.conf\" to find all the passwords that are used in the config file:\n\n# grep -v \"^#\" /etc/snmpd.conf | grep -E \"public|private|password\"\n\nIf any results are returned, default passwords are being used and this is a finding.",
+  "fixtext": "Edit \"/etc/snmpd.conf\" config file to remove or change all the default passwords that are used in the file.\n\nRestart snmpd:\n# stopsrc -s snmpd\n# startsrc -s snmpd",
+  "fix_id": "F-16427r294145_fix",
+  "VulnDiscussion": "Use default SNMP password increases the chance of security vulnerability on SNMP service.",
+  "Documentable": "false"
+}

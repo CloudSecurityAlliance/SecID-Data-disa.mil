@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281177",
+  "rule_id": "SV-281177r1184748_rule",
+  "stig_id": "RHEL-10-600180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must assign a home directory to all local interactive users in the \"/etc/passwd\" file.",
+  "group_title": "SRG-OS-000420-GPOS-00186",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-85738r1184747_chk",
+  "check_content": "Verify RHEL 10 interactive users have a home directory assigned with the following command:\n\n$ sudo awk -F: '($3>=1000)&&($7 !~ /nologin/){print $1, $3, $6}' /etc/passwd\nnsauser:x:1000:1000:nsauser:/home/nsauser:/bin/bash\ndisauser:x:1001:1001:disauser:/home/disauser:/bin/bash\ndoduser:x:1002:1002:doduser:/home/doduser:/bin/bash\n\nInspect the output and verify that all interactive users (normally users with a user identifier [UID] greater than 1000) have a home directory defined.\n\nIf a user's home directory is not defined, this is a finding.",
+  "fixtext": "Configure RHEL 10 interactive users to have a home directory assigned in the \"/etc/passwd\" file.\n\nCreate and assign home directories to all local interactive users on RHEL 10 that do not have a home directory assigned.",
+  "fix_id": "F-85643r1166482_fix",
+  "VulnDiscussion": "If local interactive users are not assigned a valid home directory, there is no place for the storage and control of files they should own.",
+  "Documentable": "false"
+}

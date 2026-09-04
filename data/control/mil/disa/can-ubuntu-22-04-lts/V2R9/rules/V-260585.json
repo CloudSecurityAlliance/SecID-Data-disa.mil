@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260585",
+  "rule_id": "SV-260585r958946_rule",
+  "stig_id": "UBTU-22-651025",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must be configured so that the script that runs each 30 days or less to check file integrity is the default.",
+  "group_title": "SRG-OS-000446-GPOS-00200",
+  "idents": {
+    "cci": [
+      "CCI-002699"
+    ]
+  },
+  "check_id": "C-64314r953566_chk",
+  "check_content": "Verify that the Advanced Intrusion Detection Environment (AIDE) default script used to check file integrity each 30 days or less is unchanged.  \n  \nDownload the original aide-common package in the /tmp directory:  \n  \n     $ cd /tmp; apt download aide-common \n  \nFetch the SHA1 of the original script file: \n  \n     $ dpkg-deb --fsys-tarfile /tmp/aide-common_*.deb | tar -xO ./usr/share/aide/config/cron.daily/aide | sha1sum \n     b71bb2cafaedf15ec3ac2f566f209d3260a37af0  -  \n  \nCompare with the SHA1 of the file in the daily or monthly cron directory:  \n  \n     $ sha1sum /etc/cron.{daily,monthly}/aide 2>/dev/null \n     b71bb2cafaedf15ec3ac2f566f209d3260a37af0  /etc/cron.daily/aide \n  \nIf there is no AIDE script file in the cron directories, or the SHA1 value of at least one file in the daily or monthly cron directory does not match the SHA1 of the original, this is a finding.",
+  "fixtext": "The cron file for AIDE is fairly complex as it creates the report. This file is installed with the \"aide-common\" package, and the default can be restored by copying it from the package:  \n \nExtract the aide script from the \"aide-common\" package to its original place:  \n  \n     $ dpkg-deb --fsys-tarfile /tmp/aide-common_*.deb | sudo tar -x ./usr/share/aide/config/cron.daily/aide -C / \n \nCopy it to the cron.daily directory: \n \n     $  sudo cp -f /usr/share/aide/config/cron.daily/aide /etc/cron.daily/aide",
+  "fix_id": "F-64222r953567_fix",
+  "VulnDiscussion": "Without verification of the security functions, security functions may not operate correctly and the failure may go unnoticed. Security function is defined as the hardware, software, and/or firmware of the information system responsible for enforcing the system security policy and supporting the isolation of code and data on which the protection is based. Security functionality includes, but is not limited to, establishing system accounts, configuring access authorizations (i.e., permissions, privileges), setting events to be audited, and setting intrusion detection parameters.  \n  \nNotifications provided by information systems include, for example, electronic alerts to system administrators, messages to local computer consoles, and/or hardware indications, such as lights.  \n  \nThis requirement applies to Ubuntu 22.04 LTS performing security function verification/testing and/or systems and environments that require this functionality.",
+  "Documentable": "false"
+}

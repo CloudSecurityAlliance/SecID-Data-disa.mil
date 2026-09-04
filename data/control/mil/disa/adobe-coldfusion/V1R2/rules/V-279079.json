@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279079",
+  "rule_id": "SV-279079r1171576_rule",
+  "stig_id": "APAS-CF-000735",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ColdFusion must set Request Tuning configurations.",
+  "group_title": "SRG-APP-000435-AS-000163",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-83627r1171575_chk",
+  "check_content": "Verify Request Tuning Configurations.\n\n1. From the Admin Console Landing Screen, navigate to Server Settings >> Request Tuning.\n\nIf \"Maximum number of simultaneous Report threads\" is not set to \"1\", this is a finding.\n\nIf the \"Maximum number of simultaneous Template requests\" is not set to the maximum number of requests (or 24, whichever is higher), this is a finding.\n\nIf \"Timeout requests waiting in queue after\" setting is higher than \"5\", this is a finding.\n\n2. Validate that \"Request Queue Timeout Page\" is set to a valid and custom page.\n\nIf \"Request Queue Timeout Page\" is blank or is set to \"/CFIDE/administrator/templates/request_timeout_error.cfm\", this is a finding.\n\n3. Validate the file exists. The path and file given are relevant to the web servers' document root directory and not the OS root directory. For example, if the web servers' document root is /opt/webserver/wwwroot and the \"Request Queue Timeout Page\" is set to /CFIDE/administrator/templates/timeout_error.cfm, the full path to the template file is /opt/webserver/wwwroot/CFIDE/administrator/templates/timeout_error.cfm.\n\nIf the \"Request Queue Timeout Page\" setting is not set to a valid page, this is a finding.",
+  "fixtext": "Set Request Tuning Configurations.\n\n1. From the Admin Console Landing Screen, navigate to Server Settings >> Request Tuning.\n\n2. Set \"Maximum number of simultaneous Report threads\" to \"1\".\n\n3. Set \"Maximum number of simultaneous Template requests\" to the appropriate amount or 24, whichever is higher.\n\n4. Set \"Timeout requests waiting in queue after\" to \"5\" or fewer.\n\n5. Set \"Request Queue Timeout Page\" to a custom and valid page.\n\n6. Select \"Submit Changes\".",
+  "fix_id": "F-83532r1171305_fix",
+  "VulnDiscussion": "To reduce the possibility or effect of a denial of service (DoS), ColdFusion must employ defined security safeguards. These safeguards will be determined by the placement of ColdFusion and the type of applications being hosted within ColdFusion framework.\n\nReport threads are used to process reports concurrently. Since reporting in most applications is a process that is not time sensitive or heavily used, this setting should be minimized to minimize resource use on ColdFusion and to minimize a method that could be used to exhaust resources by an attacker. Unless reporting is heavily used, the number of simultaneous report threads must be set to 1.",
+  "Documentable": "false"
+}

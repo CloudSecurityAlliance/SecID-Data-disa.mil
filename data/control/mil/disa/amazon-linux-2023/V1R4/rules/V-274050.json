@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-274050",
+  "rule_id": "SV-274050r1120138_rule",
+  "stig_id": "AZLX-23-001245",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must be configured so that all network connections associated with SSH traffic are terminated after 10 minutes of becoming unresponsive.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "cci": [
+      "CCI-001133",
+      "CCI-002361",
+      "CCI-002891"
+    ]
+  },
+  "check_id": "C-78141r1120136_chk",
+  "check_content": "Verify Amazon Linux 2023 has the \"ClientAliveInterval\" variable set to a value of \"600\" or less by performing the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*clientaliveinterval'\n/etc/ssh/sshd_config.d/91-ClientAliveInterval.conf:ClientAliveInterval 600\n\nIf \"ClientAliveInterval\" does not exist, does not have a value of \"600\" or less in \"/etc/ssh/sshd_config\" or a dropfile in \"/etc/ssh/sshd_config.d\", or is commented out, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 SSH server to terminate a user session automatically after the SSH client has been unresponsive for 10 minutes.\n\nNote: This setting must be applied in conjunction with \"ClientAliveCountMax 1\" to function correctly.\n\nModify or append the following lines in the \"/etc/ssh/sshd_config\" or a dropfile in \"/etc/ssh/sshd_config.d\" file:\n\nClientAliveInterval 600\n\nFor the changes to take effect, the SSH daemon must be restarted.\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-78046r1120137_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle session will also free up resources committed by the managed network element. \n\nTerminating network connections associated with communications sessions includes, for example, de-allocating associated TCP/IP address/port pairs at Amazon Linux 2023 level, and de-allocating networking assignments at the application level if multiple application sessions are using a single operating system-level network connection. This does not mean that Amazon Linux 2023 terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.\n\nSatisfies: SRG-OS-000163-GPOS-00072, SRG-OS-000279-GPOS-00109, SRG-OS-000395-GPOS-00175",
+  "Documentable": "false"
+}

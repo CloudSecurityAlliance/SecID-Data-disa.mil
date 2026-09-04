@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269250",
+  "rule_id": "SV-269250r1050132_rule",
+  "stig_id": "ALMA-09-019270",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must not have unauthorized IP tunnels configured.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73281r1049382_chk",
+  "check_content": "Verify that AlmaLinux OS 9 does not have unauthorized IP tunnels configured.\n\nDetermine if the \"IPsec\" service is active with the following command:\n\n$ systemctl status ipsec\n\nipsec.service - Internet Key Exchange (IKE) Protocol Daemon for IPsec\n     Loaded: loaded (/usr/lib/systemd/system/ipsec.service; disabled; preset: disabled)\n     Active: inactive (dead)\n\nIf the \"IPsec\" service is active, check for configured IPsec connections (\"conn\"), with the following command:\n\n$ grep -ri conn /etc/ipsec.conf /etc/ipsec.d/ | grep -v '#'\n\nVerify any returned results are documented with the ISSO.\n\nIf the IPsec tunnels are active and not approved, this is a finding.",
+  "fixtext": "Remove all unapproved tunnels from the system, or document them with the ISSO.",
+  "fix_id": "F-73182r1048127_fix",
+  "VulnDiscussion": "IP tunneling mechanisms can be used to bypass network filtering. If tunneling is required, it must be documented with the information system security officer (ISSO).",
+  "Documentable": "false"
+}

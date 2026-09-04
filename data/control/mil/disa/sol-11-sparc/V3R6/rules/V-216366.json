@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216366",
+  "rule_id": "SV-216366r959010_rule",
+  "stig_id": "SOL-11.1-040490",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The operating system must prevent remote devices that have established a non-remote connection with the system from communicating outside of the communication path with resources in external networks.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-61019",
+      "V-48147"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17602r371186_chk",
+  "check_content": "Determine if the \"RestrictOutbound\" profile is configured properly:\n\n# profiles -p RestrictOutbound info\n\nIf the output is not:\nname=RestrictOutbound\ndesc=Restrict Outbound Connections\nlimitpriv=zone,!net_access\n\nthis is a finding.\n\n\nFor users who are not allowed external network access, determine if a user is configured with the \"RestrictOutbound\" profile.\n\n# profiles -l [username]\n\nIf the output does not include:\n\n[username]:\nRestrictOutbound\n\nthis is a finding.",
+  "fixtext": "The root Role is required.\n\nRemove net_access privilege from users who may be accessing the systems externally.\n\n1. Create an RBAC Profile with net_access restriction\n\n# profiles -p RestrictOutbound\nprofiles:RestrictOutbound> set desc=\"Restrict Outbound Connections\"\nprofiles:RestrictOutbound> set limitpriv=zone,!net_access\nprofiles:RestrictOutbound> exit\n\n\n2. Assign the RBAC Profile to a user\n\n# usermod -P +RestrictOutbound [username]\n\nThis prevents the user from initiating any outbound network connections.",
+  "fix_id": "F-17600r371187_fix",
+  "VulnDiscussion": "This control enhancement is implemented within the remote device (e.g., notebook/laptop computer) via configuration settings not configurable by the user of the device. An example of a non-remote communications path from a remote device is a virtual private network. When a non-remote connection is established using a virtual private network, the configuration settings prevent split-tunneling. Split-tunneling might otherwise be used by remote users to communicate with the information system as an extension of the system and to communicate with local resources, such as a printer or file server. The remote device, when connected by a non-remote connection, becomes an extension of the information system allowing dual communications paths, such as split-tunneling, in effect allowing unauthorized external connections into the system. This is a split-tunneling requirement that can be controlled via the operating system by disabling interfaces.",
+  "Documentable": "false"
+}

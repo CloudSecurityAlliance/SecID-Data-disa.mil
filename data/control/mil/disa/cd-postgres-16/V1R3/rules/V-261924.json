@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261924",
+  "rule_id": "SV-261924r1000777_rule",
+  "stig_id": "CD16-00-007800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must enforce access restrictions associated with changes to the configuration of the DBMS or database(s).",
+  "group_title": "SRG-APP-000380-DB-000360",
+  "idents": {
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-65778r1000775_chk",
+  "check_content": "To list all the permissions of individual roles, as the database administrator (shown here as \"postgres\"), run the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"\\du\"\n\nIf any role has SUPERUSER that should not, this is a finding.\n\nList all the permissions of databases and schemas by running the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"\\l\"\n$ psql -c \"\\dn+\"\n\nIf any database or schema has update (\"W\") or create (\"C\") privileges and should not, this is a finding.",
+  "fixtext": "Configure PostgreSQL to enforce access restrictions associated with changes to the configuration of PostgreSQL or database(s).\n\nUse ALTER ROLE to remove accesses from roles:\n\n$ psql -c \"ALTER ROLE <role_name> NOSUPERUSER\"\n\nUse REVOKE to remove privileges from databases and schemas:\n\n$ psql -c \"REVOKE ALL PRIVILEGES ON <table> FROM <role_name>\"",
+  "fix_id": "F-65686r1000776_fix",
+  "VulnDiscussion": "Failure to provide logical access restrictions associated with changes to configuration may have significant effects on the overall security of the system.\n\nWhen dealing with access restrictions pertaining to change control, it should be noted that any changes to the hardware, software, and/or firmware components of the information system can potentially have significant effects on the overall security of the system.\n\nAccordingly, only qualified and authorized individuals should be allowed to obtain access to system components for the purposes of initiating changes, including upgrades and modifications.",
+  "Documentable": "false"
+}

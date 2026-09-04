@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215222",
+  "rule_id": "SV-215222r1009539_rule",
+  "stig_id": "AIX7-00-001125",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX Operating systems must enforce 24 hours/1 day as the minimum password lifetime.",
+  "group_title": "SRG-OS-000075-GPOS-00043",
+  "idents": {
+    "legacy": [
+      "V-91309",
+      "SV-101407"
+    ],
+    "cci": [
+      "CCI-004066",
+      "CCI-000198"
+    ]
+  },
+  "check_id": "C-16420r294117_chk",
+  "check_content": "From the command prompt, run the following command to check the system default \"minage\" attribute value:\n# lssec -f /etc/security/user -s default -a minage\ndefault minage=1\n\nIf the default \"minage\" value is not set, or its value is less than \"1\", this is a finding.\n\nFrom the command prompt, run the following command to check \"minage\" attribute value for all accounts:\n# lsuser -a minage ALL\nroot  minage=1\nuser1 minage=1\nuser2 minage=2\n\nIf any user's \"minage\" value is less than \"1\", this is a finding.",
+  "fixtext": "From the command prompt, run the following command to set \"minage=1\" for the default stanza in \"/etc/security/user\":\n# chsec -f /etc/security/user -s default -a minage=1\n\nFor each user who has \"minage=0\" set its \"minage\" to \"1\" by running the following command from command prompt:\n# chsec -f /etc/security/user -s [user_name] -a minage=1",
+  "fix_id": "F-16418r294118_fix",
+  "VulnDiscussion": "Enforcing a minimum password lifetime helps to prevent repeated password changes to defeat the password reuse or history enforcement requirement. If users are allowed to immediately and continually change their password, then the password could be repeatedly changed in a short period of time to defeat the organization's policy regarding password reuse.",
+  "Documentable": "false"
+}

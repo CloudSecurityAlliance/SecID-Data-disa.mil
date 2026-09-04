@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223599",
+  "rule_id": "SV-223599r1225822_rule",
+  "stig_id": "ACF2-TC-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS PROFILE.TCPIP configuration statements for the TCP/IP stack must be coded properly.",
+  "group_title": "SRG-OS-000032-GPOS-00013",
+  "idents": {
+    "legacy": [
+      "V-97903",
+      "SV-107007"
+    ],
+    "cci": [
+      "CCI-000067"
+    ]
+  },
+  "check_id": "C-25272r858884_chk",
+  "check_content": "Refer to the Profile configuration file specified on the PROFILE DD statement in the TCPIP started task JCL.\n\nNOTE: If the INCLUDE statement is coded in the TCP/IP Profile configuration file, the data set specified on this statement must be checked for the following items as well.\n\nIf the SMFPARMS statement is not coded or commented out, this is not a finding.\n\nIf the DELETE statement is not coded or commented out for production system, this is not a finding.\n\nIf the SMFCONFIG statement is coded with (at least) the FTPCLIENT and TN3270CLIENT operands, this is not a finding.\n\nIf the TCPCONFIG and UDPCONFIG statements are coded with (at least) the RESTRICTLOWPORTS operand, this is not a finding.\n\nIf the TCPCONFIG does not have the TTLS statement coded, this is a finding.\n\nNOTE: If the INCLUDE statement is coded, the data set specified will be checked for access authorization compliance.",
+  "fixtext": "Configure the statements in the PROFILE.TCPIP file to conform to the specifications below:\n\nNOTE: If the INCLUDE statement is coded in the TCP/IP Profile configuration file, the data set specified on this statement must be checked for the following items as well.\n\nThe SMFPARMS statement is not coded or commented out.\nThe DELETE statement is not coded or commented out for production systems.\nThe SMFCONFIG statement is coded with (at least) the FTPCLIENT and TN3270CLIENT operands.\nThe TCPCONFIG and UDPCONFIG statements are coded with (at least) the RESTRICTLOWPORTS operand.\n\nTCPCONFIG coded with TTLS - Specifies that the AT-TLS function is activated for the TCP/IP stack. The AT-TLS function provides invocation of System SSL in the TCP transport layer of the stack. \n\nNote: If AT-TLS is enabled, you must activate the SERVAUTH class, define the INITSTACK resource profile, and permit users to it.\n\nNOTE: If the INCLUDE statement is coded, the data set specified will be checked for access authorization compliance.",
+  "fix_id": "F-25260r858885_fix",
+  "VulnDiscussion": "Remote access services, such as those providing remote access to network devices and information systems, which lack automated monitoring capabilities, increase risk and make remote user access management difficult at best.\n\nRemote access is access to DoD nonpublic information systems by an authorized user (or an information system) communicating through an external, non-organization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nAutomated monitoring of remote access sessions allows organizations to detect cyber attacks and also ensure ongoing compliance with remote access policies by auditing connection activities of remote access capabilities, such as Remote Desktop Protocol (RDP), on a variety of information system components (e.g., servers, workstations, notebook computers, smartphones, and tablets).",
+  "Documentable": "false"
+}

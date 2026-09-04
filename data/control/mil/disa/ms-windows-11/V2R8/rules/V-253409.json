@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253409",
+  "rule_id": "SV-253409r1210297_rule",
+  "stig_id": "WN11-CC-000305",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Indexing of encrypted files must be turned off.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-56862r1210221_chk",
+  "check_content": "If the following registry value does not exist or is not configured as specified, this is a finding:\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\Windows Search\\  (For GPO-managed systems)\nOr\nRegistry Path: \\Software\\Microsoft\\Policymanager\\current\\device\\search  (For Intune-managed systems)\n \nValue Name: AllowIndexingEncryptedStoresOrItems\n\nValue Type: REG_DWORD\nValue: 0",
+  "fixtext": "For GPO-managed systems:\n\nConfigure the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Search >> \"Allow indexing of encrypted files\" to \"Disabled\".\n\nFor Intune-managed systems:\n\nRevise the Intune policy to disable indexing of encrypted files.",
+  "fix_id": "F-56812r1210222_fix",
+  "VulnDiscussion": "Indexing of encrypted files may expose sensitive data. This setting prevents encrypted files from being indexed.\n\nNote: A different registry location is needed when systems are managed by Intune versus GPO.",
+  "Documentable": "false"
+}

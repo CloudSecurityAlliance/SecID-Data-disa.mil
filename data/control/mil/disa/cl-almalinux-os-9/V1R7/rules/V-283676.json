@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283676",
+  "rule_id": "SV-283676r1193289_rule",
+  "stig_id": "ALMA-09-003980",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must implement DOD-approved encryption in the OpenSSL package.",
+  "group_title": "SRG-OS-000250-GPOS-00093",
+  "idents": {
+    "cci": [
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-88241r1193287_chk",
+  "check_content": "Verify that AlmaLinux OS 9 OpenSSL library is configured to use only ciphers employing FIPS 140-3 approved algorithms with the following command:\n\n$ grep -i opensslcnf.config /etc/pki/tls/openssl.cnf\n\n.include = /etc/crypto-policies/back-ends/opensslcnf.config\n\nIf the \"opensslcnf.config\" is not defined in the \"/etc/pki/tls/openssl.cnf\" file, this is a finding.",
+  "fixtext": "Configure the AlmaLinux OS 9 OpenSSL library to use the system cryptographic policy.\n\nEdit the \"/etc/pki/tls/openssl.cnf\" and add or modify the following line:\n\n.include = /etc/crypto-policies/back-ends/opensslcnf.config",
+  "fix_id": "F-88146r1193288_fix",
+  "VulnDiscussion": "Without cryptographic integrity protections, information can be altered by unauthorized users without detection.\n\nRemote access (e.g., RDP) is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nCryptographic mechanisms used for protecting the integrity of information include, for example, signed hash functions using asymmetric cryptography enabling distribution of the public key to verify the hash information while maintaining the confidentiality of the secret key used to generate the hash.\n\nThe employed algorithms can be viewed in the /etc/crypto-policies/back-ends/openssl.config file.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215390",
+  "rule_id": "SV-215390r958478_rule",
+  "stig_id": "AIX7-00-003085",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The instsrv daemon must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "V-91411",
+      "SV-101509"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16588r294621_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^instsrv[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"instsrv\" entry by running command: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'instsrv' -p 'tcp'\n\nRestart inetd:\n# refresh -s inetd",
+  "fix_id": "F-16586r294622_fix",
+  "VulnDiscussion": "The instsrv service is part of the Network Installation Tools, used for servicing servers running AIX 3.2. This service should be disabled to prevent attacks.",
+  "Documentable": "false"
+}

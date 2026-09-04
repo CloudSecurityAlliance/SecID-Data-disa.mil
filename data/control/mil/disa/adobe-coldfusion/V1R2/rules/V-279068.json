@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279068",
+  "rule_id": "SV-279068r1172825_rule",
+  "stig_id": "APAS-CF-000465",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "ColdFusion must generate a unique session identifier using a FIPS 140-2/140-3 or higher approved random number generator.",
+  "group_title": "SRG-APP-000224-AS-000152",
+  "idents": {
+    "cci": [
+      "CCI-001188"
+    ]
+  },
+  "check_id": "C-83616r1171548_chk",
+  "check_content": "Review the random number generator for generating session identifiers.\n\n1. Locate the java.security file for the Java Runtime Environment (JRE) used by ColdFusion located at:\n <ColdFusion_Installation_Directory>\\jre\\conf\\security\\java.security\n\n2. Open the java.security file in a text editor.\n\n3. Locate the following setting:\nsecurerandom.strongAlgorithms\n\n4. Verify that the value includes a FIPS 140-2/140-3 or higher approved random number generator. For example:\nsecurerandom.strongAlgorithms=DRBG:SUN\n\nIf the securerandom.strongAlgorithms setting does not exist or does not specify a FIPS 140-2/140-3 or higher approved algorithm, this is a finding.",
+  "fixtext": "Configure the random number generator for generating session identifiers.\n\n1. Open the java.security file located at: <ColdFusion_Installation_Directory>\\jre\\conf\\security\\java.security\n\n2. Locate or add the securerandom.strongAlgorithms property and configure it to use a FIPS-approved RNG. For example:\nsecurerandom.strongAlgorithms=DRBG:SUN\n\n3. Save the file and restart ColdFusion to apply changes.",
+  "fix_id": "F-83521r1172824_fix",
+  "VulnDiscussion": "ColdFusion uses session IDs to communicate between modules or applications within ColdFusion and between ColdFusion and users. The session ID allows the application to track the communications along with credentials that may have been used to authenticate users or modules.\n\nUnique session IDs are the opposite of sequentially generated session IDs which can be easily guessed by an attacker. Unique session identifiers help to reduce predictability of said identifiers.\n\nUnique session IDs address man-in-the-middle attacks, including session hijacking or insertion of false information into a session. If the attacker is unable to identify or guess the session information related to pending application traffic, they will have more difficulty in hijacking the session or otherwise manipulating valid sessions.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268241",
+  "rule_id": "SV-268241r1038672_rule",
+  "stig_id": "HYCU-ND-000250",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must generate audit records when successful/unsuccessful login attempts occur.",
+  "group_title": "SRG-APP-000503-NDM-000320",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-72262r1038670_chk",
+  "check_content": "Check the contents of the \"/var/log/audit/audit.log\" file.\n\nVerify the audit log contains records showing when successful/unsuccessful login attempts occur.\n\nIf the audit log is not configured or does not have required contents, this is a finding.\n\nHYCU also maintains Event (Audit) information in the \"HYCU Web UI Events\" menu. Log in with correct and incorrect credentials and check the HYCU Events.\n\nIf the HYCU events of category \"SECURITY\" are not logged for each of the attempts, status is not \"Success\" for the correct credentials and status is not \"Warning\" for the incorrect credentials, this is a finding.",
+  "fixtext": "Log in to the HYCU VM console and load the STIG audit rules by using the following commands:\n\n1. cp /usr/share/audit/sample-rules/10-base-config.rules /usr/share/audit/sample-rules/30-stig.rules /usr/share/audit/sample-rules/31-privileged.rules /usr/share/audit/sample-rules/99-finalize.rules /etc/audit/rules.d/\n\n2. augenrules --load",
+  "fix_id": "F-72165r1038671_fix",
+  "VulnDiscussion": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the network device (e.g., module or policy filter).",
+  "Documentable": "false"
+}

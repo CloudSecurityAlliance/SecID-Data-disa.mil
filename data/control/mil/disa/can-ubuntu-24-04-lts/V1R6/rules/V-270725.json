@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270725",
+  "rule_id": "SV-270725r1101789_rule",
+  "stig_id": "UBTU-24-400220",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 24.04 LTS must store only encrypted representations of passwords.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-004062"
+    ]
+  },
+  "check_id": "C-74758r1101787_chk",
+  "check_content": "Verify the Ubuntu operating system stores only encrypted representations of passwords with the following command:\n\n$ grep pam_unix.so /etc/pam.d/common-password\npassword [success=1 default=ignore] pam_unix.so obscure sha512 shadow rounds=100000\n\nIf \"sha512\" is missing from the \"pam_unix.so\" line, or if the \"rounds\" is set to less than 100000, this is a finding.",
+  "fixtext": "Configure Ubuntu 24.04 LTS to store encrypted representations of passwords.\n\nAdd or modify the \"sha512\" parameter value to the following line in \"/etc/pam.d/common-password\" file:\n\npassword [success=1 default=ignore] pam_unix.so obscure sha512 shadow rounds=100000",
+  "fix_id": "F-74659r1101788_fix",
+  "VulnDiscussion": "Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. If the information system or application allows the user to consecutively reuse their password when that password has exceeded its defined lifetime, the end result is a password that is not changed per policy requirements.",
+  "Documentable": "false"
+}

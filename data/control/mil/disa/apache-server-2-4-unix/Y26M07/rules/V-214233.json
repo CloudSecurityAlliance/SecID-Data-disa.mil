@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214233",
+  "rule_id": "SV-214233r960900_rule",
+  "stig_id": "AS24-U1-000130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "An Apache web server, behind a load balancer or proxy server, must produce log records containing the client IP information as the source and destination and not the load balancer or proxy IP information with each event.",
+  "group_title": "SRG-APP-000098-WSR-000060",
+  "idents": {
+    "legacy": [
+      "SV-102709",
+      "V-92621"
+    ],
+    "cci": [
+      "CCI-000133"
+    ]
+  },
+  "check_id": "C-15447r881414_chk",
+  "check_content": "If Apache server is not behind a load balancer or proxy server, this check is Not Applicable.\n\nInterview the System Administrator to review the configuration of the Apache web server architecture and determine if inbound web traffic is passed through a proxy.\n\nIf the Apache web server is receiving inbound web traffic through a proxy, the audit logs must be reviewed to determine if correct source information is being passed through by the proxy server.\n\nDetermine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nNote: The apachectl front end is the preferred method for locating the Apache httpd file. For some Linux distributions, \"apache2ctl -V\" or  \"httpd -V\" can also be used. \n\nReview the location of the log files.\n\nWhen the log file is displayed, review the source IP information in the log entries and verify the entries do not reflect the IP address of the proxy server.\nIf the log entries in the log file(s) reflect the IP address of the client in addition to the proxy address, this is not a finding.\nIf the log entries in the log file(s) reflect the IP address of the proxy server as the source, this is a finding.\n\nIf logs containing source/destination IPs can be obtained at the load balancer/proxy server, this is not a finding.",
+  "fixtext": "Access the proxy server through which inbound web traffic is passed and configure settings to pass web traffic to the Apache web server transparently.\n\nRefer to https://httpd.apache.org/docs/2.4/mod/mod_remoteip.html for additional information on logging options based on your proxy/load balancing setup.",
+  "fix_id": "F-15445r505080_fix",
+  "VulnDiscussion": "Apache web server logging capability is critical for accurate forensic analysis. Without sufficient and accurate information, a correct replay of the events cannot be determined.\n\nAscertaining the correct source of the events (e.g., source IP) is important during forensic analysis. Correctly determining the source of events will add information to the overall reconstruction of the loggable event. By determining the source of the event correctly, analysis of the enterprise can be undertaken to determine if events tied to the source occurred in other areas within the enterprise.\n\nA web server behind a load balancer or proxy server, when not configured correctly, will record the load balancer or proxy server as the source of every loggable event. When looking at the information forensically, this information is not helpful in the investigation of events. The web server must record with each event the client source of the event.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269507",
+  "rule_id": "SV-269507r1050390_rule",
+  "stig_id": "ALMA-09-051940",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must use a separate file system for the system audit data path.",
+  "group_title": "SRG-OS-000341-GPOS-00132",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-73538r1048897_chk",
+  "check_content": "Verify that a separate file system/partition has been created for the system audit data path with the following command:\n\nNote: /var/log/audit is used as the example as it is a common location.\n\n$ findmnt /var/log/audit\n\nTARGET         SOURCE                                                FSTYPE OPTIONS\n/var/log/audit /dev/mapper/luks-29b74747-2f82-4472-82f5-0b5eb763effc xfs    rw,nosuid,nodev,noexec,relatime,seclabel,attr2,inode64,logbufs=8,logbsize=32k,noquota\n\nIf no line is returned, this is a finding.",
+  "fixtext": "Migrate the system audit data path onto a separate file system.",
+  "fix_id": "F-73439r1048898_fix",
+  "VulnDiscussion": "Placing \"/var/log/audit\" in its own partition enables better separation between audit files and other system files, and helps ensure that auditing cannot be halted due to the partition running out of space.",
+  "Documentable": "false"
+}

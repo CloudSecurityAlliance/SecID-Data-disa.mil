@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-282361",
+  "rule_id": "SV-282361r1200063_rule",
+  "stig_id": "TOSS-05-000305",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must automatically lock an account when three unsuccessful login attempts occur during a 15-minute time period.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044",
+      "CCI-002238"
+    ]
+  },
+  "check_id": "C-86922r1200061_chk",
+  "check_content": "Note: If the system administrator (SA) demonstrates the use of an approved centralized account management method that locks an account after three unsuccessful login attempts within a period of 15 minutes, this requirement is not applicable.\n\nVerify TOSS 5 locks an account after three unsuccessful login attempts within a period of 15 minutes using the following command:\n\n$ grep fail_interval /etc/security/faillock.conf \n\nfail_interval = 900\n\nIf the \"fail_interval\" option is not set to \"900\" or less (but not \"0\"), the line is commented out, or the line is missing, this is a finding.",
+  "fixtext": "Configure TOSS 5 to lock out the \"root\" account after a number of incorrect login attempts within 15 minutes. \n\nEnable \"pam_faillock.so\" using the following command:\n \n$ authselect enable-feature with-faillock \n\nEdit the \"/etc/security/faillock.conf\" file as follows:\n\nfail_interval = 900",
+  "fix_id": "F-86827r1200062_fix",
+  "VulnDiscussion": "By limiting the number of failed login attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-forcing, is reduced. Limits are imposed by locking the account.\n\nSatisfies: SRG-OS-000021-GPOS-00005, SRG-OS-000329-GPOS-00128",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283690",
+  "rule_id": "SV-283690r1204098_rule",
+  "stig_id": "NOKI-L2-000190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Nokia layer 2 switch must assign all virtual private local area network service (VPLS) ports not in use to an inactive VLAN.",
+  "group_title": "SRG-NET-000512-L2S-000007",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-88255r1204096_chk",
+  "check_content": "Note: Switch ports configured for 802.1x are exempt from this requirement.\n\nReview Nokia router configurations and examine all access switch ports. Each access switch port not in use should have membership to an inactive VLAN that is not used for any purpose.\n\nFor any port to be part of a VPLS service, the port must be configured for that service. Just enabling a port does not give the port access to a bridge domain. VLAN configuration is also part of configuring a port for a VPLS service. \n\nUse the command below to verify all VLAN tags used for all VPLS services.\n\nPay attention to wildcard \"*\" usage in the VLAN tag portion of the service access point (SAP) ID configuration. When the wild card \"*\" is configured in the VLAN tag portion of the SAP, it allows all VLAN tags. \n\n- show service sap-using\nService Access Points\nPortId                          SvcId      Ing.  Ing.    Egr.  Egr.   Adm  Opr\n                                           QoS   Fltr    QoS   Fltr\n\n1/1/c1/1:200                    200        1     none    1     none   Up   Up\n1/1/c1/1:300                    300        1     none    1     none   Up   Up\n\nIf a port is configured with null encapsulation, it will allow all VLAN tags. Verify access ports are configured with \"Port Encp\" set to \"dotq\" or \"qinq\":\n\n- show port\nPorts on Slot 1\n\nPort          Admin Link Port    Cfg  Oper LAG/ Port Port Port   C/QS/S/XFP/\nId            State      State   MTU  MTU  Bndl Mode Encp Type   MDIMDX\n\n1/1/c1/1      Up    Yes  Up      1518 1518    - accs dotq cgige\n1/1/c2        Up         Link Up                          conn   100G CWDM4 M*\n\nIf any access switch ports are not in use and not in an inactive VLAN, this is a finding.",
+  "fixtext": "Note: Switch ports configured for 802.1x are exempt from this requirement.\n\nAssign all VPLS service ports not in use to an inactive VLAN.\n\nConfigure VPLS service access ports with either dot1q or qinq encapsulation:\n\n- configure port <port id> ethernet encap-type <dot1q or qinq>\n\nConfigure unused SAPs with inactive VLAN tag in VPLS SAP configurations:\n\n- configure service vpls <service id>\n- sap <port id:vlan tag> create",
+  "fix_id": "F-88160r1204097_fix",
+  "VulnDiscussion": "A disabled port assigned to a user or management VLAN could be enabled accidentally or by an attacker. As a result, the attacker could gain access to that VLAN as a member.\n\nSatisfies: SRG-NET-000512-L2S-000007, SRG-NET-000512-L2S-000009, SRG-NET-000512-L2S-000010, SRG-NET-000512-L2S-000011, SRG-NET-000512-L2S-000012, SRG-NET-000512-L2S-000013",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-280933",
+  "rule_id": "SV-280933r1197217_rule",
+  "stig_id": "RHEL-10-001040",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "RHEL 10 must check the GNU Privacy Guard (GPG) signature of locally installed software packages before installation.",
+  "group_title": "SRG-OS-000366-GPOS-00153",
+  "idents": {
+    "cci": [
+      "CCI-003992"
+    ]
+  },
+  "check_id": "C-85494r1197216_chk",
+  "check_content": "Verify RHEL 10 dnf always checks the GPG signature of locally installed software packages before installation with the following command:\n\n$ sudo grep localpkg_gpgcheck /etc/dnf/dnf.conf\nlocalpkg_gpgcheck=1\n\nIf \"localpkg_gpgcheck\" is not set to \"1\", or if the option is missing or commented out, ask the system administrator how the GPG signatures of local software packages are being verified.\n\nIf no process to verify GPG signatures has been approved by the organization, this is a finding.",
+  "fixtext": "Configure RHEL 10 dnf to always check the GPG signature of local software packages before installation.\n\nAdd or update the following line in the [main] section of the \"/etc/dnf/dnf.conf\" file:\n\nlocalpkg_gpgcheck=1",
+  "fix_id": "F-85399r1165153_fix",
+  "VulnDiscussion": "Changes to any software components can have significant effects on the overall security of the operating system. This requirement ensures the software has not been tampered with and that it has been provided by a trusted vendor.\n\nAll software packages must be signed with a cryptographic key recognized and approved by the organization.\n\nVerifying the authenticity of software prior to installation validates the integrity of the software package received from a vendor.",
+  "Documentable": "false"
+}

@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-279036",
+  "rule_id": "SV-279036r1171601_rule",
+  "stig_id": "APAS-CF-000120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ColdFusion log information must be protected from any type of unauthorized read access by having file ownership set properly.",
+  "group_title": "SRG-APP-000118-AS-000078",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164",
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-83584r1171328_chk",
+  "check_content": "Verify that the log directories for each ColdFusion instance are secured with appropriate ownership and permissions.\n\n1. Locate the logs directory for each ColdFusion instance. The log directory path is located in the ColdFusion Administrator Console under Debugging & Logging >> Logging Settings.\n\n2. For ColdFusion running on Windows, the logs directory and all files within it must have Full Control granted to:\n- The Administrators group.\n- The user account running the ColdFusion service.\n\nIf any directory or file permissions do not meet this requirement, this is a finding.\n\n3. For ColdFusion running on Linux, the logs directory and all files within it must have:\n- \"Owner\" set to the user running ColdFusion.\n- \"Group ownership\" set to root.\n- \"Permissions\" set to 740 or more restrictive.\n\nIf ownership or permissions do not meet this requirement, this is a finding.",
+  "fixtext": "Locate the logs directory for each ColdFusion instance. The log directory path is located in the ColdFusion Administrator Console under Debugging & Logging >> Logging Settings.\n\nFor ColdFusion running on Windows:\n1. Right-click the logs directory and select \"Properties\".\n\n2. Click the Security tab and then click \"Advanced\".\n\n3. On the Permissions tab, click \"Disable inheritance\" and select \"Remove all inherited permissions from this object\".\n\n4. Click \"Add\".\n- In the Permission Entry dialog box, click \"Select a principal\".\n- Enter the user account running the ColdFusion service.\n- Grant Full Control and click \"OK\".\n\n5. Click \"Add\" again.\n- In the Permission Entry dialog, click \"Select a principal\".\n- Enter the Administrators group.\n- Grant full control and click \"OK\".\n\n6. Check \"Replace all child object permission entries with inheritable permission entries from this object\".\n\n7. Click \"OK\" to apply the permissions.\n\nFor ColdFusion running on Linux:\nSet ownership and permissions using the following commands, replacing the path and user as appropriate:\n\nchown -R <cfuser>:root /path/to/logs\nchmod -R 740 /path/to/logs\n\nNote: Required permissions are automatically set by the Auto-Lockdown Installer.",
+  "fix_id": "F-83489r1171600_fix",
+  "VulnDiscussion": "ColdFusion log files may contain sensitive information, including system events, error messages, user activity, and potentially authentication or configuration data. If these log files are not properly protected through restrictive file ownership and permissions, unauthorized users could read, alter, or delete the log data, resulting in a loss of audit integrity, undetected malicious activity, or exposure of sensitive operational details. \n\nSetting appropriate file ownership ensures that only authorized ColdFusion administrators or designated service accounts have access to the logs, reducing the risk of compromise. This control supports the confidentiality, integrity, and availability of log data.\n\nSatisfies: SRG-APP-000118-AS-000078, SRG-APP-000119-AS-000079, SRG-APP-000120-AS-000080, SRG-APP-000267-AS-000170",
+  "Documentable": "false"
+}

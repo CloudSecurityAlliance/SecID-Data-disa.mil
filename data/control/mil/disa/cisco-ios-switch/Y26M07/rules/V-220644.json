@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220644",
+  "rule_id": "SV-220644r991852_rule",
+  "stig_id": "CISC-L2-000240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must not use the default VLAN for management traffic.",
+  "group_title": "SRG-NET-000512-L2S-000010",
+  "idents": {
+    "legacy": [
+      "SV-110259",
+      "V-101155"
+    ],
+    "cci": [
+      "CCI-004931"
+    ]
+  },
+  "check_id": "C-22359r991851_chk",
+  "check_content": "Review the switch configuration and verify that the default VLAN is pruned from trunk links that do not require it:\n\nSW1#show interfaces trunk\n\nPort Mode Encapsulation Status Native vlan\nGi0/1 on 802.1q trunking 1\nGi0/2 on 802.1q trunking 1\n\nPort Vlans allowed on trunk\nGi0/1 1-998,1000-4094\nGi0/2 1-4094\n\nIf the default VLAN is not pruned from trunk links that should not be transporting frames for the VLAN, this is a finding.",
+  "fixtext": "Configure the switch for management access to use a VLAN other than the default VLAN:\n\nSW1(config)#int vlan 22\nSW1(config-if)#ip add 10.1.22.3 255.255.255.0\nSW1(config-if)#no shut",
+  "fix_id": "F-22348r507979_fix",
+  "VulnDiscussion": "Switches use the default VLAN (i.e., VLAN 1) for in-band management and to communicate with directly connected switches using Spanning-Tree Protocol (STP), Dynamic Trunking Protocol (DTP), VLAN Trunking Protocol (VTP), and Port Aggregation Protocol (PAgP) - all untagged traffic. As a consequence, the default VLAN may unwisely span the entire network if not appropriately pruned. If its scope is large enough, the risk of compromise can increase significantly.",
+  "Documentable": "false"
+}

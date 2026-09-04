@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-269128",
+  "rule_id": "SV-269128r1050010_rule",
+  "stig_id": "ALMA-09-004750",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must automatically expire temporary accounts within 72 hours.",
+  "group_title": "SRG-OS-000002-GPOS-00002",
+  "idents": {
+    "cci": [
+      "CCI-000016",
+      "CCI-001682"
+    ]
+  },
+  "check_id": "C-73159r1047760_chk",
+  "check_content": "Verify temporary accounts have been provisioned with an expiration date of 72 hours.\n\nFor every existing temporary account, run the following command to obtain its account expiration information:\n\n$ chage -l <account name> | grep -i \"account expires\"\n\nVerify each of these accounts has an expiration date set within 72 hours.\n\nIf any temporary accounts have an expiration date set to \"never\" or do not expire within 72 hours, this is a finding.",
+  "fixtext": "Configure automatic account expiration after 72 hours by running the following command for each temporary account:\n\n$ chage -E $(date -d +3days +%Y-%m-%d) <account_name>",
+  "fix_id": "F-73060r1047761_fix",
+  "VulnDiscussion": "Temporary accounts are accounts created during a time of need when prompt action requires bypassing the normal account creation authorization process – such as during incident response.\n\nIf these temporary accounts are left enabled (and may have elevated permissions via sudo, group membership or SSH keys) and are not automatically expired or manually removed, the security posture of the system will be degraded and left vulnerable to insider threat.\n\nTemporary accounts are not the same as \"last resort\" or \"break glass\" emergency accounts which are local system accounts to be used by and maintained by authorized system administrators when standard remote access/authentication is unavailable. Emergency accounts are not subject to removal or expiration requirements.\n\nSatisfies: SRG-OS-000002-GPOS-00002, SRG-OS-000123-GPOS-00064",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-266166",
+  "rule_id": "SV-266166r1111861_rule",
+  "stig_id": "F5BI-AP-300155",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The F5 BIG-IP appliance must not use the On-demand Cert Auth VPE agent as part of the APM Policy Profiles.",
+  "group_title": "SRG-NET-000230-ALG-000113",
+  "idents": {
+    "cci": [
+      "CCI-001184"
+    ]
+  },
+  "check_id": "C-70090r1024849_chk",
+  "check_content": "From the BIG-IP GUI:\n1. Access.\n2. Profiles/Policies.\n3. Access Profiles.\n4. Click \"Edit\" under \"Per-Session Policy\" for the Access Profile.\n5. Verify the On-Demand Cert Auth agent is not configured in any part of the profile.\n\nIf the On-Demand Cert Auth agent is used in any Access Policy Profile, this is a finding.",
+  "fixtext": "From the BIG-IP GUI:\n1. Access.\n2. Profiles/Policies.\n3. Access Profiles.\n4. Click \"Edit\" under \"Per-Session Policy\" for the Access Profile.\n5. Remove any \"On-Demand Cert Auth\" agents in the profile.\n6. Add a \"Client Cert Inspection\" object in place of the previous \"On Demand Cert Auth\" agent.\n7. Click \"Apply Access Policy\".\n\nNote: Since use of this setting represent a risk to the DOD requirement for mutual authentication (see vulnerability discussion), if applications that use this function are mission essential, then AO approval is required, and use must be documented.",
+  "fix_id": "F-69993r1111860_fix",
+  "VulnDiscussion": "By requiring mutual authentication before any communication, it becomes significantly challenging for attackers to impersonate a client or server and exploit vulnerabilities. Furthermore, the encryption of all data transmitted between the client and server ensures that even if an attacker intercepts the data, it remains unintelligible without the correct keys.\n\nTo ensure the use of the mTLS for session authentication, do not use the On-Demand Cert Auth VPE agent. Typically, when a client makes an HTTPS request, an SSL handshake request occurs at the start of an SSL session. However, if On-Demand is configured, the client SSL profile skips the initial SSL handshake, an On-Demand Cert Auth action can re-negotiate the SSL connection from an access policy by sending a certificate request to the user. This prompts a certificate screen to open. Setting ODCA to \"require\" the client cert means the client cannot get any farther in the APM VPE without providing a valid certificate. \"Request\" would ask the client for a certificate, but the client could still continue if they did not provide one. Thus, the Client Certificate must be set to \"require\" in the client SSL profile since just removing ODCA from the VPE alone will result in the client never getting prompted for a certificate.\n\nWithin the Virtual Policy Editor (VPE) of the relevant Access Profile, do not use the On-Demand Cert Auth VPE agent. Configure only the Client Certification Inspection VPE Agent. This adjustment directs the BIG-IP to scrutinize the Client Certificate during the mTLS handshake process and extract the certificate's details into APM session variables.",
+  "Documentable": "false"
+}

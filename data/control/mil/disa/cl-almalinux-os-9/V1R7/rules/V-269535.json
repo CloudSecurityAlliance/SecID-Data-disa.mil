@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-269535",
+  "rule_id": "SV-269535r1050418_rule",
+  "stig_id": "ALMA-09-055350",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must securely compare internal information system clocks at least every 24 hours.",
+  "group_title": "SRG-OS-000356-GPOS-00144",
+  "idents": {
+    "cci": [
+      "CCI-004926",
+      "CCI-001890",
+      "CCI-004922"
+    ]
+  },
+  "check_id": "C-73566r1049949_chk",
+  "check_content": "Verify AlmaLinux OS 9 is securely comparing internal information system clocks at least every 24 hours with an NTP server with the following commands:\n\n$ grep maxpoll /etc/chrony.conf\n\nserver 0.us.pool.ntp.mil iburst maxpoll 16\n\nIf the \"maxpoll\" option is set to a number greater than 16 or the line is commented out, this is a finding.\n\nVerify the \"chrony.conf\" file is configured to an authoritative DOD time source by running the following command:\n\n$ grep -i server /etc/chrony.conf\n\nserver 0.us.pool.ntp.mil \n\nIf the parameter \"server\" is not set or is not set to an authoritative DOD time source, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to securely compare internal information system clocks at least every 24 hours with an NTP server by adding/modifying the following line in the /etc/chrony.conf file.\n\nserver <ntp.server.name> iburst maxpoll 16",
+  "fix_id": "F-73467r1049950_fix",
+  "VulnDiscussion": "Inaccurate time stamps make it more difficult to correlate events and can lead to an inaccurate analysis. Determining the correct time a particular event occurred on a system is critical when conducting forensic analysis and investigating system events.\n\nSynchronizing internal information system clocks provides uniformity of time stamps for information systems with multiple system clocks and systems connected over a network. Organizations should consider setting time periods for different types of systems (e.g., financial, legal, or mission-critical systems).\n\nOrganizations should also consider endpoints that may not have regular access to the authoritative time server (e.g., mobile, teleworking, and tactical endpoints). This requirement is related to the comparison done every 24 hours in SRG-OS-000355 because a comparison must be done to determine the time difference.\n\nSatisfies: SRG-OS-000356-GPOS-00144, SRG-OS-000359-GPOS-00146, SRG-OS-000785-GPOS-00250",
+  "Documentable": "false"
+}

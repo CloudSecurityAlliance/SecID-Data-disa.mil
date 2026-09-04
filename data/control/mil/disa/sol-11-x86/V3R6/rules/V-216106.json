@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216106",
+  "rule_id": "SV-216106r959010_rule",
+  "stig_id": "SOL-11.1-040250",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The default umask for system and users must be 077.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-60933",
+      "V-48061"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17344r372700_chk",
+  "check_content": "The root role is required.\n\nDetermine if the default umask is configured properly.\n\n# grep -i \"^UMASK=\" /etc/default/login\n\nIf \"UMASK=077\" is not displayed, this is a finding.\n\nCheck local initialization files:\n# cut -d: -f1 /etc/passwd | xargs -n1 -iUSER sh -c \"grep umask ~USER/.*\"\n\nIf this command does not output a line indicating \"umask 077\" for each user, this is a finding.",
+  "fixtext": "The root role is required.\n\nEdit local and global initialization files containing \"umask\" and change them to use 077.\n\n# pfedit /etc/default/login\n\nInsert the line\nUMASK=077\n\n# pfedit [user initialization file]\n\nInsert the line\numask 077",
+  "fix_id": "F-17342r372701_fix",
+  "VulnDiscussion": "Setting a very secure default value for umask ensures that users make a conscious choice about their file permissions.",
+  "Documentable": "false"
+}

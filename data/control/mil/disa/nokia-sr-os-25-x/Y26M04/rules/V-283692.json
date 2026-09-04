@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283692",
+  "rule_id": "SV-283692r1204104_rule",
+  "stig_id": "NOKI-L2-000270",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Nokia layer 2 switch must implement physically or logically separate subnetworks to isolate organization-defined critical system components and functions.",
+  "group_title": "SRG-NET-000715-L2S-000120",
+  "idents": {
+    "cci": [
+      "CCI-004891"
+    ]
+  },
+  "check_id": "C-88257r1204102_chk",
+  "check_content": "Verify the layer 2 switch is configured to implement physically or logically separate subnetworks to isolate organization-defined critical system components and functions.\n\nLogical layer 2 switch separation is configured using separate virtual private local area network services (VPLS). Verify VPLS services created and access ports configured for each VPLS service using the commands below.\n\nTo view all the VPLS services created, use the following command:\n\n- show service service-using vpls\nServices [vpls]\n===============================================================================\nServiceId    Type      Adm  Opr  CustomerId Service Name\n-------------------------------------------------------------------------------\n200          VPLS      Up   Up   1          200\n300          VPLS      Up   Up   1          300\n\nUse the command below to view all the access points that are part of each VPLS service:\n\n- show service id 200 base | match sap\nsap:1/1/c1/1:200                         q-tag        1518    1518    Up   Up\n\nIf the layer 2 switch is not configured to implement physically or logically separate subnetworks to isolate organization-defined critical system components and functions, this is a finding.",
+  "fixtext": "Configure the layer 2 switch to implement physically or logically separate subnetworks to isolate organization-defined critical system components and functions.\n\nA layer 2 switch VPLS service is a logically separate subnetwork. Configure a VPLS service using the following commands:\n\n- configure service vpls <vpls service id> customer <customer id> create\n- sap <port id:vlan tag if needed> create\n- back\n\nAdd as many service access point (SAP) access ports as needed. If connection to a remote site is needed, add a service distribution point (SDP) tunnel to the remote endpoint:\n\n- spoke-sdp: <sdp id>:<vc id> create\n- back\n- no shutdown",
+  "fix_id": "F-88162r1204103_fix",
+  "VulnDiscussion": "Separating critical system components and functions from other noncritical system components and functions through separate subnetworks may be necessary to reduce susceptibility to a catastrophic or debilitating breach or compromise that results in system failure.\n\nFor example, physically separating the command and control function from the in-flight entertainment function through separate subnetworks in a commercial aircraft provides an increased level of assurance in the trustworthiness of critical system functions.",
+  "Documentable": "false"
+}

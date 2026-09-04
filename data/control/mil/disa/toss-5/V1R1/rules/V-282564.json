@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282564",
+  "rule_id": "SV-282564r1201619_rule",
+  "stig_id": "TOSS-05-000381",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must authenticate the remote logging server for off-loading audit logs via rsyslog.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-87125r1200670_chk",
+  "check_content": "Verify TOSS 5 authenticates the remote logging server for off-loading audit logs using the following command:\n\n$ sudo grep -i '$ActionSendStreamDriverAuthMode' /etc/rsyslog.conf /etc/rsyslog.d/*.conf \n\n /etc/rsyslog.conf:$ActionSendStreamDriverAuthMode x509/name \n\nIf the value of the \"$ActionSendStreamDriverAuthMode\" option is not set to \"x509/name\" or the line is commented out, ask the system administrator (SA) to indicate how the audit logs are off-loaded to a different system or media. \n\nIf there is no evidence that the transfer of the audit logs being off-loaded to another system or media is encrypted, this is a finding.",
+  "fixtext": "Configure TOSS 5 to authenticate the remote logging server for off-loading audit logs by setting the following option in \"/etc/rsyslog.conf\" or \"/etc/rsyslog.d/[customfile].conf\":\n\n$ActionSendStreamDriverAuthMode x509/name",
+  "fix_id": "F-87030r1200671_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.\n\nTOSS 5 installation media provides \"rsyslogd\", a system utility providing support for message logging. Support for both internet and Unix domain sockets enables this utility to support both local and remote logging. Coupling this utility with \"gnutls\" (a secure communications library implementing the SSL, TLS, and DTLS protocols) creates a method to securely encrypt and off-load auditing.\n\nRsyslog-supported authentication modes include:\nanon - anonymous authentication\nx509/fingerprint - certificate fingerprint authentication\nx509/certvalid - certificate validation only\nx509/name - certificate validation and subject name authentication",
+  "Documentable": "false"
+}

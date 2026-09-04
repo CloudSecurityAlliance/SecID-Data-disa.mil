@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213682",
+  "rule_id": "SV-213682r960930_rule",
+  "stig_id": "DB2X-00-002200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The audit information produced by DB2 must be protected from unauthorized read access.",
+  "group_title": "SRG-APP-000118-DB-000059",
+  "idents": {
+    "legacy": [
+      "SV-89127",
+      "V-74453"
+    ],
+    "cci": [
+      "CCI-000162"
+    ]
+  },
+  "check_id": "C-14903r295095_chk",
+  "check_content": "Run db2audit command to find the value of datapath where the audit logs are stored. \n\n     $db2audit describe\n\nOnly the instance owner needs write access to directory and users authorized to archive the audit logs need to have read access to audit directory. \n\nIf any user other than the instance owner has write access to audit directory, this is a finding.\n\nIf any user other than the users authorized to read audit log files have read access to audit directory, this is a finding.",
+  "fixtext": "Remove the write permission from non-instance owner users on the audit directory.\n\nRemove the read permission from non-authorized users from audit directory.\n\nOnly the instance owner needs write access to directory and users authorized to archive the audit logs need to have read access to audit directory. \n\nChange the permissions on audit datapath and archivepath directories so that only the instance owner has write access on datapath and users with audit archive privileges have read access on datapath. Only users with SYSADM and SECADM privileges and can extract and archive the audit logs.",
+  "fix_id": "F-14901r295096_fix",
+  "VulnDiscussion": "If audit data were to become compromised, then competent forensic analysis and discovery of the true source of potentially malicious system activity is difficult, if not impossible, to achieve. In addition, access to audit records provides information an attacker could potentially use to his or her advantage.\n\nTo ensure the veracity of audit data, the information system and/or the application must protect audit information from any and all unauthorized access. This includes read, write, copy, etc.\n\nThis requirement can be achieved through multiple methods which will depend upon system architecture and design. Some commonly employed methods include ensuring log files enjoy the proper file system permissions utilizing file system protections and limiting log data location. \n\nAdditionally, applications with user interfaces to audit records should not allow for the unfettered manipulation of or access to those records via the application. If the application provides access to the audit data, the application becomes accountable for ensuring that audit information is protected from unauthorized access.\n\nAudit information includes all information (e.g., audit records, audit settings, and audit reports) needed to successfully audit information system activity.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-265928",
+  "rule_id": "SV-265928r1137657_rule",
+  "stig_id": "MD7X-00-005500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MongoDB must prevent unauthorized and unintended information transfer via shared system resources.",
+  "group_title": "SRG-APP-000243-DB-000373",
+  "idents": {
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-69846r1028568_chk",
+  "check_content": "By default, the MongoDB official installation packages restrict user and group ownership and read/write permissions on the underlying data files and critical configuration files from other operating system users.\n\nIn addition, process and memory isolation is used by default. System administrators should also consider if whole database encryption would be an effective control on an application basis.\n\nRun the following commands to verify proper permissions for the following database files or directories:\n\n$ stat /etc/mongod.conf\n\nIf the owner and group are not both \"mongod\", this is a finding.\n\nIf the file permissions are more permissive than \"600\", this is a finding.\n\n$ stat  /var/lib/mongo\n\nIf the owner and group are not both \"mongod\", this is a finding.\n\nIf the file permissions are more permissive than \"755\", this is a finding.\n\n$ ls -l /var/lib/mongo\n\nIf the owner and group of any file or sub-directory is not \"mongod\", this is a finding.\n\nIf the permission of any file in the main directory (/var/lib/mongo) or sub-directory of (/var/lib/mongo) is more permissive than \"600\", this is a finding.\n\nIf the permission of any sub-directory of (/var/lib/mongo) is more permissive than \"700\", this is a finding.",
+  "fixtext": "Correct the permission to the files and/or directories that are in violation.\n\nMongoDB Configuration file (default location /etc/mongod.conf): \n\n$  chown mongod:mongod /etc/mongod.conf\n$  chmod 600 /etc/mongod.conf\n\nMongoDB datafiles and directories (default location '/var/lib/mongo'): \n\n$ chown -R mongod:mongod /var/lib/mongo\n$ chmod 755 /var/lib/mongo\n\n$ find /var/lib/mongo/* -type f | xargs  chmod 600\n$ find /var/lib/mongo/* -type d | xargs  chmod 700",
+  "fix_id": "F-69750r1028569_fix",
+  "VulnDiscussion": "The purpose of this control is to prevent information, including encrypted representations of information, produced by the actions of a prior user/role (or the actions of a process acting on behalf of a prior user/role) from being available to any current user/role (or current process) that obtains access to a shared system resource (e.g., registers, main memory, secondary storage) after the resource has been released back to the information system. Control of information in shared resources is also referred to as object reuse.\n\nSatisfies: SRG-APP-000243-DB-000373, SRG-APP-000243-DB-000374",
+  "Documentable": "false"
+}

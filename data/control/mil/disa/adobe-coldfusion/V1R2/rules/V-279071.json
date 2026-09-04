@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279071",
+  "rule_id": "SV-279071r1171608_rule",
+  "stig_id": "APAS-CF-000510",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ColdFusion must have the Tomcat DefaultServlet debug parameter disabled.",
+  "group_title": "SRG-APP-000266-AS-000169",
+  "idents": {
+    "cci": [
+      "CCI-001312"
+    ]
+  },
+  "check_id": "C-83619r1171556_chk",
+  "check_content": "Review the debug parameter for the DefaultServlet and verify it is disabled.\n\n1. Locate the web.xml file for each ColdFusion instance located at:\n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\\web.xml\n\n2. Open the web.xml file in a text editor.\n\n3. Search for the following servlet definition:\n\n<servlet>\n  <servlet-name>default</servlet-name>\n  <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>\n\n4. Within this block, locate the <init-param> with the <param-name>debug</param-name> element.\n\n5. Verify the corresponding <param-value> is set to 0. For example:\n<init-param>\n  <param-name>debug</param-name>\n  <param-value>0</param-value>\n</init-param>\n\nIf the debug parameter is set to any value other than 0, or is not explicitly defined, this is a finding.",
+  "fixtext": "Configure DefaultServlet to disable debug output.\n\n1. Open the web.xml file located at:\n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\\web.xml\n\n2. Locate the DefaultServlet definition and ensure the debug parameter is set as follows:\n\n<init-param>\n  <param-name>debug</param-name>\n  <param-value>0</param-value>\n</init-param>\n\n3. Save the changes and restart ColdFusion to apply the configuration.",
+  "fix_id": "F-83524r1171557_fix",
+  "VulnDiscussion": "Any application providing too much information in error logs and in administrative messages to the screen risks compromising the data and security of the application and system. The structure and content of error messages must be carefully considered by the organization and development team.\n\nThe release of Tomcat that comes with ColdFusion can be configured to output Tomcat-specific debug messages. If left enabled, these settings can expose sensitive data within error and log messages.",
+  "Documentable": "false"
+}

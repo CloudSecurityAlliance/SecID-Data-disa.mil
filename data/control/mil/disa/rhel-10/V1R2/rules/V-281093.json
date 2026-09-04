@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281093",
+  "rule_id": "SV-281093r1165634_rule",
+  "stig_id": "RHEL-10-400410",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must mount \"/var/log/audit\" with the \"nosuid\" option.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-85654r1165632_chk",
+  "check_content": "Verify RHEL 10 is configured so that \"/var/log/audit\" is mounted with the \"nosuid\" option:\n\n$ mount | grep /var/log/audit\n/dev/mapper/luks-4e45e1ad-5337-42c4-a19f-ee12ccc1d502 on /var/log/audit type xfs (rw,nodev,nosuid,noexec,seclabel)\n\nIf the \"/var/log/audit\" file system is mounted without the \"nosuid\" option, this is a finding.",
+  "fixtext": "Configure RHEL 10 to mount \"/var/log/audit\" with the \"nosuid\" option.\n\nModify \"/etc/fstab\" to use the \"nosuid\" option on the \"/var/log/audit\" directory.",
+  "fix_id": "F-85559r1165633_fix",
+  "VulnDiscussion": "The \"nosuid\" mount option causes the system to not execute \"setuid\" and \"setgid\" files with owner privileges. This option must be used for mounting any file system not containing approved \"setuid\" and \"setguid\" files. Executing files from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

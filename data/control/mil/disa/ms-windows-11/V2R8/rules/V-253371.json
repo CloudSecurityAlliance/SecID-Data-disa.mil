@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253371",
+  "rule_id": "SV-253371r1210291_rule",
+  "stig_id": "WN11-CC-000080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Virtualization-based protection of code integrity must be enabled.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56824r1210203_chk",
+  "check_content": "Confirm virtualization-based protection of code integrity.\n\nIf there are documented operational mission needs to disable code integrity, this may be reduced to a CAT II finding.\n\nRun \"PowerShell\" with elevated privileges (run as administrator).\n\nEnter the following:\n\n\"Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\\Microsoft\\Windows\\DeviceGuard\"\n\nIf \"SecurityServicesRunning\" does not include a value of \"2\" (e.g., \"{1, 2}\"), this is a finding.\n\nAlternately:\n\nRun \"System Information\".\n\nUnder \"System Summary\", verify the following:\n\nIf \"Virtualization-based Security Services Running\" does not list \"Hypervisor enforced Code Integrity\", this is a finding.\n\nThe policy settings referenced in the Fix section will configure the following registry value. However, due to hardware requirements, the registry value alone does not ensure proper function.\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard\\\n\nValue Name: HypervisorEnforcedCodeIntegrity\nValue Type: REG_DWORD\nValue: 0x00000001 (1) (Enabled with UEFI lock), or 0x00000002 (2) (Enabled without lock)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Administrative Templates >> System >> Device Guard >> \"Turn On virtualization-based Security\" to \"Enabled\" with \"Enabled with UEFI lock\" or \"Enabled without lock\" selected for \"virtualization-based Protection of Code Integrity:\".\n\n\"Enabled with UEFI lock\" is preferred as more secure; however, it cannot be turned off remotely through a group policy change if there is an issue.\n\n\"Enabled without lock\" will allow this to be turned off remotely while testing for issues.",
+  "fix_id": "F-56774r1210204_fix",
+  "VulnDiscussion": "Virtualization-based protection of code integrity enforces kernel mode memory protections as well as protecting Code Integrity validation paths. This isolates the processes from the rest of the operating system and can only be accessed by privileged system software.",
+  "Documentable": "false"
+}

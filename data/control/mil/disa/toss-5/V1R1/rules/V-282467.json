@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282467",
+  "rule_id": "SV-282467r1200381_rule",
+  "stig_id": "TOSS-05-000344",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 passwords must be created with a minimum of 15 characters.",
+  "group_title": "SRG-OS-000078-GPOS-00046",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-87028r1200379_chk",
+  "check_content": "Verify TOSS 5 enforces a minimum 15-character password length using the following command:\n\n$ grep minlen /etc/security/pwquality.conf\n\nminlen = 15\n\nIf the command does not return a \"minlen\" value of \"15\" or greater, does not return a line, or the line is commented out, this is a finding.",
+  "fixtext": "Configure TOSS 5 to enforce a minimum 15-character password length.\n\nAdd the following line to \"/etc/security/pwquality.conf\" (or modify the line to have the required value):\n\nminlen = 15",
+  "fix_id": "F-86933r1200380_fix",
+  "VulnDiscussion": "The shorter the password, the lower the number of possible combinations that must be tested before the password is compromised.\n\nPassword complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. Password length is one factor of several that helps to determine strength and how long it takes to crack a password. Use of more characters in a password helps to increase exponentially the time and/or resources required to compromise the password.\n\nTOSS 5 uses \"pwquality\" as a mechanism to enforce password complexity. Configurations are set in the \"etc/security/pwquality.conf\" file.\n\nThe \"minlen\", sometimes noted as minimum length, acts as a \"score\" of complexity based on the credit components of the \"pwquality\" module. By setting the credit components to a negative value, not only will those components be required, but they will not count toward the total \"score\" of \"minlen\". This will enable \"minlen\" to require a 15-character minimum.\n\nThe DOD minimum password requirement is 15 characters.",
+  "Documentable": "false"
+}

@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-282367",
+  "rule_id": "SV-282367r1201610_rule",
+  "stig_id": "TOSS-05-000236",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must display the Standard Mandatory DOD or other applicable U.S. Government agency Notice and Consent Banner before granting local or remote access to the system via a SSH login.",
+  "group_title": "SRG-OS-000023-GPOS-00006",
+  "idents": {
+    "cci": [
+      "CCI-000048",
+      "CCI-001384",
+      "CCI-001385",
+      "CCI-001386",
+      "CCI-001387",
+      "CCI-001388"
+    ]
+  },
+  "check_id": "C-86928r1200079_chk",
+  "check_content": "Verify any SSH connection to the operating system displays the Standard Mandatory DOD or other applicable U.S. Government agency Notice and Consent Banner before granting access to the system.\n\nFor nodes of the cluster that are only privately (within the cluster) accessible, this requirement is not applicable.\n\nCheck for the location of the banner file being used using the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*banner'\n\nbanner /etc/issue\n\nThis command will return the banner keyword and the name of the file that contains the SSH banner (in this case \"/etc/issue\").\n\nIf the line is commented out, this is a finding.",
+  "fixtext": "Configure TOSS 5 to display the Standard Mandatory DOD or other applicable U.S. Government agency Notice and Consent Banner before granting access to the system via SSH.\n\nEdit the \"/etc/ssh/sshd_config\" file to uncomment the banner keyword and configure it to point to a file that contains the login banner (this file may be named differently or be in a different location if using a version of SSH that is provided by a third-party vendor).\n\nAn example configuration line is:\n\nBanner /etc/issue",
+  "fix_id": "F-86833r1201609_fix",
+  "VulnDiscussion": "The warning message reinforces policy awareness during the login process and facilitates possible legal action against attackers. Alternatively, systems whose ownership should not be obvious should ensure usage of a banner that does not provide easy attribution.\n\nSatisfies: SRG-OS-000023-GPOS-00006, SRG-OS-000228-GPOS-00088",
+  "Documentable": "false"
+}

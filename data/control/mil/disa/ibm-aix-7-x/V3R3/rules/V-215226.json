@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215226",
+  "rule_id": "SV-215226r1009542_rule",
+  "stig_id": "AIX7-00-001129",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AIX must enforce a minimum 15-character password length.",
+  "group_title": "SRG-OS-000078-GPOS-00046",
+  "idents": {
+    "legacy": [
+      "V-91317",
+      "SV-101415"
+    ],
+    "cci": [
+      "CCI-004066",
+      "CCI-000205"
+    ]
+  },
+  "check_id": "C-16424r294129_chk",
+  "check_content": "From the command prompt, run the following command to check the system default \"minlen\" attribute value:\n# lssec -f /etc/security/user -s default -a minlen\ndefault minlen=15\n\nIf the default \"minlen\" value is not set, or its value is less than \"15\", this is a finding.\n\nFrom the command prompt, run the following command to check \"minlen\" attribute value for all accounts:\n# lsuser -a minlen ALL\nroot minlen=15\nuser1 minlen=20\nuser2 minlen=15\nuser3 minlen=15\n\nIf any users have \"minlen\" value less than \"15\", this is a finding.",
+  "fixtext": "From the command prompt, run the following command to set \"minlen=15\" for the default stanza in \"/etc/security/user\":\n# chsec -f /etc/security/user -s default -a minlen=15\n\nFor each user who has \"minlen\" value less than \"15\", set its \"minlen\" to \"15\" by running the following command from command prompt:\n# chsec -f /etc/security/user -s [user_name] -a minlen=15",
+  "fix_id": "F-16422r294130_fix",
+  "VulnDiscussion": "The shorter the password, the lower the number of possible combinations that need to be tested before the password is compromised.\n\nPassword complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. Password length is one factor of several that helps to determine strength and how long it takes to crack a password. Use of more characters in a password helps to exponentially increase the time and/or resources required to compromise the password.",
+  "Documentable": "false"
+}

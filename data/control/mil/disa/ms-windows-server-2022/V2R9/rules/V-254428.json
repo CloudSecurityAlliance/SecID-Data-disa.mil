@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254428",
+  "rule_id": "SV-254428r958726_rule",
+  "stig_id": "WN22-MS-000010",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Windows Server 2022 must only allow administrators responsible for the member server or standalone or nondomain-joined system to have Administrator rights on the system.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-57913r849098_chk",
+  "check_content": "This applies to member servers and standalone or nondomain-joined systems. A separate version applies to domain controllers.\n\nOpen \"Computer Management\".\n\nNavigate to \"Groups\" under \"Local Users and Groups\".\n\nReview the local \"Administrators\" group.\n\nOnly administrator groups or accounts responsible for administration of the system may be members of the group.\n\nFor domain-joined member servers, the Domain Admins group must be replaced by a domain member server administrator group.\n\nStandard user accounts must not be members of the local Administrator group.\n\nIf accounts that do not have responsibility for administration of the system are members of the local Administrators group, this is a finding.\n\nIf the built-in Administrator account or other required administrative accounts are found on the system, this is not a finding.",
+  "fixtext": "Configure the local \"Administrators\" group to include only administrator groups or accounts responsible for administration of the system.\n\nFor domain-joined member servers, replace the Domain Admins group with a domain member server administrator group. \n\nRemove any standard user accounts.",
+  "fix_id": "F-57864r849099_fix",
+  "VulnDiscussion": "An account that does not have Administrator duties must not have Administrator rights. Such rights would allow the account to bypass or modify required security restrictions on that machine and make it vulnerable to attack.\n\nSystem administrators must log on to systems using only accounts with the minimum level of authority necessary.\n\nFor domain-joined member servers, the Domain Admins group must be replaced by a domain member server administrator group (see V-243468 in the Active Directory Domain STIG). Restricting highly privileged accounts from the local Administrators group helps mitigate the risk of privilege escalation resulting from credential theft attacks.\n\nStandard user accounts must not be members of the built-in Administrators group.",
+  "Documentable": "false"
+}

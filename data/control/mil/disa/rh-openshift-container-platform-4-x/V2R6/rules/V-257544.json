@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-257544",
+  "rule_id": "SV-257544r1015796_rule",
+  "stig_id": "CNTR-OS-000490",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must terminate all network connections associated with a communications session at the end of the session, or as follows: for in-band management sessions (privileged sessions), the session must be terminated after 10 minutes of inactivity.",
+  "group_title": "SRG-APP-000190-CTR-000500",
+  "idents": {
+    "cci": [
+      "CCI-001133",
+      "CCI-004895",
+      "CCI-002038"
+    ]
+  },
+  "check_id": "C-61279r986187_chk",
+  "check_content": "On each administrators terminal, verify the OC client version includes the required idle timeout by executing the following.\n\noc version\n\nIf the client version < \"4.8.36\", this is a finding.\n\nDetermine if the session token inactivity timeout is set on the oauthclients by executing the following: \n\noc get oauthclients -ojsonpath='{range .items[*]}{.metadata.name}{\"\\t\"}{.accessTokenInactivityTimeoutSeconds}{\"\\n\"}'\n\nThe output will list each oauth client name followed by a number. The number represents the timeout in seconds. If no number is displayed, or the timeout value is >600, this is a finding.",
+  "fixtext": "Download the latest version of the OC client, and remove/replace any older versions.\n\nFor each oauth client that does not have the idle timeout set, or the timeout is set to the wrong duration, run the following command to set the idle timeout value to 10 minutes.\n\noc patch oauthclient/<CLIENT_NAME> --type=merge -p '{\"accessTokenInactivityTimeoutSeconds\":600}'\n\nwhere CLIENT_NAME is the name of the oauthclient identified in the check.",
+  "fix_id": "F-61203r921574_fix",
+  "VulnDiscussion": "In OpenShift, the \"session token inactivity timeout\" on OAuth clients is set to ensure security and protect against potential unauthorized access to user sessions. OAuth is an open standard for secure authorization and authentication between different services. By setting a session token inactivity timeout, OpenShift reduces the risk of unauthorized access to a user's session if they become inactive or leave their session unattended. It helps protect against potential session hijacking or session replay attacks.\n\nOpenShift is designed to efficiently manage resources across the cluster. Active sessions consume resources such as memory and CPU. By setting timeouts, OpenShift can reclaim these resources if a session remains inactive for a certain duration. This helps optimize resource allocation and ensures that resources are available for other active sessions and workloads.\n\nOpenShift provides the ability for automatic time-out to debug node sessions on client versions starting with 4.8.36. By setting a time-out, OpenShift can manage the allocation of resources efficiently. It prevents the scenario where a debug session remains active indefinitely, potentially consuming excessive resources and impacting the performance of other applications running on the cluster.\n\nAllowing debug sessions to run indefinitely could introduce security risks. If a session is left unattended or unauthorized access is gained to a debug session, it could potentially compromise the application or expose sensitive information. By enforcing time-outs, OpenShift reduces the window of opportunity for unauthorized access and helps maintain the security and stability of the platform.\n\nSatisfies: SRG-APP-000190-CTR-000500, SRG-APP-000389-CTR-000925",
+  "Documentable": "false"
+}

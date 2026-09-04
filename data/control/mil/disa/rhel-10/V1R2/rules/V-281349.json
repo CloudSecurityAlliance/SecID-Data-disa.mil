@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281349",
+  "rule_id": "SV-281349r1167197_rule",
+  "stig_id": "RHEL-10-800170",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must not respond to Internet Control Message Protocol (ICMP) echoes sent to a broadcast address.",
+  "group_title": "SRG-OS-000420-GPOS-00186",
+  "idents": {
+    "cci": [
+      "CCI-002385",
+      "CCI-001104"
+    ]
+  },
+  "check_id": "C-85910r1167195_chk",
+  "check_content": "Verify RHEL 10 ignores ICMP echoes sent to a broadcast address.\n\nCheck the value of the \"net.ipv4.icmp_echo_ignore_broadcasts\" variable with the following command:\n\n$ sudo sysctl net.ipv4.icmp_echo_ignore_broadcasts\nnet.ipv4.icmp_echo_ignore_broadcasts = 1\n\nIf \"net.ipv4.icmp_echo_ignore_broadcasts\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 10 to ignore Internet Protocol version 4 (IPv4) ICMP echoes sent to a broadcast address.\n\nCreate a configuration file if it does not already exist:\n\n$ sudo vi /etc/sysctl.d/ipv4_icmp_echo_ignore_broadcasts.conf\n\nAdd the following line to the file:\n\nnet.ipv4.icmp_echo_ignore_broadcasts = 1\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-85815r1167196_fix",
+  "VulnDiscussion": "Responding to broadcast (ICMP) echoes facilitates network mapping and provides a vector for amplification attacks.\n\nIgnoring ICMP echo requests (pings) sent to broadcast or multicast addresses makes the system slightly more difficult to enumerate on the network.\n\nSatisfies: SRG-OS-000420-GPOS-00186, SRG-OS-000142-GPOS-00080",
+  "Documentable": "false"
+}

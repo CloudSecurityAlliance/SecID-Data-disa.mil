@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215373",
+  "rule_id": "SV-215373r958478_rule",
+  "stig_id": "AIX7-00-003068",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The time daemon must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "V-91375",
+      "SV-101473"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16571r294570_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^time[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"time\" entries by running commands: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'time' -p 'udp' \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'time' -p 'tcp'\n\nRestart inetd:\n# refresh -s inetd",
+  "fix_id": "F-16569r294571_fix",
+  "VulnDiscussion": "This service can be used to synchronize system clocks.\n\nThe time service is an obsolete process used to synchronize system clocks at boot time. This has been superseded by NTP, which should be used if time synchronization is necessary. Unless required the time service must be disabled.",
+  "Documentable": "false"
+}

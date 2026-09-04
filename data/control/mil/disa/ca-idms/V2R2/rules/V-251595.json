@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251595",
+  "rule_id": "SV-251595r960864_rule",
+  "stig_id": "IDMS-DB-000150",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "IDMS must protect against the use of external request exits that change the userid to a shared id when actions are performed that may be audited.",
+  "group_title": "SRG-APP-000080-DB-000063",
+  "idents": {
+    "cci": [
+      "CCI-000166"
+    ]
+  },
+  "check_id": "C-55030r807650_chk",
+  "check_content": "Log in to the CV and enter command DCPROFIL. Press \"Enter\" until the page titled \"Named User Exits\" appears. Find the entry for USRIDXIT. \n\nIf the DEFINED column says YES, then a user-written exit has been linked with IDMSUXIT. \n\nIf a user-written exit USRIDXIT has been linked with IDMSUXIT (for batch or TSO-front end use), UCFCICS (UCF access from a CICS transaction) or IDMSINTC (DML or SQL access form a CICS transaction server front-end) and the USRIDXIT changes the userid to a shared userid, this is a finding.",
+  "fixtext": "Remove code from USRIDXIT that changes the individual userid to a shared user or remove the exit entirely.\n\nAfter making the above changes, assemble and link IDMSUXIT. To implement the new IDMSUXIT either recycle any CVs that use it or issue these commands:\n\nDCMT VARY NUCLEUS MODULE IDMSUXIT NEW COPY\nDCMT VARY NUCLEUS RELOAD",
+  "fix_id": "F-54984r808359_fix",
+  "VulnDiscussion": "Non-repudiation of actions taken is required in order to maintain data integrity. Examples of particular actions taken by individuals include creating information, sending a message, approving information (e.g., indicating concurrence or signing a contract), and receiving a message.\n\nNon-repudiation protects against later claims by a user of not having created, modified, or deleted a particular data item or collection of data in the database.\n\nIn designing a database, the organization must define the types of data and the user actions that must be protected from repudiation. The implementation must then include building audit features into the application data tables and configuring the DBMS's audit tools to capture the necessary audit trail. Design and implementation also must ensure that applications pass individual user identification to the DBMS, even where the application connects to the DBMS with a standard, shared account.\n\nUser exits that change userids can be used to hide the true identities of those who may perform an action and should be carefully restricted or eliminated.",
+  "Documentable": "false"
+}

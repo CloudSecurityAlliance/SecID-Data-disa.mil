@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281161",
+  "rule_id": "SV-281161r1166435_rule",
+  "stig_id": "RHEL-10-500750",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must generate audit records for all account creations, modifications, disabling, and termination events that affect \"/var/log/faillock\".",
+  "group_title": "SRG-OS-000392-GPOS-00172",
+  "idents": {
+    "cci": [
+      "CCI-002884",
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-85722r1166433_chk",
+  "check_content": "Verify RHEL 10 generates audit records for all account creations, modifications, disabling, and termination events that affect \"/var/log/faillock\" with the following command:\n\n$ sudo auditctl -l | grep /var/log/faillock\n-a always,exit -F arch=b32 -F path=/var/log/faillock -F perm=wa -F key=identity\n-a always,exit -F arch=b64 -F path=/var/log/faillock -F perm=wa -F key=identity\n\nIf the command does not return a line, or the line is commented out, this is a finding.",
+  "fixtext": "Configure RHEL 10 to generate audit records for all account creations, modifications, disabling, and termination events that affect \"/var/log/faillock\".\n\nAdd or update the following file system rule to \"/etc/audit/rules.d/audit.rules\":\n\n-a always,exit -F arch=b32 -F path=/var/log/faillock -F perm=wa -F key=identity\n-a always,exit -F arch=b64 -F path=/var/log/faillock -F perm=wa -F key=identity\n\nRestart the audit daemon with the following command for the changes to take effect:\n\n$ sudo service auditd restart",
+  "fix_id": "F-85627r1166434_fix",
+  "VulnDiscussion": "Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nSatisfies: SRG-OS-000392-GPOS-00172, SRG-OS-000470-GPOS-00214, SRG-OS-000473-GPOS-00218",
+  "Documentable": "false"
+}

@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-285315",
+  "rule_id": "SV-285315r1211173_rule",
+  "stig_id": "WN25-SH-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2025 OpenSSH must accept public key authentication.",
+  "group_title": "SRG-OS-000105-GPOS-00052",
+  "idents": {
+    "cci": [
+      "CCI-000765",
+      "CCI-000766",
+      "CCI-000767",
+      "CCI-000768"
+    ]
+  },
+  "check_id": "C-89885r1211171_chk",
+  "check_content": "If OpenSSH is not installed on the system, this requirement is not applicable.\n.\nIf the system administrator demonstrates the use of an approved alternate multifactor authentication method, this requirement is not applicable.\n\nVerify the system accepts public key encryption with the following command:\n \nC:\\ > Get-Content \"$env:ProgramData\\ssh\\sshd_config\" | Select-String -Pattern '^\\s*PubkeyAuthentication'\n\nPubkeyAuthentication yes\n \nIf \"PubkeyAuthentication\" is set to \"no\", the line is commented out, or the line is missing, this is a finding.",
+  "fixtext": "To configure the system, add or modify the following line in the \"$env:ProgramData/ssh/sshd_config\" file:\n\nPubkeyAuthentication yes\n\nRestart the OpenSSH service for the settings to take effect.",
+  "fix_id": "F-89790r1211172_fix",
+  "VulnDiscussion": "Without the use of multifactor authentication, the ease of access to privileged functions is greatly increased. Multifactor authentication requires using two or more factors to achieve authentication. A privileged account is defined as an information system account with authorizations of a privileged user. A DOD common access card (CAC) with DOD-approved PKI is an example of multifactor authentication.\n\nSatisfies: SRG-OS-000105-GPOS-00052, SRG-OS-000106-GPOS-00053, SRG-OS-000107-GPOS-00054, SRG-OS-000108-GPOS-00056",
+  "Documentable": "false"
+}

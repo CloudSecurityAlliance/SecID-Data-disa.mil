@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258728",
+  "rule_id": "SV-258728r933245_rule",
+  "stig_id": "ESXI-80-000005",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must enforce the limit of three consecutive invalid logon attempts by a user.",
+  "group_title": "SRG-OS-000021-VMM-000050",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-62468r933243_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"Security.AccountLockFailures\" value and verify it is set to \"3\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Security.AccountLockFailures\n\nIf the \"Security.AccountLockFailures\" setting is set to a value other than \"3\", this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"Security.AccountLockFailures\" value and configure it to \"3\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Security.AccountLockFailures | Set-AdvancedSetting -Value 3",
+  "fix_id": "F-62377r933244_fix",
+  "VulnDiscussion": "By limiting the number of failed logon attempts, the risk of unauthorized access via user password guessing, otherwise known as brute forcing, is reduced. Once the configured number of attempts is reached, the account is locked by the ESXi host.",
+  "Documentable": "false"
+}

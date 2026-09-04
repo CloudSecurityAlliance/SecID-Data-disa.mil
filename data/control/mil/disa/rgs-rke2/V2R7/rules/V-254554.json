@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254554",
+  "rule_id": "SV-254554r1043176_rule",
+  "stig_id": "CNTR-R2-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RKE2 must use a centralized user management solution to support account management functions.",
+  "group_title": "SRG-APP-000023-CTR-000055",
+  "idents": {
+    "cci": [
+      "CCI-000015"
+    ]
+  },
+  "check_id": "C-58038r859230_chk",
+  "check_content": "Ensure use-service-account-credentials argument is set correctly.\n\nRun this command on the RKE2 Control Plane:\n/bin/ps -ef | grep kube-controller-manager | grep -v grep\n\nIf --use-service-account-credentials argument is not set to \"true\" or is not configured, this is a finding.",
+  "fixtext": "Edit the RKE2 Configuration File /etc/rancher/rke2/config.yaml on the RKE2 Control Plane and set the following \"kube-controller-manager-arg\" argument:\n- use-service-account-credentials=true\n\nOnce the configuration file is updated, restart the RKE2 Server. Run the command:\nsystemctl restart rke2-server",
+  "fix_id": "F-57987r918225_fix",
+  "VulnDiscussion": "The Kubernetes Controller Manager is a background process that embeds core control loops regulating cluster system state through the API Server. Every process executed in a pod has an associated service account. By default, service accounts use the same credentials for authentication. Implementing the default settings poses a high risk to the Kubernetes Controller Manager. Setting the use-service-account-credential value lowers the attack surface by generating unique service accounts settings for each controller instance.",
+  "Documentable": "false"
+}

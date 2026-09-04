@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281099",
+  "rule_id": "SV-281099r1165652_rule",
+  "stig_id": "RHEL-10-500015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must write audit records to disk.",
+  "group_title": "SRG-OS-000058-GPOS-00028",
+  "idents": {
+    "cci": [
+      "CCI-000163"
+    ]
+  },
+  "check_id": "C-85660r1165650_chk",
+  "check_content": "Verify the RHEL 10 audit system is configured to write logs to the disk with the following command:\n\n$ sudo grep write_logs /etc/audit/auditd.conf\nwrite_logs = yes\n\nIf \"write_logs\" does not have a value of \"yes\", the line is commented out, or the line is missing, this is a finding.",
+  "fixtext": "Configure the RHEL 10 audit system to write log files to the disk.\n\nEdit the \"/etc/audit/auditd.conf\" file and add or update the \"write_logs\" option to \"yes\":\n\nwrite_logs = yes\n\nRestart the audit daemon with the following command for changes to take effect:\n\n$ sudo service auditd restart",
+  "fix_id": "F-85565r1165651_fix",
+  "VulnDiscussion": "Audit data must be synchronously written to disk to ensure log integrity. This setting ensures that all audit event data is written to disk.",
+  "Documentable": "false"
+}

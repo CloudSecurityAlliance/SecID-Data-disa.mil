@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-265947",
+  "rule_id": "SV-265947r1211019_rule",
+  "stig_id": "MD7X-00-008500",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "MongoDB must implement cryptographic mechanisms to prevent unauthorized modification of organization-defined information at rest (to include, at a minimum, PII and classified information) on organization-defined information system components.",
+  "group_title": "SRG-APP-000428-DB-000386",
+  "idents": {
+    "cci": [
+      "CCI-002475",
+      "CCI-002476"
+    ]
+  },
+  "check_id": "C-69865r1028625_chk",
+  "check_content": "Review the documentation or specification for the organization-defined information. \n\nIf any data is PII, classified, or is deemed by the organization the need to be encrypted at rest, verify the method of encryption is documented.\n\nIf no documented mechanism is being used encrypt data at rest such as hardware encryption, volume encryption, filesystem encryption or the use of third-party products to enable encryption at rest, this is a finding.\n\nIf the documented method to encrypt MongoDB data at rest is the native MongoDB encryption at rest, verify the MongoDB configuration file (default location: /etc/mongod.conf) contains the following options:\n\nsecurity:\n    kmip:\n      keyIdentifier: <string>\n      rotateMasterKey: <boolean>\n      serverName: <string>\n      port: <string>\n      clientCertificateFile: <string>\n      clientCertificatePassword: <string>\n      clientCertificateSelector: <string>\n      serverCAFile: <string>\n      connectRetries: <int>\n      connectTimeoutMS: <int>\n      activateKeys: <boolean>\n      keyStatePollingSeconds: <int>\n\nIf these above options are not configured in the MongoDB security.kmip section in the MongoDB configuration file, this is a finding.",
+  "fixtext": "Configure encryption at rest through hardware encryption, volume encryption, filesystem encryption, or third-party products if not using MongoDB's native encryption at rest.\n\nWhen using MongoDB's native encryption at rest, configure MongoDB to use the Encrypted Storage Engine and a KMIP appliance as documented here:\n\nhttps://www.mongodb.com/docs/v7.0/core/security-encryption-at-rest/\n\nhttps://www.mongodb.com/docs/v7.0/tutorial/configure-encryption/",
+  "fix_id": "F-69769r1211014_fix",
+  "VulnDiscussion": "DBMSs handling data requiring \"data-at-rest\" protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest. These cryptographic mechanisms may be native to MongoDB or implemented via additional software or operating system/file system settings, as appropriate to the situation.\n\nSelection of a cryptographic mechanism is based on the need to protect the integrity of organizational information. The strength of the mechanism is commensurate with the security category and/or classification of the information. Organizations have the flexibility to either encrypt all information on storage devices (i.e., full disk encryption) or encrypt specific data structures (e.g., files, records, or fields).\n\nThe decision of whether and what to encrypt rests with the data owner and is also influenced by the physical measures taken to secure the equipment and media on which the information resides.\n\nSatisfies: SRG-APP-000428-DB-000386, SRG-APP-000429-DB-000387",
+  "Documentable": "false"
+}

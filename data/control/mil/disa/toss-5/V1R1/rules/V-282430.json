@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282430",
+  "rule_id": "SV-282430r1200270_rule",
+  "stig_id": "TOSS-05-000403",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must periodically flush audit records to disk to prevent the loss of audit records.",
+  "group_title": "SRG-OS-000051-GPOS-00024",
+  "idents": {
+    "cci": [
+      "CCI-000154"
+    ]
+  },
+  "check_id": "C-86991r1200268_chk",
+  "check_content": "Verify the audit system is configured to flush to disk after every 100 records using the following command:\n\n$ sudo grep freq /etc/audit/auditd.conf \n\nfreq = 100 \n\nIf \"freq\" isn't set to a value between \"1\" and \"100\", the value is missing, or the line is commented out, this is a finding.",
+  "fixtext": "Configure TOSS 5 to flush audit to disk by adding or updating the following rule in \"/etc/audit/auditd.conf\":\n\nfreq = 100\n\nRestart the audit daemon for the changes to take effect.",
+  "fix_id": "F-86896r1200269_fix",
+  "VulnDiscussion": "If option \"freq\" is not set to a value that requires audit records being written to disk after a threshold number is reached, then audit records may be lost.",
+  "Documentable": "false"
+}

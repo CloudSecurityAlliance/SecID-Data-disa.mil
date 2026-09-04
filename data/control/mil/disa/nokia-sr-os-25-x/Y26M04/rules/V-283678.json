@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-283678",
+  "rule_id": "SV-283678r1204062_rule",
+  "stig_id": "NOKI-L2-000020",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Nokia layer 2 switch must uniquely identify all network-connected endpoint devices before establishing any connection.",
+  "group_title": "SRG-NET-000148-L2S-000015",
+  "idents": {
+    "cci": [
+      "CCI-000778",
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-88243r1204060_chk",
+  "check_content": "Verify Nokia router configuration has 802.1x authentication implemented for all access switch ports connecting to LAN outlets (i.e., RJ-45 wall plates) or devices not located in the telecom room, wiring closets, or equipment rooms. The 802.1x authentication is not required for switch ports connected to devices that do not support an 802.1x supplicant.\n\nFor 7750 nodes, use the command below to verify dot1x \"Authentication\" status and list of \"Allowed hosts\" and \"Disallowed hosts\" is correct:\n\n- show system security dot1x\n\nVerify dot1x is enabled and configured for each port:\n\n- show port 1/1/c3/10 dot1x\n\n802.1x Port Status\n\nPort control            : auto\nPort status             : authorized\nAuthenticator PAE state : authenticated\nBackend state           : idle\nReauth enabled          : no           Reauth period         : N/A\nMax auth requests       : 2            Transmit period       : 30\nSupplicant timeout      : 30           Server timeout        : 30\nQuiet period            : 60\nRadius policy           : test\nRadius server plcy auth : N/A\nRadius server plcy acct : N/A\nUntagged tunneling      : false\nDot1q tunneling         : true\nQinq tunneling          : true\nPer-host authentication : enabled\nMAC-based authentication: disabled\nAuthenticator Initiation: true\nAllowed hosts           : 1 (max 100)\nDisallowed hosts        : 1\nAdmin-state             : enabled\n\nIf 802.1x authentication is not configured on all access switch ports connecting to LAN outlets or devices not located in the telecom room, wiring closets, or equipment rooms, this is a finding.",
+  "fixtext": "Configure 802.1 x authentications on all host-facing access switch ports. To authenticate devices that do not support 802.1x, Media Access Control (MAC) Authentication Bypass must be configured.\n\nConfigure dot1x radius policy:\n\n- exit all\n- configure system security dot1x radius-plcy <policy name> create\n- server <server index> address <server ip address> secret <secret key>\n- source-address <source address of the radius packet>\n- no shutdown\n\nConfigure port dot1x authentication parameters:\n\n- configure port <port id> ethernet dot1x \n- radius-plcy <policy name>\n- port-control auto\n- per-host-authentication \n- allowed-source-macs <mac address>\n- no shutdown",
+  "fix_id": "F-88148r1204061_fix",
+  "VulnDiscussion": "Controlling local area network (LAN) access via 802.1x authentication can help prevent a malicious user from connecting an unauthorized personal computer to a switch port to inject or receive data from the network without detection.\n\nSatisfies: SRG-NET-000148-L2S-000015, SRG-NET-000343-L2S-000016",
+  "Documentable": "false"
+}

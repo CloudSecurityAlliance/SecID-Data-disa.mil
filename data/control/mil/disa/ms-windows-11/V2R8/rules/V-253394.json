@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253394",
+  "rule_id": "SV-253394r1210294_rule",
+  "stig_id": "WN11-CC-000206",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Windows Update must not obtain updates from other PCs on the internet.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56847r1210212_chk",
+  "check_content": "If the following registry value does not exist or is not configured as specified, this is a finding:\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization\\  (For GPO-managed systems)\nOr\nRegistry Path: \\Software\\Policies\\Microsoft\\Windows\\DeliveryOptimization!DODownloadMode  (For Intune-managed systems)\n\nValue Name: DODownloadMode\n\nValue Type: REG_DWORD\nValue: 0x00000000 (0) - No peering (HTTP Only)\n0x00000001 (1) - Peers on same NAT only (LAN)\n0x00000002 (2) - Local Network / Private group peering (Group)\n0x00000063 (99) - Simple download mode, no peering (Simple)\n0x00000064 (100) - Bypass mode, Delivery Optimization not used (Bypass)\n\nA value of 0x00000003 (3), Internet, is a finding.\n\nStandalone systems (configured in Settings):\n\nIf the following registry value does not exist or is not configured as specified, this is a finding:\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\DeliveryOptimization\\Config\\    (For GPO-managed systems)\nOr\nRegistry Path:  \\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\DeliveryOptimization\\Config!DODownloadMode   (For Intune-managed systems)\n\nValue Name: DODownloadMode\n\nValue Type: REG_DWORD\nValue: 0x00000000 (0) - Off\n0x00000001 (1) - LAN",
+  "fixtext": "For GPO-managed systems:\n\nConfigure the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Delivery Optimization >> \"Download Mode\" to \"Enabled\" with any option except \"Internet\" selected.\n\nAcceptable selections include:\nBypass (100)\nGroup (2)\nHTTP only (0)\nLAN (1)\nSimple (99)\n\nFor Intune-managed systems:\n\nRevise the Intune policy to enable Download Mode for Delivery Optimization.",
+  "fix_id": "F-56797r1210213_fix",
+  "VulnDiscussion": "Windows 11 allows Windows Update to obtain updates from additional sources instead of Microsoft. In addition to Microsoft, updates can be obtained from and sent to PCs on the local network as well as on the internet. This is part of the Windows Update trusted process; however, to minimize outside exposure, obtaining updates from or sending to systems on the internet must be prevented.\n\nNote: A different registry location is needed when systems are managed by Intune versus GPO.",
+  "Documentable": "false"
+}

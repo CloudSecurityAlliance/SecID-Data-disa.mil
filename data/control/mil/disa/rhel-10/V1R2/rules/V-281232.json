@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281232",
+  "rule_id": "SV-281232r1166648_rule",
+  "stig_id": "RHEL-10-700120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must mount \"/boot\" with the \"nodev\" option.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-85793r1166646_chk",
+  "check_content": "Verify RHEL 10 is configured so that the \"/boot\" mount point has the \"nodev\" option with the following command:\n\n$ mount | grep '\\s/boot\\s'\n/dev/sda1 on /boot type xfs (rw,nodev,nosuid,relatime,seclabel,attr2)\n\nIf the \"/boot\" file system does not have the \"nodev\" option set, this is a finding.",
+  "fixtext": "Configure RHEL 10 to mount \"/boot\" with the \"nodev\" option.\n\nModify \"/etc/fstab\" to use the \"nodev\" option on the \"/boot\" directory.\n\nTo reload all implicit mount units and update the dependency graph so that new options will apply correctly at next remount, run the following command:\n\n$ sudo systemctl daemon-reload\n\nUse the following command to apply the changes immediately without a reboot:\n\n$ sudo mount -o remount /boot",
+  "fix_id": "F-85698r1166647_fix",
+  "VulnDiscussion": "The only legitimate location for device files is the \"/dev\" directory located on the root partition. The only exception to this is chroot jails.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253466",
+  "rule_id": "SV-253466r1210303_rule",
+  "stig_id": "WN11-SO-000230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The system must be configured to use FIPS-compliant algorithms for encryption, hashing, and signing.",
+  "group_title": "SRG-OS-000478-GPOS-00223",
+  "idents": {
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-56919r1210239_chk",
+  "check_content": "If the following registry value does not exist or is not configured as specified, this is a finding:\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SYSTEM\\CurrentControlSet\\Control\\Lsa\\FIPSAlgorithmPolicy\\  (For GPO-managed systems)\nOr\nRegistry Path: \\SOFTWARE\\Microsoft\\PolicyManager\\current\\device\\Cryptography!AllowFipsAlgorithmPolicy_ProviderSet  (For Intune-managed systems)\n\nValue Name: Enabled\n\nValue Type: REG_DWORD\nValue: 1\n \nWarning: Clients with this setting enabled will not be able to communicate via digitally encrypted or signed protocols with servers that do not support these algorithms.",
+  "fixtext": "For GPO-managed systems:\n\nConfigure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> Security Options >> \"System cryptography: Use FIPS compliant algorithms for encryption, hashing, and signing\" to \"Enabled\".\n\nFor Intune-managed systems:\n\nSet the Intune System Cryptography Policy to use FIPS-compliant algorithms for encryption, hashing, and signing.",
+  "fix_id": "F-56869r1210240_fix",
+  "VulnDiscussion": "This setting ensures the system uses algorithms that are FIPS compliant for encryption, hashing, and signing. FIPS-compliant algorithms meet specific standards established by the U.S. Government and must be the algorithms used for all OS encryption functions.\n\nNote: A different registry location is needed when systems are managed by Intune versus GPO.",
+  "Documentable": "false"
+}

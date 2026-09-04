@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-233340",
+  "rule_id": "SV-233340r1018668_rule",
+  "stig_id": "FORE-NC-000470",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "When connecting with endpoints, Forescout must be configured to use FIPS 140-2/3 validated algorithms for encryption processes and communications. This is required for compliance with C2C Step 1.",
+  "group_title": "SRG-NET-000580-NAC-002530",
+  "idents": {
+    "cci": [
+      "CCI-000185",
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-36535r1018666_chk",
+  "check_content": "If DoD is not at C2C Step 1 or higher, this is not a finding.\n\nUse the Forescout CLI credentials to verify FIPS mode is set by running the \"fstool version\" command and look for the \"FIPS enabled\" setting. Use the Forescout Administrator UI to verify SecureConnector is set to use TLS version 1.2 or higher for Client-Server Connections.\n\n1. Log on using the CLIAdmin credentials established upon initial configuration.\n2. Verify FIPS mode by typing the command \"fstool version\".\n\nTo configure TLS:\n1. Log on to the Forescout UI.\n2. Select Tools >> Option >> HPS Inspection Engine >> SecureConnector.\n3. In the Client-Server Connection, check the Minimum Supported TLS Version is set to TLS version 1.2.\n\nIf the NAC is not configured to use FIPS 140-2/3 validated algorithms when connecting with endpoints, this is a finding.",
+  "fixtext": "To enable FIPS mode log into the CLI account a use the \"fstool fips\" command. Use the Forescout Administrator UI to set SecureConnector to use TLS version 1.2 or higher for Client-Server Connections. \n\nTo configure FIPS Mode:\n1. Log on using the CLIAdmin credentials established upon initial configuration.\n2. To enable FIPS mode, type \"fstool fips\". A prompt will be generated alerting the user FIPS 140-2 will be enabled. Type \"Yes\" for FIPS to accept this prompt.\n\nTo configure TLS:\n1. Log on to the Forescout management tool.\n2. Select Tools >> Option >> HPS Inspection Engine >> SecureConnector.\n3. In the Client-Server Connection, set the Minimum Supported TLS Version to TLS version 1.3.",
+  "fix_id": "F-36500r1018667_fix",
+  "VulnDiscussion": "A certificate's certification path is the path from the end entity certificate to a trusted root certification authority (CA). Certification path validation is necessary for a relying party to make an informed decision regarding acceptance of an end entity certificate.\n\nNAC must be configured for only Certificate Signing. The NAC must interact with TLS-compliant lookups and verification in exchange with endpoints in Extensible Authentication Protocol (EAP) transactions where TLS is supported within the EAP type.\n\nCertification path validation includes checks such as certificate issuer trust, time validity, and revocation status for each certificate in the certification path. Revocation status information for CA and subject certificates in a certification path is commonly provided via certificate revocation lists (CRLs) or online certificate status protocol (OCSP) responses.",
+  "Documentable": "false"
+}

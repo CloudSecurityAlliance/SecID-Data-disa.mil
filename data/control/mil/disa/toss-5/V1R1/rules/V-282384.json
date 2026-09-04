@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282384",
+  "rule_id": "SV-282384r1200132_rule",
+  "stig_id": "TOSS-05-000379",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All TOSS 5 remote access methods must be monitored.",
+  "group_title": "SRG-OS-000032-GPOS-00013",
+  "idents": {
+    "cci": [
+      "CCI-000067"
+    ]
+  },
+  "check_id": "C-86945r1200130_chk",
+  "check_content": "Verify TOSS 5 monitors all remote access methods.\n\nCheck that remote access methods are being logged using the following command:\n\n$ grep -rE '(auth.\\*|authpriv.\\*|daemon.\\*)' /etc/rsyslog.conf\n\n/etc/rsyslog.conf:authpriv.*\n \nIf \"auth.*\", \"authpriv.*\" or \"daemon.*\" are not configured to be logged, this is a finding.",
+  "fixtext": "Add or update the following lines to the \"/etc/rsyslog.conf\" file:\n\nauth.*;authpriv.*;daemon.* /var/log/secure\n\nRestart the \"rsyslog\" service for the changes to take effect using the following command:\n\n$ sudo systemctl restart rsyslog.service",
+  "fix_id": "F-86850r1200131_fix",
+  "VulnDiscussion": "Logging remote access methods can be used to trace the decrease in the risks associated with remote user access management. It can also be used to spot cyberattacks and ensure ongoing compliance with organizational policies surrounding the use of remote access methods.",
+  "Documentable": "false"
+}

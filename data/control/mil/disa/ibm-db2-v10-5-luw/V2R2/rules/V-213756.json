@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213756",
+  "rule_id": "SV-213756r961827_rule",
+  "stig_id": "DB2X-00-011700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DB2 must generate audit records when unsuccessful attempts to execute privileged activities or other system-level access occur.",
+  "group_title": "SRG-APP-000504-DB-000355",
+  "idents": {
+    "legacy": [
+      "SV-89261",
+      "V-74587"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-14977r295317_chk",
+  "check_content": "Run the following SQL statement to ensure that an audit policy is defined upon the database: \nDB2> SELECT AUDITPOLICYNAME, AUDITPOLICYID \n           FROM SYSCAT.AUDITUSE \n           WHERE OBJECTTYPE IN (' ') \n\nIf no rows are returned, this is a finding. \n\nUsing the AUDITPOLICYID from above query find the details of audit policy: \nDB2> SELECT AUDITPOLICYNAME, SECMAINTSTATUS, SYSADMINSTATUS, OBJMAINTSTATUS, AUDITSTATUS, CONTEXTSTATUS, ERRORTYPE \n            FROM SYSCAT.AUDITPOLICIES \n            WHERE AUDITPOLICYID = <audit policy ID>\n\nIf the values for SECMAINTSTATUS, OBJMAINTSTATUS, SYSADMINSTATUS, AUDITSTATUS and CONTEXTSTATUS are not 'B' (Both) or 'F' (Failure), or ERRORTYPE is not 'A' (Audit), this is a finding.",
+  "fixtext": "Define an audit policy with the needed subset using the CREATE AUDIT POLICY SQL statement: \nDB2> CREATE AUDIT POLICY <DB audit policy name> \n           CATEGORIES SECMAINT STATUS BOTH, OBJMAINT STATUS BOTH, AUDIT STATUS BOTH, SYSADMIN STATUS BOTH, CONTEXT STATUS BOTH \n           ERROR TYPE AUDIT\n\nTo modify an existing audit policy, replace \"CREATE\" with \"ALTER\" in the preceding statement.  Only the categories explicitly named in the statement will be affected.  In this case, the changes take effect immediately.\n\nIf CREATE was used above, apply the policy created above to the database: \nDB2> AUDIT DATABASE USING POLICY <DB audit policy name>",
+  "fix_id": "F-14975r295318_fix",
+  "VulnDiscussion": "Without tracking privileged activity, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. \n\nSystem documentation should include a definition of the functionality considered privileged.\n\nA privileged function in this context is any operation that modifies the structure of the database, its built-in logic, or its security settings. This would include all Data Definition Language (DDL) statements and all security-related statements. In an SQL environment, it encompasses, but is not necessarily limited to:\n\nCREATE\nALTER\nDROP\nGRANT\nREVOKE\n\nNote that it is particularly important to audit, and tightly control, any action that weakens the implementation of this requirement itself, since the objective is to have a complete audit trail of all administrative activity.\n\nTo aid in diagnosis, it is necessary to keep track of failed attempts in addition to the successful ones.",
+  "Documentable": "false"
+}

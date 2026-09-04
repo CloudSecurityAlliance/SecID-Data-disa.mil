@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215217",
+  "rule_id": "SV-215217r1009535_rule",
+  "stig_id": "AIX7-00-001120",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AIX must enforce password complexity by requiring that at least one upper-case character be used.",
+  "group_title": "SRG-OS-000069-GPOS-00037",
+  "idents": {
+    "legacy": [
+      "V-91281",
+      "SV-101379"
+    ],
+    "cci": [
+      "CCI-004066",
+      "CCI-000192"
+    ]
+  },
+  "check_id": "C-16415r294102_chk",
+  "check_content": "From the command prompt, run the following command to check the system default \"minupperalpha\" attribute value:\n# lssec -f /etc/security/user -s default -a minupperalpha\n\nThe above command should yield the following output:\ndefault minupperalpha=1\n\nIf the default \"minupperalpha\" value is not set, or its value is less than \"1\", this is a finding.\n\nFrom the command prompt, run the following command to check \"minupperalpha\" attribute value for all accounts:\n# lsuser -a minupperalpha ALL\n\nThe above command should yield the following output:\nroot minupperalpha=2\nuser2 minupperalpha=2\nuser3 minupperalpha=1\n\nIf any user's \"minupperalpha\" value is less than \"1\", this is a finding.",
+  "fixtext": "From the command prompt, run the following command to set \"minupperalpha=1\" for the default stanza in \"/etc/security/user\":\n# chsec -f /etc/security/user -s default -a minupperalpha=1\n\nFor each user who has \"minupperalpha=0\", set its \"minupperalpha\" to \"1\" by running the following command from command prompt:\n# chsec -f /etc/security/user -s [user_name] -a minupperalpha=1",
+  "fix_id": "F-16413r294103_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks.\n\nPassword complexity is one factor of several that determines how long it takes to crack a password. The more complex the password, the greater the number of possible combinations that need to be tested before the password is compromised.",
+  "Documentable": "false"
+}

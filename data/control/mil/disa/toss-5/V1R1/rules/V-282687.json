@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282687",
+  "rule_id": "SV-282687r1201041_rule",
+  "stig_id": "TOSS-05-000215",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must log IPv4 packets with impossible addresses.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87248r1201039_chk",
+  "check_content": "Verify TOSS 5 logs IPv4 martian packets using the following command:\n\n$ sudo sysctl net.ipv4.conf.all.log_martians\n\nnet.ipv4.conf.all.log_martians = 1\n\nIf \"net.ipv4.conf.all.log_martians\" is not set to \"1\", or a line is not returned, this is a finding.",
+  "fixtext": "Configure TOSS 5 to log martian packets on IPv4 interfaces.\n\nAdd or edit the following line in a single system configuration file, in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv4.conf.all.log_martians=1\n\nLoad settings from all system configuration files using the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-87153r1201040_fix",
+  "VulnDiscussion": "The presence of \"martian\" packets (which have impossible addresses) as well as spoofed packets, source-routed packets, and redirects could be a sign of nefarious network activity. Logging these packets enables this activity to be detected.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-285321",
+  "rule_id": "SV-285321r1211191_rule",
+  "stig_id": "WN25-SH-000090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2025 OpenSSH private host key files must conform to minimum requirements.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-89891r1211189_chk",
+  "check_content": "If OpenSSH is not installed on the system, this requirement is not applicable.\n\nVerify the SSH private host key files permissions with the following command:\n\nC:\\ > Get-ChildItem -Path \"C:\\ProgramData\\ssh\" -Filter \"*_key\" -File | ForEach-Object { icacls.exe $_.FullName }\n\nC:\\ProgramData\\ssh\\ssh_host_ecdsa_key BUILTIN\\Administrators:(F)\n                                      NT AUTHORITY\\SYSTEM:(F)\n\nSuccessfully processed 1 files; Failed processing 0 files\nC:\\ProgramData\\ssh\\ssh_host_ed25519_key BUILTIN\\Administrators:(F)\n                                        NT AUTHORITY\\SYSTEM:(F)\n\nSuccessfully processed 1 files; Failed processing 0 files\nC:\\ProgramData\\ssh\\ssh_host_rsa_key BUILTIN\\Administrators:(F)\n                                    NT AUTHORITY\\SYSTEM:(F)\n\nSuccessfully processed 1 files; Failed processing 0 files\n\nIf any private host key file does not have the default permission as in the example output, this is a finding.",
+  "fixtext": "Maintain the permissions of the private host key files as follows:\n\nBUILTIN\\Administrators:(F)\nNT AUTHORITY\\SYSTEM:(F)",
+  "fix_id": "F-89796r1211190_fix",
+  "VulnDiscussion": "If an unauthorized user obtains the private SSH host key file, the host could be impersonated.",
+  "Documentable": "false"
+}

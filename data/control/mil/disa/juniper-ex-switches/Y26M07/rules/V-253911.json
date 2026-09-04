@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253911",
+  "rule_id": "SV-253911r1167978_rule",
+  "stig_id": "JUEX-NM-000340",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to use FIPS 140-2/140-3-validated algorithms for authentication to a cryptographic module.",
+  "group_title": "SRG-APP-000179-NDM-000265",
+  "idents": {
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-57363r1167976_chk",
+  "check_content": "Verify the password format, and that SSH uses FIPS-validated algorithms and a random number generator (RNG) as shown in the following example configuration:\n\nuser@host> show configuration system\nlogin {\n    password {\n        :\n        format <sha256|sha-512>;\n    }\n}\nservices {\n    ssh {\n        :\n        ciphers [ aes256-ctr aes256-cbc];\n        macs [ hmac-sha2-512 hmac-sha2-256 ];\n        key-exchange [ ecdh-sha2-nistp521 ecdh-sha2-nistp384 ecdh-sha2-nistp256 ];\n        :\n    }\n}\nrng {\n    hmac-drbg;\n}\n\nIf the network device is not configured to use FIPS 140-2/140-3-validated authentication algorithms, this is a finding.",
+  "fixtext": "Configure the password format, SSH algorithms, and the RNG to use only FIPS-validated algorithms.\n1. Enter configuration mode.\n2. Configure the password format.\n3. Configure the SSH algorithms.\n4. Configure the RNG.\n5. Commit the configuration.\nuser@host> configure\nuser@host# set system login password format <sha256|sha512>\nuser@host# set system services ssh ciphers aes256-ctr\nuser@host# set system services ssh ciphers aes256-cbc\nuser@host# set system services ssh macs hmac-sha2-512\nuser@host# set system services ssh macs hmac-sha2-256\nuser@host# set system services ssh key-exchange ecdh-sha2-nistp521\nuser@host# set system services ssh key-exchange ecdh-sha2-nistp384\nuser@host# set system services ssh key-exchange ecdh-sha2-nistp256\nuser@host# set system rng hmac-drbg\nuser@host# commit",
+  "fix_id": "F-57314r1167977_fix",
+  "VulnDiscussion": "Unapproved mechanisms used for authentication to the cryptographic module are not validated and therefore, cannot be relied upon to provide confidentiality or integrity, and DOD data may be compromised.\n\nNetwork devices utilizing encryption are required to use FIPS-compliant mechanisms for authenticating to cryptographic modules.\n\nFIPS 140-2/140-3 is the current standard for validating that mechanisms used to access cryptographic modules utilize authentication that meets DOD requirements. However, authentication algorithms must configure security processes to use only FIPS-validated and NIST-recommended authentication algorithms.",
+  "Documentable": "false"
+}

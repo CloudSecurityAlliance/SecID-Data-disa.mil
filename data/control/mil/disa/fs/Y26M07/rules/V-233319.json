@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233319",
+  "rule_id": "SV-233319r1146397_rule",
+  "stig_id": "FORE-NC-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Forescout must be configured so client machines do not communicate with other network devices in the DMZ or subnet except as needed to perform an access client assessment or to identify themselves. This is required for compliance with C2C Step 2.",
+  "group_title": "SRG-NET-000015-NAC-000130",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-36514r1111890_chk",
+  "check_content": "If DOD is not at C2C Step 2 or higher, this is not a finding.\n\nVerify ForeScout is configured so endpoints under assessment are isolated from peer communication.\n\n1. Navigate to the Policy tab and examine the Compliance Assessment policy.\n2. Verify either a Quarantine VLAN,  ACL Enforcement Method, or Forescout Virtual Firewall is configured as part of the policy.\n\nIf Forescout allows endpoints under assessment to communicate with other endpoints in the DMZ or on other network segments, this is a finding.",
+  "fixtext": "Configure ForeScout so devices being assessed for compliance do not communicate with other devices in the DMZ or other network segments. There are different approaches; however, this typically involves isolating noncompliant devices into a quarantine or assessment zone until they meet compliance requirements.\n\nThe following are examples.\n\nCreate a Quarantine VLAN:\n1. Set up a dedicated VLAN (e.g., \"Quarantine_VLAN\") for devices under assessment.\n2. This VLAN should have restricted access, blocking communication to other devices or production network segments.\n3.  Allow traffic only to specific remediation servers (e.g., patch servers, ForeScout appliance for assessment).\n4. Configure the switches to support dynamic VLAN assignment via CounterACT.\n5. Enforce Network Isolation using a VLAN:\n- Select the \"Quarantine_VLAN\".\n- CounterACT will instruct the switch (via SNMP or CLI) to move the device to this VLAN upon detection.\n\nOr\n\nACL Enforcement Method:\n1.  If VLANs are not feasible, use the **Apply ACL** action.\n2.  Configure an ACL on the switches or routers to block all traffic from the device’s IP or MAC to other network devices, allowing only traffic to remediation servers (e.g., IP of patch server, DNS, or CounterACT appliance).\n - Example ACL (syntax depends on the switch/router):\n       ```\n       deny ip <device_IP> 0.0.0.0 <network_range> <network_mask>\n       permit ip <device_IP> 0.0.0.0 <remediation_server_IP> 0.0.0.0\n       permit ip <device_IP> 0.0.0.0 <forescout_IP> 0.0.0.0\n       deny ip any any\n       ```\n Or \n\nVirtual Firewall Method:\n1. Use CounterACT’s Virtual Firewall action to block all traffic from the device except to specific IPs/ports (e.g., remediation servers, CounterACT).\n2. Configure rules in the action settings to allow only necessary outbound traffic.",
+  "fix_id": "F-36479r1111891_fix",
+  "VulnDiscussion": "Devices not compliant with DOD secure configuration policies are vulnerable to attack. While endpoints are undergoing NAC authorization assessment, they must communicate only with the NAC. These devices should not communicate with other hosts in the DMZ or other network segments.",
+  "Documentable": "false"
+}

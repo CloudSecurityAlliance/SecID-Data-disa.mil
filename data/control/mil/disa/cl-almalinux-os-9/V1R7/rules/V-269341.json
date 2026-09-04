@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269341",
+  "rule_id": "SV-269341r1050223_rule",
+  "stig_id": "ALMA-09-029610",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must disable the Asynchronous Transfer Mode (ATM) kernel module.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-73372r1049518_chk",
+  "check_content": "Verify that AlmaLinux OS 9 disables the ability to load the atm kernel module with the following command:\n\n$ grep -r atm /etc/modprobe.conf /etc/modprobe.d/* \n\n/etc/modprobe.d/atm.conf:install atm /bin/false\n/etc/modprobe.d/atm.conf:blacklist atm\n\nIf the command does not return any output, or the line is commented out, and use of atm is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "To configure the system to prevent the atm kernel module from being loaded, run the following command:\n\n$ cat << EOF | tee /etc/modprobe.d/atm.conf \ninstall atm /bin/false\nblacklist atm\nEOF",
+  "fix_id": "F-73273r1048400_fix",
+  "VulnDiscussion": "The ATM is a transport layer protocol designed for digital transmission of multiple types of traffic, including telephony (voice), data, and video signals, in one network without the use of separate overlay networks. \n\nDisabling ATM protects the system against exploitation of any flaws in its implementation.",
+  "Documentable": "false"
+}

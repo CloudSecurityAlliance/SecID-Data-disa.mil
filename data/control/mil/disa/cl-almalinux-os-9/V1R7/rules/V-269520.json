@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269520",
+  "rule_id": "SV-269520r1050403_rule",
+  "stig_id": "ALMA-09-053370",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must take action when allocated audit record storage volume reaches 95 percent of the repository maximum audit record storage capacity.",
+  "group_title": "SRG-OS-000343-GPOS-00134",
+  "idents": {
+    "cci": [
+      "CCI-001855"
+    ]
+  },
+  "check_id": "C-73551r1049914_chk",
+  "check_content": "Verify that AlmaLinux OS 9 is configured to take action in the event of allocated audit record storage volume reaches 95 percent of the repository maximum audit record storage capacity with the following command:\n\n$ grep admin_space_left_action /etc/audit/auditd.conf\n\nadmin_space_left_action = single\n\nIf the value of the \"admin_space_left_action\" is not set to \"single\", or if the line is commented out, ask the system administrator (SA) to indicate how the system is providing real-time alerts to the SA and information system security officer (ISSO).\n\nIf there is no evidence that real-time alerts are configured on the system, this is a finding.",
+  "fixtext": "Configure the \"auditd\" service  to take action in the event of allocated audit record storage volume reaches 95 percent of the repository maximum audit record storage capacity.\n\nEdit the following line in \"/etc/audit/auditd.conf\" to ensure that the system is forced into single user mode in the event the audit record storage volume is about to reach maximum capacity:\n\nadmin_space_left_action = single \n\nThe audit daemon must be restarted for changes to take effect.",
+  "fix_id": "F-73452r1048937_fix",
+  "VulnDiscussion": "If security personnel are not notified immediately when storage volume reaches 75 percent usage, they are unable to plan for audit record storage capacity expansion.",
+  "Documentable": "false"
+}

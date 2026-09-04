@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223595",
+  "rule_id": "SV-223595r1225818_rule",
+  "stig_id": "ACF2-SM-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS DFSMS control data sets must be protected in accordance with security requirements.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "legacy": [
+      "SV-106999",
+      "V-97895"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-25268r504755_chk",
+  "check_content": "Review the logical parmlib data sets, example: SYS1.PARMLIB(IGDSMSxx), to identify the fully qualified file names for the following SMS data sets:\nSource Control Data Set (SCDS)\nActive Control Data Set (ACDS)\nCommunications Data Set (COMMDS)\nAutomatic Class Selection Routine Source Data Sets (ACS)\nACDS Backup\nCOMMDS Backup\n\nIf the ACF2 data set rules for the SCDS, ACDS, COMMDS, and ACS data sets restrict UPDATE and ALLOCATE access to only systems programming personnel, this not is a finding.\n\nIf the ACF2 data set rules for the SCDS, ACDS, COMMDS, and ACS data sets do not restrict UPDATE and ALLOCATE access to only systems programming personnel, this is a finding.\n\nNote: At the discretion of the ISSM, DASD administrators are allowed UPDATE access to the control data sets.",
+  "fixtext": "Configure DFSMS control data sets to restrict UPDATE or ALLOCATE access to system programmers responsible for DASD management. Justification is required for any additional access.\n\nReview the SYS1.PARMLIB(IGDSMSxx) data set to identify the fully qualified file names for the following SMS data sets:\nSource Control Data Set (SCDS)\nActive Control Data Set (ACDS)\nCommunications Data Set (COMMDS)\nAutomatic Class Selection Routine Source Data Sets (ACS)\nACDS Backup\nCOMMDS Backup\n\nDefine ACF2 data set rules for the SCDS, ACDS, COMMDS, and ACS data sets to restrict UPDATE and ALLOCATE access to only systems programming personnel.\n\nNote: At the discretion of the ISSM, DASD administrators are allowed UPDATE access to the control data sets.\n\nExample:\n$KEY(S3D) \n$PREFIX(SYS3)\nDFSMS.MVA.ACDS UID(uuuuuuuu) R(A) W(L) A(L) E(A)",
+  "fix_id": "F-25256r504756_fix",
+  "VulnDiscussion": "To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DoD-approved PKIs, all DoD systems (e.g., web servers and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. Successful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement.\n\nAccess control policies include: identity-based policies, role-based policies, and attribute-based policies. Access enforcement mechanisms include: access control lists, access control matrices, and cryptography. These policies and mechanisms must be employed by the application to control access between users (or processes acting on behalf of users) and objects (e.g., devices, files, records, processes, programs, and domains) in the information system.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-252949",
+  "rule_id": "SV-252949r1155813_rule",
+  "stig_id": "TOSS-04-020030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must automatically lock graphical user sessions after 10 minutes of inactivity.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-56402r1155811_chk",
+  "check_content": "Verify TOSS initiates a session lock after at most a 10-minute period of inactivity for graphical user interfaces with the following commands:\n\nNote: This requirement assumes the use of the TOSS default graphical user interface, Gnome Shell. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\n$ sudo gsettings get org.gnome.desktop.session idle-delay\nuint32 600\n\nIf \"idle-delay\" is set to \"0\" or a value greater than \"600\", this is a finding.",
+  "fixtext": "Configure the operating system to initiate a screensaver after a 10-minute period of inactivity for graphical user interfaces.\n\nCreate a database to contain the systemwide screensaver settings (if it does not already exist) with the following command:\n\n$ sudo touch /etc/dconf/db/local.d/00-screensaver\n\nEdit /etc/dconf/db/local.d/00-screensaver and add or update the following lines:\n\n[org/gnome/desktop/session]\n# Set the lock time out to 600 seconds before the session is considered idle\nidle-delay=uint32 600\n\nUpdate the system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-56352r1155812_fix",
+  "VulnDiscussion": "A session time-out lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not log out because of the temporary nature of the absence. Rather than relying on the user to manually lock their operating system session prior to vacating the vicinity, operating systems need to be able to identify when a user's session has idled and take action to initiate the session lock.\n\nThe session lock is implemented at the point where session activity can be determined and/or controlled.",
+  "Documentable": "false"
+}

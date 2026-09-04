@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-253064",
+  "rule_id": "SV-253064r1016314_rule",
+  "stig_id": "TOSS-04-040090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must store only encrypted representations of passwords.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-004062",
+      "CCI-000196"
+    ]
+  },
+  "check_id": "C-56517r824862_chk",
+  "check_content": "Verify that the TOSS shadow password suite configuration is set to encrypt password with a FIPS 140-2-approved cryptographic hashing algorithm.\n\nCheck the hashing algorithm that is being used to hash passwords with the following command:\n\n$ sudo grep -i crypt /etc/login.defs \nENCRYPT_METHOD SHA512\n\nIf \"ENCRYPT_METHOD\" does not equal SHA512 or greater, this is a finding.",
+  "fixtext": "Configure TOSS to encrypt all stored passwords. \n\nEdit/Modify the following line in the \"/etc/login.defs\" file and set \"ENCRYPT_METHOD\" to SHA512.\n\nENCRYPT_METHOD SHA512",
+  "fix_id": "F-56467r824863_fix",
+  "VulnDiscussion": "Passwords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nUnapproved mechanisms that are used for authentication to the cryptographic module are not verified and therefore cannot be relied upon to provide confidentiality or integrity, and DOD data may be compromised.\n\nFIPS 140-2 is the current standard for validating that mechanisms used to access cryptographic modules utilize authentication that meets DOD requirements.",
+  "Documentable": "false"
+}

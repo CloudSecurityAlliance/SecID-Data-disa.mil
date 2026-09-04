@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248829",
+  "rule_id": "SV-248829r991589_rule",
+  "stig_id": "OL08-00-040021",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must not have the asynchronous transfer mode (ATM) kernel module installed if not required for operational support.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52263r943069_chk",
+  "check_content": "Verify the operating system disables the ability to load the \"atm\" kernel module.  \n \n     $ sudo grep -r atm /etc/modprobe.d/* | grep -i \"/bin/false\" | grep -v \"^#\" \n     install atm /bin/false\n \nIf the command does not return any output or the line is commented out, and use of ATM is not documented with the Information System Security Officer (ISSO) as an operational requirement, this is a finding.  \n \nVerify the operating system disables the ability to use ATM with the following command:  \n \n     $ sudo grep atm /etc/modprobe.d/* | grep -i \"blacklist\" | grep -v \"^#\" \n     blacklist atm \n \nIf the command does not return any output or the output is not \"blacklist atm\", and use of ATM is not documented with the ISSO as an operational requirement, this is a finding.",
+  "fixtext": "Configure OL 8 to disable the ability to use the \"atm\" kernel module. \n \nCreate a file under \"/etc/modprobe.d\" with the following command: \n \n     $ sudo touch /etc/modprobe.d/atm.conf \n \nAdd the following line to the created file: \n \n     install atm /bin/false\n \nConfigure OL 8 to disable the ability to use the atm kernel module. \n \n     $ sudo vi /etc/modprobe.d/blacklist.conf \n \nAdd or update the line: \n \n     blacklist atm",
+  "fix_id": "F-52217r943070_fix",
+  "VulnDiscussion": "The ATM is a transport layer protocol \ndesigned for digital transmission of multiple types of traffic, including telephony (voice), data, and video signals, in one network without the use of separate overlay networks. Disabling ATM protects the system against exploitation of any flaws in its implementation.",
+  "Documentable": "false"
+}

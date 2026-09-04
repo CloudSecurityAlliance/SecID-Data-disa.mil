@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279081",
+  "rule_id": "SV-279081r1171481_rule",
+  "stig_id": "APAS-CF-000745",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ColdFusion must limit the maximum number of Web Service requests.",
+  "group_title": "SRG-APP-000435-AS-000163",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-83629r1171015_chk",
+  "check_content": "Determine Web Services usage.\n\n1. Interview the system administrator (SA), and/or review any of the following documentation:\n- Hosted application source code.\n- Hosted application design documentation.\n- Published web services design documentation.\n- ColdFusion baseline documentation.\n\n2. Confirm whether Web Services are published by any hosted applications.\n\nIf Web Services are being published, this requirement is not a finding.\n\n3. If Web Services are not being published, from the Admin Console Landing Screen, navigate to Server Settings >> Request Tuning.\n\n4. Locate the \"Maximum number of simultaneous Web Service requests\" setting and verify the value is set to \"1\".\n\nIf Web Services are not in use and the value is not set to \"1\", this is a finding.",
+  "fixtext": "Configure Web Services usage.\n\n1. From the Admin Console Landing Screen, navigate to Server Settings >> Request Tuning.\n\n2. Locate the \"Maximum number of simultaneous Web Service requests\" setting.\n\n3. Set the value to \"1\" to prevent unnecessary web service threads.\n\n4. Click \"Submit Changes\" to save the configuration.",
+  "fix_id": "F-83534r1171016_fix",
+  "VulnDiscussion": "Unrestricted web service request handling in ColdFusion can lead to resource exhaustion, degraded performance, or denial-of-service (DoS) conditions. Web services are common targets for automated attacks, excessive load, or abuse through scripted queries and recursive payloads. If there is no limit on the number of web service requests a ColdFusion server will process, an attacker may overwhelm system resources such as memory, CPU, or network bandwidth, leading to service disruption.\n\nLimiting the maximum number of allowable web service requests per session, per client, or per time interval helps enforce resource control, prevent abuse, and maintain application availability. It also ensures that ColdFusion can prioritize legitimate traffic and maintain performance under heavy load.\n\nApplying limits on web service request volume reduces the attack surface and aligns with secure coding practices by ensuring application functionality is intentionally constrained to support operational requirements without exposing the system to unnecessary risk.",
+  "Documentable": "false"
+}

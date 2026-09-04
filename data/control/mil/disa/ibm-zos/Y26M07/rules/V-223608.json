@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-223608",
+  "rule_id": "SV-223608r1225833_rule",
+  "stig_id": "ACF2-TN-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS PROFILE.TCPIP configuration INACTIVITY statement must be configured to 900 seconds.",
+  "group_title": "SRG-OS-000279-GPOS-00109",
+  "idents": {
+    "legacy": [
+      "SV-107025",
+      "V-97921"
+    ],
+    "cci": [
+      "CCI-002361",
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-25281r504785_chk",
+  "check_content": "Refer to the Profile configuration file specified on the PROFILE DD statement in the TCPIP started task JCL.\n\nNOTE: If the INCLUDE statement is coded in the TCP/IP Profile configuration file, the data set specified on this statement must be checked for the following items as well.\n\nTELNETPARMS Block (one defined for each port the server is listening to, typically ports 23 and 992)\n\nIf the TELNETPARMS INACTIVE statement is coded within each TELNETPARMS statement block and specifies a value between 1 and 900, this is not a finding.\n\nNOTE: Effective in z/OS release 1.2, the INACTIVE statement can appear in both TELNETGLOBAL and TELNETPARM statement blocks.",
+  "fixtext": "Configure the PROFILE.TCPIP file as specified below:\n\nNOTE: If the INCLUDE statement is coded in the TCP/IP Profile configuration file, the data set specified on this statement must be checked for the following items as well.\n\nTELNETPARMS Block (one defined for each port the server is listening to, typically ports 23 and 992)\n\nThe TELNETPARMS INACTIVE statement is coded within each TELNETPARMS statement block and specifies a value between 1 and 900.\n\nINACTIVE statements should not be coded with a value greater than 900 or 0. 0 disables the inactivity timer check.\n\nNOTE: Effective in z/OS release 1.2, the INACTIVE statement can appear in both TELNETGLOBAL and TELNETPARM statement blocks.",
+  "fix_id": "F-25269r504786_fix",
+  "VulnDiscussion": "Automatic session termination addresses the termination of user-initiated logical sessions in contrast to the termination of network connections that are associated with communications sessions (i.e., network disconnect). A logical session (for local, network, and remote access) is initiated whenever a user (or process acting on behalf of a user) accesses an organizational information system. Such user sessions can be terminated (and thus terminate user access) without terminating network sessions.\n\nSession termination terminates all processes associated with a user's logical session except those processes that are specifically created by the user (i.e., session owner) to continue after the session is terminated.\n\nConditions or trigger events requiring automatic session termination can include, for example, organization-defined periods of user inactivity, targeted responses to certain types of incidents, and time-of-day restrictions on information system use.\n\nThis capability is typically reserved for specific operating system functionality where the system owner, data owner, or organization requires additional assurance.",
+  "Documentable": "false"
+}

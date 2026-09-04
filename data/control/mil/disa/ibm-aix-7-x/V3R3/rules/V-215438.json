@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215438",
+  "rule_id": "SV-215438r991589_rule",
+  "stig_id": "AIX7-00-003202",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX operating system must be configured to use Multi Factor Authentication for remote connections.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-92945",
+      "SV-103033"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16636r294765_chk",
+  "check_content": "Verify SSH is configured to use multi factor authentication:\n\n# grep ^sshd /etc/pam.conf | head -3\n\nsshd auth required   pam_ckfile\nsshd auth required   pam_permission file=/etc/security/access.conf found=allow\nsshd auth required   pam_pmfa /etc/security/pmfa/pam_pmfa.conf\n\nIf the output does not match the above lines, any lines are missing, or commented out, this is a finding.",
+  "fixtext": "Add or update the following lines in the /etc/pam.conf file:\n\nsshd auth required   pam_ckfile\nsshd auth required   pam_permission file=/etc/security/access.conffound=allow\nsshd auth required   pam_pmfa /etc/security/pmfa/pam_pmfa.conf",
+  "fix_id": "F-16634r294766_fix",
+  "VulnDiscussion": "To assure accountability and prevent unauthenticated access, privileged and non-privileged users must utilize multifactor authentication to prevent potential misuse and compromise of the system. \nMultifactor authentication uses two or more factors to achieve authentication.\n\nFactors include: \n1. Something you know (e.g., password/PIN);\n2. Something you have (e.g., cryptographic identification device, token); and\n3. Something you are (e.g., biometric).\n\nThe DoD CAC with DoD-approved PKI is an example of multifactor authentication.",
+  "Documentable": "false"
+}

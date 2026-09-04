@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283689",
+  "rule_id": "SV-283689r1204095_rule",
+  "stig_id": "NOKI-L2-000170",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Nokia layer 2 switch must enable Ethernet Connectivity Fault Management (ETH-CFM) to protect against one-way connections.",
+  "group_title": "SRG-NET-000512-L2S-000004",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-88254r1204093_chk",
+  "check_content": "Verify the ETH-CFM configuration for the service access point (SAP) in the virtual private local area network service (VPLS) appears as shown in the example below.\n\n- show service id 10 sap 1/1/c3/10 detail\n\nEth-Cfm MEP Configuration Information\n\nMd-index           : 3                        Direction         : Down\nMa-index           : 1                        Admin             : Enabled\nMepId              : 10                       CCM-Enable        : Enabled\n\nIf ETH-CFM is not configured to protect against one-way connections, this is a finding.",
+  "fixtext": "Configure the ETH-CFM maintenance domain and bind the Maintenance Endpoint (MEP) to the SAP to be monitored. Use the CCMs to detect possible unidirectional issues.\n \nConfigure ETH-CFM domain information:\n \n- configure eth-cfm domain <domain id> format none  level <level> \n- association 1 format icc-based name <name>\n- bridge-identifier bridge-name <vpls service name>\n- back\n- remote-mepid <mep id>\n \nApply to the SAP within VPLS:\n \n- configure service vpls <id>\n- sap <sap id> eth-cfm mep <mep id> domain <domain id> association <index> \n- ccm-enable\n- no shutdown",
+  "fix_id": "F-88159r1204094_fix",
+  "VulnDiscussion": "In topologies where fiber optic interconnections are used, physical misconnections can occur that allow a link to appear to be up when there is a mismatched set of transmit/receive pairs. When such a physical misconfiguration occurs, protocols such as Spanning Tree Protocol (STP) can cause network instability. \n\nEnabling ETH-CFM is the standard and most effective way to protect a layer 2 service against one-way (unidirectional) connections on a Nokia 7750 SR. The constant, bidirectional exchange of Continuity Check Messages (CCMs) provides an \"always-on\" monitoring system. It ensures that connectivity is healthy in both directions, detecting silent failures that would be missed by on-demand tests such as a loopback (ping).",
+  "Documentable": "false"
+}

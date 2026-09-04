@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282621",
+  "rule_id": "SV-282621r1200843_rule",
+  "stig_id": "TOSS-05-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must clear the page allocator to prevent use-after-free attacks.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87182r1200841_chk",
+  "check_content": "Verify GRUB 2 is configured to enable page poisoning to mitigate use-after-free vulnerabilities.\n\nCheck that the current GRUB 2 configuration has page poisoning enabled using the following command:\n\n$ sudo grubby --info=ALL | grep args | grep -v 'page_poison=1'\n\nIf any output is returned, this is a finding.",
+  "fixtext": "Configure TOSS 5 to enable page poisoning with the following commands:\n\n$ sudo grubby --update-kernel=ALL --args=\"page_poison=1\"\n\nAdd or modify the following line in \"/etc/default/grub\" to ensure the configuration survives kernel updates:\n\nGRUB_CMDLINE_LINUX=\"page_poison=1\"",
+  "fix_id": "F-87087r1200842_fix",
+  "VulnDiscussion": "Poisoning writes an arbitrary value to freed pages, so any modification or reference to that page after being freed or before being initialized will be detected and prevented. This prevents many types of use-after-free vulnerabilities at little performance cost. Also prevents leak of data and detection of corrupted memory.",
+  "Documentable": "false"
+}

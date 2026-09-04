@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233898",
+  "rule_id": "SV-233898r1082682_rule",
+  "stig_id": "IDNS-8X-500001",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Infoblox system must require devices to reauthenticate for each zone transfer and dynamic update request connection attempt.",
+  "group_title": "SRG-APP-000390-DNS-000048",
+  "idents": {
+    "cci": [
+      "CCI-002039"
+    ]
+  },
+  "check_id": "C-37083r1082680_chk",
+  "check_content": "1. Navigate to Data Management >> DNS >> Zones tab.  \n2. Review each zone by clicking \"Edit\" and inspecting the \"DNS service members\" tab.  \n3. If all entries in the \"Type\" column are configured as \"Grid\", this check is Not Applicable.  \n4. Verify that each zone containing non-Grid DNS service members is further verified by inspection of the \"Zone Transfers\" tab and configuration of TSIG Access Control Entry (ACE). \n5. When complete, click \"Cancel\" to exit the \"Properties\" screen. \n\nIf there is a non-Grid system that uses zone transfers but does not have a TSIG key, this is a finding.",
+  "fixtext": "Note that TSIG relies on both key and time synchronization. TSIG will fail if the local clocks on both DNS service members are not synchronized. \n\n1. Navigate to Data Management >> DNS >> Zones tab. \n2. Select a zone and click \"Edit\". Click on the \"Zone Transfers\" tab and click \"Override\" for the \"Allow Zone Transfers to\" section.  \n3. Use the radio button to select \"Set of ACEs\" and the \"Add\" drop-down to configure a TSIG key.  \n4. It is important to verify that both the Infoblox and other DNS service member have the identical TSIG configuration.  \n5. When complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen. \n6. Perform a service restart if necessary.\n7. Verify zone transfers are operational after configuration of TSIG.",
+  "fix_id": "F-37048r1082681_fix",
+  "VulnDiscussion": "Without reauthenticating devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity.\n\nIn addition to the reauthentication requirements associated with session locks, organizations may require reauthentication of devices, including but not limited to the following other situations:\n(i) When authenticators change;\n(ii) When roles change;\n(iii) When security categories of information systems change;\n(iv) After a fixed period of time; or\n(v) Periodically.\n\nDNS does perform server authentication when DNSSEC is used, but this authentication is transactional in nature (each transaction has its own authentication performed). Therefore, this requirement is applicable for every server-to-server transaction request.",
+  "Documentable": "false"
+}

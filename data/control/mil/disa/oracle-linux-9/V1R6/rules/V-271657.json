@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271657",
+  "rule_id": "SV-271657r1091683_rule",
+  "stig_id": "OL09-00-002061",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must mount /var/log with the nodev option.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-75707r1091681_chk",
+  "check_content": "Verify that OL 9 is configured to mount /var/log with the nodev option.\n\nVerify \"/var/log\" is mounted with the \"nodev\" option:\n\n$ mount | grep /var/log\n/dev/mapper/ol-var-log on /var/log type xfs (rw,nodev,nosuid,noexec,seclabel)\n\nIf the \"/var/log\" file system is mounted without the \"nodev\" option, this is a finding.",
+  "fixtext": "Configure OL 9 to mount /var/log with the nodev option.\n\nModify \"/etc/fstab\" to use the \"nodev\" option on the \"/var/log\" directory.",
+  "fix_id": "F-75614r1091682_fix",
+  "VulnDiscussion": "The \"nodev\" mount option causes the system to not interpret character or block special devices. Executing character or block special devices from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.\n\nThe only legitimate location for device files is the \"/dev\" directory located on the root partition, with the exception of chroot jails if implemented.",
+  "Documentable": "false"
+}

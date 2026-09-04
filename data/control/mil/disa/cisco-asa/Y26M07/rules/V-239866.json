@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-239866",
+  "rule_id": "SV-239866r991798_rule",
+  "stig_id": "CASA-FW-000240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco ASA must be configured to filter outbound traffic on all internal interfaces.",
+  "group_title": "SRG-NET-000364-FW-000032",
+  "idents": {
+    "cci": [
+      "CCI-002403",
+      "CCI-004891"
+    ]
+  },
+  "check_id": "C-43099r665882_chk",
+  "check_content": "Step 1: Verify that an ingress ACL has been applied to the internal interface as shown in the example below.\n\n interface GigabitEthernet0/3\n nameif INSIDE\n security-level 100\n ip address 10.1.11.1 255.255.255.0\n…\n…\n…\naccess-group INSIDE_2_OUT in interface INSIDE\n\nStep 2: Verify that the ACL only allows outbound traffic using authorized ports and services as shown in the example below.\n\naccess-list INSIDE_2_OUT extended permit tcp any any eq www \naccess-list INSIDE_2_OUT extended permit tcp any any eq https \naccess-list INSIDE_2_OUT extended permit tcp any any eq domain \naccess-list INSIDE_2_OUT extended permit tcp any any eq ftp \naccess-list INSIDE_2_OUT extended permit tcp any any eq ftp-data \naccess-list INSIDE_2_OUT extended permit tcp any host 10.1.22.3 eq ssh\naccess-list INSIDE_2_OUT extended deny ip any any log\n\nIf the ASA is not configured to filter outbound traffic on all internal interfaces, this is a finding.",
+  "fixtext": "Step 1: Configure the egress ACL similar to the example below.\n\nASA(config)# access-list INSIDE_2_OUT extended permit tcp any any eq https\nASA(config)# access-list INSIDE_2_OUT extended permit tcp any any eq http\nASA(config)# access-list INSIDE_2_OUT extended permit tcp any any eq domain\nASA(config)# access-list INSIDE_2_OUT extended permit tcp any any eq ftp   \nASA(config)# access-list INSIDE_2_OUT extended permit tcp any any eq ftp-data\nASA(config)# access-list INSIDE_2_OUT extended permit tcp any host 10.1.22.3 eq ssh\nASA(config)# access-list INSIDE_2_OUT extended deny ip any any log      \n\nStep 2: Apply the ACL inbound on the internal interfaces as shown in the example below.\n\nASA(config)# access-group INSIDE_2_OUT in interface INSIDE \nASA(config)# end",
+  "fix_id": "F-43058r665883_fix",
+  "VulnDiscussion": "If outbound communications traffic is not filtered, hostile activity intended to harm other networks or packets from networks destined to unauthorized networks may not be detected and prevented.\n\nAccess control policies and access control lists implemented on devices, such as firewalls, that control the flow of network traffic ensure the flow of traffic is only allowed from authorized sources to authorized destinations. Networks with different levels of trust (e.g., the Internet) must be kept separated.\n\nThis requirement addresses the binding of the egress filter to the interface/zone rather than the content of the egress filter.",
+  "Documentable": "false"
+}

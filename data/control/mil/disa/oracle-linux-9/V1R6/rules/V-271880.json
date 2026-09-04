@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271880",
+  "rule_id": "SV-271880r1092352_rule",
+  "stig_id": "OL09-00-006043",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must not enable IPv6 packet forwarding unless the system is a router.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75930r1092350_chk",
+  "check_content": "Note: If IPv6 is disabled on the system, this requirement is Not Applicable.\n\nVerify that OL 9 is not performing IPv6 packet forwarding, unless the system is a router.\n\nCheck that IPv6 forwarding is disabled using the following commands:\n\n$ sysctl net.ipv6.conf.all.forwarding\nnet.ipv6.conf.all.forwarding = 0\n\nIf the IPv6 forwarding value is not \"0\" and is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure OL 9 to not allow IPv6 packet forwarding unless the system is a router.\n\nAdd or edit the following line in a single system configuration file in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv6.conf.all.forwarding = 0\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-75837r1092351_fix",
+  "VulnDiscussion": "IP forwarding permits the kernel to forward packets from one network interface to another. The ability to forward packets between two networks is only appropriate for systems acting as routers.",
+  "Documentable": "false"
+}

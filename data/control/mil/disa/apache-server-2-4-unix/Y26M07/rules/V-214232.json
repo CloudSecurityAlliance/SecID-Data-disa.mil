@@ -1,0 +1,32 @@
+{
+  "vuln_id": "V-214232",
+  "rule_id": "SV-214232r960879_rule",
+  "stig_id": "AS24-U1-000070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Apache web server must generate, at a minimum, log records for system startup and shutdown, system access, and system authentication events.",
+  "group_title": "SRG-APP-000089-WSR-000047",
+  "idents": {
+    "legacy": [
+      "SV-102697",
+      "V-92609"
+    ],
+    "cci": [
+      "CCI-000130",
+      "CCI-000131",
+      "CCI-000132",
+      "CCI-000133",
+      "CCI-000134",
+      "CCI-000169",
+      "CCI-001464",
+      "CCI-001487"
+    ]
+  },
+  "check_id": "C-15446r881411_chk",
+  "check_content": "Verify the Log Configuration Module is loaded:\n# httpd -M | grep -i log_config_module\nOutput:  log_config_module (shared)\n\nIf the \"log_config_module\" is not enabled, this is a finding.\n\nDetermine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nNote: The apachectl front end is the preferred method for locating the Apache httpd file. For some Linux distributions, \"apache2ctl -V\" or  \"httpd -V\" can also be used.  \n\nSearch for the directive \"LogFormat\" in the \"httpd.conf\" file:\n\n# cat /<path_to_file>/httpd.conf | grep -i \"LogFormat\"\n\nIf the \"LogFormat\" directive is missing, this is a finding:\n\nAn example is:\nLogFormat \"%a %A %h %H %l %m %s %t %u %U \\\"%{Referer}i\\\" \" common",
+  "fixtext": "Determine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nUncomment the \"log_config_module\" module line.\n\nConfigure the \"LogFormat\" in the \"httpd.conf\" file to look like the following:\n\nLogFormat \"%a %A %h %H %l %m %s %t %u %U \\\"%{Referer}i\\\" \" common\n\nRestart Apache: apachectl restart\n\nNote: The log format could be using different variables based on the environment; however it should be verified to ensure it is producing the same end result of logged elements.  \n\nThe logging elements required breakdown as follows:\n%a       remote IP address\n%A       local IP address\n%h       IP address of requesting client\n%H      the request protocol\n%l        user ID of the requesting client\n%m      request method\n%s        status\n%t        time the request was received\n%u       user ID of the remote user\n%U       URL path requested",
+  "fix_id": "F-15444r881412_fix",
+  "VulnDiscussion": "Log records can be generated from various components within the Apache web server (e.g., httpd, plug-ins to external backends, etc.). From a web server perspective, certain specific Apache web server functionalities may be logged as well. The Apache web server must allow the definition of what events are to be logged. As conditions change, the number and types of events to be logged may change, and the Apache web server must be able to facilitate these changes.\n\nThe minimum list of logged events should be those pertaining to system startup and shutdown, system access, and system authentication events. If these events are not logged at a minimum, any type of forensic investigation would be missing pertinent information needed to replay what occurred.\n\n\nSatisfies: SRG-APP-000089-WSR-000047, SRG-APP-000092-WSR-000055, SRG-APP-000095-WSR-000056, SRG-APP-000096-WSR-000057, SRG-APP-000097-WSR-000058, SRG-APP-000098-WSR-000059, SRG-APP-000099-WSR-000061, SRG-APP-000100-WSR-000064",
+  "Documentable": "false"
+}

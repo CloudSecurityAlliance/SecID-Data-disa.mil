@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281355",
+  "rule_id": "SV-281355r1167215_rule",
+  "stig_id": "RHEL-10-800230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must ignore IPv6 Internet Control Message Protocol (ICMP) redirect messages.",
+  "group_title": "SRG-OS-000420-GPOS-00186",
+  "idents": {
+    "cci": [
+      "CCI-002385",
+      "CCI-001110"
+    ]
+  },
+  "check_id": "C-85916r1167213_chk",
+  "check_content": "Note: If IPv6 is disabled on the system, this requirement is not applicable.\n\nVerify RHEL 10 ignores IPv6 ICMP redirect messages.\n\nCheck the value of the \"net.ipv6.conf.all.accept_redirects\" variable with the following command:\n\n$ sysctl net.ipv6.conf.all.accept_redirects\nnet.ipv6.conf.all.accept_redirects = 0\n\nIf \"net.ipv6.conf.all.accept_redirects\" is not set to \"0\" or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 10 to ignore Internet Protocol version 6 (IPv6) ICMP redirect messages.\n\nCreate a configuration file if it does not already exist:\n\n$ sudo vi /etc/sysctl.d/ipv6_accept_redirects.conf\n\nAdd the following line to the file:\n\nnet.ipv6.conf.all.accept_redirects = 0\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-85821r1167214_fix",
+  "VulnDiscussion": "An illicit ICMP redirect message could result in a man-in-the-middle attack.\n\nSatisfies: SRG-OS-000420-GPOS-00186, SRG-OS-000142-GPOS-00086",
+  "Documentable": "false"
+}

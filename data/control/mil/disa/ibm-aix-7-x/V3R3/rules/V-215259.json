@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215259",
+  "rule_id": "SV-215259r987796_rule",
+  "stig_id": "AIX7-00-002060",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AIX ftpd daemon must not be running.",
+  "group_title": "SRG-OS-000074-GPOS-00042",
+  "idents": {
+    "legacy": [
+      "V-91307",
+      "SV-101405"
+    ],
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-16457r294228_chk",
+  "check_content": "Determine if the \"ftp\" daemon is running by running the following command:\n# grep \"^ftp[[:blank:]]\" /etc/inetd.conf\n\nIf an entry is returned like the following line, the \"ftp\" daemon is running:\nftp stream tcp6 nowait root /usr/sbin/ftpd ftpd \n\nIf the above grep command returned a line that contains \"ftpd\", this is a finding.",
+  "fixtext": "Disable \"ftp\" daemon entry in \"/etc/inetd.conf\" using command: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'ftp' -p 'tcp6'\n\nReload the inetd process:\n# refresh -s inetd",
+  "fix_id": "F-16455r294229_fix",
+  "VulnDiscussion": "The ftp service is used to transfer files from or to a remote machine. The username and passwords are passed over the network in clear text and therefore insecurely. Remote file transfer, if required, should be facilitated through SSH.",
+  "Documentable": "false"
+}

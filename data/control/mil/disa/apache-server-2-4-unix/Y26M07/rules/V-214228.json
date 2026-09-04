@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214228",
+  "rule_id": "SV-214228r960735_rule",
+  "stig_id": "AS24-U1-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Apache web server must limit the number of allowed simultaneous session requests.",
+  "group_title": "SRG-APP-000001-WSR-000001",
+  "idents": {
+    "legacy": [
+      "SV-102685",
+      "V-92597"
+    ],
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-15442r881402_chk",
+  "check_content": "Determine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nNote: The apachectl front end is the preferred method for locating the Apache httpd file. For some Linux distributions, \"apache2ctl -V\" or  \"httpd -V\" can also be used.\n\nSearch for the directives \"KeepAlive\" and \"MaxKeepAliveRequests\" in the \"httpd.conf\" file:\n\n# cat /<path_to_file>/httpd.conf | grep -i \"keepalive\"\n\nKeepAlive On\nMaxKeepAliveRequests 100\n\nIf the value of \"KeepAlive\" is set to \"off\" or does not exist, this is a finding.\n\nIf the value of \"MaxKeepAliveRequests\" is set to a value less than \"100\" or does not exist, this is a finding.",
+  "fixtext": "Determine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nNote: The apachectl front end is the preferred method for locating the Apache httpd file. For some Linux distributions, \"apache2ctl -V\" or  \"httpd -V\" can also be used.  \n\nSet the \"KeepAlive\" directive to a value of \"on\"; add the directive if it does not exist.\n\nSet the \"MaxKeepAliveRequests\" directive to a value of \"100\" or greater; add the directive if it does not exist.\n\nRestart Apache: apachectl restart",
+  "fix_id": "F-15440r881403_fix",
+  "VulnDiscussion": "Apache web server management includes the ability to control the number of users and user sessions that utilize an Apache web server. Limiting the number of allowed users and sessions per user is helpful in limiting risks related to several types of denial-of-service (DOS) attacks.\n\nAlthough there is some latitude concerning the settings, they should follow DoD-recommended values and be configurable to allow for future DoD direction. While the DoD will specify recommended values, the values can be adjusted to accommodate the operational requirements of a given system.",
+  "Documentable": "false"
+}

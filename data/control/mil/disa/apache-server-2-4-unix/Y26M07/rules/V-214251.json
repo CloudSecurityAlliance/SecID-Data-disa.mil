@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214251",
+  "rule_id": "SV-214251r1043180_rule",
+  "stig_id": "AS24-U1-000470",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Cookies exchanged between the Apache web server and client, such as session cookies, must have security settings that disallow cookie access outside the originating Apache web server and hosted application.",
+  "group_title": "SRG-APP-000223-WSR-000011",
+  "idents": {
+    "legacy": [
+      "SV-102767",
+      "V-92679"
+    ],
+    "cci": [
+      "CCI-001664"
+    ]
+  },
+  "check_id": "C-15465r457879_chk",
+  "check_content": "Note: For web servers acting as a public facing with static content that do not require authentication, this is Not Applicable.\n\nReview the web server documentation and configuration to determine if cookies between the web server and client are accessible by applications or web servers other than the originating pair.\n\ngrep SessionCookieName <'INSTALL LOCATION'>/mod_session.conf\n\nConfirm that the \"HttpOnly\" and \"Secure\" settings are present in the line returned.\n\nConfirm that the line does not contain the \"Domain\" cookie setting.\n\nVerify the \"headers_module (shared)\" module is loaded in the web server:\n\n\"# httpd -M \nVerify \" headers_module (shared)\" is returned in the list of Loaded Modules from the above command.\"\n\nIf the \"headers_module (shared)\" is not loaded, this is a finding.",
+  "fixtext": "Edit the \"mod_session.conf\" file and find the \"SessionCookieName\" directive.\n\nSet the \"SessionCookieName\" to \"session path=/; HttpOnly; Secure; \"\n\nExample:\n\nSessionCookieName session path=/; HttpOnly; Secure; \n\nRestart Apache: apachectl restart",
+  "fix_id": "F-15463r277014_fix",
+  "VulnDiscussion": "Cookies are used to exchange data between the web server and the client. Cookies, such as a session cookie, may contain session information and user credentials used to maintain a persistent connection between the user and the hosted application since HTTP/HTTPS is a stateless protocol.\n\nWhen the cookie parameters are not set properly (i.e., domain and path parameters), cookies can be shared within hosted applications residing on the same web server or to applications hosted on different web servers residing on the same domain.",
+  "Documentable": "false"
+}

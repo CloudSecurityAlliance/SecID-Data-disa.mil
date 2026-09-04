@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272381",
+  "rule_id": "SV-272381r1124039_rule",
+  "stig_id": "BIND-9X-001240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "On a BIND 9.x server in a split DNS configuration, where separate name servers are used between the external and internal networks, the external name server must be configured to not be reachable from inside resolvers.",
+  "group_title": "SRG-APP-000516-DNS-000092",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-76431r1124038_chk",
+  "check_content": "If the BIND 9.x name server is not configured for split DNS, this is not applicable.\n\nVerify that the external view of the BIND 9.x server is configured to only serve external hosts.\n\nInspect the \"named.conf\" file for the following:\n\nview \"external\" {\nmatch-clients { <ip_address> | <address_match_list>; };\n};\n\nIf the \"match-clients\" sub-statement does not limit the external view to external hosts only, this is a finding.",
+  "fixtext": "Edit the \"named.conf\" file.\n\nConfigure the external view statement to server external hosts only:\n\nview \"external\" {\nmatch-clients { <ip_address> | <address_match_list>; };\n};\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76338r1123455_fix",
+  "VulnDiscussion": "Instead of having the same set of authoritative name servers serve different types of clients, an enterprise could have two different sets of authoritative name servers. \n\nOne set, called external name servers, can be located within a DMZ. These would be the only name servers that are accessible to external clients and would serve RRs pertaining to hosts with public services (web servers that serve external web pages or provide B2C services, mail servers, etc.).\n\nThe other set, called internal name servers, must be located within the firewall. They must be configured so they are not reachable from outside and therefore provide naming services exclusively to internal clients.",
+  "Documentable": "false"
+}

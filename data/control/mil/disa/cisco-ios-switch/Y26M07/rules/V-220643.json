@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220643",
+  "rule_id": "SV-220643r991850_rule",
+  "stig_id": "CISC-L2-000230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must have the default VLAN pruned from all trunk ports that do not require it.",
+  "group_title": "SRG-NET-000512-L2S-000009",
+  "idents": {
+    "legacy": [
+      "SV-110257",
+      "V-101153"
+    ],
+    "cci": [
+      "CCI-004891"
+    ]
+  },
+  "check_id": "C-22358r507975_chk",
+  "check_content": "Review the switch configuration and verify that the default VLAN is pruned from trunk links that do not require it:\n\nSW1#show interfaces trunk\n\nPort Mode Encapsulation Status Native vlan\nGi0/1 on 802.1q trunking 1\nGi0/2 on 802.1q trunking 1\n\nPort Vlans allowed on trunk\nGi0/1 1-998,1000-4094\nGi0/2 1-4094\n\nIf the default VLAN is not pruned from trunk links that should not be transporting frames for the VLAN, this is a finding.",
+  "fixtext": "Prune VLAN 1 from any trunk links as necessary:\n\nSW1(config)#int g0/2\nSW1(config-if)#switchport trunk allowed vlan except 1\n\nVerify that VLAN 1 is not allowed on the trunk link:\n\nSW1#show interfaces trunk\n\nPort Mode Encapsulation Status Native vlan\nGi0/1 on 802.1q trunking 1\nGi0/2 on 802.1q trunking 1\n\nPort Vlans allowed on trunk\nGi0/1 1-998,1000-4094\nGi0/2 2-4094",
+  "fix_id": "F-22347r507976_fix",
+  "VulnDiscussion": "The default VLAN (i.e., VLAN 1) is a special VLAN used for control plane traffic such as Spanning-Tree Protocol (STP), Dynamic Trunking Protocol (DTP), VLAN Trunking Protocol (VTP), and Port Aggregation Protocol (PAgP). VLAN 1 is enabled on all trunks and ports by default. \n\nWith larger campus networks, care must be taken about the diameter of the STP domain for the default VLAN. Instability in one part of the network could affect the default VLAN, influencing control-plane stability and therefore STP stability for all other VLANs.",
+  "Documentable": "false"
+}

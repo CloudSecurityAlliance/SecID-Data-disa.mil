@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257564",
+  "rule_id": "SV-257564r1050650_rule",
+  "stig_id": "CNTR-OS-000780",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift keystore must implement encryption to prevent unauthorized disclosure of information at rest within the container platform.",
+  "group_title": "SRG-APP-000429-CTR-001060",
+  "idents": {
+    "cci": [
+      "CCI-002476"
+    ]
+  },
+  "check_id": "C-61299r921633_chk",
+  "check_content": "Review the API server encryption by running by executing the following:\n\noc edit apiserver\n\nEXAMPLE OUTPUT\nspec:\n  encryption:\n    type: aescbc \n\nIf the encryption type is not \"aescbc\", this is a finding.",
+  "fixtext": "Set API encryption type by executing the following:\n\noc edit apiserver\n\nSet the encryption field type to aescbc:\nspec:\n  encryption:\n    type: aescbc \n\nAdditional details about the configuration can be found in the documentation:\nhttps://docs.openshift.com/container-platform/4.8/security/encrypting-etcd.html",
+  "fix_id": "F-61223r921634_fix",
+  "VulnDiscussion": "By default, etcd data is not encrypted in OpenShift Container Platform. Enable etcd encryption for the cluster to provide an additional layer of data security. For example, it can help protect the loss of sensitive data if an etcd backup is exposed to the incorrect parties. When users enable etcd encryption, the following OpenShift API server and Kubernetes API server resources are encrypted:\n\nSecrets\n\nConfig maps\n\nRoutes\n\nOAuth access tokens\n\nOAuth authorize tokens\n\nWhen users enable etcd encryption, encryption keys are created. These keys are rotated on a weekly basis. Users must have these keys to restore from an etcd backup.",
+  "Documentable": "false"
+}

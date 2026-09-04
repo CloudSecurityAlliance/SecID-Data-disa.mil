@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230552",
+  "rule_id": "SV-230552r1101902_rule",
+  "stig_id": "RHEL-08-040310",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The RHEL 8 file integrity tool must be configured to verify Access Control Lists (ACLs).",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-33221r1101901_chk",
+  "check_content": "Verify the file integrity tool is configured to verify ACLs.\n\nNote: AIDE is highly configurable at install time. This requirement assumes the \"aide.conf\" file is under the \"/etc\" directory.\n\nIf AIDE is not installed, ask the system administrator (SA) how file integrity checks are performed on the system.\n\nUse the following command to determine if the file is in a location other than \"/etc/aide/aide.conf\":\n\n$ sudo find / -name aide.conf\n\nUse the following command to review the \"aide.conf\" file to determine if the \"acl\" rule has been added to the rule list being applied to the files and directories selection lists:\n\n$ sudo cat /etc/aide.conf | more\n\nIf the \"acl\" rule is not being used on all selection lines in the \"/etc/aide.conf\" file, is commented out, or ACLs are not being checked by another file integrity tool, this is a finding.",
+  "fixtext": "Configure the file integrity tool to check file and directory ACLs. \n\nIf AIDE is installed, ensure the \"acl\" rule is present on all file and directory selection lists.",
+  "fix_id": "F-33196r568403_fix",
+  "VulnDiscussion": "ACLs can provide permissions beyond those permitted through the file mode and must be verified by file integrity tools.\n\nSelection lines in the aide.conf file determine which files and directories AIDE will monitor for changes. They follow this format:\n\n<path> <rules>\n\nThe <path> specifies a file, directory or wildcard pattern to monitor.\nThe <rules>define which attributes (hashes, permissions, timestamps, etc.) to check.\n\nRHEL 8 installation media come with a file integrity tool, Advanced Intrusion Detection Environment (AIDE).",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215182",
+  "rule_id": "SV-215182r958362_rule",
+  "stig_id": "AIX7-00-001016",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The regular users default primary group must be staff (or equivalent) on AIX.",
+  "group_title": "SRG-OS-000001-GPOS-00001",
+  "idents": {
+    "legacy": [
+      "SV-101315",
+      "V-91215"
+    ],
+    "cci": [
+      "CCI-000015"
+    ]
+  },
+  "check_id": "C-16380r293997_chk",
+  "check_content": "Check the default primary group for regular users:\n# lssec -f /etc/security/mkuser.default -s user -a pgrp\n\nThe above command should yield the following output:\nuser pgrp=staff\n\nIf the above command shows that the primary group (pgrp) is not \"staff\", this is a finding.",
+  "fixtext": "Set the default primary groups for regular to be \"staff\".\n# chsec -f /etc/security/mkuser.default -s user -a pgrp=staff",
+  "fix_id": "F-16378r293998_fix",
+  "VulnDiscussion": "The /usr/lib/security/mkuser.default file contains the default primary groups for regular and admin users. Setting a system group as the regular users' primary group increases the risk that the regular users can access privileged resources.",
+  "Documentable": "false"
+}

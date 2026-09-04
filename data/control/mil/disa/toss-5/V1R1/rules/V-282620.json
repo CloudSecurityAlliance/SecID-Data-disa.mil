@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282620",
+  "rule_id": "SV-282620r1200840_rule",
+  "stig_id": "TOSS-05-000029",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must disable virtual system calls.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87181r1200838_chk",
+  "check_content": "Verify the current GRUB 2 configuration disables virtual system calls using the following command:\n\n$ sudo grubby --info=ALL | grep args | grep -v 'vsyscall=none'\n\nIf any output is returned and is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Document the use of virtual system calls with the ISSO as an operational requirement or disable them using the following command:\n\n$ sudo grubby --update-kernel=ALL --args=\"vsyscall=none\"\n\nAdd or modify the following line in \"/etc/default/grub\" to ensure the configuration survives kernel updates:\n\nGRUB_CMDLINE_LINUX=\"vsyscall=none\"",
+  "fix_id": "F-87086r1200839_fix",
+  "VulnDiscussion": "System calls are special routines in the Linux kernel which userspace applications ask to do privileged tasks. Invoking a system call is an expensive operation because the processor must interrupt the currently executing task, switch context to kernel mode, and then back to userspace after the system call completes. Virtual system calls map into user space a page that contains some variables and the implementation of some system calls. This allows the system calls to be executed in userspace to alleviate the context switching expense.\n\nVirtual system calls provide an opportunity of attack for a user who has control of the return instruction pointer. Disabling virtual system calls help to prevent return-oriented programming (ROP) attacks via buffer overflows and overruns. If the system intends to run containers based on RHEL 6 components, then virtual system calls must be enabled for the components to function properly.",
+  "Documentable": "false"
+}

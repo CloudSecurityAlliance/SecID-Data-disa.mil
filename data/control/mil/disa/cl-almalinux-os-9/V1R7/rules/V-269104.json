@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269104",
+  "rule_id": "SV-269104r1049986_rule",
+  "stig_id": "ALMA-09-001230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must conceal, via the session lock, information previously visible on the display with a publicly viewable image.",
+  "group_title": "SRG-OS-000031-GPOS-00012",
+  "idents": {
+    "cci": [
+      "CCI-000060"
+    ]
+  },
+  "check_id": "C-73135r1049090_chk",
+  "check_content": "Note: This requirement assumes the use of the AlmaLinux OS 9 default graphical user interface, the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\nTo ensure the screensaver is configured to be blank, run the following command:\n\n$ gsettings get org.gnome.desktop.screensaver picture-uri \n\nIf properly configured, the output should be \"''\".\n\nTo ensure that users cannot set the screensaver background, run the following: \n\n$ grep picture-uri /etc/dconf/db/local.d/locks/* \n\nIf properly configured, the output should be \"/org/gnome/desktop/screensaver/picture-uri\".\n\nIf it is not set or configured properly, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to prevent a user from overriding the picture-uri setting for graphical user interfaces.\n\nFirst, in the file \"/etc/dconf/db/local.d/00-security-settings\" add or update the following lines:\n\n[org/gnome/desktop/screensaver]\npicture-uri=''\n\nThen, prevent user modification by adding the following line to \"/etc/dconf/db/local.d/locks/00-security-settings-lock\":\n\n/org/gnome/desktop/screensaver/picture-uri\n\nUpdate the dconf system databases:\n\n$ dconf update",
+  "fix_id": "F-73036r1049091_fix",
+  "VulnDiscussion": "Setting the screensaver mode to blank-only conceals the contents of the display from passersby.",
+  "Documentable": "false"
+}

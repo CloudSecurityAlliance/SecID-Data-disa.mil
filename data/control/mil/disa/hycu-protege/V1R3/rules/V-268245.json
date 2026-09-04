@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-268245",
+  "rule_id": "SV-268245r1038756_rule",
+  "stig_id": "HYCU-ND-000290",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must produce audit records containing information to establish when events occurred, where events occurred, the source of the event, the outcome of the event, and identity of any individual or process associated with the event.",
+  "group_title": "SRG-APP-000096-NDM-000226",
+  "idents": {
+    "cci": [
+      "CCI-000131",
+      "CCI-000132",
+      "CCI-000133",
+      "CCI-000134",
+      "CCI-001487"
+    ]
+  },
+  "check_id": "C-72266r1038755_chk",
+  "check_content": "Check the contents of the \"/var/log/audit/audit.log\" file.\n\nHYCU also maintains Event (Audit) information in the \"HYCU Web UI Events\" menu. \n\nVerify the audit log contains records for:\n- When (date and time) events occurred.\n- Where events occurred.\n- The source of the event(s).\n- The outcome of the event(s).\n- The identity of any individual or process associated with the event(s).\n\nIf the audit log is not configured or does not have required contents, this is a finding.",
+  "fixtext": "Log in to the HYCU VM console and load the STIG audit rules by using the following commands:\n\n1. cp /usr/share/audit/sample-rules/10-base-config.rules /usr/share/audit/sample-rules/30-stig.rules /usr/share/audit/sample-rules/31-privileged.rules /usr/share/audit/sample-rules/99-finalize.rules /etc/audit/rules.d/\n\n2. augenrules --load",
+  "fix_id": "F-72169r1038680_fix",
+  "VulnDiscussion": "It is essential for security personnel to know what is being done, what was attempted, where it was done, when it was done, and by whom it was done to compile an accurate risk assessment. Logging the date and time of each detected event provides a means of investigating an attack; recognizing resource usage or capacity thresholds; or identifying an improperly configured network device. To establish and correlate the series of events leading up to an outage or attack, it is imperative the date and time are recorded in all log records. \n\nTo compile an accurate risk assessment and provide forensic analysis, it is essential for security personnel to know where events occurred, such as device hardware components, device software modules, session identifiers, filenames, host names, and functionality.\n\nTo compile an accurate risk assessment and provide forensic analysis, it is essential for security personnel to know the source of the event. The source may be a component, module, or process within the device or an external session, administrator, or device. \n\nWithout information about the outcome of events, security personnel cannot make an accurate assessment as to whether an attack was successful or if changes were made to the security state of the system.\n\nEvent outcomes can include indicators of event success or failure and event-specific results (e.g., the security state of the device after the event occurred). As such, they also provide a means to measure the impact of an event and help authorized personnel to determine the appropriate response.\n\nSatisfies: SRG-APP-000096-NDM-000226, SRG-APP-000097-NDM-000227, SRG-APP-000098-NDM-000228, SRG-APP-000099-NDM-000229, SRG-APP-000100-NDM-000230",
+  "Documentable": "false"
+}

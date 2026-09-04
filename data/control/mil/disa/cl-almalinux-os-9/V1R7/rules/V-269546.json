@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269546",
+  "rule_id": "SV-269546r1050429_rule",
+  "stig_id": "ALMA-09-057110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 audit system must protect auditing rules from unauthorized change.",
+  "group_title": "SRG-OS-000058-GPOS-00028",
+  "idents": {
+    "cci": [
+      "CCI-000163"
+    ]
+  },
+  "check_id": "C-73577r1049014_chk",
+  "check_content": "Verify the audit system prevents unauthorized changes to the rules with the following command:\n\n$ grep -E '^-e 2' /etc/audit/audit.rules\n\n-e 2\n\nIf the audit system is not set to be immutable by adding the \"-e 2\" option to the end of \"/etc/audit/audit.rules\", this is a finding.",
+  "fixtext": "Configure the audit system to set the audit rules to be immutable by adding the following line to the end of \"/etc/audit/rules.d/audit.rules\"\n\n-e 2",
+  "fix_id": "F-73478r1049015_fix",
+  "VulnDiscussion": "Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.\n\nAudit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit AlmaLinux OS 9 system activity.\n\nIn immutable mode, unauthorized users cannot execute changes to the audit system to potentially hide malicious activity and then put the audit rules back. A system reboot would be noticeable, and a system administrator could then investigate the unauthorized changes.",
+  "Documentable": "false"
+}

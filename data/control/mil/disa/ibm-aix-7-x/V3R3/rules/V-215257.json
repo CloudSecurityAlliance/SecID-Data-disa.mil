@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215257",
+  "rule_id": "SV-215257r987796_rule",
+  "stig_id": "AIX7-00-002058",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The AIX rexec daemon must not be running.",
+  "group_title": "SRG-OS-000074-GPOS-00042",
+  "idents": {
+    "legacy": [
+      "V-91303",
+      "SV-101401"
+    ],
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-16455r294222_chk",
+  "check_content": "Determine if the \"rexec\" daemon is running by running the following command:\n# grep \"^exec[[:blank:]]\" /etc/inetd.conf\n\nIf the above grep command returned a line that contains \"rexecd\", this is a finding.",
+  "fixtext": "Disable the \"rexecd\" entry in \"/etc/inetd.conf\" using command: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'exec' -p 'tcp6'\n\nReload the inetd process:\n# refresh -s inetd",
+  "fix_id": "F-16453r294223_fix",
+  "VulnDiscussion": "The exec service is used to execute a command sent from a remote server. The username and passwords are passed over the network in clear text and therefore insecurely. Unless required the rexecd daemon will be disabled. This function, if required, should be facilitated through SSH.",
+  "Documentable": "false"
+}

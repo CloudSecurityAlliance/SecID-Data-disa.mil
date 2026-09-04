@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282764",
+  "rule_id": "SV-282764r1201597_rule",
+  "stig_id": "TOSS-05-000079",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must, for password-based authentication, verify when users create or update passwords the passwords are not found on the list of commonly-used, expected, or compromised passwords in IA-5 (1) (a).",
+  "group_title": "SRG-OS-000710-GPOS-00160",
+  "idents": {
+    "cci": [
+      "CCI-004061"
+    ]
+  },
+  "check_id": "C-87325r1201270_chk",
+  "check_content": "Verify TOSS 5 is configured not allow users create or update passwords with passwords that are found on the list of commonly-used, expected, or compromised passwords using the following command:\n\n$ sudo grep pam_pwquality /etc/pam.d/system-auth\n\nor\n\n$ sudo grep pam_pwquality /etc/pam.d/password-auth\n\npassword    requisite                                    pam_pwquality.so local_users_only\n\nIf the parameter \"pam_pwquality\" is not set and required in at least  one of the pam stacks, this is a finding.",
+  "fixtext": "Configure TOSS 5 to verify when users create or update passwords, the passwords are not found on a list of commonly-used, expected, or compromised passwords by adding the following to the /etc/pam.d/password-auth and /etc/pam.d/system-auth files:\n\npassword    requisite                                    pam_pwquality.so local_users_only",
+  "fix_id": "F-87230r1201596_fix",
+  "VulnDiscussion": "Password-based authentication applies to passwords regardless of whether they are used in single-factor or multifactor authentication. Long passwords or passphrases are preferable over shorter passwords. Enforced composition rules provide marginal security benefits while decreasing usability. However, organizations may choose to establish certain rules for password generation (e.g., minimum character length for long passwords) under certain circumstances and can enforce this requirement in IA-5(1)(h). Account recovery can occur, for example, in situations when a password is forgotten. Cryptographically protected passwords include salted one-way cryptographic hashes of passwords. The list of commonly used, compromised, or expected passwords includes passwords obtained from previous breach corpuses, dictionary words, and repetitive or sequential characters. The list includes context-specific words, such as the name of the service, username, and derivatives thereof.",
+  "Documentable": "false"
+}

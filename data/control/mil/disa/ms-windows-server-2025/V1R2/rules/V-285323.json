@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-285323",
+  "rule_id": "SV-285323r1211197_rule",
+  "stig_id": "WN25-SH-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2025 OpenSSH must not allow GSSAPI authentication.",
+  "group_title": "SRG-OS-000364-GPOS-00151",
+  "idents": {
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-89893r1211195_chk",
+  "check_content": "If OpenSSH is not installed on the system, this requirement is not applicable.\n\nVerify the system does not allow GSSAPI authentication with the following command:\n\nC:\\ > Get-Content \"$env:ProgramData\\ssh\\sshd_config\" | Select-String -Pattern '^\\s*GSSAPIAuthentication'\n\nGSSAPIAuthentication no\n\nIf the value is returned as \"yes\", the returned line is commented out, or no output is returned, this is a finding.",
+  "fixtext": "To configure the system, add or modify the following line in the \"$env:ProgramData/ssh/sshd_config\" file:\n\nGSSAPIAuthentication no\n\nRestart the OpenSSH service for the settings to take effect.",
+  "fix_id": "F-89798r1211196_fix",
+  "VulnDiscussion": "Generic Security Service Application Program Interface (GSSAPI) authentication is used to provide additional authentication mechanisms to applications. Allowing GSSAPI authentication through SSH exposes the system's GSSAPI to remote hosts, increasing the attack surface of the system.\n\nSatisfies: SRG-OS-000364-GPOS-00151, SRG-OS-000480-GPOS-00228",
+  "Documentable": "false"
+}

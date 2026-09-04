@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-274105",
+  "rule_id": "SV-274105r1120661_rule",
+  "stig_id": "AZLX-23-002210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must audit all successful/unsuccessful uses of the chage command.",
+  "group_title": "SRG-OS-000037-GPOS-00015",
+  "idents": {
+    "cci": [
+      "CCI-000130",
+      "CCI-000135",
+      "CCI-000169",
+      "CCI-002884",
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-78196r1120301_chk",
+  "check_content": "Verify Amazon Linux 2023 is configured so that an audit event is generated for any successful/unsuccessful use of the \"chage\" command by performing the following command to check the file system rules in \"/etc/audit/audit.rules\":\n\n$ sudo grep -w chage /etc/audit/audit.rules\n-a always,exit -F path=/usr/bin/chage -F perm=x -F auid>=1000 -F auid!=unset -k privileged-chage\n\nIf the command does not return a line, or the line is commented out, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 so that the audit service generates an audit event for any successful/unsuccessful uses of the \"chage\" command by adding or updating the following rule in the \"/etc/audit/rules.d/audit.rules\" file:\n\n-a always,exit -F path=/usr/bin/chage -F perm=x -F auid>=1000 -F auid!=unset -k privileged-chage\n\nTo load the rules to the kernel immediately, use the following command: \n\n$ sudo augenrules --load",
+  "fix_id": "F-78101r1120302_fix",
+  "VulnDiscussion": "Reconstruction of harmful events or forensic analysis is not possible if audit records do not contain enough information.\n\nAt a minimum, the organization must audit the full-text recording of privileged commands. The organization must maintain audit trails in sufficient detail to reconstruct events to determine the cause and impact of compromise.\n\nSatisfies: SRG-OS-000037-GPOS-00015, SRG-OS-000042-GPOS-00020, SRG-OS-000062-GPOS-00031, SRG-OS-000392-GPOS-00172, SRG-OS-000462-GPOS-00206, SRG-OS-000471-GPOS-00215, SRG-OS-000064-GPOS-00033, SRG-OS-000466-GPOS-00210, SRG-OS-000458-GPOS-00203",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219993",
+  "rule_id": "SV-219993r971542_rule",
+  "stig_id": "SOL-11.1-010370",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The audit system must alert the SA when the audit storage volume approaches its capacity.",
+  "group_title": "SRG-OS-000343",
+  "idents": {
+    "legacy": [
+      "SV-60709",
+      "V-47835"
+    ],
+    "cci": [
+      "CCI-001855"
+    ]
+  },
+  "check_id": "C-21703r372490_chk",
+  "check_content": "This check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nThe root role is required.\n\nVerify the presence of an audit_warn entry in /etc/mail/aliases.\n# /usr/lib/sendmail -bv audit_warn\nIf the response is:\naudit_warn... User unknown\n\nthis is a finding.\n\nReview the output of the command and verify that the audit_warn alias notifies the appropriate users in this form:\n\naudit_warn:user1,user2\n\nIf an appropriate user is not listed, this is a finding.",
+  "fixtext": "The root role is required. \n\nThis action applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this action applies.\n\nAdd an audit_warn alias to /etc/mail/aliases that will forward to designated system administrator(s).\n\n# pfedit /etc/mail/aliases\n\nInsert a line in the form:\naudit_warn:user1,user2\n\nPut the updated aliases file into service.\n# newaliases",
+  "fix_id": "F-21702r372491_fix",
+  "VulnDiscussion": "Filling the audit storage area can result in a denial of service or system outage and can lead to events going undetected.",
+  "Documentable": "false"
+}

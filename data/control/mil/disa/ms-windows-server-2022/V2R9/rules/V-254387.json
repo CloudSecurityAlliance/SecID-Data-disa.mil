@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-254387",
+  "rule_id": "SV-254387r1051102_rule",
+  "stig_id": "WN22-DC-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2022 Kerberos service ticket maximum lifetime must be limited to 600 minutes or less.",
+  "group_title": "SRG-OS-000112-GPOS-00057",
+  "idents": {
+    "cci": [
+      "CCI-001941",
+      "CCI-001942"
+    ]
+  },
+  "check_id": "C-57872r848975_chk",
+  "check_content": "This applies to domain controllers. It is NA for other systems.\n\nVerify the following is configured in the Default Domain Policy:\n\nOpen \"Group Policy Management\".\n\nNavigate to \"Group Policy Objects\" in the Domain being reviewed (Forest >> Domains >> Domain). \n\nRight-click on the \"Default Domain Policy\".\n\nSelect \"Edit\".\n\nNavigate to Computer Configuration >> Policies >> Windows Settings >> Security Settings >> Account Policies >> Kerberos Policy.\n\nIf the value for \"Maximum lifetime for service ticket\" is \"0\" or greater than \"600\" minutes, this is a finding.",
+  "fixtext": "Configure the policy value in the Default Domain Policy for Computer Configuration >> Policies >> Windows Settings >> Security Settings >> Account Policies >> Kerberos Policy >> Maximum lifetime for service ticket to a maximum of \"600\" minutes, but not \"0\", which equates to \"Ticket doesn't expire\".",
+  "fix_id": "F-57823r848976_fix",
+  "VulnDiscussion": "This setting determines the maximum amount of time (in minutes) that a granted session ticket can be used to access a particular service. Session tickets are used only to authenticate new connections with servers. Ongoing operations are not interrupted if the session ticket used to authenticate the connection expires during the connection.\n\nSatisfies: SRG-OS-000112-GPOS-00057, SRG-OS-000113-GPOS-00058",
+  "Documentable": "false"
+}

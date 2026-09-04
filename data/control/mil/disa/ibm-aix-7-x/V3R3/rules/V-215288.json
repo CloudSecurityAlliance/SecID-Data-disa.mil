@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215288",
+  "rule_id": "SV-215288r991589_rule",
+  "stig_id": "AIX7-00-002103",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All AIX shells referenced in passwd file must be listed in /etc/shells file, except any shells specified for the purpose of preventing logins.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101739",
+      "V-91641"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16486r294315_chk",
+  "check_content": "Confirm the login shells referenced in the \"/etc/passwd\" file are listed in the \"/etc/security/login.cfg\" file's \"shells =variable\" in the usw stanza by running commands: \n\n#  more /etc/security/login.cfg | grep shells | grep -v '*'\n        shells = /bin/sh,/bin/bsh,/bin/csh,/bin/ksh,/bin/tsh,/bin/ksh93,/usr/bin/sh,/usr/bin/bsh,/usr/bin/csh,/usr/bin/ksh,/usr/bin/tsh \n\n# more /etc/shells \n/bin/csh\n/bin/ksh\n/bin/psh\n/bin/tsh\n/bin/bsh\n/usr/bin/csh\n/usr/bin/ksh\n/usr/bin/psh\n/usr/bin/tsh\n/usr/bin/bsh\n\nThe \"/usr/bin/false\", \"/bin/false\", \"/dev/null\", \"/sbin/nologin\" (and equivalents), and \"sdshell\" will be considered valid shells for use in the \"/etc/passwd\" file, but will not be listed in the shells stanza. \nIf a shell referenced in \"/etc/passwd\" is not listed in the shells stanza, excluding the above mentioned shells, this is a finding.",
+  "fixtext": "Use the \"chsh\" utility or edit the \"/etc/passwd\" file and correct the error by changing the default shell of the account in error to an acceptable shell name contained in the \"/etc/shells file\". \n\nAlternatively, use the SMIT to change the \"/etc/passwd\" shell entry.",
+  "fix_id": "F-16484r294316_fix",
+  "VulnDiscussion": "The /etc/shells file lists approved default shells. It helps provide layered defense to the security approach by ensuring users cannot change their default shell to an unauthorized unsecure shell.",
+  "Documentable": "false"
+}

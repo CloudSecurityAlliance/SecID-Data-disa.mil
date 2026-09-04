@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251613",
+  "rule_id": "SV-251613r981946_rule",
+  "stig_id": "IDMS-DB-000330",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DBMS authentication using passwords must be avoided.",
+  "group_title": "SRG-APP-000164-DB-000401",
+  "idents": {
+    "cci": [
+      "CCI-000192"
+    ]
+  },
+  "check_id": "C-55048r807704_chk",
+  "check_content": "Examine load module RHDCSRTT by executing CA IDMS utility IDMSSRTD, or by issuing command \"DCMT DISPLAY SRTT\" while signed onto the CV, and reviewing the output.\n\nNote: This requires PTFs SO07995 and SO09476.\n\nFind the entry for RESTYPE=SGON. If no SGON entry exists, this is a finding. If found, verify that the entry has SECBY=EXTERNAL. If it does not, this is a finding.\n\nVerify that the ESM entry for the externally secured \"SGON\" resource is correctly configured for the external resource class and the external name of the \"SGON\" SRTT entry.\n\nFor local batch jobs that access database files, if there is no ESM security defined for the users submitting the jobs or securing the database datasets, this is a finding.",
+  "fixtext": "The SRTT module must be coded to secure the system. When using an ESM, this could be done in the following manner:\n\n               #SECRTT TYPE=ENTRY,                                   X\n                          RESTYPE=SGON,                                   X\n                          SECBY=EXTERNAL ,                               X\n                         EXTNAME=(RESTYPE,RESNAME),        X\n                         EXTCLS='CA@IDMS'\n\nEXTCLS maps the CA IDMS resource type to the resource class defined in the ESM. The EXTNAME defines the format of the resource name defined to the ESM.\n\nAfter making the above changes, assemble and link RHDCSRTT to create a new SRTT. To implement the new SRTT, either recycle any CVs that use the SRTT or issue these commands:\n\n   DCMT VARY NUCLEUS MODULE RHDCSRTT NEW COPY \n   DCMT VARY NUCLEUS RELOAD\n\nEnsure the ESM has a corresponding entry to give access to the desired users. For instance, in Top Secret:\nTSS PER(user_id) CA@IDMS(SGON.the_extname)\n\nIn ACF2:\n$KEY(SGON.the_extname) TYPE(CA@IDMS) \n UID(user_id) ALLOW\n\nAfter making the above changes, assemble and link RHDCSRTT to create a new SRTT. To implement the new SRTT, either recycle any CVs that use the SRTT or issue these commands:\n\nDCMT VARY NUCLEUS MODULE RHDCSRTT NEW COPY \nDCMT VARY NUCLEUS RELOAD",
+  "fix_id": "F-55002r807705_fix",
+  "VulnDiscussion": "Passwords that are easy to guess open a vulnerability allowing an unauthorized user to potentially gain access to the DBMS. IDMS uses the External Security Manager (ESM) to enforce complexity and lifetime standards.",
+  "Documentable": "false"
+}

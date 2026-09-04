@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215326",
+  "rule_id": "SV-215326r991560_rule",
+  "stig_id": "AIX7-00-003010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All library files must not have extended ACLs.",
+  "group_title": "SRG-OS-000259-GPOS-00100",
+  "idents": {
+    "legacy": [
+      "SV-101579",
+      "V-91481"
+    ],
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-16524r294429_chk",
+  "check_content": "The following system library directories need to be checked:\n/usr/lib/security/\n/usr/lib/methods/\n\nDetermine if any system library file has an extended ACL by running the follow script:\n\nfind /usr/lib/security /usr/lib/methods/ -type f | while read file\ndo\naclget -o /tmp/111.acl $file > /dev/null 2>&1\nif [ $? -eq 0 ]; then\ngrep -e \"[[:space:]]enabled$\" /tmp/111.acl > /dev/null 2>&1\nif [ $? -eq 0 ]; then\necho \"$file has ACL\"\nfi\nfi\ndone\n\nIf the above script yield any output, this is a finding.",
+  "fixtext": "Remove the extended ACL(s) from the system library file(s) and disable extended permissions using the follow script:\n\nfind /usr/lib/security /usr/lib/methods/ -type f | while read file\ndo\naclget -o /tmp/111.acl $file > /dev/null 2>&1\nif [ $? -eq 0 ]; then\ngrep -e \"[[:space:]]enabled$\" /tmp/111.acl > /dev/null 2>&1\nif [ $? -eq 0 ]; then\necho \"Removing ACL from \"$file\ncat /tmp/111.acl | head -n9 > /tmp/222.acl\necho \"    disabled\" >> /tmp/222.acl\naclput -i /tmp/222.acl $file\nfi\nfi\ndone",
+  "fix_id": "F-16522r294430_fix",
+  "VulnDiscussion": "Unauthorized access could destroy the integrity of the library files.",
+  "Documentable": "false"
+}

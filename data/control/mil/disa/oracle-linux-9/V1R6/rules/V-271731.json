@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271731",
+  "rule_id": "SV-271731r1155302_rule",
+  "stig_id": "OL09-00-002383",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must disable core dumps for all users.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75781r1155300_chk",
+  "check_content": "Note: If kernel dumps are disabled in accordance with OL09-00-002380, this requirement is not applicable.\n\nVerify OL 9 disables core dumps for all users by issuing the following command:\n\n$ grep -r -s core /etc/security/limits.conf /etc/security/limits.d/*.conf\n\n/etc/security/limits.conf:* hard core 0\n\nThis can be set as a global domain (with the * wildcard) but may be set differently for multiple domains.\n\nIf the \"core\" item is missing or commented out, or the value is anything other than \"0\", and the need for core dumps is not documented with the information system security officer (ISSO) as an operational requirement for all domains that have the \"core\" item assigned, this is a finding.\n\nIf entries exist for users or groups with a value set to anything other than \"0\", this is a finding.",
+  "fixtext": "Configure OL 9 to disable core dumps for all users.\n\nAdd the following line to the top of the /etc/security/limits.conf or in a single \".conf\" file defined in /etc/security/limits.d/:\n\n* hard core 0\n\nRemove or comment out any entries for users or groups with a value set to anything other than \"0\".",
+  "fix_id": "F-75688r1155301_fix",
+  "VulnDiscussion": "A core dump includes a memory image taken at the time the operating system terminates an application. The memory image could contain sensitive data and is generally useful only for developers trying to debug problems.",
+  "Documentable": "false"
+}

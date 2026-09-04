@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-281131",
+  "rule_id": "SV-281131r1166345_rule",
+  "stig_id": "RHEL-10-500450",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must generate audit records for successful and unsuccessful uses of the \"gpasswd\" command.",
+  "group_title": "SRG-OS-000037-GPOS-00015",
+  "idents": {
+    "cci": [
+      "CCI-000130",
+      "CCI-000135",
+      "CCI-000169",
+      "CCI-002884",
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-85692r1166343_chk",
+  "check_content": "Verify RHEL 10 is configured to audit the execution of the \"gpasswd\" command with the following command:\n\n$ sudo auditctl -l | grep gpasswd\n-a always,exit -S all -F path=/usr/bin/gpasswd -F perm=x -F auid>=1000 -F auid!=-1 -F key=privileged-gpasswd\n\nIf the command does not return a line, or the line is commented out, this is a finding.",
+  "fixtext": "Configure RHEL 10 to generate audit records upon successful and unsuccessful attempts to use the \"gpasswd\" command by adding or updating the following rule in \"/etc/audit/rules.d/audit.rules\":\n\n-a always,exit -F path=/usr/bin/gpasswd -F perm=x -F auid>=1000 -F auid!=unset -k privileged-gpasswd\n\nRestart the audit daemon with the following command for the changes to take effect:\n\n$ sudo service auditd restart",
+  "fix_id": "F-85597r1166344_fix",
+  "VulnDiscussion": "Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).\n\nWhen a user logs on, the auid is set to the uid of the account being authenticated. Daemons are not user sessions and have the loginuid set to -1. The auid representation is an unsigned 32-bit integer, which equals 4294967295. The audit system interprets -1, 4294967295, and \"unset\" in the same way.\n\nThe system call rules are loaded into a matching engine that intercepts each system call made by all programs on the system. Therefore, it is very important to use system call rules only when absolutely necessary because these affect performance. More rules lead to poorer performance. The performance can be helped, however, by combining system calls into one rule whenever possible.\n\nSatisfies: SRG-OS-000037-GPOS-00015, SRG-OS-000042-GPOS-00020, SRG-OS-000062-GPOS-00031, SRG-OS-000392-GPOS-00172, SRG-OS-000462-GPOS-00206, SRG-OS-000471-GPOS-00215",
+  "Documentable": "false"
+}

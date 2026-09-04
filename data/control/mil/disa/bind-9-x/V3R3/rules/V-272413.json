@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272413",
+  "rule_id": "SV-272413r1156958_rule",
+  "stig_id": "BIND-9X-001600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BIND 9.x name server software must run with restricted privileges.",
+  "group_title": "SRG-APP-000516-DNS-000105",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-76463r1123922_chk",
+  "check_content": "Verify the BIND 9.x process is not running as root:\n\n# ps -ef | grep named\n\nnamed 3015 1 0 12:59 ? 00:00:00 /usr/sbin/named -u named -t /var/named/chroot\n\nIf the owner of the process is root, this is a finding.",
+  "fixtext": "Configure the BIND 9.x process to run as a nonprivileged user.\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76370r1123551_fix",
+  "VulnDiscussion": "Failure to provide logical access restrictions associated with changes to application configuration may have significant effects on the overall security of the system. When dealing with access restrictions pertaining to change control, it should be noted that any changes to the hardware, software, and/or firmware components of the information system and/or application can have significant effects on the overall security of the system. Accordingly, only qualified and authorized individuals should be allowed to obtain access to application components for the purposes of initiating changes, including upgrades and modifications. \n\nLogical access restrictions include, for example, controls that restrict access to workflow automation, media libraries, abstract layers (e.g., changes implemented into third-party interfaces rather than directly into information systems), and change windows (e.g., changes occur only during specified times, making unauthorized changes easy to discover).\n\nIf the name server software is run as a privileged user (e.g., root in Unix systems), any break-in into the software can have disastrous consequences in terms of resources resident in the name server platform. Specifically, a hacker who breaks into the software acquires unrestricted access and therefore can execute any commands or modify or delete any files. It is necessary to run the name server software as a nonprivileged user with access restricted to specified directories to contain damages resulting from break-in.",
+  "Documentable": "false"
+}

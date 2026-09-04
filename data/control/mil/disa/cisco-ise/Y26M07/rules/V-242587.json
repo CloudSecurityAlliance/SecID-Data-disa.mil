@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242587",
+  "rule_id": "SV-242587r1146397_rule",
+  "stig_id": "CSCO-NC-000130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco ISE must be configured so client machines do not communicate with other network devices in the DMZ or subnet except as needed to perform an access client assessment or to identify themselves. This is required for compliance with C2C Step 2.",
+  "group_title": "SRG-NET-000015-NAC-000130",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-45862r812755_chk",
+  "check_content": "If DoD is not at C2C Step 2 or higher, this is not a finding.\nIf not required by the NAC SSP, this is not a finding.\n\nVerify the authorization policy will prevent intra-remediation VLAN communication.\n\n1. Navigate to Policy >> Policy Elements >> Results.\n2. Choose \">\" on the applicable policy set.\n3. Expand the Authorization Policy.\n4. Verify that a rule with the condition \"Session-PostureStatus EQUALS NonCompliant\" or an authorization policy for remediation is present making a note of the authorization profile.\n5. Navigate to Policy >> Policy Elements >> Results >> Authorization >> Authorization Profiles >> Authorization profile noted above.\n6. Ensure the result that is used will result in lateral traffic for that VLAN will be restricted by a private VLAN, dACL, ACL, SGT, or any combination.\n7. If a private VLAN is used, review the switch configuration to confirm it is a private VLAN.\n\nIf there is not an authorization policy for NonCompliant clients or remediation, this is a finding.\n\nIf the authorization policy does not prevent intra-remediation VLAN communication, this is a finding.",
+  "fixtext": "If required by the NAC SSP, configure the remediation authorization policy to prevent intra-remediation VLAN communication.\n\n1. Navigate to Work Centers >> Network Access >> Policy Sets.\n2. Choose \">\" on the applicable policy set.\n3. Expand the Authorization Policy.\n4. Locate the authorization policy with the \"Session-PostureStatus EQUALS NonCompliant\" or authorization policy for remediation access.\n5. Configure the result to block intra-VLAN communication (Private VLAN, dACL, ACL, or SGT).\n6. Choose \"Save\".",
+  "fix_id": "F-45819r803547_fix",
+  "VulnDiscussion": "Devices not compliant with DoD secure configuration policies are vulnerable to attack. Allowing these systems to connect presents a danger to the enclave.\n\nThis requirement gives the option to configure for automated remediation and/or manual remediation. Detailed record must be passed to the remediation server for action. Alternatively, the details can be passed in a notice to the user for action. The device status will be updated on the network access server/authentication server so that further access attempts are denied. The Cisco ISE should have policy assessment mechanisms with granular control to distinguish between access restrictions based on the criticality of the software or setting failure.\n\nConfigure reminders to be sent to the user and the SA periodically or at a minimum, each time a policy assessment is performed. This can be done via the Cisco ISE or any notification system.\n\nThe failure must also be used to update the HBSS agent.",
+  "Documentable": "false"
+}

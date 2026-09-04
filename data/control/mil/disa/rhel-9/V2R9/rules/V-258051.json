@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258051",
+  "rule_id": "SV-258051r991589_rule",
+  "stig_id": "RHEL-09-411060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All RHEL 9 local interactive users must have a home directory assigned in the /etc/passwd file.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61792r926138_chk",
+  "check_content": "Verify that interactive users on the system have a home directory assigned with the following command:\n \n$ sudo awk -F: '($3>=1000)&&($7 !~ /nologin/){print $1, $3, $6}' /etc/passwd\n\nsmithk:x:1000:1000:smithk:/home/smithk:/bin/bash\nscsaustin:x:1001:1001:scsaustin:/home/scsaustin:/bin/bash\ndjohnson:x:1002:1002:djohnson:/home/djohnson:/bin/bash\n\nInspect the output and verify that all interactive users (normally users with a user identifier (UID) greater that 1000) have a home directory defined.\n\nIf users home directory is not defined, this is a finding.",
+  "fixtext": "Create and assign home directories to all local interactive users on RHEL 9 that currently do not have a home directory assigned.",
+  "fix_id": "F-61716r926139_fix",
+  "VulnDiscussion": "If local interactive users are not assigned a valid home directory, there is no place for the storage and control of files they should own.",
+  "Documentable": "false"
+}

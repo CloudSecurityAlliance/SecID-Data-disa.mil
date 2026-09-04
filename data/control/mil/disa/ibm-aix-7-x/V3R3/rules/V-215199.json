@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215199",
+  "rule_id": "SV-215199r991592_rule",
+  "stig_id": "AIX7-00-001040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX root accounts home directory must not have an extended ACL.",
+  "group_title": "SRG-OS-000480-GPOS-00230",
+  "idents": {
+    "legacy": [
+      "SV-101863",
+      "V-91765"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16397r294048_chk",
+  "check_content": "Verify the \"root\" account's home directory has no extended ACL using command:\n\n# aclget ~root \n*\n* ACL_type   AIXC\n*\nattributes:\nbase permissions\n    owner(root):  rwx\n    group(system):  ---\n    others:  ---\nextended permissions\n    disabled\n\nIf extended permissions are enabled, the directory has an extended ACL, and this is a finding.",
+  "fixtext": "Remove the extended ACL from the \"root\" account's home directory using command:\n# acledit ~root \n\nChange extended attributes to disabled.",
+  "fix_id": "F-16395r294049_fix",
+  "VulnDiscussion": "Excessive permissions on root home directories allow unauthorized access to root user files.",
+  "Documentable": "false"
+}

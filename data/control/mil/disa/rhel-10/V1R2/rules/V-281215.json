@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281215",
+  "rule_id": "SV-281215r1166597_rule",
+  "stig_id": "RHEL-10-600630",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must ensure the password complexity module is enabled in the \"system-auth\" file.",
+  "group_title": "SRG-OS-000069-GPOS-00037",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-85776r1166595_chk",
+  "check_content": "Verify RHEL 10 uses \"pwquality\" to enforce the password complexity rules in the \"system-auth\" file with the following command:\n\n$ sudo grep pam_pwquality /etc/pam.d/system-auth\npassword required pam_pwquality.so\n\nIf the command does not return a line containing the value \"pam_pwquality.so\", or the line is commented out, this is a finding.\n\nIf the system administrator can demonstrate that the required configuration is contained in a PAM configuration file included or substacked from the \"system-auth\" file, this is not a finding.",
+  "fixtext": "Configure RHEL 10 to use \"pwquality\" to enforce password complexity rules.\n\nAdd the following line to the \"/etc/pam.d/system-auth\" file (or modify the line to have the required value):\n\npassword required pam_pwquality.so",
+  "fix_id": "F-85681r1166596_fix",
+  "VulnDiscussion": "Enabling Pluggable Authentication Module (PAM) password complexity permits enforcement of strong passwords and consequently makes the system less prone to dictionary attacks.",
+  "Documentable": "false"
+}

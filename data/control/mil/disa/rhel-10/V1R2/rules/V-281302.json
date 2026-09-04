@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281302",
+  "rule_id": "SV-281302r1167056_rule",
+  "stig_id": "RHEL-10-701000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must clear the page allocator to prevent use-after-free attacks.",
+  "group_title": "SRG-OS-000134-GPOS-00068",
+  "idents": {
+    "cci": [
+      "CCI-001084"
+    ]
+  },
+  "check_id": "C-85863r1167054_chk",
+  "check_content": "Verify RHEL 10 is configured so that the current GRUB 2 configuration enables page poisoning to mitigate use-after-free vulnerabilities.\n\nCheck that the current GRUB 2 configuration has page poisoning enabled with the following command:\n\n$ sudo grubby --info=ALL | grep args | grep -v 'page_poison=1'\n\nIf any output is returned, this is a finding.\n\nCheck that page poisoning is enabled by default to persist in kernel updates with the following command:\n\n$ sudo grep page_poison /etc/default/grub\nGRUB_CMDLINE_LINUX=\"page_poison=1\"\n\nIf \"page_poison\" is not set to \"1\", is missing or commented out, this is a finding.",
+  "fixtext": "Configure RHEL 10 to enable page poisoning with the following commands:\n\n$ sudo grubby --update-kernel=ALL --args=\"page_poison=1\"",
+  "fix_id": "F-85768r1167055_fix",
+  "VulnDiscussion": "Poisoning writes an arbitrary value to freed pages, so any modification or reference to that page after being freed or before being initialized will be detected and prevented. This prevents many types of use-after-free vulnerabilities at little performance cost. It also prevents data leakage and detection of corrupted memory.",
+  "Documentable": "false"
+}

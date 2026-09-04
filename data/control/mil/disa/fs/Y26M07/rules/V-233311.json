@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233311",
+  "rule_id": "SV-233311r1146389_rule",
+  "stig_id": "FORE-NC-000030",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "For endpoints that require automated remediation, Forescout must be configured to logically separate endpoints from the trusted network traffic during remediation. This is required for compliance with C2C Step 4.",
+  "group_title": "SRG-NET-000015-NAC-000040",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-36506r1018658_chk",
+  "check_content": "If DOD is not at C2C Step 4 or higher, this is not a finding.\nIf a separate remediation network is configured and isolated from the trusted network, this is not a finding.\n\nUse the Forescout Administrator UI to verify that Forescout is configured to either redirect endpoints requiring automated remediation to a network segment that is isolated from trusted traffic or, if assessment is done on the Forescout, the endpoint traffic is logically separate during remediation.\n\nIf Forescout does not isolate endpoints during remediation, this is a finding.",
+  "fixtext": "Use the Forescout Administrator UI to configure a policy, per the SSP, that isolates endpoints requiring automated remediation from other endpoints on the trusted network. The following is an example only.\n\n1. From the Policy tab, select the top most policy.\n2. Select Add >> Classification >> Primary Classification, and then click Next.\n3. Give the policy a name, then click Next.\n4. Select the IP Address Range the policy will apply to, click \"OK,\" and then click \"Next\". \n5. Select \"Finish\", and then click \"Apply\".\n\nThis collects a series of attributes for each endpoint that can then be used in a policy as the unique identifier. However, by default the IP address is used, for example in the log records.",
+  "fix_id": "F-36471r803453_fix",
+  "VulnDiscussion": "Automated and manual procedures for remediation for critical security updates will be managed differently. Continuing to assess and remediate endpoints with risks that could endanger the network could impact network usage for all users. This isolation prevents traffic from flowing with traffic from endpoints that have been fully assessed and authorized.\n\nThis requirement does not mandate a remediation network be used, but rather requires that it be secured where used. For example, unauthenticated devices must not be allowed to connect to remediation networks. \n\nMany sites block unauthorized traffic directly using the Forescout. Forescout accepts only endpoints with IP addresses that are in range. Configure Forescout to identify the endpoint. By default, the IP address is used as the endpoint identifier. The system can be configured to capture the following other endpoint unique identifiers if approved for use by the SSP as the identification method: BIOS Serial number and other hardcoded attributes, OS host name, etc.",
+  "Documentable": "false"
+}

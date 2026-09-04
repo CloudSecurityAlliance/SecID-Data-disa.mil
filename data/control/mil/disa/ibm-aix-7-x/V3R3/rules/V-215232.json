@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215232",
+  "rule_id": "SV-215232r991589_rule",
+  "stig_id": "AIX7-00-001136",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must require passwords to contain no more than three consecutive repeating characters.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101765",
+      "V-91667"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16430r294147_chk",
+  "check_content": "Check system default for \"maxrepeats\" attribute:\n# lssec -f /etc/security/user -s default -a maxrepeats\ndefault maxrepeats=3\n\nIf the default \"maxrepeats\" is greater than \"3\", or its value is not set, or its value is set to \"0\", this is a finding.\n\nCheck the \"maxrepeats\" setting for all users using:\n# lsuser -a maxrepeats ALL\n\nThe above command should yield the following output:\nroot maxrepeats=3\ndaemon maxrepeats=3\nbin maxrepeats=3\nsys maxrepeats=3\n\nIf the \"maxrepeats\" setting for any user is greater than \"3\", or its value is set to \"0\", this is a finding.",
+  "fixtext": "Use the \"chsec\" command to set \"maxrepeats\" to \"3\" for the default stanza:\n# chsec -f /etc/security/user -s default -a maxrepeats=3 \n\nUse the \"chsec\" command to set \"maxrepeats\" to \"3\" for all the users who have \"maxrepeats\" values that are greater than \"3\", or its value is set to \"0\":\n# chuser maxrepeats=3 [user_name]",
+  "fix_id": "F-16428r294148_fix",
+  "VulnDiscussion": "Passwords with excessive repeating characters may be more vulnerable to password-guessing attacks.",
+  "Documentable": "false"
+}

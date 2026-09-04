@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-280987",
+  "rule_id": "SV-280987r1195371_rule",
+  "stig_id": "RHEL-10-200644",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must authenticate the remote logging server for off-loading audit logs via \"rsyslog\".",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-85548r1195369_chk",
+  "check_content": "Verify RHEL 10 authenticates the remote logging server for off-loading audit logs with the following command:\n\n$ sudo grep -r -E 'streamdriver.authmode|streamdriver.permittedpeer|tls.authmode|tls.permittedpeer' /etc/rsyslog.conf /etc/rsyslog.d/\n/etc/rsyslog.d/99-forwarding.conf:        streamdriver.authmode=\"x509/name\"\n\nIf the variable name \"streamdriver.authmode\" is present in an omfwd statement block, this is not a finding. However, if the \"streamdriver.authmode\" variable is in a module block, this is a finding.\n\nIf the value of the \"$ActionSendStreamDriverAuthMode\" or \"streamdriver.authmode\" or \"tls.authmode\" option is not set to \"x509/name\", or the line is commented out, ask the system administrator to indicate how the audit logs are off-loaded to a different system or media.\n\nAdditionally, if the permittedpeer is not specified in either of the following formats, this is a finding:\nstreamdriver.permittedpeer=\"rsyslog.server.example.com\"\ntls.permittedpeer=\"rsyslog.server.example.com\"\n\nIf there is no evidence that the transfer of the audit logs being off-loaded to another system or media is encrypted, this is a finding.",
+  "fixtext": "Configure RHEL 10 to authenticate the remote logging server for off-loading audit logs by setting the following options in \"/etc/rsyslog.d/99-forwarding.conf\":\n\nstreamdriver.authmode=\"x509/name\"\n\nSpecify the logserver to prevent man-in-the-middle attacks in the following format:\nstreamdriver.permittedpeer=\"rsyslog.server.example.com\"",
+  "fix_id": "F-85453r1195370_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.\n\nRHEL 10 installation media provides \"rsyslogd\", a system utility providing support for message logging. Support for both internet and Unix domain sockets enables this utility to support both local and remote logging. Coupling this utility with \"gnutls\" (a secure communications library implementing the Secure Sockets Layer (SSL), Transport Layer Security (TLS), and Datagram TLS (DTLS) protocols) creates a method to securely encrypt and off-load auditing.\n\nThe \"rsyslog\" supported authentication modes include:\n- anon - Anonymous authentication.\n- x509/fingerprint - Certificate fingerprint authentication.\n- x509/certvalid - Certificate validation only.\n- x509/name - Certificate validation and subject name authentication.\n\nSatisfies: SRG-OS-000342-GPOS-00133, SRG-OS-000479-GPOS-00224",
+  "Documentable": "false"
+}

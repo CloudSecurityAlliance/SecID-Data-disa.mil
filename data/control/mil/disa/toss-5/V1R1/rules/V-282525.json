@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282525",
+  "rule_id": "SV-282525r1201367_rule",
+  "stig_id": "TOSS-05-000244",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The TOSS 5 SSH server must be configured to use only Message Authentication Codes (MACs) employing FIPS 140-3-validated cryptographic hash algorithms.",
+  "group_title": "SRG-OS-000250-GPOS-00093",
+  "idents": {
+    "cci": [
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-87086r1201365_chk",
+  "check_content": "Verify SSH server is configured to use only ciphers employing FIPS 140-3-approved algorithms using the following command:\n\n$ sudo grep -i macs /etc/crypto-policies/back-ends/openssh.config\nMACs hmac-sha2-256-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha1,umac-128@openssh.com,hmac-sha2-512\n\nIf the MACs entries in the \"openssh.config\" file have any hashes other than \"hmac-sha2-256-etm@openssh.com\", \"hmac-sha2-256\", \"hmac-sha2-512-etm@openssh.com\", \"hmac-sha2-512\"; the order differs from the example above; they are missing; or commented out, this is a finding.",
+  "fixtext": "Configure the TOSS 5 SSH server to use only MACs employing FIPS 140-3-approved algorithms by updating the \"/etc/crypto-policies/back-ends/openssh.config\" file with the following line:\n\nMACs hmac-sha2-256-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha2-256,hmac-sha1,umac-128@openssh.com,hmac-sha2-512\n\nRestart the system for the changes to take effect.",
+  "fix_id": "F-86991r1201366_fix",
+  "VulnDiscussion": "Without cryptographic integrity protections, information can be altered by unauthorized users without detection.\n\nRemote access (e.g., RDP) is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nCryptographic mechanisms used for protecting the integrity of information include, for example, signed hash functions using asymmetric cryptography enabling distribution of the public key to verify the hash information while maintaining the confidentiality of the secret key used to generate the hash.\n\nTOSS 5 incorporates systemwide crypto policies by default. The SSH configuration file has no effect on the ciphers, MACs, or algorithms unless specifically defined in the \"/etc/sysconfig/sshd\" file. The employed algorithms can be viewed in the \"/etc/crypto-policies/back-ends/opensshserver.config\" file.",
+  "Documentable": "false"
+}

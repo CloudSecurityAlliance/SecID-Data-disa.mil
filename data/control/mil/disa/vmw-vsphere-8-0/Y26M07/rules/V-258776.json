@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258776",
+  "rule_id": "SV-258776r933389_rule",
+  "stig_id": "ESXI-80-000221",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The ESXi host must have all security patches and updates installed.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62516r933387_chk",
+  "check_content": "Determine the current version and build:\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Summary. Note the version string next to \"Hypervisor:\".\n\nor\n\nFrom a Secure Shell (SSH) session connected to the ESXi host, or from the ESXi shell, run the following command:\n\n# vmware -v\n\nIf the ESXi host does not have the latest patches, this is a finding.\n\nIf the ESXi host is not on a supported release, this is a finding.\n\nThe latest ESXi versions and their build numbers can be found here: https://kb.vmware.com/s/article/2143832\n\nVMware also publishes advisories on security patches and offers a way to subscribe to email alerts for them.\n\nGo to: https://www.vmware.com/support/policies/security_response",
+  "fixtext": "ESXi can be patched in multiple ways, and this fix text does not cover all methods.\n\nManual patching when image profiles are not used:\n\n- Download the latest \"offline bundle\" .zip update from vmware.com. Verify the hash.\n\n- Transfer the file to a datastore accessible by the ESXi host, local or remote.\n\n- Put the ESXi host into maintenance mode.\n\n- From an ESXi shell, run the following command:\n\nesxcli software vib update -d <path to offline patch bundle.zip>\n\nManual patching when image profiles are used:\n\nFrom an ESXi shell, run the following command:\n\n# esxcli software sources profile list -d /vmfs/volumes/<your datastore>/<bundle name.zip>\n\nNote the available profiles. The organization will usually want the one ending in \"-standard\".\n\n# esxcli software profile update -p <selected profile> -d /vmfs/volumes/<your datastore>/<bundle name.zip>\n\nThere will be little output during the update. Once complete, reboot the host for changes to take effect.",
+  "fix_id": "F-62425r933388_fix",
+  "VulnDiscussion": "Installing software updates is a fundamental mitigation against the exploitation of publicly known vulnerabilities.",
+  "Documentable": "false"
+}

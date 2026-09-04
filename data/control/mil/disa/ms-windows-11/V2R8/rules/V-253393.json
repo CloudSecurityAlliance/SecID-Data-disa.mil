@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253393",
+  "rule_id": "SV-253393r1210293_rule",
+  "stig_id": "WN11-CC-000205",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Telemetry must not be configured to Full.",
+  "group_title": "SRG-OS-000205-GPOS-00083",
+  "idents": {
+    "cci": [
+      "CCI-001312"
+    ]
+  },
+  "check_id": "C-56846r1210209_chk",
+  "check_content": "If the following registry value does not exist or is not configured as specified, this is a finding:\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection\\  (For GPO-managed systems)\nOr\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection!AllowTelemetry   (For Intune-managed systems)\n\nValue Name: AllowTelemetry\n\nType: REG_DWORD\nValue: 0x00000000 (0) (Security)\n0x00000001 (1) (Basic)",
+  "fixtext": "For GPO-managed systems:\n\nConfigure the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Data Collection and Preview Builds >> \"Allow Diagnostic Data\" to \"Enabled\" with \"Send required diagnostic data\" selected in \"Options:\".\n\nFor Intune-managed systems:\n\nRevise the Intune policy to enable sending diagnostic data for Data Collection.",
+  "fix_id": "F-56796r1210210_fix",
+  "VulnDiscussion": "Some features may communicate with the vendor, sending system information or downloading data or components for the feature. Limiting this capability will prevent potentially sensitive information from being sent outside the enterprise. \n\nThe \"Security\" option for Telemetry configures the lowest amount of data, effectively none outside of the Malicious Software Removal Tool (MSRT), Defender, and telemetry client settings. \n\n\"Basic\" sends basic diagnostic and usage data and may be required to support some Microsoft services. \n\n\"Enhanced\" includes additional information on how Windows and apps are used and advanced reliability data. Windows Analytics can use a \"limited enhanced\" level to provide information such as health data for devices.\n\nNote: A different registry location is needed when systems are managed by Intune versus GPO.",
+  "Documentable": "false"
+}

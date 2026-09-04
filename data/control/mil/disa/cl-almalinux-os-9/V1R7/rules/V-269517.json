@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269517",
+  "rule_id": "SV-269517r1050400_rule",
+  "stig_id": "ALMA-09-053040",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must be configured to forward audit records via TCP to a different system or media from the system being audited via rsyslog.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-73548r1049907_chk",
+  "check_content": "Verify that AlmaLinux OS 9 audit system offloads audit records onto a different system or media from the system being audited via rsyslog using TCP with the following command:\n\n$ grep @@ /etc/rsyslog.conf /etc/rsyslog.d/*.conf\n\n/etc/rsyslog.d/stig.conf:*.* @@loghost.example.com\"\n\nIf a remote server is not configured, or the line is commented out, ask the system administrator (SA) to indicate how the audit logs are offloaded to a different system or media. \n\nIf there is no evidence that the audit logs are being offloaded to another system or media, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to offload audit records onto a different system or media from the system being audited via TCP using rsyslog by specifying the remote logging server in \"/etc/rsyslog.conf\"\" or \"/etc/rsyslog.d/[customfile].conf\" with the name or IP address of the log aggregation server.\n\n*.* @@[server]:[port]\"",
+  "fix_id": "F-73449r1049908_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.",
+  "Documentable": "false"
+}

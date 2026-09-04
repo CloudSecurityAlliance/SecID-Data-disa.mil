@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282537",
+  "rule_id": "SV-282537r1201581_rule",
+  "stig_id": "TOSS-05-000141",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 library files must have mode 755 or less permissive.",
+  "group_title": "SRG-OS-000259-GPOS-00100",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-87098r1201314_chk",
+  "check_content": "Verify the systemwide shared library files contained in the following directories have mode \"755\" or less permissive with the following command:\n\n$ sudo find -L /lib /lib64 /usr/lib /usr/lib64 -perm /022 -type f -exec ls -l {} \\;\n\nIf any systemwide shared library file is found to be group-writable or world-writable, this is a finding.",
+  "fixtext": "Configure the library files to be protected from unauthorized access. Run the following command, replacing \"[FILE]\" with any library file with a mode more permissive than \"755\".\n\n$ sudo chmod 755 [FILE]",
+  "fix_id": "F-87003r1201580_fix",
+  "VulnDiscussion": "If TOSS 5 allowed any user to make changes to software libraries, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n\nThis requirement applies to TOSS 5 with software libraries that are accessible and configurable, as in the case of interpreted languages. Software libraries also include privileged programs that execute with escalated privileges.",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-276642",
+  "rule_id": "SV-276642r1139785_rule",
+  "stig_id": "KNOX-16-008300",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Samsung Android must be configured to disable all Bluetooth profiles except for Headset Profile (HSP), Hands-Free Profile (HFP), Serial Port Profile (SPP), Advanced Audio Distribution Profile (A2DP), Audio/Video Remote Control Profile (AVRCP), and Phone Book Access Profile (PBAP).",
+  "group_title": "PP-MDF-333320",
+  "idents": {
+    "cci": [
+      "CCI-000381",
+      "CCI-001761"
+    ]
+  },
+  "check_id": "C-80797r1139446_chk",
+  "check_content": "Review the Samsung documentation and inspect the configuration to verify the Samsung Android devices are paired only with devices that support HSP, HFP, SPP, A2DP, AVRCP, and PBAP Bluetooth profiles.\n\nThis validation procedure is performed on both the management tool and the Samsung Android device.\n\nOn the management tool, in the device restrictions section, verify \"Bluetooth\" is set to the AO-approved selection: \"Allow\" if the AO has approved the use of Bluetooth or \"Disallow\" if the AO has not approved its use.\n\nOn the Samsung Android device: \n1. Open Settings >> Connections >> Bluetooth.\n2. Verify all listed paired Bluetooth devices use only authorized Bluetooth profiles.\n\nIf on the management tool \"Bluetooth\" is not set to the AO-approved value, or the Samsung Android device is paired with a device that uses unauthorized Bluetooth profiles, this is a finding.",
+  "fixtext": "Configure the Samsung Android devices to disable Bluetooth, or if the AO has approved the use of Bluetooth (for example, for hands-free use), train users to only pair devices that support HSP, HFP, SPP, A2DP, AVRCP, and PBAP profiles.\n\nOn the management tool, in the device restrictions section, set \"Bluetooth\" to the AO-approved selection: \"Allow\" if the AO has approved the use of Bluetooth or \"Disallow\" if the AO has not approved its use.\n\nThe user training requirement is satisfied in requirement KNOX-16-009400.\n\nIf a COBO deployment requires the use of specific Bluetooth profiles, Knox Platform for Enterprise (KPE) can be used to allow them in a STIG-approved configuration. In this case, do not configure this policy, and instead replace with KPE policy (innately by the management tool or via Knox Service Plugin [KSP]) \"Add Bluetooth UUIDs To White List \" with values \"HSP_UUID, HFP_UUID, SPP_UUID, A2DP_ADVAUDIODIST_UUID, AVRCP_CONTROLLER_UUID, AVRCP_TARGET_UUID\" and default blacklist as \"enable\".\n\nAPI: addUserRestriction, DISALLOW_BLUETOOTH",
+  "fix_id": "F-80702r1139784_fix",
+  "VulnDiscussion": "Some Bluetooth profiles provide the capability for remote transfer of sensitive DOD data without encryption or otherwise do not meet DOD IT security policies and therefore, must be disabled.\n\nSFR ID: FMT_SMF_EXT.1.1/BLUETOOTH BT-8",
+  "Documentable": "false"
+}

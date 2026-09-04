@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-282434",
+  "rule_id": "SV-282434r1200282_rule",
+  "stig_id": "TOSS-05-000463",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 audit system must protect login user identifiers (UIDs) from unauthorized change.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164",
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-86995r1200280_chk",
+  "check_content": "Verify the audit system prevents unauthorized changes to login UIDs using the following command:\n\n$ sudo grep -i immutable /etc/audit/audit.rules\n\n--loginuid-immutable\n\nIf the \"--loginuid-immutable\" option is not returned in the \"/etc/audit/audit.rules\", or the line is commented out, this is a finding.",
+  "fixtext": "Configure TOSS 5 auditing to prevent modification of login UIDs once they are set by adding the following line to \"/etc/audit/rules.d/audit.rules\":\n\n--loginuid-immutable\n\nRestart the audit daemon for the changes to take effect.",
+  "fix_id": "F-86900r1200281_fix",
+  "VulnDiscussion": "If modification of login UIDs is not prevented, they can be changed by nonprivileged users and make auditing complicated or impossible.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029, SRG-OS-000462-GPOS-00206, SRG-OS-000475-GPOS-00220",
+  "Documentable": "false"
+}

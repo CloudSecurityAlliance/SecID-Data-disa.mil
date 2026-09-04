@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257813",
+  "rule_id": "SV-257813r1134899_rule",
+  "stig_id": "RHEL-09-213090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must disable storing core dumps.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61554r1134898_chk",
+  "check_content": "Note: If kernel dumps are disabled in accordance with RHEL-09-213040, this requirement is not applicable.\n\nVerify RHEL 9 disables storing core dumps for all users by issuing the following command:\n\n$ grep -i storage /etc/systemd/coredump.conf\n\nStorage=none\n\nIf the \"Storage\" item is missing or commented out, or the value is anything other than \"none\", and the need for core dumps is not documented with the information system security officer (ISSO) as an operational requirement for all domains that have the \"core\" item assigned, this is a finding.",
+  "fixtext": "Configure the operating system to disable storing core dumps for all users.\n\nAdd or modify the following line in /etc/systemd/coredump.conf:\n\nStorage=none",
+  "fix_id": "F-61478r925425_fix",
+  "VulnDiscussion": "A core dump includes a memory image taken at the time the operating system terminates an application. The memory image could contain sensitive data and is generally useful only for developers or system operators trying to debug problems. Enabling core dumps on production systems is not recommended; however, there may be overriding operational requirements to enable advanced debugging. Permitting temporary enablement of core dumps during such situations must be reviewed through local needs and policy.",
+  "Documentable": "false"
+}

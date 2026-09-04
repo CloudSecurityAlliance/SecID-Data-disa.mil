@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269243",
+  "rule_id": "SV-269243r1050125_rule",
+  "stig_id": "ALMA-09-018500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must not accept router advertisements on all IPv6 interfaces.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73274r1049364_chk",
+  "check_content": "Note: If IPv6 is disabled on the system, this requirement is Not Applicable.\n\nVerify AlmaLinux OS 9 does not accept router advertisements on any IPv6 interfaces, unless the system is a router.\n\nDetermine if router advertisements are not accepted by using the following command:\n\n$ sysctl -a | grep 'accept_ra '\n\nnet.ipv6.conf.all.accept_ra = 1\nnet.ipv6.conf.default.accept_ra = 1\nnet.ipv6.conf.enp1s0.accept_ra = 0\nnet.ipv6.conf.lo.accept_ra = 1\n\nIf any of the returned lines are not set to \"0\" and it is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to not accept router advertisements on all IPv6 interfaces unless the system is a router.\n\nCreate a numbered *.conf file in /etc/sysctl.d/ with the following content:\n\nnet.ipv6.conf.all.accept_ra = 0\nnet.ipv6.conf.default.accept_ra = 0\nnet.ipv6.conf.lo.accept_ra = 0\n\nThe system configuration files need to be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sysctl –system",
+  "fix_id": "F-73175r1049365_fix",
+  "VulnDiscussion": "An illicit router advertisement message could result in a man-in-the-middle attack.",
+  "Documentable": "false"
+}

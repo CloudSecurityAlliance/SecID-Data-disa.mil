@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251609",
+  "rule_id": "SV-251609r960963_rule",
+  "stig_id": "IDMS-DB-000290",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Default demonstration and sample databases, database objects, and applications must be removed.",
+  "group_title": "SRG-APP-000141-DB-000091",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-55044r807692_chk",
+  "check_content": "If a CAISAG base installation done with EMPDEMO=YES and/or SQLDEMO=YES, or if a base installation done with CSM and CREATE_DB_DEMO and/or CREATE_SQL_DEMO selected, this is a finding.\n\nIn OCF/BCF, DISPLAY DMCL <dmclname>. If segments EMPDEMO, SQLDEMO and/or PROJDEMO exist, this is a finding.\n\nIn OCF/BCF, DISPLAY DBTABLE <dbtbname>. If segments EMPDEMO, SQLDEMO and/or PROJDEMO exist, this is a finding.\n\nIn OCF/BCF, DISPLAY SCHEMA DEMOEMPL and DISPLAY SCHEMA DEMOPROJ. If either or both exist, this is a finding. If schema EMPSCHM exists, this is a finding.\n                                                                                                                                                                                                                                                                                                                                                                                                                                    \nIf any of the following load modules are in load libs used by the installation, this is a finding.\nEMPSS01, EMPDMCL, EMPLOAD, EMPRPT, EMPINQ\n\nIf any of the following files are found to be used by the installation, this is a finding.\n<installation prefix>.EMPDEMO.EMPDEMO. <installation prefix>.EMPDEMO.INSDEMO, <installation prefix>.ORGDEMO.EMPDEMO, <installation prefix>.SQLDEMO.EMPLDEMO, <installation prefix>.SQLDEMO.INDXDEMO, <installation prefix>.SQLDEMO.INFODEMO, <installation prefix>.PROJSEG.PROJDEMO",
+  "fixtext": "In OCF/BCF, ALTER DMCL <dmclname> and EXCLUDE SEGMENT EMPDEMO, SQLDEMO and/or PROJDEMO. Generate, punch, and relink dmcl. Do the same for DBTABLE <dbtbname>.\n\nRemove load modules EMPSS01, EMPDMCL, EMPLOAD, EMPRPT, and EMPINQ from installation load libraries.                                                                                                                                                                                                                                                                                                                                        \n\nRemove files <installation prefix>.EMPDEMO.EMPDEMO. <installation prefix>.EMPDEMO.INSDEMO, <installation prefix>.ORGDEMO.EMPDEMO, <installation prefix>.SQLDEMO.EMPLDEMO, <installation prefix>.SQLDEMO.INDXDEMO, <installation prefix>.SQLDEMO.INFODEMO, <installation prefix>.PROJSEG.PROJDEMO from installation and installation jcl.\n\nRemove database demo objects from application dictionaries including EMPSCHM and all the record elements and records, EMPSS01, schemas DEMOEMPL, and DEMOPROJ, dropping all the tables in theses schemas.\n\nFor future base installations, specify EMPDEMO=NO and SQLDEMO=NO for CAISAG installs and do not select CREATE_DB_DEMO and CREATE_SQL_DEMO fields on CSM installs.                                                                                                                                                                                                                                                                                                                                                                                          \n\nNote that specified names are default names. Use modified names if they were changed during base installation.",
+  "fix_id": "F-54998r807693_fix",
+  "VulnDiscussion": "Information systems are capable of providing a wide variety of functions and services. Some of the functions and services, provided by default, may not be necessary to support essential organizational operations (e.g., key missions, functions).\n\nIt is detrimental for software products to provide, or install by default, functionality exceeding requirements or mission objectives. \n\nDBMSs must adhere to the principles of least functionality by providing only essential capabilities.",
+  "Documentable": "false"
+}

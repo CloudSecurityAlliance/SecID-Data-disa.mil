@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215392",
+  "rule_id": "SV-215392r958478_rule",
+  "stig_id": "AIX7-00-003087",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Internet Network News (INN) server must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "SV-101513",
+      "V-91415"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16590r294627_chk",
+  "check_content": "From the command prompt, run the following command:\n# ps -ef | egrep \"innd|nntpd\" \n\nIf the above command produced any result, this is a finding. \n\nCheck if \"innd\" or \"nntpd\" is started from \"/etc/onetd.conf\" using the following command:\n# egrep \"innd|nntpd\" /etc/inetd.conf | grep -v ^#\n\nIf the above command produced any result, this is a finding. \n\nCheck if \"innd\" or \"nntpd\" is added as a subsystem to the System Resource Controller (SRC):\n# lssrc -s innd\n# lssrc -s nntpd\n\nIf the above commands found that \"innd\" or \"nntpd\" is defined in SRC, this is a finding.",
+  "fixtext": "To stop \"innd\" or \"nntpd\" from running, use the following commands:\n# stopsrc -s innd\n# stopsrc -s nntpd\n\nSome versions of \"innd\" and \"nntpd\" need the following commands to stop them: \n# kill -1 [innd_pid]\n# kill -1 [nntpd_pid]\n\nTo remove \"innd\" and 'nntpd\" from SRC, run the following commands:\n# rmssys -s innd\n# rmssys -s nntpd\n\nTo stop running \"innd\" and \"nntpd\" from \"/etc/inetd.conf\", comment out the \"innd\" and \"nntpd\" lines in \"/etc/inetd.conf\", then refresh the \"inetd\":\n# refresh -s inetd",
+  "fix_id": "F-16588r294628_fix",
+  "VulnDiscussion": "Internet Network News (INN) servers access Usenet newsfeeds and store newsgroup articles. INN servers use the Network News Transfer Protocol (NNTP) to transfer information from the Usenet to the server and from the server to authorized remote hosts. \n\nIf this function is necessary to support a valid mission requirement, its use must be authorized and approved in the system accreditation package.",
+  "Documentable": "false"
+}

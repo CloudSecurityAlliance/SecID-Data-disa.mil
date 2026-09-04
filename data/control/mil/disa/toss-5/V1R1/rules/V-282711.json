@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282711",
+  "rule_id": "SV-282711r1201373_rule",
+  "stig_id": "TOSS-05-000257",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The TOSS 5 SSH daemon must not allow rhosts authentication.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87272r1201111_chk",
+  "check_content": "Verify the SSH daemon does not allow rhosts authentication using the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*ignorerhosts'\n\nIgnoreRhosts yes\n\nIf the value is returned as \"no\", the returned line is commented out, or no output is returned, this is a finding.",
+  "fixtext": "Configure the SSH daemon to not allow rhosts authentication.\n\nAdd the following line in \"/etc/ssh/sshd_config\" or uncomment the line and set the value to \"yes\":\n\nIgnoreRhosts yes\n\nRestart the SSH service for changes to take effect:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-87177r1201372_fix",
+  "VulnDiscussion": "SSH trust relationships mean a compromise on one host can allow an attacker to move trivially to other hosts.",
+  "Documentable": "false"
+}

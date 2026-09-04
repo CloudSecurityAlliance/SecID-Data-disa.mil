@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-271747",
+  "rule_id": "SV-271747r1198253_rule",
+  "stig_id": "OL09-00-002408",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must restrict exposed kernel pointer addresses access.",
+  "group_title": "SRG-OS-000132-GPOS-00067",
+  "idents": {
+    "cci": [
+      "CCI-001082",
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-75797r1091951_chk",
+  "check_content": "Verify that OL 9 restricts access to exposed kernel pointers with the following command:\n\n$ sysctl kernel.kptr_restrict \nkernel.kptr_restrict = 1",
+  "fixtext": "Configure OL 9 to prevent the leak of kernel pointers to unprivileged users.\n\nAdd or edit the following line in /etc/sysctl.d/99-sysctl.conf system configuration file:\n\nkernel.kptr_restrict = 1\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-75704r1091952_fix",
+  "VulnDiscussion": "Exposing kernel pointers (through procfs or \"seq_printf()\") exposes kernel writeable structures, which may contain functions pointers. If a write vulnerability occurs in the kernel, allowing write access to any of this structure, the kernel can be compromised. This option disallows any program without the CAP_SYSLOG capability to get the addresses of kernel pointers by replacing them with \"0\".\n\nSatisfies: SRG-OS-000132-GPOS-00067, SRG-OS-000433-GPOS-00192",
+  "Documentable": "false"
+}

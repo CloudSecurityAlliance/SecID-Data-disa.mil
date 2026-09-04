@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253338",
+  "rule_id": "SV-253338r1186375_rule",
+  "stig_id": "WN11-AU-000505",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The security event log size must be configured to a value that holds at least one week's worth of audit records.",
+  "group_title": "SRG-OS-000341-GPOS-00132",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-56791r1186373_chk",
+  "check_content": "If the system is configured to send audit records directly to an audit server, this requirement is not applicable. This must be documented with the information system security officer (ISSO).\n\nThe registry configuration setting below must be set (at least) to a value equal to the size needed to contain one week's worth of audit records in the security event log. The value used below is an example that assumes a typical week’s log size of 5GB.\n\nIf the following registry value does not exist or is not configured as specified, this is a finding:\n\nNOTE: The following registry entry is an example; the value must equal at least one week's worth of records.\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\EventLog\\Security\\\n\nValue Name: MaxSize\n\nValue Type: REG_DWORD\nValue:0x49960800 (5120000) (or greater)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Event Log Service >> Security >> \"Specify the maximum log file size (KB)\" to \"Enabled\" with a \"Maximum Log Size (KB)\" of a value that will contain one week of audit records or greater.\n\nIf the system is configured to send audit records directly to an audit server, this must be documented with the ISSO.",
+  "fix_id": "F-56741r1186374_fix",
+  "VulnDiscussion": "Inadequate log size will cause the log to fill up quickly. This may prevent audit events from being recorded properly and require frequent attention by administrative personnel. System Administrators (SAs) must monitor the volume of security event audit records and increase the registry value for the log size as needed.",
+  "Documentable": "false"
+}

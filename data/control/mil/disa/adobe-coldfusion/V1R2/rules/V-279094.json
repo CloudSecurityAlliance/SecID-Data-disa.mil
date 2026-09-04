@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-279094",
+  "rule_id": "SV-279094r1171587_rule",
+  "stig_id": "APAS-CF-000880",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "ColdFusion must remove all export ciphers to protect the confidentiality and integrity of transmitted information.",
+  "group_title": "SRG-APP-000439-AS-000274",
+  "idents": {
+    "cci": [
+      "CCI-002418",
+      "CCI-000068",
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-83642r1171585_chk",
+  "check_content": "Cipher Validation in server.xml:\n\n1. For each ColdFusion instance, navigate to: \n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\\server.xml.\n\n2. Open the server.xml file in a text editor.\n\n3. Identify all <Connector> elements that are actively handling traffic (i.e., not solely configured to redirect to a secure port).\n\n4. Verify each <Connector> element includes either a ciphers attribute or an embedded <SSLHostConfig> element with a ciphers setting.\n\nIf the ciphers setting is not present, this is a finding.\n\n5. If the ciphers are present, compare them to the list of approved ciphers found in: NIST SP 800-52 Revision 2, Section 3.3.1.1.\n\nIf any unapproved or insecure ciphers are configured, this is a finding.\n\n6. Verify the protocols attribute is configured and using only approved secure protocols (e.g., TLS 1.2 or 1.3).\n\nIf the protocols attribute is not configured to use approved secure protocols (e.g., TLS 1.2 or 1.3), this is a finding.",
+  "fixtext": "Secure Cipher and Protocol Configuration in server.xml:\n\n1. For each ColdFusion instance, navigate to: \n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\\server.xml.\n\n2. Before making changes, back up the file to prevent accidental misconfiguration.\n\n3. Open server.xml in a text editor with administrative privileges.\n\n4. Locate each <Connector> element that handles secure traffic (i.e., has SSLEnabled=\"true\" and is not just a redirect).\n\n5. If the <Connector> does not contain a ciphers attribute or an <SSLHostConfig> block with ciphers, add one.\n\n6. Specify only ciphers approved by NIST SP 800-52 Revision 2, Section 3.3.1.1.\n\nExample Configuration:\n<Connector port=\"8443\"\n           maxThreads=\"150\"\n           SSLEnabled=\"true\"\n           scheme=\"https\"\n           SSLEnabled=\"true\">\n    <SSLHostConfig protocols=\"TLSv1.2,TLSv1.3\"\n                   ciphers=\"TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384,\n                            TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384,\n                            TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256,\n                            TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256\">\n        <Certificate certificateKeystoreFile=\"conf/keystore.jks\"\n                     certificateKeystorePassword=\"<password>\"\n                     type=\"RSA\"/>\n    </SSLHostConfig>\n</Connector>\n\nNote: Replace the example cipher list with the exact approved list relevant to the system and policy.\n\n7. Ensure only secure protocols are used (TLS 1.2 or 1.3).\n\n8. Remove or disable any deprecated protocols such as SSLv3, TLS 1.0, or TLS 1.1.\n\n9. Save and close the file.\n\n10. Restart ColdFusion to apply changes.",
+  "fix_id": "F-83547r1171586_fix",
+  "VulnDiscussion": "Export ciphers have weak encryption algorithms that were originally designed to comply with outdated export regulations. These ciphers provide minimal security and can be easily broken by attackers, leading to potential data breaches and unauthorized access. By removing all export ciphers from the supported cipher suites, the ColdFusion server ensures that only strong, secure encryption algorithms are used for data transmission. This practice helps protect sensitive information from being intercepted and compromised, thereby enhancing the overall security of the server and the applications it hosts. Regularly reviewing and updating the cipher suites to exclude weak ciphers is essential for maintaining a secure server environment.\n\nSatisfies: SRG-APP-000439-AS-000274, SRG-APP-000014-AS-000009, SRG-APP-000179-AS-000129, SRG-APP-000439-AS-000155",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-280934",
+  "rule_id": "SV-280934r1165157_rule",
+  "stig_id": "RHEL-10-001050",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "RHEL 10 must have GNU Privacy Guard (GPG) signature verification enabled for all software repositories.",
+  "group_title": "SRG-OS-000366-GPOS-00153",
+  "idents": {
+    "cci": [
+      "CCI-003992"
+    ]
+  },
+  "check_id": "C-85495r1165155_chk",
+  "check_content": "Verify RHEL 10 software repositories defined in \"/etc/yum.repos.d/\" have been configured with \"gpgcheck\" enabled with the following command:\n\n$ sudo grep -w gpgcheck /etc/yum.repos.d/*.repo | more\ngpgcheck = 1\n\nIf \"localpkg_gpgcheck\" is not set to \"1\", or if the option is missing or commented out, ask the system administrator how the GPG signatures of local software packages are being verified.\n\nIf no process to verify GPG signatures has been approved by the organization, this is a finding.",
+  "fixtext": "Configure RHEL 10 software repositories defined in \"/etc/yum.repos.d/\" to have \"gpgcheck\" enabled with the following command:\n\n$ sudo sed -i 's/gpgcheck\\s*=.*/gpgcheck=1/g' /etc/yum.repos.d/*",
+  "fix_id": "F-85400r1165156_fix",
+  "VulnDiscussion": "Changes to any software components can have significant effects on the overall security of the operating system. This requirement ensures the software has not been tampered with and has been provided by a trusted vendor.\n\nAll software packages must be signed with a cryptographic key recognized and approved by the organization.\n\nVerifying the authenticity of software prior to installation validates the integrity of the software package received from a vendor.",
+  "Documentable": "false"
+}

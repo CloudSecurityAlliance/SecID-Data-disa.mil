@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279066",
+  "rule_id": "SV-279066r1171607_rule",
+  "stig_id": "APAS-CF-000430",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ColdFusion must separate the hosted application from the web server.",
+  "group_title": "SRG-APP-000211-AS-000146",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-83614r1171300_chk",
+  "check_content": "If a separate web server is used for hosted applications, requirement is Not Applicable.\n\n1. From the Admin Console Landing Screen., navigate to Enterprise Manager >> Instance Manager.\n\nIf all of the hosted applications have their own instance(s) under \"Available Servers\", this is not a finding.\n\nIf neither web servers nor separate instances are being used, this is a finding.",
+  "fixtext": "If a separate web server is used for hosted applications, requirement is Not Applicable.\n\n1. Set up the web server.\n\nFor Linux:\nExecute the Web Server Configuration tool. In the ColdFusion install folder, find:\n<ColdFusion_Installation_Directory> /cfusion/runtime/bin/wsconfig \n\nFor Windows:\nIn the ColdFusion install folder, find:\n<ColdFusion_Installation_Directory> \\cfusion\\runtime\\bin\\wsconfig.exe\n\n2. In the tool, click \"Add\".\n\n3. Provide the application server host, instance, and cluster.\n\n4. Enter the appropriate Web Server Properties.\n\n5. Select \"OK\".\n\n6. Set up separate instances.\n\na. From the Admin Console Landing Screen, navigate to Enterprise Manager >> Instance Manager.\n\nb. Select \"Add New Instance\".\n\nc. Enter a server name.\n\nd. Choose a directory.\n\ne. Select \"Submit\".",
+  "fix_id": "F-83519r1171384_fix",
+  "VulnDiscussion": "Separating hosted ColdFusion applications from the web server is critical for enforcing strong access control and minimizing the risk of unauthorized access to sensitive server components. When hosted applications and the web server operate within the same execution context or process space, vulnerabilities in one can directly compromise the other.\n\nSeparating the hosted application logic from the core web server components limits the application's access to only the resources it requires. This containment ensures that application-level vulnerabilities cannot be easily escalated to affect the broader server environment. It also allows for more granular security controls, input validation, and auditing.\n\nThis separation supports defense-in-depth by establishing clear trust boundaries between application and server functions. It enforces the principle of least privilege, protects critical infrastructure from exploitation.",
+  "Documentable": "false"
+}

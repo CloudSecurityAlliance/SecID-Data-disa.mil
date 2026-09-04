@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269292",
+  "rule_id": "SV-269292r1050174_rule",
+  "stig_id": "ALMA-09-024000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must be configured so that the cryptographic hashes of system files match vendor values.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73323r1048252_chk",
+  "check_content": "The following command will list which files on the system have file hashes different from what is expected by the RPM database:\n\n $ rpm -Va --noconfig | awk '$1 ~ /..5/ && $2 != \"c\"' \n\nIf there is an output, this is a finding.",
+  "fixtext": "Given the output from the check command, identify the package that provides the output and reinstall it.\n\nThe following trimmed example output shows a package that has failed verification, been identified, reinstalled, and then passed re-verification:\n\n$ rpm -Va --noconfig | awk '$1 ~ /..5/ && $2 != \"c\"' \n\nS.5....T.    /usr/bin/tar\n\n$ dnf whatprovides /usr/bin/tar\n\ntar-2:1.34-6.el9_1.x86_64 : GNU file archiving program\n\n$ dnf reinstall tar\n\n$ rpm -Va --noconfig | awk '$1 ~ /..5/ && $2 != \"c\"' \n\n[no output]",
+  "fix_id": "F-73224r1048253_fix",
+  "VulnDiscussion": "The hashes of important files like system executables should match the information given by the RPM database. Executables with erroneous hashes could be a sign of nefarious activity on the system.",
+  "Documentable": "false"
+}

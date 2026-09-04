@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274165",
+  "rule_id": "SV-274165r1137695_rule",
+  "stig_id": "AZLX-23-002505",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must ensure all world-writable directories be owned by root, sys, bin, or an application user.",
+  "group_title": "SRG-OS-000138-GPOS-00069",
+  "idents": {
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-78256r1120481_chk",
+  "check_content": "Verify Amazon Linux 2023 world writable directories are owned by root, a system account, or an application account with the following command:\n\n$ sudo find / -xdev -type d -perm -0002 ! -user root ! -uid +999 -exec ls -ld {} +\n\nIf there is output, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 public directories to be owned by root or a system account to prevent unauthorized and unintended information transferred via shared system resources.\n\nSet the owner of all public directories as root or a system account using the following command:\n\n$ sudo find / -xdev -type d -perm -0002 ! -user root ! -uid +999 -exec chown root:root {} +",
+  "fix_id": "F-78161r1120482_fix",
+  "VulnDiscussion": "Preventing unauthorized information transfers mitigates the risk of information, including encrypted representations of information, produced by the actions of prior users/roles (or the actions of processes acting on behalf of prior users/roles) from being available to any current users/roles (or current processes) that obtain access to shared system resources (e.g., registers, main memory, hard disks) after those resources have been released back to information systems. The control of information in shared resources is also commonly referred to as object reuse and residual information protection.\n\nThis requirement generally applies to the design of an information technology product, but it can also apply to the configuration of particular information system components that are, or use, such products. This can be verified by acceptance/validation processes in DOD or other government agencies.\n\nThere may be shared resources with configurable protections (e.g., files in storage) that may be assessed on specific information system components.",
+  "Documentable": "false"
+}

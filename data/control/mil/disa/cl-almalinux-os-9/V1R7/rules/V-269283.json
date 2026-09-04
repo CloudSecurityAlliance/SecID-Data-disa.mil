@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269283",
+  "rule_id": "SV-269283r1050165_rule",
+  "stig_id": "ALMA-09-022900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must prevent files with the setuid and setgid bit set from being executed on file systems that are used with removable media.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73314r1048225_chk",
+  "check_content": "Verify file systems that are used for removable media are mounted with the \"nosuid\" option with the following command:\n\n$ cat /etc/fstab\n\nUUID=0cb43738-b102-48f8-9174-061d8ee537b8 /mnt/usbdrive vfat noauto,owner,ro,nosuid,nodev,noexec 0 0\n\nIf a file system found in \"/etc/fstab\" refers to removable media and it does not have the \"nosuid\" option set, this is a finding.",
+  "fixtext": "Configure the \"/etc/fstab\" to use the \"nosuid\" option on file systems that are associated with removable media.",
+  "fix_id": "F-73215r1048226_fix",
+  "VulnDiscussion": "The \"nosuid\" mount option causes the system to not execute \"setuid\" and \"setgid\" files with owner privileges. This option must be used for mounting any file system not containing approved \"setuid\" and \"setguid\" files. Executing files from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

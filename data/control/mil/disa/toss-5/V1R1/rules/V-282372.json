@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-282372",
+  "rule_id": "SV-282372r1201380_rule",
+  "stig_id": "TOSS-05-000269",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must directly initiate a session lock for all connection types when the smart card is removed.",
+  "group_title": "SRG-OS-000028-GPOS-00009",
+  "idents": {
+    "cci": [
+      "CCI-000056",
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-86933r1200094_chk",
+  "check_content": "Verify TOSS 5 enables a user's session lock until that user reestablishes access using established identification and authentication procedures using the following command:\n\nNote: This requirement assumes the use of the TOSS 5 default graphical user interface—the GNOME desktop environment. If the system does not have a graphical user interface installed, this requirement is not applicable.\n\n$ grep -R removal-action /etc/dconf/db/*\n\n/etc/dconf/db/distro.d/20-authselect:removal-action='lock-screen'\n\nIf the \"removal-action='lock-screen'\" setting is missing or commented out from the dconf database files, and is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure TOSS 5 to enable a user's session lock until that user reestablishes access using established identification and authentication procedures.\n\nSelect or create an authselect profile and incorporate the \"with-smartcard-lock-on-removal\" feature with the following example:\n\n$ sudo authselect select sssd with-smartcard with-smartcard-lock-on-removal\n\nAlternatively, edit the dconf settings in the /etc/dconf/db/* location.\n\nAdd or update the [org/gnome/settings-daemon/peripherals/smartcard] section of the /etc/dconf/db/local.d/00-security-settings\" database file and add or update the following lines:\n\n[org/gnome/settings-daemon/peripherals/smartcard]\nremoval-action='lock-screen'\n\nUpdate the dconf system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-86838r1200095_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.\n\nThe session lock is implemented at the point where session activity can be determined. Rather than be forced to wait for a period of time to expire before the user session can be locked, TOSS 5 must provide users with the ability to manually invoke a session lock so users can secure their session if it is necessary to temporarily vacate the immediate physical vicinity.\n\nSatisfies: SRG-OS-000028-GPOS-00009, SRG-OS-000029-GPOS-00010",
+  "Documentable": "false"
+}

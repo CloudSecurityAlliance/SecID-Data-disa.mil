@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-282608",
+  "rule_id": "SV-282608r1200804_rule",
+  "stig_id": "TOSS-05-000476",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must implement DOD or other applicable U.S. Government agency-approved encryption in the bind package.",
+  "group_title": "SRG-OS-000423-GPOS-00187",
+  "idents": {
+    "cci": [
+      "CCI-002418",
+      "CCI-002422"
+    ]
+  },
+  "check_id": "C-87169r1200802_chk",
+  "check_content": "Verify BIND uses the system crypto policy using the following command:\n\nNote: If the \"bind\" package is not installed, this requirement is not applicable.\n\n$ sudo grep include /etc/named.conf \n\ninclude \"/etc/crypto-policies/back-ends/bind.config\";' \n\nIf BIND is installed and the BIND config file does not include the \"/etc/crypto-policies/back-ends/bind.config\" directive, or the line is commented out, this is a finding.",
+  "fixtext": "Configure BIND to use the system crypto policy.\n\nAdd the following line to the \"options\" section in \"/etc/named.conf\":\n\ninclude \"/etc/crypto-policies/back-ends/bind.config\";",
+  "fix_id": "F-87074r1200803_fix",
+  "VulnDiscussion": "Without cryptographic integrity protections, information can be altered by unauthorized users without detection.\n\nCryptographic mechanisms used for protecting the integrity of information include, for example, signed hash functions using asymmetric cryptography enabling distribution of the public key to verify the hash information while maintaining the confidentiality of the secret key used to generate the hash.\n\nTOSS 5 incorporates systemwide crypto policies by default. The employed algorithms can be viewed in the /etc/crypto-policies/back-ends/ directory.\n\nSatisfies: SRG-OS-000423-GPOS-00187, SRG-OS-000426-GPOS-00190",
+  "Documentable": "false"
+}

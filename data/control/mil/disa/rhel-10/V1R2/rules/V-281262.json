@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281262",
+  "rule_id": "SV-281262r1184762_rule",
+  "stig_id": "RHEL-10-700590",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must be configured so that Secure Shell (SSH) server configuration files' permissions are not modified.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-85823r1166736_chk",
+  "check_content": "Verify RHEL 10 is configured so that SSH server configuration files' permissions are not modified.\n\nCheck the permissions of the \"/etc/ssh/sshd_config\" file with the following command:\n\n$ sudo rpm --verify openssh-server | awk '! ($2 == \"c\" && $1 ~ /^.\\..\\.\\.\\.\\..\\./) {print $0}'\n\nIf the command returns any output, this is a finding.",
+  "fixtext": "Configure RHEL 10 so that SSH server configuration files' permissions are not modified.\n\nRun the following commands to restore the correct permissions of OpenSSH server configuration files:\n\n$ sudo rpm --setugids openssh-server\n$ sudo rpm --setperms openssh-server",
+  "fix_id": "F-85728r1166737_fix",
+  "VulnDiscussion": "Service configuration files enable or disable features of their respective services, which if configured incorrectly can lead to insecure and vulnerable configurations. Therefore, service configuration files must be owned by the correct group to prevent unauthorized changes.\n\nOpenSSH uses the first occurrence of a keyword it sees, and drop-in files are read in lexicographical order at the start of the configuration. Red Hat recommends using drop-in files rather than changing base configuration files.",
+  "Documentable": "false"
+}

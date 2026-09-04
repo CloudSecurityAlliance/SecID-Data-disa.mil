@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271761",
+  "rule_id": "SV-271761r1208732_rule",
+  "stig_id": "OL09-00-002423",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must implement address space layout randomization (ASLR) to protect its memory from unauthorized code execution.",
+  "group_title": "SRG-OS-000433-GPOS-00193",
+  "idents": {
+    "cci": [
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-75811r1208730_chk",
+  "check_content": "Verify that OL 9 is implementing ASLR with the following command:\n\n$ sysctl kernel.randomize_va_space\nkernel.randomize_va_space = 2\n\nCheck that the configuration files are present to enable this kernel parameter:\n\n$ sudo grep -rs kernel.randomize_va_space /run/sysctl.d/*.conf /usr/local/lib/sysctl.d/*.conf /usr/lib/sysctl.d/*.conf /lib/sysctl.d/*.conf /etc/sysctl.conf /etc/sysctl.d/*.conf\n/etc/sysctl.d/99-kernel_randomize_va_space.conf:kernel.randomize_va_space = 2\n\nIf \"kernel.randomize_va_space\" is not set to \"2\", or is missing, this is a finding.\n\nIf conflicting results are returned, this is a finding.",
+  "fixtext": "Configure OL 9 to implement ASLR to protect its memory from unauthorized code execution.\n\nAdd the configuration item with the following command:\n\n$ echo 'kernel.randomize_va_space = 2' | sudo tee /etc/sysctl.d/99-kernel_randomize_va_space.conf\n\nRemove any configurations that conflict with the above from the following locations: \n\n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf\n/etc/sysctl.d/*.conf\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-75718r1208731_fix",
+  "VulnDiscussion": "ASLR makes it more difficult for an attacker to predict the location of attack code they have introduced into a process's address space during an attempt at exploitation. Additionally, ASLR makes it more difficult for an attacker to know the location of existing code to repurpose it using return-oriented programming (ROP) techniques.",
+  "Documentable": "false"
+}

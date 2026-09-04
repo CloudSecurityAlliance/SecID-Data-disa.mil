@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248530",
+  "rule_id": "SV-248530r958406_rule",
+  "stig_id": "OL08-00-010070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All OL 8 remote access methods must be monitored.",
+  "group_title": "SRG-OS-000032-GPOS-00013",
+  "idents": {
+    "cci": [
+      "CCI-000067"
+    ]
+  },
+  "check_id": "C-51964r951552_chk",
+  "check_content": "Verify that OL 8 monitors all remote access methods.\n\nCheck that remote access methods are being logged by running the following command:\n\n$ sudo grep -E '(auth\\.\\*|authpriv\\.\\*|daemon\\.\\*)' /etc/rsyslog.conf /etc/rsyslog.d/*.conf\n\n/etc/rsyslog.conf:auth.*;authpriv.*;daemon.* /var/log/secure\n\nIf \"auth.*\", \"authpriv.*\", or \"daemon.*\" are not configured to be logged, this is a finding.",
+  "fixtext": "Configure OL 8 to monitor all remote access methods by installing rsyslog with the following command: \n \n$ sudo yum install rsyslog \n \nAdd or update the following lines to the \"/etc/rsyslog.conf\" file: \n \nauth.*;authpriv.*;daemon.* /var/log/secure \n \nThe \"rsyslog\" service must be restarted for the changes to take effect. To restart the \"rsyslog\" service, run the following command: \n \n$ sudo systemctl restart rsyslog.service",
+  "fix_id": "F-51918r779155_fix",
+  "VulnDiscussion": "Remote access services, such as those providing remote access to network devices and information systems, which lack automated monitoring capabilities increase risk and make remote user access management difficult at best. \n \nRemote access is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless. \n \nAutomated monitoring of remote access sessions allows organizations to detect cyberattacks and ensure ongoing compliance with remote access policies by auditing connection activities of remote access capabilities, such as Remote Desktop Protocol (RDP), on a variety of information system components (e.g., servers, workstations, notebook computers, smartphones, and tablets).",
+  "Documentable": "false"
+}

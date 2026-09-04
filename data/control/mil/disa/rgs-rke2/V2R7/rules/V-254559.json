@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254559",
+  "rule_id": "SV-254559r1188303_rule",
+  "stig_id": "CNTR-R2-000130",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Kubernetes Kubelet must have the read-only port flag disabled.",
+  "group_title": "SRG-APP-000033-CTR-000095",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-58043r1188301_chk",
+  "check_content": "Ensure read-only-port is set so anonymous requests will be rejected.\n\nRun the following command on each node:\n\n/bin/ps -ef | grep kubelet | grep -v grep\n\nIf --read-only-port is not set to \"0\" or is not configured, this is a finding.",
+  "fixtext": "Edit the RKE2 configuration file on all RKE2 hosts, located at /etc/rancher/rke2/config.yaml, to contain the following: kubelet-arg: --read-only-port=0\n\nIf configuration files are updated on a host, restart the RKE2 service using the command \"systemctl restart rke2-server\" for server hosts and \"systemctl restart rke2-agent\" for agent hosts.",
+  "fix_id": "F-57992r1188302_fix",
+  "VulnDiscussion": "Kubelet serves a small REST API with read access to port 10255. The read-only port for Kubernetes provides no authentication or authorization security control. Providing unrestricted access on port 10255 exposes Kubernetes pods and containers to malicious attacks or compromise. Port 10255 is deprecated and should be disabled. \n\nClose the read-only-port by setting the API server's read-only port flag to \"0\".",
+  "Documentable": "false"
+}

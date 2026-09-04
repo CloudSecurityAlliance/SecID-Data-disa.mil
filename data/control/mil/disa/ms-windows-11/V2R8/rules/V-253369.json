@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253369",
+  "rule_id": "SV-253369r1210289_rule",
+  "stig_id": "WN11-CC-000070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Virtualization-Based Security (VBS) must be enabled on Windows 11 with the platform security level configured to Secure Boot or Secure Boot with DMA Protection.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56822r1210197_chk",
+  "check_content": "Confirm VBS is enabled and running with Secure Boot or Secure Boot and DMA Protection.\n\nIf there are documented operational mission needs to disable VBS, this may be reduced to a CAT III finding.\n\nRun \"PowerShell\" with elevated privileges (run as administrator).\n\nEnter the following:\n\n\"Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\\Microsoft\\Windows\\DeviceGuard\"\n\nIf \"RequiredSecurityProperties\" does not include a value of \"2\" indicating \"Secure Boot\" (e.g., \"{1, 2}\"), this is a finding.\n\nIf \"Secure Boot and DMA Protection\" is configured, \"3\" will also be displayed in the results (e.g., \"{1, 2, 3}\").\n\nIf \"VirtualizationBasedSecurityStatus\" is not a value of \"2\" indicating \"Running\", this is a finding.\n\nAlternately:\n\nRun \"System Information\".\n\nUnder \"System Summary\", verify the following:\n\nIf \"Device Guard virtualization-based security\" does not display \"Running\", this is a finding.\n\nIf \"Device Guard Required Security Properties\" does not display \"Base Virtualization Support, Secure Boot\", this is a finding.\n\nIf \"Secure Boot and DMA Protection\" is configured, \"DMA Protection\" will also be displayed (e.g., \"Base Virtualization Support, Secure Boot, DMA Protection\").\n\nThe policy settings referenced in the Fix section will configure the following registry values. However, due to hardware requirements, the registry values alone do not ensure proper function.\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard\\\n\nValue Name: EnableVirtualizationBasedSecurity\nValue Type: REG_DWORD\nValue: 1\n\nValue Name: RequirePlatformSecurityFeatures\nValue Type: REG_DWORD\nValue: 1 (Secure Boot only) or 3 (Secure Boot and DMA Protection)\n\nA Microsoft article on the Credential Guard system requirement can be found at the following link:\n\nhttps://technet.microsoft.com/en-us/itpro/windows/keep-secure/credential-guard-requirements",
+  "fixtext": "Configure the policy value for Computer Configuration >> Administrative Templates >> System >> Device Guard >> \"Turn On virtualization-based Security\" to \"Enabled\" with \"Secure Boot\" or \"Secure Boot and DMA Protection\" selected for \"Select Platform Security Level:\".\n\nA Microsoft article on Credential Guard system requirement can be found at the following link.\nhttps://technet.microsoft.com/en-us/itpro/windows/keep-secure/credential-guard-requirements",
+  "fix_id": "F-56772r1210198_fix",
+  "VulnDiscussion": "VBS provides the platform for the additional security features, Credential Guard, and virtualization-based protection of code integrity. Secure Boot is the minimum security level, with DMA protection providing additional memory protection. DMA Protection requires a CPU that supports input/output memory management unit (IOMMU).",
+  "Documentable": "false"
+}

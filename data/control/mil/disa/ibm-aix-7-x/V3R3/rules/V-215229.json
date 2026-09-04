@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215229",
+  "rule_id": "SV-215229r991587_rule",
+  "stig_id": "AIX7-00-001132",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must prevent the use of dictionary words for passwords.",
+  "group_title": "SRG-OS-000480-GPOS-00225",
+  "idents": {
+    "legacy": [
+      "V-91567",
+      "SV-101665"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16427r294138_chk",
+  "check_content": "From the command prompt, run the following command to check if the default \"dictionlist\" attribute is set:\n# lssec -f /etc/security/user -s default -a dictionlist\n\nThe above command should yield the following output:\ndictionlist=\"/etc/security/ice/dictionary/English\"\n\nIf the above command shows an empty string for default \"dictionlist\" attribute, this is a finding.\n\nFrom the command prompt, run the following command to check if \"dictionlist\" attribute is set for all users:\n# lsuser -a dictionlist ALL\n\nThe above command should yield the following output:\nroot dictionlist=/etc/security/ice/dictionary/English\ndaemon dictionlist=/etc/security/ice/dictionary/English\nbin dictionlist=/etc/security/ice/dictionary/English\nsys dictionlist=/etc/security/ice/dictionary/English\n\nIf any user's \"dictionlist\" attribute is empty, this is a finding.",
+  "fixtext": "From the command prompt, run the following command to set \"dictionlist\" attribute for the default stanza in \"/etc/security/user\":\n# chsec -f /etc/security/user -s default -a dictionlist=\"/etc/security/ice/dictionary/English\"\n\nFrom the command prompt, run the following command to set \"dictionlist\" attribute for users who have an empty \"dictionlist\" attribute:\n# chsec -f /etc/security/user -s [user_name] -a dictionlist=\"/etc/security/ice/dictionary/English\"",
+  "fix_id": "F-16425r294139_fix",
+  "VulnDiscussion": "If the operating system allows the user to select passwords based on dictionary words, then this increases the chances of password compromise by increasing the opportunity for successful guesses and brute-force attacks.",
+  "Documentable": "false"
+}

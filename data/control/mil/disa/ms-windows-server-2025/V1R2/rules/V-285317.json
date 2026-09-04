@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-285317",
+  "rule_id": "SV-285317r1211179_rule",
+  "stig_id": "WN25-SH-000050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2025 OpenSSH must force a frequent session key renegotiation for SSH connections to the server.",
+  "group_title": "SRG-OS-000423-GPOS-00187",
+  "idents": {
+    "cci": [
+      "CCI-000068",
+      "CCI-002418",
+      "CCI-002421"
+    ]
+  },
+  "check_id": "C-89887r1211177_chk",
+  "check_content": "If OpenSSH is not installed on the system, this requirement is NA.\nVerify the OpenSSH server is configured to force frequent session key renegotiation with the following command:\n\nC:\\ > Get-Content \"$env:ProgramData\\ssh\\sshd_config\" | Select-String -Pattern '^\\s*RekeyLimit'\n\nRekeyLimit 1G 1h\n\nIf \"RekeyLimit\" does not have a maximum data amount and maximum time defined, is missing, or is commented out, this is a finding.",
+  "fixtext": "To configure the system, add or modify the following line in the \"$env:ProgramData/ssh/sshd_config\" file.\n\nAn example configuration line is:\n\nRekeyLimit 1G 1h\n\nRestart the OpenSSH service for the settings to take effect.",
+  "fix_id": "F-89792r1211178_fix",
+  "VulnDiscussion": "Without protection of the transmitted information, confidentiality and integrity may be compromised because unprotected communications can be intercepted and either read or altered. \n\nThis requirement applies to both internal and external networks and all types of information system components from which information can be transmitted (e.g., servers, mobile devices, notebook computers, printers, copiers, scanners, and facsimile machines). Communication paths outside the physical protection of a controlled boundary are exposed to the possibility of interception and modification. \n\nProtecting the confidentiality and integrity of organizational information can be accomplished by physical means (e.g., employing physical distribution systems) or by logical means (e.g., employing cryptographic techniques). If physical means of protection are employed, then logical means (cryptography) do not have to be employed, and vice versa.\n\nSession key regeneration limits the chances of a session key becoming compromised.\n\nSatisfies: SRG-OS-000423-GPOS-00187, SRG-OS-000033-GPOS-00014, SRG-OS-000424-GPOS-00189",
+  "Documentable": "false"
+}

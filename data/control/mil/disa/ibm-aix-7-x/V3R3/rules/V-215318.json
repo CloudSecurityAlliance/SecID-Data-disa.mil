@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215318",
+  "rule_id": "SV-215318r958402_rule",
+  "stig_id": "AIX7-00-003000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must automatically lock after 15 minutes of inactivity in the CDE Graphical desktop environment.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "legacy": [
+      "SV-101333",
+      "V-91233"
+    ],
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-16516r294405_chk",
+  "check_content": "If CDE (X11) is not used on AIX, this is Not Applicable.\n\nFrom the command prompt, run the following script:\nfor file in /usr/dt/config/*/sys.resources; do\n  etc_file=`echo $file | sed -e s/usr/etc/`\n  echo \"\\nChecking config file \"$etc_file\"...\"\n  if [[ ! -f $etc_file ]]; then\n    echo \"Missing config file \"$etc_file\n  else\n    cat $etc_file |grep 'dtsession\\*saverTimeout:'\n    cat $etc_file |grep 'dtsession\\*lockTimeout:'\n  fi\ndone\n\nThe above script should yield the following output:\nChecking config file /etc/dt/config/C/sys.resources...\nMissing config file /etc/dt/config/C/sys.resources\n\nChecking config file /etc/dt/config/POSIX/sys.resources...\ndtsession*saverTimeout: 15\ndtsession*lockTimeout: 30\n\nChecking config file /etc/dt/config/en_US/sys.resources...\ndtsession*saverTimeout: 15\ndtsession*lockTimeout: 25\n\nIf the result of the script shows any config file missing, or any of the \"dtsession*saverTimeout\" or \"dtsession*lockTimeout\" values are greater than \"15\", this is a finding.",
+  "fixtext": "From the command prompt, run the following script to set the default timeout parameters \"dtsession*saverTimeout:\" and \"dtsession*lockTimeout:\" as \"15\" minutes: \nfor file in /usr/dt/config/*/sys.resources; do\n  etc_file=`echo $file | sed -e s/usr/etc/`\n  echo \"\\nupdating config file \"$etc_file\"...\"\n  if [[ ! -f $etc_file ]]; then\n    dir=`dirname $file | sed -e s/usr/etc/`\n    mkdir -p $dir\n    echo 'dtsession*saverTimeout: 15' >> $dir/sys.resources\n    echo 'dtsession*lockTimeout: 15' >> $dir/sys.resources\n  else\n    cp $etc_file $etc_file.bak\n    cat $etc_file | grep -v 'dtsession\\*saverTimeout:' > $etc_file.sav\n    cat $etc_file.sav | grep -v 'dtsession\\*lockTimeout:' > $etc_file\n    echo 'dtsession*saverTimeout: 15' >> $etc_file\n    echo 'dtsession*lockTimeout: 15' >> $etc_file\n  fi\ndone",
+  "fix_id": "F-16514r294406_fix",
+  "VulnDiscussion": "A session time-out lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not log out because of the temporary nature of the absence. Rather than relying on the user to manually lock their operating system session prior to vacating the vicinity, operating systems need to be able to identify when a user's session has idled and take action to initiate the session lock.\n\nThe session lock is implemented at the point where session activity can be determined and/or controlled.",
+  "Documentable": "false"
+}

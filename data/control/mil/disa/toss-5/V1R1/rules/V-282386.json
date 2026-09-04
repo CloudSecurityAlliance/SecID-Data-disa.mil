@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282386",
+  "rule_id": "SV-282386r1200138_rule",
+  "stig_id": "TOSS-05-000466",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "TOSS 5 IP tunnels must use FIPS 140-3-approved cryptographic algorithms.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-86947r1200136_chk",
+  "check_content": "Verify the IPsec service uses the system crypto policy using the following command:\n\nNote: If the IPsec service is not installed, this requirement is not applicable.\n\n$ sudo grep include /etc/ipsec.conf /etc/ipsec.d/*.conf\n\n/etc/ipsec.conf:include /etc/crypto-policies/back-ends/libreswan.config\n\nIf the ipsec configuration file does not contain \"include /etc/crypto-policies/back-ends/libreswan.config\", this is a finding.",
+  "fixtext": "Configure Libreswan to use the system cryptographic policy.\n\nAdd the following line to \"/etc/ipsec.conf\":\n\ninclude /etc/crypto-policies/back-ends/libreswan.config",
+  "fix_id": "F-86852r1200137_fix",
+  "VulnDiscussion": "Overriding the system crypto policy makes the behavior of the Libreswan service violate expectations and makes system configuration more fragmented.",
+  "Documentable": "false"
+}

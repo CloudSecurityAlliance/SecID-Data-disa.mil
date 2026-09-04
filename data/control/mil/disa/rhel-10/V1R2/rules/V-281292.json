@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281292",
+  "rule_id": "SV-281292r1166828_rule",
+  "stig_id": "RHEL-10-700890",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "RHEL 10 must disable the graphical user interface autorunner unless required.",
+  "group_title": "SRG-OS-000114-GPOS-00059",
+  "idents": {
+    "cci": [
+      "CCI-000778",
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-85853r1166826_chk",
+  "check_content": "Note: This requirement assumes the use of the RHEL 10 default graphical user interface, the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is not applicable.\n\nVerify RHEL 10 disables the graphical user interface autorun function.\n\nDisable the setting with the following command:\n\n$ gsettings get org.gnome.desktop.media-handling autorun-never\ntrue\n\nIf \"autorun-never\" is set to \"false\" and is not documented with the information system security officer as an operational requirement, this is a finding.",
+  "fixtext": "Configure RHEL 10 GNOME to disable autorunning of removable media.\n\nNote: The example below is using the database \"local\" for the system. If the system is using another database in \"/etc/dconf/profile/user\", the file should be created under the appropriate subdirectory.\n\nUpdate the \"/etc/dconf/db/local.d/00-security-settings\" database to disable the GUI autorun function:\n\n$ sudo vi /etc/dconf/db/local.d/00-security-settings\n\n[org/gnome/desktop/media-handling]\nautorun-never=true\n\nUpdate the dconf system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-85758r1166827_fix",
+  "VulnDiscussion": "Automatically running applications when media is inserted allows for the easy introduction of unknown data, thereby facilitating malicious activity.\n\nSatisfies: SRG-OS-000114-GPOS-00059, SRG-OS-000378-GPOS-00163",
+  "Documentable": "false"
+}

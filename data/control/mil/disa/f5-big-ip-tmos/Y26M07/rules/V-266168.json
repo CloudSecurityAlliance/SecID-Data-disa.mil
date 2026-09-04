@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-266168",
+  "rule_id": "SV-266168r1024400_rule",
+  "stig_id": "F5BI-AP-300157",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The F5 BIG-IP appliance must be configured to limit authenticated client sessions to initial session source IP.",
+  "group_title": "SRG-NET-000230-ALG-000113",
+  "idents": {
+    "cci": [
+      "CCI-001184"
+    ]
+  },
+  "check_id": "C-70092r1023750_chk",
+  "check_content": "If the site has documented an adverse operational impact and has AO approval, this is not a finding.\n\nFrom the BIG-IP GUI:\n1. System.\n2. Access.\n3. Profiles/Policies.\n4. Access Profiles.\n5. Click the access profile name.\n6. Under Settings, verify \"Restrict to Single Client IP\" is checked.\n\nIf the BIG-IP appliance is not configured to limit authenticated client sessions to initial session source IP, this is a finding.",
+  "fixtext": "Note: Setting must be tested. If there are operational impacts that prevent the use of this setting, document the impacts, and obtain approval from the AO if this requirement will not be implemented. \n\nFrom the BIG-IP GUI:\n1. System.\n2. Access.\n3. Profiles/Policies.\n4. Access Profiles.\n5. Click the access profile name.\n6. Under Settings, check \"Restrict to Single Client IP\".\nNote: If the box is grayed out, check the box all the way to the right of the setting first and then check the box.\n7. Click \"Update\".\n8. Click \"Apply Access Policy\".",
+  "fix_id": "F-69995r1023751_fix",
+  "VulnDiscussion": "The \"Restrict to Single Client IP” is a safeguard against session hijacking or cookie theft. Even if an attacker manages to steal a session cookie, the cookie cannot be used from a different source IP address that the address used to initiate the session. This security measure is set within the APM Access Profiles.\n\nThis setting has been recommended by F5 as a defense-in-depth measure. However, in some networks, this may result in false positives or rejection of legitimate connections. Users behind a shared proxy address may be denied access. Thus, sites must test this setting within their network prior to implementing to determine if there are operational impacts that prevent the use of this setting. If so, the site must document the impacts and get approval from the authorizing official (AO) if this required setting will not be implemented.",
+  "Documentable": "false"
+}

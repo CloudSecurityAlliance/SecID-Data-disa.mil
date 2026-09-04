@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-246949",
+  "rule_id": "SV-246949r961506_rule",
+  "stig_id": "NAOT-IA-000003",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ONTAP must be configured to authenticate SNMP messages using FIPS-validated Keyed-HMAC.",
+  "group_title": "SRG-APP-000395-NDM-000310",
+  "idents": {
+    "cci": [
+      "CCI-001967"
+    ]
+  },
+  "check_id": "C-50381r860688_chk",
+  "check_content": "Validate that SNMP is enabled using the command \"options -option-name snmp*\".\n\nIf snmp.enable and snmp.san.enable are set to \"off\", then SNMP is not enabled and this requirement is not applicable.\n\nUse \"security snmpusers -authmethod usm\" to see snmpV3 users using FIPS-validated Keyed-HMAC.\n\nIf ONTAP is not configured to authenticate SNMP messages using FIPS-validated Keyed-HMAC, this is a finding.",
+  "fixtext": "Configure a snmpV3 user using FIPS-validated Keyed-HMAC with \"security login create -user-or-group-name snmptest2 -application snmp -authentication-method usm\".\n\nEnter the authoritative entity's EngineID [local EngineID]:\n\nWhich authentication protocol do you want to choose (none, md5, sha, sha2-256) [none]: sha2-256\n\nEnter the authentication protocol password (minimum 8 characters long):\n\nEnter the authentication protocol password again:\n\nWhich privacy protocol do you want to choose (none, des, aes128) [none]: aes128.",
+  "fix_id": "F-50335r769178_fix",
+  "VulnDiscussion": "Without authenticating devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity. Bidirectional authentication provides stronger safeguards to validate the identity of other devices for connections that are of greater risk.\n\nA local connection is any connection with a device communicating without the use of a network. A network connection is any connection with a device that communicates through a network (e.g., local area or wide area network, internet). A remote connection is any connection with a device communicating through an external network (e.g., the internet).\n\nBecause of the challenges of applying this requirement on a large scale, organizations are encouraged to only apply the requirement to those limited number (and type) of devices that truly need to support this capability.",
+  "Documentable": "false"
+}

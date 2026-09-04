@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274021",
+  "rule_id": "SV-274021r1120695_rule",
+  "stig_id": "AZLX-23-001045",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must monitor remote access methods.",
+  "group_title": "SRG-OS-000032-GPOS-00013",
+  "idents": {
+    "cci": [
+      "CCI-000067"
+    ]
+  },
+  "check_id": "C-78112r1120049_chk",
+  "check_content": "Verify Amazon Linux 2023 monitors all remote access methods.\n\nCheck that remote access methods are being logged by running the following command:\n\n$ sudo grep -E '(auth.*|authpriv.*|daemon.*)' /etc/rsyslog.conf\nauth.*;authpriv.*;daemon.* /var/log/secure\n\nIf \"auth.*\", \"authpriv.*\", or \"daemon.*\" are not configured to be logged, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to monitor all remote access methods by installing rsyslog with the following command:\n\n$ sudo yum install rsyslog\n\nThen add or update the following lines to the \"/etc/rsyslog.conf\" file:\n\nauth.*;authpriv.*;daemon.* /var/log/secure\n\nThe \"rsyslog\" service must be restarted for the changes to take effect. To restart the \"rsyslog\" service, run the following command:\n\n$ sudo systemctl restart rsyslog.service",
+  "fix_id": "F-78017r1120050_fix",
+  "VulnDiscussion": "Remote access services, such as those providing remote access to network devices and information systems, which lack automated monitoring capabilities, increase risk and make remote user access management difficult at best.",
+  "Documentable": "false"
+}

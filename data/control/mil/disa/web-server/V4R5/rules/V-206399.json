@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-206399",
+  "rule_id": "SV-206399r1043181_rule",
+  "stig_id": "SRG-APP-000224-WSR-000135",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The web server must generate a unique session identifier for each session using a FIPS 140-2 approved random number generator.",
+  "group_title": "SRG-APP-000224",
+  "idents": {
+    "legacy": [
+      "SV-70277",
+      "V-56023"
+    ],
+    "cci": [
+      "CCI-001188"
+    ]
+  },
+  "check_id": "C-6660r377789_chk",
+  "check_content": "Review the web server documentation and deployed configuration to verify that the web server is configured to generate unique session identifiers with a FIPS 140-2 approved random number generator.\n\nRequest two users access the web server and view the session identifier generated for each user to verify that the session IDs are not sequential.\n\nIf the web server is not configured to generate unique session identifiers or the random number generator is not FIPS 140-2 approved, this is a finding.",
+  "fixtext": "Configure the web server to generate unique session identifiers using a FIPS 140-2 random number generator.",
+  "fix_id": "F-6660r377790_fix",
+  "VulnDiscussion": "Communication between a client and the web server is done using the HTTP protocol, but HTTP is a stateless protocol. In order to maintain a connection or session, a web server will generate a session identifier (ID) for each client session when the session is initiated. The session ID allows the web server to track a user session and, in many cases, the user, if the user previously logged into a hosted application.\n\nUnique session IDs are the opposite of sequentially generated session IDs, which can be easily guessed by an attacker. Unique session identifiers help to reduce predictability of generated identifiers. Unique session IDs address man-in-the-middle attacks, including session hijacking or insertion of false information into a session. If the attacker is unable to identify or guess the session information related to pending application traffic, the attacker will have more difficulty in hijacking the session or otherwise manipulating valid sessions.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230549",
+  "rule_id": "SV-230549r1208761_rule",
+  "stig_id": "RHEL-08-040285",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must use reverse path filtering on all IPv4 interfaces.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-33218r1208408_chk",
+  "check_content": "Verify RHEL 8 uses reverse path filtering on all IPv4 interfaces.\n\nCheck the value of the \"rp_filter\" variable with the following command:\n\n$ sudo sysctl net.ipv4.conf.all.rp_filter\nnet.ipv4.conf.all.rp_filter = 1\n\nIf \"net.ipv4.conf.all.rp_filter\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 8 to use reverse path filtering on all IPv4 interfaces.\n\nCreate a configuration file if it does not already exist:\n\n$ sudo vi /etc/sysctl.d/ipv4_rp_filter.conf\n\nAdd the following line to the file:\n\nnet.ipv4.conf.all.rp_filter = 1\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-33193r1208760_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore, may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nThe sysctl --system command will load settings from all system configuration files. All configuration files are sorted by their filename in lexicographical order, regardless of which of the directories they reside in. If multiple files specify the same option, the entry in the file with the lexicographically latest name will take precedence. Files are read from directories in the following list from top to bottom. Once a file of a given filename is loaded, any file of the same name in subsequent directories is ignored.\n\n/etc/sysctl.d/*.conf\n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf",
+  "Documentable": "false"
+}

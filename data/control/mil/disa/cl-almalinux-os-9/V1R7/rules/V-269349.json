@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269349",
+  "rule_id": "SV-269349r1050232_rule",
+  "stig_id": "ALMA-09-030490",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Cameras must be disabled or covered when not in use.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-73380r1050231_chk",
+  "check_content": "Verify the operating system disables the ability to load the uvcvideo kernel module:\n\n$ grep -r uvcvideo /etc/modprobe.conf /etc/modprobe.d/* \n\n/etc/modprobe.d/uvcvideo.conf:install uvcvideo /bin/false\n/etc/modprobe.d/uvcvideo.conf:blacklist uvcvideo\n\nIf the command does not return any output, or either line is commented out, and the collaborative computing device has not been authorized for use, this is a finding.\n\nIf a built-in camera is not protected with a cover or is not physically disabled, this is a finding.\n\nFor an external camera, if there is not a method for the operator to manually disconnect the camera (e.g., unplug, power off) at the end of collaborative computing sessions, this is a finding.\n\nIf the device or operating system does not have a camera installed, this requirement is not applicable.",
+  "fixtext": "To configure the system to prevent the uvcvideo kernel module from being loaded, run the following command:\n\n$ cat << EOF | tee /etc/modprobe.d/uvcvideo.conf \ninstall uvcvideo /bin/false\nblacklist uvcvideo\nEOF",
+  "fix_id": "F-73281r1048424_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors. \n \nFailing to disconnect from collaborative computing devices (i.e., cameras) can result in subsequent compromises of organizational information.\n\nProviding easy methods to physically disconnect from such devices after a collaborative computing session helps to ensure participants actually carry out the disconnect activity without having to go through complex and tedious procedures; it also ensures that microphones built into the cameras are also disabled.",
+  "Documentable": "false"
+}

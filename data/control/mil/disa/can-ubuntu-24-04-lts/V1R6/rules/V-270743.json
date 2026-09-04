@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270743",
+  "rule_id": "SV-270743r1208702_rule",
+  "stig_id": "UBTU-24-600010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 24.04 LTS must immediately terminate all network connections associated with SSH traffic at the end of the session or after 10 minutes of inactivity.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-74776r1066716_chk",
+  "check_content": "Verify that all network connections associated with SSH traffic are automatically terminated at the end of the session or after 10 minutes of inactivity with the following command:\n\n$ grep -ir ClientAliveInterval /etc/ssh/sshd_config*\n/etc/ssh/sshd_config:ClientAliveInterval 600\n\nIf \"ClientAliveInterval\" does not exist, is not set to a value of \"600\" or less in \"/etc/ssh/sshd_config\", if conflicting results are returned, is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure Ubuntu 24.04 LTS to automatically terminate all network connections associated with SSH traffic at the end of a session or after a 10-minute period of inactivity.\n\nIn the file \"/etc/ssh/sshd_config\", set \"ClientAliveInterval\" to a value of \"600\" or less: \n\nClientAliveInterval 600\n\nRestart SSH for the changes to take effect: \n\n$ sudo systemctl restart ssh",
+  "fix_id": "F-74677r1208701_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle session will also free up resources committed by the managed network element.  \n \nTerminating network connections associated with communications sessions includes, for example, deallocating associated TCP/IP address/port pairs at the Ubuntu 24.04 LTS level and deallocating networking assignments at the application level if multiple application sessions are using a single operating system-level network connection. This does not mean that Ubuntu 24.04 LTS terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-265905",
+  "rule_id": "SV-265905r1043176_rule",
+  "stig_id": "MD7X-00-000200",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "MongoDB must integrate with an organization-level authentication/access mechanism providing account management and automation for all users, groups, roles, and any other principals.",
+  "group_title": "SRG-APP-000023-DB-000001",
+  "idents": {
+    "cci": [
+      "CCI-000015"
+    ]
+  },
+  "check_id": "C-69823r1028499_chk",
+  "check_content": "Verify that the MongoDB configuration file (default location: /etc/mongod.conf) contains the following:\n\nsecurity:\n  authorization: \"enabled\"\n \nIf this parameter is not present, this is a finding.\n\nIf using organization-mandated authorization:\n\nVerify that the MongoDB configuration file (default location: /etc/mongod.conf) contains the following to ensure LDAP auth is enabled as well:\n\nsecurity:\n   ldap:\n      servers: [list of ldap servers]\n\nIf this parameter is not present, this is a finding.\n\nRefer to Security LDAP configuration documentation for additional details: https://www.mongodb.com/docs/v7.0/core/security-ldap-external/#configuration",
+  "fixtext": "Edit the MongoDB configuration file (default location: /etc/mongod.conf) to include the following:\n\nsecurity:\n  authorization: \"enabled\"\n\nThis will enable SCRAM-SHA-256 authentication (default).\n\nInstruction on configuring the default authentication is provided here:\nhttps://www.mongodb.com/docs/v7.0/tutorial/enable-authentication/\n\nThe high-level steps described by the above will require the following:\n\n1. Start MongoDB without access control.\n2. Connect to the instance.\n3. Create the user administrator.\n4. Restart the MongoDB instance with access control.\n5. Connect and authenticate as the user administrator.\n6. Create additional users as needed for the deployment.\n\nConfiguration information for LDAP for MongoDB can be found here: https://www.mongodb.com/docs/v7.0/core/security-ldap-external/\n\nhttps://www.mongodb.com/docs/v7.0/core/security-ldap-external/#configuration",
+  "fix_id": "F-69727r1028704_fix",
+  "VulnDiscussion": "MongoDB must integrate with an organization-level authentication/access mechanism providing account management and automation for all users, groups, roles, and any other principals.",
+  "Documentable": "false"
+}

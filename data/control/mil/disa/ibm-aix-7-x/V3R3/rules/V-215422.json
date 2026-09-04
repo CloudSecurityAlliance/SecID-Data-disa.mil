@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215422",
+  "rule_id": "SV-215422r991589_rule",
+  "stig_id": "AIX7-00-003127",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The control script lists of preloaded libraries must contain only absolute paths on AIX systems.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91693",
+      "SV-101791"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16620r294717_chk",
+  "check_content": "Verify run control scripts' library preload list using command:\n\n# grep -r LDR_PRELOAD /etc/rc* \n/etc/rc.teboot:export LDR_PRELOAD=/../usr/bin\n/etc/rc.teboot:export LDR_PRELOAD=/usr/bin\n\nThis variable is formatted as a colon-separated list of paths. \n\nIf there is an empty entry, such as a leading or trailing colon, or two consecutive colons, this is a finding. \n\nIf an entry begins with a character other than a slash (/) or other than \"$PATH\", it is a relative path, and this is a finding.",
+  "fixtext": "Edit the run control scripts' library preload list and remove relative paths.",
+  "fix_id": "F-16618r294718_fix",
+  "VulnDiscussion": "The library preload list environment variable contains a list of libraries for the dynamic linker to load before loading the libraries required by the binary. If this list contains paths to libraries relative to the current working directory, unintended libraries may be preloaded.",
+  "Documentable": "false"
+}

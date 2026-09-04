@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282752",
+  "rule_id": "SV-282752r1201236_rule",
+  "stig_id": "TOSS-05-000405",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must write audit records to disk.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87313r1201234_chk",
+  "check_content": "If the system is configured to immediately offload audit records to an external system, this requirement is not applicable.\n\nVerify the audit system is configured to write logs to the disk using the following command:\n\n$ sudo grep write_logs /etc/audit/auditd.conf \n\nwrite_logs = yes \n \nIf \"write_logs\" does not have a value of \"yes\", the line is commented out, or the line is missing, this is a finding.",
+  "fixtext": "Configure the audit system to write log files to the disk.\n\nEdit the \"/etc/audit/auditd.conf\" file and add or update the \"write_logs\" option to \"yes\":\n\nwrite_logs = yes \n\nRestart the audit daemon for changes to take effect.",
+  "fix_id": "F-87218r1201235_fix",
+  "VulnDiscussion": "Audit data should be synchronously written to disk to ensure log integrity. This setting ensures all audit event data is written to disk.",
+  "Documentable": "false"
+}

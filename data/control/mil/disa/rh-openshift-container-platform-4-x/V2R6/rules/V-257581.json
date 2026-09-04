@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257581",
+  "rule_id": "SV-257581r961830_rule",
+  "stig_id": "CNTR-OS-000990",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift audit records must record user access start and end times.",
+  "group_title": "SRG-APP-000505-CTR-001285",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-61316r921684_chk",
+  "check_content": "Verify the Red Hat Enterprise Linux CoreOS (RHCOS) is configured to generate audit records showing starting and ending times for user access by executing the following:\n \nfor node in $(oc get node -oname); do oc debug $node -- chroot /host /bin/bash -c 'echo -n \"$HOSTNAME \"; grep -e \"-k session\" /etc/audit/audit.rules' 2>/dev/null; done\n\nConfirm the following rules exist on each node:\n\n -w /var/log/btmp -p wa -k session\n-w /var/log/utmp -p wa -k session\n\nIf the above rules are not listed on each node, this is a finding.",
+  "fixtext": "Apply the machine config for user access times by executing the following:\n\nfor mcpool in $(oc get mcp -oname | sed \"s:.*/::\" ); do\necho \"apiVersion: machineconfiguration.openshift.io/v1\nkind: MachineConfig\nmetadata:\n  name: 75-session-start-end-time-$mcpool\n  labels:\n    machineconfiguration.openshift.io/role: $mcpool\nspec:\n  config:\n    ignition:\n      version: 3.1.0\n    storage:\n      files:\n      - contents:\n          source: data:,-w%20/var/log/btmp%20-p%20wa%20-k%20session%0A\n        mode: 0644\n        path: /etc/audit/rules.d/75-var_log_btmp_write_events.rules\n        overwrite: true\n      - contents:\n          source: data:,-w%20/var/log/utmp%20-p%20wa%20-k%20session%0A\n        mode: 0644\n        path: /etc/audit/rules.d/75-var_log_utmp_write_events.rules\n        overwrite: true\n\" | oc apply -f -\ndone",
+  "fix_id": "F-61240r921685_fix",
+  "VulnDiscussion": "OpenShift must generate audit records showing start and end times for users and services acting on behalf of a user accessing the registry and keystore. These components must use the same standard so that the events can be tied together to understand what took place within the overall container platform. This must establish, correlate, and help assist with investigating the events relating to an incident, or identify those responsible.",
+  "Documentable": "false"
+}

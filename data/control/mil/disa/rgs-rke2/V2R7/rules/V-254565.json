@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-254565",
+  "rule_id": "SV-254565r1208189_rule",
+  "stig_id": "CNTR-R2-000550",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Rancher RKE2 must be configured with only essential configurations.",
+  "group_title": "SRG-APP-000141-CTR-000315",
+  "idents": {
+    "cci": [
+      "CCI-000381",
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-58049r918242_chk",
+  "check_content": "Ensure the RKE2 Server configuration file on all RKE2 Server hosts contains a \"disable\" flag only if there are default RKE2 components that need to be disabled. \n\nIf there are no default components that need to be disabled, this is not a finding.\n\nRun this command on the RKE2 Control Plane:\ncat /etc/rancher/rke2/config.yaml\n\nRKE2 allows disabling the following components. If any of the components are not required, they can be disabled:\n- rke2-canal\n- rke2-coredns\n- rke2-ingress-nginx\n- rke2-kube-proxy\n- rke2-metrics-server\n\nIf services not in use are enabled, this is a finding.",
+  "fixtext": "Disable unnecessary RKE2 components.\n\nEdit the RKE2 Server configuration file on all RKE2 Server hosts, located at /etc/rancher/rke2/config.yaml, so that it contains a \"disable\" flag if any default RKE2 components are unnecessary. \n\nExample:\ndisable:\n- rke2-canal\n- rke2-ingress-nginx\n- rke2-kube-proxy\n- rke2-metrics-server\n- rke2-coredns\n\nOnce the configuration file is updated, restart the RKE2 Server. Run the command:\nsystemctl restart rke2-server",
+  "fix_id": "F-57998r1208188_fix",
+  "VulnDiscussion": "It is important to disable any unnecessary components to reduce any potential attack surfaces. \n\nRKE2 allows disabling the following components:\n- rke2-canal\n- rke2-coredns\n- rke2-ingress-nginx\n- rke2-kube-proxy\n- rke2-metrics-server\n\nIf using any of these components presents a security risk, or if any of the components are not required, they can be disabled by using the \"disable\" flag.\n\nSatisfies: SRG-APP-000141-CTR-000315, SRG-APP-000384-CTR-000915",
+  "Documentable": "false"
+}

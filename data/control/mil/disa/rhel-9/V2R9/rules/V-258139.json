@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258139",
+  "rule_id": "SV-258139r1045276_rule",
+  "stig_id": "RHEL-09-651035",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "RHEL 9 must be configured so that the file integrity tool verifies extended attributes.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61880r1045275_chk",
+  "check_content": "Verify that AIDE is configured to verify extended attributes with the following command:\n\n$ sudo grep xattrs /etc/aide.conf\n\nAll= p+i+n+u+g+s+m+S+sha512+acl+xattrs+selinux\n\nIf the \"xattrs\" rule is not being used on all uncommented selection lines in the \"/etc/aide.conf\" file, or extended attributes are not being checked by another file integrity tool, this is a finding.",
+  "fixtext": "Configure the file integrity tool to check file and directory extended attributes. \n\nIf AIDE is installed, ensure the \"xattrs\" rule is present on all uncommented file and directory selection lists.",
+  "fix_id": "F-61804r926403_fix",
+  "VulnDiscussion": "RHEL 9 installation media ships with an optional file integrity tool called Advanced Intrusion Detection Environment (AIDE). AIDE is highly configurable at install time. This requirement assumes the \"aide.conf\" file is under the \"/etc\" directory.\n\nExtended attributes in file systems are used to contain arbitrary data and file metadata with security implications.",
+  "Documentable": "false"
+}

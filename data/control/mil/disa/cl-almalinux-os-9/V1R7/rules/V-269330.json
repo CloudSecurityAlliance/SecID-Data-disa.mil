@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269330",
+  "rule_id": "SV-269330r1050212_rule",
+  "stig_id": "ALMA-09-028290",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 fapolicy module must be enabled.",
+  "group_title": "SRG-OS-000370-GPOS-00155",
+  "idents": {
+    "cci": [
+      "CCI-001774"
+    ]
+  },
+  "check_id": "C-73361r1049501_chk",
+  "check_content": "Verify that AlmaLinux OS 9 fapolicyd is active with the following command:\n\n$ systemctl status fapolicyd\n\n fapolicyd.service - File Access Policy Daemon\n     Loaded: loaded (/usr/lib/systemd/system/fapolicyd.service; enabled; preset: disabled)\n     Active: active (running) since Thu 2024-02-08 09:42:05 UTC; 3h 38min ago\n\nIf fapolicyd module is not active, this is a finding.",
+  "fixtext": "Enable the fapolicyd with the following command:\n\n$ systemctl enable --now fapolicyd",
+  "fix_id": "F-73262r1048367_fix",
+  "VulnDiscussion": "The organization must identify authorized software programs and permit execution of authorized software. The process used to identify software programs that are authorized to execute on organizational information systems is commonly referred to as allowlisting.\n\nUtilizing an allowlist provides a configuration management method for allowing the execution of only authorized software. Using only authorized software decreases risk by limiting the number of potential vulnerabilities. Verification of allowlisted software occurs prior to execution or at system startup.\n\nUser home directories/folders may contain information of a sensitive nature. Nonprivileged users should coordinate any sharing of information with a system administrator (SA) through shared resources.\n\nAlmaLinux OS 9 ships with many optional packages. One such package is a file access policy daemon called \"fapolicyd\". \"fapolicyd\" is a userspace daemon that determines access rights to files based on attributes of the process and file. It can be used to either blocklist or allowlist processes or file access.\n\nProceed with caution with enforcing the use of this daemon. Improper configuration may render the system nonfunctional. The \"fapolicyd\" API is not namespace aware and can cause issues when launching or running containers.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253935",
+  "rule_id": "SV-253935r961830_rule",
+  "stig_id": "JUEX-NM-000580",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to generate audit records showing starting and ending time for administrator access to the system.",
+  "group_title": "SRG-APP-000505-NDM-000322",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-57387r843836_chk",
+  "check_content": "Determine if the network device generates audit records showing starting and ending time for administrator access to the system.\n\nJunos logs all logon attempts via the \"authorization\" syslog facility. Verify logging level \"any info\" or \"authorization info\" is configured. Time stamps are created for every log entry, both successful and failed logon attempts, and logout.\n\n[edit system syslog]\nfile <file name> {\n    any info;\n}\nhost <external syslog address> {\n    any info;\n}\ntime-format year millisecond;\n\nSyslog outputs in standard format unless the \"structured-data\" directive is configured. Verify the \"structured-data\" command for all files and external syslog servers requiring that format. For example:\n\n[edit system syslog]\nhost <syslog address> {\n    change-log info;\n    interactive-commands info;\n    structured-data;\n}\nfile <file name> {\n    any info;\n    structured-data;\n}\n\nIf the network device does not generate audit records showing starting and ending time for administrator access to the system, this is a finding.",
+  "fixtext": "Configure the network device to generate audit records showing starting and ending time for administrator access to the system.\n\nset system syslog file <file name> any info\nset system syslog host <external syslog address> any info\nset system syslog time-format year",
+  "fix_id": "F-57338r843837_fix",
+  "VulnDiscussion": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. \n\nAudit records can be generated from various components within the network device (e.g., module or policy filter).",
+  "Documentable": "false"
+}

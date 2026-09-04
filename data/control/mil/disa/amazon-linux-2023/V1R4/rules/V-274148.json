@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274148",
+  "rule_id": "SV-274148r1120432_rule",
+  "stig_id": "AZLX-23-002425",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must be able to enforce a 60-day maximum password lifetime restriction.",
+  "group_title": "SRG-OS-000076-GPOS-00044",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-78239r1120430_chk",
+  "check_content": "Verify Amazon Linux 2023 enforces the maximum time period for existing passwords is restricted to 60 days with the following commands:\n\n$ sudo awk -F: '$5 > 60 {print $1 \" \" $5}' /etc/shadow\n\n$ sudo awk -F: '$5 <= 0 {print $1 \" \" $5}' /etc/shadow\n\nIf any results are returned that are not associated with a system account, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to set noncompliant accounts to enforce a 60-day maximum password lifetime restriction.\n\n$ sudo chage -M 60 [user]",
+  "fix_id": "F-78144r1120431_fix",
+  "VulnDiscussion": "Any password, no matter how complex, can eventually be cracked. Therefore, passwords need to be changed periodically. If Amazon Linux 2023 does not limit the lifetime of passwords and force users to change their passwords, there is the risk that Amazon Linux 2023 passwords could be compromised.",
+  "Documentable": "false"
+}

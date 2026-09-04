@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281267",
+  "rule_id": "SV-281267r1184767_rule",
+  "stig_id": "RHEL-10-700640",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "RHEL 10 must not allow users to override Secure Shell (SSH) environment variables.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-85828r1166751_chk",
+  "check_content": "Verify RHEL 10 disables unattended or automatic login via SSH with the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*permituserenvironment'\n/etc/ssh/sshd_config.d/10-stig.conf:PermitUserEnvironment no\n\nVerify the runtime setting with the following command:\n\n$ sudo sshd -T | grep -i permituserenvironment\npermituserenvironment no\n\nIf the \"PermitUserEnvironment\" keyword is not set to \"no\" in a drop-in that lexicographically precedes 50-redhat.conf, or if no output is returned, this is a finding.",
+  "fixtext": "Configure RHEL 10 to disable unattended or automatic login via SSH.\n\nIn \"/etc/ssh/sshd_config.d\", create a drop file that will lexicographically precede 50-redhat.conf and add the following line:\n\nPermitUserEnvironment no\n\nRestart the SSH daemon with the following command for the setting to take effect:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-85733r1166752_fix",
+  "VulnDiscussion": "SSH environment options potentially allow users to bypass access restriction in some configurations.\n\nOpenSSH uses the first occurrence of a keyword it sees, and drop-in files are read in lexicographical order at the start of the configuration. Red Hat recommends using drop-in files rather than changing base configuration files.",
+  "Documentable": "false"
+}

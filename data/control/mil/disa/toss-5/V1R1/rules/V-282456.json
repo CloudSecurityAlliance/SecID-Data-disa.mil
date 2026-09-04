@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-282456",
+  "rule_id": "SV-282456r1201574_rule",
+  "stig_id": "TOSS-05-000337",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 system-auth must be configured to use a sufficient number of hashing rounds.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-004062",
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-87017r1201572_chk",
+  "check_content": "Verify the number of rounds for the password hashing algorithm is configured using the following command:\n\n$ sudo grep rounds /etc/pam.d/system-auth\n\npassword sufficient pam_unix.so sha512 rounds=5000\n\nIf a matching line is not returned or \"rounds\" is less than \"5000\", this is a finding.",
+  "fixtext": "Configure Red Hat Enterprise Linux 9 to use 5000 hashing rounds for hashing passwords.\n\nAdd or modify the following line in \"/etc/pam.d/system-auth\" and set \"rounds\" to \"5000\".\n\npassword sufficient pam_unix.so sha512 rounds=5000'",
+  "fix_id": "F-86922r1201573_fix",
+  "VulnDiscussion": "Passwords must be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised. Passwords that are encrypted with a weak algorithm are no more protected than if they are kept in plain text.\n\nUsing more hashing rounds makes password cracking attacks more difficult.\n\nSatisfies: SRG-OS-000073-GPOS-00041, SRG-OS-000120-GPOS-00061",
+  "Documentable": "false"
+}

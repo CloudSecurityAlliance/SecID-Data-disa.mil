@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-282473",
+  "rule_id": "SV-282473r1200399_rule",
+  "stig_id": "TOSS-05-000032",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "TOSS 5 must enable mitigations against processor-based vulnerabilities.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381",
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-87034r1200397_chk",
+  "check_content": "Verify TOSS 5 enables kernel page-table isolation using the following command:\n\n$ sudo grubby --info=ALL | grep pti\n\nargs=\"ro crashkernel=auto resume=/dev/mapper/rhel-swap rd.lvm.lv=rhel/root rd.lvm.lv=rhel/swap rhgb quiet fips=1 audit=1 audit_backlog_limit=8192 pti=on \n\nIf the \"pti\" entry does not equal \"on\" or is missing, this is a finding.",
+  "fixtext": "Configure TOSS 5 to enable kernel page-table isolation using the following command:\n\n$ sudo grubby --update-kernel=ALL --args=\"pti=on\"\n\nAdd or modify the following line in \"/etc/default/grub\" to ensure the configuration survives kernel updates:\n\nGRUB_CMDLINE_LINUX=\"pti=on\"",
+  "fix_id": "F-86939r1200398_fix",
+  "VulnDiscussion": "Kernel page-table isolation is a kernel feature that mitigates the Meltdown security vulnerability and hardens the kernel against attempts to bypass kernel address space layout randomization (KASLR).\n\nSatisfies: SRG-OS-000095-GPOS-00049, SRG-OS-000433-GPOS-00193",
+  "Documentable": "false"
+}

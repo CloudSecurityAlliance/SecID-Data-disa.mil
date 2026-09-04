@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215223",
+  "rule_id": "SV-215223r1038967_rule",
+  "stig_id": "AIX7-00-001126",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX Operating systems must enforce a 60-day maximum password lifetime restriction.",
+  "group_title": "SRG-OS-000076-GPOS-00044",
+  "idents": {
+    "legacy": [
+      "SV-101409",
+      "V-91311"
+    ],
+    "cci": [
+      "CCI-004066",
+      "CCI-000199"
+    ]
+  },
+  "check_id": "C-16421r294120_chk",
+  "check_content": "From the command prompt, run the following command to check the system default \"maxage\" attribute value:\n# lssec -f /etc/security/user -s default -a maxage\ndefault maxage=8\n\nIf the default \"maxage\" value is not set, or its value is great than \"8\", or its value is set to \"0\", this is a finding.\n\nFrom the command prompt, run the following command to check \"maxage\" attribute value for all accounts:\n# lsuser -a maxage ALL\nroot maxage=8\nuser1 maxage=8\nuser2 maxage=8\n\nIf any user does not have \"maxage\" set, or its \"maxage\" value is greater than \"8\", or its value is set to \"0\", this is a finding.",
+  "fixtext": "From the command prompt, run the following command to set \"maxage=8\" (56 days) for the default stanza in \"/etc/security/user\":\n# chsec -f /etc/security/user -s default -a maxage=8\n\nFor each user who has \"maxage\" value great than \"8\", set its \"maxage\" to \"8\" by running the following command from command prompt:\n# chsec -f /etc/security/user -s [user_name] -a maxage=8",
+  "fix_id": "F-16419r294121_fix",
+  "VulnDiscussion": "Any password, no matter how complex, can eventually be cracked. Therefore, passwords need to be changed periodically. If the operating system does not limit the lifetime of passwords and force users to change their passwords, there is the risk that the operating system passwords could be compromised.",
+  "Documentable": "false"
+}

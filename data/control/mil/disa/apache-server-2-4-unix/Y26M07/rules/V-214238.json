@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-214238",
+  "rule_id": "SV-214238r1212181_rule",
+  "stig_id": "AS24-U1-000230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Expansion modules must be fully reviewed, tested, and signed before they can exist on a production Apache web server.",
+  "group_title": "SRG-APP-000131-WSR-000073",
+  "idents": {
+    "legacy": [
+      "SV-102725",
+      "V-92637"
+    ],
+    "cci": [
+      "CCI-003992",
+      "CCI-001749"
+    ]
+  },
+  "check_id": "C-15452r1212180_chk",
+  "check_content": "Enter the following command:\n\n\"httpd -M\"\n\nThis will provide a list of the loaded modules. Validate that all displayed modules are required for operation.\n\nIf any module is not required for operation, this is a finding.\n\nNote: The following modules are needed for basic web function and do not need to be reviewed:\n\ncore_module\nhttp_module\nso_module\nmpm_prefork_module\n\nFor a complete list of signed Apache modules, review https://httpd.apache.org/docs/2.4/mod/.",
+  "fixtext": "Remove any unsigned modules and any modules that are not required for operation.",
+  "fix_id": "F-15450r1210992_fix",
+  "VulnDiscussion": "In the case of a production web server, areas for content development and testing will not exist, as this type of content is only permissible on a development website. The process of developing on a functional production website entails a degree of trial and error and repeated testing. This process is often accomplished in an environment where debugging, sequencing, and formatting of content are the main goals. The opportunity for a malicious user to obtain files that reveal business logic and logon schemes is high in this situation. The existence of such immature content on a web server represents a significant security risk that is totally avoidable.\n\nThe web server must enforce, internally or through an external utility, the signing of modules before they are implemented into a production environment. By signing modules, the author guarantees that the module has been reviewed and tested before production implementation.",
+  "Documentable": "false"
+}

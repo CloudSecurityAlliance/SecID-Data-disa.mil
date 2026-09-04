@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272372",
+  "rule_id": "SV-272372r1123853_rule",
+  "stig_id": "BIND-9X-001140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BIND 9.x server private key corresponding to the zone-signing key (ZSK) pair must be the only DNSSEC key kept on a name server that supports dynamic updates.",
+  "group_title": "SRG-APP-000176-DNS-000094",
+  "idents": {
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-76422r1123852_chk",
+  "check_content": "Verify that the ZSK private key is the only key stored on the name server.\n\nFor each signed zone file, identify the ZSK \"key id\" number:\n\n# cat <signed_zone_file> | grep -i \"zsk\"\nZSK; alg = ECDSAP256SHA256; key id = 22335\n\nUsing the ZSK \"key id\", verify that the only private key stored on the system matches the \"key id\".\n\nKexample.com.+008+22335.private\n\nIf any ZSK private keys exist on the server other than the one corresponding to the active ZSK pair, this is a finding.",
+  "fixtext": "Remove any ZSK private keys existing on the server other than the one corresponding to the active ZSK pair.",
+  "fix_id": "F-76329r1123428_fix",
+  "VulnDiscussion": "The private key in the ZSK key pair must be protected from unauthorized access. If possible, the private key should be stored offline (with respect to the internet-facing, DNSSEC-aware name server) in a physically secure, nonnetwork-accessible machine along with the zone file primary copy. \n\nThis strategy is not feasible in situations in which the DNSSEC-aware name server has to support dynamic updates. To support dynamic update transactions, the DNSSEC-aware name server (which usually is a primary authoritative name server) has to have both the zone file primary copy and the private key corresponding to the zone-signing key (ZSK-private) online to immediately update the signatures for the updated RRsets.\n\nFailure to protect the private ZSK opens it to being maliciously obtained and opens the DNS zone to being populated with invalid data. The integrity of the DNS zone would be compromised, leading to a loss of trust whether a DNS response has originated from an authentic source, the response is complete and has not been tampered with during transit.",
+  "Documentable": "false"
+}

@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-285314",
+  "rule_id": "SV-285314r1211170_rule",
+  "stig_id": "WN25-SH-000020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2025 OpenSSH must display the Standard Mandatory DOD Notice and Consent Banner before granting remote access to the system via an OpenSSH logon.",
+  "group_title": "SRG-OS-000023-GPOS-00006",
+  "idents": {
+    "cci": [
+      "CCI-000048",
+      "CCI-001384",
+      "CCI-001385",
+      "CCI-001386",
+      "CCI-001387",
+      "CCI-001388"
+    ]
+  },
+  "check_id": "C-89884r1211168_chk",
+  "check_content": "If OpenSSH is not installed on the system, this requirement is not applicable.\n\nVerify any SSH connection to the system displays the Standard Mandatory DOD Notice and Consent Banner before granting access to the system.\n\nCheck for the location of the banner file being used with the following command:\n\nC:\\ > Get-Content \"$env:ProgramData\\ssh\\sshd_config\" | Select-String -Pattern '^\\s*Banner'\n\nBanner C:\\ProgramData\\ssh\\Banner.txt\n\nIf \"Banner\" is set to \"none\", the line is commented out, or the line is missing, this is a finding.",
+  "fixtext": "To configure the system, add or modify the following line in the \"$env:ProgramData/ssh/sshd_config\" file.\n\nAn example configuration line is:\n\nBanner C:\\ProgramData\\ssh\\Banner.txt\n\nRestart the OpenSSH service for the settings to take effect.",
+  "fix_id": "F-89789r1211169_fix",
+  "VulnDiscussion": "The warning message reinforces policy awareness during the logon process and facilitates possible legal action against attackers. Alternatively, systems whose ownership should not be obvious must ensure usage of a banner that does not provide easy attribution.\n\nSatisfies: SRG-OS-000023-GPOS-00006, SRG-OS-000228-GPOS-00089",
+  "Documentable": "false"
+}

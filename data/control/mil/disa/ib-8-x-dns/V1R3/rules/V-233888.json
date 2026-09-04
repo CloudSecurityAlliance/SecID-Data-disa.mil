@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233888",
+  "rule_id": "SV-233888r1082658_rule",
+  "stig_id": "IDNS-8X-400030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Infoblox system must present only approved TLS and SSL cipher suites.",
+  "group_title": "SRG-APP-000516-DNS-000500",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-37073r1082657_chk",
+  "check_content": "Configuration of the SSL/TLS cipher suite is performed on the Grid Master, or the stand-alone system using the CLI. \n\n1. Use the following commands to display the status and configuration: \nshow ssl_tls_settings\nshow ssl_tls_protocols\nshow ssl_tls_ciphers\n2. Review the output from \"show ssl_tls_ciphers\" and note those marked as \"enabled\".  \n3. Compare this to the list of currently approved ciphers. DISA recommends:\n\nCiphers:\nTLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 \nTLS_ECDHE_ECDSA_WITH_AES_256_GCH_SHA384\nTLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256\nTLS_ECDHE_RSA_WITH_A ES_256_GCM_SHA384\nTLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256\nTLS_DHE_RSA_WITH_AES_128_GCH_SHA256\nTLS_DHE_RSA_WITH_AES_256_GCH_SHA384\nTLS_DHE_RSA_WITH_AES_128_CBC_SHA256\nTLS_DHE_RSA_WITH_AES_256_CBC_SHA256\nTLS_RSA_WITH_AES_128_GCM_SHA256\nTLS_RS A_WITH_AES_128_CBC_SHA256\nTLS_RS A_WITH_AES_256_GCM_SHA384\nTLS_RSA_WITH_AES_256_CBC_SHA256\n\nProtocols: \nTLSv1.2\n\nIf any unapproved cipher suites are enabled, this is a finding.",
+  "fixtext": "1. Close all existing HTTPS management sessions and log on to the Grid Master, or the stand-alone system using the CLI. \n2. Use the following command to display the status: \"show ssl_tls_settings\".\n3. If the output shows \"default\", the system administrator must first override the default settings to enable editing using the following command: \"set ssl_tls_settings override\".\n4. For each cipher suite to be disabled, use the following procedure. Identify the numerical designation of the cipher suite using: \"show ssl_tls_ciphers\".\n5. Use the following command to disable, replacing NNN with the appropriate number: \"set ssl_tls_ciphers disable NNN\".\n6. Repeat this procedure to disable unapproved cipher suites. The numerical list will be reordered each time it is modified and requires careful validation. \n7. In addition to specific cipher suites, a set of SSL/TLS protocols can also be enabled or disabled as desired. \n8. Review the output from \"show ssl_tls_protocols\" from the Check procedure.\n9. Use the CLI command: \"set ssl_tls_protocols disable TLSv1.0\", to disable TLS v1.0.\n10. Use the CLI command: \"set ssl_tls_protocols disable TLSv1.1\", to disable TLS v1.1.\n11. Use the \"show ssl_tls_settings\" and show \"ssl_tls_protocols\" commands to ensure compliance.\n12. Using an approved web browser, verify functionality if protocol or TLS settings were modified.\n\nRefer to the Infoblox CLI Guide for additional information if necessary.",
+  "fix_id": "F-37038r611185_fix",
+  "VulnDiscussion": "Infoblox systems ship with a wide range of cipher suites to support management in a variety of customer environments. Infoblox may have customers that require these cipher suites for backward compatibility. Over time, specific cipher suites may become unfavorable for a variety of reasons, including being replaced by stronger suites, or vulnerabilities are discovered and they are no longer considered secure.\n\nConfiguration of cipher suites within NIOS directly affects the default HTTPS management system. Note that Infoblox systems do not enable Secure Shell (SSH) by default, but it can be enabled by system administrators and shares configuration of the cipher suites with HTTPS.",
+  "Documentable": "false"
+}

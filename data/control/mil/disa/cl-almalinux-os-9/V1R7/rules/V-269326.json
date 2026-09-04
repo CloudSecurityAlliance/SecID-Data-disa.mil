@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269326",
+  "rule_id": "SV-269326r1050208_rule",
+  "stig_id": "ALMA-09-027850",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must mount /var with the nodev option.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-73357r1048354_chk",
+  "check_content": "Verify \"/var\" is mounted with the \"nodev\" option:\n\n$ mount | grep ' /var '\n\n/dev/mapper/luks-b23d8276-7844-4e79-8a58-505150b6eb42 on /var type xfs (rw,nosuid,nodev,noexec,relatime,seclabel,attr2,inode64,logbufs=8,logbsize=32k,noquota)\n\nIf the \"/var\" file system is mounted without the \"nodev\" option, this is a finding.",
+  "fixtext": "Modify \"/etc/fstab\" to use the \"nodev\" option on the \"/var\" directory.",
+  "fix_id": "F-73258r1048355_fix",
+  "VulnDiscussion": "The \"nodev\" mount option causes the system to not interpret character or block special devices. Executing character or block special devices from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.\n\nThe only legitimate location for device files is the \"/dev\" directory located on the root partition, with the exception of chroot jails if implemented.",
+  "Documentable": "false"
+}

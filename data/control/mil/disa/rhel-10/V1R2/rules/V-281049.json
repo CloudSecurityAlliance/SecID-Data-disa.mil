@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281049",
+  "rule_id": "SV-281049r1197223_rule",
+  "stig_id": "RHEL-10-400160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must ensure that all local interactive user home directories are group-owned by the home directory owner's primary group.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213",
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-85610r1184784_chk",
+  "check_content": "Verify RHEL 10 interactive users' home directories are group-owned by the user's primary GID with the following command:\n\nNote: This may miss local interactive users that have been assigned a privileged user identifier (UID). Evidence of interactive use may be obtained from several log files containing system login information. The returned directory \"/home/disauser\" is used as an example.\n\n$ sudo ls -ld $(awk -F: '($3>=1000)&&($7 !~ /nologin/){print $6}' /etc/passwd)\ndrwxr-x--- 2 disauser admin 4096 Jun 5 12:41 disauser\n\nCheck the user's primary group with the following command:\n\n$ sudo grep $(grep disauser /etc/passwd | awk -F: '{print $4}') /etc/group\nadmin:x:250:disauser,doduser,nsauser\n\nIf the user home directory referenced in \"/etc/passwd\" is not group-owned by that user's primary GID, this is a finding.",
+  "fixtext": "Configure RHEL 10 interactive users' home directories to be group-owned by the user's primary GID.\n\nChange the group owner of a local interactive user's home directory to the group found in \"/etc/passwd\". To change the group owner of a local interactive user's home directory, use the following command:\n\nNote: The example will be for the user \"disauser\", who has a home directory of \"/home/disauser\" and has a primary group of users.\n\n$ sudo chgrp users /home/disauser",
+  "fix_id": "F-85515r1165501_fix",
+  "VulnDiscussion": "If the group identifier (GID) of a local interactive user's home directory is not the same as the primary GID of the user, this would allow unauthorized access to the user's files. Users who share the same group may not be able to access files that they legitimately should be able to access.\n\nSatisfies: SRG-OS-000080-GPOS-00048, SRG-OS-000420-GPOS-00186",
+  "Documentable": "false"
+}

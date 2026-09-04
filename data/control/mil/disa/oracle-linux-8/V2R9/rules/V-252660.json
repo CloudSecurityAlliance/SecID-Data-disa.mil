@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-252660",
+  "rule_id": "SV-252660r991589_rule",
+  "stig_id": "OL08-00-020104",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 systems, version 8.4 and above, must ensure the password complexity module is configured for three retries or less.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56116r858598_chk",
+  "check_content": "Note: This requirement applies to OL versions 8.4 or newer. If the system is OL below version 8.4, this requirement is not applicable.\n\nVerify the operating system is configured to limit the \"pwquality\" retry option to 3. \n\nCheck for the use of the \"pwquality\" retry option with the following command:\n\n$ sudo grep -r retry /etc/security/pwquality.conf*\n\n/etc/security/pwquality.conf:retry = 3\n\nIf the value of \"retry\" is set to \"0\" or greater than \"3\", is commented out or missing, this is a finding.\n\nIf conflicting results are returned, this is a finding.\n\nCheck for the use of the \"pwquality\" retry option in the system-auth and password-auth files with the following command:\n\n$ sudo grep pwquality /etc/pam.d/system-auth /etc/pam.d/password-auth | grep retry\n\nIf the command returns any results, this is a finding.",
+  "fixtext": "Configure the operating system to limit the \"pwquality\" retry option to 3.\n\nAdd the following line to the \"/etc/security/pwquality.conf\" file(or modify the line to have the required value):\n\nretry = 3\n\nRemove any configurations that conflict with the above value.",
+  "fix_id": "F-56066r858599_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. \"pwquality\" enforces complex password construction configuration and has the ability to limit brute-force attacks on the system.\n\nOL 8 utilizes \"pwquality\" as a mechanism to enforce password complexity. This is set in both:\n/etc/pam.d/password-auth\n/etc/pam.d/system-auth\nBy limiting the number of attempts to meet the pwquality module complexity requirements before returning with an error, the system will audit abnormal attempts at password changes.",
+  "Documentable": "false"
+}

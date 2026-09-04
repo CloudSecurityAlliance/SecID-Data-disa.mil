@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213722",
+  "rule_id": "SV-213722r961401_rule",
+  "stig_id": "DB2X-00-007700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DB2 must provide an immediate real-time alert to appropriate support staff of all audit failure events requiring real-time alerts.",
+  "group_title": "SRG-APP-000360-DB-000320",
+  "idents": {
+    "legacy": [
+      "SV-89247",
+      "V-74573"
+    ],
+    "cci": [
+      "CCI-001858"
+    ]
+  },
+  "check_id": "C-14943r295215_chk",
+  "check_content": "If the audit policies are created with ERRORTYPE=Audit and if there is a failure in writing the audit event log for the policy, audit failure is logged in the diagnostic.log file and user action is not completed. \n\nRun the following statement to find the error type for each policy:\nDB2> SELECT AUDITPOLICYNAME, ERRORTYPE AS ERRORTYPE \nFROM SYSCAT.AUDITPOLICIES\n\nIf ERRORTYPE value is not set to 'A', this is a finding. \n\nRun the following command to monitor the database diagnostic log file for audit failure errors:\n\n     $db2diag -g msg:=\"Write to audit log failed\"\n\nIf the diagnostic log file is not being monitored for audit failure errors, this is a finding.",
+  "fixtext": "Run the following command to alter the audit policies and to set the ERRORTYPE to audit: \nDB2>ALTER AUDIT POLICY <DB audit policy name> CATEGORIES AUDIT STATUS BOTH  ERROR TYPE AUDIT\n\nMonitor the diagnostic log file for audit failure error using the following command: \n\n     $db2diag  -g msg:=\"Write to audit log failed\"",
+  "fix_id": "F-14941r295216_fix",
+  "VulnDiscussion": "It is critical for the appropriate personnel to be aware if a system is at risk of failing to process audit logs as required. Without a real-time alert, security personnel may be unaware of an impending failure of the audit capability, and system operation may be adversely affected. \n\nThe appropriate support staff include, at a minimum, the ISSO and the DBA/SA.\n\nAlerts provide organizations with urgent messages. Real-time alerts provide these messages immediately (i.e., the time from event detection to alert occurs in seconds or less).",
+  "Documentable": "false"
+}

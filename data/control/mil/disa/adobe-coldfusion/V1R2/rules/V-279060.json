@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-279060",
+  "rule_id": "SV-279060r1207648_rule",
+  "stig_id": "APAS-CF-000355",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ColdFusion must transmit only encrypted representations of passwords to the mail server.",
+  "group_title": "SRG-APP-000172-AS-000120",
+  "idents": {
+    "cci": [
+      "CCI-000197",
+      "CCI-002385",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-83608r1171534_chk",
+  "check_content": "If the \"mail\" package is not installed, this is Not Applicable.\n\nVerify Mail Service Configurations.\n\nFrom the Admin Console Landing Screen, navigate to Server Settings >> Mail.\n\nIf no mail server is configured, this requirement is not a finding.\n\nIf a username and password are required for authentication and \"Enable TLS connection to mail server\" is unchecked and \"Enable SSL socket connects to mail server\" is unchecked, this is a finding.\n\nIf \"Spool mail messages for delivery to\" is unchecked, this is a finding.\n\nIf \"Connection Timeout (in seconds)\" is set to greater than 15 seconds, this is a finding.\n\nIf \"Log all mail messages sent by ColdFusion\" is not checked, this is a finding.\n\nIf the default and recommended setting of \"Warning\" is not selected for error log severity, this is a finding.",
+  "fixtext": "If the \"mail\" package is not installed, this is Not Applicable.\n\nConfigure Mail Service.\n\n1. From the Admin Console Landing Screen, navigate to Server Settings >> Mail.\n\n2. Enable SSL/TLS:\n- If a username and password are required for authentication, check \"Enable SSL socket connections to mail server\" setting.\n- Check \"Enable TLS connection to mail server\" setting.\n\n3. Mail Spool Settings: \n- Uncheck \"Spool mail messages for delivery to\" setting.\n\n4. Set the \"Connection Timeout(in seconds)\" setting to 15 seconds or fewer.\n\n5. Mail Logging Settings:\n- Check \"Log all mail messages sent by ColdFusion setting.\n- Select \"Warning\" for Error Log Severity.\n\n6. Select \"Submit Changes\" to save the new settings.",
+  "fix_id": "F-83513r1171375_fix",
+  "VulnDiscussion": "Passwords need to be protected at all times, and encryption is the standard method for protecting passwords during transmission. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nColdFusion may use username/password to connect to a mail server. When this authentication method is used, it is important that the credentials be protected when transmitted by being encrypted. While TLS encryption is the preferred method by DOD, SSL can be used when the mail server does not offer any other method of encryption.\n\nSatisfies: SRG-APP-000172-AS-000120, SRG-APP-000435-AS-000163, SRG-APP-000516-AS-000237",
+  "Documentable": "false"
+}

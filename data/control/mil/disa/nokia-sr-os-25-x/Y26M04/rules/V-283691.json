@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283691",
+  "rule_id": "SV-283691r1204101_rule",
+  "stig_id": "NOKI-L2-000200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Nokia layer 2 switch must not have the default virtual local area network (VLAN) assigned to any host-facing switch ports.",
+  "group_title": "SRG-NET-000512-L2S-000008",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-88256r1204099_chk",
+  "check_content": "Review the switch configurations and verify no access switch ports have been assigned membership to the default VLAN (i.e., VLAN 1).\n\nThe service access points (SAPs) are configured to allow specific VLANs. Use the command below and verify the VLAN tag used for all SAPs. \n\nWhen wild card \"*\" is configured in the VLAN tag portion of the SAP, it allows all VLAN tags, including VLAN 1. \n\nFor any port to be part of a virtual private local area network service (VPLS), the port must be configured for that service. Just enabling a port does not give the port access to a bridge domain. VLAN configuration is also part of configuring a port for a VPLS service. \n\n- show service sap-using\nService Access Points\nPortId                          SvcId      Ing.  Ing.    Egr.  Egr.   Adm  Opr\n                                           QoS   Fltr    QoS   Fltr\n\n1/1/c1/1:200                    200        1     none    1     none   Up   Up\n1/1/c1/1:300                    300        1     none    1     none   Up   Up\n\nIf a port is configured with null encapsulation, it will allow all VLAN tags. Verify access ports are configured with \"Port Encp\" set to \"dotq\" or \"qinq\":\n\n- show port\nPorts on Slot 1\n\nPort          Admin Link Port    Cfg  Oper LAG/ Port Port Port   C/QS/S/XFP/\nId            State      State   MTU  MTU  Bndl Mode Encp Type   MDIMDX\n\n1/1/c1/1      Up    Yes  Up      1518 1518    - accs dotq cgige\n1/1/c2        Up         Link Up                          conn   100G CWDM4 M*\n\nIf access ports are assigned to the default VLAN, this is a finding.",
+  "fixtext": "Remove the assignment of the default VLAN from all access switch ports.\n\nRemove the access VPLS service ports using the default VLAN or wildcard VLAN tag \"*\" in VPLS SAP configurations:\n\n- configure service vpls <service id>\n- sap <port id:vlan tag> shutdown\n- no sap <port id:vlan tag>",
+  "fix_id": "F-88161r1204100_fix",
+  "VulnDiscussion": "In a VLAN-based network, switches use the default VLAN (i.e., VLAN 1) for in-band management and to communicate with other networking devices using Spanning Tree Protocol (STP), Dynamic Trunking Protocol (DTP), VLAN Trunking Protocol (VTP), and Port Aggregation Protocol (PAgP), which is all untagged traffic. As a consequence, the default VLAN may unwisely span the entire network if not appropriately pruned. If its scope is large enough, the risk of compromise can increase significantly.",
+  "Documentable": "false"
+}

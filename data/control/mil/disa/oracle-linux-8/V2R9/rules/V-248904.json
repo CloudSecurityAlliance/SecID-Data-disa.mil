@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248904",
+  "rule_id": "SV-248904r1184140_rule",
+  "stig_id": "OL08-00-040370",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must not have the \"gssproxy\" package installed if not required for operational support.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52338r1184139_chk",
+  "check_content": "Note: For Oracle Linux systems, if there is an operational need for gssproxy to be installed, this is not applicable.\n\nNote: If NFS mounts are authorized and in use on the system, this control is not applicable.\n\nDetermine if the \"gssproxy\" package is installed with the following command: \n \n$ sudo yum list installed gssproxy \n \nIf the \"gssproxy\" package is installed, this is a finding.",
+  "fixtext": "Configure OL 8 to disable nonessential capabilities by removing the \"gssproxy\" package from the system with the following command: \n \n$ sudo yum remove gssproxy",
+  "fix_id": "F-52292r1069142_fix",
+  "VulnDiscussion": "Verify the operating system is configured to disable nonessential capabilities. The most secure way of ensuring a nonessential capability is disabled is to not have the capability installed. \n \nWhen an application uses Generic Security Services API (GSSAPI), typically it will have direct access to its security credentials, and all cryptographic operations are performed in the application's process. This is undesirable, but \"gssproxy\" can help in almost all use cases. It provides privilege separation to applications using the GSSAPI: The gssproxy daemon runs on the system, holds the application's credentials, and performs operations on behalf of the application.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230471",
+  "rule_id": "SV-230471r1208750_rule",
+  "stig_id": "RHEL-08-030610",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must allow only the information system security manager (ISSM) (or individuals or roles appointed by the ISSM) to select which auditable events are to be audited.",
+  "group_title": "SRG-OS-000063-GPOS-00032",
+  "idents": {
+    "cci": [
+      "CCI-000171"
+    ]
+  },
+  "check_id": "C-33140r1208416_chk",
+  "check_content": "Verify that the files in directory \"/etc/audit/rules.d/\" and \"/etc/audit/auditd.conf\" file have a mode of \"0600\" or less permissive by using the following commands:\n\n$ sudo find /etc/audit/rules.d/ -type f -name *.rules -exec ls -al {} \\;\n-rw-------. 1 root root 284 May 1 20:30 /etc/audit/rules.d/audit.rules\n\n$ sudo ls -l /etc/audit/auditd.conf\n-rw------- 1 root root 621 Sep 22 17:19 auditd.conf\n\nIf the files in the \"/etc/audit/rules.d/\" directory or the \"/etc/audit/auditd.conf\" file have a mode more permissive than \"0600\", this is a finding.",
+  "fixtext": "Configure the files in directory \"/etc/audit/rules.d/\" and the \"/etc/audit/auditd.conf\" file to have a mode of \"0600\" with the following commands:\n\n$ sudo chmod 0600 /etc/audit/rules.d/audit.rules\n$ sudo chmod 0600 /etc/audit/rules.d/[customrulesfile].rules\n$ sudo chmod 0600 /etc/audit/auditd.conf",
+  "fix_id": "F-33115r1208417_fix",
+  "VulnDiscussion": "Without the capability to restrict the roles and individuals that can select which events are audited, unauthorized personnel may be able to prevent the auditing of critical events. Misconfigured audits may degrade the system's performance by overwhelming the audit log. Misconfigured audits may also make it more difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.",
+  "Documentable": "false"
+}

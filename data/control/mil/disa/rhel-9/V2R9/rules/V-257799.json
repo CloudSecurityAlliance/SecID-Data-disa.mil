@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-257799",
+  "rule_id": "SV-257799r1155697_rule",
+  "stig_id": "RHEL-09-213020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must prevent the loading of a new kernel for later execution.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-003992",
+      "CCI-001749"
+    ]
+  },
+  "check_id": "C-61540r1155695_chk",
+  "check_content": "Verify RHEL 9 is configured to disable kernel image loading.\n\nCheck the status of the \"kernel.kexec_load_disabled\" kernel parameter with the following command:\n\n$ sudo sysctl kernel.kexec_load_disabled\nkernel.kexec_load_disabled = 1\n\nIf \"kernel.kexec_load_disabled\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 9 to disable kernel image loading.\n\nCreate a drop-in if it does not already exist:\n\n$ sudo vi /etc/sysctl.d/99-kernel_kexec_load_disabled.conf\n\nAdd the following to the file:\nkernel.kexec_load_disabled = 1\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-61464r1155696_fix",
+  "VulnDiscussion": "Changes to any software components can have significant effects on the overall security of the operating system. This requirement ensures the software has not been tampered with and that it has been provided by a trusted vendor.\n\nDisabling kexec_load prevents an unsigned kernel image (that could be a windows kernel or modified vulnerable kernel) from being loaded. Kexec can be used subvert the entire secureboot process and should be avoided at all costs especially since it can load unsigned kernel images.\n\nThe sysctl --system command will load settings from all system configuration files. All configuration files are sorted by their filename in lexicographical order, regardless of the directories in which they reside. If multiple files specify the same option, the entry in the file with the lexicographically latest name will take precedence. Files are read from directories in the following list from top to bottom. Once a file of a given filename is loaded, any file of the same name in subsequent directories is ignored.\n\n/etc/sysctl.d/*.conf\n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf\n\nSatisfies: SRG-OS-000480-GPOS-00227, SRG-OS-000366-GPOS-00153",
+  "Documentable": "false"
+}

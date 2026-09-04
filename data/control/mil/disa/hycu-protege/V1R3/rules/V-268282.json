@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268282",
+  "rule_id": "SV-268282r1038736_rule",
+  "stig_id": "HYCU-ND-000750",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must audit the enforcement actions used to restrict access associated with changes to the device.",
+  "group_title": "SRG-APP-000381-NDM-000305",
+  "idents": {
+    "cci": [
+      "CCI-003938"
+    ]
+  },
+  "check_id": "C-72303r1038734_chk",
+  "check_content": "Check the contents of the \"/var/log/audit/audit.log\" file.\n\nVerify the audit log contains records showing when unsuccessful login attempts occur.\n\nIf the audit log is not configured or does not have required contents, this is a finding.\n\nHYCU also maintains Event (Audit) information in the \"HYCU Web UI Events\" menu. Log in with incorrect credentials and check the HYCU Events.\n\nIf the HYCU event of category \"SECURITY\" and status \"Warning\" is not logged, this is a finding.",
+  "fixtext": "Log in to the HYCU VM console and load the STIG audit rules by using the following commands:\n\n1. cp /usr/share/audit/sample-rules/10-base-config.rules /usr/share/audit/sample-rules/30-stig.rules /usr/share/audit/sample-rules/31-privileged.rules /usr/share/audit/sample-rules/99-finalize.rules /etc/audit/rules.d/\n\n2. augenrules --load",
+  "fix_id": "F-72206r1038735_fix",
+  "VulnDiscussion": "Without auditing the enforcement of access restrictions against changes to the device configuration, it will be difficult to identify attempted attacks, and an audit trail will not be available for forensic investigation for after-the-fact actions. \n\nEnforcement actions are the methods or mechanisms used to prevent unauthorized changes to configuration settings. Enforcement action methods may be as simple as denying access to a file based on the application of file permissions (access restriction). Audit items may consist of lists of actions blocked by access restrictions or changes identified after the fact.",
+  "Documentable": "false"
+}

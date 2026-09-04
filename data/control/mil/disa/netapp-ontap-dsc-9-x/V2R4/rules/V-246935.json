@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-246935",
+  "rule_id": "SV-246935r961401_rule",
+  "stig_id": "NAOT-AU-000003",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ONTAP must have audit guarantee enabled.",
+  "group_title": "SRG-APP-000360-NDM-000295",
+  "idents": {
+    "cci": [
+      "CCI-001858"
+    ]
+  },
+  "check_id": "C-50367r856966_chk",
+  "check_content": "Use \"vserver audit show -fields audit-guarantee\" to see if audit guarantee is enabled.\n\nIf audit-guarantee is set to false, this is a finding.",
+  "fixtext": "Use the command \"vserver audit modify -vserver <vserver_name> -destination <audit log location> -audit-guarantee true\" to set audit-guarantee to true.  \n\nAn example command for a vserver named svm01 with the audit logs at /audit_log would be \"vserver audit modify -vserver svm01 -destination /audit_log -audit-guarantee true\".\n\nUse the command \"vserver audit show -fields audit-guarantee\" to verify the change.",
+  "fix_id": "F-50321r856967_fix",
+  "VulnDiscussion": "It is critical for the appropriate personnel to be aware if a system is at risk of failing to process audit logs as required. With audit guarantee enabled, all SMB operations must generate an audit event before an ACK is returned to the client and the operation completed.  If the audit event cannot be written, then the client operation is delayed or denied.",
+  "Documentable": "false"
+}

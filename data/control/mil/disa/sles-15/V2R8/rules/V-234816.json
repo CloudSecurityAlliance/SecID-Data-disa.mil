@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234816",
+  "rule_id": "SV-234816r1208925_rule",
+  "stig_id": "SLES-15-010160",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The SUSE operating system must implement DOD-approved encryption to protect the confidentiality of SSH remote connections.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-38004r1208489_chk",
+  "check_content": "Verify the SUSE operating system SSH server is configured to use only ciphers employing FIPS 140-3 approved algorithms.\n\nTo verify the ciphers in the systemwide SSH configuration file, use the following command:\n\n> sudo grep -i Ciphers /etc/crypto-policies/back-ends/opensshserver.config \nCiphers aes256-gcm@openssh.com,aes256-ctr,aes128-gcm@openssh.com,aes128-ctr\n\nIf the cipher entries in the \"opensshserver.config\" file have any ciphers other than \"aes256-gcm@openssh.com,aes256-ctr,aes128-gcm@openssh.com,aes128-ctr\", or they are missing or commented out, this is a finding.",
+  "fixtext": "Configure the SUSE operating system SSH server to use only ciphers employing FIPS 140-3-approved algorithms.\n\nReinstall crypto-policies with the following command:\n\n> sudo zypper install --force crypto-policies\n\nSet the crypto-policy to FIPS with the following command:\n\n> sudo update-crypto-policies --set FIPS\nSetting system policy to FIPS\n\nNote: Systemwide crypto policies are applied on application startup. It is recommended to restart the system for the change of policies to fully take place.",
+  "fix_id": "F-37967r1208915_fix",
+  "VulnDiscussion": "Without confidentiality protection mechanisms, unauthorized individuals may gain access to sensitive information via a remote access session.\n\nRemote access is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nEncryption provides a means to secure the remote connection to prevent unauthorized access to the data traversing the remote access connection (e.g., RDP), thereby providing a degree of confidentiality. The encryption strength of a mechanism is selected based on the security categorization of the information.\n\nThe system will attempt to use the first cipher presented by the client that matches the server list. Listing the values \"strongest to weakest\" is a method to ensure the use of the strongest cipher available to secure the SSH connection.\n\nSatisfies: SRG-OS-000033-GPOS-00014, SRG-OS-000125-GPOS-00065, SRG-OS-000250-GPOS-00093, SRG-OS-000393-GPOS-00173",
+  "Documentable": "false"
+}

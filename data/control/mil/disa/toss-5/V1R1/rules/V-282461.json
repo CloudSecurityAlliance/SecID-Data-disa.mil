@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282461",
+  "rule_id": "SV-282461r1200363_rule",
+  "stig_id": "TOSS-05-000467",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The TOSS 5 pam_unix.so module must be configured in the password-auth file to use a FIPS 140-3-approved cryptographic hashing algorithm for system authentication.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-004062"
+    ]
+  },
+  "check_id": "C-87022r1200361_chk",
+  "check_content": "Verify the pam_unix.so module is configured to use sha512 in /etc/pam.d/password-auth using the following command:\n\n$ grep \"^password.*pam_unix.so.*sha512\" /etc/pam.d/password-auth\n\npassword sufficient pam_unix.so sha512\n\nIf \"sha512\" is missing, or the line is commented out, this is a finding.",
+  "fixtext": "Configure TOSS 5 to use a FIPS 140-3-approved cryptographic hashing algorithm for system authentication.\n\nEdit or modify the following line in the \"/etc/pam.d/password-auth\" file to include the sha512 option for pam_unix.so:\n\npassword sufficient pam_unix.so sha512",
+  "fix_id": "F-86927r1200362_fix",
+  "VulnDiscussion": "Unapproved mechanisms that are used for authentication to the cryptographic module are not verified and; therefore, cannot be relied upon to provide confidentiality or integrity, and DOD data may be compromised.\n\nTOSS 5 systems using encryption are required to use FIPS-compliant mechanisms for authenticating to cryptographic modules. \n\nFIPS 140-3 is the current standard for validating that mechanisms used to access cryptographic modules use authentication that meets DOD requirements. This allows for Security Levels 1, 2, 3, or 4 for use on a general-purpose computing system.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271828",
+  "rule_id": "SV-271828r1092196_rule",
+  "stig_id": "OL09-00-002581",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 cron configuration files directory must be group-owned by root.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75878r1092194_chk",
+  "check_content": "Verify that OL 9 configures group ownership of all cron configuration files with the following command:\n\n$ stat -c \"%G %n\" /etc/cron*\nroot /etc/cron.d\nroot /etc/cron.daily\nroot /etc/cron.deny\nroot /etc/cron.hourly\nroot /etc/cron.monthly\nroot /etc/crontab\nroot /etc/cron.weekly\n\nIf any crontab is not group owned by root, this is a finding.",
+  "fixtext": "Configure any cron configuration not group-owned by root with the following command:\n\n$ sudo chgrp root [cron config file]",
+  "fix_id": "F-75785r1092195_fix",
+  "VulnDiscussion": "Service configuration files enable or disable features of their respective services that if configured incorrectly can lead to insecure and vulnerable configurations; therefore, service configuration files should be owned by the correct group to prevent unauthorized changes.",
+  "Documentable": "false"
+}

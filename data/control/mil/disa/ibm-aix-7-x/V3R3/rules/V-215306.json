@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215306",
+  "rule_id": "SV-215306r991593_rule",
+  "stig_id": "AIX7-00-002124",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If AIX SSH daemon is required, the SSH daemon must only listen on the approved listening IP addresses.",
+  "group_title": "SRG-OS-000480-GPOS-00232",
+  "idents": {
+    "legacy": [
+      "V-91773",
+      "SV-101871"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16504r294369_chk",
+  "check_content": "From the command prompt, run the following command to check if \"ListenAddress\" is defined in SSH config file:\n\n# grep -i ListenAddress /etc/ssh/sshd_config | grep -v '^#'\nListenAddress  10.17.76.74\n\nIf no configuration is returned, or if a returned listen configuration contains addresses not permitted, this is a finding.",
+  "fixtext": "Edit the SSH daemon config file and add/modify the \"ListenAddress\" network addresses:\n# vi /etc/ssh/sshd_config\n\nRestart SSH daemon:\n# stopsrc -s sshd\n# startsrc -s sshd",
+  "fix_id": "F-16502r294370_fix",
+  "VulnDiscussion": "The SSH daemon should only listen on the approved listening IP addresses. Otherwise the SSH service could be subject to unauthorized access.",
+  "Documentable": "false"
+}

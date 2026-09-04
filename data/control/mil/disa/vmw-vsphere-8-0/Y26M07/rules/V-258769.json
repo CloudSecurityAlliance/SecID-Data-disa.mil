@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258769",
+  "rule_id": "SV-258769r933368_rule",
+  "stig_id": "ESXI-80-000214",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must configure the firewall to block network traffic by default.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62509r933366_chk",
+  "check_content": "From an ESXi shell, run the following command:\n\n# esxcli network firewall get\n\nIf the \"Default Action\" does not equal \"DROP\", this is a finding.\nIf \"Enabled\" does not equal \"true\", this is a finding.\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHostFirewallDefaultPolicy\n\nIf the Incoming or Outgoing policies are \"True\", this is a finding.",
+  "fixtext": "From an ESXi shell, run the following command:\n\n# esxcli network firewall set --default-action=false\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHostFirewallDefaultPolicy | Set-VMHostFirewallDefaultPolicy -AllowIncoming $false -AllowOutgoing $false",
+  "fix_id": "F-62418r933367_fix",
+  "VulnDiscussion": "In addition to service-specific firewall rules, ESXi has a default firewall rule policy to allow or deny incoming and outgoing traffic. Reduce the risk of attack by ensuring this is set to deny incoming and outgoing traffic.",
+  "Documentable": "false"
+}

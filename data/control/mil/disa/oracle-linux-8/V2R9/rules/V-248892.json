@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248892",
+  "rule_id": "SV-248892r1156650_rule",
+  "stig_id": "OL08-00-040284",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must disable the use of user namespaces.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52326r1155511_chk",
+  "check_content": "Note: User namespaces are used primarily for Linux containers. If containers are in use, this requirement is Not Applicable.\n\nVerify OL 8 disables the use of user namespaces with the following commands:\n\n$ sysctl user.max_user_namespaces\nuser.max_user_namespaces = 0\n\nIf the returned line does not have a value of \"0\", or a line is not returned, this is a finding.",
+  "fixtext": "Configure OL 8 to disable the use of user namespaces by adding the following line to a file, in the \"/etc/sysctl.d\" directory:\n\nNote: User namespaces are used primarily for Linux containers. If containers are in use, this requirement is Not Applicable. \n\nuser.max_user_namespaces = 0\n\nThe system configuration files must be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-52280r1156649_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors. \n\nUser namespaces are used primarily for Linux containers. \"Rootful\" containers run with root privileges on the host system and may pose a security risk if compromised. \"Rootless\" containers run without root privileges and allow for better isolation from the host system. The value \"0\" disallows the use of user namespaces. When containers are not in use, namespaces should be disallowed. When privileged user namespaces or \"rootful\" containers are in use, user namespaces should be disallowed. When nonprivileged user namespaces or \"rootless\" containers are deployed on a system, the value should be set to a large nonzero value. The default value depends on the amount of memory in the system, approximately the total memory in kilobytes divided by 256.\n\nThe sysctl --system command will load settings from all system configuration files. All configuration files are sorted by their filename in lexicographical order, regardless of the directories in which they reside. If multiple files specify the same option, the entry in the file with the lexicographically latest name will take precedence. Files are read from directories in the following list from top to bottom. Once a file of a given filename is loaded, any file of the same name in subsequent directories is ignored.\n/etc/sysctl.d/*.conf\n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf",
+  "Documentable": "false"
+}

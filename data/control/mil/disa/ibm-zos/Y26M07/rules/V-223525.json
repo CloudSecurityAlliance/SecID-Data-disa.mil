@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223525",
+  "rule_id": "SV-223525r1225752_rule",
+  "stig_id": "ACF2-FT-000090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS FTP Server daemon must be defined with proper security parameters.",
+  "group_title": "SRG-OS-000104-GPOS-00051",
+  "idents": {
+    "legacy": [
+      "SV-106859",
+      "V-97755"
+    ],
+    "cci": [
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-25198r858865_chk",
+  "check_content": "From the ISPF Command enter:\nACF\nSET LID\nLIST LIKE(FTP-) SECTION(ALL) PROFILE(OMVS)\nNOTE: The JCL member is typically named FTPD.\n\nIf all of the following are true, this is not a finding.\n\nIf any of the following is untrue, this is a finding.\n\nThe FTP daemon logonid is FTPD.\nThe FTPD logonid is defined with the STC attribute.\nThe FTPD logonid has the following z/OS UNIX attributes: UID(0), HOME directory '/', shell program /bin/sh.",
+  "fixtext": "Define the FTP daemon to run under its own user account. Specifically, it does not share the account defined for the z/OS UNIX kernel.\n\nDefine the FTP Server daemon account, privileges, and access authorizations to the ACP using the requirements below.\n\nThe following commands can be used to create the user account that is required for the FTP daemon:\n\nSET LID\nINSERT FTPD NAME(FTPD) GROUP(STCTCPX) STC\n\nSET PROFILE(USER) DIVISION(OMVS)\nINSERT FTPD UID(0) HOME(/) PROGRAM(/bin/sh)\n\nF ACF2,REBUILD(USR),CLASS(P)",
+  "fix_id": "F-25186r504634_fix",
+  "VulnDiscussion": "To assure accountability and prevent unauthenticated access, organizational users must be identified and authenticated to prevent potential misuse and compromise of the system.\n\nOrganizational users include organizational employees or individuals the organization deems to have equivalent status of employees (e.g., contractors). Organizational users (and processes acting on behalf of users) must be uniquely identified and authenticated to all accesses, except for the following: \n\n1) Accesses explicitly identified and documented by the organization. Organizations document specific user actions that can be performed on the information system without identification or authentication; and\n\n2) Accesses that occur through authorized use of group authenticators without individual authentication. Organizations may require unique identification of individuals in group accounts (e.g., shared privilege accounts) or for detailed accountability of individual activity.",
+  "Documentable": "false"
+}

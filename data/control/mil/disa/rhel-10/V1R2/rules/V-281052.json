@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-281052",
+  "rule_id": "SV-281052r1165511_rule",
+  "stig_id": "RHEL-10-400175",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must enforce \"root\" ownership of audit logs to prevent unauthorized access.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164",
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-85613r1165509_chk",
+  "check_content": "Verify RHEL 10 enforces \"root\" ownership of audit logs to prevent unauthorized access.\n\nDetermine where the audit logs are stored with the following command:\n\n$ sudo grep \"^log_file\" /etc/audit/auditd.conf\nlog_file = /var/log/audit/audit.log\n\nUsing the location of the audit log file, determine if the audit log files are owned by \"root\" using the following command:\n\n$ sudo ls -la /var/log/audit/audit.log\nrw-------. 2 root root 237923 Jun 11 11:56 /var/log/audit/audit.log\n\nIf the audit logs are not owned by \"root\", this is a finding.",
+  "fixtext": "Configure RHEL 10 to enforce \"root\" ownership of audit logs to prevent unauthorized access with the following command:\n\n$ sudo chown root [audit_log_file]\n\nReplace \"[audit_log_file]\" with the correct audit log path. By default this location is \"/var/log/audit/audit.log\".",
+  "fix_id": "F-85518r1165510_fix",
+  "VulnDiscussion": "Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029, SRG-OS-000206-GPOS-00084",
+  "Documentable": "false"
+}

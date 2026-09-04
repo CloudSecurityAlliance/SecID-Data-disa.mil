@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282757",
+  "rule_id": "SV-282757r1201251_rule",
+  "stig_id": "TOSS-05-000245",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "TOSS 5 must not allow an unattended or automatic logon to the system.",
+  "group_title": "SRG-OS-000480-GPOS-00229",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87318r1201249_chk",
+  "check_content": "Verify TOSS does not allow an unattended or automatic logon to the system via a graphical user interface.\n\nNote: This requirement assumes the use of the TOSS default graphical user interface, Gnome Shell. If the system does not have any graphical user interface installed, this requirement is not applicable.\n\nCheck for the value of the \"AutomaticLoginEnable\" in the \"/etc/gdm/custom.conf\" file using the following command:\n\n$ sudo grep -i automaticloginenable /etc/gdm/custom.conf\nAutomaticLoginEnable=false\n\nAutomatic logon as an authorized user allows access to any user with physical access to the operating system.\n\nIf the value of \"AutomaticLoginEnable\" is missing or is not set to \"false\", this is a finding.",
+  "fixtext": "Configure TOSS to not allow an unattended or automatic logon to the system via a graphical user interface.\n\nAdd or edit the line for the \"AutomaticLoginEnable\" parameter in the [daemon] section of the \"/etc/gdm/custom.conf\" file to \"false\":\n\n[daemon]\nAutomaticLoginEnable=false",
+  "fix_id": "F-87223r1201250_fix",
+  "VulnDiscussion": "Failure to restrict system access to authenticated users negatively impacts operating system security.",
+  "Documentable": "false"
+}

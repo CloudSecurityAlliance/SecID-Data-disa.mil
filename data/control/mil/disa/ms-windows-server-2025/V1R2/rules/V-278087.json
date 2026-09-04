@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278087",
+  "rule_id": "SV-278087r1182272_rule",
+  "stig_id": "WN25-CC-000080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2025 hardened Universal Naming Convention (UNC) paths must be defined to require mutual authentication and integrity for at least the \\\\*\\SYSVOL and \\\\*\\NETLOGON shares.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-82617r1182271_chk",
+  "check_content": "This requirement is applicable to domain-joined systems. For stand-alone or nondomain-joined systems, this is not applicable.\n\nIf the following registry values do not exist or are not configured as specified, this is a finding:\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\NetworkProvider\\HardenedPaths\\\n\nValue Name: \\\\*\\NETLOGON\nValue Type: REG_SZ\nValue: RequireMutualAuthentication=1, RequireIntegrity=1\n\nValue Name: \\\\*\\SYSVOL\nValue Type: REG_SZ\nValue: RequireMutualAuthentication=1, RequireIntegrity=1\n\nAdditional entries would not be a finding.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Administrative Templates >> Network >> Network Provider >> Hardened UNC Paths\" to \"Enabled\" with at least the following configured in \"Hardened UNC Paths\" (click \"Show\" to display):\n\nValue Name: \\\\*\\SYSVOL\nValue: RequireMutualAuthentication=1, RequireIntegrity=1\n\nValue Name: \\\\*\\NETLOGON\nValue: RequireMutualAuthentication=1, RequireIntegrity=1",
+  "fix_id": "F-82522r1181927_fix",
+  "VulnDiscussion": "Additional security requirements are applied to UNC paths specified in hardened UNC paths before allowing access to them. This aids in preventing tampering with or spoofing of connections to these paths.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233899",
+  "rule_id": "SV-233899r1082685_rule",
+  "stig_id": "IDNS-8X-500002",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "When using third-party DNS servers for zone transfers, each DNS server must use TSIG to uniquely identify the other server.",
+  "group_title": "SRG-APP-000158-DNS-000015",
+  "idents": {
+    "cci": [
+      "CCI-000778"
+    ]
+  },
+  "check_id": "C-37084r1082683_chk",
+  "check_content": "1. Navigate to Data Management >> DNS >> Zones tab. \n2. Review each zone by clicking \"Edit\" and inspecting the \"DNS service members\" tab. \n3. Verify that each zone that contains non-Grid DNS service members is further verified by inspection of the \"Zone Transfers\" tab and configuration of TSIG Access Control Entry (ACE). \n4. When complete, click \"Cancel\" to exit the \"Properties\" screen.  \n\nIf all entries in the \"Type\" column are configured as \"Grid\", this check is Not Applicable.\n\nIf there is a non-Grid system that uses zone transfers but does not have a TSIG key, this is a finding.",
+  "fixtext": "1. Navigate to Data Management >> DNS >> Zones tab.  \n2. Select a zone and click \"Edit\".\n3. Click on the \"Zone Transfers\" tab and click \"Override\" for the \"Allow Zone Transfers to\" section.\n4. Use the radio button to select \"Set of ACEs\" and the \"Add\" drop-down to configure a TSIG key. \n5. Verify that both the Infoblox and other DNS service member have the identical TSIG configuration. \n6. Verify that both the Infoblox DNS service member and other non-Infoblox DNS service member have time synchronized properly. Note that TSIG relies on both key and time synchronization. TSIG will fail if the local clocks on both DNS service appliances are not synchronized.\n7. When complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen.\n8. Perform a service restart if necessary.\n9. Verify zone transfers are operational after configuration of TSIG.",
+  "fix_id": "F-37049r1082684_fix",
+  "VulnDiscussion": "Without identifying devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity. This applies to server-to-server (zone transfer) transactions only and is provided by TSIG, which enforces mutual server authentication using a key that is unique to each server pair (TSIG), thus uniquely identifying the other server.",
+  "Documentable": "false"
+}

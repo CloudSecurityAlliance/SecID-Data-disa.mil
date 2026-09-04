@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-281116",
+  "rule_id": "SV-281116r1166300_rule",
+  "stig_id": "RHEL-10-500300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must generate audit records for successful and unsuccessful uses of the \"execve\" system call.",
+  "group_title": "SRG-OS-000326-GPOS-00126",
+  "idents": {
+    "cci": [
+      "CCI-002233",
+      "CCI-002234",
+      "CCI-004188"
+    ]
+  },
+  "check_id": "C-85677r1166298_chk",
+  "check_content": "Verify RHEL 10 is configured to audit the execution of the \"execve\" system call with the following command:\n\n$ sudo auditctl -l | grep execve\n-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -F key=execpriv\n-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -F key=execpriv\n-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -F key=execpriv\n-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -F key=execpriv\n\nIf the command does not return all lines, or the lines are commented out, this is a finding.",
+  "fixtext": "Configure RHEL 10 to generate audit records upon successful and unsuccessful attempts to use the \"execve\" system call.\n\nAdd or update the following file system rules to \"/etc/audit/rules.d/audit.rules\":\n\n-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -k execpriv\n-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -k execpriv\n-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -k execpriv\n-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -k execpriv\n\nRestart the audit daemon with the following command for the changes to take effect:\n\n$ sudo service auditd restart",
+  "fix_id": "F-85582r1166299_fix",
+  "VulnDiscussion": "Misuse of privileged functions, either intentionally or unintentionally by authorized users, or by unauthorized external entities that have compromised information system accounts, is a serious and ongoing concern and can have significant adverse impacts on organizations. \n\nAuditing the use of privileged functions is one way to detect such misuse and identify the risk from insider threats and the advanced persistent threat.\n\nSatisfies: SRG-OS-000326-GPOS-00126, SRG-OS-000327-GPOS-00127, SRG-OS-000755-GPOS-00220",
+  "Documentable": "false"
+}

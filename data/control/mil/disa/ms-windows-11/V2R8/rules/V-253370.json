@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253370",
+  "rule_id": "SV-253370r1210290_rule",
+  "stig_id": "WN11-CC-000075",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Credential Guard must be running on Windows 11 systems.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56823r1210200_chk",
+  "check_content": "Confirm Credential Guard is running.\n\nRun \"PowerShell\" with elevated privileges (run as administrator).\n\nEnter the following:\n\n\"Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\\Microsoft\\Windows\\DeviceGuard\"\n\nIf \"SecurityServicesRunning\" does not include a value of \"1\" (e.g., \"{1, 2}\"), this is a finding.\n\nAlternately:\n\nRun \"System Information\".\n\nUnder \"System Summary\", verify the following:\n\nIf \"virtualization-based Services Running\" does not list \"Credential Guard\", this is a finding.\n\nThe policy settings referenced in the Fix section will configure the following registry value. However, due to hardware requirements, the registry value alone does not ensure proper function.\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\DeviceGuard\\\n\nValue Name: LsaCfgFlags\nValue Type: REG_DWORD\nValue: 0x00000001 (1) (Enabled with UEFI lock)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Administrative Templates >> System >> Device Guard >> \"Turn On virtualization-based Security\" to \"Enabled\" with \"Enabled with UEFI lock\" selected for \"Credential Guard Configuration:\".\n\nA Microsoft TechNet article on Credential Guard, including system requirement details, can be found at the following link:\n\nhttps://docs.microsoft.com/en-us/windows/access-protection/credential-guard/credential-guard",
+  "fix_id": "F-56773r1210201_fix",
+  "VulnDiscussion": "Credential Guard uses virtualization-based security to protect information that could be used in credential theft attacks if compromised. This authentication information, which was stored in the Local Security Authority (LSA) in previous versions of Windows, is isolated from the rest of operating system and can only be accessed by privileged system software.",
+  "Documentable": "false"
+}

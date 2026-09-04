@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282680",
+  "rule_id": "SV-282680r1201020_rule",
+  "stig_id": "TOSS-05-000206",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must not have unauthorized IP tunnels configured.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87241r1201018_chk",
+  "check_content": "Verify TOSS 5 does not have unauthorized IP tunnels configured.\n\nDetermine if the \"IPsec\" service is active using the following command:\n\n$ systemctl status ipsec\n\nipsec.service - Internet Key Exchange (IKE) Protocol Daemon for IPsec\nLoaded: loaded (/usr/lib/systemd/system/ipsec.service; disabled)\nActive: inactive (dead)\n\nIf the \"IPsec\" service is active, check for configured IPsec connections (\"conn\"), using the following command:\n\n$ grep -rni conn /etc/ipsec.conf /etc/ipsec.d/ \n\nVerify any returned results are documented with the ISSO.\n\nIf the IPsec tunnels are active and not approved, this is a finding.",
+  "fixtext": "Remove all unapproved tunnels from the system or document them with the ISSO.",
+  "fix_id": "F-87146r1201019_fix",
+  "VulnDiscussion": "IP tunneling mechanisms can be used to bypass network filtering. If tunneling is required, it must be documented with the information system security officer (ISSO).",
+  "Documentable": "false"
+}

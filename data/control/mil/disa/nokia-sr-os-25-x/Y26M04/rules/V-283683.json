@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283683",
+  "rule_id": "SV-283683r1204077_rule",
+  "stig_id": "NOKI-L2-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Nokia layer 2 switch must have Dynamic Host Configuration Protocol (DHCP) snooping for all user virtual local area networks (VLANs) to validate DHCP messages from untrusted sources.",
+  "group_title": "SRG-NET-000362-L2S-000025",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-88248r1204075_chk",
+  "check_content": "Use the command below for each virtual private local area network service (VPLS) and verify the status of DHCP for all user VLANs:\n\n- show service id 10 dhcp summary\n\nDHCP Summary, service 10\n\nSap/Sdp                Snoop  Used/       Arp Reply   Info     Admin\n                              Provided    Agent       Option   State\n\nsap:1/1/c3/10          Yes    0/1         Yes         Keep     Up\n\nNumber of Entries : 1\n\nIf the switch does not have DHCP snooping enabled for all user VLANs to validate DHCP messages from untrusted sources, this is a finding.",
+  "fixtext": "Configure the switch to have DHCP snooping for all user VLANs to validate DHCP messages from untrusted sources.\n\nConfigure DHCP snooping for all user service access points:\n\n- configure service vpls <vpls service id> sap <sap id> dhcp\n- snoop\n- no shutdown",
+  "fix_id": "F-88153r1204076_fix",
+  "VulnDiscussion": "In an enterprise network, devices under administrative control are trusted sources. These devices include the switches, routers, and servers in the network. Host ports and unknown DHCP servers are considered untrusted sources. \n\nAn unknown DHCP server on the network on an untrusted port is called a spurious DHCP server. This includes any device (personal computer, wireless access point) that is loaded with DHCP server enabled. The DHCP snooping feature determines whether traffic sources are trusted or untrusted. The potential exists for a spurious DHCP server to respond to DHCPDISCOVER messages before the real server has time to respond. DHCP snooping allows switches on the network to trust the port a DHCP server is connected to and not trust the other ports.\n\nThe DHCP snooping feature validates DHCP messages received from untrusted sources, filters out invalid messages, and rate-limits DHCP traffic from trusted and untrusted sources. The DHCP snooping feature builds and maintains a binding database, which contains information about untrusted hosts with leased IP addresses, and uses the database to validate subsequent requests from untrusted hosts. Other security features, such as IP Source Guard and Dynamic Address Resolution Protocol (ARP) Inspection (DAI), also use information stored in the DHCP snooping binding database. Therefore, it is imperative that the DHCP snooping feature is enabled on all VLANs.",
+  "Documentable": "false"
+}

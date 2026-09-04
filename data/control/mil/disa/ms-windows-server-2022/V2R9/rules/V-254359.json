@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254359",
+  "rule_id": "SV-254359r1210268_rule",
+  "stig_id": "WN22-CC-000280",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Windows Server 2022 security event log size must be configured to a value that holds at least one week's worth of audit records.",
+  "group_title": "SRG-OS-000341-GPOS-00132",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-57844r1210266_chk",
+  "check_content": "If the system is configured to write events directly to an audit server, this is not applicable.\n\nThe registry configuration setting below must be set (at least) to a value equal to the size needed to contain one week's worth of audit records in the security event log. \n\nThe value used below is an example that assumes a typical week’s log size of 5GB.\n\nIf a registry value does not exist or is not configured to hold one week of records, this is a finding.\n\nNote: The following registry entry is an example; the value must equal at least one week's worth of records in the environment.\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\EventLog\\Security\\\n\nValue Name: MaxSize\n\nType: REG_DWORD\nValue:0x4E2000 (5120000) (or greater)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Event Log Service >> Security >> Specify the maximum log file size (KB) to \"Enabled\" with a \"Maximum Log Size (KB)\" of a value that will contain one week of audit records or greater.\n\nNote: The registry entry value in the Check Text is an example; the value must equal at least one week's worth of records in the environment.",
+  "fix_id": "F-57795r1210267_fix",
+  "VulnDiscussion": "Inadequate log size will cause the log to fill up quickly. This may prevent audit events from being recorded properly and require frequent attention by administrative personnel. System administrators (SAs) must monitor the volume of security event audit records and increase the registry value for the log size as needed.",
+  "Documentable": "false"
+}

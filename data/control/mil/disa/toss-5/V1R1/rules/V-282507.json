@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-282507",
+  "rule_id": "SV-282507r1200501_rule",
+  "stig_id": "TOSS-05-000101",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must restrict exposed kernel pointer addresses access.",
+  "group_title": "SRG-OS-000132-GPOS-00067",
+  "idents": {
+    "cci": [
+      "CCI-001082",
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-87068r1200499_chk",
+  "check_content": "Verify the runtime status of the \"kernel.kptr_restrict\" kernel parameter using the following command:\n\n$ sudo sysctl kernel.kptr_restrict \n\nkernel.kptr_restrict = 1\n\nIf \"kernel.kptr_restrict\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Add or edit the following line in a system configuration file in the \"/etc/sysctl.d/\" directory:\n\nkernel.kptr_restrict = 1\n\nReload settings from all system configuration files using the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-86973r1200500_fix",
+  "VulnDiscussion": "Exposing kernel pointers (through procfs or \"seq_printf()\") exposes kernel writeable structures, which may contain functions pointers. If a write vulnerability occurs in the kernel, allowing write access to any of this structure, the kernel can be compromised. This option disallows any program without the CAP_SYSLOG capability to get the addresses of kernel pointers by replacing them with \"0\".\n\nSatisfies: SRG-OS-000132-GPOS-00067, SRG-OS-000433-GPOS-00192, SRG-OS-000433-GPOS-00193",
+  "Documentable": "false"
+}

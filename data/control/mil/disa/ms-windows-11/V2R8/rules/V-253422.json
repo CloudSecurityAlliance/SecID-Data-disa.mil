@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253422",
+  "rule_id": "SV-253422r1210298_rule",
+  "stig_id": "WN11-CC-000365",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows 11 must be configured to prevent Windows apps from being activated by voice while the system is locked.",
+  "group_title": "SRG-OS-000028-GPOS-00009",
+  "idents": {
+    "cci": [
+      "CCI-000056"
+    ]
+  },
+  "check_id": "C-56875r1210224_chk",
+  "check_content": "The setting is NA when the \"Allow voice activation\" policy is configured to disallow applications to be activated with voice for all users.\n\nIf the following registry value does not exist or is not configured as specified, this is a finding:\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\AppPrivacy\\  (For GPO-managed systems)\nOr\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\AppPrivacy!LetAppsActivateWithVoice  (For Intune-managed systems)\n\nValue Name: LetAppsActivateWithVoiceAboveLock\n\nType: REG_DWORD\nValue: 0x00000002 (2)\n\nIf the following registry value exists and is configured as specified, the requirement is NA: \n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\AppPrivacy\\  (For GPO-managed systems)\nOr\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\AppPrivacy!LetAppsActivateWithVoiceAboveLock  (For Intune-managed systems)\n\nValue Name: LetAppsActivateWithVoice\n\nType: REG_DWORD\nValue: 0x00000002 (2)",
+  "fixtext": "For GPO-managed systems:\n\nConfigure the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> App Privacy >> \"Let Windows apps activate with voice while the system is locked\" to \"Enabled\" with Default for all Apps: set to Force Deny. \n\nThe requirement is NA if the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> App Privacy >> \"Let Windows apps activate with voice\" is configured to \"Enabled\" with Default for all Apps: set to Force Deny.\n\nFor Intune-managed systems:\n\nRevise the Intune App Privacy policy to deny voice activation of Windows apps while the system is locked.",
+  "fix_id": "F-56825r1210225_fix",
+  "VulnDiscussion": "Allowing Windows apps to be activated by voice from the lock screen could allow for unauthorized use. Requiring logon will ensure the apps are used only by authorized personnel.\n\nNote: A different registry location is needed when systems are managed by Intune versus GPO.",
+  "Documentable": "false"
+}

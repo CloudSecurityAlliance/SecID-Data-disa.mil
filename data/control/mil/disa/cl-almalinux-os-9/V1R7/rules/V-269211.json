@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269211",
+  "rule_id": "SV-269211r1050093_rule",
+  "stig_id": "ALMA-09-014870",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must prevent code from being executed on file systems that contain user home directories.",
+  "group_title": "SRG-OS-000480-GPOS-00230",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73242r1048009_chk",
+  "check_content": "Verify \"/home\" is mounted with the \"noexec\" option with the following command:\n\nNote: If a separate file system has not been created for the user home directories (user home directories are mounted under \"/\"), this is automatically a finding, as the \"noexec\" option cannot be used on the \"/\" system.\n\n$ mount | grep /home\n\n/dev/mapper/luks-10a20c46-483d-4d12-831f-5328eda18fd1 on /home type xfs (rw,noexec,nosuid,nodev,relatime,seclabel,attr2,inode64,logbufs=8,logbsize=32k,noquota)\n\nIf the \"/home\" file system is mounted without the \"noexec\" option, this is a finding.",
+  "fixtext": "Modify \"/etc/fstab\" to use the \"noexec\" option on the \"/home\" directory.",
+  "fix_id": "F-73143r1048010_fix",
+  "VulnDiscussion": "The \"noexec\" mount option causes the system to not execute binary files. \n\nThis option must be used for mounting any file system not containing approved binary files, as they may be incompatible. \n\nExecuting files from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

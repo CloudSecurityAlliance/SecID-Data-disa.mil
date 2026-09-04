@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215186",
+  "rule_id": "SV-215186r958498_rule",
+  "stig_id": "AIX7-00-001025",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must configure the ttys value for all interactive users.",
+  "group_title": "SRG-OS-000114-GPOS-00059",
+  "idents": {
+    "legacy": [
+      "SV-102347",
+      "V-92245"
+    ],
+    "cci": [
+      "CCI-000778"
+    ]
+  },
+  "check_id": "C-16384r569508_chk",
+  "check_content": "Verify that the default \"ttys\" value is set for all users:\n\n# lssec -f /etc/security/user -s default -a ttys\ndefault ttys=ALL\n\nIf the value returned is not \"ttys=ALL\", this is a finding.\n\nFrom the command prompt, run the following command to check \"ttys\" attribute value for all accounts:\n# lsuser -a ttys ALL\n\nThe above command should yield the following output:\nroot ttys=ALL\nuser1 ttys=ALL\nuser2 ttys=ALL\nuser3 ttys=ALL\n\nIf any interactive user account does not have \"ttys=ALL\", this is a finding.",
+  "fixtext": "From the command prompt, run the following command to set \"ttys=ALL\" for the default stanza in \"/etc/security/user\":\n# chsec -f /etc/security/user -s default -a ttys=ALL\n\nRun the following command to recheck \"ttys\" values for all users:\n# lsuser -a ttys ALL\n\nFor each interactive user who does not have \"ttys=ALL\", set the value of \"ttys\" to \"ALL\" by running the following command from command prompt:\n# chsec -f /etc/security/user -s [user_name] -a ttys=ALL",
+  "fix_id": "F-16382r569436_fix",
+  "VulnDiscussion": "A user's \"ttys\" attribute controls from which device(s) the user can authenticate and log in. If the \"ttys\" attribute is not specified, all terminals can access the user account.",
+  "Documentable": "false"
+}

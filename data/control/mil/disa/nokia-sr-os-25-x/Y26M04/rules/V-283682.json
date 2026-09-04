@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283682",
+  "rule_id": "SV-283682r1204074_rule",
+  "stig_id": "NOKI-L2-000100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Nokia layer 2 switch must have Unknown Unicast Flood Blocking (UUFB) enabled.",
+  "group_title": "SRG-NET-000362-L2S-000024",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-88247r1204072_chk",
+  "check_content": "Review the router virtual private local area network service (VPLS) configuration and verify discard-unknown is enabled for VPLS service. \n\nThe discard-unknown feature discards packets with unknown destination MAC addresses. \n\nUse the command below and verify \"Discard Unknown\" is enabled:\n\n- show service id 10 all | match \"Discard Unknown\"\nMac Learning      : Enabled             Discard Unknown   : Enabled\n\nIf \"Discard Unknown\" is disabled, this is a finding.",
+  "fixtext": "Configure the Nokia router VPLS service to have Unknown discard enabled:\n\n- configure service vpls <service id> discard-unknown",
+  "fix_id": "F-88152r1204073_fix",
+  "VulnDiscussion": "Access layer switches use the Content Addressable Memory (CAM) table to direct traffic to specific ports based on the virtual local area network (VLAN) number and the destination Media Access Control (MAC) address of the frame. \n\nWhen a router has an Address Resolution Protocol (ARP) entry for a destination host and forwards it to the access layer switch and there is no entry corresponding to the frame's destination MAC address in the incoming VLAN, the frame will be sent to all forwarding ports within the respective VLAN, which causes flooding. Large amounts of flooded traffic can saturate low-bandwidth links, causing network performance issues or complete connectivity outage to the connected devices. Unknown unicast flooding has been a nagging problem in networks that have asymmetric routing and default timers. \n\nTo mitigate the risk of a connectivity outage, the Unknown Unicast Flood Blocking (UUFB) feature must be implemented on all access layer switches. The UUFB feature will block unknown unicast traffic flooding and only permit egress traffic with MAC addresses that are known to exit on the port.",
+  "Documentable": "false"
+}

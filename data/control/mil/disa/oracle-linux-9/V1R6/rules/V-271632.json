@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271632",
+  "rule_id": "SV-271632r1091608_rule",
+  "stig_id": "OL09-00-001100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 user account passwords must have a 60-day maximum password lifetime restriction.",
+  "group_title": "SRG-OS-000076-GPOS-00044",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-75682r1091606_chk",
+  "check_content": "Verify that OL 9 user account passwords have a 60-day maximum password lifetime restriction with the following commands:\n\n$ sudo awk -F: '$5 > 60 {print $1 \"\" \"\" $5}' /etc/shadow\n\n$ sudo awk -F: '$5 <= 0 {print $1 \"\" \"\" $5}' /etc/shadow\n\nIf any results are returned that are not associated with a system account, this is a finding.",
+  "fixtext": "Configure noncompliant accounts to enforce a 60-day maximum password lifetime restriction.\n\npasswd -x 60 [user]",
+  "fix_id": "F-75589r1091607_fix",
+  "VulnDiscussion": "Any password, no matter how complex, can eventually be cracked; therefore, passwords need to be changed periodically. If OL 9 does not limit the lifetime of passwords and force users to change their passwords, there is the risk that OL 9 passwords could be compromised.",
+  "Documentable": "false"
+}

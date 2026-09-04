@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215343",
+  "rule_id": "SV-215343r991589_rule",
+  "stig_id": "AIX7-00-003037",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX hosts.lpd file must not contain a + character.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101731",
+      "V-91633"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16541r294480_chk",
+  "check_content": "Look for the presence of a print service configuration file by running the following commands: \n\n# find /etc -name hosts.lpd -print \n# find /etc -name Systems -print \n# find /etc -name printers.conf\n\nIf none of the files are found, this is not applicable. \n\nOtherwise, examine the configuration file by running: \n\n# more <print service file> | grep \"+\"\n@+hamlet\n+lear\n@+prospero\n\nIf any lines are found that contain only a \"+\" character, this is a finding.",
+  "fixtext": "Remove the \"+\" entries from the \"hosts.lpd\" (or equivalent) file.",
+  "fix_id": "F-16539r294481_fix",
+  "VulnDiscussion": "Having the '+' character in the hosts.lpd (or equivalent) file allows all hosts to use local system print resources.",
+  "Documentable": "false"
+}

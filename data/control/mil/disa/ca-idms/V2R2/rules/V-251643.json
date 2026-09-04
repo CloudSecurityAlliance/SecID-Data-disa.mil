@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251643",
+  "rule_id": "SV-251643r1137659_rule",
+  "stig_id": "IDMS-DB-000790",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "CA IDMS must protect system and user code and storage from corruption by user programs.",
+  "group_title": "SRG-APP-000431-DB-000388",
+  "idents": {
+    "cci": [
+      "CCI-002530"
+    ]
+  },
+  "check_id": "C-55078r807794_chk",
+  "check_content": "Log on to IDMS DC system and issue \"DCPROFIL\". If SYSTEM STORAGE PROTECTED: display is \"NO\", this is a finding. \n\nIssue DCMT D PROGRAM pgmname where pgmname is ADSOMAIN, ADSORUN1, and user programs. If \"Storage Prot\" is \"NO\", this is a finding.",
+  "fixtext": "Use the following system generation parameters to enable the use of standard storage protection: \n\nSet STORAGE KEY parameter of the SYSTEM statement to a value that is not\" 9\". (The value other than 9 is dependent on how the z/OS parm AllowUserKeyCSA is set).\n\nSet PROTECT/NOPROTECT parameter of the SYSTEM statement to \"PROTECT\".\n\nSet PROTECT/NOPROTECT parameter of the PROGRAM statement to \"PROTECT\" for ADSOMAIN, ADSORUN1, and user programs.\n\nGenerate and restart the system.",
+  "fix_id": "F-55032r807795_fix",
+  "VulnDiscussion": "Database management systems can maintain separate execution domains for each executing process by assigning each process a separate address space. Each process has a distinct address space so that communication between processes is controlled through the security functions, and one process cannot modify the executing code of another process. Maintaining separate execution domains for executing processes can be achieved, for example, by implementing separate address spaces.",
+  "Documentable": "false"
+}

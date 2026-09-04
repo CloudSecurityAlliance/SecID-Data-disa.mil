@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282640",
+  "rule_id": "SV-282640r1200900_rule",
+  "stig_id": "TOSS-05-000135",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must prevent special devices on file systems that are imported via Network File System (NFS).",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87201r1200898_chk",
+  "check_content": "Verify TOSS 5 has the \"nodev\" option configured for all NFS mounts using the following command:\n\nNote: If no NFS mounts are configured, this requirement is not applicable.\n\n$ cat /etc/fstab | grep nfs\n\n192.168.22.2:/mnt/export /data nfs4 rw,nosuid,nodev,noexec,sync,soft,sec=krb5:krb5i:krb5p\n\nIf the system is mounting file systems via NFS and the \"nodev\" option is missing, this is a finding.",
+  "fixtext": "Update each NFS mounted file system to use the \"nodev\" option on file systems that are being imported via NFS.",
+  "fix_id": "F-87106r1200899_fix",
+  "VulnDiscussion": "The \"nodev\" mount option causes the system to not interpret character or block special devices. Executing character or block special devices from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

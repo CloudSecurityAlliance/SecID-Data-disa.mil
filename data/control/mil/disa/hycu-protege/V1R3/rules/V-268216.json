@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-268216",
+  "rule_id": "SV-268216r1038348_rule",
+  "stig_id": "HYCU-ND-000440",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must be configured to synchronize internal information system clocks using redundant authoritative time sources.",
+  "group_title": "SRG-APP-000920-NDM-000320",
+  "idents": {
+    "cci": [
+      "CCI-004922",
+      "CCI-004923"
+    ]
+  },
+  "check_id": "C-72237r1038346_chk",
+  "check_content": "Verify the \"chronyd\" service is up and running, execute the following command:\nsystemctl status chronyd\n\nIf service is not active (running), this is a finding.\n\nTo verify chronyd has synced time and can reach the servers execute the following command:\nchronyc sources\n\nIf there are not two NTP servers listed, this is a finding.\n\nIf the \"Reach\" value is lower than \"377\" for the source with S column marked with \"*\" this is a finding.",
+  "fixtext": "Start the time synchronization by logging on to the HYCU console and executing the following command:\nsudo systemctl restart chronyd\n\nAdditional assistance can be found at: https://support.hycu.com/hc/en-us/articles/115005424345-HYCU-system-time",
+  "fix_id": "F-72140r1038347_fix",
+  "VulnDiscussion": "The loss of connectivity to a particular authoritative time source will result in the loss of time synchronization (free-run mode) and increasingly inaccurate time stamps on audit events and other functions. \n\nMultiple time sources provide redundancy by including a secondary source. Time synchronization is usually a hierarchy; clients synchronize time to a local source while that source synchronizes its time to a more accurate source. The network device must use an authoritative time server and/or be configured to use redundant authoritative time sources. This requirement is related to the comparison done in CCI-001891.\n\nDOD-approved solutions consist of a combination of a primary and secondary time source using a combination or multiple instances of the following: a time server designated for the appropriate DOD network (NIPRNet/SIPRNet); United States Naval Observatory (USNO) time servers; and/or the Global Positioning System (GPS). The secondary time source must be located in a different geographic region than the primary time source.\n\nSatisfies: SRG-APP-000920-NDM-000320, SRG-APP-000925-NDM-000330",
+  "Documentable": "false"
+}

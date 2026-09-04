@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279112",
+  "rule_id": "SV-279112r1171599_rule",
+  "stig_id": "APAS-CF-001135",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ColdFusion must include only approved trust anchors in trust stores or certificate stores managed by the organization.",
+  "group_title": "SRG-APP-000910-AS-000300",
+  "idents": {
+    "cci": [
+      "CCI-004909"
+    ]
+  },
+  "check_id": "C-83660r1171433_chk",
+  "check_content": "Validate Connection.\n\n1. Open cacert by executing the following command:\nC:\\ColdFusion2023\\jre\\bin\\keytool -list -keystore C:\\ColdFusion2023\\jre\\lib\\security\\cacerts\n\nIf any outbound certificates listed are not approved, this is a finding.\n\n2. In each ColdFusion instance, open the server.xml file:\n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\\server.xml \n\n3. Verify all uncommented connector tags for the word \"keystorefile\":\n\na. Make note of any keystore path and filename.\n\nb. For each file found with the connector tag \"keystorefile\", execute the following command:\nC:\\ColdFusion2023\\jre\\bin\\keytool -list -keystore <keystorefile>\n\nIf any inbound certificates listed are not approved, this is a finding.",
+  "fixtext": "Configure connection.\n\nFor all untrusted certificates identified execute the following command:\nC:\\ColdFusion2023\\jre\\bin\\keytool -delete -alias \"<certificate alias>\" -keystore <keystorefile>",
+  "fix_id": "F-83565r1171598_fix",
+  "VulnDiscussion": "Trust stores and certificate stores in ColdFusion are used to validate the authenticity of digital certificates during secure communications. If these stores include unapproved or rogue trust anchors they introduce the risk of trusting malicious or compromised certificates. This can lead to man-in-the-middle (MitM) attacks, spoofing of trusted services, or unauthorized data decryption.\n\nOnly including approved trust anchors ensures that ColdFusion trusts only vetted entities for secure communications. This protects against the installation of unauthorized certificates that could be used to intercept or manipulate encrypted traffic.\n\nMaintaining strict control over which trust anchors are included in ColdFusion's trust and certificate stores is essential to upholding the integrity and confidentiality of system communications. It also ensures alignment with enterprise Public Key Infrastructure (PKI) policies and reduces the risk of inadvertently trusting a compromised or untrusted source.",
+  "Documentable": "false"
+}

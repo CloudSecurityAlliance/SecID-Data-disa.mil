@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281288",
+  "rule_id": "SV-281288r1166816_rule",
+  "stig_id": "RHEL-10-700850",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must be configured to disable USB mass storage.",
+  "group_title": "SRG-OS-000114-GPOS-00059",
+  "idents": {
+    "cci": [
+      "CCI-000778",
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-85849r1166814_chk",
+  "check_content": "Verify RHEL 10 disables the ability to load the USB Storage kernel module with the following command:\n\n$ sudo grep -rs usb-storage /etc/modprobe.conf /etc/modprobe.d/*\n/etc/modprobe.d/usb-storage.conf:install usb-storage /bin/false\n/etc/modprobe.d/usb-storage.conf:blacklist usb-storage\n\nIf the command does not return any output, or either line is commented out, and use of USB Storage is not documented with the information system security officer as an operational requirement, this is a finding.",
+  "fixtext": "Configure RHEL 10 to prevent the usb-storage kernel module from being loaded.\n\nAdd the following lines to the file \"/etc/modprobe.d/usb-storage.conf\" (or create \"usb-storage.conf\" if it does not exist):\n\n$ sudo vi /etc/modprobe.d/usb-storage.conf\n\ninstall usb-storage /bin/false\nblacklist usb-storage",
+  "fix_id": "F-85754r1166815_fix",
+  "VulnDiscussion": "USB mass storage permits easy introduction of unknown devices, thereby facilitating malicious activity.\n\nSatisfies: SRG-OS-000114-GPOS-00059, SRG-OS-000378-GPOS-00163",
+  "Documentable": "false"
+}

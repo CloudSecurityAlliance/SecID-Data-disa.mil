@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216072",
+  "rule_id": "SV-216072r959010_rule",
+  "stig_id": "SOL-11.1-020380",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "System start-up files must only execute programs owned by a privileged UID or an application.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-59843",
+      "SV-74273"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17310r372598_chk",
+  "check_content": "Determine the programs executed by system start-up files.  Determine the ownership of the executed programs. \n\n# cat /etc/rc* /etc/init.d/* | more\n\nCheck the ownership of every program executed by the system start-up files.\n\n# ls -l <executed program>\n\nIf any executed program is not owned by root, sys, bin, or in rare cases, an application account, this is a finding.",
+  "fixtext": "Change the ownership of the file executed from system startup scripts to root, bin, or sys.\n\n# chown root <executed file>",
+  "fix_id": "F-17308r372599_fix",
+  "VulnDiscussion": "System start-up files executing programs owned by other than root (or another privileged user) or an application indicates the system may have been compromised.",
+  "Documentable": "false"
+}

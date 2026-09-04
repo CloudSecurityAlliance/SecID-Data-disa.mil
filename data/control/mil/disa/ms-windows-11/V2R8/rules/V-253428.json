@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253428",
+  "rule_id": "SV-253428r1210301_rule",
+  "stig_id": "WN11-PK-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The External Root CA certificates must be installed in the Trusted Root Store on unclassified systems.",
+  "group_title": "SRG-OS-000066-GPOS-00034",
+  "idents": {
+    "cci": [
+      "CCI-000185"
+    ]
+  },
+  "check_id": "C-56881r1210233_chk",
+  "check_content": "Verify the ECA Root CA certificates are installed on unclassified systems as Trusted Root Certification Authorities.\n\nRun \"PowerShell\" as an administrator.\n\nExecute the following command:\n\nGet-ChildItem -Path Cert:Localmachine\\root | Where Subject -Like \"*ECA*\" | FL Subject, NotAfter\n\nIf the following certificate \"Subject\" information is not displayed, this is a finding. \n\nNote: The Common Name (CN) below is an example. Verify the \"CN\" displayed (ECA Root CA) is not expired. As of this writing, ECA Root CA 4 and ECA Root 5 are valid (among others).\n\nSubject: CN=ECA Root CA 4, OU=ECA, O=U.S. Government, C=US\nSubject: CN=ECA Root CA 5, OU=ECA, O=U.S. Government, C=US\n\nAlternately, use the Certificates MMC snap-in:\n\nRun \"MMC\".\n\nSelect \"File\" and \"Add/Remove Snap-in\".\n\nSelect \"Certificates\" and click \"Add\".\n\nSelect \"Computer account\" and click \"Next\".\n\nSelect \"Local computer: (the computer this console is running on)\" and click \"Finish\".\n\nClick \"OK\".\n\nExpand \"Certificates\" and navigate to Trusted Root Certification Authorities >> Certificates.\n\nFor each of the ECA Root CA certificates noted below:\n\nRight-click on the certificate and select \"Open\".\n\nSelect the \"Details\" tab.\n\nVerify the Expiration Date is a future date.\n\nScroll to the bottom and select \"Subject\".\n\nIf the certificates listed do not include \"ECA Root CA\" in the name or are expired, this is a finding.\n\nNote: This is not a complete list of possible ECA Root CA certificates.\n\nECA Root CA 4\n\nECA Root CA 5",
+  "fixtext": "Install a valid (unexpired) ECA Root CA certificate on unclassified systems. The list below is not to be treated as exhaustive. They are valid as of this writing, but the STIG should not be used as a definitive resource for the organizationally approved ECA Root CA certificates for your systems.\n\nECA Root CA 4\nECA Root CA 5\n\nThe InstallRoot tool is available on Cyber Exchange at https://cyber.mil/pki-pke/tools-configuration-files. PKI can be found at https://crl.gds.disa.mil/.",
+  "fix_id": "F-56831r1210234_fix",
+  "VulnDiscussion": "To ensure secure websites protected with External Certificate Authority (ECA) server certificates are properly validated, the system must trust the ECA Root CAs. The ECA root certificates will ensure the trust chain is established for server certificates issued from the External CAs. This requirement applies only to unclassified systems.",
+  "Documentable": "false"
+}

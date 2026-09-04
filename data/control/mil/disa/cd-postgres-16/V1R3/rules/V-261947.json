@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261947",
+  "rule_id": "SV-261947r1000846_rule",
+  "stig_id": "CD16-00-010300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must generate audit records when unsuccessful attempts to modify security objects occur.",
+  "group_title": "SRG-APP-000496-DB-000335",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-65801r1000844_chk",
+  "check_content": "Note: The following instructions use the PGDATA and PGLOG environment variables. Refer to APPENDIX-F for instructions on configuring PGDATA and APPENDIX-I for PGLOG.\n\nAs the database administrator (shown here as \"postgres\"), create a test role by running the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"CREATE ROLE bob\"\n\nTo test if audit records are generated from unsuccessful attempts at modifying security objects, run the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"SET ROLE bob; UPDATE pg_authid SET rolsuper = 't' WHERE rolname = 'bob';\"\n\nAs the database administrator (shown here as \"postgres\"), verify the denials were logged:\n\n$ sudo su - postgres\n$ cat ${PGDATA?}/${PGLOG?}/<latest_log>\n< 2024-03-17 10:34:00.017 EDT bob 56eabf52.b62 postgres: >ERROR: permission denied for relation pg_authid\n< 2024-03-17 10:34:00.017 EDT bob 56eabf52.b62 postgres: >STATEMENT: UPDATE pg_authid SET rolsuper = 't' WHERE rolname = 'bob';\n\nIf denials are not logged, this is a finding.",
+  "fixtext": "Configure PostgreSQL to produce audit records when unsuccessful attempts to modify security objects occur.\n\nUnsuccessful attempts to modify security objects can be logged if logging is enabled. To ensure logging is enabled, review supplementary content APPENDIX-C for instructions on enabling logging.",
+  "fix_id": "F-65709r1000845_fix",
+  "VulnDiscussion": "Changes in the database objects (tables, views, procedures, functions) that record and control permissions, privileges, and roles granted to users and roles must be tracked. Without an audit trail, unauthorized changes to the security subsystem could go undetected. The database could be severely compromised or rendered inoperative.\n\nTo aid in diagnosis, it is necessary to keep track of failed attempts in addition to the successful ones.",
+  "Documentable": "false"
+}

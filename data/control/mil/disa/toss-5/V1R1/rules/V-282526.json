@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-282526",
+  "rule_id": "SV-282526r1201501_rule",
+  "stig_id": "TOSS-05-000472",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "TOSS 5 must implement DOD or other applicable U.S. Government agency-approved TLS encryption in the GnuTLS package.",
+  "group_title": "SRG-OS-000250-GPOS-00093",
+  "idents": {
+    "cci": [
+      "CCI-001453",
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-87087r1200556_chk",
+  "check_content": "Verify if GnuTLS uses defined DOD-approved TLS Crypto Policy using the following command:\n\n $ update-crypto-policies --show\nFIPS\n\nIf the systemwide crypto policy is not set to \"FIPS\", this is a finding.",
+  "fixtext": "Configure the TOSS 5 GnuTLS library to use only NIST-approved encryption by enabling FIPS mode using the following command:\n\n$ sudo fips-mode-setup --enable\n\nRestart the system for the changes to take effect.",
+  "fix_id": "F-86992r1200557_fix",
+  "VulnDiscussion": "Without cryptographic integrity protections, information can be altered by unauthorized users without detection.\n\nTransport Layer Security (TLS) encryption is a required security setting as a number of known vulnerabilities have been reported against Secure Sockets Layer (SSL) and earlier versions of TLS. Encryption of private information is essential to ensuring data confidentiality. If private information is not encrypted, it can be intercepted and easily read by an unauthorized party. SQL Server must use a minimum of FIPS 140-3-approved TLS version 1.2, and all non-FIPS-approved SSL and TLS versions must be disabled. NIST 800-53 specifies the preferred configurations for government systems.\n\nCryptographic mechanisms used for protecting the integrity of information include, for example, signed hash functions using asymmetric cryptography enabling distribution of the public key to verify the hash information while maintaining the confidentiality of the secret key used to generate the hash.\n\nSatisfies: SRG-OS-000250-GPOS-00093, SRG-OS-000423-GPOS-00187",
+  "Documentable": "false"
+}

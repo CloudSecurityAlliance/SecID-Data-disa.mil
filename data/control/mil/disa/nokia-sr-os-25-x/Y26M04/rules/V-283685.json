@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283685",
+  "rule_id": "SV-283685r1204130_rule",
+  "stig_id": "NOKI-L2-000130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Nokia layer 2 switch must have Dynamic Address Resolution Protocol (ARP) Inspection (DAI) enabled on all user virtual local area networks (VLANs).",
+  "group_title": "SRG-NET-000362-L2S-000027",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-88250r1204081_chk",
+  "check_content": "Review the virtual private local area network service (VPLS) configuration and verify an equivalent command for the DAI feature is enabled on all user VLANs.\n\nVerify both \"DHCP snooping\" and \"lease populate\" options under DHCP result for each service access point (SAP) within a VPLS service:\n\n-show service id 10 sap 1/1/c3/10 detail | match \"Anti Spoofing\"\nAnti Spoofing      : Ip-Mac                   Dynamic Hosts     : Enabled\n\n- show service id 10 sap 1/1/c3/10 detail | match \"ARP Reply Agent\"\nARP Reply Agent    : Enabled                  Host Conn Verify  : Disabled\n\nUsing the same command, verify \"Anti Spoofing\" is enabled with type IP-MAC, and \"ARP Reply Agent\" is also enabled.\n\nIf these are not enabled on all user VLANs, this is a finding.",
+  "fixtext": "The system evaluates ARP replies and requests received on a SAP with arp-reply-agent enabled against the anti-spoof filter entries associated with the ingress SAP. ARPs from unknown hosts on the SAP are discarded when anti-spoof filtering is enabled.\n\nConfigure the Nokia router VPLS service to enable DHCP snooping at all points where DHCP messages requiring snooping enter the VPLS service:\n\n- configure service vpls <service id> sap <sap id> dhcp snoop\n\nPopulate the DHCP lease state information extracted from snooped DHCP ACK messages. If the optional number \"lease state table entries allowed\" is omitted, only a single entry is allowed. Once the maximum number of entries has been reached, subsequent lease state entries are not allowed, and DHCP ACK messages are discarded.\n\n- configure service vpls <service id> sap <sap id> dhcp lease-populate <number of DHCP leases allowed>\n\nEnable anti-spoof filtering for untrusted VPLS service access points. Anti-spoof type can be ip, ip-mac, or mac. \n\nWhen type \"ip\" is used, only the source IP address is used in its lookup. The \"ip-mac\" type uses both IP address and the source MAC address in its lookup, while the \"mac\" type uses only the source MAC address in its lookup.\n\nIf an entry does not match the ingress packet, the packet is silently discarded while incrementing the SAP discard counter. \n\n- configure service vpls <service id> sap <sap id> anti-spoof <anti-spoof type>\n\nEnable arp-reply-agent:\n\n- configure service vpls sap <sap id> arp-reply-agent",
+  "fix_id": "F-88155r1204129_fix",
+  "VulnDiscussion": "DAI intercepts ARP requests and verifies that each of these packets has a valid IP-to-MAC address binding before updating the local ARP cache and forwarding the packet to the appropriate destination. \n\nInvalid ARP packets are dropped and logged. DAI determines the validity of an ARP packet based on valid IP-to-MAC address bindings stored in the Dynamic Host Configuration Protocol (DHCP) snooping binding database. If the ARP packet is received on a trusted interface, the switch forwards the packet without any checks. On untrusted interfaces, the switch forwards the packet only if it is valid.",
+  "Documentable": "false"
+}

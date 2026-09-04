@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282613",
+  "rule_id": "SV-282613r1201304_rule",
+  "stig_id": "TOSS-05-000024",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must enable the \"SELinux\" targeted policy.",
+  "group_title": "SRG-OS-000445-GPOS-00199",
+  "idents": {
+    "cci": [
+      "CCI-002696"
+    ]
+  },
+  "check_id": "C-87174r1200817_chk",
+  "check_content": "Note: At lower classification levels (CUI, Secret) where vast amounts of data are processed and a performance impact is occurring, an authorizing official can consider this requirement not applicable.\n\nCheck that TOSS verifies correct operation of all security functions.\n\nDetermine if \"SELinux\" is active and is enforcing the targeted policy using the following command:\n\n$ sudo sestatus\n\nSELinux status: enabled\nSELinuxfs mount: /sys/fs/selinux\nSELinux root directory: /etc/selinux\nLoaded policy name: targeted\nCurrent mode: enforcing\nMode from config file: enforcing\nPolicy MLS status: enabled\nPolicy deny_unknown status: allowed\nMemory protection checking: actual (secure)\nMax kernel policy version: 33\n\nIf the \"Loaded policy name\" is not set to \"targeted\", this is a finding.\n\nVerify the \"/etc/selinux/config\" file is configured with the \"SELINUXTYPE\" of \"targeted\":\n\n$ sudo grep -i \"selinuxtype\" /etc/selinux/config | grep -v '^#'\nSELINUXTYPE = targeted\n\nIf no results are returned, or \"SELINUXTYPE\" is not set to \"targeted\", this is a finding.",
+  "fixtext": "Configure the operating system to verify correct operation of all security functions.\n\nSet the \"SELinuxtype\" to the \"targeted\" policy by modifying the \"/etc/selinux/config\" file to have the following line:\n\nSELINUXTYPE=targeted\n\nRestart the system for the changes to take effect.",
+  "fix_id": "F-87079r1201303_fix",
+  "VulnDiscussion": "Setting the SELinux policy to \"targeted\" or a more specialized policy ensures the system will confine processes that are likely to be targeted for exploitation, such as network or system services.\n\nNote: During the development or debugging of SELinux modules, it is common to temporarily place nonproduction systems in \"permissive\" mode. In such temporary cases, SELinux policies should be developed, and once work is completed, the system should be reconfigured to \"targeted\".",
+  "Documentable": "false"
+}

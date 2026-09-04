@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261857",
+  "rule_id": "SV-261857r1000976_rule",
+  "stig_id": "CD16-00-000100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must limit the number of concurrent sessions to an organization-defined number per user for all accounts and/or account types.",
+  "group_title": "SRG-APP-000001-DB-000031",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-65711r1000976_chk",
+  "check_content": "To check the total amount of connections allowed by the database, as the database administrator, run the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"SHOW max_connections\"\n\nIf the total amount of connections is greater than documented by an organization, this is a finding.\n\nTo check the amount of connections allowed for each role, as the database administrator, run the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"SELECT rolname, rolconnlimit \nFROM pg_roles\nWHERE rolname NOT IN (\n'pg_database_owner',\n'pg_read_all_data',\n'pg_write_all_data',\n'pg_monitor',\n'pg_read_all_settings',\n'pg_read_all_stats',\n'pg_stat_scan_tables',\n'pg_read_server_files',\n'pg_write_server_files',\n'pg_execute_server_program',\n'pg_signal_backend',\n'pg_checkpoint',\n'pg_use_reserved_connections',\n'pg_create_subscription');\"\n\nIf any roles have more connections configured than documented, this is a finding. A value of \"-1\" indicates Unlimited and is a finding.",
+  "fixtext": "Note: The following instructions use the PGDATA and PGVER environment variables. Refer to APPENDIX-F for instructions on configuring PGDATA and APPENDIX-H for PGVER.\n\nTo configure the maximum amount of connections allowed to the database, as the database administrator (shown here as \"postgres\") change the following in postgresql.conf (the value 10 is an example; set the value to suit local conditions):\n\n$ sudo su - postgres \n$ vi ${PGDATA?}/postgresql.conf \nmax_connections = 10 \n\nRestart the database:\n\n$ sudo systemctl restart postgresql-${PGVER?}\n\nTo limit the amount of connections allowed by a specific role, as the database administrator, run the following SQL: \n\n$ psql -c \"ALTER ROLE <rolname> CONNECTION LIMIT 1\";",
+  "fix_id": "F-65619r1000575_fix",
+  "VulnDiscussion": "Database management includes the ability to control the number of users and user sessions using PostgreSQL. Unlimited concurrent connections to PostgreSQL could allow a successful denial-of-service (DoS) attack by exhausting connection resources; and a system can also fail or be degraded by an overload of legitimate users. Limiting the number of concurrent sessions per user is helpful in reducing these risks.\n\nThis requirement addresses concurrent session control for a single account. It does not address concurrent sessions by a single user via multiple system accounts; and it does not deal with the total number of sessions across all accounts.\n\nThe capability to limit the number of concurrent sessions per user must be configured in or added to PostgreSQL (for example, by use of a log on trigger), when this is technically feasible. Note that it is not sufficient to limit sessions via a web server or application server alone, because legitimate users and adversaries can potentially connect to PostgreSQL by other means.\n\nThe organization will need to define the maximum number of concurrent sessions by account type, by account, or a combination thereof. In deciding on the appropriate number, it is important to consider the work requirements of the various types of users. For example, two might be an acceptable limit for general users accessing the database via an application; but 10 might be too few for a database administrator using a database management GUI tool, where each query tab and navigation pane may count as a separate session.\n\n(Sessions may also be referred to as connections or logons, which for the purposes of this requirement are synonyms).",
+  "Documentable": "false"
+}

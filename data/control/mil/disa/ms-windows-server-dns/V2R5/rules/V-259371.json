@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-259371",
+  "rule_id": "SV-259371r1212361_rule",
+  "stig_id": "WDNS-22-000043",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Windows DNS Server must implement a local cache of revocation data for PKI authentication.",
+  "group_title": "SRG-APP-000401-DNS-000051",
+  "idents": {
+    "cci": [
+      "CCI-004068",
+      "CCI-001991"
+    ]
+  },
+  "check_id": "C-63110r1212360_chk",
+  "check_content": "Note: This check is not applicable for Windows DNS Servers that host only Active Directory (AD)-integrated zones or for Windows DNS Servers on a classified network.\n\nConsult with the system administrator to determine if a third-party CRL server is being used for certificate revocation lookup.\n\nIf there is, determine if a documented procedure is in place to store a copy of the CRL locally (local to the site, as an alternative to querying the actual Certificate Authorities). An example would be an OCSP responder installed at the local site.\n\nIf there is no local cache of revocation data, this is a finding.",
+  "fixtext": "Configure local revocation data to be used in the event access to Certificate Authorities is hindered.",
+  "fix_id": "F-63018r939817_fix",
+  "VulnDiscussion": "Not configuring a local cache of revocation data could allow access to users who are no longer authorized (users with revoked certificates).\n\nSIG(0) is used for server-to-server authentication for DNS transactions, and it uses PKI-based authentication. In cases where SIG(0) is being used instead of TSIG (which uses a shared key, not PKI-based authentication), this requirement is applicable.",
+  "Documentable": "false"
+}

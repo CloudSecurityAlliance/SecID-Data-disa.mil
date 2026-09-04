@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251557",
+  "rule_id": "SV-251557r960963_rule",
+  "stig_id": "FFOX-00-000013",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Firefox must be configured to disable the installation of extensions.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-54992r807141_chk",
+  "check_content": "Type \"about:policies\" in the browser address bar. \n\nIf \"InstallAddonsPermission\" is not displayed under Policy Name or the Policy Value is not \"Default\" \"false\", this is a finding.",
+  "fixtext": "Windows group policy:\n1. Open the group policy editor tool with \"gpedit.msc\".\n2. Navigate to Policy Path: Computer Configuration\\Administrative Templates\\Mozilla\\Firefox\\Addons\nPolicy Name: Allow add-on installs from websites\nPolicy State: Disabled\n\nmacOS \"plist\" file:\nAdd the following:\n<key>InstallAddonsPermission</key>\n<false/>\n\nLinux \"policies.json\" file:\nAdd the following in the policies section:\n\"InstallAddonsPermission\": {\n      \"Default\": false\n}",
+  "fix_id": "F-54946r820751_fix",
+  "VulnDiscussion": "A browser extension is a program that has been installed into the browser to add functionality. Where a plug-in interacts only with a web page and usually a third-party external application (e.g., Flash, Adobe Reader), an extension interacts with the browser program itself. Extensions are not embedded in web pages and must be downloaded and installed in order to work. Extensions allow browsers to avoid restrictions that apply to web pages. \n\nFor example, an extension can be written to combine data from multiple domains and present it when a certain page is accessed, which can be considered cross-site scripting. If a browser is configured to allow unrestricted use of extensions, plug-ins can be loaded and installed from malicious sources and used on the browser.",
+  "Documentable": "false"
+}

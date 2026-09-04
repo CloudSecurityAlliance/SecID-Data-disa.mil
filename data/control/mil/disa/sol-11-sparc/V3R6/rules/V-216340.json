@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-216340",
+  "rule_id": "SV-216340r1016277_rule",
+  "stig_id": "SOL-11.1-040230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The operating system must require individuals to be authenticated with an individual authenticator prior to using a group authenticator.",
+  "group_title": "SRG-OS-000109",
+  "idents": {
+    "legacy": [
+      "V-48057",
+      "SV-60929"
+    ],
+    "cci": [
+      "CCI-004045",
+      "CCI-000770"
+    ]
+  },
+  "check_id": "C-17576r371108_chk",
+  "check_content": "Verify the root user is configured as a role, rather than a normal user. \n\n# userattr type root\n\nIf the command does not return the word \"role\", this is a finding.\n\nVerify at least one local user has been assigned the root role.\n\n# grep '[:;]roles=root[^;]*' /etc/user_attr\n\nIf no lines are returned, or no users are permitted to assume the root role, this is a finding.",
+  "fixtext": "The root role is required.\n\nConvert the root user into a role. \n\n# usermod -K type=role root\n\nAdd the root role to authorized users' logins. \n\n# usermod -R +root [username]\n\nRemove the root role from users who should not be authorized to assume it.\n\n# usermod -R -root [username]",
+  "fix_id": "F-17574r371109_fix",
+  "VulnDiscussion": "Allowing any user to elevate their privileges can allow them excessive control of the system tools.",
+  "Documentable": "false"
+}

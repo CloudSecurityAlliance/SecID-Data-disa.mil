@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-282368",
+  "rule_id": "SV-282368r1200084_rule",
+  "stig_id": "TOSS-05-000262",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must display the Standard Mandatory DOD or other applicable U.S. Government agency Notice and Consent Banner before granting local or remote access to the system via a graphical user login.",
+  "group_title": "SRG-OS-000023-GPOS-00006",
+  "idents": {
+    "cci": [
+      "CCI-000048",
+      "CCI-001384",
+      "CCI-001385",
+      "CCI-001386",
+      "CCI-001387",
+      "CCI-001388"
+    ]
+  },
+  "check_id": "C-86929r1200082_chk",
+  "check_content": "Verify TOSS 5 displays a banner before granting access to the operating system via a graphical user login.\n\nNote: This requirement assumes the use of the TOSS 5 default graphical user interface—the GNOME desktop environment. If the system does not have a graphical user interface installed, this requirement is not applicable. \n\nDetermine if the operating system displays a banner at the login screen using the following command:\n\n$ sudo grep banner-message-enable /etc/dconf/db/local.d/*\n\nbanner-message-enable=true\n\nIf \"banner-message-enable\" is set to \"false\", is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure TOSS 5 to display the Standard Mandatory DOD or other applicable U.S. Government agency Notice and Consent Banner before granting access to the system via a graphical user login.\n\nCreate a database to contain the systemwide graphical user login settings (if it does not already exist) using the following command:\n\n$ sudo touch /etc/dconf/db/local.d/01-banner-message\n\nAdd the following lines to the [org/gnome/login-screen] section of the \"/etc/dconf/db/local.d/01-banner-message\":\n\n[org/gnome/login-screen]\n\nbanner-message-enable=true\n\nRun the following command to update the database:\n\n$ sudo dconf update",
+  "fix_id": "F-86834r1200083_fix",
+  "VulnDiscussion": "Display of a standardized and approved use notification before granting access to the operating system ensures privacy and security notification verbiage used is consistent with applicable federal laws, Executive Orders, directives, policies, regulations, standards, and guidance.\n\nFor U.S. Government systems, system use notifications are required only for access via login interfaces with human users and are not required when such human interfaces do not exist.\n\nSatisfies: SRG-OS-000023-GPOS-00006, SRG-OS-000228-GPOS-00088",
+  "Documentable": "false"
+}

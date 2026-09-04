@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282726",
+  "rule_id": "SV-282726r1201158_rule",
+  "stig_id": "TOSS-05-000302",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All TOSS 5 local interactive user home directories defined in the /etc/passwd file must exist.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87287r1201156_chk",
+  "check_content": "Verify the assigned home directories of all interactive users on the system exist using the following command:\n\n$ sudo pwck -r \n\nuser 'mailnull': directory 'var/spool/mqueue' does not exist\n\nThe output should not return any interactive users.\n\nIf the user's home directory does not exist, this is a finding.",
+  "fixtext": "Create home directories to all local interactive users that currently do not have a home directory assigned. Use the following commands to create the user home directory assigned in \"/etc/ passwd\":\n\nNote: The example will be for the user \"wadea\", who has a home directory of \"/home/wadea\", a user identifier (UID) of \"wadea\", and a Group Identifier (GID) of \"users assigned\" in \"/etc/passwd\".\n\n$ sudo mkdir /home/wadea \n$ sudo chown wadea /home/wadea\n$ sudo chgrp users /home/wadea\n$ sudo chmod 0750 /home/wadea",
+  "fix_id": "F-87192r1201157_fix",
+  "VulnDiscussion": "If a local interactive user has a home directory defined that does not exist, the user may be given access to the / directory as the current working directory upon logon. This could create a denial of service because the user would not be able to access their logon configuration files, and it may give them visibility to system files they normally would not be able to access.",
+  "Documentable": "false"
+}

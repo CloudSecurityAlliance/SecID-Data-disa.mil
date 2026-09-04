@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216411",
+  "rule_id": "SV-216411r959010_rule",
+  "stig_id": "SOL-11.1-060140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The operating system must use cryptographic mechanisms to protect and restrict access to information on portable digital media.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48157",
+      "SV-61029"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17647r371321_chk",
+  "check_content": "This check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nDetermine the logical node of all attached removable media:\n\n# rmformat\n\nThis command lists all attached removable devices. Note the device logical node name. For example: /dev/rdsk/c8t0d0p0\n\nDetermine which zpool is mapped to the device:\n\n# zpool status\n\nDetermine the file system names of the portable digital media:\n\n# zfs list | grep [poolname]\n\nUsing the file system name, determine if the removal media is encrypted:\n\n# zfs get encryption [filesystem] \n\nIf \"encryption off\" is listed, this is a finding.",
+  "fixtext": "The root role is required.\n\nFormat a removable device as a ZFS encrypted file system.\n\nThis action applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this action applies.\n\nThe ZFS File System Management and ZFS Storage management profiles are required.\n\nInsert the removable device:\n\n# rmformat\n\nThis command lists all attached removable devices. Note the device logical node name. For example: /dev/rdsk/c8t0d0p0\n\nCreate an encrypted zpool on this device using a poolname of your choice:\n\n# pfexec zpool create -O encryption=on [poolname] c8t0d0p0\n\nEnter a passphrase and confirm the passphrase. Keep the passphrase secure.\n\nExport the zpool before removing the media:\n\n# pfexec export [poolname]\n\nIt will be necessary to enter the passphrase when inserting and importing the removable media zpool:\nInsert the removable media\n# pfexec import [poolname]\n\nOnly store data in the encrypted file system.",
+  "fix_id": "F-17645r371322_fix",
+  "VulnDiscussion": "When data is written to portable digital media, such as thumb drives, floppy diskettes, compact disks, and magnetic tape, etc., there is risk of data loss. \n\nAn organizational assessment of risk guides the selection of media and associated information contained on the media requiring restricted access. \n\nOrganizations need to document in policy and procedures the media requiring restricted access, individuals authorized to access the media, and the specific measures taken to restrict access. Fewer protection measures are needed for media containing information determined by the organization to be in the public domain, to be publicly releasable, or to have limited or no adverse impact if accessed by other than authorized personnel. \n\nIn these situations, it is assumed the physical access controls where the media resides provide adequate protection. The employment of cryptography is at the discretion of the information owner/steward. \n\nWhen the organization has determined the risk warrants it, data written to portable digital media must be encrypted.",
+  "Documentable": "false"
+}

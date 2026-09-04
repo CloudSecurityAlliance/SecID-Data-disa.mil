@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215276",
+  "rule_id": "SV-215276r991592_rule",
+  "stig_id": "AIX7-00-002085",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All AIX interactive users home directories must be owned by their respective users.",
+  "group_title": "SRG-OS-000480-GPOS-00230",
+  "idents": {
+    "legacy": [
+      "SV-101859",
+      "V-91761"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16474r294279_chk",
+  "check_content": "Check the ownership of each user's home directory listed in the \"/etc/passwd file\": \n\n# cut -d: -f6 /etc/passwd | xargs ls -lLd\n\ndrwxr-xr-x   21 root     system         4096 Jan 29 09:58 /\n\ndrwxr-xr-x    4 bin      bin           45056 Jan 24 12:31 /bin\n\ndrwxr-xr-x    2 doejohn  staff           256 Jan 25 13:18 /home/doejohn\n\ndrwxr-xr-x    2 sshd     system          256 Aug 11 2017  /home/srvproxy\n\ndrwx------    2 root     system          256 Jan 30 12:54 /root\n\ndrwxrwxr-x    4 bin      bin             256 Mar 23 2017  /usr/sys\n\ndrwxrwxr-x   15 root     adm            4096 Jan 24 12:26 /var/adm\n\ndrwxr-xr-x    6 root     system         4096 Jan 24 07:34 /var/adm/invscout\n\ndrwxr-xr-x    8 esaadmin system          256 Jan 24 09:02 /var/esa\n\n\nIf any user's home directory is not owned by the assigned user, this is a finding.",
+  "fixtext": "Change the owner of a user's home directory to its assigned user using command: \n# chown <user> <home directory>",
+  "fix_id": "F-16472r294280_fix",
+  "VulnDiscussion": "System binaries are executed by privileged users as well as system services, and restrictive permissions are necessary to ensure that their execution of these programs cannot be co-opted.",
+  "Documentable": "false"
+}

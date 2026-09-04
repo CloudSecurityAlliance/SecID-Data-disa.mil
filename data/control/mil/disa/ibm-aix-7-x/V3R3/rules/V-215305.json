@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215305",
+  "rule_id": "SV-215305r991591_rule",
+  "stig_id": "AIX7-00-002123",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX SSH daemon must not allow RhostsRSAAuthentication.",
+  "group_title": "SRG-OS-000480-GPOS-00229",
+  "idents": {
+    "legacy": [
+      "V-91749",
+      "SV-101847"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16503r294366_chk",
+  "check_content": "Check the SSH daemon configuration for the \"RhostsRSAAuthentication\" setting by running: \n# grep -i RhostsRSAAuthentication /etc/ssh/sshd_config | grep -v '^#' \n\nThe above command should yield the following output:\nRhostsRSAAuthentication no\n\nIf the setting is present and set to \"yes\", this is a finding.",
+  "fixtext": "Edit the \"/etc/ssh/sshd_config file\", add the following line, and save the change:\nRhostsRSAAuthentication no\n\nRestart the SSH daemon:\n# stopsrc -s sshd\n# startsrc -s sshd",
+  "fix_id": "F-16501r294367_fix",
+  "VulnDiscussion": "If SSH permits rhosts RSA authentication, a user may be able to log in based on the keys of the host originating the request and not any user-specific authentication.",
+  "Documentable": "false"
+}

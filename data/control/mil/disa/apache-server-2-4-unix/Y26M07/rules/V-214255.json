@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-214255",
+  "rule_id": "SV-214255r1051283_rule",
+  "stig_id": "AS24-U1-000590",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Apache web server must be tuned to handle the operational requirements of the hosted application.",
+  "group_title": "SRG-APP-000246-WSR-000149",
+  "idents": {
+    "legacy": [
+      "V-92697",
+      "SV-102785"
+    ],
+    "cci": [
+      "CCI-001094",
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-15469r1051281_chk",
+  "check_content": "Determine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nNote: The apachectl front end is the preferred method for locating the Apache httpd file. For some Linux distributions, \"apache2ctl -V\" or \"httpd -V\" can also be used. \n\nVerify that the \"Timeout\" directive is specified to have a value of \"60\" seconds or less.\n\n# cat /<path_to_file>/httpd.conf | grep -i \"Timeout\"\n\nIf the \"Timeout\" directive is not configured or is set for more than \"60\" seconds, this is a finding.",
+  "fixtext": "Determine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nAdd or modify the \"Timeout\" directive to have a value of \"60\" seconds or less:\n\n\"Timeout 60\"",
+  "fix_id": "F-15467r1051282_fix",
+  "VulnDiscussion": "A denial of service (DoS) can occur when the Apache web server is so overwhelmed that it can no longer respond to additional requests. A web server not properly tuned may become overwhelmed and cause a DoS condition even with expected traffic from users. To avoid a DoS, the Apache web server must be tuned to handle the expected traffic for the hosted applications.\n\nSatisfies: SRG-APP-000246-WSR-000149, SRG-APP-000435-WSR-000148",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281282",
+  "rule_id": "SV-281282r1166798_rule",
+  "stig_id": "RHEL-10-700790",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must conceal, via the session lock, information previously visible on the display with a publicly viewable image.",
+  "group_title": "SRG-OS-000031-GPOS-00012",
+  "idents": {
+    "cci": [
+      "CCI-000060"
+    ]
+  },
+  "check_id": "C-85843r1166796_chk",
+  "check_content": "Note: This requirement assumes the use of the RHEL 10 default graphical user interface, the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is not applicable.\n\nVerify RHEL 10 prevents a user from overriding settings a blank screensaver with the following command:\n\n$ gsettings writable org.gnome.desktop.screensaver picture-uri\nfalse\n\nIf \"picture-uri\" is writable, and the result is \"true\", this is a finding.",
+  "fixtext": "Configure RHEL 10 to prevent a user from overriding the picture-uri setting for graphical user interfaces.\n\nNote: The example below is using the database \"local\" for the system. If the system is using another database in \"/etc/dconf/profile/user\", the file should be created under the appropriate subdirectory.\n\nUpdate the \"/etc/dconf/db/local.d/00-security-settings\" file to prevent a user from overriding the \"picture-uri\" setting:\n\n$ sudo vi /etc/dconf/db/local.d/00-security-settings\n\n[org/gnome/desktop/screensaver]\npicture-uri=''\n\nUpdate the \"/etc/dconf/db/local.d/locks/00-security-settings-lock\" file to prevent a user from modifying the lock applied to the \"picture-uri\" setting:\n\n$ sudo vi /etc/dconf/db/local.d/locks/00-security-settings-lock\n\n/org/gnome/desktop/screensaver/picture-uri\n\nUpdate the dconf system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-85748r1166797_fix",
+  "VulnDiscussion": "Setting the screensaver mode to blank-only conceals the contents of the display from passersby.",
+  "Documentable": "false"
+}

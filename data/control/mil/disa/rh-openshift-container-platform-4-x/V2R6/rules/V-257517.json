@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-257517",
+  "rule_id": "SV-257517r1208201_rule",
+  "stig_id": "CNTR-OS-000150",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must generate audit records for all DOD-defined auditable events within all components in the platform.",
+  "group_title": "SRG-APP-000089-CTR-000150",
+  "idents": {
+    "cci": [
+      "CCI-000135",
+      "CCI-000169",
+      "CCI-000171",
+      "CCI-000172",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61252r1208199_chk",
+  "check_content": "To determine at what level the OpenShift audit policy logging verbosity is configured, as a cluster-administrator execute the following command: \noc get apiserver.config.openshift.io/cluster -ojsonpath='{.spec.audit.profile}'\n \nIf the output from the options does not return WriteRequestBodies or AllRequestBodies, this is a finding.\n\nWhere OpenShift Virtualization is enabled:\n$ oc get vm -ojson -A | jq '.items[] |\nselect(.spec.template.spec.domain.devices.disks[].errorPolicy ==\n\"ignore\")| .metadata.namespace + \"/\" + .metadata.name'\n\nIf the results show errorPolicy is set to \"ignore\", this is a finding.",
+  "fixtext": "As the cluster administrator, update the APIServer.config.openshift.io/cluster object to set the profile to the defined level of detail. For example, to configure the profile to WriteRequestBodies, meaning that all write requests to any API server object are logged in their entirety, execute the following:\noc patch apiserver.config.openshift.io/cluster --type=merge -p '{'spec': {'audit': {'profile': 'WriteRequestBodies'}}}'\n\nWhere OpenShift Virtualization is enabled:\n\nTo remove the errorPolicy flag on the first disk (index 0) of a given VM, use this command:\n$ oc patch vm <vm-name> --type='json' -p='[\n{\"op\": \"remove\", \"path\":\n\"/spec/template/spec/domain/devices/disks/0/errorPolicy\"},\n]'",
+  "fix_id": "F-61176r1208200_fix",
+  "VulnDiscussion": "The OpenShift Platform supports three audit levels: Default, WriteRequestBodies, and AllRequestBodies. The identities of the users are logged for all three audit levels log level. The WriteRequestBodies will log the metadata and the request body for any create, update, or patch request. The AllRequestBodies will log the metadata and the request body for all read and write requests. As this generates a significant number of logs, this level is only to be used as needed. To capture sufficient data to investigate an issue, it is required to set the audit level to WriteRequestBodies.\n\nFor more detailed documentation on what is being logged, refer to https://docs.openshift.com/container-platform/4.8/security/audit-log-view.html.\n\nSatisfies: SRG-APP-000089-CTR-000150, SRG-APP-000090-CTR-000155, SRG-APP-000101-CTR-000205, SRG-APP-000510-CTR-001310, SRG-APP-000516-CTR-000790",
+  "Documentable": "false"
+}

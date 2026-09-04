@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-258036",
+  "rule_id": "SV-258036r1014861_rule",
+  "stig_id": "RHEL-09-291020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must have the USBGuard package enabled.",
+  "group_title": "SRG-OS-000378-GPOS-00163",
+  "idents": {
+    "cci": [
+      "CCI-001958",
+      "CCI-003959"
+    ]
+  },
+  "check_id": "C-61777r1014860_chk",
+  "check_content": "Verify RHEL 9 has USBGuard enabled with the following command:\n\n$ systemctl is-active usbguard\n\nactive\n\nIf usbguard is not active, ask the SA to indicate how unauthorized peripherals are being blocked.\n\nIf there is no evidence that unauthorized peripherals are being blocked before establishing a connection, this is a finding.\n\nIf the system is virtual machine with no virtual or physical USB peripherals attached, this is not a finding.",
+  "fixtext": "To enable the USBGuard service run the following command:\n\n$ sudo systemctl enable --now usbguard",
+  "fix_id": "F-61701r926094_fix",
+  "VulnDiscussion": "The USBguard-daemon is the main component of the USBGuard software framework. It runs as a service in the background and enforces the USB device authorization policy for all USB devices. The policy is defined by a set of rules using a rule language described in the usbguard-rules.conf file. The policy and the authorization state of USB devices can be modified during runtime using the usbguard tool.\n\nThe system administrator (SA) must work with the site information system security officer (ISSO) to determine a list of authorized peripherals and establish rules within the USBGuard software framework to allow only authorized devices.",
+  "Documentable": "false"
+}

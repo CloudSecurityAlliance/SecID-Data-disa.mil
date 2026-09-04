@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282365",
+  "rule_id": "SV-282365r1200075_rule",
+  "stig_id": "TOSS-05-000333",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must configure the use of the pam_faillock.so module in the /etc/pam.d/password-auth file.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-86926r1200073_chk",
+  "check_content": "Verify the \"pam_faillock.so\" module is present in the \"/etc/pam.d/password-auth\" file:\n\n$ grep pam_faillock.so /etc/pam.d/password-auth\n\nauth required pam_faillock.so preauth\nauth required pam_faillock.so authfail\naccount required pam_faillock.so\n\nIf the \"pam_faillock.so\" module is not present in the \"/etc/pam.d/password-auth\" file with the \"preauth\" line listed before pam_unix.so, this is a finding.",
+  "fixtext": "Configure TOSS 5 to include the use of the \"pam_faillock.so\" module in the \"/etc/pam.d/password-auth\" file.\n\nAdd/modify the appropriate sections of the \"/etc/pam.d/password-auth\" file to match the following lines:\n\nNote: The \"preauth\" line must be listed before pam_unix.so.\n\nauth required pam_faillock.so preauth\nauth required pam_faillock.so authfail\naccount required pam_faillock.so",
+  "fix_id": "F-86831r1200074_fix",
+  "VulnDiscussion": "If the \"pam_faillock.so\" module is not loaded, the system will not correctly lockout accounts to prevent password guessing attacks.",
+  "Documentable": "false"
+}

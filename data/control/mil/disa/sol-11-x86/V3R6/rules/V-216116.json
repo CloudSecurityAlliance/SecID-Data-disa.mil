@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216116",
+  "rule_id": "SV-216116r959010_rule",
+  "stig_id": "SOL-11.1-040350",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The rhost-based authentication for SSH must be disabled.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48101",
+      "SV-60973"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17354r372730_chk",
+  "check_content": "Determine if rhost-based authentication is enabled.\n\n# grep \"^IgnoreRhosts\" /etc/ssh/sshd_config\n\nIf the output is produced and it is not:\n\nIgnoreRhosts yes\n\nthis is a finding.\n\nIf the IgnoreRhosts line does not exist in the file, the default setting of \"Yes\" is automatically used and there is no finding.",
+  "fixtext": "The root role is required.\n\nModify the sshd_config file\n\n# pfedit /etc/ssh/sshd_config\n\nLocate the line containing:\n\nIgnoreRhosts\n\nChange it to:\n\nIgnoreRhosts yes\n\nRestart the SSH service.\n\n# svcadm restart svc:/network/ssh\n\n\nThis action will only set the IgnoreRhosts line if it already exists in the file to ensure that it is set to the proper value. If the IgnoreRhosts line does not exist in the file, the default setting of \"Yes\" is automatically used, so no additional changes are needed.",
+  "fix_id": "F-17352r372731_fix",
+  "VulnDiscussion": "Setting this parameter forces users to enter a password when authenticating with SSH.",
+  "Documentable": "false"
+}

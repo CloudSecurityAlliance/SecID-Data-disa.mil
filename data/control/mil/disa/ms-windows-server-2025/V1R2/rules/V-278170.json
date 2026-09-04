@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278170",
+  "rule_id": "SV-278170r1182143_rule",
+  "stig_id": "WN25-DC-000390",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Windows Server 2025 \"Deny log on as a service\" user right must be configured to include no accounts or groups (blank) on domain controllers.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-82700r1181214_chk",
+  "check_content": "This applies to domain controllers. A separate version applies to other systems.\n\nVerify the effective setting in Local Group Policy Editor.\n\nRun gpedit.msc.\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment.\n\nIf any accounts or groups are defined for the \"Deny log on as a service\" user right, this is a finding.\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas User_Rights /cfg c:\\path\\filename.txt\n\nReview the text file.\n\nIf any SIDs are granted the \"SeDenyServiceLogonRight\" user right, this is a finding.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment >> Deny log on as a service to include no entries (blank).",
+  "fix_id": "F-82605r1181215_fix",
+  "VulnDiscussion": "Inappropriately granting user rights provides system, administrative, and other high-level capabilities.\n\nThe \"Deny log on as a service\" user right defines accounts that are denied logon as a service.\n\nIncorrect configurations could prevent services from starting and result in a denial of service.",
+  "Documentable": "false"
+}

@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-253085",
+  "rule_id": "SV-253085r1207691_rule",
+  "stig_id": "TOSS-04-040330",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "All TOSS local disk partitions must implement cryptographic mechanisms to prevent unauthorized disclosure or modification of all information that requires at-rest protection.",
+  "group_title": "SRG-OS-000185-GPOS-00079",
+  "idents": {
+    "cci": [
+      "CCI-001199",
+      "CCI-002475",
+      "CCI-002476"
+    ]
+  },
+  "check_id": "C-56538r824925_chk",
+  "check_content": "Verify TOSS prevents unauthorized disclosure or modification of all information requiring at-rest protection by using disk encryption. \n\nIf there is a documented and approved reason for not having data-at-rest encryption, this requirement is Not Applicable.\n\nVerify all local system partitions are encrypted with the following command:\n\n$ sudo blkid\n\n/dev/mapper/rhel-root: UUID=\"67b7d7fe-de60-6fd0-befb-e6748cf97743\" TYPE=\"crypto_LUKS\"\n\nEvery persistent disk partition present must be of TYPE \"crypto_LUKS.\" If any partitions other than pseudo file systems (such as /proc or /sys) are not type \"crypto_LUKS\", ask the administrator to indicate how the partitions are encrypted. If there is no evidence that all local disk partitions are encrypted, this is a finding.",
+  "fixtext": "Configure TOSS to prevent unauthorized modification of all information at rest by using disk encryption. \n\nEncrypting a partition in an already installed system is more difficult, because existing partitions will need to be resized and changed. To encrypt an entire partition, dedicate a partition for encryption in the partition layout.",
+  "fix_id": "F-56488r824926_fix",
+  "VulnDiscussion": "TOSS systems handling data requiring \"data-at-rest\" protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest.\n\nSelection of a cryptographic mechanism is based on the need to protect the integrity of organizational information. The strength of the mechanism is commensurate with the security category and/or classification of the information. Organizations have the flexibility to either encrypt all information on storage devices (i.e., full disk encryption) or encrypt specific data structures (e.g., files, records, or fields).\n\nSatisfies: SRG-OS-000185-GPOS-00079, SRG-OS-000404-GPOS-00183, SRG-OS-000405-GPOS-00184",
+  "Documentable": "false"
+}

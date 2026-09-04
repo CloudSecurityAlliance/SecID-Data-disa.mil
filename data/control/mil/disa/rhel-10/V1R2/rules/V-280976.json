@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-280976",
+  "rule_id": "SV-280976r1165283_rule",
+  "stig_id": "RHEL-10-200621",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must use the common access card (CAC) smart card driver.",
+  "group_title": "SRG-OS-000104-GPOS-00051",
+  "idents": {
+    "cci": [
+      "CCI-000764",
+      "CCI-000766",
+      "CCI-000765",
+      "CCI-004045"
+    ]
+  },
+  "check_id": "C-85537r1165281_chk",
+  "check_content": "Verify RHEL 10 loads the CAC driver with the following command:\n\n$ sudo opensc-tool --get-conf-entry app:default:card_drivers\ncac\n\nIf \"cac\" is not listed as a card driver, or no line is returned for \"card_drivers\", this is a finding.",
+  "fixtext": "Configure RHEL 10 to load the CAC driver:\n\n$ sudo opensc-tool --set-conf-entry app:default:card_drivers:cac\n\nRestart the pcscd service with the following command for the changes to take effect:\n\n$ sudo systemctl restart pcscd",
+  "fix_id": "F-85442r1165282_fix",
+  "VulnDiscussion": "Smart card login provides two-factor authentication stronger than that provided by a username and password combination. Smart cards leverage public key infrastructure to provide and verify credentials. Configuring the smart card driver helps to prevent the use of unauthorized smart cards.\n\nSatisfies: SRG-OS-000104-GPOS-00051, SRG-OS-000106-GPOS-00053, SRG-OS-000107-GPOS-00054, SRG-OS-000109-GPOS-00056, SRG-OS-000108-GPOS-00055",
+  "Documentable": "false"
+}

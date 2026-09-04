@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-257985",
+  "rule_id": "SV-257985r1069364_rule",
+  "stig_id": "RHEL-09-255045",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must not permit direct logons to the root account using remote access via SSH.",
+  "group_title": "SRG-OS-000109-GPOS-00056",
+  "idents": {
+    "cci": [
+      "CCI-004045",
+      "CCI-000770"
+    ]
+  },
+  "check_id": "C-61726r1069363_chk",
+  "check_content": "Verify RHEL 9 remote access using SSH prevents users from logging on directly as \"root\" with the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*permitrootlogin'\n\nPermitRootLogin no\n\nIf the \"PermitRootLogin\" keyword is set to any value other than \"no\", is missing, or is commented out, this is a finding.",
+  "fixtext": "To configure the system to prevent SSH users from logging on directly as root add or modify the following line in \"/etc/ssh/sshd_config\" or in a file in \"/etc/ssh/sshd_config.d\".\n\nPermitRootLogin no\n\nRestart the SSH daemon for the settings to take effect:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-61650r1045027_fix",
+  "VulnDiscussion": "Even though the communications channel may be encrypted, an additional layer of security is gained by extending the policy of not logging directly on as root. In addition, logging in with a user-specific account provides individual accountability of actions performed on the system and also helps to minimize direct attack attempts on root's password.\n\nSatisfies: SRG-OS-000109-GPOS-00056, SRG-OS-000480-GPOS-00227",
+  "Documentable": "false"
+}

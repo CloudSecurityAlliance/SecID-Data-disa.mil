@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-280978",
+  "rule_id": "SV-280978r1165289_rule",
+  "stig_id": "RHEL-10-200631",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "RHEL 10 must use cryptographic mechanisms to protect the integrity of audit tools.",
+  "group_title": "SRG-OS-000278-GPOS-00108",
+  "idents": {
+    "cci": [
+      "CCI-001496"
+    ]
+  },
+  "check_id": "C-85539r1165287_chk",
+  "check_content": "Verify RHEL 10 Advanced Intrusion Detection Environment (AIDE) is properly configured to protect the integrity of the audit tools.\n\nVerify the explicit rules for the audit tools with the following command:\n\n$ sudo grep /usr/sbin/au /etc/aide.conf\n/usr/sbin/auditctl p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/auditd p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512\n\nIf AIDE is not installed, ask the system administrator (SA) how file integrity checks are performed on the system.\n\nIf any of the audit tools listed above do not have a corresponding line, ask the SA to indicate what cryptographic mechanisms are being used to protect the integrity of the audit tools.\n\nIf there is no evidence of integrity protection, this is a finding.",
+  "fixtext": "Configure RHEL 10 to use cryptographic mechanisms to protect the integrity of audit tools.\n\nAdd or update the following lines to \"/etc/aide.conf\" to protect the integrity of the audit tools.\n\n/usr/sbin/auditctl p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/auditd p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512",
+  "fix_id": "F-85444r1165288_fix",
+  "VulnDiscussion": "Protecting the integrity of the tools used for auditing purposes is a critical step toward ensuring the integrity of audit information. Audit information includes all information (e.g., audit records, audit settings, and audit reports) needed to successfully audit information system activity.\n\nAudit tools include, but are not limited to, vendor-provided and open-source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.\n\nIt is not uncommon for attackers to replace the audit tools or inject code into the existing tools to provide the capability to hide or erase system activity from the audit logs.\n\nTo address this risk, audit tools must be cryptographically signed to provide the capability to identify when the audit tools have been modified, manipulated, or replaced. An example is a checksum hash of the file or files.",
+  "Documentable": "false"
+}

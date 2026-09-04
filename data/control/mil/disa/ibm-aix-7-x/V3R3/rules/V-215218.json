@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215218",
+  "rule_id": "SV-215218r1009536_rule",
+  "stig_id": "AIX7-00-001121",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AIX must enforce password complexity by requiring that at least one lower-case character be used.",
+  "group_title": "SRG-OS-000070-GPOS-00038",
+  "idents": {
+    "legacy": [
+      "SV-101381",
+      "V-91283"
+    ],
+    "cci": [
+      "CCI-004066",
+      "CCI-000193"
+    ]
+  },
+  "check_id": "C-16416r294105_chk",
+  "check_content": "From the command prompt, run the following command to check the system default \"minloweralpha\" attribute value:\n# lssec -f /etc/security/user -s default -a minloweralpha\ndefault minloweralpha=1\n\nIf the \"default minloweralpha\" value is not set, or its value is less than \"1\", this is a finding.\n\nFrom the command prompt, run the following command to check \"minloweralpha\" attribute value for all accounts:\n# lsuser -a minloweralpha ALL\nroot minloweralpha=1\nuser2 minloweralpha=2\nuser3 minloweralpha=1\n\nIf any user's \"minloweralpha\" value is less than \"1\", this is a finding.",
+  "fixtext": "From the command prompt, run the following command to set \"minloweralpha=1\" for the default stanza in \"/etc/security/user\":\n# chsec -f /etc/security/user -s default -a minloweralpha=1\n\nFor each user who has \"minloweralpha=0\" set its \"minloweralpha\" to \"1\" by running the following command from command prompt:\n# chsec -f /etc/security/user -s [user_name] -a minloweralpha=1",
+  "fix_id": "F-16414r294106_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks.\n\nPassword complexity is one factor of several that determines how long it takes to crack a password. The more complex the password, the greater the number of possible combinations that need to be tested before the password is compromised.",
+  "Documentable": "false"
+}

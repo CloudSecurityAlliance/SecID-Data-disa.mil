@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259417",
+  "rule_id": "SV-259417r961155_rule",
+  "stig_id": "WDNS-22-000120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows DNS response rate limiting (RRL) must be enabled.",
+  "group_title": "SRG-APP-000247-DNS-000036",
+  "idents": {
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-63156r939954_chk",
+  "check_content": "As an administrator, run PowerShell and enter the following command: \n\"Get-DnsServerResponseRateLimiting\". \n\nIf \"Mode\" is not set to \"Enable\", this is a finding.",
+  "fixtext": "As an administrator, run PowerShell and enter the command \"Set-DnsServerResponseRateLimiting\" to apply default values or \"Set-DnsServerResponseRateLimiting -WindowInSec 7 -LeakRate 4 -TruncateRate 3 -ErrorsPerSec 8 -ResponsesPerSec 8\". \n\nThese settings are just an example. For more information, go to:\nhttps://learn.microsoft.com/en-us/powershell/module/dnsserver/set-dnsserverresponseratelimiting?view=windowsserver2022-ps",
+  "fix_id": "F-63064r939955_fix",
+  "VulnDiscussion": "This setting can prevent someone from sending a denial-of-service attack using the DNS servers. For instance, a bot net can send requests to the DNS server using the IP address of a third computer as the requestor. Without RRL, the DNS servers might respond to all the requests, flooding the third computer.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281204",
+  "rule_id": "SV-281204r1197240_rule",
+  "stig_id": "RHEL-10-600485",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must ensure the password complexity module in the system-auth file is configured for three or fewer retries.",
+  "group_title": "SRG-OS-000069-GPOS-00037",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-85765r1166562_chk",
+  "check_content": "Verify RHEL 10 is configured to limit the \"pwquality\" retry option to \"3\" with the following command:\n\n$ sudo grep -w retry /etc/security/pwquality.conf /etc/security/pwquality.conf.d/*.conf \nretry = 3 \n\nIf the value of \"retry\" is set to \"0\" or greater than \"3\", is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 10 to limit the \"pwquality\" retry option to \"3\".\n\nAdd or update the following line in the \"/etc/security/pwquality.conf\" file or a file in the \"/etc/security/pwquality.conf.d/\" directory to contain the \"retry\" parameter:\n\nretry = 3",
+  "fix_id": "F-85670r1166563_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. \"pwquality\" enforces complex password construction configuration and has the ability to limit brute-force attacks on the system.\n\nRHEL 10 uses \"pwquality\" as a mechanism to enforce password complexity. This is set in both of the following: \n\n\"/etc/pam.d/password-auth\"\n\"/etc/pam.d/system-auth\"\n\nBy limiting the number of attempts to meet the pwquality module complexity requirements before returning with an error, the system will audit abnormal attempts at password changes.",
+  "Documentable": "false"
+}

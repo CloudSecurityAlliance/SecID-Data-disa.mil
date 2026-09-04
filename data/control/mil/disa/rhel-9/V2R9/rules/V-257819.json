@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-257819",
+  "rule_id": "SV-257819r1015075_rule",
+  "stig_id": "RHEL-09-214010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must ensure cryptographic verification of vendor software packages.",
+  "group_title": "SRG-OS-000366-GPOS-00153",
+  "idents": {
+    "cci": [
+      "CCI-003992",
+      "CCI-001749"
+    ]
+  },
+  "check_id": "C-61560r925442_chk",
+  "check_content": "Confirm Red Hat package-signing keys are installed on the system and verify their fingerprints match vendor values.\n\nNote: For RHEL 9 software packages, Red Hat uses GPG keys labeled \"release key 2\" and \"auxiliary key 3\". The keys are defined in key file \"/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release\" by default.\n\nList Red Hat GPG keys installed on the system:\n\n$ sudo rpm -q --queryformat \"%{SUMMARY}\\n\" gpg-pubkey | grep -i \"red hat\"\n\nRed Hat, Inc. (release key 2) <security@redhat.com> public key\nRed Hat, Inc. (auxiliary key 3) <security@redhat.com> public key\n\nIf Red Hat GPG keys \"release key 2\" and \"auxiliary key 3\" are not installed, this is a finding.\n\nList key fingerprints of installed Red Hat GPG keys:\n\n$ sudo gpg -q --keyid-format short --with-fingerprint /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release\n\nIf key file \"/etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release\" is missing, this is a finding.\n\nExample output:\n\npub   rsa4096/FD431D51 2009-10-22 [SC]\n      Key fingerprint = 567E 347A D004 4ADE 55BA  8A5F 199E 2F91 FD43 1D51\nuid                   Red Hat, Inc. (release key 2) <security@redhat.com>\npub   rsa4096/5A6340B3 2022-03-09 [SC]\n      Key fingerprint = 7E46 2425 8C40 6535 D56D  6F13 5054 E4A4 5A63 40B3\nuid                   Red Hat, Inc. (auxiliary key 3) <security@redhat.com>\n\nCompare key fingerprints of installed Red Hat GPG keys with fingerprints listed for RHEL 9 on Red Hat \"Product Signing Keys\" webpage at https://access.redhat.com/security/team/key.\n\nIf key fingerprints do not match, this is a finding.",
+  "fixtext": "Install Red Hat package-signing keys on the system and verify their fingerprints match vendor values.\n\nInsert RHEL 9 installation disc or attach RHEL 9 installation image to the system. Mount the disc or image to make the contents accessible inside the system.\n\nAssuming the mounted location is \"/media/cdrom\", use the following command to copy Red Hat GPG key file onto the system:\n\n$ sudo cp /media/cdrom/RPM-GPG-KEY-redhat-release /etc/pki/rpm-gpg/\n\t \nImport Red Hat GPG keys from key file into system keyring:\n\n$ sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release\n\t \nUsing the steps listed in the Check Text, confirm the newly imported keys show as installed on the system and verify their fingerprints match vendor values.",
+  "fix_id": "F-61484r925443_fix",
+  "VulnDiscussion": "Cryptographic verification of vendor software packages ensures that all software packages are obtained from a valid source and protects against spoofing that could lead to installation of malware on the system. Red Hat cryptographically signs all software packages, which includes updates, with a GPG key to verify that they are valid.",
+  "Documentable": "false"
+}

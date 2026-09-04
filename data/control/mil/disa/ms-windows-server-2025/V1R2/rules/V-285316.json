@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-285316",
+  "rule_id": "SV-285316r1211176_rule",
+  "stig_id": "WN25-SH-000040",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Windows Server 2025 OpenSSH must not allow blank passwords.",
+  "group_title": "SRG-OS-000106-GPOS-00053",
+  "idents": {
+    "cci": [
+      "CCI-000766"
+    ]
+  },
+  "check_id": "C-89886r1211174_chk",
+  "check_content": "If OpenSSH is not installed on the system, this requirement is not applicable.\n\nVerify system remote access using OpenSSH prevents logging on with a blank password with the following command:\n\nC:\\ > Get-Content \"$env:ProgramData\\ssh\\sshd_config\" | Select-String -Pattern '^\\s*PermitEmptyPasswords'\n\nPermitEmptyPasswords no\n\nIf the \"PermitEmptyPasswords\" keyword is set to \"yes\", is missing, or is commented out, this is a finding.",
+  "fixtext": "To configure the system, add or modify the following line in the \"$env:ProgramData/ssh/sshd_config\" file:\n\nPermitEmptyPasswords no\n\nRestart the OpenSSH service for the settings to take effect.",
+  "fix_id": "F-89791r1211175_fix",
+  "VulnDiscussion": "If an account has an empty password, anyone could log on and run commands with the privileges of that account. Accounts with empty passwords must never be used in operational environments.\n\nSatisfies: SRG-OS-000106-GPOS-00053, SRG-OS-000480-GPOS-00229, SRG-OS-000480-GPOS-00228",
+  "Documentable": "false"
+}

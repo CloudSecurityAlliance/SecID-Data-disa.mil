@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282541",
+  "rule_id": "SV-282541r1201321_rule",
+  "stig_id": "TOSS-05-000178",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 library files must be group-owned by root or a system account.",
+  "group_title": "SRG-OS-000259-GPOS-00100",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-87102r1201319_chk",
+  "check_content": "Verify the systemwide shared library files are group-owned by \"root\" with the following command:\n\n$ sudo find -L /lib /lib64 /usr/lib /usr/lib64 ! -group root -exec ls -l {} \\;\n\nIf any systemwide shared library file is returned and is not group-owned by a required system account, and is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure the systemwide shared library files (/lib, /lib64, /usr/lib and /usr/lib64) to be protected from unauthorized access.\n\nRun the following command, replacing \"[FILE]\" with any library file not group-owned by \"root\".\n\n$ sudo chgrp root [FILE]",
+  "fix_id": "F-87007r1201320_fix",
+  "VulnDiscussion": "If TOSS 5 allowed any user to make changes to software libraries, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n\nThis requirement applies to TOSS 5 with software libraries that are accessible and configurable, as in the case of interpreted languages. Software libraries also include privileged programs that execute with escalated privileges.",
+  "Documentable": "false"
+}

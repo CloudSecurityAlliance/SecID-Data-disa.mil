@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271771",
+  "rule_id": "SV-271771r1208733_rule",
+  "stig_id": "OL09-00-002502",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 SSH private host key files must have mode 0600 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75821r1208351_chk",
+  "check_content": "Verify that OL 9 SSH private host key files have a mode of \"0600\" or less permissive with the following command:\n\n$ ls -l /etc/ssh/*_key\n600 /etc/ssh/ssh_host_dsa_key\n600 /etc/ssh/ssh_host_ecdsa_key\n600 /etc/ssh/ssh_host_ed25519_key\n600 /etc/ssh/ssh_host_rsa_key\n\nIf any private host key file has a mode more permissive than \"0600\", this is a finding.",
+  "fixtext": "Configure the mode of SSH private host key files under \"/etc/ssh\" to \"0600\" with the following command:\n\n$ sudo chmod 0600 /etc/ssh/ssh_host*key\n\nRestart the SSH daemon for the changes to take effect:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-75728r1208352_fix",
+  "VulnDiscussion": "If an unauthorized user obtains the private SSH host key file, the host could be impersonated.",
+  "Documentable": "false"
+}

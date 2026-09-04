@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-265925",
+  "rule_id": "SV-265925r1043181_rule",
+  "stig_id": "MD7X-00-004900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MongoDB must maintain the authenticity of communications sessions by guarding against man-in-the-middle attacks that guess at Session ID values.",
+  "group_title": "SRG-APP-000224-DB-000384",
+  "idents": {
+    "cci": [
+      "CCI-001188"
+    ]
+  },
+  "check_id": "C-69843r1028559_chk",
+  "check_content": "Check the MongoDB configuration file (default location: /etc/mongod.conf).\n\nThe following option must be present ( \"net.tls.mode\") and set to \"requireTLS\":\n\nnet:\n   tls:\n      mode: requireTLS\n\nIf this is not found in the MongoDB configuration file, this is a finding.",
+  "fixtext": "Edit the MongoDB configuration file to ensure the \"net.tls.mode\" option is included and set to the value \"requireTLS\" as shown below:\n\nnet:\n   tls:\n      mode: requireTLS\n\nRestart the MongoDB service from the OS\n\n$ sudo systemctl restart mongod\n\nFurther documentation is here:\nhttps://www.mongodb.com/docs/v7.0/tutorial/configure-ssl/",
+  "fix_id": "F-69747r1028560_fix",
+  "VulnDiscussion": "One class of man-in-the-middle, or session hijacking, attack involves the adversary guessing at valid session identifiers based on patterns in identifiers already known.\n\nThe preferred technique for thwarting guesses at Session IDs is the generation of unique session identifiers using a FIPS 140-2 or 140-3 approved random number generator.\n\nHowever, it is recognized that available DBMS products do not all implement the preferred technique yet may have other protections against session hijacking. Therefore, other techniques are acceptable, provided they are demonstrated to be effective.",
+  "Documentable": "false"
+}

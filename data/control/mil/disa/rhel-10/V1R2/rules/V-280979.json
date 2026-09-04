@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-280979",
+  "rule_id": "SV-280979r1165292_rule",
+  "stig_id": "RHEL-10-200632",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must use a file integrity tool that is configured to use FIPS 140-3-approved cryptographic hashes for validating file contents and directories.",
+  "group_title": "SRG-OS-000404-GPOS-00183",
+  "idents": {
+    "cci": [
+      "CCI-002475"
+    ]
+  },
+  "check_id": "C-85540r1165290_chk",
+  "check_content": "Verify RHEL 10 AIDE is configured to use FIPS 140-3 file hashing.\n\nVerify global default hash settings with the following command:\n\n$ sudo grep -iE 'sha|md5|rmd' /etc/aide.conf | grep -v ^#\nFIPSR = p+i+n+u+g+s+m+ftype+growing+acl+selinux+xattrs+sha512\nALLXTRAHASHES = sha512\n/usr/sbin/auditctl p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/auditd p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512\nNORMAL = FIPSR+sha512\nLSPP = FIPSR+sha512\nDATAONLY =  R+sha512\n/etc/gshadow  NORMAL\n/etc/shadow   NORMAL\n\nIf any hashes other than \"sha512\" are present, this is a finding.\n\nConfirm no legacy hashes exist with the following command:\n\n$ sudo grep -iE 'md5|sha1|whirlpool|tiger' /etc/aide.conf | grep -v ^#\n\nIf any uncommented lines are returned, this is a finding.",
+  "fixtext": "Configure RHEL 10 so that the file integrity tool uses FIPS 140-3 cryptographic hashes for validating file and directory contents.\n\nIf AIDE is installed, ensure the \"sha512\" rule is present on all uncommented file and directory selection lists, and that no legacy hashes exist. \n\nBy default, AIDE excludes log files such as \"/var/log\" and other volatile files to reduce unnecessary notifications.",
+  "fix_id": "F-85445r1165291_fix",
+  "VulnDiscussion": "RHEL 10 installation media ships with an optional file integrity tool called Advanced Intrusion Detection Environment (AIDE). AIDE is highly configurable at install time. This requirement assumes the \"aide.conf\" file is under the \"/etc\" directory.\n\nFile integrity tools use cryptographic hashes for verifying that file contents and directories have not been altered. These hashes must be FIPS 140-3-approved cryptographic hashes.",
+  "Documentable": "false"
+}

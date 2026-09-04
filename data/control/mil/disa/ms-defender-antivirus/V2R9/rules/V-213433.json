@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213433",
+  "rule_id": "SV-213433r1192798_rule",
+  "stig_id": "WNDF-AV-000009",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Microsoft Defender AV must be configured to check in real time with MAPS before content is run or accessed.",
+  "group_title": "SRG-APP-000278",
+  "idents": {
+    "legacy": [
+      "SV-89843",
+      "V-75163"
+    ],
+    "cci": [
+      "CCI-002624"
+    ]
+  },
+  "check_id": "C-14658r1190713_chk",
+  "check_content": "This is applicable to unclassified systems. For other systems this is NA.\n\nVerify the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> MAPS >> \"Configure the 'Block at First Sight' feature\" is set to \"Enabled\".\n\nProcedure: Use the Windows Registry Editor to navigate to the following key: \nHKLM\\Software\\Policies\\Microsoft\\Windows Defender\\Spynet\n\nCriteria: If the value \"DisableBlockAtFirstSeen\" is REG_DWORD = 0, this is not a finding.",
+  "fixtext": "This is applicable to unclassified systems. For other systems this is NA.\n\nSet the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> MAPS >> \"Configure the 'Block at First Sight' feature\" to \"Enabled\".",
+  "fix_id": "F-14656r1190714_fix",
+  "VulnDiscussion": "This feature ensures the device checks in real time with the Microsoft Active Protection Service (MAPS) before allowing certain content to be run or accessed. If this feature is disabled, the check will not occur, which will lower the protection state of the device. \n\nEnabled - The Block at First Sight setting is turned on. \nDisabled - The Block at First Sight setting is turned off. \n\nThis feature requires these Group Policy settings to be set as follows: \nMAPS >> The \"Join Microsoft MAPS\" must be enabled or the \"Block at First Sight\" feature will not function. \nMAPS >> The \"Send file samples when further analysis is required\" should be set to 1 (Send safe samples) or 3 (Send all samples). Setting to 0 (Always Prompt) will lower the protection state of the device. Setting to 2 (Never send) means the \"Block at First Sight\" feature will not function. \nReal-time Protection >> The \"Scan all downloaded files and attachments\" policy must be enabled or the \"Block at First Sight\" feature will not function. \nReal-time Protection >> Do not enable the \"Turn off real-time protection\" policy or the \"Block at First Sight\" feature will not function.",
+  "Documentable": "false"
+}

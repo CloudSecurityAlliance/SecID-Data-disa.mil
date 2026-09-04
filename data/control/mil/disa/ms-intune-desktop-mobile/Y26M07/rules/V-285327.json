@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-285327",
+  "rule_id": "SV-285327r1211999_rule",
+  "stig_id": "MSIN-25-002000",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Intune service must be configured to implement Multi-Admin Approval (MAA) for wiping managed devices.",
+  "group_title": "SRG-APP-000516-UEM-000391",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-89897r1211997_chk",
+  "check_content": "Use the following procedure to verify MAA has been set up for managed device wipe on the Intune service.\n\n1. Verify a Microsoft 365 security group has been set up for device-wipe approval Administrators. \n     - Sign in to Intune Admin Center: Navigate to Tenant administration >> Multi Admin Approval.\n     - Verify the assigned \"Approval Group\" is in the access policy.\n\n2. Verify an Access Policy has been created for \"Device Wipe\".\n     - Verify Access Policies: Click on \"Access policies\" to view the policies created.\n     - Check Policy Details: Select the policy created for device wipes to verify:\n          - Policy Type: Must be set to Device Wipe.\n          - Approver Group: Verify the correct Microsoft Entra security group is selected as the approver group.\n     - Confirm Active Status: Verify the policy is active and not pending further approval of the policy itself.\n\nIf the Intune service is not configured with a Microsoft 365 security group for device-wipe approval Administrators or is not configured with a device-wipe Access Policy, this is a finding.",
+  "fixtext": "Note: All device-wipe processes and procedures must be compliant with DOD data retention policies for mobile devices.\n\nNote: This procedure requires two separate groups: one group of Administrators that request a managed device be wiped (requestor group) and one Administrator group that approves the request (approver group).\n\nNote: Two administrators are needed to set up MAA for managed device-wipe: one to set up the required approver group and the MAA device-wipe policy and one to approve the new policy.\n\nImplementing dual authorization in Intune for device wipes is achieved using MAA, which enforces a \"four-eyes\" policy, requiring a second admin to approve wipe requests. This process, found under Tenant Administration >> Multi Admin Approval, requires creating an access policy, assigning an approver group, and justifying the action. \n\nSteps to Implement Multi-Admin Approval for Wipes:\n\n1. Prepare Groups: Create a Microsoft 365 security group containing the administrators allowed to approve requests, excluding the user who initiates the wipe.\n\n2. Create Access Policy:\n   - Sign in to the Microsoft Intune admin center.\n   - Navigate to Tenant administration >> Multi Admin Approval >> Access policies.\n   - Click \"Create\" and select \"Device wipe\" as the profile type.\n   - Assign the approver group and complete the wizard.\n\n3. Approve Policy: A second administrator must approve the newly created Access Policy before it becomes active.\n\n4. Execute Wipe: When a device is wiped, the initiating admin provides a justification, and an approver approves it under Tenant administration >> Multi Admin Approval >> All requests. \n\nKey Considerations:\n\n- Approval Workflow: The requester must return to the Multi Admin Approval portal to \"Complete request\" after the second admin approves it.\n- License: Requires Microsoft Intune Plan 1.\n- Notifications: There is no built-in notification system; reviewers must check the console manually. A workflow should be created for the \"requestor\" Admin to notify the \"approver\" Admin that a device wipe request is ready for approval.\n- Limitation: The policy covers managed device wipes and is a best practice for preventing accidental data loss.",
+  "fix_id": "F-89802r1211998_fix",
+  "VulnDiscussion": "High-risk administrative actions, such as managed device wipe, should be configured to require dual authentication to mitigate the risk of an attacker that has bypassed malware protections and obtained legitimate Intune access. \n\nSatisfies: SRG-APP-000516-UEM-000391",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258741",
+  "rule_id": "SV-258741r933284_rule",
+  "stig_id": "ESXI-80-000094",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must enable Secure Boot.",
+  "group_title": "SRG-OS-000278-VMM-001000",
+  "idents": {
+    "cci": [
+      "CCI-001496"
+    ]
+  },
+  "check_id": "C-62481r933282_chk",
+  "check_content": "From an ESXi shell, run the following command:\n\n# /usr/lib/vmware/secureboot/bin/secureBoot.py -s\n\nIf Secure Boot is not \"Enabled\", this is a finding.",
+  "fixtext": "From an ESXi shell, run the following command:\n\n# /usr/lib/vmware/secureboot/bin/secureBoot.py -c\n\nIf the output indicates that Secure Boot cannot be enabled, correct the discrepancies and try again.\n\nOnce all discrepancies are resolved, the server ESXi is installed on can be updated to enable Secure Boot in the firmware.\n\nTo enable Secure Boot in the server's firmware follow the instructions for the specific manufacturer.",
+  "fix_id": "F-62390r933283_fix",
+  "VulnDiscussion": "Secure Boot is part of the Unified Extensible Firmware Interface (UEFI) firmware standard. With UEFI Secure Boot enabled, a host refuses to load any UEFI driver or app unless the operating system bootloader has a valid digital signature. Secure Boot for ESXi requires support from the firmware and requires that all ESXi kernel modules, drivers, and vSphere Installation Bundles (VIBs) be signed by VMware or a partner subordinate.\n\nSecure Boot is enabled in the BIOS of the ESXi physical server and supported by the hypervisor boot loader. There is no ESXi control to \"turn on\" Secure Boot. Requiring Secure Boot (failing to boot without it present) is accomplished in another control.",
+  "Documentable": "false"
+}

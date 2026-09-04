@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-251645",
+  "rule_id": "SV-251645r961638_rule",
+  "stig_id": "IDMS-DB-000810",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The system storage used for data collection by the CA IDMS server must be protected.",
+  "group_title": "SRG-APP-000441-DB-000378",
+  "idents": {
+    "cci": [
+      "CCI-002420",
+      "CCI-002422"
+    ]
+  },
+  "check_id": "C-55080r807800_chk",
+  "check_content": "Log on to IDMS DC system and issue DCPROFIL. \n\nIf HPSPO ENABLED: display is \"NO\", this is a finding.",
+  "fixtext": "Use the following system generation parameters to enable the use of high performance storage protection:\n\nSet STORAGE KEY parameter of the SYSTEM statement to \"9\".\n\nSet PROTECT/NOPROTECT parameter of the SYSTEM statement to \"PROTECT\".\n\nSet PROTECT/NOPROTECT parameter of the PROGRAM statement to \"PROTECT\" for PROGRAMS required to run with the alternate protect key (i.e., 9).\n\nDCMT DISPLAY ALL STORAGE POOLS can be used to take note of what pools support any type of user storage; that is, user, user-kept, shared, shared-kept, or ALL, in preparation for the next step.\n\nIf necessary, redefine storage pools so all forms of user-oriented storage (user, user-kept, shared, and shared-kept) are segregated from the system storage (database, terminal). For example:\nADD STORAGE POOL 1\nCONTAINS TYPES ( SHARED SHARED-KEPT USER USER-KEPT )\nADD XA STORAGE POOL 128\nCONTAINS TYPES ( USER USER-KEPT )\nADD XA STORAGE POOL 129\nCONTAINS TYPES ( SHARED SHARED-KEPT )\nADD XA STORAGE POOL 130\nCONTAINS TYPES ( TERMINAL DATABASE )\n\nGenerate and start the system. The storage pool definitions have been set up correctly if the message \"DC004001 HPSPO HAS BEEN DISABLED DUE TO INCORRECT STORAGE POOL DEFINITIONS\" is not issued at startup.",
+  "fix_id": "F-55034r807801_fix",
+  "VulnDiscussion": "Information can be either unintentionally or maliciously disclosed or modified during preparation for transmission, including, for example, during aggregation, at protocol transformation points, and during packing/unpacking. These unauthorized disclosures or modifications compromise the confidentiality or integrity of the information.\n\nUse of this requirement will be limited to situations where the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process. \n\nWhen transmitting data, the DBMS, associated applications, and infrastructure must leverage transmission protection mechanisms.\n\nSatisfies: SRG-APP-000441-DB-000378, SRG-APP-000442-DB-000379",
+  "Documentable": "false"
+}

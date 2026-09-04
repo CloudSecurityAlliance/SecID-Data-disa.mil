@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281216",
+  "rule_id": "SV-281216r1166600_rule",
+  "stig_id": "RHEL-10-600640",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "RHEL 10 must enable the Pluggable Authentication Module (PAM) interface for SSHD.",
+  "group_title": "SRG-OS-000125-GPOS-00065",
+  "idents": {
+    "cci": [
+      "CCI-000877"
+    ]
+  },
+  "check_id": "C-85777r1166598_chk",
+  "check_content": "Verify RHEL 10 SSHD is configured to allow for the \"UsePAM\" interface with the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*usepam'\nUsePAM yes\n\nIf the \"UsePAM\" keyword is set to \"no\", is missing, or is commented out, this is a finding.",
+  "fixtext": "Configure RHEL 10 SSHD to use the \"UsePAM\" interface by adding or modifying the following line in \"/etc/ssh/sshd_config\" or in a file in \"/etc/ssh/sshd_config.d\".\n\nUsePAM yes\n\nRestart the SSH daemon with the following command for the settings to take effect:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-85682r1166599_fix",
+  "VulnDiscussion": "When \"UsePAM\" is set to \"yes\", PAM runs through account and session types properly. This is important when restricted access to services based on IP, time, or other factors of the account is needed. Additionally, this ensures users can inherit certain environment variables on login or disallow access to the server.",
+  "Documentable": "false"
+}

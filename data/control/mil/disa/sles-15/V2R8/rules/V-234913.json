@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-234913",
+  "rule_id": "SV-234913r958412_rule",
+  "stig_id": "SLES-15-030140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must audit all uses of the sudoers file and all files in the /etc/sudoers.d/ directory.",
+  "group_title": "SRG-OS-000037-GPOS-00015",
+  "idents": {
+    "cci": [
+      "CCI-000130",
+      "CCI-000169",
+      "CCI-000172",
+      "CCI-002884"
+    ]
+  },
+  "check_id": "C-38101r619008_chk",
+  "check_content": "Verify the operating system generates audit records when successful/unsuccessful attempts to access the \"/etc/sudoers\" file and files in the \"/etc/sudoers.d/\" directory.\n\nCheck that the file and directory is being audited by performing the following command:\n\n> sudo auditctl -l | grep -w '/etc/sudoers'\n\n-w /etc/sudoers -p wa -k privileged-actions\n-w /etc/sudoers.d -p wa -k privileged-actions\n\nIf the commands do not return output that match the examples, this is a finding.\n\nNotes:\nThe \"-k\" allows for specifying an arbitrary identifier. The string following \"-k\" does not need to match the example output above.",
+  "fixtext": "Configure the SUSE operating system to generate audit records when successful/unsuccessful attempts to access the \"/etc/sudoers\" file and files in the \"/etc/sudoers.d/\" directory.\n\nAdd or update the following rule in \"/etc/audit/rules.d/audit.rules\":\n\n-w /etc/sudoers -p wa -k privileged-actions\n\n-w /etc/sudoers.d -p wa -k privileged-actions\n\nTo reload the rules file, restart the audit daemon\n\n> sudo systemctl restart auditd.service\n\nor issue the following command:\n\n> sudo augenrules --load",
+  "fix_id": "F-38064r619009_fix",
+  "VulnDiscussion": "Reconstruction of harmful events or forensic analysis is not possible if audit records do not contain enough information.\n\nAt a minimum, the organization must audit the full-text recording of privileged access commands. The organization must maintain audit trails in sufficient detail to reconstruct events to determine the cause and impact of compromise.\n\nSatisfies: SRG-OS-000037-GPOS-00015, SRG-OS-000042-GPOS-00020, SRG-OS-000392-GPOS-00172, SRG-OS-000462-GPOS-00206, SRG-OS-000471-GPOS-00215",
+  "Documentable": "false"
+}

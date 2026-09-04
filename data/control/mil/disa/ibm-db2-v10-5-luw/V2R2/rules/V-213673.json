@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213673",
+  "rule_id": "SV-213673r960864_rule",
+  "stig_id": "DB2X-00-000500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DB2 must protect against a user falsely repudiating having performed organization-defined actions.",
+  "group_title": "SRG-APP-000080-DB-000063",
+  "idents": {
+    "legacy": [
+      "SV-89109",
+      "V-74435"
+    ],
+    "cci": [
+      "CCI-000166"
+    ]
+  },
+  "check_id": "C-14894r295068_chk",
+  "check_content": "Run the following SQL statement to ensure that an audit policy is defined upon all the required application tables and/or the database:\nDB2> SELECT AUDITPOLICYNAME, OBJECTSCHEMA, OBJECTNAME, OBJECTTYPE \n           FROM SYSCAT.AUDITUSE \n           WHERE OBJECTTYPE IN ('T',' ')\n\nIf no rows are returned, this is a finding. \n\nIf a row with OBJECTTYPE of ' ' (Database; value is a blank) exists in the output, it is a database level policy. \n\nIf a row with OBJECTTYPE of 'T' exists in the output, it is a table level policy. \n\nFor each audit policy returned in the statement above, run the following SQL statement to confirm that the CONTEXT and EXECUTE categories are part of that policy: \nDB2> SELECT AUDITPOLICYNAME, CONTEXTSTATUS, EXECUTESTATUS, ERRORTYPE AS ERRORTYPE \n           FROM SYSCAT.AUDITPOLICIES\n\nIf the database audit policy has the values for the CONTEXTSTATUS and EXECUTESTATUS columns set to 'S' (Success) or 'B' (Both) as well as the value in the ERRORTYPE column set to 'A' (Audit), this is not a finding. \n\nIf the database policy does not exist or does not cover CONTEXTSTATUS or EXECUTESTATUS then check if the appropriate policies are defined for all the required application tables. \n\nIf all the required application table audit policies do not have the values for the CONTEXTSTATUS and EXECUTESTATUS columns set to 'S' (Success) or 'B' (Both) as well as the value in the ERRORTYPE column set to 'A' (Audit), this is a finding.",
+  "fixtext": "Define the audit policy using the following Create Audit Policy SQL statement:\nDB2> CREATE AUDIT POLICY <audit policy name> \n                CATEGORIES CONTEXT STATUS BOTH, EXECUTE STATUS BOTH\n                ERROR TYPE AUDIT\n\nApply such a policy to either the database as a whole or to the specific application tables using one of these two statements: \nDB2> AUDIT DATABASE USING POLICY <audit policy name> \n Or \nDB2> AUDIT TABLE <table name> USING POLICY <audit policy name> \n\nNote : While DB2 does provide basic audit capabilities, IBM highly recommends investing in and using a dedicated enterprise audit tool such as the IBM Security Guardium Data Activity Monitor in order to provide a comprehensive audit solution.",
+  "fix_id": "F-14892r295069_fix",
+  "VulnDiscussion": "Non-repudiation of actions taken is required in order to maintain data integrity. Examples of particular actions taken by individuals include creating information, sending a message, approving information (e.g., indicating concurrence or signing a contract), and receiving a message. \n\nNon-repudiation protects against later claims by a user of not having created, modified, or deleted a particular data item or collection of data in the database.\n\nIn designing a database, the organization must define the types of data and the user actions that must be protected from repudiation. The implementation must then include building audit features into the application data tables, and configuring the DBMS' audit tools to capture the necessary audit trail. Design and implementation also must ensure that applications pass individual user identification to the DBMS, even where the application connects to the DBMS with a standard, group account.",
+  "Documentable": "false"
+}

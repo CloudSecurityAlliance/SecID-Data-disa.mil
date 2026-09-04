@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282695",
+  "rule_id": "SV-282695r1201065_rule",
+  "stig_id": "TOSS-05-000223",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must not send Internet Control Message Protocol (ICMP) redirects.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87256r1201063_chk",
+  "check_content": "Verify TOSS 5 does not IPv4 ICMP redirect messages using the following command:\n\n$ sudo sysctl net.ipv4.conf.all.send_redirects\n\nnet.ipv4.conf.all.send_redirects = 0\n\nIf the returned line does not have a value of \"0\", or a line is not returned, this is a finding.",
+  "fixtext": "Configure TOSS 5 to not allow interfaces to perform IPv4 ICMP redirects.\n\nAdd or edit the following line in a single system configuration file, in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv4.conf.all.send_redirects = 0\n\nLoad settings from all system configuration files using the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-87161r1201064_fix",
+  "VulnDiscussion": "ICMP redirect messages are used by routers to inform hosts that a more direct route exists for a particular destination. These messages contain information from the system's route table possibly revealing portions of the network topology.\n\nThe ability to send ICMP redirects is only appropriate for systems acting as routers.",
+  "Documentable": "false"
+}

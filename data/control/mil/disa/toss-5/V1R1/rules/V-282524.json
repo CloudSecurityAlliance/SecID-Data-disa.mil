@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282524",
+  "rule_id": "SV-282524r1201364_rule",
+  "stig_id": "TOSS-05-000243",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must implement DOD or other applicable U.S. Government agency-approved encryption ciphers to protect the confidentiality of SSH server connections.",
+  "group_title": "SRG-OS-000250-GPOS-00093",
+  "idents": {
+    "cci": [
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-87085r1200550_chk",
+  "check_content": "Verify the SSH client is configured to use only ciphers employing FIPS 140-3-approved algorithms using the following command:\n\n$ sudo grep -i ciphers /etc/crypto-policies/back-ends/openssh.config \n\nCiphers aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes128-gcm@openssh.com,aes128-ctr\n\nIf the cipher entries in the \"openssh.config\" file have any ciphers other than \"aes256-gcm@openssh.com\", \"chacha20-poly1305@openssh.com\", \"aes256-ctr,aes128-gcm@openssh.com\", \"aes128-ctr\"; the order differs from the example above; they are missing; or commented out, this is a finding.",
+  "fixtext": "Configure the TOSS 5 SSH client to only use ciphers employing FIPS 140-3-approved algorithms by updating the \"/etc/crypto-policies/back-ends/openssh.config\" file with the following line:\n\nCiphers aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr,aes128-gcm@openssh.com,aes128-ctr\n\nRestart the system for the changes to take effect.",
+  "fix_id": "F-86990r1201363_fix",
+  "VulnDiscussion": "Without cryptographic integrity protections, information can be altered by unauthorized users without detection.\n\nRemote access (e.g., RDP) is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nCryptographic mechanisms used for protecting the integrity of information include, for example, signed hash functions using asymmetric cryptography enabling distribution of the public key to verify the hash information while maintaining the confidentiality of the secret key used to generate the hash.\n\nTOSS 5 incorporates systemwide crypto policies by default. The SSH configuration file has no effect on the ciphers, MACs, or algorithms unless specifically defined in the \"/etc/sysconfig/sshd\" file. The employed algorithms can be viewed in the \"/etc/crypto-policies/back-ends/opensshserver.config\" file.",
+  "Documentable": "false"
+}

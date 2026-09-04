@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270831",
+  "rule_id": "SV-270831r1135002_rule",
+  "stig_id": "UBTU-24-909890",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 24.04 LTS must use cryptographic mechanisms to protect the integrity of audit tools.",
+  "group_title": "SRG-OS-000278-GPOS-00108",
+  "idents": {
+    "cci": [
+      "CCI-001496"
+    ]
+  },
+  "check_id": "C-74864r1134825_chk",
+  "check_content": "Verify that Advanced Intrusion Detection Environment (AIDE) is properly configured to use cryptographic mechanisms to protect the integrity of audit tools with the following command: \n \n$ egrep '(\\/sbin\\/(audit|au))' /etc/aide/aide.conf\n/sbin/auditctl p+i+n+u+g+s+b+acl+xattrs+sha512 \n/sbin/auditd p+i+n+u+g+s+b+acl+xattrs+sha512 \n/sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512 \n/sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512 \n/sbin/autrace p+i+n+u+g+s+b+acl+xattrs+sha512 \n/sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512 \n \nIf any of the seven audit tools do not have appropriate selection lines, this is a finding.",
+  "fixtext": "Add or update the following selection lines for \"/etc/aide/aide.conf\" to protect the integrity of the audit tools: \n \n# Audit Tools \n/sbin/auditctl p+i+n+u+g+s+b+acl+xattrs+sha512 \n/sbin/auditd p+i+n+u+g+s+b+acl+xattrs+sha512 \n/sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512 \n/sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512 \n/sbin/autrace p+i+n+u+g+s+b+acl+xattrs+sha512 \n/sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512",
+  "fix_id": "F-74765r1135002_fix",
+  "VulnDiscussion": "Protecting the integrity of the tools used for auditing purposes is a critical step toward ensuring the integrity of audit information. Audit information includes all information (e.g., audit records, audit settings, and audit reports) needed to successfully audit information system activity. \n \nAudit tools include, but are not limited to, vendor-provided and open source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators. \n \nIt is not uncommon for attackers to replace the audit tools or inject code into the existing tools with the purpose of providing the capability to hide or erase system activity from the audit logs. \n \nTo address this risk, audit tools must be cryptographically signed to provide the capability to identify when the audit tools have been modified, manipulated, or replaced. An example is a checksum hash of the file or files.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282466",
+  "rule_id": "SV-282466r1200378_rule",
+  "stig_id": "TOSS-05-000292",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 user account passwords must have a 60-day maximum password lifetime restriction.",
+  "group_title": "SRG-OS-000076-GPOS-00044",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-87027r1200376_chk",
+  "check_content": "Check whether the maximum time period for existing passwords is restricted to 60 days with the following commands:\n\n$ sudo awk -F: '$5 > 60 {print $1 \"\" \"\" $5}' /etc/shadow\n\n$ sudo awk -F: '$5 <= 0 {print $1 \"\" \"\" $5}' /etc/shadow\n\nIf any results are returned that are not associated with a system account, this is a finding.",
+  "fixtext": "Configure noncompliant accounts to enforce a 60-day maximum password lifetime restriction.\n\npasswd -x 60 [user]",
+  "fix_id": "F-86932r1200377_fix",
+  "VulnDiscussion": "Any password, no matter how complex, can eventually be cracked; therefore, passwords must be changed periodically. If TOSS 5 does not limit the lifetime of passwords and force users to change their passwords, there is the risk that TOSS 5 passwords could be compromised.",
+  "Documentable": "false"
+}

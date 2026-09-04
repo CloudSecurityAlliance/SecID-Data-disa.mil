@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251554",
+  "rule_id": "SV-251554r1067554_rule",
+  "stig_id": "FFOX-00-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Firefox must be configured to prevent JavaScript from moving or resizing windows.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-54989r1067553_chk",
+  "check_content": "Type \"about:policies\" in the browser address bar. \n\nIf \"Preferences\" is not displayed under Policy Name or the Policy Value does not include \"dom.disable_window_move_resize\" with a value of  \"true\" and status of \"locked\", this is a finding.",
+  "fixtext": "Windows group policy:\n1. Open the group policy editor tool with \"gpedit.msc\".\n2. Navigate to Policy Path: Computer Configuration\\Administrative Templates\\Mozilla\\Firefox\\\nPolicy Name: Preferences\nPolicy State: Enabled\nPolicy Value:\n{\n  \"dom.disable_window_move_resize\": {\n    \"Value\": true,\n    \"Status\": \"locked\"\n  }\n}\n\nmacOS \"plist\" file:\nAdd the following:\n<key>Preferences</key>\n<dict>\n  <key>dom.disable_window_move_resize</key>\n  <dict>\n    <key>Value</key>\n    <true/>\n    <key>Status</key>\n    <string>locked</string>\n  </dict>\n</dict>\n\nLinux \"policies.json\" file:\nAdd the following in the policies section:\n\"Preferences\": {\n  \"dom.disable_window_move_resize\": {\n    \"Value\": true,\n    \"Status\": \"locked\"\n  }\n}",
+  "fix_id": "F-54943r807133_fix",
+  "VulnDiscussion": "JavaScript can make changes to the browser's appearance. This activity can help disguise an attack taking place in a minimized background window. Configure the browser setting to prevent scripts on visited websites from moving and resizing browser windows.",
+  "Documentable": "false"
+}

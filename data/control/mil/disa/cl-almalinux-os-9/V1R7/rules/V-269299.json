@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269299",
+  "rule_id": "SV-269299r1050181_rule",
+  "stig_id": "ALMA-09-024770",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SSH daemon must perform strict mode checking of home directory configuration files.",
+  "group_title": "SRG-OS-000480-GPOS-00230",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73330r1048273_chk",
+  "check_content": "Verify the SSH daemon performs strict mode checking of home directory configuration files with the following command:\n\n$ sshd -T | grep strictmodes\n\nstrictmodes yes\n\nIf the \"StrictModes\" keyword is set to \"no\", or no output is returned, this is a finding.",
+  "fixtext": "To configure the SSH daemon to perform strict mode checking of home directory configuration files, add or modify the following line in \"/etc/ssh/sshd_config\", or uncomment the line and set the value to \"yes\":\n\nStrictModes yes\n\nAlternatively, add the setting to an include file if the line \"Include /etc/ssh/sshd_config.d/*.conf\" is found at the top of the \"/etc/ssh/sshd_config\" file:\n\n$ echo \"StrictModes yes\" > /etc/ssh/sshd_config.d/strictmodes.conf\n\nRestart the SSH daemon for the settings to take effect:\n\n$ systemctl restart sshd.service",
+  "fix_id": "F-73231r1048274_fix",
+  "VulnDiscussion": "If other users have access to modify user-specific SSH configuration files or read keys, they may be able to log into the system as another user.",
+  "Documentable": "false"
+}

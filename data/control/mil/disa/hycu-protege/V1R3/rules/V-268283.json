@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268283",
+  "rule_id": "SV-268283r1038766_rule",
+  "stig_id": "HYCU-ND-000760",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must prevent the installation of patches, service packs, or application components without verification the software component has been digitally signed using a certificate that is recognized and approved by the organization.",
+  "group_title": "SRG-APP-000131-NDM-000243",
+  "idents": {
+    "cci": [
+      "CCI-003992"
+    ]
+  },
+  "check_id": "C-72304r1038764_chk",
+  "check_content": "Verify the operating system prevents the installation of patches, service packs, device drivers, or operating system components from a repository without verification that they have been digitally signed using a certificate that is recognized and approved by the organization.\n\nCheck that YUM verifies the signature of packages from a repository prior to install with the following command:\n\n$ sudo grep -E '^\\[.*\\]|gpgcheck' /etc/yum.repos.d/*.repo\n\n/etc/yum.repos.d/appstream.repo:[appstream]\n/etc/yum.repos.d/appstream.repo:gpgcheck=1\n/etc/yum.repos.d/baseos.repo:[baseos]\n/etc/yum.repos.d/baseos.repo:gpgcheck=1\n\nIf \"gpgcheck\" is not set to \"1\", or if options are missing or commented out, this is a finding.\n\nExecute the following command to check the kernel and cryptographic libraries, as well as the SHA256 checksums of the application files:\n$ sudo /opt/grizzly/bin/hycu-selftest.sh\n\nIf the output is not OK for the OS, this is a finding.\n\nIf the output reports an error for any other file than /etc/issue for the App section, this is a finding.",
+  "fixtext": "Configure the operating system to verify the signature of packages from a repository prior to install by setting the following option in every repo file in /etc/yum.repos.d/:\ngpgcheck=1\n\nCheck the output of \"sudo /opt/grizzly/bin/hycu-selftest.sh\".\n\nInvestigate each file listed in the error output to determine a fix.",
+  "fix_id": "F-72207r1038765_fix",
+  "VulnDiscussion": "Changes to any software components can have significant effects on the overall security of the network device. Verifying software components have been digitally signed using a certificate that is recognized and approved by the organization ensures the software has not been tampered with and has been provided by a trusted vendor.\n\nAccordingly, patches, service packs, or application components must be signed with a certificate recognized and approved by the organization.\n\nVerifying the authenticity of the software prior to installation validates the integrity of the patch or upgrade received from a vendor. This ensures the software has not been tampered with and has been provided by a trusted vendor. Self-signed certificates are disallowed by this requirement. The device should not have to verify the software again. This requirement does not mandate DOD certificates for this purpose; however, the certificate used to verify the software must be from an approved CA.",
+  "Documentable": "false"
+}

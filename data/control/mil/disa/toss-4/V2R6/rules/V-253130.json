@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253130",
+  "rule_id": "SV-253130r991589_rule",
+  "stig_id": "TOSS-04-040890",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must prevent IPv4 Internet Control Message Protocol (ICMP) redirect messages from being accepted.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56583r825060_chk",
+  "check_content": "Verify TOSS will not accept IPv4 ICMP redirect messages.\n\nNote: If IPv4 is disabled on the system, this requirement is Not Applicable.\n\nCheck the value of the default \"accept_redirects\" variables with the following command:\n\n$ sudo sysctl net.ipv4.conf.default.accept_redirects\n\nnet.ipv4.conf.default.accept_redirects = 0\n\nIf the returned line does not have a value of \"0\", a line is not returned, or the line is commented out, this is a finding.",
+  "fixtext": "Configure TOSS to prevent IPv4 ICMP redirect messages from being accepted with the following command:\n\n$ sudo sysctl -w net.ipv4.conf.default.accept_redirects=0\n\nIf \"0\" is not the system's default value then add or update the following line in the appropriate file under \"/etc/sysctl.d\":\n\nnet.ipv4.conf.default.accept_redirects=0",
+  "fix_id": "F-56533r825061_fix",
+  "VulnDiscussion": "ICMP redirect messages are used by routers to inform hosts that a more direct route exists for a particular destination. These messages modify the host's route table and are unauthenticated. An illicit ICMP redirect message could result in a man-in-the-middle attack.",
+  "Documentable": "false"
+}

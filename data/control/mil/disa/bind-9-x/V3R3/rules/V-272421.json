@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272421",
+  "rule_id": "SV-272421r1124019_rule",
+  "stig_id": "BIND-9X-001700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BIND 9.x server implementation must use separate TSIG key-pairs when securing server-to-server transactions.",
+  "group_title": "SRG-APP-000158-DNS-000015",
+  "idents": {
+    "cci": [
+      "CCI-000778"
+    ]
+  },
+  "check_id": "C-76471r1123935_chk",
+  "check_content": "Verify that the BIND 9.x server is configured to use separate TSIG key-pairs when securing server-to-server transactions.\n\nInspect the \"named.conf\" file for the presence of TSIG key statements:\n\nOn the primary name server, this is an example of a configured key statement:\n\nkey tsig_example. {\nalgorithm hmac-SHA256;\ninclude \"tsig-example.key\";\n};\n\nzone \"disa.mil\" {\ntype Primary;\nfile \"db.disa.mil\";\nallow-transfer { key tsig_example.; };\n};\n\nOn the secondary name server, this is an example of a configured key statement:\n\nkey tsig_example. {\nalgorithm hmac-SHA256;\ninclude \"tsig-example.key\";\n};\n\nserver <ip_address> {\nkeys { tsig_example };\n};\n\nzone \"disa.mil\" {\ntype Secondary;\nPrimarys { <ip_address>; };\nfile \"db.disa.mil\";\n};\n\nVerify that each TSIG key-pair listed is only used by a single key statement:\n\n# cat <tsig_key_file>\n\nIf any TSIG key-pair is being used by more than one key statement, this is a finding.",
+  "fixtext": "Create a separate TSIG key-pair for each key statement listed in the named.conf file.\n\nConfigure the name server to use separate TSIG key-pairs for each key statement listed in the named.conf file.\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76378r1123575_fix",
+  "VulnDiscussion": "Without identifying devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity. This applies to server-to-server (zone transfer) transactions only and is provided by TSIG/SIG(0), which enforces mutual server authentication using a key that is unique to each server pair (TSIG) or using PKI-based authentication (SIG[0]), thus uniquely identifying the other server.",
+  "Documentable": "false"
+}

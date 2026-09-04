@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278176",
+  "rule_id": "SV-278176r1192634_rule",
+  "stig_id": "WN25-DC-000430",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The password for the krbtgt account on a domain must be reset at least every 180 days.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-82706r1182149_chk",
+  "check_content": "This requirement is applicable to domain controllers; it is not applicable for other systems. \n\nOpen \"Windows PowerShell\".\n\nEnter \"Get-ADUser krbtgt -Property PasswordLastSet\".\n\nIf the \"PasswordLastSet\" date is more than 180 days old, this is a finding.",
+  "fixtext": "Reset the password for the krbtgt account a least every 180 days. The password must be changed twice to effectively remove the password history. Changing once, waiting for replication to complete, and changing again reduces the risk of issues. Changing twice in rapid succession forces clients to reauthenticate (including application services) but is desired if a compromise is suspected.\n\nPowerShell scripts are available to accomplish this such as at the following link:\n\nhttps://gallery.technet.microsoft.com/Reset-the-krbtgt-account-581a9e51\n\nOpen \"Active Directory Users and Computers\" (available from various menus or run \"dsa.msc\").\n\nSelect \"Advanced Features\" in the \"View\" menu if not previously selected.\n\nSelect the \"Users\" node.\n\nRight-click on the krbtgt account and select \"Reset password\".\n\nEnter a password that meets password complexity requirements.\n\nClear the \"User must change password at next logon\" check box.\n\nThe system will automatically change this to a system-generated complex password.",
+  "fix_id": "F-82611r1192633_fix",
+  "VulnDiscussion": "The krbtgt account acts as a service account for the Kerberos Key Distribution Center (KDC) service. The account and password are created when a domain is created and the password is typically not changed. If the krbtgt account is compromised, attackers can create valid Kerberos Ticket Granting Tickets (TGT).\n\nThe password must be changed twice to effectively remove the password history. Changing once, waiting for replication to complete and the amount of time equal to or greater than the maximum Kerberos ticket lifetime, and changing again reduces the risk of issues.",
+  "Documentable": "false"
+}

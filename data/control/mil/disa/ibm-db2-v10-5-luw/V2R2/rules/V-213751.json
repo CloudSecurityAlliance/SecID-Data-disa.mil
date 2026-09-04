@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213751",
+  "rule_id": "SV-213751r961821_rule",
+  "stig_id": "DB2X-00-011200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DB2 must generate audit records when categorized information (e.g., classification levels/security levels) is deleted.",
+  "group_title": "SRG-APP-000502-DB-000348",
+  "idents": {
+    "legacy": [
+      "SV-89325",
+      "V-74651"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-14972r295302_chk",
+  "check_content": "Get a list of tables from ISSO/DBA where the categorized information is stored. \n\nIf there are no tables with categorized information, this is not applicable (NA).\n\nRun the following SQL statement to ensure that an audit policy is defined upon all the required tables and/or the database:\nDB2> SELECT AUDITPOLICYNAME, OBJECTSCHEMA, OBJECTNAME, OBJECTTYPE \n           FROM SYSCAT.AUDITUSE \n           WHERE OBJECTTYPE IN ('T',' ')\n\nIf no rows are returned, this is a finding. \n\nIf a row with OBJECTTYPE of ' ' (Database; value is a blank) exists in the output, it is a database level policy. \n\nIf a row with OBJECTTYPE of 'T' exists in the output, it is a table level policy. \n\nFor each audit policy returned in the statement above, run the following SQL statement to confirm that the CONTEXT and EXECUTE categories are part of that policy: \nDB2> SELECT AUDITPOLICYNAME, CONTEXTSTATUS, EXECUTESTATUS, ERRORTYPE AS ERRORTYPE \n           FROM SYSCAT.AUDITPOLICIES\n           WHERE AUDITPOLICYID = <audit policy ID>\n\nIf the database audit policy has the values for the CONTEXTSTATUS and EXECUTESTATUS columns set to 'S' (Success) or 'B' (Both) and the value in the ERRORTYPE column set to 'A' (Audit), this is not a finding. \n\nIf the database policy does not exist or does not cover CONTEXTSTATUS and EXECUTESTATUS then check if the appropriate policies are defined for all the required tables. \n\nIf any required application table audit policies do not have the values for the CONTEXTSTATUS and EXECUTESTATUS columns set to 'S' (Success) or 'B' (Both) or the value in the ERRORTYPE column set to 'A' (Audit), then this is a finding.",
+  "fixtext": "Define an audit policy with the needed subset using the CREATE AUDIT POLICY SQL statement: \nDB2> CREATE AUDIT POLICY <DB audit policy name> \n           CATEGORIES EXECUTE STATUS BOTH, CONTEXT STATUS BOTH \n           ERROR TYPE AUDIT\n\nTo modify an existing audit policy, replace \"CREATE\" with \"ALTER\" in the preceding statement.  Only the categories explicitly named in the statement will be affected.  In this case, the changes take effect immediately.\n\nIf CREATE was used above, run the following command to apply the policy created above to the database: \nDB2> AUDIT DATABASE USING POLICY <DB audit policy name>\n\nDefine an audit policy to audit deletes (DMLs) on required tables. \nDB2> CREATE AUDIT POLICY <table audit policy name> \n           CATEGORIES EXECUTE STATUS BOTH, CONTEXT STATUS BOTH \n           ERROR TYPE AUDIT\n\nTo modify an existing audit policy, replace \"CREATE\" with \"ALTER\" in the preceding statement.  Only the categories explicitly named in the statement will be affected. In this case, the changes take effect immediately.\n\nIf CREATE was used above, run the following command to apply the policy created above to each required table:\nDB2> AUDIT TABLE <table name> USING POLICY <table audit policy name>",
+  "fix_id": "F-14970r295303_fix",
+  "VulnDiscussion": "Changes in categorized information must be tracked. Without an audit trail, unauthorized access to protected data could go undetected.\n\nFor detailed information on categorizing information, refer to FIPS Publication 199, Standards for Security Categorization of Federal Information and Information Systems, and FIPS Publication 200, Minimum Security Requirements for Federal Information and Information Systems.",
+  "Documentable": "false"
+}

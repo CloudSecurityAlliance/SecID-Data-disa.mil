@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-265949",
+  "rule_id": "SV-265949r1028633_rule",
+  "stig_id": "MD7X-00-008900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MongoDB must maintain the confidentiality and integrity of information during reception.",
+  "group_title": "SRG-APP-000442-DB-000379",
+  "idents": {
+    "cci": [
+      "CCI-002422"
+    ]
+  },
+  "check_id": "C-69867r1028631_chk",
+  "check_content": "If the data owner does not have a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process, this is not a finding. \n\nIf such a requirement is present, inspect the MongoDB configuration file (default location: /etc/mongod.conf) for the following entries:\n\nnet:\n  tls:\n    mode: requireTLS\n    certificateKeyFile: <PEM File>\n    CAFile: <PEM File>\n    allowInvalidCertificates: false\n    allowConnectionsWithoutCertificates: false\n    FIPSMode: true\n\nIf net.tls.mode is not set to \"requireTLS\", this is a finding.",
+  "fixtext": "Stop the MongoDB instance if it is running. \n\nObtain a certificate from a valid DOD certificate authority to be used for encrypted data reception. \n\nModify the MongoDB configuration file to include the following TLS configuration options:\n\nnet:\n  tls:\n    mode: requireTLS\n    certificateKeyFile: <PEM File>\n    CAFile: <PEM File>\n    allowInvalidCertificates: false\n    allowConnectionsWithoutCertificates: false\n    FIPSMode: true\n\nSet \"net.tls.mode\" to the \"requireTLS\".\n<PEM File> is the fullpathnames to the certificates used for the option.\n\nStart/stop (restart) all mongod or mongos instances using the MongoDB configuration file (default location: /etc/mongod.conf).",
+  "fix_id": "F-69771r1028632_fix",
+  "VulnDiscussion": "Information can be either unintentionally or maliciously disclosed or modified during reception, including, for example, during aggregation, at protocol transformation points, and during packing/unpacking. These unauthorized disclosures or modifications compromise the confidentiality or integrity of the information.\n\nThis requirement applies only to those applications that are either distributed or can allow access to data nonlocally. Use of this requirement will be limited to situations where the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process.\n\nWhen receiving data, MongoDB, associated applications, and infrastructure must leverage protection mechanisms.",
+  "Documentable": "false"
+}

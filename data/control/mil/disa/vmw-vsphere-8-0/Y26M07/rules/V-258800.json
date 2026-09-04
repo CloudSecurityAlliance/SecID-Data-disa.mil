@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258800",
+  "rule_id": "SV-258800r933461_rule",
+  "stig_id": "ESXI-80-000246",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must not enable log filtering.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62540r933459_chk",
+  "check_content": "From an ESXi shell, run the following command:\n\n# esxcli system syslog config logfilter get\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$esxcli.system.syslog.config.logfilter.get.invoke()\n\nIf \"LogFilteringEnabled\" is not set to \"false\", this is a finding.",
+  "fixtext": "From an ESXi shell, run the following command:\n\n# esxcli system syslog config logfilter set --log-filtering-enabled=false\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$arguments = $esxcli.system.syslog.config.logfilter.set.CreateArgs()\n$arguments.logfilteringenabled = $false\n$esxcli.system.syslog.config.logfilter.set.invoke($arguments)",
+  "fix_id": "F-62449r933460_fix",
+  "VulnDiscussion": "The log filtering capability allows users to modify the logging policy of the syslog service that is running on an ESXi host. Users can create log filters to reduce the number of repetitive entries in the ESXi logs and to deny specific log events entirely.\n\nSetting a limit to the amount of logging information restricts the ability to detect and respond to potential security issues or system failures properly.",
+  "Documentable": "false"
+}

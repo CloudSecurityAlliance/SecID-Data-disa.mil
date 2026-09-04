@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282699",
+  "rule_id": "SV-282699r1201351_rule",
+  "stig_id": "TOSS-05-000227",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must ignore Internet Protocol version 6 (IPv6) Internet Control Message Protocol (ICMP) redirect messages.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87260r1201075_chk",
+  "check_content": "Verify TOSS 5 ignores IPv6 ICMP redirect messages.\n\nNote: If IPv6 is disabled on the system, this requirement is not applicable.\n\nCheck the value of the \"accept_redirects\" variables using the following command:\n\n$ sysctl net.ipv6.conf.all.accept_redirects\n\nnet.ipv6.conf.all.accept_redirects = 0\n\nIf the returned line does not have a value of \"0\", or a line is not returned, this is a finding.",
+  "fixtext": "Configure TOSS 5 to ignore IPv6 ICMP redirect messages.\n\nAdd or edit the following line in a single system configuration file, in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv6.conf.all.accept_redirects = 0\n\nLoad settings from all system configuration files using the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-87165r1201076_fix",
+  "VulnDiscussion": "An illicit ICMP redirect message could result in a man-in-the-middle attack.",
+  "Documentable": "false"
+}

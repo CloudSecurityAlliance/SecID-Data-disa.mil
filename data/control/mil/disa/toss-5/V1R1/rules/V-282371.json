@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282371",
+  "rule_id": "SV-282371r1200093_rule",
+  "stig_id": "TOSS-05-000313",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "TOSS 5 must limit the number of concurrent sessions to 256 for all accounts and/or account types.",
+  "group_title": "SRG-OS-000027-GPOS-00008",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-86932r1200091_chk",
+  "check_content": "Verify TOSS limits the number of concurrent sessions to 256 or less for all accounts and/or account types using the following command:\n\n$ sudo grep -r -s '^[^#].*maxlogins' /etc/security/limits.conf /etc/security/limits.d/*.conf\n* hard maxlogins 256\n\nThis can be set as a global domain (with the * wildcard) but may be set differently for multiple domains.\n\nIf the \"maxlogins\" item is missing, commented out, or the value is set greater than \"256\" and is not documented with the information system security officer (ISSO) as an operational requirement for all domains that have the \"maxlogins\" item assigned, this is a finding.",
+  "fixtext": "Configure TOSS to limit the number of concurrent sessions to 256 or less for all accounts and/or account types.\n\nAdd the following line to the top of the \"/etc/security/limits.conf\" or in a .\"conf\" file defined in \"/etc/security/limits.d/\":\n                 \n* hard maxlogins 256",
+  "fix_id": "F-86837r1200092_fix",
+  "VulnDiscussion": "Operating system management includes the ability to control the number of users and user sessions that use an operating system. Limiting the number of allowed users and sessions per user is helpful in reducing the risks related to denial-of-service (DoS) attacks.\n\nThis requirement addresses concurrent sessions for information system accounts and does not address concurrent sessions by single users via multiple system accounts. The maximum number of concurrent sessions should be defined based upon mission needs and the operational environment for each system.",
+  "Documentable": "false"
+}

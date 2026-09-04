@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-266167",
+  "rule_id": "SV-266167r1024399_rule",
+  "stig_id": "F5BI-AP-300156",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The F5 BIG-IP appliance must be configured to restrict a consistent inbound IP for the entire management session.",
+  "group_title": "SRG-NET-000230-ALG-000113",
+  "idents": {
+    "cci": [
+      "CCI-001184"
+    ]
+  },
+  "check_id": "C-70091r1023747_chk",
+  "check_content": "From the BIG-IP GUI:\n1. System.\n2. Preferences.\n3. Under Security Settings, verify \"Require A Consistent Inbound IP For The Entire Web Session\" box is checked.\n\nFrom the BIG-IP Console:\n\ntmsh list sys httpd auth-pam-validate-ip\n\nNote: This returns a value of \"on\".\n\nIf the BIG-IP appliance is not configured to require a consistent inbound IP for the entire session for management sessions, this is a finding.",
+  "fixtext": "From the BIG-IP GUI:\n1. System.\n2. Preferences.\n3. Under Security Settings, check \"Require A Consistent Inbound IP For The Entire Web Session\".\n4. Click \"Update\".\n\nFrom the BIG-IP Console:\n\ntmsh modify sys httpd auth-pam-validate-ip on\ntmsh save sys config",
+  "fix_id": "F-69994r1023748_fix",
+  "VulnDiscussion": "This security measure helps limit the effects of denial-of-service attacks by employing antisession hijacking security safeguards. Session hijacking, also called cookie hijacking, is the exploitation of a valid computer session to gain unauthorized access to an application. The attacker steals (or hijacks) the cookies from a valid user and attempts to use them for authentication.",
+  "Documentable": "false"
+}

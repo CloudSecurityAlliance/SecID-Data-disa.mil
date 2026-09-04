@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-258733",
+  "rule_id": "SV-258733r933260_rule",
+  "stig_id": "ESXI-80-000015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi must produce audit records containing information to establish what type of events occurred.",
+  "group_title": "SRG-OS-000037-VMM-000150",
+  "idents": {
+    "cci": [
+      "CCI-000130",
+      "CCI-000171"
+    ]
+  },
+  "check_id": "C-62473r933258_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"Config.HostAgent.log.level\" value and verify it is set to \"info\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Config.HostAgent.log.level\n\nIf the \"Config.HostAgent.log.level\" setting is not set to \"info\", this is a finding.\n\nNote: Verbose logging level is acceptable for troubleshooting purposes.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"Config.HostAgent.log.level\" value and configure it to \"info\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Config.HostAgent.log.level | Set-AdvancedSetting -Value \"info\"",
+  "fix_id": "F-62382r933259_fix",
+  "VulnDiscussion": "Without establishing what types of events occurred, it would be difficult to establish, correlate, and investigate the events leading up to an outage or attack. \n\nSatisfies: SRG-OS-000037-VMM-000150, SRG-OS-000063-VMM-000310",
+  "Documentable": "false"
+}

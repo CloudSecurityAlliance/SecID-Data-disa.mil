@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-248722",
+  "rule_id": "SV-248722r1208714_rule",
+  "stig_id": "OL08-00-030000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The OL 8 audit system must be configured to audit the execution of privileged functions and prevent all software from executing at higher privilege levels than users executing the software.",
+  "group_title": "SRG-OS-000326-GPOS-00126",
+  "idents": {
+    "cci": [
+      "CCI-002233",
+      "CCI-002234"
+    ]
+  },
+  "check_id": "C-52156r1208713_chk",
+  "check_content": "Verify OL 8 audits the execution of privileged functions. \n \nCheck if OL 8 is configured to audit the execution of the \"execve\" system call by running the following command: \n \n$ sudo grep execve /etc/audit/audit.rules \n \n-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 key=execpriv \n-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 key=execpriv \n \n-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 key=execpriv \n-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 key=execpriv\n \nIf the command does not return all lines or the lines are commented out, this is a finding.",
+  "fixtext": "Configure OL 8 to audit the execution of the \"execve\" system call. \n \nAdd or update the following file system rules to \"/etc/audit/rules.d/audit.rules\": \n \n-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 key=execpriv \n-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 key=execpriv \n \n-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 key=execpriv \n-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 key=execpriv\n \nThe audit daemon must be restarted for the changes to take effect. To restart the audit daemon, run the following command: \n \n$ sudo service auditd restart",
+  "fix_id": "F-52110r1208332_fix",
+  "VulnDiscussion": "Misuse of privileged functions, either intentionally or unintentionally by authorized users, or by unauthorized external entities that have compromised information system accounts, is a serious and ongoing concern and can have significant adverse impacts on organizations. Auditing the use of privileged functions is one way to detect such misuse and identify the risk from insider threats and the advanced persistent threat.\n\nSatisfies: SRG-OS-000326-GPOS-00126, SRG-OS-000327-GPOS-00127",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282383",
+  "rule_id": "SV-282383r1200129_rule",
+  "stig_id": "TOSS-05-000237",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must log SSH connection attempts and failures to the server.",
+  "group_title": "SRG-OS-000032-GPOS-00013",
+  "idents": {
+    "cci": [
+      "CCI-000067"
+    ]
+  },
+  "check_id": "C-86944r1200127_chk",
+  "check_content": "Verify TOSS 5 logs SSH connection attempts and failures to the server.\n\nVerify what the SSH daemon's \"LogLevel\" option is set to using the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*loglevel'\n\nLogLevel VERBOSE\n\nIf a value of \"VERBOSE\" is not returned or the line is commented out or missing, this is a finding.",
+  "fixtext": "Configure TOSS 5 to log connection attempts add or modify the following line in \"/etc/ssh/sshd_config\":\n\nLogLevel VERBOSE\n\nRestart the SSH daemon for the settings to take effect:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-86849r1200128_fix",
+  "VulnDiscussion": "SSH provides several logging levels with varying amounts of verbosity. \"DEBUG\" is specifically not recommended, other than strictly for debugging SSH communications, because it provides so much data that it is difficult to identify important security information. \"INFO\" or \"VERBOSE\" level are the basic levels that only record SSH user login activity. In many situations, such as Incident Response, it is important to determine when a particular user was active on a system. The logout record can eliminate those users who disconnected, which helps narrow the field.",
+  "Documentable": "false"
+}

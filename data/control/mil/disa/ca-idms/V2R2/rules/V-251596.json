@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251596",
+  "rule_id": "SV-251596r960864_rule",
+  "stig_id": "IDMS-DB-000160",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "IDMS must protect against the use of numbered exits that change the userid to a shared id.",
+  "group_title": "SRG-APP-000080-DB-000063",
+  "idents": {
+    "cci": [
+      "CCI-000166"
+    ]
+  },
+  "check_id": "C-55031r807653_chk",
+  "check_content": "Issue LOOK PROGRAM=RHDCUXIT. If there are non-zeros in the 12 bytes starting at X'200', exit 27 is being used. \n\nIf there are non-zeros in the 12 bytes starting at X'20C', exit 28 is being used. \n\nCheck exits for a change in userid and if there is a change to a shared user ID, this is a finding.",
+  "fixtext": "Remove code from exit 27 and/or exit 28 that changes the individual user id to a shared user or remove the exit entirely, then reassemble and relink RHDCUXIT.\n\nTo implement the new RHDCUXIT, either recycle any CVs that use the SRTT or issue these commands:\n \nDCMT VARY NUCLEUS MODULE RHDCUXIT NEW COPY\nDCMT VARY NUCLEUS RELOAD",
+  "fix_id": "F-54985r807654_fix",
+  "VulnDiscussion": "Non-repudiation of actions taken is required to maintain data integrity. Examples of particular actions taken by individuals include creating information, sending a message, approving information (e.g., indicating concurrence or signing a contract), and receiving a message. \n\nNon-repudiation protects against later claims by a user of not having created, modified, or deleted a particular data item or collection of data in the database.\n\nIn designing a database, the organization must define the types of data and the user actions that must be protected from repudiation. The implementation must then include building audit features into the application data tables and configuring the DBMS's audit tools to capture the necessary audit trail. Design and implementation also must ensure that applications pass individual user identification to the DBMS, even where the application connects to the DBMS with a standard, shared account.\n\nUser exits that change userids can be used to hide the true identities of those who may perform an action and should be carefully restricted or eliminated.",
+  "Documentable": "false"
+}

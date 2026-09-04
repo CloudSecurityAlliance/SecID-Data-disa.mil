@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215415",
+  "rule_id": "SV-215415r991589_rule",
+  "stig_id": "AIX7-00-003117",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SMTP service must not have the EXPN or VRFY features active on AIX systems.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91663",
+      "SV-101761"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16613r294696_chk",
+  "check_content": "Check the \"PrivacyOptions\" parameter in \"/etc/mail/sendmail.cf\":\n# grep -v \"^#\" /etc/mail/sendmail.cf |grep -i privacyoptions \n\nThe above command should yield the following output:\nO PrivacyOptions=goaway\n\nThe \"O PrivacyOptions\" should have the \"goaway\" option (covering both noexpn and novrfy). \n\nIf the \"O PrivacyOptions\" value does not contain \"goaway\", this is a finding.",
+  "fixtext": "Edit the \"sendmail.cf\" file and add or edit the following line: \nO PrivacyOptions=goaway \n\nRestart the \"Sendmail\" service:\n# startsrc -s sendmail -a \"-bd -q30m\"",
+  "fix_id": "F-16611r294697_fix",
+  "VulnDiscussion": "The SMTP EXPN function allows an attacker to determine if an account exists on a system, providing significant assistance to a brute force attack on user accounts. EXPN may also provide additional information concerning users on the system, such as the full names of account owners. The VRFY (Verify) command allows an attacker to determine if an account exists on a system, providing significant assistance to a brute force attack on user accounts. VRFY may provide additional information about users on the system, such as the full names of account owners.",
+  "Documentable": "false"
+}

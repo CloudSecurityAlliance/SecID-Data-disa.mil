@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-276652",
+  "rule_id": "SV-276652r1139478_rule",
+  "stig_id": "KNOX-16-006000",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Samsung Android must be configured to enable encryption for data at rest on removable storage media or, alternately, the use of removable storage media must be disabled.",
+  "group_title": "PP-MDF-333100",
+  "idents": {
+    "cci": [
+      "CCI-001199",
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-80807r1139476_chk",
+  "check_content": "Review the configuration to determine if the Samsung Android devices are either enabling data-at-rest protection for removable media or disabling their use.\n\nThis requirement is not applicable for devices that do not support removable storage media.\n\nThis validation procedure is performed on both the management tool and the Samsung Android device.\n\nOn the management tool, in the device restrictions, verify \"Mount physical media\" is set to \"Disallow\".\n\nOn the Samsung Android device, verify that a microSD card cannot be mounted.\n\nThe device should ignore the inserted SD card and no notifications for the transfer of media files should appear, nor should any files be listed using a file browser, such as Samsung My Files.\n\nIf on the management tool \"Mount physical media\" is not set to \"Disallow\", or on the Samsung Android device a microSD card can be mounted, this is a finding.",
+  "fixtext": "Configure the Samsung Android devices to enable data-at-rest protection for removable media, or alternatively, disable their use.\n\nThis requirement is not applicable for devices that do not support removable storage media.\n\nOn the management tool, in the device restrictions, set \"Mount physical media\" to \"Disallow\".\n\nThis disables the use of all removable storage, e.g., microSD cards, USB thumb drives, etc.\n\nIf the deployment requires the use of microSD cards, Knox Platform for Enterprise (KPE) can be used to allow them in a STIG-approved configuration. In this case, do not configure this policy, and instead replace with KPE policy (innately by the management tool or via Knox Service Plugin [KSP]) \"Enforce external storage encryption\" with value \"enable\".\n\nAPI: addUserRestriction, DISALLOW_MOUNT_PHYSICAL_MEDIA",
+  "fix_id": "F-80712r1139477_fix",
+  "VulnDiscussion": "The MOS must ensure the data being written to the mobile device's removable media is protected from unauthorized access. If data at rest is unencrypted, it is vulnerable to disclosure. Even if the operating system enforces permissions on data access, an adversary can read removable media directly, thereby circumventing operating system controls. Encrypting the data ensures confidentiality is protected even when the operating system is not running.\n\nSFR ID: FMT_SMF.1.1 #20, #47d",
+  "Documentable": "false"
+}

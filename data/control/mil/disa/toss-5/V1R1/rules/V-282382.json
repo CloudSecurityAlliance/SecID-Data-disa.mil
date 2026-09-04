@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282382",
+  "rule_id": "SV-282382r1200126_rule",
+  "stig_id": "TOSS-05-000277",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must conceal via the session lock information previously visible on the display with a publicly viewable image.",
+  "group_title": "SRG-OS-000031-GPOS-00012",
+  "idents": {
+    "cci": [
+      "CCI-000060"
+    ]
+  },
+  "check_id": "C-86943r1200124_chk",
+  "check_content": "To ensure the screensaver is configured to be blank, run the following command:\n\nNote: This requirement assumes the use of the TOSS 5 default graphical user interface—the GNOME desktop environment. If the system does not have a graphical user interface installed, this requirement is not applicable.\n\n$ gsettings get org.gnome.desktop.screensaver picture-uri \n\nIf properly configured, the output should be \"''\".\n\nTo ensure that users cannot set the screensaver background, run the following: \n\n$ grep picture-uri /etc/dconf/db/local.d/locks/* \n\nIf properly configured, the output should be \"/org/gnome/desktop/screensaver/picture-uri\".\n\nIf it is not set or configured properly, this is a finding.",
+  "fixtext": "Edit the \"dconf\" settings in the /etc/dconf/db/* location.\n\nFirst, add or update the [org/gnome/desktop/screensaver] section of the \"/etc/dconf/db/local.d/00-security-settings\" database file and add or update the following lines:\n\n[org/gnome/desktop/screensaver]\npicture-uri=''\n\nAdd the following line to \"/etc/dconf/db/local.d/locks/00-security-settings-lock\" to prevent user modification:\n\n/org/gnome/desktop/screensaver/picture-uri\n\nUpdate the dconf system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-86848r1200125_fix",
+  "VulnDiscussion": "Setting the screensaver mode to blank-only conceals the contents of the display from passersby.",
+  "Documentable": "false"
+}

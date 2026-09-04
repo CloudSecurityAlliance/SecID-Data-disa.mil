@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223509",
+  "rule_id": "SV-223509r1225739_rule",
+  "stig_id": "ACF2-ES-000920",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ACF2 TSOTWX GSO record values must be set to obliterate the logon password on TWX devices.",
+  "group_title": "SRG-OS-000079-GPOS-00047",
+  "idents": {
+    "legacy": [
+      "V-97721",
+      "SV-106825"
+    ],
+    "cci": [
+      "CCI-000206"
+    ]
+  },
+  "check_id": "C-25182r695442_chk",
+  "check_content": "From the ISPF Command Shell enter:\nACF <enter>\nSET CONTROL(GSO)\nLIST TSOTWX\n\nIf the GSO TSOTWX record values conform to the following requirements, this is not a finding.\n\nCR(15)\nIDLE(17)\nLENGTH(8)\nM1(X)\nM2(N)\nM3(Z)\nM4(M)\nSTRING()",
+  "fixtext": "Define a cross out mask to obliterate the logon password on TWX devices.\n\nCR(15)\nIDLE(17)\nLENGTH(8)\nM1(X)\nM2(N)\nM3(Z)\nM4(M)\nSTRING()\n\nExample:\nSET C(GSO)\nINSERT TSOTWX CR(15) IDLE(17) LENGTH(8) M1(X) M2(N) M3(Z) M4(M) STRING()\n\nF ACF2,REFRESH(TSOTWX)",
+  "fix_id": "F-25170r500661_fix",
+  "VulnDiscussion": "To prevent the compromise of authentication information, such as passwords during the authentication process, the feedback from the operating system must not provide any information allowing an unauthorized user to compromise the authentication mechanism.\n\nObfuscation of user-provided information that is typed into the system is a method used when addressing this risk.\n\nDisplaying asterisks when a user types in a password is an example of obscuring feedback of authentication information.",
+  "Documentable": "false"
+}

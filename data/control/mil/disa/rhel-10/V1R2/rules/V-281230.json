@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281230",
+  "rule_id": "SV-281230r1166642_rule",
+  "stig_id": "RHEL-10-700110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must prevent files with the \"setuid\" and \"setgid\" bit set from being executed on file systems that are imported via Network File System (NFS).",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-85791r1166640_chk",
+  "check_content": "Note: If no NFS mounts are configured, this requirement is not applicable.\n\nVerify RHEL 10 has the \"nosuid\" option configured for all NFS mounts with the following command:\n\n$ sudo grep nfs /etc/fstab\n192.168.22.2:/mnt/export /data nfs4 rw,nosuid,nodev,noexec,sync,soft,sec=krb5:krb5i:krb5p\n\nIf the system is mounting file systems via NFS and the \"nosuid\" option is missing, this is a finding.",
+  "fixtext": "Configure RHEL 10 to prevent files with the \"setuid\" and \"setgid\" bit set from being executed on file systems that are imported via NFS.\n\nUpdate each NFS mounted file system to use the \"nosuid\" option on file systems that are being imported via NFS.",
+  "fix_id": "F-85696r1166641_fix",
+  "VulnDiscussion": "The \"nosuid\" mount option causes the system not to execute \"setuid\" and \"setgid\" files with owner privileges. This option must be used for mounting any file system not containing approved \"setuid\" and \"setguid\" files. Executing files from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

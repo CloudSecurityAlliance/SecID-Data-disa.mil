@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282509",
+  "rule_id": "SV-282509r1200507_rule",
+  "stig_id": "TOSS-05-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must restrict usage of ptrace to descendant processes.",
+  "group_title": "SRG-OS-000132-GPOS-00067",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-87070r1200505_chk",
+  "check_content": "Verify TOSS 5 restricts usage of ptrace to descendant processes using the following command:\n\n$ sudo sysctl kernel.yama.ptrace_scope\n\nkernel.yama.ptrace_scope = 1\n\nIf the returned line does not have a value of \"1\", or a line is not returned, this is a finding.",
+  "fixtext": "Configure TOSS 5 to restrict using ptrace to descendant processes by adding the following line to a file, in the \"/etc/sysctl.d\" directory:\n\nkernel.yama.ptrace_scope = 1\n\nThe system configuration files must be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-86975r1200506_fix",
+  "VulnDiscussion": "Unrestricted usage of ptrace allows compromised binaries to run ptrace on other processes of the user. This way, the attacker can steal sensitive information from the target processes (e.g., SSH sessions, web browser, etc.) without any additional assistance from the user (i.e., without resorting to phishing).",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282630",
+  "rule_id": "SV-282630r1200870_rule",
+  "stig_id": "TOSS-05-000100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must prevent loading a new kernel for later execution.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87191r1200868_chk",
+  "check_content": "Verify TOSS 5 is configured to disable kernel image loading using the following command:\n\n$ sudo sysctl kernel.kexec_load_disabled\n\nkernel.kexec_load_disabled = 1\n\nIf \"kernel.kexec_load_disabled\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Add or edit the following line in a system configuration file in the \"/etc/sysctl.d/\" directory:\n\nkernel.kexec_load_disabled = 1\n\nLoad settings from all system configuration files using the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-87096r1200869_fix",
+  "VulnDiscussion": "Changes to any software components can have significant effects on the overall security of the operating system. This requirement ensures the software has not been tampered with and that it has been provided by a trusted vendor.\n\nDisabling \"kexec_load\" prevents an unsigned kernel image (that could be a windows kernel or modified vulnerable kernel) from being loaded. Kexec can be used subvert the entire secureboot process and should be avoided at all costs especially since it can load unsigned kernel images.",
+  "Documentable": "false"
+}

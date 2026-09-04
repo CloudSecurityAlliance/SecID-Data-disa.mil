@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234991",
+  "rule_id": "SV-234991r1184468_rule",
+  "stig_id": "SLES-15-040070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All SUSE operating system local interactive users must have a home directory assigned in the /etc/passwd file.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-38179r1184466_chk",
+  "check_content": "Verify SUSE operating system local interactive users on the system have a home directory assigned.\n\nCheck for missing local interactive user home directories with the following command:\n\n> sudo pwck -r\nuser 'doduser': directory '/home/doduser' does not exist\n\nAsk the system administrator (SA) if any users found without home directories are local interactive users. If the SA is unable to provide a response, check for users with a User Identifier (UID) of 1000 or greater with the following command:\n\n> awk -F: '($3>=1000)&&($1!=\"nobody\"){print $1 \":\" $3}' /etc/passwd\n\nIf any interactive users do not have a home directory assigned, this is a finding.",
+  "fixtext": "Assign home directories to all SUSE operating system local interactive users that currently do not have a home directory assigned.\n\nAssign a home directory to users via the usermod command:\n\n> sudo usermod -d /home/doduser doduser",
+  "fix_id": "F-38142r1184467_fix",
+  "VulnDiscussion": "If local interactive users are not assigned a valid home directory, there is no place for the storage and control of files they should own.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248886",
+  "rule_id": "SV-248886r1156639_rule",
+  "stig_id": "OL08-00-040270",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must not allow interfaces to perform Internet Control Message Protocol (ICMP) redirects by default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52320r1155493_chk",
+  "check_content": "Verify OL 8 does not allow interfaces to perform Internet Protocol version 4 (IPv4) ICMP redirects by default.\n\nCheck the value of the \"default send_redirects\" variables with the following command:\n\n$ sysctl net.ipv4.conf.default.send_redirects\nnet.ipv4.conf.default.send_redirects=0\n\nIf \"net.ipv4.conf.default.send_redirects\" is not set to \"0\" and is not documented with the information system security officer (ISSO) as an operational requirement or is missing, this is a finding.",
+  "fixtext": "Configure OL 8 to not allow interfaces to perform IPv4 ICMP redirects by default.\n\nAdd or edit the following line in a single system configuration file in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv4.conf.default.send_redirects = 0\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-52274r1155494_fix",
+  "VulnDiscussion": "ICMP redirect messages are used by routers to inform hosts that a more direct route exists for a particular destination. These messages contain information from the system's route table, possibly revealing portions of the network topology.\n \nThere are notable differences between Internet Protocol version 4 (IPv4) and Internet Protocol version 6 (IPv6). There is only a directive to disable sending of IPv4 redirected packets. Refer to RFC4294 for an explanation of \"IPv6 Node Requirements\", which resulted in this difference between IPv4 and IPv6.\n\nThe sysctl --system command will load settings from all system configuration files. All configuration files are sorted by their filename in lexicographical order, regardless of the directories in which they reside. If multiple files specify the same option, the entry in the file with the lexicographically latest name will take precedence. Files are read from directories in the following list from top to bottom. Once a file of a given filename is loaded, any file of the same name in subsequent directories is ignored.\n/etc/sysctl.d/*.conf\n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271780",
+  "rule_id": "SV-271780r1092052_rule",
+  "stig_id": "OL09-00-002511",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 local files and directories must have a valid group owner.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75830r1092050_chk",
+  "check_content": "Verify that OL 9 local files and directories have a valid group with the following command:\n\n$ df --local -P | awk {'if (NR!=1) print $6'} | sudo xargs -I '{}' find '{}' -xdev -nogroup\n\nIf any files on the system do not have an assigned group, this is a finding.",
+  "fixtext": "Configure OL 9 local files and directories to have a valid group owner.\n\nEither remove all files and directories from OL 9 that do not have a valid group, or assign a valid group to all files and directories on the system with the \"chgrp\" command:\n\n$ sudo chgrp <group> <file>",
+  "fix_id": "F-75737r1092051_fix",
+  "VulnDiscussion": "Files without a valid group owner may be unintentionally inherited if a group is assigned the same Group Identifier (GID) as the GID of the files without a valid group owner.",
+  "Documentable": "false"
+}

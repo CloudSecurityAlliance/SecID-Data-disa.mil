@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282387",
+  "rule_id": "SV-282387r1200141_rule",
+  "stig_id": "TOSS-05-000097",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "TOSS 5 must enable auditing of processes that start prior to the audit daemon.",
+  "group_title": "SRG-OS-000037-GPOS-00015",
+  "idents": {
+    "cci": [
+      "CCI-000130"
+    ]
+  },
+  "check_id": "C-86948r1200139_chk",
+  "check_content": "Verify that GRUB 2 is configured to enable auditing of processes that start prior to the audit daemon with the following command:\n\n$ sudo grubby --info=ALL | grep audit\n\nargs=\"ro crashkernel=auto resume=/dev/mapper/rhel-swap rd.lvm.lv=rhel/root rd.lvm.lv=rhel/swap rhgb quiet fips=1 audit=1 audit_backlog_limit=8192 pti=on \n\nIf \"audit\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Enable auditing of processes that start prior to the audit daemon with the following command:\n\n$ sudo grubby --update-kernel=ALL --args=\"audit=1\"\n\nAdd or modify the following line in \"/etc/default/grub\" to ensure the configuration survives kernel updates:\n\nGRUB_CMDLINE_LINUX=\"audit=1\"",
+  "fix_id": "F-86853r1200140_fix",
+  "VulnDiscussion": "Without the capability to generate audit records, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nIf auditing is enabled late in the startup process, the actions of some startup processes may not be audited. Some audit systems also maintain state information only available if auditing is enabled before a given process is created.\n\nSatisfies: SRG-OS-000037-GPOS-00015, SRG-OS-000042-GPOS-00020, SRG-OS-000062-GPOS-00031, SRG-OS-000392-GPOS-00172, SRG-OS-000462-GPOS-00206, SRG-OS-000471-GPOS-00215, SRG-OS-000473-GPOS-00218, SRG-OS-000254-GPOS-00095",
+  "Documentable": "false"
+}

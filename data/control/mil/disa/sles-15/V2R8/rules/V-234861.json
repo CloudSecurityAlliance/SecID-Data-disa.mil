@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234861",
+  "rule_id": "SV-234861r958928_rule",
+  "stig_id": "SLES-15-010540",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must implement kptr-restrict to prevent the leaking of internal kernel addresses.",
+  "group_title": "SRG-OS-000433-GPOS-00192",
+  "idents": {
+    "cci": [
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-38049r618852_chk",
+  "check_content": "Verify the SUSE operating system prevents leaking of internal kernel addresses.\n\nCheck that the SUSE operating system prevents leaking of internal kernel addresses by running the following command:\n\n> sudo sysctl kernel.kptr_restrict\nkernel.kptr_restrict = 1\n\nIf the kernel parameter \"kptr_restrict\" is not equal to \"1\" or nothing is returned, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to prevent leaking of internal kernel addresses by running the following command: \n\n> sudo sysctl -w kernel.kptr_restrict=1\n\nIf \"1\" is not the system's default value, add or update the following line in \"/etc/sysctl.d/99-stig.conf\":\n\n> sudo sh -c 'echo \"kernel.kptr_restrict=1\" >> /etc/sysctl.d/99-stig.conf'\n\n> sudo sysctl --system",
+  "fix_id": "F-38012r618853_fix",
+  "VulnDiscussion": "Some adversaries launch attacks with the intent of executing code in nonexecutable regions of memory or in memory locations that are prohibited. Security safeguards employed to protect memory include, for example, data execution prevention and address space layout randomization. Data execution prevention safeguards can either be hardware-enforced or software-enforced, with hardware providing the greater strength of mechanism.\n\nExamples of attacks are buffer overflow attacks.",
+  "Documentable": "false"
+}

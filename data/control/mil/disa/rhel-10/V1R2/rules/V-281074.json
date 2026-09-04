@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281074",
+  "rule_id": "SV-281074r1165577_rule",
+  "stig_id": "RHEL-10-400285",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must be configured so that all local files and directories have a valid group owner.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-85635r1165575_chk",
+  "check_content": "Verify RHEL 10 is configured so that all local files and directories have a valid group with the following command:\n\n$ df --local -P | awk {'if (NR!=1) print $6'} | sudo xargs -I '{}' find '{}' -xdev -nogroup\n\nIf any files on the system do not have an assigned group, this is a finding.",
+  "fixtext": "Configure RHEL 10 so that all local files and directories have a valid group owner.\n\nEither remove all files and directories from RHEL 10 that do not have a valid group, or assign a valid group to all files and directories on the system with the \"chgrp\" command:\n\n$ sudo chgrp <group> <file>",
+  "fix_id": "F-85540r1165576_fix",
+  "VulnDiscussion": "Files without a valid group owner may be unintentionally inherited if a group is assigned the same group identifier (GID) as the GID of the files without a valid group owner.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251547",
+  "rule_id": "SV-251547r1067550_rule",
+  "stig_id": "FFOX-00-000003",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Firefox must be configured to ask which certificate to present to a website when a certificate is required.",
+  "group_title": "SRG-APP-000177",
+  "idents": {
+    "cci": [
+      "CCI-000187"
+    ]
+  },
+  "check_id": "C-54982r1067549_chk",
+  "check_content": "Type \"about:policies\" in the browser address bar. \n\nIf \"Preferences\" is not displayed under Policy Name and the Policy Value does not include \"security.default_personal_cert\" with a value of \"Ask Every Time\" and status of \"locked\", this is a finding.",
+  "fixtext": "Windows group policy:\n1. Open the group policy editor tool with \"gpedit.msc\".\n2. Navigate to Policy Path: Computer Configuration\\Administrative Templates\\Mozilla\\Firefox\\\nPolicy Name: Preferences\nPolicy State: Enabled\nPolicy Value:\n{\n  \"security.default_personal_cert\": {\n    \"Value\": \"Ask Every Time\",\n    \"Status\": \"locked\"\n  }\n}\n\nmacOS \"plist\" file:\nAdd the following:\n<key>Preferences</key>\n<dict>\n  <key>security.default_personal_cert</key>\n  <dict>\n    <key>Value</key>\n    <string>Ask Every Time</string>\n    <key>Status</key>\n    <string>locked</string>\n  </dict>\n</dict>\n\nLinux \"policies.json\" file:\nAdd the following in the policies section:\n\"Preferences\": {\n  \"security.default_personal_cert\": {\n    \"Value\": \"Ask Every Time\",\n    \"Status\": \"locked\"\n  }\n}",
+  "fix_id": "F-54936r807112_fix",
+  "VulnDiscussion": "When a website asks for a certificate for user authentication, Firefox must be configured to have the user choose which certificate to present. Websites within DOD require user authentication for access, which increases security for DOD information. Access will be denied to the user if certificate management is not configured.",
+  "Documentable": "false"
+}

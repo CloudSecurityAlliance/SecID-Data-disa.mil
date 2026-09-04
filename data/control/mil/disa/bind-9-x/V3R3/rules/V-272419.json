@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272419",
+  "rule_id": "SV-272419r1123570_rule",
+  "stig_id": "BIND-9X-001680",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BIND 9.x server implementation must be configured to use only approved ports and protocols.",
+  "group_title": "SRG-APP-000142-DNS-000014",
+  "idents": {
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-76469r1123568_chk",
+  "check_content": "Verify the BIND 9.x server is configured to listen on UDP/TCP port 53.\n\nInspect the \"named.conf\" file for the following:\n\noptions {\nlisten-on port 53 { <ip_address>; };\n};\n\nIf the \"port\" variable is missing, this is a finding.\n\nIf the \"port\" variable is not set to \"53\", this is a finding.\n\nNote: \"<ip_address>\" should be replaced with the DNS server IP address.",
+  "fixtext": "Edit the \"named.conf\" file.\n\nAdd the following line to the \"options\" statement:\n\nlisten-on port 53 { <ip_address>; };\n\nReplace \"<ip_address>\" with the IP of the name server.\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76376r1123569_fix",
+  "VulnDiscussion": "To prevent unauthorized connection of devices, unauthorized transfer of information, or unauthorized tunneling (i.e., embedding of data types within data types), organizations must disable or restrict unused or unnecessary physical and logical ports/protocols on information systems.\n\nApplications are capable of providing a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., email and web services); however, doing so increases risk over limiting the services provided by any one component.\n\nTo support the requirements and principles of least functionality, the application must support the organizational requirements by providing only essential capabilities and limiting the use of ports, protocols, and/or services to only those required, authorized, and approved to conduct official business or to address authorized quality of life issues.",
+  "Documentable": "false"
+}

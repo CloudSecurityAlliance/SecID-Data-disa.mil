@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215271",
+  "rule_id": "SV-215271r991589_rule",
+  "stig_id": "AIX7-00-002079",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX audio devices must be group-owned by root, sys, bin, or system.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101695",
+      "V-91597"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16469r294264_chk",
+  "check_content": "Check the group owner of audio devices using commands:\n\n# /usr/sbin/lsdev -C | grep -i audio \naud0   Available             USB Audio Device\n\n# ls -lL /dev/*aud0\ncr--r--r--    1 root     system       16,  0 Jan 24 07:25 aud0 \n\nIf the group owner of an audio device is not \"root\", \"sys\", \"bin\", or \"system\", this is a finding.",
+  "fixtext": "Change the group owner of the audio device using command: \n# chgrp system <audio device>",
+  "fix_id": "F-16467r294265_fix",
+  "VulnDiscussion": "Without privileged group owners, audio devices will be vulnerable to being used as eaves-dropping devices by malicious users or intruders to possibly listen to conversations containing sensitive information.",
+  "Documentable": "false"
+}

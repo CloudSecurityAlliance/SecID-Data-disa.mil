@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-279034",
+  "rule_id": "SV-279034r1171436_rule",
+  "stig_id": "APAS-CF-000070",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "ColdFusion must produce log records containing information to establish what type of events occurred.",
+  "group_title": "SRG-APP-000095-AS-000056",
+  "idents": {
+    "cci": [
+      "CCI-000130",
+      "CCI-000131",
+      "CCI-000132",
+      "CCI-000133",
+      "CCI-000134",
+      "CCI-001487",
+      "CCI-000135"
+    ]
+  },
+  "check_id": "C-83582r1171435_chk",
+  "check_content": "Verify neo-logging.xml Log Pattern configuration.\n\n1. Open the neo-logging.xml file located at:\n<ColdFusion_Installation_Directory>\\lib\\neo-logging.xml\n\n2. Examine the <var name='pattern'/> element. Review the value assigned to this element. Verify the log pattern configuration.\n\n3. Confirm the value is:\n<string>\"%p\",\"%t\",%d{\"MM/dd/yy\",\"HH:mm:ss\"},\"%a\",\"%m%z\"%n</string>\n\nOR\n\nEnsure the following pattern definition is included:\n- The pattern includes the %d (date/time) pattern definition with the appropriate format (MM/dd/yy and HH:mm:ss).\n- The pattern includes the %m (message) pattern.\n\nIf the neo-logging.xml file is missing or cannot be located, this is a finding.\n\nIf the <var name='pattern'/> element does not contain the exact required pattern, this is a finding.\n\nIf the pattern does not include the %d token with the required date/time format, this is a finding.\n\nIf the pattern does not include the %m (message) token, this is a finding.",
+  "fixtext": "1. Locate the neo-logging.xml file for ColdFusion: <ColdFusion_Installation_Directory>\\lib\\neo-logging.xml\n\n2. After creating a backup of this file, edit it and locate the <var name='pattern'/> element.\n\n3. Set the value of this element to include all pertinent fields, for example:\n<string>\"%p\",\"%t\",%d{\"MM/dd/yy\",\"HH:mm:ss\"},\"%a\",\"%m%z\"%n</string>",
+  "fix_id": "F-83487r1171271_fix",
+  "VulnDiscussion": "Without sufficient logging of events, including information about what type of event occurred, it is difficult to detect, understand, or respond to suspicious or unauthorized activity within the ColdFusion application server.\n\nComprehensive event logging is essential to support auditing, troubleshooting, and forensic analysis. ColdFusion must generate log records that capture key attributes of events, such as event type, source, outcome, and affected components. This information enables security personnel to determine the nature of an event, assess its impact, and trace it back to a user or process. Failure to produce detailed and complete logs can result in missed detection of security incidents, hinder incident response efforts, and reduce overall situational awareness.\n\nSatisfies: SRG-APP-000095-AS-000056, SRG-APP-000096-AS-000059, SRG-APP-000097-AS-000060, SRG-APP-000098-AS-000061, SRG-APP-000099-AS-000062, SRG-APP-000100-AS-000063, SRG-APP-000101-AS-000072",
+  "Documentable": "false"
+}

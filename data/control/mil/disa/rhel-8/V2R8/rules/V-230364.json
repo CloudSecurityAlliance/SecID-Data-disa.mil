@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-230364",
+  "rule_id": "SV-230364r1017176_rule",
+  "stig_id": "RHEL-08-020180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 passwords must have a 24 hours/1 day minimum password lifetime restriction in /etc/shadow.",
+  "group_title": "SRG-OS-000075-GPOS-00043",
+  "idents": {
+    "cci": [
+      "CCI-000198",
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-33033r567838_chk",
+  "check_content": "Check whether the minimum time period between password changes for each user account is one day or greater.\n\n$ sudo awk -F: '$4 < 1 {print $1 \" \" $4}' /etc/shadow\n\nIf any results are returned that are not associated with a system account, this is a finding.",
+  "fixtext": "Configure non-compliant accounts to enforce a 24 hours/1 day minimum password lifetime:\n\n$ sudo chage -m 1 [user]",
+  "fix_id": "F-33008r567839_fix",
+  "VulnDiscussion": "Enforcing a minimum password lifetime helps to prevent repeated password changes to defeat the password reuse or history enforcement requirement. If users are allowed to immediately and continually change their password, the password could be repeatedly changed in a short period of time to defeat the organization's policy regarding password reuse.",
+  "Documentable": "false"
+}

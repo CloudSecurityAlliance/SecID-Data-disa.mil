@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-255945",
+  "rule_id": "SV-255945r1225878_rule",
+  "stig_id": "ACF2-IC-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM Integrated Crypto Service Facility (ICSF) STC data sets must be properly protected.",
+  "group_title": "SRG-OS-000259-GPOS-00100",
+  "idents": {
+    "legacy": [
+      "SV-30551",
+      "V-17067"
+    ],
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-59622r881326_chk",
+  "check_content": "Verify that access to the IBM Integrated Crypto Service Facility (ICSF) STC data sets are properly restricted.  The data sets to be protected are identified in the data set referenced in the CSFPARM DD statement of the ICSF started task(s) and/or batch job(s), the entries for CKDSN and PKDSN specify the data sets.  \n If the ACF2 data set access authorizations does not restrict READ access to auditors this is a finding\n\nIf the  ACF2 data set access authorizations does not restrict WRITE and/or greater access to systems programming personnel this is a finding.\n\nIf the ACF2 data set access authorizations does not  restrict WRITE and/or greater access to the product STC(s) and/or batch job(s) this is a finding.",
+  "fixtext": "Ensure that WRITE and/or greater access to IBM Integrated Crypto Service Facility (ICSF) STC data sets are limited to system programmers and ICSF STC and/or batch jobs only. READ access can be given to auditors at the ISSOs discretion.\n\nThe installing Systems Programmer will identify and document the product data sets and categorize them according to who will have what type of access and if required which type of access is logged. The installing systems programmer will identify any additional groups requiring access to specific data sets, and once documented the installing systems programmer will work with the ISSO to see that they are properly restricted to the ACP (Access Control Program) active on the system.\n\n(Note: The data sets and/or data set prefixes identified below are examples of a possible installation. The actual data sets and/or prefixes are determined when the product is actually installed on a system through the product's installation guide and can be site specific.)\n\nThe data sets to be protected are identified in the data set referenced in the CSFPARM DD statement of the ICSF started task(s) and/or batch job(s), the entries for CKDSN and PKDSN specify the data sets.\n\nNote: Currently on most CSD systems the CKDSN specifies SYS3.CSF.CKDS and PKDSN specifies SYS3.CSF.PKDS.\n\nThe following commands are provided as a sample for implementing data set controls:\n\n$KEY(SYS3)\nCSF.-\tUID(syspaudt) R(A) W(A) A(A) E(A)\nCSF.-\tUID(tstcaudt) R(A) W(A) A(A) E(A)\nCSF.-\tUID(icsfstc) R(A) W(A) A(A) E(A)\nCSF.-\tUID(audtaudt) R(A) E(A)",
+  "fix_id": "F-59565r881327_fix",
+  "VulnDiscussion": "IBM Integrated Crypto Service Facility (ICSF) STC data sets have the ability to use privileged functions and/or have access to sensitive data.  Failure to properly restrict access to their data sets could result in violating the integrity of the base product which could result in compromising the operating system or sensitive data.",
+  "Documentable": "false"
+}

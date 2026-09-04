@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233911",
+  "rule_id": "SV-233911r1082711_rule",
+  "stig_id": "IDNS-8X-700006",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Infoblox DNS service member implementation must enforce approved authorizations for controlling the flow of information between DNS service members and between DNS service members and DNS clients based on TSIG policies.",
+  "group_title": "SRG-APP-000215-DNS-000003",
+  "idents": {
+    "cci": [
+      "CCI-001663"
+    ]
+  },
+  "check_id": "C-37096r1082709_chk",
+  "check_content": "Review the configuration of Infoblox DNS systems and verify that communication flow is validated.\n\n1. Review the Infoblox DNS configuration to verify that only approved communications are allowed.   \n2. Use of Access Control Lists to control clients, DNS zone transfer configuration to systems external to the Infoblox Grid, and Grid member configuration can be used to control communications as desired. \n\nInfoblox DNS service members within the same Grid use internal database updates and do not perform zone transfers. \n\nIf all DNS service members are within the same Infoblox Grid, this is not a finding.\n\nIf the Infoblox system is configured to perform zone transfers to non-Grid systems, access control must be used; otherwise, this is a finding.",
+  "fixtext": "Zone transfers can be restricted at the Grid, Member, and Zone level. Configuration is inherited and can be overridden if necessary to construct the appropriate access control. Refer to the Infoblox Administrator Guide if necessary.\n\nGrid-level configuration: \n1. Navigate to Data Management >> DNS >> Zones tab.\n2. Click \"Grid DNS Properties\" and toggle Advanced Mode. \n\nMember-level configuration: \n1. Navigate to Data Management >> DNS >> Members tab.\n2. Click \"Edit\" to review each member with the DNS service status of \"Running\". \n3. Zone-level configuration: Navigate to Data Management >> DNS >> Zones tab.\n4. Select the \"Zone Transfers\" tab.\n5. Click \"Override\" to set permissions for \"Allow zone transfers to\". \n6. Configure IPv4 and IPv6 networks, addresses, and TSIG keys to restrict zone transfers.",
+  "fix_id": "F-37061r1082710_fix",
+  "VulnDiscussion": "A mechanism to detect and prevent unauthorized communication flow must be configured or provided as part of the system design. If information flow is not enforced based on approved authorizations, the system may become compromised. Information flow control regulates where information is allowed to travel within a system and between interconnected systems. The flow of all application information must be monitored and controlled so it does not introduce any unacceptable risk to the systems or data.\n\nApplication-specific examples of enforcement occurs in systems that employ rule sets or establish configuration settings that restrict information system services or provide a message-filtering capability based on message content (e.g., implementing keyword searches or using document characteristics).\n\nApplications providing information flow control must be able to enforce approved authorizations for controlling the flow of information between interconnected systems in accordance with applicable policy.\n\nWithin the context of DNS, this is applicable in terms of controlling the flow of DNS information between systems, such as DNS zone transfers.",
+  "Documentable": "false"
+}

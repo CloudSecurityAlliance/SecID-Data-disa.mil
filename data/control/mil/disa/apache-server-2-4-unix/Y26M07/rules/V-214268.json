@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214268",
+  "rule_id": "SV-214268r961632_rule",
+  "stig_id": "AS24-U1-000870",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Cookies exchanged between the Apache web server and the client, such as session cookies, must have cookie properties set to prohibit client-side scripts from reading the cookie data.",
+  "group_title": "SRG-APP-000439-WSR-000154",
+  "idents": {
+    "legacy": [
+      "V-92741",
+      "SV-102829"
+    ],
+    "cci": [
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-15482r881459_chk",
+  "check_content": "Verify the session cookie module is loaded\n\n# httpd -M | grep -i session_cookie_module\nOutput should look similar to: session_cookie_module (shared)\n\nDetermine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nNote: The apachectl front end is the preferred method for locating the Apache httpd file. For some Linux distributions, \"apache2ctl -V\" or  \"httpd -V\" can also be used. \n\nSearch for the directive \"Session\" in the \"httpd.conf\" file:\n\n# cat httpd.conf  | grep -i \"Session\"\nOutput should be similar to: \nSession on\nSessionCookieName httpOnly Secure\nSessionCryptoCipher aes256\nSessionMaxAge 600\n\nNote: SSL directives can also be located in /etc/httpd/conf.d/ssl.conf.\n\nIf the \"Session\" and \"SessionCookieName\" directives are not present, this is a finding.\n\nIf \"Session\" is not set to \"on\" and \"SessionCookieName\" does not contain \"httpOnly\" and \"secure\", this is a finding.",
+  "fixtext": "Determine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n \nNOTE: SSL directives may also be located in /etc/httpd/conf.d/ssl.conf.\n\nSet \"Session\" to \"on\".\n\nEnsure the \"SessionCookieName\" directive includes \"httpOnly\" and \"secure\".",
+  "fix_id": "F-15480r881460_fix",
+  "VulnDiscussion": "A cookie can be read by client-side scripts easily if cookie properties are not set properly. By allowing cookies to be read by the client-side scripts, information such as session identifiers could be compromised and used by an attacker who intercepts the cookie. Setting cookie properties (i.e., HttpOnly property) to disallow client-side scripts from reading cookies better protects the information inside the cookie.\n\nSatisfies: SRG-APP-000439-WSR-000154, SRG-APP-000439-WSR-000155",
+  "Documentable": "false"
+}

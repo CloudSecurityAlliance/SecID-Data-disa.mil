@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-265953",
+  "rule_id": "SV-265953r1028645_rule",
+  "stig_id": "MD7X-00-012400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MongoDB must off-load audit data to a separate log management facility; this must be continuous and in near real time for systems with a network connection to the storage facility and weekly or more often for standalone systems.",
+  "group_title": "SRG-APP-000515-DB-000318",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-69871r1028643_chk",
+  "check_content": "MongoDB relies on the underlying operating system to allocate storage capacity for audit logs and as such, does not enforce arbitrary file size limits on audit logs. \n\nSystem administrators should confirm that the recommended centralized system logging has been enabled (e.g., syslog on Linux systems) in the /etc/mongod.conf configuration file. \n\nFor example, on a Linux-based system using syslog which is mirrored to an off-server centralized location, confirm that the MongdoDB configuration file (default location: /etc/mongod.conf) contains a properly configured auditLog such as follows:\n\nauditLog:\n   destination: syslog\n\nIf the auditLog entry is missing, or the destination does not reflect the intended application location, this is a finding. \n\nInvestigate whether there have been any incidents where MongoDB ran out of audit log space since the last time the space was allocated or other corrective measures were taken.",
+  "fixtext": "To specify auditLog, or a centralized system log (which is recommended), configure these in the mongod.conf configuration file:\n\nauditLog:\n   destination: syslog\n\nRefer to documentation for additional configuration: https://www.mongodb.com/docs/v7.0/core/auditing/\n\nAllocate sufficient space to the storage volume hosting the file identified in the MongoDB configuration \"auditLog.path\" to support audit file peak demand.",
+  "fix_id": "F-69775r1028644_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity. \n\nThe DBMS may write audit records to database tables, to files in the file system, to other kinds of local repository, or directly to a centralized log management system. Whatever the method used, it must be compatible with off-loading the records to the centralized system.",
+  "Documentable": "false"
+}

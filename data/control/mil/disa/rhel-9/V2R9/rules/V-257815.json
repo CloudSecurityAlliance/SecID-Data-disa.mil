@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257815",
+  "rule_id": "SV-257815r1134903_rule",
+  "stig_id": "RHEL-09-213100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must disable acquiring, saving, and processing core dumps.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61556r1134902_chk",
+  "check_content": "Note: If kernel dumps are disabled in accordance with RHEL-09-213040, this requirement is not applicable.\n\nVerify RHEL 9 is not configured to acquire, save, or process core dumps with the following command:\n\n$ sudo systemctl status systemd-coredump.socket\n\nsystemd-coredump.socket\nLoaded: masked (Reason: Unit systemd-coredump.socket is masked.)\nActive: inactive (dead)\n\nIf the \"systemd-coredump.socket\" is loaded and not masked, and the need for core dumps is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure the system to disable the systemd-coredump.socket with the following command:\n\n$ sudo systemctl mask --now systemd-coredump.socket\n\nCreated symlink /etc/systemd/system/systemd-coredump.socket -> /dev/null\n\nReload the daemon for this change to take effect.\n\n$ sudo systemctl daemon-reload",
+  "fix_id": "F-61480r925431_fix",
+  "VulnDiscussion": "A core dump includes a memory image taken at the time the operating system terminates an application. The memory image could contain sensitive data and is generally useful only for developers trying to debug problems.",
+  "Documentable": "false"
+}

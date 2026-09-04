@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215386",
+  "rule_id": "SV-215386r958478_rule",
+  "stig_id": "AIX7-00-003081",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The tftp daemon must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "SV-101501",
+      "V-91403"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16584r294609_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^tftp[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"tftp\" entry by running command: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'tftp' -p 'udp'\n\nRestart inetd:\n# refresh -s inetd",
+  "fix_id": "F-16582r294610_fix",
+  "VulnDiscussion": "The tftp service allows remote systems to download or upload files to the tftp server without any authentication. It is therefore a service that should not run, unless needed. One of the main reasons for requiring this service to be activated is if the host is a NIM master. However, the service can be enabled and then disabled once a NIM operation has completed, rather than left running permanently.",
+  "Documentable": "false"
+}

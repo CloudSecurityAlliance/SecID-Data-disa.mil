@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258742",
+  "rule_id": "SV-258742r933287_rule",
+  "stig_id": "ESXI-80-000111",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must enforce an unlock timeout of 15 minutes after a user account is locked out.",
+  "group_title": "SRG-OS-000329-VMM-001180",
+  "idents": {
+    "cci": [
+      "CCI-002238"
+    ]
+  },
+  "check_id": "C-62482r933285_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"Security.AccountUnlockTime\" value and verify it is set to less than \"900\" and not \"0\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Security.AccountUnlockTime\n\nIf the \"Security.AccountUnlockTime\" setting is less than 900 or 0, this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"Security.AccountUnlockTime\" value and configure it to \"900\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Security.AccountUnlockTime | Set-AdvancedSetting -Value 900",
+  "fix_id": "F-62391r933286_fix",
+  "VulnDiscussion": "By enforcing a reasonable unlock timeout after multiple failed logon attempts, the risk of unauthorized access via user password guessing, otherwise known as brute forcing, is reduced. Users must wait for the timeout period to elapse before subsequent logon attempts are allowed.",
+  "Documentable": "false"
+}

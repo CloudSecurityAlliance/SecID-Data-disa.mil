@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-266160",
+  "rule_id": "SV-266160r1024389_rule",
+  "stig_id": "F5BI-AP-300068",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The F5 BIG-IP appliance providing content filtering must detect use of network services that have not been authorized or approved by the information system security manager (ISSM) and information system security officer (ISSO), at a minimum.",
+  "group_title": "SRG-NET-000384-ALG-000136",
+  "idents": {
+    "cci": [
+      "CCI-002683"
+    ]
+  },
+  "check_id": "C-70084r1023726_chk",
+  "check_content": "If the BIG-IP appliance does not perform content filtering as part of the traffic management functions, this is not applicable. \n\nIf using the BIG-IP AFM module to perform content filtering:\n\nAFM ACL:\nFrom the BIG-IP GUI:\n1. Security.\n2. Network Firewall.\n3. Policies.\n4. <Policy Name>.\n5. Verify a rule is configured that uses a \"Classification Policy\".\n\nLog Profile:\nFrom the BIG-IP GUI:\n1. Security.\n2. Event Logs.\n3. Logging Profiles.\n4. Edit the global-network profile.\n5. Classification tab.\n6. Verify the Log Publisher is set to the desired setting. (For production environments, F5 recommends using remote logging.)\n\nIf configured rules in the policy do not detect use of network services that have not been authorized or approved by the ISSM and ISSO, at a minimum, this is a finding.",
+  "fixtext": "AFM ACL:\nFrom the BIG-IP GUI:\n1. Security.\n2. Network Firewall.\n3. Policies.\n4. <Policy Name>.\n5. Configure a rule that uses a \"Classification Policy\".\nNote: To create a Classification Policy, go to Traffic Intelligence >> Policies.\n6. Click \"Commit Changes to System\".\n\nLog Profile:\nFrom the BIG-IP GUI:\n1. Security.\n2. Event Logs.\n3. Logging Profiles.\n4. Edit the global-network profile.\n5. Check \"Enabled\" for \"Classification\".\n6. Classification tab.\n7. Configure the Log Publisher. (For production environments, F5 recommends using remote logging.)\n8. Click \"Update\".",
+  "fix_id": "F-69987r1023727_fix",
+  "VulnDiscussion": "Unauthorized or unapproved network services lack organizational verification or validation, and therefore may be unreliable or serve as malicious rogues for valid services.\n\nExamples of network services include service-oriented architectures (SOAs), cloud-based services (e.g., infrastructure as a service, platform as a service, or software as a service), cross-domain, Voice Over Internet Protocol, Instant Messaging, auto-execute, and file sharing.\n\nTo comply with this requirement, the ALG may be configured to detect services either directly or indirectly (i.e., by detecting traffic associated with a service). This requirement applies to gateways/firewalls that perform content inspection or have higher-layer proxy functionality.",
+  "Documentable": "false"
+}

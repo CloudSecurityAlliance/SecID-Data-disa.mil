@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-271740",
+  "rule_id": "SV-271740r1091932_rule",
+  "stig_id": "OL09-00-002401",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must enable kernel parameters to enforce discretionary access control on hardlinks.",
+  "group_title": "SRG-OS-000312-GPOS-00123",
+  "idents": {
+    "cci": [
+      "CCI-002165",
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-75790r1091930_chk",
+  "check_content": "Verify that OL 9 is configured to enable DAC on hardlinks.\n\nCheck the status of the fs.protected_hardlinks kernel parameter with the following command:\n\n$ sudo sysctl fs.protected_hardlinks\nfs.protected_hardlinks = 1\n\nIf \"fs.protected_hardlinks\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Configure OL 9 to enable DAC on hardlinks with the following:\n\nAdd or edit the following line in a system configuration file in the \"/etc/sysctl.d/\" directory:\n\nfs.protected_hardlinks = 1\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-75697r1091931_fix",
+  "VulnDiscussion": "By enabling the fs.protected_hardlinks kernel parameter, users can no longer create soft or hard links to files they do not own. Disallowing such hardlinks mitigates vulnerabilities based on insecure file system accessed by privileged programs, avoiding an exploitation vector exploiting unsafe use of open() or creat().\n\nSatisfies: SRG-OS-000312-GPOS-00123, SRG-OS-000324-GPOS-00125",
+  "Documentable": "false"
+}

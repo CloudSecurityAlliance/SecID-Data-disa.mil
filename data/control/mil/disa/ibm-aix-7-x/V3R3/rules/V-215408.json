@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215408",
+  "rule_id": "SV-215408r991589_rule",
+  "stig_id": "AIX7-00-003110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The /etc/shells file must exist on AIX systems.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101737",
+      "V-91639"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16606r294675_chk",
+  "check_content": "AIX ships the following shells that should be considered as \"approved\" shells:\n\n/bin/sh\n/bin/bsh\n/bin/csh\n/bin/ksh\n/bin/tsh\n/bin/ksh93\n/usr/bin/sh\n/usr/bin/bsh\n/usr/bin/csh\n/usr/bin/ksh\n/usr/bin/tsh\n/usr/bin/ksh93\n/usr/bin/rksh\n/usr/bin/rksh93\n/usr/sbin/uucp/uucico\n/usr/sbin/sliplogin\n/usr/sbin/snappd\n\nISSO/SA may install other shells. Ask ISSO/SA for other approved shells other than the shells shipped by AIX.\n\nCheck if file \"/etc/shells\" exists by running:\n\n# ls -la /etc/shells \nrw-r--r--    1 bin      bin             111 Jun 01 2015  /etc/shells\n\nIf \"/etc/shells\" file does not exist, this is a finding.\n\nVerify that \"/etc/shells\" only contains approved shells:\n\n# cat /etc/shells\n/bin/csh\n/bin/ksh\n/bin/psh\n/bin/tsh\n/bin/bsh\n/usr/bin/csh\n/usr/bin/ksh\n/usr/bin/tsh\n/usr/bin/bsh\n\nIf \"/etc/shells\" file contains a non-approved shell, this is a finding.\n\nCheck \"/etc/security/login.cfg\" for the shells attribute value of \"usw:\" stanza:\n\n# lssec -f /etc/security/login.cfg -s usw -a shells\nusw shells=/bin/sh,/bin/bsh,/bin/csh,/bin/ksh,/bin/tsh,/bin/ksh93,/usr/bin/sh,/usr/bin/bsh,/usr/bin/csh,/usr/bin/ksh,/usr/bin/tsh,/usr/bin/ksh93,/usr/bin/rksh,/usr/bin/rksh93,/usr/sbin/uucp/uucico,/usr/sbin/sliplogin,/usr/sbin/snappd\n\nIf the shells attribute value does not exist or is empty, this is a finding.\nIf the returned shells attribute value contains a shell that is not defined in \"/etc/shells\" file, this is a finding.\nIf the returned shells attribute value contains a non-approved shell, this is a finding.",
+  "fixtext": "Run the following command to set shells attribute for stanza usw in \"/etc/security/login.cfg\": \n# chsec -f /etc/security/login.cfg -s usw -a shells=<list of approved shells separated by comma> \n\nCreate the \"/etc/shells\" file and add all approved shells there, one shell per line: \n# vi /etc/shells\n\nChange the ownership and mode-bit of \"/etc/shells\":\n# chown bin.bin /etc/shells\n# chmod 644 /etc/shells",
+  "fix_id": "F-16604r294676_fix",
+  "VulnDiscussion": "The shells file (or equivalent) lists approved default shells. It helps provide layered defense to the security approach by ensuring users cannot change their default shell to an unauthorized unsecure shell.",
+  "Documentable": "false"
+}

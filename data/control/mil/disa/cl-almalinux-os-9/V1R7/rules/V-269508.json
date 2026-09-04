@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269508",
+  "rule_id": "SV-269508r1050391_rule",
+  "stig_id": "ALMA-09-052050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must allocate audit record storage capacity to store at least one week's worth of audit records.",
+  "group_title": "SRG-OS-000341-GPOS-00132",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-73539r1049886_chk",
+  "check_content": "Verify AlmaLinux OS 9 allocates audit record storage capacity to store at least one week of audit records when audit records are not immediately sent to a central audit record storage facility.\n\nNote: The partition size needed to capture a week of audit records is based on the activity level of the system and the total storage capacity available. Typically 10GB of storage space for audit records should be sufficient.\n\nDetermine which partition the audit records are being written to with the following command:\n\n$ grep -w log_file /etc/audit/auditd.conf\n\nlog_file = /var/log/audit/audit.log \n\nCheck the size of the partition that audit records are written to with the following command and verify whether it is sufficiently large:\n\n$ df -h /var/log/audit/\n\nFilesystem                                             Size  Used Avail Use% Mounted on\n/dev/mapper/luks-29b74747-2f82-4472-82f5-0b8eb763effc 1002M   77M  926M   8% /var/log/audit\n\nIf the audit record partition is not allocated for sufficient storage capacity, this is a finding.",
+  "fixtext": "Allocate enough storage capacity for at least one week of audit records when audit records are not immediately sent to a central audit record storage facility.\n\nIf audit records are stored on a partition made specifically for audit records, resize the partition with sufficient space to contain one week of audit records.\n\nIf audit records are not stored on a partition made specifically for audit records, a new partition with sufficient space will need be to be created.",
+  "fix_id": "F-73440r1048901_fix",
+  "VulnDiscussion": "To ensure AlmaLinux OS 9 systems have a sufficient storage capacity in which to write the audit logs, AlmaLinux OS 9 needs to be able to allocate audit record storage capacity.\n\nThe task of allocating audit record storage capacity is usually performed during initial installation of AlmaLinux OS 9.",
+  "Documentable": "false"
+}

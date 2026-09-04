@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271789",
+  "rule_id": "SV-271789r1134863_rule",
+  "stig_id": "OL09-00-002523",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 library files must be group owned by root or a system account.",
+  "group_title": "SRG-OS-000259-GPOS-00100",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-75839r1134861_chk",
+  "check_content": "Verify that OL 9 systemwide shared library files contained in the directories \"/lib\", \"/lib64\", \"/usr/lib\", and \"/usr/lib64\" are group owned by root with the following command:\n\n$ sudo find /lib /lib64 /usr/lib /usr/lib64 -type f -name '*.so*' ! -group root -exec stat -c \"%n %G\" {} +\n\nIf any output is returned, this is a finding.",
+  "fixtext": "Configure the OL 9 systemwide shared library files contained in the directories \"/lib\", \"/lib64\", \"/usr/lib\", and \"/usr/lib64\" to be group owned by root with the following command:\n\n$ sudo find /lib /lib64 /usr/lib /usr/lib64 -type f -name '*.so*' ! -group root -exec chown :root {} +",
+  "fix_id": "F-75746r1134862_fix",
+  "VulnDiscussion": "If OL 9 allowed any user to make changes to software libraries, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n\nThis requirement applies to OL 9 with software libraries that are accessible and configurable, as in the case of interpreted languages. Software libraries also include privileged programs that execute with escalated privileges.",
+  "Documentable": "false"
+}

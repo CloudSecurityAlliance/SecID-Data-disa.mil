@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282770",
+  "rule_id": "SV-282770r1201607_rule",
+  "stig_id": "TOSS-05-000080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must include only approved trust anchors in trust stores or certificate stores managed by the organization.",
+  "group_title": "SRG-OS-000775-GPOS-00230",
+  "idents": {
+    "cci": [
+      "CCI-004909"
+    ]
+  },
+  "check_id": "C-87331r1201606_chk",
+  "check_content": "Verify TOSS 5 only uses trusted certificates using the following command:\n\n $ sudo trust list --filter=blocklist\n\n    type: certificate\n    label: Explicitly Distrust DigiNotar Root CA\n    trust: distrusted\n    category: authority\n\nIf the \"label\" field is not configured with \"Explicitly Distrust DigiNotar Root CA\", if any other labels are present, the line is commented out, or the line is missing, this is a finding.",
+  "fixtext": "Configure TOSS 5 to include only approved trust anchors in trust stores or certificate stores by adding certificates using the following command:\n\n$ sudo cp /path/to/new-ca-cert.pem /etc/pki/ca-trust/source/anchors/\n\n$ sudo /bin/update-ca-trust",
+  "fix_id": "F-87236r1201289_fix",
+  "VulnDiscussion": "Public key infrastructure (PKI) certificates are certificates with visibility external to organizational systems and certificates related to the internal operations of systems, such as application-specific time services. In cryptographic systems with a hierarchical structure, a trust anchor is an authoritative source (i.e., a certificate authority) for which trust is assumed and not derived. A root certificate for a PKI system is an example of a trust anchor. A trust store or certificate store maintains a list of trusted root certificates.",
+  "Documentable": "false"
+}

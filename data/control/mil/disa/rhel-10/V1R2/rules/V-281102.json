@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-281102",
+  "rule_id": "SV-281102r1195414_rule",
+  "stig_id": "RHEL-10-500030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must allocate an \"audit_backlog_limit\" of sufficient size to capture processes that start prior to the audit daemon.",
+  "group_title": "SRG-OS-000037-GPOS-00015",
+  "idents": {
+    "cci": [
+      "CCI-000130",
+      "CCI-000135",
+      "CCI-000169",
+      "CCI-001464",
+      "CCI-001849",
+      "CCI-002884",
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-85663r1195412_chk",
+  "check_content": "Verify RHEL 10 allocates a sufficient \"audit_backlog_limit\" to capture processes that start prior to the audit daemon with the following command:\n\n$ grep -oP 'audit_backlog_limit=\\K[0-9]+' /proc/cmdline\n8192\n\nIf the command returns any outputs, and \"audit_backlog_limit\" is less than \"8192\", this is a finding.",
+  "fixtext": "Configure RHEL 10 to allocate sufficient \"audit_backlog_limit\" to capture processes that start prior to the audit daemon with the following command:\n\n$ sudo grubby --update-kernel=ALL --args=audit_backlog_limit=8192\n\nThe setting will be applied on reboot.",
+  "fix_id": "F-85568r1195413_fix",
+  "VulnDiscussion": "Without the capability to generate audit records, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nIf auditing is enabled late in the startup process, the actions of some startup processes may not be audited. Some audit systems also maintain state information only available if auditing is enabled before a given process is created.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).\n\nAllocating an \"audit_backlog_limit\" of sufficient size is critical in maintaining a stable boot process. With an insufficient limit allocated, the system is susceptible to boot failures and crashes.\n\nSatisfies: SRG-OS-000037-GPOS-00015, SRG-OS-000042-GPOS-00020, SRG-OS-000062-GPOS-00031, SRG-OS-000254-GPOS-00095, SRG-OS-000341-GPOS-00132, SRG-OS-000392-GPOS-00172, SRG-OS-000462-GPOS-00206, SRG-OS-000471-GPOS-00215",
+  "Documentable": "false"
+}

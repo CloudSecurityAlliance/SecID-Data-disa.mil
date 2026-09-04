@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258743",
+  "rule_id": "SV-258743r933290_rule",
+  "stig_id": "ESXI-80-000113",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must allocate audit record storage capacity to store at least one week's worth of audit records.",
+  "group_title": "SRG-OS-000341-VMM-001220",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-62483r933288_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"Syslog.global.auditRecord.storageCapacity\" value and verify it is set to \"100\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Syslog.global.auditRecord.storageCapacity\n\nIf the \"Syslog.global.auditRecord.storageCapacity\" setting is not set to 100, this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"Syslog.global.auditRecord.storageCapacity\" value and configure it to \"100\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Syslog.global.auditRecord.storageCapacity | Set-AdvancedSetting -Value 100",
+  "fix_id": "F-62392r933289_fix",
+  "VulnDiscussion": "In order to ensure ESXi has sufficient storage capacity in which to write the audit logs, audit record storage capacity should be configured. \n\nIf a central audit record storage facility is available, the local storage capacity should be sufficient to hold audit records that would accumulate during anticipated interruptions in delivery of records to the facility.",
+  "Documentable": "false"
+}

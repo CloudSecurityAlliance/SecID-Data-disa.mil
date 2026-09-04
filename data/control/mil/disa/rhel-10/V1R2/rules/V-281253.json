@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281253",
+  "rule_id": "SV-281253r1184654_rule",
+  "stig_id": "RHEL-10-700500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must be configured so that Secure Shell (SSH) public host key files have mode \"0644\" or less permissive.",
+  "group_title": "SRG-OS-000445-GPOS-00199",
+  "idents": {
+    "cci": [
+      "CCI-002696"
+    ]
+  },
+  "check_id": "C-85814r1166709_chk",
+  "check_content": "Verify RHEL 10 SSH public host key files have a mode of \"0644\" or less permissive with the following command:\n\nNote: SSH public key files may be found in other directories on the system depending on the installation.\n\n$ sudo stat -c \"%a %n\" /etc/ssh/*.pub\n644 /etc/ssh/ssh_host_dsa_key.pub\n644 /etc/ssh/ssh_host_ecdsa_key.pub\n644 /etc/ssh/ssh_host_ed25519_key.pub\n644 /etc/ssh/ssh_host_rsa_key.pub\n\nIf any \"key.pub\" file has a mode more permissive than \"0644\", this is a finding.",
+  "fixtext": "Configure RHEL 10 SSH public host key files to have mode \"0644\" or less permissive.\n\nChange the mode of public host key files under \"/etc/ssh\" to \"0644\" with the following command:\n\n$ sudo chmod 0644 /etc/ssh/*key.pub\n\nRestart the SSH daemon with the following command for the changes to take effect:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-85719r1166710_fix",
+  "VulnDiscussion": "If a public host key file is modified by an unauthorized user, the SSH service may be compromised.",
+  "Documentable": "false"
+}

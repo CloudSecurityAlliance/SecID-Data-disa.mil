@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-282381",
+  "rule_id": "SV-282381r1200123_rule",
+  "stig_id": "TOSS-05-000312",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must automatically exit interactive command shell user sessions after 15 minutes of inactivity.",
+  "group_title": "SRG-OS-000030-GPOS-00011",
+  "idents": {
+    "cci": [
+      "CCI-000057",
+      "CCI-001133",
+      "CCI-002361"
+    ]
+  },
+  "check_id": "C-86942r1200121_chk",
+  "check_content": "Verify TOSS 5 is configured to exit interactive command shell user sessions after 15 minutes of inactivity or less using the following command:\n\n$ sudo grep -i tmout /etc/profile /etc/profile.d/*.sh\n\n/etc/profile.d/tmout.sh:declare -xr TMOUT=900\n\nIf \"TMOUT\" is not set to \"900\" or less in a script located in the \"/etc/'profile.d/\" directory, is missing or is commented out, this is a finding.",
+  "fixtext": "Configure TOSS 5 to exit interactive command shell user sessions after 15 minutes of inactivity.\n\nAdd or edit the following line in \"/etc/profile.d/tmout.sh\":\n\n#!/bin/bash\n\ndeclare -xr TMOUT=900",
+  "fix_id": "F-86847r1200122_fix",
+  "VulnDiscussion": "Terminating an idle interactive command shell user session within a short time period reduces the window of opportunity for unauthorized personnel to take control of it when left unattended in a virtual terminal or physical console.\n\nSatisfies: SRG-OS-000030-GPOS-00011, SRG-OS-000163-GPOS-00072, SRG-OS-000279-GPOS-00109",
+  "Documentable": "false"
+}

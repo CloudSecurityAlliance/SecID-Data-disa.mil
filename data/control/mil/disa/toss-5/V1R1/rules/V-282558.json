@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282558",
+  "rule_id": "SV-282558r1200654_rule",
+  "stig_id": "TOSS-05-000091",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The x86 Ctrl-Alt-Delete key sequence must be disabled on TOSS 5.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-87119r1200652_chk",
+  "check_content": "Verify TOSS 5 is not configured to reboot the system when Ctrl-Alt-Delete is pressed using the following command:\n\n$ sudo systemctl status ctrl-alt-del.target\n\nctrl-alt-del.target\nLoaded: masked (Reason: Unit ctrl-alt-del.target is masked.)\nActive: inactive (dead)\n\nIf \"ctrl-alt-del.target\" is loaded and not masked, this is a finding.",
+  "fixtext": "Configure TOSS 5 to disable \"ctrl-alt-del.target\" using the following command:\n\n$ sudo systemctl disable --now ctrl-alt-del.target\n$ sudo systemctl mask --now ctrl-alt-del.target",
+  "fix_id": "F-87024r1200653_fix",
+  "VulnDiscussion": "A locally logged-in user who presses Ctrl-Alt-Delete when at the console can reboot the system. If accidentally pressed, as could happen in the case of a mixed operating system environment, this can create the risk of short-term loss of systems availability due to unintentional reboot. \n\nIn a graphical user environment, risk of unintentional reboot from the Ctrl-Alt-Delete sequence is reduced because the user will be prompted before any action is taken.",
+  "Documentable": "false"
+}

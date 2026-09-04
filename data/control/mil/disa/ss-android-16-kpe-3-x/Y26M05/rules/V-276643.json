@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276643",
+  "rule_id": "SV-276643r1139451_rule",
+  "stig_id": "KNOX-16-008600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Samsung Android's Work profile must allow only the Administrator (management tool) to perform the following management function: Install/remove DOD root and intermediate PKI certificates.",
+  "group_title": "PP-MDF-333350",
+  "idents": {
+    "cci": [
+      "CCI-000370"
+    ]
+  },
+  "check_id": "C-80798r1139449_chk",
+  "check_content": "COPE:\nReview the configuration to determine if the Samsung Android devices' Work profile is preventing users from removing DOD root and intermediate PKI certificates.\n\nThis validation procedure is performed on both the management tool and the Samsung Android device.\n\nOn the management tool, in the Work profile restrictions, verify \"Configure credentials\" is set to \"Disallow\".\n\nOn the Samsung Android device: \n1. Open Settings >> Security and privacy >> More security settings >> View security certificates.\n2. In the System tab, verify no listed certificate in the Work profile can be untrusted.\n3. In the User tab, verify no listed certificate in the Work profile can be removed.\n\nIf on the management tool the device \"Configure credentials\" is not set to \"Disallow\", or on the Samsung Android device a certificate can be untrusted or removed, this is a finding.\n\nCOBO:\nReview the configuration to determine if the Samsung Android devices are preventing users from removing DOD root and intermediate PKI certificates.\n\nThis validation procedure is performed on both the management tool and the Samsung Android device.\n\nOn the management tool, in the device restrictions, verify \"Configure credentials\" is set to \"Disallow\".\n\nOn the Samsung Android device: \n1. Open Settings >> Security and privacy >> More security settings >> View security certificates.\n2. In the System tab, verify no listed certificate in the device can be untrusted.\n3. In the User tab, verify no listed certificate in the device can be removed.\n\nIf on the management tool in the device restrictions \"Configure credentials\" is not set to \"Disallow\", or on the Samsung Android device a certificate can be untrusted or removed, this is a finding.",
+  "fixtext": "COPE:\nConfigure the Samsung Android devices' Work profile to prevent users from removing DOD root and intermediate PKI certificates.\n\nOn the management tool, in the Work profile restrictions, set \"Configure credentials\" to \"Disallow\".\n\nCOBO:\nConfigure the Samsung Android devices to prevent users from removing DOD root and intermediate PKI certificates.\n\nOn the management tool, in the device restrictions, set \"Configure credentials\" to \"Disallow\".\n\nAPI: addUserRestriction, DISALLOW_CONFIG_CREDENTIALS",
+  "fix_id": "F-80703r1139450_fix",
+  "VulnDiscussion": "DOD root and intermediate PKI certificates are used to verify the authenticity of PKI certificates of users and web services. If the user is allowed to remove root and intermediate certificates, the user could allow an adversary to falsely sign a certificate in such a way that it could not be detected. Restricting the ability to remove DOD root and intermediate PKI certificates to the Administrator mitigates this risk.\n\nSFR ID: FMT_MOF_EXT.1.2 #47",
+  "Documentable": "false"
+}

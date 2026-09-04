@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281170",
+  "rule_id": "SV-281170r1184651_rule",
+  "stig_id": "RHEL-10-600110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must, for user account passwords, have a 60-day maximum password lifetime restriction.",
+  "group_title": "SRG-OS-000076-GPOS-00044",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-85731r1166460_chk",
+  "check_content": "Verify RHEL 10 enforces a 60-day maximum time period for existing user account passwords with the following commands:\n\n$ sudo awk -F: '$5 > 60 {print $1 \"\" \"\" $5}' /etc/shadow\n\n$ sudo awk -F: '$5 <= 0 {print $1 \"\" \"\" $5}' /etc/shadow\n\nIf any results are returned that are not associated with a system account, this is a finding.",
+  "fixtext": "Configure RHEL 10 to enforce a 60-day maximum password lifetime restriction on user account passwords.\n\nSet the 60-day maximum password lifetime restriction with the following command:\n\n$ sudo passwd -x 60 [user]",
+  "fix_id": "F-85636r1166461_fix",
+  "VulnDiscussion": "Any password, no matter how complex, can eventually be cracked. Therefore, passwords must be changed periodically. If the operating system does not limit the lifetime of passwords and force users to change their passwords, there is the risk that the operating system passwords could be compromised.",
+  "Documentable": "false"
+}

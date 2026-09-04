@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233857",
+  "rule_id": "SV-233857r1082603_rule",
+  "stig_id": "IDNS-8X-200001",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Infoblox DNS service member must not reveal sensitive information to an attacker. This includes Host Information (HINFO), Responsible Person (RP), Location (LOC) resource, and sensitive text string resource (TXT) record data.",
+  "group_title": "SRG-APP-000333-DNS-000107",
+  "idents": {
+    "cci": [
+      "CCI-002201"
+    ]
+  },
+  "check_id": "C-37042r1082601_chk",
+  "check_content": "Review external DNS zone data and verify there are no HINFO, LOC, RP, or TXT RRs that disclose any information that can be used for malicious purposes.  \n\n1. Navigate to Data Management >> DNS >> Zones tab.  \n2. Click on the appropriate DNS Zone. \n3. Review external zone data for HINFO, LOC, RP, and TXT RRs.  \n\nIf any HINFO, LOC, RP, or TXT RRs exist that disclose any information that may be used for malicious purposes, this is a finding.",
+  "fixtext": "Fix external DNS zone data and verify there are no HINFO, LOC, RP, or TXT RRs that disclose any information that can be used for malicious purposes.\n\n1. Navigate to Data Management >> DNS >> Zones. \n2. Select and edit the zone identified during the Check.\n3. Select the RR, and click \"Delete\" to remove the record.\n\nChanging the value of MNAME in the SOA record.\n\n1. Navigate to Data Management >> DNS >> Zones.\n2. Select and the external zone identified during the Check.\n3. Select the SOA record and edit.\n4. Change the value of primary name server (MNAME) to an arbitrary value.",
+  "fix_id": "F-37007r1082602_fix",
+  "VulnDiscussion": "There are several types of resource records (RRs) in the DNS that are meant to convey information to humans and applications about the network, hosts, or services. These include the Start of Authority (SOA), RP record, the HINFO record, the LOC record, and the catch-all TXT record [RFC1035]. \n\nAlthough these record types are meant to provide information to users in good faith, they also allow attackers to gain knowledge about network hosts before attempting to exploit them. For example, an attacker may query for HINFO records, looking for hosts that list an operating system or platform known to have exploits. \n\nTherefore, great care should be taken before including these record types in a zone. In fact, they are best left out altogether.\n\nSOA is mandatory for a zone but MNAME value can be changed to an arbitrary value to hide the name of the primary name server. MNAME has no bearing on glue records or the functionality of an authoritative nameserver outside of dynamic update clients, which should not be happening in an external zone.\n\nMore careful consideration should be taken with the TXT resource record type. A DNS administrator will have to decide if the data contained in a TXT RR constitutes an information leak or is a necessary piece of information. For example, several authenticated email technologies use TXT RRs to store email sender policy information, such as valid email senders for a domain. These judgments will have to be made on a case-by-case basis.\n\nA DNS administrator should take care when including HINFO, RP, TXT, LOC, or other RR types that could divulge information that would be useful to an attacker or the external view of a zone if using split DNS. \n\nRRs such as HINFO and TXT provide information about software name and versions (e.g., for resources such as web servers and mail servers) that will enable the well-equipped attacker to exploit the known vulnerabilities in those software versions and launch attacks against those resources.",
+  "Documentable": "false"
+}

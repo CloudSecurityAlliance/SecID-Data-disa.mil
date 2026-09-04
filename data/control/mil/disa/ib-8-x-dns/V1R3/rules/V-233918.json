@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233918",
+  "rule_id": "SV-233918r1082728_rule",
+  "stig_id": "IDNS-8X-700013",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Infoblox DNS service members must protect the authenticity of communications sessions for dynamic updates.",
+  "group_title": "SRG-APP-000219-DNS-000029",
+  "idents": {
+    "cci": [
+      "CCI-001184"
+    ]
+  },
+  "check_id": "C-37103r1082726_chk",
+  "check_content": "Infoblox Systems can be configured in two ways to limit DDNS client updates.  \n\nFor clients that support GSS-TSIG: \n1. Navigate to Data Management >> DNS >> Members tab. \n2. Review each server with the DNS service enabled.  \n3. Select each server, click \"Edit\", toggle Advanced Mode, and select GSS-TSIG.\n4. Verify that \"Enable GSS-TSIG authentication of clients\" is enabled. \n5. When complete, click \"Cancel\" to exit the \"Properties\" screen.  \n\nFor clients that do not support GSS-TSIG:\n1. Navigate to Data Management >> DNS >> Members tab. \n2. Review each server with the DNS service enabled.  \n3. Select each server and click \"Edit\".  \n4. Select the \"Updates\" tab.  \n5. Verify that either a Named ACL or set of Access Control Entries (ACEs) is used to limit client DDNS updates.  \n6. When complete, click \"Cancel\" to exit the \"Properties\" screen.  \n\nIf clients that support GSS-TSIG do not have \"Enable GSS-TSIG authentication of clients\" set or a named ACL or set of ACEs for clients that do not support GSS-TSIG, this is a finding.",
+  "fixtext": "Infoblox Systems can be configured in two ways to limit DDNS client updates. Refer to the Administrator Guide for detailed instructions.\n\nFor clients that support GSS-TSIG: \n1. Navigate to Data Management >> DNS >> Members tab. \n2. Review each server with the DNS service enabled.\n3. Select each server, click \"Edit\", toggle Advanced Mode, and select GSS-TSIG.\n4. Configure the option \"Enable GSS-TSIG authentication of clients\". \n5. Upload the required keys.\n6. When complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen.\n7. Perform a service restart if necessary. \n\nFor clients that do not support GSS-TSIG: \n1. Navigate to Data Management >> DNS >> Members tab. \n2. Review each server with the DNS service enabled.\n3. Select each server and click \"Edit\".\n4. Select the \"Updates\" tab. \n5. Select an existing Named ACL or configure a new set of ACEs to limit client DDNS.\n6. When complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen.\n7. Perform a service restart if necessary.",
+  "fix_id": "F-37068r1082727_fix",
+  "VulnDiscussion": "DNS is a fundamental network service prone to various attacks, such as cache poisoning and man-in-the middle attacks. \n\nCommunication sessions between different DNS clients and servers should employ protections such as DNSSEC or TSIG to validate the integrity of data being transmitted.",
+  "Documentable": "false"
+}

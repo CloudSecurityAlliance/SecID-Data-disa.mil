@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283441",
+  "rule_id": "SV-283441r1192638_rule",
+  "stig_id": "AZLX-23-000050",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must enable FIPS mode.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-88006r1192636_chk",
+  "check_content": "Verify Amazon Linux 2023 is in FIPS mode with the following command:\n\n$ sudo fips-mode-setup --check\nFIPS mode is enabled.\n\nIf FIPS mode is not enabled, this is a finding.\n\nIf any other lines are returned by the above command, run the following command to see the currently applied crypto-policy:\n\n$ update-crypto-policies --show\nFIPS\n\nIf the policy is not \"FIPS\" or a FIPS policy authorized by and documented with the ISSO, this is a finding.",
+  "fixtext": "Configure the Amazon Linux 2023 to implement FIPS mode with the following command:\n\n$ sudo fips-mode-setup --enable\n\nTo ensure the kernel enables FIPS mode for early boot, \"fips=1\" must be added to the grub config:\n$ sudo grubby --update-kernel=ALL --args=\"fips=1\"\n\nVerify the setting with the following command:\n$ cat /proc/cmdline\nBOOT_IMAGE=(hd0,gpt2)/vmlinuz-5.14.0-570.21.1.el9_6.x86_64 root=/dev/mapper/rhel-root ro resume=/dev/mapper/rhel-swap rd.luks.uuid=luks-cd37eb8d-a2c3-4671-96ee-1e6a3a681561 rd.lvm.lv=rhel/root rd.lvm.lv=rhel/swap rhgb quiet fips=1 boot=UUID=acbbb4ee-adc0-4cb2-9546-afab857b8849 audit_backlog_limit=8192 crashkernel=1G-4G:192M,4G-64G:256M,64G-:512M\n\nReboot the system for the changes to take effect.",
+  "fix_id": "F-87911r1192637_fix",
+  "VulnDiscussion": "Use of weak or untested encryption algorithms undermines the purposes of utilizing encryption to protect data. The operating system must implement cryptographic modules adhering to the higher standards approved by the federal government since this provides assurance they have been tested and validated. This includes NIST FIPS-validated cryptography for the following: Provisioning digital signatures, generating cryptographic hashes, and to protect data requiring data-at-rest protections in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.\n\nSatisfies: SRG-OS-000033-GPOS-00014, SRG-OS-000125-GPOS-00065, SRG-OS-000396-GPOS-00176, SRG-OS-000423-GPOS-00187, SRG-OS-000478-GPOS-00223",
+  "Documentable": "false"
+}

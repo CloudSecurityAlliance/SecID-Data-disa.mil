@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278005",
+  "rule_id": "SV-278005r1182259_rule",
+  "stig_id": "WN25-00-000210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2025 passwords must be configured to expire.",
+  "group_title": "SRG-OS-000076-GPOS-00044",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-82535r1182257_chk",
+  "check_content": "Review the password never expires status for enabled user accounts.\n\nOpen PowerShell.\n\nDomain Controllers:\n\nEnter \"Search-ADAccount -PasswordNeverExpires -UsersOnly | FT Name, PasswordNeverExpires, Enabled\".\n\nExclude application accounts, disabled accounts (e.g., DefaultAccount, Guest), and the krbtgt account.\n\nIf any enabled user accounts are returned with a \"PasswordNeverExpires\" status of \"True\", this is a finding.\n\nMember servers and stand-alone or nondomain-joined systems:\n\nEnter 'Get-CimInstance -Class Win32_Useraccount -Filter \"PasswordExpires=False and LocalAccount=True\" | FT Name, PasswordExpires, Disabled, LocalAccount'.\n\nExclude application accounts and disabled accounts (e.g., DefaultAccount, Guest).\n\nIf any enabled user accounts are returned with a \"PasswordExpires\" status of \"False\", this is a finding.",
+  "fixtext": "Configure all enabled user account passwords to expire.\n\nUncheck \"Password never expires\" for all enabled user accounts in Active Directory Users and Computers for domain accounts and Users in Computer Management for member servers and stand-alone or nondomain-joined systems. Document any exceptions with the information system security officer (ISSO).",
+  "fix_id": "F-82440r1182258_fix",
+  "VulnDiscussion": "Passwords that do not expire or are reused increase the exposure of a password with greater probability of being discovered or cracked.",
+  "Documentable": "false"
+}

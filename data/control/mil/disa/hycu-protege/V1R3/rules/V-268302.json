@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268302",
+  "rule_id": "SV-268302r1043181_rule",
+  "stig_id": "HYCU-ND-000960",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must generate unique session identifiers using a FIPS 140-2 approved random number generator.",
+  "group_title": "SRG-APP-000224-NDM-000270",
+  "idents": {
+    "cci": [
+      "CCI-001188"
+    ]
+  },
+  "check_id": "C-72323r1038604_chk",
+  "check_content": "When FIPS mode is enabled, HYCU will use FIPS-compliant behavior. Validation of FIPS status can be done using the following command:\n'cat /proc/sys/crypto/fips_enabled' \n\nIf command output does not show \"1\", this is a finding.\n\n'fips-mode-setup --check'\n\nIf command output does not show \"FIPS mode is enabled\", this is a finding.\n\n'update-crypto-policies --show'\n\nIf command output does not show \"FIPS\", this is a finding.",
+  "fixtext": "Stop the HYCU web server using the following command: \nsudo systemctl stop grizzly.service\n\nEnable FIPS-compliant mode using the following command: \nsudo /opt/grizzly/bin/enable_fips.sh\n\nReboot the HYCU virtual machines using the following command:\nshutdown -r now",
+  "fix_id": "F-72226r1038605_fix",
+  "VulnDiscussion": "Sequentially generated session IDs can be easily guessed by an attacker. Employing the concept of randomness in the generation of unique session identifiers helps to protect against brute-force attacks to determine future session identifiers.\n\nUnique session IDs address man-in-the-middle attacks, including session hijacking or insertion of false information into a session. If the attacker is unable to identify or guess the session information related to pending application traffic, they will have more difficulty in hijacking the session or otherwise manipulating valid sessions.\n\nThis requirement is applicable to devices that use a web interface for device management.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216112",
+  "rule_id": "SV-216112r959010_rule",
+  "stig_id": "SOL-11.1-040310",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Login services for serial ports must be disabled.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48087",
+      "SV-60959"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17350r372718_chk",
+  "check_content": "Determine if terminal login services are disabled.\n\n# svcs -Ho state svc:/system/console-login:terma\n# svcs -Ho state svc:/system/console-login:termb\n\nIf the system/console-login services are not \"disabled\", this is a finding.",
+  "fixtext": "The Service Operator profile is required.\n\nDisable serial terminal services.\n\n# pfexec svcadm disable svc:/system/console-login:terma\n# pfexec svcadm disable svc:/system/console-login:termb",
+  "fix_id": "F-17348r372719_fix",
+  "VulnDiscussion": "Login services should not be enabled on any serial ports that are not strictly required to support the mission of the system. This action can be safely performed even when console access is provided using a serial port.",
+  "Documentable": "false"
+}

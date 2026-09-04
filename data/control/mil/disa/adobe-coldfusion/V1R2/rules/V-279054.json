@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279054",
+  "rule_id": "SV-279054r1171443_rule",
+  "stig_id": "APAS-CF-000300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ColdFusion must restrict unauthorized remote access to the ColdFusion Administrator Console and ensure all ports used are approved and properly secured.",
+  "group_title": "SRG-APP-000142-AS-000014",
+  "idents": {
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-83602r1171442_chk",
+  "check_content": "Verify that remote access to the ColdFusion Administrator Console is appropriately restricted and that all configured ports, including WebSocket configurations, comply with approved organizational policies.\n\n1. Validate Access Scope to the Administrator Console. \n\n2. Identify whether the ColdFusion Administrator Console is accessible via any IP address other than localhost.\n\n3. If remote (nonlocalhost) access is possible, confirm whether the server is designated for remote administration.\n\nIf remote access is enabled on a server intended for local administration only, this is a finding.\n\n4. Confirm Administrator Console Port Compliance. Access the ColdFusion Administrator Console in a web browser.\n\nIf the URL specifies a port number, verify the port is approved per organizational policy.\n\nIf an unapproved port is used, this is a finding.\n\n5. Review Data & Services Connection Ports. From the Admin Console Landing Screen, navigate to Data & Services.\n\n6. For each tab, review port configurations for all connections and services.\n\nIf any service is configured to use a nonapproved port, this is a finding.",
+  "fixtext": "Restrict unauthorized remote access to the ColdFusion Administrator Console and ensure all ports used, including WebSocket configurations, are approved and properly secured.\n\nIf the ColdFusion server is to be administered locally only:\n\n1. Locate the server.xml file for ColdFusion.\n\nLinux:\n<ColdFusion Install Directory>/runtime/conf/server.xml\n\nWindows:\n<ColdFusion Install Directory>\\runtime\\conf\\server.xml\n\n2. Create a backup copy of server.xml before making changes.\n\n3. Edit the file and update all <Connector> tags for HTTP and HTTPS to include:\naddress=\"127.0.0.1\"\n(This restricts access to the local server only.)\n\n4. Restart ColdFusion to apply the changes.\n\n5. Verify that the ColdFusion Administrator Console is accessible only from the local server and not from any external IP addresses.\n\n6. If local access is confirmed, remove the backup file to avoid configuration confusion.\n\n7. For any \"Data & Services\" configurations using unapproved ports:\n\na. Reconfigure all affected services or data connections to use approved ports in accordance with organizational policy.\n\nb. Save changes and restart services.",
+  "fix_id": "F-83507r1170935_fix",
+  "VulnDiscussion": "Some networking protocols may not meet organizational security requirements to protect data and components.\n\nColdFusion may host a number of various features, such as the Administrator Console, data sources, and various services. These features all run on TCPIP ports and protocols. This creates the potential for the vendor or ColdFusion administrator to use port numbers or protocols that have been deemed unusable by the organization. When ports or protocols are used that are not secure or authorized by the organization, the ColdFusion feature must be reconfigured to use an authorized port and protocol.\n\nFor a list of approved ports and protocols, reference the DOD ports and protocols web site at https://powhatan.iiie.disa.mil/ports/cal.html.",
+  "Documentable": "false"
+}

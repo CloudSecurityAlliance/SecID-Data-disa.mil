@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283681",
+  "rule_id": "SV-283681r1204071_rule",
+  "stig_id": "NOKI-L2-000090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Nokia layer 2 switch must have Spanning Tree Protocol (STP) loop guard enabled on all nondesignated STP switch ports.",
+  "group_title": "SRG-NET-000362-L2S-000023",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-88246r1204069_chk",
+  "check_content": "Review the router configuration to verify BPDU Guard is enabled on the virtual private local area network service (VPLS) for all user-facing or untrusted access switch ports. \n\nBPDUs received will be discarded on service access ports when STP on the VPLS is administratively enabled and the administrative state of STP is disabled.\n\nTo verify STP is disabled on the service access ports, use the command below and verify \"Stp Admin State\" is set to \"Down\":\n\n- show service id 10 stp\n\nStp port info\n\nSap/Sdp/PIP Id     Oper-     Port-      Port-       Port-  Oper-  Link-  Active\n                   State     Role       State       Num    Edge   Type   Prot.\n\n1/1/c3/10          Down      N/A        Discard     N/A    N/A    Pt-pt  N/A\n\nIf the switch has not disabled STP for untrusted user-facing ports, this is a finding.",
+  "fixtext": "Configure the Nokia router VPLS service to disable STP for untrusted ports:\n\n- configure service vpls <service id> sap <sap id> stp shutdown",
+  "fix_id": "F-88151r1204070_fix",
+  "VulnDiscussion": "The STP loop guard feature provides additional protection against STP loops. An STP loop is created when an STP blocking port in a redundant topology erroneously transitions to the forwarding state. In its operation, STP relies on continuous reception and transmission of Bridge Protocol Data Units (BPDUs) based on the port role. \n\nThe designated port transmits BPDUs, and the nondesignated port receives BPDUs. When one of the ports in a physically redundant topology no longer receives BPDUs, the STP conceives that the topology is loop free. \n\nEventually, the blocking port from the alternate or backup port becomes a designated port and moves to a forwarding state. This situation creates a loop. The loop guard feature makes additional checks. If BPDUs are not received on a nondesignated port and loop guard is enabled, that port is moved into the STP loop-inconsistent blocking state.\n\nSatisfies: SRG-NET-000362-L2S-000023, SRG-NET-000362-L2S-000022",
+  "Documentable": "false"
+}

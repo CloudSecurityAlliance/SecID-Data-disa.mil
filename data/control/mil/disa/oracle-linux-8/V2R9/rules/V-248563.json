@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248563",
+  "rule_id": "SV-248563r991593_rule",
+  "stig_id": "OL08-00-010292",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The OL 8 SSH server must be configured to use strong entropy.",
+  "group_title": "SRG-OS-000480-GPOS-00232",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-51997r779253_chk",
+  "check_content": "Verify the operating system SSH server uses strong entropy with the following command: \n \n$ sudo grep -i ssh_use_strong_rng /etc/sysconfig/sshd \n \nSSH_USE_STRONG_RNG=32 \n \nIf the \"SSH_USE_STRONG_RNG\" line does not equal \"32\" or is commented out or missing, this is a finding.",
+  "fixtext": "Configure the operating system SSH server to use strong entropy. \n \nAdd or modify the following line in the \"/etc/sysconfig/sshd\" file. \n \nSSH_USE_STRONG_RNG=32 \n \nThe SSH service must be restarted for changes to take effect.",
+  "fix_id": "F-51951r779254_fix",
+  "VulnDiscussion": "The most important characteristic of a random number generator is its randomness, namely its ability to deliver random numbers that are impossible to predict. Entropy in computer security is associated with the unpredictability of a source of randomness. The random source with high entropy tends to achieve a uniform distribution of random values. Random number generators are one of the most important building blocks of cryptosystems. \n \nThe SSH implementation in OL 8 uses the OPENSSL library, which does not use high-entropy sources by default. By using the SSH_USE_STRONG_RNG environment variable, the OPENSSL random generator is reseeded from \"/dev/random\". This setting is not recommended on computers without the hardware random generator because insufficient entropy causes the connection to be blocked until enough entropy is available.",
+  "Documentable": "false"
+}

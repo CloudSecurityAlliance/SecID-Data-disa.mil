@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254396",
+  "rule_id": "SV-254396r1137695_rule",
+  "stig_id": "WN22-DC-000120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2022 data files owned by users must be on a different logical partition from the directory server data files.",
+  "group_title": "SRG-OS-000138-GPOS-00069",
+  "idents": {
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-57881r849002_chk",
+  "check_content": "This applies to domain controllers. It is NA for other systems.\n\nRun \"Regedit\".\n\nNavigate to \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters\".\n\nNote the directory locations in the values for \"DSA Database file\".\n\nOpen \"Command Prompt\".\n\nEnter \"net share\".\n\nNote the logical drive(s) or file system partition for any organization-created data shares.\n\nIgnore system shares (e.g., NETLOGON, SYSVOL, and administrative shares ending in $). User shares that are hidden (ending with $) must not be ignored.\n\nIf user shares are located on the same logical partition as the directory server data files, this is a finding.",
+  "fixtext": "Move shares used to store files owned by users to a different logical partition than the directory server data files.",
+  "fix_id": "F-57832r849003_fix",
+  "VulnDiscussion": "When directory service data files, especially for directories used for identification, authentication, or authorization, reside on the same logical partition as user-owned files, the directory service data may be more vulnerable to unauthorized access or other availability compromises. Directory service and user-owned data files sharing a partition may be configured with less restrictive permissions in order to allow access to the user data. \n\nThe directory service may be vulnerable to a denial of service attack when user-owned files on a common partition are expanded to an extent preventing the directory service from acquiring more space for directory or audit data.",
+  "Documentable": "false"
+}

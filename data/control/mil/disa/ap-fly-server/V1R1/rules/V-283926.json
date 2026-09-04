@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-283926",
+  "rule_id": "SV-283926r1206132_rule",
+  "stig_id": "FLYS-00-000020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Fly Server must enforce the limit of three consecutive invalid logon attempts by a user during a 15 minute time period.",
+  "group_title": "SRG-APP-000065",
+  "idents": {
+    "cci": [
+      "CCI-000044",
+      "CCI-002238",
+      "CCI-002361",
+      "CCI-004045"
+    ]
+  },
+  "check_id": "C-88491r1206130_chk",
+  "check_content": "Check the logon configuration in Fly Server Manager:\n- Access the VM or server where the Fly Server manager is installed. \n- Find the installation location of Fly Server manager.\n- Open the \"TimerService.exe.config\" file in ...\\APElements\\FLY\\Manager\\Control\\bin.\n- Check the key \"FailedLogOnLimitationCount\".\n\nIf the value is not \"3\", this is a finding.",
+  "fixtext": "Configure the logon configuration in Fly Server Manager:\n- Access the VM or server where the Fly Server manager is installed. \n- Find the installation location of Fly Server manager.\n- Open the \"TimerService.exe.config\" file in ...\\APElements\\FLY\\Manager\\Control\\bin.\n- Find following node and set the value to \"3\":\n\n<add key=\"FailedLogOnLimitationCount\" value=\"3\" />",
+  "fix_id": "F-88396r1206131_fix",
+  "VulnDiscussion": "By limiting the number of failed login attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute forcing, is reduced. Limits are imposed by locking the account.\n\nSatisfies: SRG-APP-000065, SRG-APP-000345, SRG-APP-000295, SRG-APP-000317",
+  "Documentable": "false"
+}

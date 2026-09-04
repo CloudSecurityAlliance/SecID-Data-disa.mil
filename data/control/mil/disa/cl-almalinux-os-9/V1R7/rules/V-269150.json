@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269150",
+  "rule_id": "SV-269150r1050032_rule",
+  "stig_id": "ALMA-09-007830",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must configure the use of the pam_faillock.so module in the /etc/pam.d/system-auth file.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-73181r1047826_chk",
+  "check_content": "Verify the pam_faillock.so module is present in the \"/etc/pam.d/system-auth\" file:\n\n$ grep pam_faillock.so /etc/pam.d/system-auth\n\nauth     required  pam_faillock.so preauth\nauth     required  pam_faillock.so authfail\naccount  required  pam_faillock.so\n\nIf the pam_faillock.so module is not present in the \"/etc/pam.d/system-auth\" file with the \"preauth\" line listed before pam_unix.so, this is a finding.\n\nIf the system administrator (SA) can demonstrate that the required configuration is contained in a PAM configuration file included or substacked from the system-auth file, this is not a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to include the use of the pam_faillock.so module in the /etc/pam.d/system-auth file.\n\nAdd/modify the appropriate sections of the \"/etc/pam.d/system-auth\" file to match the following lines, ensuring that the \"preauth\" line is listed before pam_unix.so.\n\nauth     required  pam_faillock.so preauth\nauth     required  pam_faillock.so authfail\naccount  required  pam_faillock.so\n\nNote: Do not simply copy these three lines into the file; their location/order is important.",
+  "fix_id": "F-73082r1049209_fix",
+  "VulnDiscussion": "By limiting the number of failed logon attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-force attacks, is reduced. Limits are imposed by locking the account.\n\nIf the pam_faillock.so module is not loaded, the system will not correctly lockout accounts to prevent password guessing attacks.",
+  "Documentable": "false"
+}

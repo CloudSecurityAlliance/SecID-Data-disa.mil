@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214258",
+  "rule_id": "SV-214258r1043182_rule",
+  "stig_id": "AS24-U1-000650",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Apache web server must set an inactive timeout for sessions.",
+  "group_title": "SRG-APP-000295-WSR-000134",
+  "idents": {
+    "legacy": [
+      "SV-102793",
+      "V-92705"
+    ],
+    "cci": [
+      "CCI-002361"
+    ]
+  },
+  "check_id": "C-15472r881448_chk",
+  "check_content": "Determine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nNote: The apachectl front end is the preferred method for locating the Apache httpd file. For some Linux distributions, \"apache2ctl -V\" or  \"httpd -V\" can also be used. \n\nVerify the \"reqtimeout_module\" is loaded:\n\nChange to the root directory of Apache and run the following command to verify the \"reqtimeout_module\" is loaded:\n\n# httpd -M | grep reqtimeout_module\nOutout: reqtimeout_module (shared)\n\nIf the \"reqtimeout_module\" is not loaded, this is a finding.\n\nVerify the \"RequestReadTimeout\" directive is configured. \nExample: RequestReadTimeout handshake=5 header=10 body=30\nAllows for 5 seconds to complete the TLS handshake, 10 seconds to receive the request headers, and 30 seconds for receiving the request body.\nThe values will depend upon the website. \nThe intent of this requirement is to ensure the RequestReadTimeout is explicitly configured.\nIf the \"reqtimeout_module\" is loaded and the \"RequestReadTimeout\" directive is not configured, this is a finding.",
+  "fixtext": "Determine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nLoad the \"reqtimeout_module\".\n\nSet the \"RequestReadTimeout\" directive to specific values applicable to the website.",
+  "fix_id": "F-15470r881449_fix",
+  "VulnDiscussion": "Leaving sessions open indefinitely is a major security risk. An attacker can easily use an already authenticated session to access the hosted application as the previously authenticated user. By closing sessions after a set period of inactivity, the Apache web server can make certain that those sessions that are not closed through the user logging out of an application are eventually closed. mod_reqtimeout is an Apache module designed to shut down connections from clients taking too long to send their request, as seen in many attacks. This module provides a directive that allows Apache to close the connection if it senses that the client is not sending data quickly enough.\n\nAcceptable values are 5 minutes for high-value applications, 10 minutes for medium-value applications, and 20 minutes for low-value applications.",
+  "Documentable": "false"
+}

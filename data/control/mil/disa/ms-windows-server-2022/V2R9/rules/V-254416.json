@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-254416",
+  "rule_id": "SV-254416r958908_rule",
+  "stig_id": "WN22-DC-000320",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2022 domain controllers must require LDAP access signing.",
+  "group_title": "SRG-OS-000423-GPOS-00187",
+  "idents": {
+    "cci": [
+      "CCI-002418",
+      "CCI-002421"
+    ]
+  },
+  "check_id": "C-57901r849062_chk",
+  "check_content": "This applies to domain controllers. It is NA for other systems.\n\nIf the following registry value does not exist or is not configured as specified, this is a finding:\n\nRegistry Hive: HKEY_LOCAL_MACHINE \nRegistry Path: \\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters\\\n\nValue Name: LDAPServerIntegrity\n\nValue Type: REG_DWORD\nValue: 0x00000002 (2)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> Security Options >> Domain controller: LDAP server signing requirements to \"Require signing\".",
+  "fix_id": "F-57852r849063_fix",
+  "VulnDiscussion": "Unsigned network traffic is susceptible to man-in-the-middle attacks, where an intruder captures packets between the server and the client and modifies them before forwarding them to the client. In the case of an LDAP server, this means that an attacker could cause a client to make decisions based on false records from the LDAP directory. The risk of an attacker pulling this off can be decreased by implementing strong physical security measures to protect the network infrastructure. Furthermore, implementing Internet Protocol security (IPsec) authentication header mode (AH), which performs mutual authentication and packet integrity for Internet Protocol (IP) traffic, can make all types of man-in-the-middle attacks extremely difficult.\n\nSatisfies: SRG-OS-000423-GPOS-00187, SRG-OS-000424-GPOS-00188",
+  "Documentable": "false"
+}

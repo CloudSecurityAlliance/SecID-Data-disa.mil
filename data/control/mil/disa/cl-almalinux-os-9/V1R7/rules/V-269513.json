@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269513",
+  "rule_id": "SV-269513r1050396_rule",
+  "stig_id": "ALMA-09-052600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must authenticate the remote logging server for offloading audit logs via rsyslog.",
+  "group_title": "SRG-OS-000479-GPOS-00224",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-73544r1049896_chk",
+  "check_content": "Verify AlmaLinux OS 9 authenticates the remote logging server for offloading audit logs with the following command:\n\n$ grep -i '$ActionSendStreamDriverAuthMode' /etc/rsyslog.conf /etc/rsyslog.d/*.conf \n\n/etc/rsyslog.d/stig.conf:$ActionSendStreamDriverAuthMode x509/name\n\nIf the value of the \"$ActionSendStreamDriverAuthMode\" option is not set to \"x509/name\" or the line is commented out, ask the system administrator (SA) to indicate how the audit logs are offloaded to a different system or media. \n\nIf there is no evidence that the transfer of the audit logs being offloaded to another system or media is encrypted, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to authenticate the remote logging server for offloading audit logs by setting the following option in \"/etc/rsyslog.conf\" or \"/etc/rsyslog.d/[customfile].conf\":\n\n$ActionSendStreamDriverAuthMode x509/name",
+  "fix_id": "F-73445r1049897_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.",
+  "Documentable": "false"
+}

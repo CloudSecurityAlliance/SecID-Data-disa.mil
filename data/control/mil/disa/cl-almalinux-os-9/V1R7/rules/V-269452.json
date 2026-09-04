@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269452",
+  "rule_id": "SV-269452r1208318_rule",
+  "stig_id": "ALMA-09-044900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must implement address space layout randomization (ASLR) to protect its memory from unauthorized code execution.",
+  "group_title": "SRG-OS-000433-GPOS-00193",
+  "idents": {
+    "cci": [
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-73483r1208316_chk",
+  "check_content": "Verify AlmaLinux OS 9 is implementing ASLR with the following command:\n\n$ sysctl kernel.randomize_va_space\n\nkernel.randomize_va_space = 2\n\nIf \"kernel.randomize_va_space\" is not set to \"2\", this is a finding.\n\nCheck that the configuration files are present to enable this kernel parameter:\n\n$ /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' |  grep -F kernel.randomize_va_space | tail -1\n\nkernel.randomize_va_space = 2\n\nIf \"kernel.randomize_va_space\" is not set to \"2\", or is missing, this is a finding.",
+  "fixtext": "Configure the system to enable ASLR with the following command:\n\n$ echo 'kernel.randomize_va_space = 2' | sudo tee /etc/sysctl.d/60-aslr.conf\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-73384r1208317_fix",
+  "VulnDiscussion": "ASLR makes it more difficult for an attacker to predict the location of attack code they have introduced into a process' address space during an attempt at exploitation. \n\nAdditionally, ASLR makes it more difficult for an attacker to know the location of existing code to repurpose it using return oriented programming (ROP) techniques.",
+  "Documentable": "false"
+}

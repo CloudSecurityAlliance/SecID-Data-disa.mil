@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279930",
+  "rule_id": "SV-279930r1184239_rule",
+  "stig_id": "RHEL-08-010280",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "RHEL 8 IP tunnels must use FIPS 140-3-approved cryptographic algorithms.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-84490r1184238_chk",
+  "check_content": "Note: If the IPsec service is not installed, this is not applicable.\n\nVerify the IPsec service uses the system crypto policy with the following command:\n\n$ sudo grep include /etc/ipsec.conf /etc/ipsec.d/*.conf\n\n/etc/ipsec.conf:include /etc/crypto-policies/back-ends/libreswan.config\n/etc/ipsec.conf:include /etc/ipsec.d/*.conf\n\nIf the ipsec configuration file does not contain \"include /etc/crypto-policies/back-ends/libreswan.config\", this is a finding.",
+  "fixtext": "Configure Libreswan to use the system cryptographic policy.\n\nAdd the following line to \"/etc/ipsec.conf\":\n\ninclude /etc/crypto-policies/back-ends/libreswan.config",
+  "fix_id": "F-84395r1156342_fix",
+  "VulnDiscussion": "Overriding the system crypto policy makes the behavior of the Libreswan service violate expectations and makes system configuration more fragmented.",
+  "Documentable": "false"
+}

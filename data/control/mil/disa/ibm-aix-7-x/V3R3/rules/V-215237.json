@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215237",
+  "rule_id": "SV-215237r958416_rule",
+  "stig_id": "AIX7-00-002003",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must produce audit records containing information to establish where the events occurred.",
+  "group_title": "SRG-OS-000039-GPOS-00017",
+  "idents": {
+    "legacy": [
+      "SV-101349",
+      "V-91249"
+    ],
+    "cci": [
+      "CCI-000132"
+    ]
+  },
+  "check_id": "C-16435r294162_chk",
+  "check_content": "Verify audit event detailed information is displayed:\n\nThe log file can be set by the \"trail\" variable in /etc/security/audit/config.\n\n# grep trail /etc/security/audit/config\n        trail = /audit/trail\n\nNote: The default log file is /audit/trail.\n\nUse the following command to display the audit events:\n\n# /usr/sbin/auditpr -i <audit log file> -v\n\nevent           login    status      time                     command           \n              wpar name                 \n--------------- -------- ----------- ------------------------ ------------------\n------------- ------------------------- \nFS_Chdir        root     OK          Sat Aug 26 19:31:37 2017 ps                \n              Global                    \n        change current directory to: /dev\nFS_Chdir        root     OK          Sat Aug 26 19:31:47 2017 ps                \n              Global                    \n        change current directory to: /dev\nFS_Chdir        root     OK          Sat Aug 26 19:31:57 2017 ps                \n              Global                    \n        change current directory to: /dev\nFS_Chdir        root     OK          Sat Aug 26 19:32:07 2017 ps                \n              Global                    \n        change current directory to: /dev\nFS_Chdir        root     OK          Sat Aug 26 19:32:17 2017 ps                \n              Global                    \n        change current directory to: /dev\n\nIf event detailed information is not displayed, this is a finding. \nMore information on the command options used above:\n           - v detailed information for the event",
+  "fixtext": "Reset the audit system with the following command:\n# /usr/sbin/audit shutdown\n\nStart the audit system with the following command:\n# /usr/sbin/audit start",
+  "fix_id": "F-16433r294163_fix",
+  "VulnDiscussion": "Without establishing where events occurred, it is impossible to establish, correlate, and investigate the events leading up to an outage or attack.\n\nIn order to compile an accurate risk assessment and provide forensic analysis, it is essential for security personnel to know where events occurred, such as operating system components, modules, device identifiers, node names, file names, and functionality.\n\nAssociating information about where the event occurred within AIX provides a means of investigating an attack; recognizing resource utilization or capacity thresholds; or identifying an improperly configured operating system.",
+  "Documentable": "false"
+}

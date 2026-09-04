@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279049",
+  "rule_id": "SV-279049r1171519_rule",
+  "stig_id": "APAS-CF-000260",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "ColdFusion must be configured with autoDeploy disabled.",
+  "group_title": "SRG-APP-000141-AS-000095",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-83597r1171517_chk",
+  "check_content": "Review the autoDeploy configuration in server.xml.\n\n1. Locate the server.xml file. For each ColdFusion instance, navigate to: \n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\\server.xml\n\n2. Review the server.xml configuration by opening the server.xml file in a text editor.\n\n3. Search for all <Host> elements.\n\n4. Check the autoDeploy Attribute. Inspect each <Host> element for the autoDeploy setting.\n\nIf any <Host> element has \"autoDeploy=\"true\"\", this is a finding.",
+  "fixtext": "Disable autoDeploy in server.xml.\n\n1. Locate the server.xml file. For each ColdFusion instance, navigate to: \n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\\server.xml\n\n2. Before making any changes, create a backup copy of the file.\n\nWindows Example:\ncopy server.xml server.xml.bak\n\nLinux Example:\ncp server.xml server.xml.bak\n\n3. Edit the configuration by opening server.xml in a text editor with administrative privileges.\n\n4. Locate all <Host> elements with:\nautoDeploy=\"true\"\n\n5. Change all attributes to:\nautoDeploy=\"false\"\n\n6. Restart ColdFusion to apply the configuration changes.\n\n7. Confirm that ColdFusion services started successfully.\n\n8. Reopen server.xml to confirm that autoDeploy=\"false\" is set for all <Host> elements.",
+  "fix_id": "F-83502r1171518_fix",
+  "VulnDiscussion": "ColdFusion uses Tomcat for HTTP and AJP connectivity. Tomcat allows auto-deployment of applications while Tomcat is running. This can allow untested or malicious applications to be automatically loaded into production. AutoDeploy must be disabled in production. This requirement is NA for test and development systems on nonproduction networks.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281311",
+  "rule_id": "SV-281311r1167083_rule",
+  "stig_id": "RHEL-10-701090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must disable the \"kernel.core_pattern\".",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-85872r1167081_chk",
+  "check_content": "Verify RHEL 10 disables storing core dumps.\n\nCheck the status of the \"kernel.core_pattern\" kernel parameter with the following command:\n\n$ sudo sysctl kernel.core_pattern\nkernel.core_pattern = |/bin/false\n\nIf \"kernel.core_pattern\" is not set to \"|/bin/false\", or a line is not returned and the need for core dumps is not documented with the information system security officer as an operational requirement, this is a finding.",
+  "fixtext": "Configure RHEL 10 to disable storing core dumps. \n\nCreate a drop-in if it does not already exist:\n\n$ sudo vi /etc/sysctl.d/99-kernel_core_pattern.conf\n\nAdd the following to the file:\n\nkernel.core_pattern = |/bin/false\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-85777r1167082_fix",
+  "VulnDiscussion": "A core dump includes a memory image taken at the time the operating system terminates an application. The memory image could contain sensitive data and is generally useful only for developers trying to debug problems.",
+  "Documentable": "false"
+}

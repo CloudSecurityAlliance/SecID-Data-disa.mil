@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233859",
+  "rule_id": "SV-233859r1156964_rule",
+  "stig_id": "IDNS-8X-400001",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All authoritative DNS service members for a zone must be geographically dispersed.",
+  "group_title": "SRG-APP-000218-DNS-000027",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-37044r1082994_chk",
+  "check_content": "1. Navigate to Data Management >> DNS >> Zones tab. \n2. Review each zone by clicking \"Edit\" and inspecting the \"DNS service members\" tab.\n3. Review the DNS service member records for each zone hosted and confirm that each authoritative DNS service member is located at a different physical location than the remaining DNS service members. \n4. Infoblox supports designation as a \"stealth\" DNS service member, which will not have an NS record.\n\nIf all DNS service members for which NS records are published within a zone are not physically at different locations, this is a finding.",
+  "fixtext": "Configure the authoritative DNS service members to be geographically dispersed.\n\nMost optimal to least optimal (to provide context):\n- DNS service members are located on different continents.\n- DNS service members are located on the same continent, with greatest possible geographic dispersity.\n- DNS service members are located in different states/provinces.\n- DNS service members are located in different cities.\n- DNS service members are located in different buildings.\n- DNS service members are located in different data centers.\n- DNS service members are located at opposite ends of the same data center.\n- If moving DNS service members is not feasible, reconfigure one of the co-located service members to be a hidden primary.",
+  "fix_id": "F-37009r1082605_fix",
+  "VulnDiscussion": "In addition to network-based dispersion, authoritative name servers must be also be dispersed geographically. In other words, in addition to being located on different network segments, the authoritative name servers must not all be located within the same building. One approach that some organizations follow is to locate some authoritative name servers in their own premises and others in their ISP's data centers or in partnering organizations.\n\nA network administrator may choose to use a \"hidden\" master authoritative server and have only secondary servers visible on the network. A hidden master authoritative server is an authoritative DNS server in which the IP address does not appear in the name server set for a zone. If the master authoritative name server is \"hidden\", a secondary authoritative name server may reside in the same building as the hidden master.",
+  "Documentable": "false"
+}

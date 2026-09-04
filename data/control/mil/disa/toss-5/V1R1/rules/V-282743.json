@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282743",
+  "rule_id": "SV-282743r1201209_rule",
+  "stig_id": "TOSS-05-000373",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "TOSS 5 must be configured so that the file integrity tool verifies Access Control Lists (ACLs).",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87304r1201207_chk",
+  "check_content": "Confirm AIDE is verifying ACLs using the following command:\n\n$ grep acl /etc/aide.conf \n\nAll= p+i+n+u+g+s+m+S+sha512+acl+xattrs+selinux\n\nIf the \"acl\" rule is not being used on all uncommented selection lines in the \"/etc/aide.conf\" file, or ACLs are not being checked by another file integrity tool, this is a finding.",
+  "fixtext": "Configure the file integrity tool to check file and directory ACLs. \n\nIf AIDE is installed, ensure the \"acl\" rule is present on all uncommented file and directory selection lists.",
+  "fix_id": "F-87209r1201208_fix",
+  "VulnDiscussion": "TOSS 5 installation media ships with an optional file integrity tool called Advanced Intrusion Detection Environment (AIDE). AIDE is highly configurable at install time. This requirement assumes the \"aide.conf\" file is under the \"/etc\" directory.\n\nACLs can provide permissions beyond those permitted through the file mode and must be verified by the file integrity tools.",
+  "Documentable": "false"
+}

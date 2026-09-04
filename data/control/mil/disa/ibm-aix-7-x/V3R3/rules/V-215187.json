@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215187",
+  "rule_id": "SV-215187r958400_rule",
+  "stig_id": "AIX7-00-001028",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must provide the lock command to let users retain their session lock until users are reauthenticated.",
+  "group_title": "SRG-OS-000028-GPOS-00009",
+  "idents": {
+    "legacy": [
+      "SV-101329",
+      "V-91229"
+    ],
+    "cci": [
+      "CCI-000056"
+    ]
+  },
+  "check_id": "C-16385r294012_chk",
+  "check_content": "Check the system to determine if \"bos.rte.security\" is installed: \n\n# lslpp -L bos.rte.security\nFileset                      Level  State  Type  Description (Uninstaller)\n  ----------------------------------------------------------------------------\n bos.rte.security           7.2.1.1    C     F    Base Security Function\n\nIf the \"bos.rte.security\" fileset is not installed, this is a finding. \n\nCheck if lock command exist using the following command:\n# ls  /usr/bin/lock\n\nThe above command should display the following:\n/usr/bin/lock\n\nIf the above command does not show that \"/usr/bin/lock\" exists, this is a finding.",
+  "fixtext": "Install \"bos.rte.security\" fileset from the AIX DVD Volume 1 using the following command (assuming that the DVD device is mounted to /dev/cd0):\n\n# installp -aXYgd /dev/cd0 -e /tmp/install.log bos.rte.security",
+  "fix_id": "F-16383r294013_fix",
+  "VulnDiscussion": "All systems are vulnerable if terminals are left logged in and unattended. Leaving system terminals unsecure poses a potential security hazard. \n\nTo lock the terminal, use the lock command.",
+  "Documentable": "false"
+}

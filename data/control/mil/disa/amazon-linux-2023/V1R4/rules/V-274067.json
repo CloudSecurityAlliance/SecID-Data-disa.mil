@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274067",
+  "rule_id": "SV-274067r1120653_rule",
+  "stig_id": "AZLX-23-002015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must allocate audit record storage capacity to store at least one week's worth of audit records, when audit records are not immediately sent to a central audit record storage facility.",
+  "group_title": "SRG-OS-000341-GPOS-00132",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-78158r1120187_chk",
+  "check_content": "Verify Amazon Linux 2023 allocates audit record storage capacity to store at least one week of audit records when audit records are not immediately sent to a central audit record storage facility.\n\nNote: The partition size needed to capture a week of audit records is based on the activity level of the system and the total storage capacity available. Typically 10.0 GB of storage space for audit records should be sufficient.\n\nDetermine which partition the audit records are being written to with the following command:\n\n$ sudo grep log_file /etc/audit/auditd.conf\nlog_file = /var/log/audit/audit.log \n\nCheck the size of the partition that audit records are written to with the following command and verify whether it is sufficiently large:\n\n # df -h /var/log/audit/\n/dev/sda2 24G 10.4G 13.6G 43% /var/log/audit \n\nIf the audit record partition is not allocated for sufficient storage capacity, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to provide adequate storage for at least one-week of audit logs when audit records are not immediately sent to a central audit record storage facility.\n\nIf the storage partition is not large enough for at least one week of audit logs, then either:\n\n1. Resize the partition to ensure there is enough storage capacity.\n2. Create a new partition for the audit logs.",
+  "fix_id": "F-78063r1120652_fix",
+  "VulnDiscussion": "To ensure operating systems have a sufficient storage capacity in which to write the audit logs, operating systems must be able to allocate audit record storage capacity.",
+  "Documentable": "false"
+}

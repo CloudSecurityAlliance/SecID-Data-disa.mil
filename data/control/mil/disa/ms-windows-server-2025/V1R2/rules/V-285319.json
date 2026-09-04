@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-285319",
+  "rule_id": "SV-285319r1212174_rule",
+  "stig_id": "WN25-SH-000070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2025 OpenSSH must be configured so that all network connections associated with SSH traffic are terminated after 10 minutes of becoming unresponsive.",
+  "group_title": "SRG-OS-000126-GPOS-00066",
+  "idents": {
+    "cci": [
+      "CCI-001133",
+      "CCI-002361",
+      "CCI-002891"
+    ]
+  },
+  "check_id": "C-89889r1211183_chk",
+  "check_content": "If OpenSSH is not installed on the system, this requirement is not applicable.\n\nVerify the \"ClientAliveInterval\" variable is set to a value of \"600\" or less by performing the following command:\n\nC:\\ > Get-Content \"$env:ProgramData\\ssh\\sshd_config\" | Select-String -Pattern '^\\s*ClientAliveInterval'\n\nClientAliveInterval 600\n\nIf \"ClientAliveInterval\" does not exist, does not have a value of \"600\" or less, or is commented out, this is a finding.",
+  "fixtext": "To configure the system, add or modify the following line in the \"$env:ProgramData/ssh/sshd_config\" file.\n\nClientAliveInterval 600\n\nRestart the OpenSSH service for the settings to take effect.",
+  "fix_id": "F-89794r1211184_fix",
+  "VulnDiscussion": "Terminating an unresponsive SSH session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. Quickly terminating an idle SSH session will also free up resources committed by the managed network element.\n\nTerminating network connections associated with communications sessions includes, for example, deallocating associated TCP/IP address/port pairs at the operating system level and deallocating networking assignments at the application level if multiple application sessions are using a single operating system-level network connection. This does not mean the operating system terminates all sessions or network access; it only ends the unresponsive session and releases the resources associated with that session.\n\nWindows Server 2025 uses $env:ProgramData/ssh/sshd_config for configurations of OpenSSH. Within the sshd_config, the product of the values of \"ClientAliveInterval\" and \"ClientAliveCountMax\" are used to establish the inactivity threshold. The \"ClientAliveInterval\" is a timeout interval in seconds, after which if no data has been received from the client, sshd will send a message through the encrypted channel to request a response from the client. The \"ClientAliveCountMax\" is the number of client alive messages that may be sent without sshd receiving any messages back from the client. If this threshold is met, sshd will disconnect the client. For more information on these settings and others, refer to the sshd_config man pages.\n\nSatisfies: SRG-OS-000126-GPOS-00066, SRG-OS-000163-GPOS-00072, SRG-OS-000279-GPOS-00109, SRG-OS-000395-GPOS-00176",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282445",
+  "rule_id": "SV-282445r1200315_rule",
+  "stig_id": "TOSS-05-000330",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must ensure the password complexity module in the system-auth file is configured for three retries or less.",
+  "group_title": "SRG-OS-000069-GPOS-00037",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-87006r1200313_chk",
+  "check_content": "Verify TOSS 5 is configured to limit the \"pwquality\" retry option to \"3\". \n\nVerify the use of the \"pwquality\" retry option in the \"system-auth file\" using the following command:\n\n$ cat /etc/pam.d/system-auth | grep pam_pwquality\n\npassword required pam_pwquality.so retry=3\n\nIf the value of \"retry\" is set to \"0\" or greater than \"3\", or is missing, this is a finding.",
+  "fixtext": "Configure TOSS 5 to limit the \"pwquality\" retry option to \"3\".\n\nAdd the following line to the \"/etc/pam.d/system-auth\" file (or modify the line to have the required value):\n\npassword required pam_pwquality.so retry=3",
+  "fix_id": "F-86911r1200314_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. \"pwquality\" enforces complex password construction configuration and has the ability to limit brute-force attacks on the system.\n\nTOSS 5 uses \"pwquality\" as a mechanism to enforce password complexity. This is set in both:\n/etc/pam.d/password-auth\n/etc/pam.d/system-auth\n\nBy limiting the number of attempts to meet the pwquality module complexity requirements before returning with an error, the system will audit abnormal attempts at password changes.",
+  "Documentable": "false"
+}

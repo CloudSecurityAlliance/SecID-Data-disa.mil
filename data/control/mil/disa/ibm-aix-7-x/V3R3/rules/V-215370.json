@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215370",
+  "rule_id": "SV-215370r958478_rule",
+  "stig_id": "AIX7-00-003065",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The cmsd daemon must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "SV-101467",
+      "V-91369"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16568r294561_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^#cmsd[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"cmsd\" entry by running command:\n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'cmsd' -p 'sunrpc_udp'\n\nRestart inetd:\n# refresh -s inetd",
+  "fix_id": "F-16566r294562_fix",
+  "VulnDiscussion": "This is a calendar and appointment service for CDE.\n\nThe cmsd service is utilized by CDE to provide calendar functionality. If CDE is not required, this service should be disabled to prevent attacks.",
+  "Documentable": "false"
+}

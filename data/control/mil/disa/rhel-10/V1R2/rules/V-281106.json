@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281106",
+  "rule_id": "SV-281106r1166270_rule",
+  "stig_id": "RHEL-10-500100",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "RHEL 10 must allocate audit record storage capacity to store at least one week's worth of audit records.",
+  "group_title": "SRG-OS-000341-GPOS-00132",
+  "idents": {
+    "cci": [
+      "CCI-001849",
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-85667r1166268_chk",
+  "check_content": "Verify RHEL 10 allocates audit record storage capacity to store at least one week of audit records when audit records are not immediately sent to a central audit record storage facility.\n\nNote: The partition size needed to capture a week of audit records is based on the activity level of the system and the total storage capacity available. Typically 10GB of storage space for audit records should be sufficient.\n\nDetermine which partition the audit records are being written to with the following command:\n\n$ sudo grep -w log_file /etc/audit/auditd.conf\nlog_file = /var/log/audit/audit.log\n\nCheck the size of the partition that audit records are written to with the following command and verify whether it is sufficiently large:\n\n$ df -h /var/log/audit/\nFilesystem                                             Size  Used Avail Use% Mounted on\n/dev/mapper/luks-4e45e1ad-5337-42c4-a19f-ee12ccc1d502   10G  263M  9.7G   3% /var/log/audit\n\nIf the audit record partition is not allocated for sufficient storage capacity, this is a finding.",
+  "fixtext": "Configure RHEL 10 to allocate enough storage capacity for at least one week of audit records when audit records are not immediately sent to a central audit record storage facility.\n\nIf audit records are stored on a partition made specifically for audit records, resize the partition with sufficient space to contain one week of audit records.\n\nIf audit records are not stored on a partition made specifically for audit records, a new partition with sufficient space must be created.",
+  "fix_id": "F-85572r1166269_fix",
+  "VulnDiscussion": "To ensure RHEL 10 systems have a sufficient storage capacity in which to write the audit logs, RHEL 10 must be able to allocate audit record storage capacity.\n\nThe task of allocating audit record storage capacity is usually performed during initial installation of RHEL 10.\n\nSatisfies: SRG-OS-000341-GPOS-00132, SRG-OS-000342-GPOS-00133",
+  "Documentable": "false"
+}

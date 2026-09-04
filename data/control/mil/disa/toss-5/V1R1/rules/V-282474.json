@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282474",
+  "rule_id": "SV-282474r1200402_rule",
+  "stig_id": "TOSS-05-000104",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must be configured to disable the Asynchronous Transfer Mode (ATM) kernel module.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-87035r1200400_chk",
+  "check_content": "Verify TOSS 5 disables the ability to load the ATM kernel module using the following command:\n\n$ sudo grep -r atm /etc/modprobe.conf /etc/modprobe.d/* \n\nblacklist atm\n\nIf the command does not return any output, or the line is commented out, and use of ATM is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure the system to prevent the atm kernel module from being loaded by adding the following line to the file /etc/modprobe.d/atm.conf (or create atm.conf if it does not exist):\n\ninstall atm /bin/false\nblacklist atm",
+  "fix_id": "F-86940r1200401_fix",
+  "VulnDiscussion": "Disabling ATM protects the system against exploitation of any flaws in its implementation.",
+  "Documentable": "false"
+}

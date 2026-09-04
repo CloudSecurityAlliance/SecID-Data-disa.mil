@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220693",
+  "rule_id": "SV-220693r991949_rule",
+  "stig_id": "CISC-L2-000240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must not use the default VLAN for management traffic.",
+  "group_title": "SRG-NET-000512-L2S-000010",
+  "idents": {
+    "legacy": [
+      "SV-110361",
+      "V-101257"
+    ],
+    "cci": [
+      "CCI-004931"
+    ]
+  },
+  "check_id": "C-22408r539130_chk",
+  "check_content": "Review the switch configuration and verify that the default VLAN is not used to access the switch for management.\n\ninterface Vlan1\n\ninterface Vlan44\n description Management VLAN\n ip address 10.1.12.1/24\n\nIf the default VLAN is being used for management access to the switch, this is a finding.",
+  "fixtext": "Configure the switch for management access to use a VLAN other than the default VLAN.\n\nSW1(config)# interface vlan 44\nSW1(config-if)# ip add 10.1.12.1/24\nSW1(config-if)# end",
+  "fix_id": "F-22397r539131_fix",
+  "VulnDiscussion": "Switches use the default VLAN (i.e., VLAN 1) for in-band management and to communicate with directly connected switches using Spanning-Tree Protocol (STP), Dynamic Trunking Protocol (DTP), VLAN Trunking Protocol (VTP), and Port Aggregation Protocol (PAgP)—all untagged traffic. As a consequence, the default VLAN may unwisely span the entire network if not appropriately pruned. If its scope is large enough, the risk of compromise can increase significantly.",
+  "Documentable": "false"
+}

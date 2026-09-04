@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-257535",
+  "rule_id": "SV-257535r960939_rule",
+  "stig_id": "CNTR-OS-000330",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must protect audit tools from unauthorized access.",
+  "group_title": "SRG-APP-000121-CTR-000255",
+  "idents": {
+    "cci": [
+      "CCI-001493",
+      "CCI-001494",
+      "CCI-001495"
+    ]
+  },
+  "check_id": "C-61270r921546_chk",
+  "check_content": "List the users and groups who have permission to view the cluster logging configuration by executing the following two commands:\n\noc policy who-can view ClusterLogging -n openshift-logging\n\noc policy who-can view ClusterLoggingForwarder -n openshift-logging\n\nReview the list of users and groups who have view access to the cluster logging resources. If any user or group listed must not have access to view the cluster logging resources, this is a finding.",
+  "fixtext": "Remove view permissions from any unauthorized user or group by performing one or more of the following commands.\n\nRemove role from user by executing the following:\n\noc adm policy remove-role-from-user <ROLE> <USER> -n openshift-logging\n\nRemove role from group by executing the following:\n\noc adm policy remove-role-from-group <ROLE> <GROUP> -n openshift-logging\n\nRemove cluster role from user by executing the following:\noc adm policy remove-cluster-role-from-user <CLUSTER_ROLE> <USER> -n openshift-logging\n\nRemove cluster role from group by executing the following:\n\noc adm policy remove-cluster-role-from-group <CLUSTER_ROLE> <GROUP> -n openshift-logging\n\nNote: ROLE/CLUSTER_ROLE is the role granting user view permission to resources in openshift-logging namespace.",
+  "fix_id": "F-61194r921547_fix",
+  "VulnDiscussion": "Protecting audit data also includes identifying and protecting the tools used to view and manipulate log data. Therefore, protecting audit tools is necessary to prevent unauthorized operation on audit data.\n\nApplications providing tools to interface with audit data will leverage user permissions and roles identifying the user accessing the tools and the corresponding rights the user enjoys in order to make access decisions regarding the access to audit tools.\n\nAudit tools include, but are not limited to, vendor-provided and open source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.\n\nSatisfies: SRG-APP-000121-CTR-000255, SRG-APP-000122-CTR-000260, SRG-APP-000123-CTR-000265",
+  "Documentable": "false"
+}

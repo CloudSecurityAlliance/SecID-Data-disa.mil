@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283686",
+  "rule_id": "SV-283686r1204132_rule",
+  "stig_id": "NOKI-L2-000140",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Nokia layer 2 switch must have Storm Control configured on all host-facing switch ports.",
+  "group_title": "SRG-NET-000512-L2S-000001",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-88251r1204131_chk",
+  "check_content": "Review the router configuration to verify traffic is rate limited on host-facing interfaces.\n\nUse the command below for each host-facing port and verify \"Ingress Rate\" is set to the required value: \n\n- show port 1/1/c3/1 | match \"Ingress Rate\"\nEgress Rate        : Default                    Ingress Rate     : 500 \n \nIf storm control is not enabled on all host-facing switch ports, this is a finding.",
+  "fixtext": "Configure storm control on each host-facing switch port.\n\n- configure port <port id> ethernet ingress-rate <value in mbps>",
+  "fix_id": "F-88156r1204085_fix",
+  "VulnDiscussion": "A traffic storm occurs when packets flood a LAN, creating excessive traffic and degrading network performance. Traffic storm control prevents network disruption by suppressing ingress traffic when the number of packets reaches configured threshold levels. Traffic storm control monitors ingress traffic levels on a port and drops traffic when the number of packets reaches the configured threshold level during any one-second interval.",
+  "Documentable": "false"
+}

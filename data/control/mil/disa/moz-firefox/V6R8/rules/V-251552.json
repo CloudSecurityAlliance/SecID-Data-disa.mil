@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251552",
+  "rule_id": "SV-251552r960963_rule",
+  "stig_id": "FFOX-00-000008",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Firefox must be configured to not use a password store with or without a master password.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-54987r807126_chk",
+  "check_content": "Type \"about:policies\" in the browser window. \n\nIf \"PasswordManagerEnabled\" is not displayed under Policy Name or the Policy Value is not \"false\", this is a finding.",
+  "fixtext": "Windows group policy:\n1. Open the group policy editor tool with \"gpedit.msc\".\n2. Navigate to Policy Path: Computer Configuration\\Administrative Templates\\Mozilla\\Firefox\nPolicy Name: PasswordManager\nPolicy State: Disabled\n\nmacOS \"plist\" file:\nAdd the following:\n<key>PasswordManagerEnabled</key>\n<false/>\n\nLinux \"policies.json\" file:\nAdd the following in the policies section:\n\"PasswordManagerEnabled\": false",
+  "fix_id": "F-54941r822410_fix",
+  "VulnDiscussion": "Firefox can be set to store passwords for sites visited by the user. These individual passwords are stored in a file and can be protected by a master password. Autofill of the password can then be enabled when the site is visited. This feature could also be used to autofill the certificate PIN, which could lead to compromise of DoD information.",
+  "Documentable": "false"
+}

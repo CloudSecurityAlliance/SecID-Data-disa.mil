@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283688",
+  "rule_id": "SV-283688r1204092_rule",
+  "stig_id": "NOKI-L2-000160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Nokia layer 2 switch must implement Rapid Spanning Tree Protocol (RSTP) where virtual local area networks (VLANs) span multiple switches with redundant links.",
+  "group_title": "SRG-NET-000512-L2S-000003",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-88253r1204090_chk",
+  "check_content": "In cases where VLANs do not span multiple switches, it is a best practice to not implement STP. Avoiding the use of STP will provide the most deterministic and highly available network topology. If STP is required, review the router virtual private local area network service (VPLS) configuration to verify RSTP has been implemented. \n\nUse the command below and verify STP mode is set to RSTP for VPLS, where RSTP should be implemented.\n\n- show service id 10 stp | match Mode\nMode               : Rstp                     Last Top. Change  : 0d 00:00:00\n\nIf RSTP has not been implemented where STP is required, this is a finding.",
+  "fixtext": "Configure RSTP to be implemented at the access and distribution layers where VLANs span multiple switches.\n\nFor VPLS services where RSTP should be implemented, use the command below to enable RSTP for an already-created VPLS service:\n\n- configure service vpls <vpls id> \n- stp mode rstp\n- no shutdown",
+  "fix_id": "F-88158r1204091_fix",
+  "VulnDiscussion": "STP is implemented on bridges and switches to prevent layer 2 loops when a broadcast domain spans multiple bridges and switches and when redundant links are provisioned to provide high availability in case of link failures. \n\nConvergence time can be reduced significantly using RSTP (802.1w) instead of STP (802.1d), resulting in improved availability. RSTP should be deployed by implementing either Rapid Per-VLAN Spanning Tree (Rapid-PVST) or Multiple Spanning Tree Protocol (MSTP). The latter scales much better when there are many VLANs.",
+  "Documentable": "false"
+}

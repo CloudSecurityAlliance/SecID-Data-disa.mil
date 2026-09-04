@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-278138",
+  "rule_id": "SV-278138r1182081_rule",
+  "stig_id": "WN25-DC-000070",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Windows Server 2025 permissions on the Active Directory data files must only allow system administrators (SAs) access.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235",
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-82668r1182080_chk",
+  "check_content": "This applies to domain controllers. It is not applicable for other systems.\n\nRun \"Regedit\".\n\nNavigate to \"HKEY_LOCAL_MACHINE\\SYSTEM\\CurrentControlSet\\Services\\NTDS\\Parameters\".\n\nNote the directory locations in the values for:\n\nDatabase log files path\nDSA Database file\n\nBy default, they will be \\Windows\\NTDS.\n\nIf the locations are different, run the following for each:\n\nOpen \"command prompt (Admin)\".\n\nNavigate to the NTDS directory (\\Windows\\NTDS by default).\n\nRun \"icacls *.*\".\n\nIf the permissions on each file are not as restrictive as the following, this is a finding:\n\nNT AUTHORITY\\SYSTEM:(I)(F)\nBUILTIN\\Administrators:(I)(F)\n\n(I) - permission inherited from parent container\n(F) - full access",
+  "fixtext": "Maintain the permissions on NTDS database and log files as follows:\n\nNT AUTHORITY\\SYSTEM:(I)(F)\nBUILTIN\\Administrators:(I)(F)\n\n(I) - permission inherited from parent container\n(F) - full access",
+  "fix_id": "F-82573r1181119_fix",
+  "VulnDiscussion": "Improper access permissions for directory data-related files could allow unauthorized users to read, modify, or delete directory data or audit trails.\n\nSatisfies: SRG-OS-000324-GPOS-00125, SRG-OS-000206-GPOS-00084",
+  "Documentable": "false"
+}

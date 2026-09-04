@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223437",
+  "rule_id": "SV-223437r1225669_rule",
+  "stig_id": "ACF2-ES-000160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to IBM z/OS special privilege TAPE-LBL or TAPE-BLP must be limited and/or justified.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "legacy": [
+      "V-97571",
+      "SV-106675"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-25110r504446_chk",
+  "check_content": "From the ISPF Command Shell enter:\nACF\nSET LID\nSET VERBOSE\nLIST IF(TAPE-LBL OR TAPE-BLP)\n\nIf the number of users granted the special privileges TAPE-LBL or TAPE-BLP is strictly controlled and limited to systems programmer and operations personnel, this is not a finding.\n\nIf the number of users granted the special privileges TAPE-LBL or TAPE-BLP is not strictly controlled and limited to systems programmer and operations personnel, this is a finding.",
+  "fixtext": "The ISSO will ensure Logonids with the TAPE-LBL or TAPE-BLP are kept to a minimum and are controlled and documented.\n\nReview all LOGONIDs with these attributes. \n\nTape label bypass (BLP) privileges will be restricted at the user level. Specify one of the following two logonid privileges to grant a user access to BLP processing:\n\nUser LID Record:\nTAPE-LBL\nTAPE-BLP\n\nIt is possible to grant selected programs to bypass tape label processing regardless of the BLP related privilege of the logonid executing the program. This capability will not be used due to the requirement that accounting of BLP processing be done at the user level. Do not utilize the GSO BLPPGM record.",
+  "fix_id": "F-25098r504447_fix",
+  "VulnDiscussion": "To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DoD-approved PKIs, all DoD systems (e.g., web servers and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. Successful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement.\n\nAccess control policies include: identity-based policies, role-based policies, and attribute-based policies. Access enforcement mechanisms include: access control lists, access control matrices, and cryptography. These policies and mechanisms must be employed by the application to control access between users (or processes acting on behalf of users) and objects (e.g., devices, files, records, processes, programs, and domains) in the information system.",
+  "Documentable": "false"
+}

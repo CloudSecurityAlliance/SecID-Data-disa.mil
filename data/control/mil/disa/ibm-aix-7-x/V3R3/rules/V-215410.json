@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215410",
+  "rule_id": "SV-215410r991589_rule",
+  "stig_id": "AIX7-00-003112",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must be configured to only boot from the system boot device.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101745",
+      "V-91647"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16608r294681_chk",
+  "check_content": "Determine if the system is configured to boot from devices other than the system startup media by running command: \n# bootlist -m normal -o \n\nThe returned values should be \"hdisk{x}\". \n\nIf the system is setup to boot from a non-hard disk device, this is a finding. \n\nAdditionally, ask the SA if the machine is setup for \"multi-boot\" in the SMS application. If multi-boot is enabled, the firmware will stop at boot time and request which image to boot from the user. \n\nIf \"multi-boot\" is enabled, this is a finding.",
+  "fixtext": "Configure the system to only boot from system startup media:\n# bootlist -m normal hdisk<x> \n\nSet \"multi-boot\" to \"off\" in the SMS application.",
+  "fix_id": "F-16606r294682_fix",
+  "VulnDiscussion": "The ability to boot from removable media is the same as being able to boot into single user or maintenance mode without a password. This ability could allow a malicious user to boot the system and perform changes possibly compromising or damaging the system. It could also allow the system to be used for malicious purposes by a malicious anonymous user.",
+  "Documentable": "false"
+}

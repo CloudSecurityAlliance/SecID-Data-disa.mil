@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283684",
+  "rule_id": "SV-283684r1204128_rule",
+  "stig_id": "NOKI-L2-000120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Nokia layer 2 switch must provide source Internet Protocol (IP) address filtering on untrusted layer 2 interfaces.",
+  "group_title": "SRG-NET-000362-L2S-000026",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-88249r1204078_chk",
+  "check_content": "Review the router virtual private local area network service (VPLS) configuration and verify an equivalent command for the Dynamic Address Resolution Protocol Inspection feature is enabled on all user virtual local area networks (VLANs).\n\nVerify both \"DHCP snooping\" and \"lease populate\" options under DHCP result for each service access point (SAP) configured within a VPLS service:\n\n- show service id 10 sap 1/1/c3/10 detail | match \"Anti Spoofing\"\nAnti Spoofing      : Ip-Mac                   Dynamic Hosts     : Enabled\n\nUsing the same command, verify \"Anti Spoofing\" is enabled with type IP-MAC.\n\nIf this is not enabled on all user VLANs, this is a finding.",
+  "fixtext": "Configure the Nokia router VPLS service to enable DHCP snooping at all points where DHCP messages requiring snooping enter the VPLS service:\n\n- configure service vpls <service id> sap <sap id> dhcp snoop\n\nPopulate the DHCP lease state information extracted from snooped DHCP ACK messages. If the optional number \"lease state table entries allowed\" is omitted, only a single entry is allowed. Once the maximum number of entries has been reached, subsequent lease state entries are not allowed, and DHCP ACK messages are discarded.\n\n- configure service vpls <service id> sap <sap id> dhcp lease-populate <number of DHCP leases allowed>\n\nEnable anti-spoof filtering for untrusted VPLS service access points. Anti-spoof type can be ip, ip-mac, or mac.\n\nWhen type \"ip\" is used, only the source IP address is used in its lookup. The \"ip-mac\" type uses both the IP address and source MAC address in its lookup, while the \"mac\" type uses only the source MAC address in its lookup.\n\nIf an entry does not match the ingress packet, the packet is silently discarded while incrementing the SAP discard counter. \n\n- configure service vpls <service id> sap <sap id> anti-spoof <anti-spoof type>",
+  "fix_id": "F-88154r1204127_fix",
+  "VulnDiscussion": "Source IP address filtering on a layer 2 port prevents a malicious host from impersonating a legitimate host by assuming the legitimate host's IP address. The feature uses Dynamic Host Configuration Protocol (DHCP) snooping and static IP source binding to match IP addresses to hosts on untrusted layer 2 access ports. \n\nInitially, all IP traffic on the protected port is blocked except for DHCP packets. After a client receives an IP address from the DHCP server, or after static IP source binding is configured by the administrator, all traffic with that IP source address is permitted from that client. Traffic from other hosts is denied. This filtering limits a host's ability to attack the network by claiming a neighbor host's IP address.",
+  "Documentable": "false"
+}

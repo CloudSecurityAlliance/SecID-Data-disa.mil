@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282581",
+  "rule_id": "SV-282581r1200723_rule",
+  "stig_id": "TOSS-05-000256",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 SSH daemon must not allow Kerberos authentication.",
+  "group_title": "SRG-OS-000364-GPOS-00151",
+  "idents": {
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-87142r1200721_chk",
+  "check_content": "Verify the SSH daemon does not allow Kerberos authentication using the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*kerberosauthentication'\n\nKerberosAuthentication no\n\nIf the value is returned as \"yes\", the returned line is commented out, no output is returned, and the use of Kerberos authentication has not been documented with the information system security officer (ISSO), this is a finding.",
+  "fixtext": "Configure the SSH daemon to not allow Kerberos authentication.\n\nAdd the following line in \"/etc/ssh/sshd_config\" or uncomment the line and set the value to \"no\":\n\nKerberosAuthentication no\n\nRestart the SSH service for changes to take effect:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-87047r1200722_fix",
+  "VulnDiscussion": "Kerberos authentication for SSH is often implemented using Generic Security Service Application Program Interface (GSSAPI). If Kerberos is enabled through SSH, the SSH daemon provides a means of access to the system's Kerberos implementation. Vulnerabilities in the system's Kerberos implementations may be subject to exploitation.",
+  "Documentable": "false"
+}

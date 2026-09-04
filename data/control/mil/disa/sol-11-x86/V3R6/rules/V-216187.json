@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216187",
+  "rule_id": "SV-216187r959010_rule",
+  "stig_id": "SOL-11.1-070080",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "All user accounts must be configured to use a home directory that exists.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-60977",
+      "V-48105"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17425r372943_chk",
+  "check_content": "The root role is required.\n\nCheck if a GUI is installed.\n\nDetermine the OS version you are currently securing:. \n# uname –v\n\nFor Solaris 11, 11.1, 11.2, and 11.3:\n# pkg info gdm\n# pkg info coherence-26\n# pkg info coherence-27\n\nIf none of these packages are installed on the system, then no GUI is present.\nFor Solaris 11.4 or newer:\n# pkg info gdm\n\nIf gdm is not installed on the system, then no GUI is present.\n\n# pkg info uucp\n\nuucp is no longer installed by default starting in 11.4 and is deprecated. \n\nFor all versions, check that all users' home directories exist.\n\n# pwck\n\nAccounts with no home directory will output \"Login directory not found\".\n\nIf no GUI is present, then \"gdm\" and \"upnp\" accounts should generate errors. On all systems, with uucp package installed, the \"uucp\" and \"nuucp\" accounts should generate errors.\n\nIf users' home directories do not exist, this is a finding.",
+  "fixtext": "The root role is required.\n\nWork with users identified in the check step to determine the best course of action in accordance with site policy. This generally means deleting the user account or creating a valid home directory.",
+  "fix_id": "F-17423r372944_fix",
+  "VulnDiscussion": "If the user's home directory does not exist, the user will be placed in \"/\" and will not be able to write any files or have local environment variables set.",
+  "Documentable": "false"
+}

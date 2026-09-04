@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281111",
+  "rule_id": "SV-281111r1166285_rule",
+  "stig_id": "RHEL-10-500125",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must periodically flush audit records to disk to ensure that audit records are not lost.",
+  "group_title": "SRG-OS-000051-GPOS-00024",
+  "idents": {
+    "cci": [
+      "CCI-000154"
+    ]
+  },
+  "check_id": "C-85672r1166283_chk",
+  "check_content": "Verify RHEL 10 is configured to flush audit records to disk after every 100 records with the following command:\n\n$ sudo grep freq /etc/audit/auditd.conf\nfreq = 100\n\nIf \"freq\" is not set to a value of \"100\" or greater, the value is missing, or the line is commented out, this is a finding.",
+  "fixtext": "Configure RHEL 10 to flush audit records to disk by adding or updating the following rule in \"/etc/audit/rules.d/audit.rules\":\n\nfreq = 100\n\nRestart the audit daemon with the following command for changes to take effect:\n\n$ sudo service auditd restart",
+  "fix_id": "F-85577r1166284_fix",
+  "VulnDiscussion": "If option \"freq\" is not set to a value that requires audit records to be written to disk after a threshold number is reached, audit records may be lost.",
+  "Documentable": "false"
+}

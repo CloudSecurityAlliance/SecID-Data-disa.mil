@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254248",
+  "rule_id": "SV-254248r991589_rule",
+  "stig_id": "WN22-00-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2022 must use an antivirus program.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-57733r848558_chk",
+  "check_content": "Verify an antivirus solution is installed on the system. The antivirus solution may be bundled with an approved host-based security solution.\n\nIf there is no antivirus solution installed on the system, this is a finding.\n\nVerify if Microsoft Defender antivirus is in use or enabled:\n\nOpen \"PowerShell\".\n\nEnter \"get-service | where {$_.DisplayName -Like \"*Defender*\"} | Select Status,DisplayName\"\n\nVerify if third-party antivirus is in use or enabled:\n\nOpen \"PowerShell\".\n\nEnter \"get-service | where {$_.DisplayName -Like \"*mcafee*\"} | Select Status,DisplayName\n\nEnter \"get-service | where {$_.DisplayName -Like \"*symantec*\"} | Select Status,DisplayName",
+  "fixtext": "If no antivirus software is in use, install Microsoft Defender or third-party antivirus.\n\nOpen \"PowerShell\".\n\nEnter \"Install-WindowsFeature -Name Windows-Defender\".\n\nFor third-party antivirus, install per antivirus instructions and disable Windows Defender.\n\nOpen \"PowerShell\".\n\nEnter \"Uninstall-WindowsFeature -Name Windows-Defender\".",
+  "fix_id": "F-57684r848559_fix",
+  "VulnDiscussion": "Malicious software can establish a base on individual desktops and servers. Employing an automated mechanism to detect this type of software will aid in elimination of the software from the operating system.",
+  "Documentable": "false"
+}

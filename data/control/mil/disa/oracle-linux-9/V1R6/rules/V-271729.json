@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271729",
+  "rule_id": "SV-271729r1155325_rule",
+  "stig_id": "OL09-00-002381",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must disable core dump backtraces.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75779r1155324_chk",
+  "check_content": "Note: If kernel dumps are disabled in accordance with OL09-00-002380, this requirement is not applicable.\n\nVerify OL 9 disables core dump backtraces by issuing the following command:\n\n$ grep -i process /etc/systemd/coredump.conf\nProcessSizeMax=0\n\nIf the \"ProcessSizeMax\" item is missing, commented out, or the value is anything other than \"0\" and the need for core dumps is not documented with the information system security officer (ISSO) as an operational requirement for all domains that have the \"core\" item assigned, this is a finding.",
+  "fixtext": "Configure the operating system to disable core dump backtraces.\n\nAdd or modify the following line in /etc/systemd/coredump.conf:\n\nProcessSizeMax=0",
+  "fix_id": "F-75686r1091898_fix",
+  "VulnDiscussion": "A core dump includes a memory image taken at the time the operating system terminates an application. The memory image could contain sensitive data and is generally useful only for developers or system operators trying to debug problems.\n\nEnabling core dumps on production systems is not recommended; however, there may be overriding operational requirements to enable advanced debugging. Permitting temporary enablement of core dumps during such situations must be reviewed through local needs and policy.",
+  "Documentable": "false"
+}

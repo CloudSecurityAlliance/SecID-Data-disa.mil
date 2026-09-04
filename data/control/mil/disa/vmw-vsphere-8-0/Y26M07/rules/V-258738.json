@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258738",
+  "rule_id": "SV-258738r933275_rule",
+  "stig_id": "ESXI-80-000052",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host Secure Shell (SSH) daemon must ignore .rhosts files.",
+  "group_title": "SRG-OS-000107-VMM-000530",
+  "idents": {
+    "cci": [
+      "CCI-000767"
+    ]
+  },
+  "check_id": "C-62478r933273_chk",
+  "check_content": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config list -k ignorerhosts\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$esxcli.system.ssh.server.config.list.invoke() | Where-Object {$_.Key -eq 'ignorerhosts'}\n\nExample result:\n\nignorerhosts yes\n\nIf \"ignorerhosts\" is not configured to \"yes\", this is a finding.",
+  "fixtext": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config set -k ignorerhosts -v yes\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$arguments = $esxcli.system.ssh.server.config.set.CreateArgs()\n$arguments.keyword = 'ignorerhosts'\n$arguments.value = 'yes'\n$esxcli.system.ssh.server.config.set.Invoke($arguments)",
+  "fix_id": "F-62387r933274_fix",
+  "VulnDiscussion": "SSH trust relationships mean a compromise on one host can allow an attacker to move trivially to other hosts. SSH can emulate the behavior of the obsolete \"rsh\" command in allowing users to enable insecure access to their accounts via \".rhosts\" files.",
+  "Documentable": "false"
+}

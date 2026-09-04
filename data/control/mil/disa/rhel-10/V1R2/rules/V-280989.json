@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-280989",
+  "rule_id": "SV-280989r1197222_rule",
+  "stig_id": "RHEL-10-200646",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must encrypt, via the gtls driver, the transfer of audit records off-loaded onto a different system or media from the system being audited via rsyslog.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-85550r1195375_chk",
+  "check_content": "Verify RHEL 10 explicitly defines a TLS driver (gtls or ossl) for encrypted rsyslog off-loading.\n\nSearch for an explicitly defined stream driver within \"omfwd\" action blocks with the following command:\n\n$ sudo grep -rE 'StreamDriver\\s*=\\s*\"(gtls|ossl)\"' /etc/rsyslog.conf /etc/rsyslog.d/\n\nIf TLS-based \"omfwd\" forwarding is configured, but the command above returns no active configuration lines specifying either \"gtls\" or \"ossl\" within the action block, this is a finding.",
+  "fixtext": "Configure RHEL 10 to explicitly define a TLS driver for rsyslog to use for encrypting off-loaded audit records. The \"ossl\" driver is required for environments operating in FIPS mode.\n\nAdd the \"streamdriver\" parameter to the \"omfwd\" action rule in its configuration file (e.g., /etc/rsyslog.d/99-forwarding.conf).\n\nExample:\naction(\n  type=\"omfwd\"\n  streamdriver=\"ossl\"\n  target=\"logserver.example.com\"\n  protocol=\"tcp\"\n  port=\"6514\"\n  tls=\"on\"\n)\n\nAfter applying the configuration, restart the rsyslog service:\n$ sudo systemctl restart rsyslog",
+  "fix_id": "F-85455r1195376_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.\n\nRHEL 10 installation media provides \"rsyslogd\", a system utility providing support for message logging. Support for both internet and Unix domain sockets enables this utility to support both local and remote logging. Coupling this utility with \"gnutls\" (a secure communications library implementing the Secure Sockets Layer [SSL], Transport Layer Security [TLS], and Datagram TLS [DTLS] protocols) creates a method to securely encrypt and off-load auditing. When this utility is coupled with the omfwd module, it can use the ossl network stream driver, which leverages the OpenSSL library for Transport Layer Security (TLS) to securely encrypt and off-load auditing.\n\nSatisfies: SRG-OS-000342-GPOS-00133, SRG-OS-000479-GPOS-00224",
+  "Documentable": "false"
+}

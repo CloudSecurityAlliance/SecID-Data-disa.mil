@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-282459",
+  "rule_id": "SV-282459r1200357_rule",
+  "stig_id": "TOSS-05-000356",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 shadow password suite must be configured to use a sufficient number of hashing rounds.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-004062",
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-87020r1200355_chk",
+  "check_content": "Verify TOSS 5 has a minimum number of hash rounds configured using the following command:\n\n$ grep -i sha_crypt /etc/login.defs\n\nIf \"SHA_CRYPT_MIN_ROUNDS\" or \"SHA_CRYPT_MAX_ROUNDS\" is less than \"5000\", this is a finding.",
+  "fixtext": "Configure TOSS 5 to encrypt all stored passwords with a strong cryptographic hash.\n\nEdit/modify the following line in the \"/etc/login.defs\" file and set \"SHA_CRYPT_MIN_ROUNDS\" to a value no lower than \"5000\":\n\nSHA_CRYPT_MIN_ROUNDS 5000",
+  "fix_id": "F-86925r1200356_fix",
+  "VulnDiscussion": "Passwords must be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised. Passwords that are encrypted with a weak algorithm are no more protected than if they are kept in plain text.\n\nUsing more hashing rounds makes password cracking attacks more difficult.\n\nSatisfies: SRG-OS-000073-GPOS-00041, SRG-OS-000120-GPOS-00061",
+  "Documentable": "false"
+}

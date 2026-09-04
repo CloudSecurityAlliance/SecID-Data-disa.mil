@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215221",
+  "rule_id": "SV-215221r987796_rule",
+  "stig_id": "AIX7-00-001124",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AIX root passwords must never be passed over a network in clear text form.",
+  "group_title": "SRG-OS-000074-GPOS-00042",
+  "idents": {
+    "legacy": [
+      "V-91293",
+      "SV-101391"
+    ],
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-16419r294114_chk",
+  "check_content": "Determine if root has logged in over an unencrypted network connection: \n\n# last | grep \"root \" | egrep -v \"reboot|console\" | more \nroot      pts/1        10.74.17.76           Jul 4 16:44 - 17:39  (00:54)\n\nNext, determine if the SSH daemon is running: \n\n# ps -ef |grep sshd \nroot  3670408  6029762   0   Jan 24      -  0:00 /usr/sbin/sshd\n\nIf root has logged in over the network and SSHD is not running, this is a finding.",
+  "fixtext": "If OpenSSH server is not installed, install it from the from AIX DVD Volume 1 using the following command (assuming that the DVD device is /dev/cd0):\n# installp -aXYgd /dev/cd0 -e /tmp/install.log openssh.base.server\n\nStart SSH server if it is not started:\n# startsrc -s sshd\n\nEnable SSH on the system and use it for all remote connections used to attain root access. \n\nDisable direct root remote login:\n# chsec -f /etc/security/user -s root -a rlogin=false",
+  "fix_id": "F-16417r294115_fix",
+  "VulnDiscussion": "Passwords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213674",
+  "rule_id": "SV-213674r960879_rule",
+  "stig_id": "DB2X-00-000600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DB2 must provide audit record generation capability for DoD-defined auditable events within all DBMS/database components.",
+  "group_title": "SRG-APP-000089-DB-000064",
+  "idents": {
+    "legacy": [
+      "SV-89111",
+      "V-74437"
+    ],
+    "cci": [
+      "CCI-000169"
+    ]
+  },
+  "check_id": "C-14895r295071_chk",
+  "check_content": "To meet these requirements, at the minimum AUDIT, CHECKING, CONTEXT, SECMAINT, SYSADMIN, and VALIDATE category auditing need to be implemented at the database level. \n\nRun the following SQL statement to ensure that an audit policy is defined upon the database: \nDB2> SELECT AUDITPOLICYNAME, AUDITPOLICYID \n           FROM SYSCAT.AUDITUSE \n           WHERE OBJECTTYPE IN (' ') \n\nIf no rows are returned, this is a finding. \n\nUsing the AUDITPOLICYID from the query above find the details of the audit policy. \nDB2> SELECT AUDITPOLICYNAME, AUDITSTATUS, CHECKINGSTATUS, CONTEXTSTATUS, SECMAINTSTATUS, SYSADMINSTATUS, VALIDATESTATUS, ERRORTYPE AS ERRORTYPE \n           FROM SYSCAT.AUDITPOLICIES \n           WHERE AUDITPOLICYID = <audit policy ID>\n\nIf the values for AUDITSTATUS, CHECKINGSTATUS, CONTEXTSTATUS, SECMAINTSTATUS, SYSMADMINSTATUS and VALIDATESTATUS  are not 'B' (Both) or ERRORTYPE is not 'A' (Audit), this is a finding.",
+  "fixtext": "Define an audit policy using the CREATE AUDIT POLICY SQL statement:\nDB2> CREATE AUDIT POLICY <DB audit policy name> CATEGORIES AUDIT STATUS BOTH, SYSADMIN STATUS BOTH, SECMAINT STATUS BOTH, VALIDATE STATUS BOTH, CHECKING STATUS BOTH, CONTEXT STATUS BOTH ERROR TYPE AUDIT\n\nTo modify an existing audit policy, replace \"CREATE\" with \"ALTER\" in the preceding statement. Only the categories explicitly named in the statement will be affected.  In this case, the changes take effect immediately.\n\nIf CREATE was used above, apply the policy created above to the database:\nDB2> AUDIT DATABASE USING POLICY <DB audit policy name>",
+  "fix_id": "F-14893r295072_fix",
+  "VulnDiscussion": "Without the capability to generate audit records, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. \n\nAudit records can be generated from various components within the DBMS (e.g., process, module). Certain specific application functionalities may be audited as well. The list of audited events is the set of events for which audits are to be generated. This set of events is typically a subset of the list of all events for which the system is capable of generating audit records.\n\nDoD has defined the list of events for which the DBMS will provide an audit record generation capability as the following: \n\n(i) Successful and unsuccessful attempts to access, modify, or delete privileges, security objects, security levels, or categories of information (e.g., classification levels);\n(ii) Access actions, such as successful and unsuccessful logon attempts, privileged activities, or other system-level access, starting and ending time for user access to the system, concurrent logons from different workstations, successful and unsuccessful accesses to objects, all program initiations, and all direct access to the information system; and\n(iii) All account creation, modification, disabling, and termination actions.\n\nOrganizations may define additional events requiring continuous or ad hoc auditing.",
+  "Documentable": "false"
+}

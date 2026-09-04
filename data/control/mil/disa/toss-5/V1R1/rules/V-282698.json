@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282698",
+  "rule_id": "SV-282698r1201350_rule",
+  "stig_id": "TOSS-05-000226",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 must not accept router advertisements on all Internet Protocol version 6 (IPv6) interfaces.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-87259r1201072_chk",
+  "check_content": "Verify TOSS 5 does not accept router advertisements on all IPv6 interfaces, unless the system is a router.\n\nNote: If IPv6 is disabled on the system, this requirement is not applicable.\n\nDetermine if router advertisements are not accepted by using the following command:\n\n$ sudo sysctl net.ipv6.conf.all.accept_ra\n\nnet.ipv6.conf.all.accept_ra = 0\n\nIf the \"accept_ra\" value is not \"0\" and is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure TOSS 5 to not accept router advertisements on all IPv6 interfaces unless the system is a router.\n\nAdd or edit the following line in a single system configuration file, in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv6.conf.all.accept_ra = 0\n\nLoad settings from all system configuration files using the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-87164r1201073_fix",
+  "VulnDiscussion": "An illicit router advertisement message could result in a man-in-the-middle attack.",
+  "Documentable": "false"
+}

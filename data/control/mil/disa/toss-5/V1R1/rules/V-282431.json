@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-282431",
+  "rule_id": "SV-282431r1200273_rule",
+  "stig_id": "TOSS-05-000400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 audit logs must be group-owned by root or by a restricted logging group to prevent unauthorized read access.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164",
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-86992r1200271_chk",
+  "check_content": "Verify the audit logs are group-owned by \"root\" or a restricted logging group. \n\nFirst determine if a group other than \"root\" has been assigned to the audit logs using the following command:\n\n$ sudo grep log_group /etc/audit/auditd.conf\n\nDetermine where the audit logs are stored using the following command:\n\n$ sudo grep -iw log_file /etc/audit/auditd.conf\n\nlog_file = /var/log/audit/audit.log\n\nUsing the location of the audit log file, determine if the audit log is group-owned by \"root\" using the following command:\n\n$ sudo stat -c \"%G %n\" /var/log/audit/audit.log\n\nroot /var/log/audit/audit.log\n\nIf the audit log is not group-owned by \"root\" or the configured alternative logging group, this is a finding.",
+  "fixtext": "Change the group of the directory of \"/var/log/audit\" to be owned by a correct group.\n\nIdentify the group that is configured to own audit log:\n\n$ sudo grep -P '^[ ]*log_group[ ]+=.*$' /etc/audit/auditd.conf\n\nChange the ownership to that group:\n\n$ sudo chgrp ${GROUP} /var/log/audit",
+  "fix_id": "F-86897r1200272_fix",
+  "VulnDiscussion": "Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029, SRG-OS-000206-GPOS-00084",
+  "Documentable": "false"
+}

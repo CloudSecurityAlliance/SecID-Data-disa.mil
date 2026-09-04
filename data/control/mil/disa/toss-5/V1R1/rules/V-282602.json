@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282602",
+  "rule_id": "SV-282602r1200786_rule",
+  "stig_id": "TOSS-05-000470",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS 5 crypto policy must not be overridden.",
+  "group_title": "SRG-OS-000396-GPOS-00176",
+  "idents": {
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-87163r1200784_chk",
+  "check_content": "Verify TOSS 5 custom crypto policies are loaded correctly.\n\nList all of the crypto backends configured on the system.\n\n$ ls -l /etc/crypto-policies/back-ends/ \nlrwxrwxrwx. 1 root root 40 Oct  7 08:44 bind.config -> /usr/share/crypto-policies/FIPS/bind.txt\nlrwxrwxrwx. 1 root root 42 Oct  7 08:44 gnutls.config -> /usr/share/crypto-policies/FIPS/gnutls.txt\nlrwxrwxrwx. 1 root root 40 Oct  7 08:44 java.config -> /usr/share/crypto-policies/FIPS/java.txt\nlrwxrwxrwx. 1 root root 46 Oct  7 08:44 javasystem.config -> /usr/share/crypto-policies/FIPS/javasystem.txt\nlrwxrwxrwx. 1 root root 40 Oct  7 08:44 krb5.config -> /usr/share/crypto-policies/FIPS/krb5.txt\nlrwxrwxrwx. 1 root root 45 Oct  7 08:44 libreswan.config -> /usr/share/crypto-policies/FIPS/libreswan.txt\nlrwxrwxrwx. 1 root root 42 Oct  7 08:44 libssh.config -> /usr/share/crypto-policies/FIPS/libssh.txt\nlrwxrwxrwx. 1 root root 39 Oct  7 08:44 nss.config -> /usr/share/crypto-policies/FIPS/nss.txt\nlrwxrwxrwx. 1 root root 43 Oct  7 08:44 openssh.config -> /usr/share/crypto-policies/FIPS/openssh.txt\nlrwxrwxrwx. 1 root root 49 Oct  7 08:44 opensshserver.config -> /usr/share/crypto-policies/FIPS/opensshserver.txt\nlrwxrwxrwx. 1 root root 46 Oct  7 08:44 opensslcnf.config -> /usr/share/crypto-policies/FIPS/opensslcnf.txt\nlrwxrwxrwx. 1 root root 43 Oct  7 08:44 openssl.config -> /usr/share/crypto-policies/FIPS/openssl.txt\n\nIf the paths do not point the respective files under \"/usr/share/crypto-policies/FIPS\" path, this is a finding.",
+  "fixtext": "Configure TOSS 5 to FIPS crypto policy.\n\n$ sudo ln -s /usr/share/crypto-policies/FIPS/<service>.txt /etc/crypto-policies/back-ends/<service>.conf\n\nReplace <service> with every service that is not set to FIPS.\n\nRestart the system for the changes to take effect.",
+  "fix_id": "F-87068r1200785_fix",
+  "VulnDiscussion": "Centralized cryptographic policies simplify applying secure ciphers across an operating system and the applications that run on that operating system. Use of weak or untested encryption algorithms undermines the purposes of using encryption to protect data.",
+  "Documentable": "false"
+}

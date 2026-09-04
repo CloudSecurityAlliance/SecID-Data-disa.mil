@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233873",
+  "rule_id": "SV-233873r1082640_rule",
+  "stig_id": "IDNS-8X-400015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DNS implementation must implement internal/external role separation.",
+  "group_title": "SRG-APP-000516-DNS-000101",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-37058r1082638_chk",
+  "check_content": "Review the Infoblox Grid configuration and network architecture to verify the appropriate zones are served by the correct internal or external member(s).  \n\n1. Navigate to Data Management >> DNS >> Zones tab. Review the usage of DNS Views as necessary.  \n2. If DNS Views are used, review each DNS View Client Match list using the \"Edit\" function. \n3. Select the \"Members\" tab.  \n4. Review each zone and member assignment to ensure it is configured correctly with respect to its network assignment.  \n5. When complete, click \"Cancel\" to exit the \"Properties\" screen.  \n\nIf an external server contains internal data, or vice versa, this is a finding.",
+  "fixtext": "DNS Views:\n1. Navigate to Data Management >> DNS >> Members >> Edit Member >> Toggle Advanced Mode >> DNS Views.\n2. Modify the \"Recursive Views Assigned to This Member.\"\n3. When complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen.\n\nDNS Zones:\n1. Navigate to Data Management >> DNS >> Zones. Select the appropriate view.\n2. Verify zone data.",
+  "fix_id": "F-37023r1082639_fix",
+  "VulnDiscussion": "DNS servers with an internal role only process name/address resolution requests from within the organization (i.e., internal clients). DNS servers with an external role only process name/address resolution information requests from clients external to the organization (i.e., on the external networks, including the Internet). The set of clients that can access an authoritative DNS server in a particular role is specified by the organization using address ranges, explicit access control lists, etc. \n\nTo protect internal DNS resource information, it is important to isolate the requests to internal DNS servers. Separating internal and external roles in DNS prevents address space that is private (e.g., 10.0.0.0/24) or is otherwise concealed by some form of Network Address Translation from leaking into the public DNS system.",
+  "Documentable": "false"
+}

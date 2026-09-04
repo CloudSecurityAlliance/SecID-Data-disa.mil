@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251608",
+  "rule_id": "SV-251608r960963_rule",
+  "stig_id": "IDMS-DB-000280",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The EMPDEMO databases, database objects, and applications must be removed.",
+  "group_title": "SRG-APP-000141-DB-000090",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-55043r807689_chk",
+  "check_content": "If a CAISAG base installation completed with EMPDEMO=YES and/or SQLDEMO=YES, or if a base installation completed with CSM and CREATE_DB_DEMO and/or CREATE_SQL_DEMO selected, this is a finding. \n\nIn OCF/BCF, DISPLAY DMCL <dmclname>. If segments EMPDEMO, SQLDEMO, and/or PROJDEMO exist, this is a finding. \n\nIn OCF/BCF, DISPLAY DBTABLE <dbtbname>. If segments EMPDEMO, SQLDEMO, and/or PROJDEMO exist, this is a finding.\n\nIn OCF/BCF, DISPLAY SCHEMA DEMOEMPL and DISPLAY SCHEMA DEMOPROJ. If either or both exist, this is a finding. If schema EMPSCHM exists, this is a finding. \n                                                                                                                                                                                                                                                                                                                                                                                                                                    \nIf any of the following load modules are in load libs used by the installation, this is a finding:\nEMPSS01, EMPDMCL, EMPLOAD, EMPRPT, EMPINQ\n\nIf any of the following files are found to be used by the installation, this is a finding:\n<installation prefix>.EMPDEMO.EMPDEMO. <installation prefix>.EMPDEMO.INSDEMO, <installation prefix>.ORGDEMO.EMPDEMO, <installation prefix>.SQLDEMO.EMPLDEMO, <installation prefix>.SQLDEMO.INDXDEMO, <installation prefix>.SQLDEMO.INFODEMO, <installation prefix>.PROJSEG.PROJDEMO",
+  "fixtext": "In OCF/BCF, ALTER DMCL <dmclname> and EXCLUDE SEGMENT EMPDEMO, SQLDEMO and/or PROJDEMO. Generate, punch, and relink dmcl. Do the same for DBTABLE <dbtbname>.\n\nRemove load modules EMPSS01, EMPDMCL, EMPLOAD, EMPRPT, and EMPINQ from installation load libraries.\n                                                                                                                                                                                                                                                                                                                                        \nRemove files <installation prefix>.EMPDEMO.EMPDEMO. <installation prefix>.EMPDEMO.INSDEMO, <installation prefix>.ORGDEMO.EMPDEMO, <installation prefix>.SQLDEMO.EMPLDEMO, <installation prefix>.SQLDEMO.INDXDEMO, <installation prefix>.SQLDEMO.INFODEMO, <installation prefix>.PROJSEG.PROJDEMO from installation and installation JCL.\n\nRemove database demo objects from application dictionaries including EMPSCHM record elements and records, EMPSS01, and schemas DEMOEMPL and DEMOPROJ, dropping all the tables in theses schemas.                                                                                               \n\nFor future base installs, specify EMPDEMO=NO and SQLDEMO=NO for CAISAG installs and do not select CREATE_DB_DEMO and CREATE_SQL_DEMO fields on CSM installs.                                                                                                                                                                                                                                                                                                                                                                                           \n\nNote that specified names are default names. Use modified names if they were changed during base installation.",
+  "fix_id": "F-54997r807690_fix",
+  "VulnDiscussion": "Demonstration and sample database objects and applications present publicly known attack points for malicious users. These demonstration and sample objects are meant to provide simple examples of coding specific functions, and are not developed to prevent vulnerabilities from being introduced to the DBMS and host system.",
+  "Documentable": "false"
+}

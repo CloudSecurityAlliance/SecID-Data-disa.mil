@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215341",
+  "rule_id": "SV-215341r991589_rule",
+  "stig_id": "AIX7-00-003035",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The sticky bit must be set on all public directories on AIX systems.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91629",
+      "SV-101727"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16539r294474_chk",
+  "check_content": "Verify all world-writable directories have the sticky bit set by running the command: \n\n# find / -type d -perm -002 ! -perm -1000 > wwlist \n# cat wwlist\n\nIf any directories are listed in the \"wwlist\" file, this is a finding.",
+  "fixtext": "Set the sticky bit on all public directories, such as: \n# chmod 1777 /tmp \n\n(Replace /tmp with the public directory missing the sticky bit, if necessary.)",
+  "fix_id": "F-16537r294475_fix",
+  "VulnDiscussion": "Failing to set the sticky bit on public directories allows unauthorized users to delete files in the directory structure. The only authorized public directories are those temporary directories supplied with the system, or those designed to be temporary file repositories. The setting is normally reserved for directories used by the system, and by users for temporary file storage - such as /tmp - and for directories requiring global read/write access.",
+  "Documentable": "false"
+}

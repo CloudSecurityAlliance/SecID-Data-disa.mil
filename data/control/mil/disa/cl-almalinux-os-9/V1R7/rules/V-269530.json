@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269530",
+  "rule_id": "SV-269530r1050413_rule",
+  "stig_id": "ALMA-09-054580",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 audit system must retain an optimal number of audit records.",
+  "group_title": "SRG-OS-000047-GPOS-00023",
+  "idents": {
+    "cci": [
+      "CCI-000140"
+    ]
+  },
+  "check_id": "C-73561r1049940_chk",
+  "check_content": "Verify that AlmaLinux OS 9 is configured to make full use of the auditd storage volume when rotation is enabled, with the following command:\n\n$ grep num_logs /etc/audit/auditd.conf\n\nnum_logs = 5\n\nIf the value of the \"num_logs\" option is not between 2 and 99, is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to make full use of the auditd storage volume with rotation enabled.\n \nAdd or update the following line (\"num_logs\" can be set to a number between 2 and 99) in the \"/etc/audit/auditd.conf\" file:\n \nnum_logs = 5",
+  "fix_id": "F-73462r1049941_fix",
+  "VulnDiscussion": "max_log_file (size in megabytes) multiplied by num_logs must make full use of the auditd storage volume (separate to the root partition).\n\nIf max_log_file_action is set to ROTATE or KEEP_LOGS then num_logs must be set to a value between 2 and 99.",
+  "Documentable": "false"
+}

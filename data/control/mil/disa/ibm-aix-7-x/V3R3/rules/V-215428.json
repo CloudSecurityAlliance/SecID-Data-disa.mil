@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215428",
+  "rule_id": "SV-215428r991589_rule",
+  "stig_id": "AIX7-00-003133",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must not run any routing protocol daemons unless the system is a router.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91717",
+      "SV-101815"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16626r294735_chk",
+  "check_content": "Check for any running routing protocol daemons by running:\n# ps -ef | egrep '(ospf|route|bgp|zebra|quagga|gate)' \n\nIf any routing protocol daemons are listed, this is a finding.",
+  "fixtext": "Kill any routing protocol daemons by running the following command:\n# ps -ef |egrep '(ospf|route|bgp|zebra|quagga|gate)' | grep -v egrep | awk -F \" \" '{print $2}' | while read pid;do kill $pid;done",
+  "fix_id": "F-16624r294736_fix",
+  "VulnDiscussion": "Routing protocol daemons are typically used on routers to exchange network topology information with other routers. If this software is used when not required, system network information may be unnecessarily transmitted across the network.",
+  "Documentable": "false"
+}
