@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261356",
+  "rule_id": "SV-261356r996518_rule",
+  "stig_id": "SLEM-05-411050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must never automatically remove or disable emergency administrator accounts.",
+  "group_title": "SRG-OS-000123-GPOS-00064",
+  "idents": {
+    "cci": [
+      "CCI-001682"
+    ]
+  },
+  "check_id": "C-65085r996517_chk",
+  "check_content": "Verify SLEM 5 is configured such that emergency administrator accounts are never automatically removed or disabled with the following command:\n\nNote: Root is typically the \"account of last resort\" on a system and is also used as the example emergency administrator account. If another account is being used as the emergency administrator account, the command should be used against that account.\n\n     > sudo chage -l <emergency_administrator_account_name> | grep -E '(Password|Account) expires' \n     Password expires: never\n     Account expires: never\n\nIf \"Password expires\" or \"Account expires\" is set to anything other than \"never\", this is a finding.",
+  "fixtext": "Configure SLEM 5 to never automatically remove or disable emergency administrator accounts.\n\n     > sudo chage -I -1 -M 99999 <emergency_administrator_account_name>",
+  "fix_id": "F-64993r995934_fix",
+  "VulnDiscussion": "Emergency administrator accounts, also known as \"last resort\" or \"break glass\" accounts, are local logon accounts enabled on the system for emergency use by authorized system administrators to manage a system when standard logon methods are failing or not available. Emergency accounts are not subject to manual removal or scheduled expiration requirements.",
+  "Documentable": "false"
+}

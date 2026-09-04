@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221089",
+  "rule_id": "SV-221089r999698_rule",
+  "stig_id": "CISC-RT-000260",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco perimeter switch must be configured to only allow incoming communications from authorized sources to be routed to authorized destinations.",
+  "group_title": "SRG-NET-000364-RTR-000109",
+  "idents": {
+    "legacy": [
+      "SV-110997",
+      "V-101893"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-22804r409756_chk",
+  "check_content": "Review the switch configuration to determine if the switch allows only incoming communications from authorized sources to be routed to authorized destinations. The hypothetical example below allows inbound NTP from server x.1.12.9 only to host x.12.1.21.\n\nip access-list EXTERNAL_ACL\n 10 permit tcp any any established \n 20 permit tcp x.11.1.1/32 eq bgp x.11.1.2/32 \n 30 permit tcp x.11.1.1/32 x.11.1.2/32 eq bgp \n 40 permit icmp x.11.1.1/32 x.11.1.2/32 echo \n 50 permit icmp x.11.1.1/32 x.11.1.2/32 echo-reply \n 60 permit tcp any x.11.2.3/32 eq www \n 70 permit udp x.12.1.9/32 x.12.1.21/32 eq ntp \n…\n …\n …\n90 deny ip any any log\n\nIf the switch does not restrict incoming communications to allow only authorized sources and destinations, this is a finding.",
+  "fixtext": "Configure the switch to allow only incoming communications from authorized sources to be routed to authorized destinations. \n\nSW2(config)# ip access-list EXTERNAL_ACL\nSW2(config-acl)# permit tcp any any established\n…\n…\n…\nSW2(config-acl)# permit udp host x.12.1.9 host x.12.1.21 eq ntp\nSW2(config-acl)# deny ip any any log\nSW2(config-acl)# end",
+  "fix_id": "F-22793r409757_fix",
+  "VulnDiscussion": "Unrestricted traffic may contain malicious traffic that poses a threat to an enclave or to other connected networks. Additionally, unrestricted traffic may transit a network, which uses bandwidth and other resources.\n\nTraffic can be restricted directly by an access control list (ACL), which is a firewall function, or by Policy Routing. Policy Routing is a technique used to make routing decisions based on a number of different criteria other than just the destination network, including source or destination network, source or destination address, source or destination port, protocol, packet size, and packet classification. This overrides the switch's normal routing procedures used to control the specific paths of network traffic. It is normally used for traffic engineering but can also be used to meet security requirements; for example, traffic that is not allowed can be routed to the Null0 or discard interface. Policy Routing can also be used to control which prefixes appear in the routing table.\n\nThis requirement is intended to allow network administrators the flexibility to use whatever technique is most effective.",
+  "Documentable": "false"
+}

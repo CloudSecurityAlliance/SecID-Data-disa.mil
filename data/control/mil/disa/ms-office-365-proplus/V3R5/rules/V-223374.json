@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223374",
+  "rule_id": "SV-223374r961092_rule",
+  "stig_id": "O365-PR-000001",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Trusted Locations on the network must be disabled in Project.",
+  "group_title": "SRG-APP-000210",
+  "idents": {
+    "legacy": [
+      "SV-108955",
+      "V-99851"
+    ],
+    "cci": [
+      "CCI-001170"
+    ]
+  },
+  "check_id": "C-25047r442341_chk",
+  "check_content": "Verify the policy value for User Configuration >> Administrative Templates >> Microsoft Project 2016 >> Project Options >> Security >> Trust Center >> Allow Trusted Locations on the network is set to \"Disabled\".\n \nUse the Windows Registry Editor to navigate to the following key:\n\nHKCU\\software\\policies\\microsoft\\office\\16.0\\ms project\\security\\trusted locations\n\nIf the value allownetworklocations is REG_DWORD = 0, this is not a finding.",
+  "fixtext": "Set the policy value for User Configuration >> Administrative Templates >> Microsoft Project 2016 >> Project Options >> Security >> Trust Center >> Allow Trusted Locations on the network to \"Disabled\".",
+  "fix_id": "F-25035r442342_fix",
+  "VulnDiscussion": "This policy setting controls whether trusted locations on the network can be used.\n\nIf you enable this policy setting, users can specify trusted locations on network shares or in other remote locations that are not under their direct control by clicking the \"Add new location\" button in the Trusted Locations section of the Trust Center. Content, code, and add-ins are allowed to load from trusted locations with minimal security and without prompting the user for permission.\n\nIf you disable this policy setting, the selected application ignores any network locations listed in the Trusted Locations section of the Trust Center. \n\nIf you also deploy Trusted Locations via Group Policy, you should verify whether any of them are remote locations. If any of them are remote locations and you do not allow remote locations via this policy setting, those policy keys that point to remote locations will be ignored on client computers.\n\nDisabling this policy setting does not delete any network locations from the Trusted Locations list, but causes disruption for users who add network locations to the Trusted Locations list. Users are also prevented from adding new network locations to the Trusted Locations list in the Trust Center. We recommended that you do not enable this policy setting as the \"Allow Trusted Locations on my network (not recommended)\" check box also states. Therefore, in practice, it should be possible to disable this policy setting in most situations without causing significant usability issues for most users.\n\nIf you do not enable this policy setting, users can select the \"Allow Trusted Locations on my network (not recommended)\" check box if desired and then specify trusted locations by clicking the \"Add new location\" button.",
+  "Documentable": "false"
+}

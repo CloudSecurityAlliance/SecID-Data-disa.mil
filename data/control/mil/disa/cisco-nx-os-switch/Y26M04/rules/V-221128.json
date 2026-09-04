@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221128",
+  "rule_id": "SV-221128r999737_rule",
+  "stig_id": "CISC-RT-000750",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco PE switch must be configured to ignore or drop all packets with any IP options.",
+  "group_title": "SRG-NET-000205-RTR-000016",
+  "idents": {
+    "legacy": [
+      "SV-111075",
+      "V-101971"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-22843r409873_chk",
+  "check_content": "In Cisco NX-OS, all packets with any header option other than the “source-route” header option are dropped. By default, ipv4 source routing is enabled. Verify that source routing is disabled via the following command: \n\nno ip source-route\n\nIf the switch is not configured to drop all packets with IP option source routing, this is a finding.",
+  "fixtext": "Configure the switch to drop all packets with IP option source routing.\n\nSW1(config)# no ip source-route \nSW1(config)# end",
+  "fix_id": "F-22832r409874_fix",
+  "VulnDiscussion": "Packets with IP options are not fast-switched and therefore must be punted to the switch processor. Hackers who initiate denial-of-service (DoS) attacks on switches commonly send large streams of packets with IP options. Dropping the packets with IP options reduces the load of IP options packets on the switch. The end result is a reduction in the effects of the DoS attack on the switch and on downstream switches.",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-230231",
+  "rule_id": "SV-230231r1017050_rule",
+  "stig_id": "RHEL-08-010110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must encrypt all stored passwords with a FIPS 140-2 approved cryptographic hashing algorithm.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-000196",
+      "CCI-004062"
+    ]
+  },
+  "check_id": "C-32900r567439_chk",
+  "check_content": "Verify that the shadow password suite configuration is set to encrypt password with a FIPS 140-2 approved cryptographic hashing algorithm.\n\nCheck the hashing algorithm that is being used to hash passwords with the following command:\n\n$ sudo grep -i crypt /etc/login.defs \n\nENCRYPT_METHOD SHA512\n\nIf \"ENCRYPT_METHOD\" does not equal SHA512 or greater, this is a finding.",
+  "fixtext": "Configure RHEL 8 to encrypt all stored passwords. \n\nEdit/Modify the following line in the \"/etc/login.defs\" file and set \"[ENCRYPT_METHOD]\" to SHA512.\n\nENCRYPT_METHOD SHA512",
+  "fix_id": "F-32875r567440_fix",
+  "VulnDiscussion": "Passwords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nUnapproved mechanisms that are used for authentication to the cryptographic module are not verified and therefore cannot be relied upon to provide confidentiality or integrity, and DoD data may be compromised.\n\nFIPS 140-2 is the current standard for validating that mechanisms used to access cryptographic modules utilize authentication that meets DoD requirements.",
+  "Documentable": "false"
+}

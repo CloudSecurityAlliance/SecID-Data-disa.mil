@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261340",
+  "rule_id": "SV-261340r996483_rule",
+  "stig_id": "SLEM-05-255075",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 SSH daemon must be configured to not allow authentication using known hosts authentication.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65069r996481_chk",
+  "check_content": "Verify SLEM 5 SSH daemon is configured to not allow authentication using \"known hosts\" authentication with the following command:\n\n     > sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*ignoreuserknownhosts'\n     /etc/ssh/sshd_config:IgnoreUserKnownHosts yes\n\nIf \"IgnoreUserKnownHosts\" is not set to \"no\", is commented out, missing, or conflicting results are returned, this is a finding.",
+  "fixtext": "Configure SLEM 5 SSH daemon to not allow authentication using \"known hosts\" authentication.\n\nAdd or modify the following line in the \"/etc/ssh/sshd_config\" file:\n\nIgnoreUserKnownHosts yes\n\nRestart the SSH daemon in order for the changes to take effect:\n\n     > sudo systemctl restart sshd.service",
+  "fix_id": "F-64977r996482_fix",
+  "VulnDiscussion": "Configuring this setting for the SSH daemon provides additional assurance that remote logon via SSH will require a password, even in the event of misconfiguration elsewhere.",
+  "Documentable": "false"
+}

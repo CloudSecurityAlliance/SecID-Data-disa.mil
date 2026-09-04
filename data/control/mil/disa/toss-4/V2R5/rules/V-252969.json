@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-252969",
+  "rule_id": "SV-252969r1190845_rule",
+  "stig_id": "TOSS-04-020300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All TOSS local interactive user home directories must have mode 0750 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00230",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56422r1190844_chk",
+  "check_content": "Verify TOSS 4 limits the ability of nonprivileged users to grant other users' direct access to the contents of their home directories/folders.\n\nVerify the user permissions on all user home directories is set to \"750\" permissions with the following command:\n\n$ find $(awk -F: '($3>=1000)&&($7 !~ /nologin/){print $6}' /etc/passwd) -maxdepth 0 -not -perm 750 -ls\n\nIf there is any output, this is a finding.",
+  "fixtext": "Change the mode of interactive user's home directories to \"0750\" using the following command:\n\nNote: The example will be for the user \"disauser\".\n\n$ sudo chmod 0750 /home/disauser",
+  "fix_id": "F-56372r1184492_fix",
+  "VulnDiscussion": "Users' home directories/folders may contain information of a sensitive nature. Nonprivileged users should coordinate any sharing of information with a system administrator (SA) through shared resources.",
+  "Documentable": "false"
+}

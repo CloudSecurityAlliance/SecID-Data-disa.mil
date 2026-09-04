@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216428",
+  "rule_id": "SV-216428r959010_rule",
+  "stig_id": "SOL-11.1-070120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Duplicate Group IDs (GIDs) must not exist for multiple groups.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-60953",
+      "V-48081"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17664r371372_chk",
+  "check_content": "The root role is required.\n\nCheck that group IDs are unique.\n\n# getent group | cut -f3 -d\":\" | sort -n | uniq -c |\\\nwhile read x ; do\n[ -z \"${x}\" ] && break\nset - $x\nif [ $1 -gt 1 ]; then\ngrps=`getent group | nawk -F: '($3 == n) { print $1\n}' n=$2 | xargs`\necho \"Duplicate GID ($2): ${grps}\"\nfi\ndone\n\nIf output is produced, this is a finding.",
+  "fixtext": "The root role is required.\n\nWork with each respective group owner to remediate this issue and ensure that the group ownership of their files are set to an appropriate value.",
+  "fix_id": "F-17662r371373_fix",
+  "VulnDiscussion": "User groups must be assigned unique GIDs for accountability and to ensure appropriate access protections.",
+  "Documentable": "false"
+}

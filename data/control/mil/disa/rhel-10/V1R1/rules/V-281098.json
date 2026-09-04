@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281098",
+  "rule_id": "SV-281098r1165649_rule",
+  "stig_id": "RHEL-10-500010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must audit local events.",
+  "group_title": "SRG-OS-000062-GPOS-00031",
+  "idents": {
+    "cci": [
+      "CCI-000169"
+    ]
+  },
+  "check_id": "C-85659r1165647_chk",
+  "check_content": "Verify that RHEL 10 generates audit records for local events with the following command:\n\n$ sudo grep local_events /etc/audit/auditd.conf\nlocal_events = yes\n\nIf \"local_events\" is not set to \"yes\", the command does not return a line, or the line is commented out, this is a finding.",
+  "fixtext": "Configure RHEL 10 to generate audit records for local events by adding or updating the following line in \"/etc/audit/auditd.conf\":\n\nlocal_events = yes\n\nRestart the audit daemon with the following command for the changes to take effect:\n\n$ sudo service auditd restart",
+  "fix_id": "F-85564r1165648_fix",
+  "VulnDiscussion": "Without establishing what type of events occurred, along with the source, location, and outcome, it would be difficult to establish, correlate, and investigate the events leading up to an outage or attack.\n\nIf option \"local_events\" is not set to \"yes\", only events from the network will be aggregated.",
+  "Documentable": "false"
+}

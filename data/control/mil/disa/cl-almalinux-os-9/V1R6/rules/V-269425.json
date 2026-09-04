@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-269425",
+  "rule_id": "SV-269425r1117266_rule",
+  "stig_id": "ALMA-09-041050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must restrict access to the kernel message buffer.",
+  "group_title": "SRG-OS-000132-GPOS-00067",
+  "idents": {
+    "cci": [
+      "CCI-001082",
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-73456r1049685_chk",
+  "check_content": "Verify AlmaLinux OS 9 is configured to restrict access to the kernel message buffer with the following commands:\n\nCheck the status of the kernel.dmesg_restrict kernel parameter.\n\n$ sysctl kernel.dmesg_restrict\n\nkernel.dmesg_restrict = 1\n\nIf \"kernel.dmesg_restrict\" is not set to \"1\" or is missing, this is a finding.\n\nCheck that the configuration files are present to enable this kernel parameter.\n\n$ /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' | grep -F kernel.dmesg_restrict | tail -1\n\nkernel.dmesg_restrict = 1\n\nIf \"kernel.dmesg_restrict\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to restrict access to the kernel message buffer with the following command:\n\n$ echo \"kernel.dmesg_restrict = 1 > /etc/sysctl.d/60-dmesg.conf\"\n\nLoad settings from all system configuration files with the following command:\n\n$ sysctl --system",
+  "fix_id": "F-73357r1049686_fix",
+  "VulnDiscussion": "Restricting access to the kernel message buffer limits access to only root. This prevents attackers from gaining additional system information as a nonprivileged user.\n\nSatisfies: SRG-OS-000132-GPOS-00067, SRG-OS-000138-GPOS-00069",
+  "Documentable": "false"
+}

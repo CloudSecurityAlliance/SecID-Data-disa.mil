@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281343",
+  "rule_id": "SV-281343r1167179_rule",
+  "stig_id": "RHEL-10-800110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must log Internet Protocol version 4 (IPv4) packets with impossible addresses.",
+  "group_title": "SRG-OS-000420-GPOS-00186",
+  "idents": {
+    "cci": [
+      "CCI-002385",
+      "CCI-001098"
+    ]
+  },
+  "check_id": "C-85904r1167177_chk",
+  "check_content": "Verify RHEL 10 logs IPv4 martian packets.\n\nCheck the value of the \"net.ipv4.conf.all.log_martians\" variable with the following command:\n\n$ sudo sysctl net.ipv4.conf.all.log_martians\nnet.ipv4.conf.all.log_martians = 1\n\nIf \"net.ipv4.conf.all.log_martians\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 10 to log martian packets on IPv4 interfaces.\n\nCreate a configuration file if it does not already exist:\n\n$ sudo vi /etc/sysctl.d/99-ipv4_log_martians.conf\n\nAdd the following line to the file:\n\nnet.ipv4.conf.all.log_martians=1\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-85809r1167178_fix",
+  "VulnDiscussion": "The presence of \"martian\" packets (which have impossible addresses), as well as spoofed packets, source-routed packets, and redirects, could be a sign of nefarious network activity. Logging these packets enables this activity to be detected.\n\nSatisfies: SRG-OS-000420-GPOS-00186, SRG-OS-000142-GPOS-00074",
+  "Documentable": "false"
+}

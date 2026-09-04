@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-264364",
+  "rule_id": "SV-264364r984437_rule",
+  "stig_id": "SRG-APP-000251-WSR-000194",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The web server must interpret and normalize ambiguous HTTP requests or terminate the TCP connection.",
+  "group_title": "SRG-APP-000251",
+  "idents": {
+    "cci": [
+      "CCI-001310"
+    ]
+  },
+  "check_id": "C-68277r984435_chk",
+  "check_content": "Verify the web server normalizes ambiguous requests or terminates the TCP connection. \n\nIf the web server does not drop ambiguous requests that cannot be normalized and terminate the TCP connection, this is a finding.",
+  "fixtext": "Configure the web server to interpret HTTP headers so they are normalized and unambiguous. The web server must validate requests that report message body as \"zero\" in the HTTP header.\n\nConfigure the web server to drop ambiguous requests that cannot be normalized and terminate the TCP connection.",
+  "fix_id": "F-68185r984436_fix",
+  "VulnDiscussion": "Request smuggling attacks involve placing both the Content-Length header and the Transfer-Encoding header into a single HTTP/1 request and manipulating it so that web servers (i.e., back-end, front-end, load balancers) process the request differently. There are a number of variants of this type of attack with different names. However, all variants are addressed by configuring the front-end server to exclusively use HTTP/2 when communicating with other web servers. Specific instances of this vulnerability can be resolved by reconfiguring the front-end server to normalize ambiguous requests before routing them onward.  However, if the request cannot be made unambiguous or normalized, configure both the front-end and back-end servers to reject the message and close the connection.\n\nIt is important to not assume requests do not have a body. For all web servers, examine requests that report message body length as zero in the HTTP header and drop the request.\n\nFor load balancing or reverse proxying implementation:\n-The front-end web server must interpret and forward HTTP requests, such that the back-end server receives a consistent interpretation of the request, or terminate the TCP connection.\n-The back-end web server must drop ambiguous requests that cannot be normalized and terminate the TCP connection.",
+  "Documentable": "false"
+}

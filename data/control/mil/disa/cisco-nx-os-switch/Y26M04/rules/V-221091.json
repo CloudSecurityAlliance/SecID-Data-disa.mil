@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221091",
+  "rule_id": "SV-221091r999700_rule",
+  "stig_id": "CISC-RT-000310",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco perimeter switch must be configured to restrict it from accepting outbound IP packets that contain an illegitimate address in the source address field via egress filter or by enabling Unicast Reverse Path Forwarding (uRPF).",
+  "group_title": "SRG-NET-000205-RTR-000014",
+  "idents": {
+    "legacy": [
+      "SV-111001",
+      "V-101897"
+    ],
+    "cci": [
+      "CCI-001094"
+    ]
+  },
+  "check_id": "C-22806r409762_chk",
+  "check_content": "Review the switch configuration to verify uRPF or an egress ACL has been configured on all internal interfaces to restrict the switch from accepting outbound IP packets that contain an illegitimate address in the source address field.\n\nuRPF example\n\ninterface Ethernet2/4\n description downstream link to LAN\n no switchport\n ip address 10.1.12.1/24\n ip verify unicast source reachable-via rx\n\nEgress ACL example\n\nip access-list EGRESS_FILTER\n 10 permit udp 10.1.15.0/24 any eq domain \n 20 permit tcp 10.1.15.0/24 any eq ftp \n 30 permit tcp 10.1.15.0/24 any eq ftp-data \n 40 permit tcp 10.1.15.0/24 any eq www \n 50 permit icmp 10.1.15.0/24 any \n 60 permit icmp 10.1.15.0/24 any echo \n 70 deny ip any any\n…\n…\n…\ninterface Ethernet2/4\n description downstream link to LAN\n no switchport\n ip access-group EGRESS_FILTER in\n ip address 10.1.12.1/24\n\nIf uRPF or an egress ACL to restrict the switch from accepting outbound IP packets that contain an illegitimate address in the source address field has not been configured on all internal interfaces in an enclave, this is a finding.",
+  "fixtext": "Configure the switch to ensure that an egress ACL or uRPF is configured on internal interfaces to restrict the switch from accepting any outbound IP packet that contains an illegitimate address in the source field. The example below enables uRPF.\n\nSW1(config)# int e2/4\nSW1(config-if)# ip verify unicast source reachable-via rx\nSW1(config-if)# end",
+  "fix_id": "F-22795r409763_fix",
+  "VulnDiscussion": "A compromised host in an enclave can be used by a malicious platform to launch cyberattacks on third parties. This is a common practice in \"botnets\", which are a collection of compromised computers using malware to attack other computers or networks. DDoS attacks frequently leverage IP source address spoofing to send packets to multiple hosts that in turn will then send return traffic to the hosts with the IP addresses that were forged. This can generate significant amounts of traffic. Therefore, protection measures to counteract IP source address spoofing must be taken. When uRPF is enabled in strict mode, the packet must be received on the interface that the device would use to forward the return packet, thereby mitigating IP source address spoofing.",
+  "Documentable": "false"
+}

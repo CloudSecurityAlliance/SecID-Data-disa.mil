@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-265882",
+  "rule_id": "SV-265882r1193305_rule",
+  "stig_id": "MADB-10-012600",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "MariaDB products must be an enterprise version supported by the vendor.",
+  "group_title": "SRG-APP-000456-DB-000400",
+  "idents": {
+    "cci": [
+      "CCI-003376"
+    ]
+  },
+  "check_id": "C-69801r1193304_chk",
+  "check_content": "Review the version and release information and check if a suitable enterprise edition is in use: \n\nMariaDB> SELECT VARIABLE_NAME, VARIABLE_VALUE\n FROM information_schema.GLOBAL_VARIABLES\n WHERE VARIABLE_NAME IN ('version', 'version_comment', 'version_suffix');\n\nExample output for Enterprise 10.6 would be:\n\n+-----------------------------+\n| 10.6.25-MariaDB-enterprise |\n+-----------------------------+\n\nIn Enterprise, the version field itself will contain \"-enterprise\", and sometimes additional enterprise-specific variables/plugins appear (e.g., enterprise encryption or backup-related variables), but the version string is the definitive indicator. In Community, the version field is usually empty or generic and has no enterprise indicators.\n\nAccess the vendor website MariaDB Enterprise download page and check supported releases: https://mariadb.com/downloads/enterprise/enterprise-server/\n\nPick the corresponding operating system such as Ubuntu, Red Hat, Rocky, or another from drop-down list.\n\nIf MariaDB Community Software or an older MariaDB Enterprise version that has reached end of life (EOL) is in use, this is a finding.",
+  "fixtext": "Remove or decommission all unsupported software products.\n\nUpgrade unsupported DBMS or unsupported components to a supported version of the product.",
+  "fix_id": "F-69705r999551_fix",
+  "VulnDiscussion": "Unsupported commercial and database systems should not be used, because fixes to newly identified bugs will not be implemented by the vendor. The lack of support can result in potential vulnerabilities.Systems at unsupported servicing levels or releases will not receive security updates for new vulnerabilities, which leaves them subject to exploitation.\n\nWhen maintenance updates and patches are no longer available, the database software is no longer considered supported and should be upgraded or decommissioned.\n\nOnly Enterprise editions of MariaDB are supported. The Community edition is unsupported. MariaDB Enterprise is the only way to guarantee no malicious or unsupported code has been introduced to systems.\n\nNote: The only way to access MariaDB Enterprise server is to have an active MariaDB Enterprise subscription and login. If access is needed, email gov@mariadb.com for assistance.",
+  "Documentable": "false"
+}

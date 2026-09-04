@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261879",
+  "rule_id": "SV-261879r1000960_rule",
+  "stig_id": "CD16-00-002400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must protect its audit configuration from unauthorized modification.",
+  "group_title": "SRG-APP-000122-DB-000203",
+  "idents": {
+    "cci": [
+      "CCI-001494"
+    ]
+  },
+  "check_id": "C-65733r1000640_chk",
+  "check_content": "Note: The following instructions use the PGDATA environment variable. Refer to APPENDIX-F for instructions on configuring PGDATA.\n\nAll configurations for auditing and logging can be found in the postgresql.conf configuration file. By default, this file is owned by the database administrator account. \n\nTo check that the permissions of the postgresql.conf are owned by the database administrator with permissions of 0600, run the following as the database administrator (shown here as \"postgres\"):\n\n$ sudo su - postgres\n$ ls -la ${PGDATA?}\n\nIf postgresql.conf is not owned by the database administrator or does not have 0600 permissions, this is a finding.\n\n#### stderr Logging\n\nTo check that logs are created with 0600 permissions, check the following setting:\n\n$ sudo su - postgres\n$ psql -c \"SHOW log_file_mode\"\n\nIf permissions are not 0600, this is a finding.\n\n#### syslog Logging\n\nIf PostgreSQL is configured to use syslog, verify that the logs are owned by root and have 0600 permissions. If they are not, this is a finding.",
+  "fixtext": "Note: The following instructions use the PGDATA environment variable. Refer to APPENDIX-F for instructions on configuring PGDATA.\n\nApply or modify access controls and permissions (both within PostgreSQL and in the file system/operating system) to tools used to view or modify audit log data. Tools must be configurable by authorized personnel only.\n\n$ sudo su - postgres\n$ vi ${PGDATA?}/postgresql.conf\nlog_file_mode = 0600\n\nAs the database administrator (shown here as \"postgres\"), change the ownership and permissions of configuration files in PGDATA:\n\n$ sudo su - postgres\n$ chown postgres:postgres ${PGDATA?}/*.conf\n$ chmod 0600 ${PGDATA?}/*.conf",
+  "fix_id": "F-65641r1000641_fix",
+  "VulnDiscussion": "Protecting audit data also includes identifying and protecting the tools used to view and manipulate log data. Therefore, protecting audit tools is necessary to prevent unauthorized operation on audit data.\n\nApplications providing tools to interface with audit data will leverage user permissions and roles identifying the user accessing the tools and the corresponding rights the user enjoys to make access decisions regarding the modification of audit tools.\n\nAudit tools include, but are not limited to, vendor-provided and open source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.",
+  "Documentable": "false"
+}

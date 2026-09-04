@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-272435",
+  "rule_id": "SV-272435r1124068_rule",
+  "stig_id": "BIND-9X-002010",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The BIND 9.x server implementation must uniquely identify and authenticate the other DNS server before responding to a server-to-server transaction, zone transfer, and/or dynamic update request using cryptographically based bidirectional authentication to protect the integrity of the information in transit.",
+  "group_title": "SRG-APP-000439-DNS-000063",
+  "idents": {
+    "cci": [
+      "CCI-002418",
+      "CCI-001958",
+      "CCI-001967",
+      "CCI-002421",
+      "CCI-000778"
+    ]
+  },
+  "check_id": "C-76485r1124067_chk",
+  "check_content": "If zone transfers are disabled with the \"allow-transfer { none; };\" directive, this is not applicable.\n\nVerify that the BIND 9.x server is configured to uniquely identify a name server before responding to a zone transfer.\n\nInspect the \"named.conf\" file for the presence of TSIG key statements.\n\nOn the primary name server, this is an example of a configured key statement:\n\nkey tsig_example. {\nalgorithm hmac-SHA256;\ninclude \"tsig-example.key\";\n};\n\nzone \"disa.mil\" {\ntype Primary;\nfile \"db.disa.mil\";\nallow-transfer { key tsig_example.; };\n};\n\nOn the secondary name server, this is an example of a configured key statement:\n\nkey tsig_example. {\nalgorithm hmac-SHA256;\ninclude \"tsig-example.key\";\n};\n\nserver <ip_address> {\nkeys { tsig_example };\n};\n\nzone \"disa.mil\" {\ntype Secondary;\nPrimarys { <ip_address>; };\nfile \"db.disa.mil\";\n};\n\nIf a primary name server does not have a key defined in the \"allow-transfer\" block, this is a finding.\n\nIf a secondary name server does not have a server statement that contains a \"keys\" sub-statement, this is a finding.",
+  "fixtext": "Configure the BIND 9.x server to use TSIG keys.\n\nAdd a key statement to the \"named.conf\" file for TSIG that is being used:\n\nkey tsig_example. {\nalgorithm hmac-SHA256;\ninclude \"tsig-example.key\";\n};\n\nAdd key statements to the allow-transfer statements on a primary name server:\n\nallow-transfer { key tsig_example.; };\n\nAdd key statements to the server statements on a secondary name server:\n\nserver <ip_address> {\nkeys { tsig_example };\n};\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76392r1123952_fix",
+  "VulnDiscussion": "Server-to-server (zone transfer) transactions are provided by TSIG, which enforces mutual server authentication using a key that is unique to each server pair (TSIG), thus uniquely identifying the other server. DNS does perform server authentication when TSIG is used, but this authentication is transactional in nature (each transaction has its own authentication performed).\n\nEnforcing mutually authenticated communication sessions during zone transfers provides the assurance that only authorized servers are requesting and receiving DNS zone data. Without authenticating devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity.\n\nFailure to properly implement transactional security may have significant effects on the overall security of the DNS infrastructure. The lack of mutual authentication between name servers during a DNS transaction would allow a threat actor to launch a Man-In-The-Middle attack against the DNS infrastructure. This attack could lead to unauthorized DNS zone data being introduced, resulting in network traffic being redirected to a rogue site.\n\nSatisfies: SRG-APP-000439-DNS-000063, SRG-APP-000394-DNS-000049, SRG-APP-000395-DNS-000050, SRG-APP-000440-DNS-000065",
+  "Documentable": "false"
+}

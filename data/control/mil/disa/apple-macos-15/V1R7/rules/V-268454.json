@@ -1,0 +1,38 @@
+{
+  "vuln_id": "V-268454",
+  "rule_id": "SV-268454r1034302_rule",
+  "stig_id": "APPL-15-001003",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must enable security auditing.",
+  "group_title": "SRG-OS-000037-GPOS-00015",
+  "idents": {
+    "cci": [
+      "CCI-000130",
+      "CCI-000131",
+      "CCI-000132",
+      "CCI-000133",
+      "CCI-000134",
+      "CCI-000135",
+      "CCI-000159",
+      "CCI-001464",
+      "CCI-001487",
+      "CCI-001494",
+      "CCI-001495",
+      "CCI-001914",
+      "CCI-001889",
+      "CCI-001890",
+      "CCI-003938",
+      "CCI-002884",
+      "CCI-000172",
+      "CCI-004188"
+    ]
+  },
+  "check_id": "C-72484r1034300_chk",
+  "check_content": "Verify the macOS system is configured to enable the auditd service with the following command:\n\nLAUNCHD_RUNNING=$(/bin/launchctl list | /usr/bin/grep -c com.apple.auditd)\nAUDITD_RUNNING=$(/usr/sbin/audit -c | /usr/bin/grep -c \"AUC_AUDITING\")\nif [[ $LAUNCHD_RUNNING == 1 ]] && [[ -e /etc/security/audit_control ]] && [[ $AUDITD_RUNNING == 1 ]]; then\n  echo \"pass\"\nelse\n  echo \"fail\"\nfi\n\nIf the result is not \"pass\", this is a finding.",
+  "fixtext": "Configure the macOS system to enable the auditd service with the following command:\n\nif [[ ! -e /etc/security/audit_control ]] && [[ -e /etc/security/audit_control.example ]];then\n  /bin/cp /etc/security/audit_control.example /etc/security/audit_control\nfi\n\n/bin/launchctl enable system/com.apple.auditd\n/bin/launchctl bootstrap system /System/Library/LaunchDaemons/com.apple.auditd.plist\n/usr/sbin/audit -i",
+  "fix_id": "F-72385r1034301_fix",
+  "VulnDiscussion": "The information system must be configured to generate audit records.\n\nAudit records establish what types of events have occurred, when they occurred, and which users were involved. These records aid an organization in their efforts to establish, correlate, and investigate the events leading up to an outage or attack.\n\nThe content required to be captured in an audit record varies based on the impact level of an organization's system. Content that may be necessary to satisfy this requirement includes, for example, time stamps, source addresses, destination addresses, user identifiers, event descriptions, success/fail indications, filenames involved, and access or flow control rules invoked.\n\nThe information system initiates session audits at system startup.\n\nNOTE: Security auditing is NOT enabled by default on macOS Sequoia.\n\nSatisfies: SRG-OS-000037-GPOS-00015, SRG-OS-000038-GPOS-00016, SRG-OS-000039-GPOS-00017, SRG-OS-000040-GPOS-00018, SRG-OS-000041-GPOS-00019, SRG-OS-000042-GPOS-00020, SRG-OS-000042-GPOS-00021, SRG-OS-000055-GPOS-00026, SRG-OS-000254-GPOS-00095, SRG-OS-000255-GPOS-00096, SRG-OS-000257-GPOS-00098, SRG-OS-000258-GPOS-00099, SRG-OS-000337-GPOS-00129, SRG-OS-000358-GPOS-00145, SRG-OS-000359-GPOS-00146, SRG-OS-000365-GPOS-00152, SRG-OS-000392-GPOS-00172, SRG-OS-000458-GPOS-00203, SRG-OS-000461-GPOS-00205, SRG-OS-000462-GPOS-00206, SRG-OS-000463-GPOS-00207, SRG-OS-000465-GPOS-00209, SRG-OS-000466-GPOS-00210, SRG-OS-000467-GPOS-00211, SRG-OS-000468-GPOS-00212, SRG-OS-000470-GPOS-00214, SRG-OS-000471-GPOS-00215, SRG-OS-000471-GPOS-00216, SRG-OS-000472-GPOS-00217, SRG-OS-000473-GPOS-00218, SRG-OS-000474-GPOS-00219, SRG-OS-000475-GPOS-00220, SRG-OS-000476-GPOS-00221, SRG-OS-000477-GPOS-00222, SRG-OS-000755-GPOS-00220",
+  "Documentable": "false"
+}

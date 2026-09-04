@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272431",
+  "rule_id": "SV-272431r1123606_rule",
+  "stig_id": "BIND-9X-001900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BIND 9.x server implementation must be configured with a channel to send audit records to a local file.",
+  "group_title": "SRG-APP-000125-DNS-000012",
+  "idents": {
+    "cci": [
+      "CCI-001348"
+    ]
+  },
+  "check_id": "C-76481r1123604_chk",
+  "check_content": "Verify that the BIND 9.x server is configured to send audit logs to a local log file.\n\nNote: syslog and local file channel must be defined for every defined category.\n\nInspect the \"named.conf\" file for the following:\n\nlogging {\nchannel local_file_channel {\nfile \"path_name\" versions 3;\nprint-time yes;\nprint-severity yes;\nprint-category yes;\n};\n\ncategory category_name { local_file_channel; };\n\nIf a logging channel is not defined for a local file, this is a finding.\n\nIf a category is not defined to send messages to the local file channel, this is a finding.",
+  "fixtext": "Edit the \"named.conf\" file and add the following:\n\nlogging {\nchannel local_file_channel {\nfile \"path_name\" versions 3;\nprint-time yes;\nprint-severity yes;\nprint-category yes;\n};\ncategory category_name { local_file_channel; };\n};\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76388r1123605_fix",
+  "VulnDiscussion": "DNS software administrators require DNS transaction logs for a wide variety of reasons including troubleshooting, intrusion detection, and forensics. Ensuring that the DNS transaction logs are recorded on the local system will provide the capability needed to support these actions.",
+  "Documentable": "false"
+}

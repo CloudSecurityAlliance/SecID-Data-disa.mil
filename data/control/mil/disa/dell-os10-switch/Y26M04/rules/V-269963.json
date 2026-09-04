@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269963",
+  "rule_id": "SV-269963r1052275_rule",
+  "stig_id": "OS10-L2S-000170",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Dell OS10 Switch must have IGMP or MLD Snooping configured on all VLANs",
+  "group_title": "SRG-NET-000512-L2S-000002",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73996r1052273_chk",
+  "check_content": "Review the Dell OS10 Switch configuration to verify that IGMP or MLD snooping has been configured for IPv4 and IPv6 multicast traffic, respectively.\n\nVerify that IGMP and MLD snooping have not been disabled globally by checking that the following have not been configured:\n\n  no ip igmp snooping enable\n  no ipv6 mld snooping enable\n\nVerify that IGMP or MLD snooping have not been disabled on any of the individual VLANs:\n\nInterface vlan 100\n  no ip igmp snooping\n  no ipv6 mld snooping\n\nIf the switch is not configured to implement IGMP or MLD snooping for each VLAN, this is a finding.",
+  "fixtext": "Configure IGMP or MLD snooping for IPv4 and IPv6 multicast traffic respectively for each VLAN.\n\nEnable IGMP or MLD snooping globally:\n\nOS10(config)# ip igmp snooping enable\nOS10(config)# ipv6 mld snooping enable\n\nEnable IGMP or MLD snooping on each VLAN:\n\nOS10(config)# interface vlan 100\nOS10(conf-if-vl-100)# ip igmp snooping\nOS10(conf-if-vl-100)# ipv6 mld snooping",
+  "fix_id": "F-73897r1052274_fix",
+  "VulnDiscussion": "IGMP and MLD snooping provides a way to constrain multicast traffic at Layer 2. By monitoring the IGMP or MLD membership reports sent by hosts within a VLAN, the snooping application can set up Layer 2 multicast forwarding tables to deliver specific multicast traffic only to interfaces connected to hosts interested in receiving the traffic, thereby significantly reducing the volume of multicast traffic that would otherwise flood the VLAN.",
+  "Documentable": "false"
+}

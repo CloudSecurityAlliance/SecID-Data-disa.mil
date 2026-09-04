@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271451",
+  "rule_id": "SV-271451r1137691_rule",
+  "stig_id": "OL09-00-000050",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "OL 9 must require a unique superuser's name upon booting into single-user and maintenance modes.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-75501r1091063_chk",
+  "check_content": "Verify that OL 9 requires a unique username for the grub superuser account.\n\nVerify the boot loader superuser account has been set with the following command:\n\n$ sudo grep -A1 \"superusers\" /etc/grub2.cfg \n    set superusers=\"<superusers-account>\"\n    export superusers\n    password_pbkdf2 root ${GRUB2_PASSWORD}\n \nThe <superusers-account> is the actual account name different from common names like root, admin, or administrator.\n\nIf superusers contains easily guessable usernames, this is a finding.",
+  "fixtext": "Configure OL 9 to have a unique username for the grub superuser account.\n\nEdit the \"/etc/grub.d/01_users\" file and add or modify the following lines in the \"### BEGIN /etc/grub.d/01_users ###\" section:\n\nset superusers=\"superusers-account\"\nexport superusers\n\nOnce the superuser account has been added, update the grub.cfg file by running:\n\n$ sudo grubby --update-kernel=ALL'",
+  "fix_id": "F-75408r1091064_fix",
+  "VulnDiscussion": "Having a nondefault grub superuser username makes password-guessing attacks less effective.",
+  "Documentable": "false"
+}

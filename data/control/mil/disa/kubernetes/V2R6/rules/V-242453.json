@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242453",
+  "rule_id": "SV-242453r961863_rule",
+  "stig_id": "CNTR-K8-003200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes kubelet KubeConfig file must be owned by root.",
+  "group_title": "SRG-APP-000516-CTR-001325",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-45728r712713_chk",
+  "check_content": "Review the Kubernetes Kubelet conf files by using the command:\n\nstat -c %U:%G /etc/kubernetes/kubelet.conf| grep -v root:root\n\nIf the command returns any non root:root file permissions, this is a finding.",
+  "fixtext": "Change the ownership of the kubelet.conf to root: root by executing the command:\n\nchown root:root /etc/kubernetes/kubelet.conf",
+  "fix_id": "F-45686r712714_fix",
+  "VulnDiscussion": "The Kubernetes kubelet agent registers nodes with the API server and performs health checks to containers within pods. If these files can be modified, the information system would be unaware of pod or container degradation. Many of the security settings within the document are implemented through this file.",
+  "Documentable": "false"
+}

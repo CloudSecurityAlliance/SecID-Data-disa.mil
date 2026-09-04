@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221003",
+  "rule_id": "SV-221003r622190_rule",
+  "stig_id": "CISC-RT-000200",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco switch must be configured to log all packets that have been dropped at interfaces via an ACL.",
+  "group_title": "SRG-NET-000078-RTR-000001",
+  "idents": {
+    "legacy": [
+      "SV-110827",
+      "V-101723"
+    ],
+    "cci": [
+      "CCI-000134"
+    ]
+  },
+  "check_id": "C-22718r408803_chk",
+  "check_content": "Review all ACLs used to filter traffic and verify that packets being dropped at interfaces via an ACL are logged as shown in the configuration below:\n\nip access-list extended INGRESS_FILTER\n permit tcp any any established\n permit tcp host x.11.1.1 eq bgp host x.11.1.2\n permit tcp host x.11.1.1 host x.11.1.2 eq bgp\n permit tcp any host x.11.1.5 eq www\n permit icmp host x.11.1.1 host x.11.1.2 echo\n permit icmp any any echo-reply\n…\n …\n …\ndeny ip any any log\n\nIf packets being dropped are not logged, this is a finding.",
+  "fixtext": "Configure ACLs to log packets that are dropped as shown in the example below:\n\nSW1(config)#ip access-list extended INGRESS_FILTER\n…\n…\n…\nSW1(config-ext-nacl)#deny ip any any log",
+  "fix_id": "F-22707r408804_fix",
+  "VulnDiscussion": "Auditing and logging are key components of any security architecture. It is essential for security personnel to know what is being done or attempted to be done, and by whom, to compile an accurate risk assessment. Auditing the actions on network devices provides a means to recreate an attack or identify a configuration mistake on the device.",
+  "Documentable": "false"
+}

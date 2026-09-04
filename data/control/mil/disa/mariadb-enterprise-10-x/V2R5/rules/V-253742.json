@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253742",
+  "rule_id": "SV-253742r961641_rule",
+  "stig_id": "MADB-10-009000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must maintain the confidentiality and integrity of information during reception.",
+  "group_title": "SRG-APP-000442-DB-000379",
+  "idents": {
+    "cci": [
+      "CCI-002422"
+    ]
+  },
+  "check_id": "C-57194r841749_chk",
+  "check_content": "If the data owner does not have a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process, this is not a finding.\n\nFirst, as the database administrator, verify the following settings: \n \nMariaDB> SHOW GLOBAL VARIABLES LIKE 'ssl_ca';\nMariaDB> SHOW GLOBAL VARIABLES LIKE 'ssl_cert';\nMariaDB> SHOW GLOBAL VARIABLES LIKE 'ssl_key';\n \nIf SSL is not enabled, this is a finding.\n\nIf MariaDB, associated applications, and infrastructure do not employ protective measures against unauthorized disclosure and modification during reception, this is a finding.",
+  "fixtext": "Configure the DBMS and related system components to use NSA-approved cryptography to protect classified information in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.\n \nConfigure MariaDB to use TLS.\n\nDetails for this procedure can be found here:\nhttps://mariadb.com/docs/security/encryption/in-transit/enable-tls-server/",
+  "fix_id": "F-57145r841750_fix",
+  "VulnDiscussion": "Information can be either unintentionally or maliciously disclosed or modified during reception, including, for example, during aggregation, at protocol transformation points, and during packing/unpacking. These unauthorized disclosures or modifications compromise the confidentiality, or integrity of the information.\n\nThis requirement applies only to those applications that are either distributed or can allow access to data nonlocally. Use of this requirement will be limited to situations where the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process. \n\nWhen receiving data, MariaDB-associated applications and infrastructure must leverage protection mechanisms.",
+  "Documentable": "false"
+}

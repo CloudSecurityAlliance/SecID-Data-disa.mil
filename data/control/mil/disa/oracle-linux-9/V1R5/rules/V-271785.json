@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271785",
+  "rule_id": "SV-271785r1155290_rule",
+  "stig_id": "OL09-00-002516",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 world-writable directories must be owned by root, sys, bin, or an application user.",
+  "group_title": "SRG-OS-000138-GPOS-00069",
+  "idents": {
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-75835r1155288_chk",
+  "check_content": "Verify OL 9 world writable directories are owned by root, a system account, or an application account with the following command:\n\n$ sudo find / -xdev -type d -perm -0002 -uid +999 -exec stat -c \"%U, %u, %A, %n\" {} \\; 2>/dev/null\n\nIf there is output that indicates world-writable directories are owned by any account other than root or an approved system account, this is a finding.",
+  "fixtext": "Configure all OL 9 public directories to be owned by root or a system account to prevent unauthorized and unintended information transferred via shared system resources.\n\nUse the following command template to set ownership of public directories to root or a system account:\n\n$ sudo chown [root or system account] [Public Directory]",
+  "fix_id": "F-75742r1155289_fix",
+  "VulnDiscussion": "If a world-writable directory is not owned by root, sys, bin, or an application user identifier (UID), unauthorized users may be able to modify files created by others.\n\nThe only authorized public directories are those temporary directories supplied with the system or those designed to be temporary file repositories. The setting is normally reserved for directories used by the system and by users for temporary file storage, (e.g., /tmp), and for directories requiring global read/write access.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215388",
+  "rule_id": "SV-215388r958478_rule",
+  "stig_id": "AIX7-00-003083",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The pop3 daemon must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "V-91407",
+      "SV-101505"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16586r294615_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^pop3[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"pop3\" entry by running command: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'pop3' -p 'tcp'\n\nRestart inetd:\n# refresh -s inetd",
+  "fix_id": "F-16584r294616_fix",
+  "VulnDiscussion": "The pop3 service provides a pop3 server. It supports the pop3 remote mail access protocol. It works with sendmail and bellmail. This service should be disabled if it is not required to prevent attacks.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223404",
+  "rule_id": "SV-223404r961086_rule",
+  "stig_id": "O365-WD-000005",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If file validation fails, files must be opened in Protected view in Word with ability to edit disabled.",
+  "group_title": "SRG-APP-000207",
+  "idents": {
+    "legacy": [
+      "SV-108989",
+      "V-99885"
+    ],
+    "cci": [
+      "CCI-001662"
+    ]
+  },
+  "check_id": "C-25077r442431_chk",
+  "check_content": "Verify the policy value for User Configuration >> Administrative Templates >> Microsoft Word 2016 >> Word Options >> Security >> Trust Center >> Protected View >> Set document behavior if file validation fails is set to \"Enabled: Open in Protected View\". Verify the check box for \"Allow edit\" is not selected.\n\nUse the Windows Registry Editor to navigate to the following key:\n\nHKCU\\Software\\Policies\\Microsoft\\Office\\16.0\\Word\\security\\filevalidation\n\nIf the value openinprotectedview does not exist, this is not a finding. \n\nIf both the value for openinprotectedview is REG_DWORD = 1 and the value for DisableEditFromPV is set to REG_DWORD = 1, this is not a finding.",
+  "fixtext": "Set the policy value for User Configuration >> Administrative Templates >> Microsoft Word 2016 >> Word Options >> Security >> Trust Center >> Protected View >> Set document behavior if file validation fails to \"Enabled: Open in Protected View\". \n\nUncheck the \"Allow edit\" check box.",
+  "fix_id": "F-25065r442432_fix",
+  "VulnDiscussion": "This policy setting controls how Office handles documents when they fail file validation. \n\nIf you enable this policy setting, you can configure the following options for files that fail file validation:\n- Block files completely. Users cannot open the files.\n- Open files in Protected View and disallow edit. Users cannot edit the files. This is also how Office handles the files if you disable this policy setting.\n- Open files in Protected View and allow edit. Users can edit the files. This is also how Office handles the files if you do not configure this policy setting.\n\nIf you disable this policy setting, Office follows the \"Open files in Protected View and disallow edit\" behavior.\n\nIf you do not configure this policy setting, Office follows the \"Open files in Protected View and allow edit\" behavior.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281208",
+  "rule_id": "SV-281208r1166576_rule",
+  "stig_id": "RHEL-10-600530",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must require users to reauthenticate for privilege escalation.",
+  "group_title": "SRG-OS-000373-GPOS-00156",
+  "idents": {
+    "cci": [
+      "CCI-002038"
+    ]
+  },
+  "check_id": "C-85769r1166574_chk",
+  "check_content": "Verify RHEL 10 \"/etc/sudoers\" has no occurrences of \"!authenticate\" with the following command:\n\n$ sudo grep -ir '!authenticate' /etc/sudoers /etc/sudoers.d/\n\nIf any occurrences of \"!authenticate\" are returned, this is a finding.",
+  "fixtext": "Configure RHEL 10 to not allow users to execute privileged actions without authenticating.\n\nRemove any occurrence of \"!authenticate\" found in the \"/etc/sudoers\" file or files in the \"/etc/sudoers.d\" directory:\n\n$ sudo sed -i '/\\!authenticate/ s/^/# /g' /etc/sudoers /etc/sudoers.d/*",
+  "fix_id": "F-85674r1166575_fix",
+  "VulnDiscussion": "Without reauthentication, users may access resources or perform tasks for which they do not have authorization.\n\nWhen operating systems provide the capability to escalate a functional capability, it is critical that the user reauthenticate.\n\nSatisfies: SRG-OS-000373-GPOS-00156, SRG-OS-000373-GPOS-00157, SRG-OS-000373-GPOS-00158",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281209",
+  "rule_id": "SV-281209r1166579_rule",
+  "stig_id": "RHEL-10-600540",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must require reauthentication when using the \"sudo\" command.",
+  "group_title": "SRG-OS-000373-GPOS-00156",
+  "idents": {
+    "cci": [
+      "CCI-002038"
+    ]
+  },
+  "check_id": "C-85770r1166577_chk",
+  "check_content": "Verify RHEL 10 requires reauthentication when using the \"sudo\" command to elevate privileges with the following command:\n\n$ sudo grep -ir 'timestamp_timeout' /etc/sudoers /etc/sudoers.d/\n/etc/sudoers:Defaults timestamp_timeout=0\n\nIf results are returned from more than one file location, this is a finding.\n\nIf \"timestamp_timeout\" is set to a negative number, is commented out, or no results are returned, this is a finding.",
+  "fixtext": "Configure RHEL 10 to reauthenticate \"sudo\" commands after the specified timeout.\n\nAdd the following line to \"/etc/sudoers\" or a file in \"/etc/sudoers.d\":\n\nDefaults timestamp_timeout=0",
+  "fix_id": "F-85675r1166578_fix",
+  "VulnDiscussion": "Without reauthentication, users may access resources or perform tasks for which they do not have authorization.\n\nWhen operating systems provide the capability to escalate a functional capability, it is critical that the organization requires the user to reauthenticate when using the \"sudo\" command.\n\nIf the value is set to an integer less than \"0\", the user's time stamp will not expire, and the user will not have to reauthenticate for privileged actions until the user's session is terminated.\n\nSatisfies: SRG-OS-000373-GPOS-00156, SRG-OS-000373-GPOS-00157, SRG-OS-000373-GPOS-00158",
+  "Documentable": "false"
+}

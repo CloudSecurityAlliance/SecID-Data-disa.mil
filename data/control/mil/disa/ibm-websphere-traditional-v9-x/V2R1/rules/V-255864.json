@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-255864",
+  "rule_id": "SV-255864r1051118_rule",
+  "stig_id": "WBSP-AS-001020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The WebSphere Application Server local file-based user registry must not be used.",
+  "group_title": "SRG-APP-000148-AS-000101",
+  "idents": {
+    "legacy": [
+      "SV-96019",
+      "V-81305"
+    ],
+    "cci": [
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-59537r876881_chk",
+  "check_content": "Navigate to Security >> Global Security.\n\nUnder \"User Account Repository\" if the \"Federated Repositories\" is chosen, click on \"Configure\".\n\nUnder \"Repositories in the realm\", if \"o=defaultWIMFileBasedRealm\" appears in the \"Base Entry\" column, this is a finding.",
+  "fixtext": "Navigate to Security >> Global Security.\n\nUnder \"User Account Repository\", select \"Stand alone LDAP\" from the \"Available realm definitions\" drop-down.\n\nClick on \"Configure\".\n\nSelect an existing user from the LDAP directory to be the primary WebSphere admin user.\n\nIdentify the type of LDAP server; specify an IP or DNS name for the LDAP Server, and the port used to connect to the LDAP server.\n\nSpecify BASE DN.\n\nSpecify the BIND DN.\n\nSpecify the BIND Password.\n\nSelect the \"SSL enabled\" check box to use secure LDAP.\n\nClick \"Apply\".\n\nClick \"Save\".\n\nGo to Global Security.\n\nSelect \"Standalone LDAP registry\" from the \"Available realm definitions\" drop-down.\n\nClick \"Set as current\".\n\nClick \"Apply\".\n\nClick \"Save\".\n\nRestart the dmgr and synchronize the JVMs.",
+  "fix_id": "F-59480r876882_fix",
+  "VulnDiscussion": "WebSphere does not provide direct audit of changes to the built-in file registry. The built-in file registry must not be used to support user logon accounts. Use an LDAP/AD server and manage user accounts centrally.",
+  "Documentable": "false"
+}

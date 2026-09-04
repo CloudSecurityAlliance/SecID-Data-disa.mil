@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271738",
+  "rule_id": "SV-271738r1092600_rule",
+  "stig_id": "OL09-00-002394",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must clear the page allocator to prevent use-after-free attacks.",
+  "group_title": "SRG-OS-000134-GPOS-00068",
+  "idents": {
+    "cci": [
+      "CCI-001084"
+    ]
+  },
+  "check_id": "C-75788r1092599_chk",
+  "check_content": "Verify that OL 9 clears the page allocator to prevent use-after-free attacks.\n\nVerify that GRUB 2 is configured to enable page poisoning to mitigate use-after-free vulnerabilities.\n\nCheck that the current GRUB 2 configuration has page poisoning enabled with the following command:\n\n$ sudo grubby --info=ALL | grep args | grep -v 'page_poison=1'\n\nIf any output is returned, this is a finding.\n\nCheck that page poisoning is enabled by default to persist in kernel updates with the following command: \n\n$ grep page_poison /etc/default/grub\nGRUB_CMDLINE_LINUX=\"page_poison=1\"\n\nIf \"page_poison\" is not set to \"1\", is missing or commented out, this is a finding.",
+  "fixtext": "Configure OL 9 to enable page poisoning with the following commands:\n\n$ sudo grubby --update-kernel=ALL --args=\"page_poison=1\"\n\nAdd or modify the following line in \"/etc/default/grub\" to ensure the configuration survives kernel updates:\n\nGRUB_CMDLINE_LINUX=\"page_poison=1\"",
+  "fix_id": "F-75695r1091925_fix",
+  "VulnDiscussion": "Poisoning writes an arbitrary value to freed pages, so any modification or reference to that page after being freed or before being initialized will be detected and prevented. This prevents many types of use-after-free vulnerabilities at little performance cost. Also prevents leak of data and detection of corrupted memory.",
+  "Documentable": "false"
+}

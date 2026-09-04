@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213442",
+  "rule_id": "SV-213442r1190718_rule",
+  "stig_id": "WNDF-AV-000018",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Microsoft Defender AV must monitor for incoming and outgoing files.",
+  "group_title": "SRG-APP-000278",
+  "idents": {
+    "legacy": [
+      "SV-89901",
+      "V-75221"
+    ],
+    "cci": [
+      "CCI-002624"
+    ]
+  },
+  "check_id": "C-14667r1144026_chk",
+  "check_content": "Verify the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Real-time Protection >> \"Configure monitoring for incoming and outgoing file and program activity\" is set to \"Enabled\" with a policy option value of \"bi-directional (full on-access)\".\n \nProcedure: Use the Windows Registry Editor to navigate to the following key: \nHKLM\\Software\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\n\nCriteria: If the value \"RealtimeScanDirection\" is REG_DWORD = 0, this is not a finding.\n\nIf the value is 1 or 2, this is a finding.",
+  "fixtext": "Set the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Real-time Protection >> \"Configure monitoring for incoming and outgoing file and program activity\" to \"Enabled\" with a policy option value of \"bi-directional (full on-access)\".",
+  "fix_id": "F-14665r1144027_fix",
+  "VulnDiscussion": "This policy setting allows the configuration of monitoring for incoming and outgoing files without having to turn off monitoring entirely. It is recommended for use on servers that have a lot of incoming and outgoing file activity but for performance reasons need to have scanning disabled for a particular scan direction. The appropriate configuration should be evaluated based on the server role. Note that this configuration is only honored for NTFS volumes. For any other file system type, full monitoring of file and program activity will be present on those volumes. \n\nThe options for this setting are mutually exclusive: \n0 = Scan incoming and outgoing files (default) \n1 = Scan incoming files only \n2 = Scan outgoing files only \n\nAny other value, or if the value does not exist, resolves to the default (0). If this setting is enabled, the specified type of monitoring will be enabled. If this setting is disabled or not configured, monitoring for incoming and outgoing files will be enabled.",
+  "Documentable": "false"
+}

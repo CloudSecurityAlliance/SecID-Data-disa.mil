@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215345",
+  "rule_id": "SV-215345r991589_rule",
+  "stig_id": "AIX7-00-003039",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX run control scripts executable search paths must contain only absolute paths.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91637",
+      "SV-101735"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16543r294486_chk",
+  "check_content": "Verify run control scripts' library search paths by running: \n\n# grep -r PATH /etc/rc* \n/etc/rc:PATH=/usr/sbin:/usr/bin:/usr/ucb:/etc\n/etc/rc:export PATH ODMDIR\n/etc/rc.C2:export PATH=/usr/bin:/etc:/usr/sbin:/sbin:/usr/ucb\n/etc/rc.CC:export PATH=/usr/bin:/etc:/usr/sbin:/sbin:/usr/ucb\n/etc/rc.bsdnet:export PATH=/usr/bin:/usr/sbin:$PATH\n\nThis variable is formatted as a colon-separated list of directories. \n\nIf there is an empty entry, such as a leading or trailing colon, or two consecutive colons, this is a finding. \n\nIf an entry begins with a character other than a slash (/) or other than \"$PATH\", it is a relative path, this is a finding.",
+  "fixtext": "Edit the run control script and remove the relative path entry from the executable search path variable.",
+  "fix_id": "F-16541r294487_fix",
+  "VulnDiscussion": "The executable search path (typically the PATH environment variable) contains a list of directories for the shell to search to find executables. If this path includes the current working directory or other relative paths, executables in these directories may be executed instead of system commands.",
+  "Documentable": "false"
+}

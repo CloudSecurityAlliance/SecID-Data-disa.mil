@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-277162",
+  "rule_id": "SV-277162r1148938_rule",
+  "stig_id": "APPL-26-004040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must configure system log files to mode 640 or less permissive.",
+  "group_title": "SRG-OS-000205-GPOS-00083",
+  "idents": {
+    "cci": [
+      "CCI-001312",
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-81317r1148936_chk",
+  "check_content": "Verify the macOS system is configured with system log files set to mode 640 or less permissive with the following command:\n\n/usr/bin/stat -f '%A:%N' $(/usr/bin/grep -v '^#' /etc/newsyslog.conf | /usr/bin/awk '{ print $1 }') 2> /dev/null | /usr/bin/awk '!/640/{print $1}' | /usr/bin/wc -l | /usr/bin/tr -d ' '\n\nIf the result is not \"0\", this is a finding.",
+  "fixtext": "Configure the macOS system with system log files set to mode 640 or less permissive with the following command:\n\n/bin/chmod 640 $(/usr/bin/stat -f '%A:%N' $(/usr/bin/grep -v '^#' /etc/newsyslog.conf | /usr/bin/awk '{ print $1 }') 2> /dev/null | /usr/bin/awk '!/640/{print $1}' | awk -F\":\" '!/640/{print $2}')",
+  "fix_id": "F-81222r1148937_fix",
+  "VulnDiscussion": "The system logs must be configured to be writable by root and readable only by the root user and group wheel. To achieve this, system log files must be configured to mode 640 permissive or less, thereby preventing normal users from reading, modifying, or deleting audit logs. \n\nSystem logs frequently contain sensitive information that could be used by an attacker. Setting the correct permissions mitigates this risk.\n\nSatisfies: SRG-OS-000205-GPOS-00083, SRG-OS-000206-GPOS-00084",
+  "Documentable": "false"
+}

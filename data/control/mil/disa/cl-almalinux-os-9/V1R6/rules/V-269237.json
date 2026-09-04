@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269237",
+  "rule_id": "SV-269237r1050119_rule",
+  "stig_id": "ALMA-09-017840",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must define default permissions for logon and nonlogon shells.",
+  "group_title": "SRG-OS-000480-GPOS-00228",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73268r1048087_chk",
+  "check_content": "Verify that the \"umask\" setting for installed shells is \"077\".\n\nNote: If the value of the \"umask\" parameter is set to \"000\", the severity is raised to a CAT I.\n\n$ grep -ir umask /etc/profile* /etc/bashrc* /etc/csh*\n\n/etc/csh.cshrc:    umask 077\n\nIf the \"umask\" parameter is set to anything other than \"077\", this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to define default permissions for all authenticated users in such a way that the user can only read and modify their own files.\n\nChange any found \"umask\" parameters in the \"/etc/bashrc*\", \"/etc/csh*\", and \"/etc/profile*\" files to \"077\":\n\numask 077",
+  "fix_id": "F-73169r1049355_fix",
+  "VulnDiscussion": "Setting the most restrictive default permissions ensures that when new accounts are created they do not have unnecessary access.\n\nWith a UMASK of 077, files will be created with 0600 permissions (owner read/write only) and directories will have 0700 permissions (owner read/write/execute only).",
+  "Documentable": "false"
+}

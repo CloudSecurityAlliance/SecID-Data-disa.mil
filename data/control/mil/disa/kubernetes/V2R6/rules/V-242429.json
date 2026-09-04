@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242429",
+  "rule_id": "SV-242429r1043178_rule",
+  "stig_id": "CNTR-K8-001510",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Kubernetes etcd must have the SSL Certificate Authority set.",
+  "group_title": "SRG-APP-000219-CTR-000550",
+  "idents": {
+    "cci": [
+      "CCI-001184"
+    ]
+  },
+  "check_id": "C-45704r927113_chk",
+  "check_content": "Change to the /etc/kubernetes/manifests directory on the Kubernetes Control Plane. Run the command:\ngrep -i etcd-cafile * \n\nIf the setting \"--etcd-cafile\" is not configured in the Kubernetes API Server manifest file, this is a finding.",
+  "fixtext": "Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Control Plane. \n\nSet the value of \"--etcd-cafile\" to the Certificate Authority for etcd.",
+  "fix_id": "F-45662r927114_fix",
+  "VulnDiscussion": "Kubernetes stores configuration and state information in a distributed key-value store called etcd. Anyone who can write to etcd can effectively control a Kubernetes cluster. Even just reading the contents of etcd could easily provide helpful hints to a would-be attacker. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.\n\nThe communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes API Server and etcd with a means to be able to authenticate sessions and encrypt traffic. \n\nTo enable encrypted communication for etcd, the parameter \"--etcd-cafile\" must be set. This parameter gives the location of the SSL Certificate Authority file used to secure etcd communication.",
+  "Documentable": "false"
+}

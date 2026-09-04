@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281342",
+  "rule_id": "SV-281342r1167176_rule",
+  "stig_id": "RHEL-10-800100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must not forward Internet Protocol version 4 (IPv4) source-routed packets.",
+  "group_title": "SRG-OS-000420-GPOS-00186",
+  "idents": {
+    "cci": [
+      "CCI-002385",
+      "CCI-001097"
+    ]
+  },
+  "check_id": "C-85903r1167174_chk",
+  "check_content": "Verify RHEL 10 will not accept IPv4 source-routed packets.\n\nCheck the value of the \"net.ipv4.conf.all.accept_source_route\" variable with the following command:\n\n$ sudo sysctl net.ipv4.conf.all.accept_source_route\nnet.ipv4.conf.all.accept_source_route = 0\n\nIf \"net.ipv4.conf.all.accept_source_route\" is not set to \"0\" or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 10 to ignore IPv4 source-routed packets.\n\nCreate a configuration file if it does not already exist:\n\n$ sudo vi /etc/sysctl.d/99-ipv4_accept_source.conf\n\nAdd the following line to the file:\n\nnet.ipv4.conf.all.accept_source_route = 0\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-85808r1167175_fix",
+  "VulnDiscussion": "Source-routed packets allow the source of the packet to suggest that routers forward the packet along a different path than configured on the router, which can be used to bypass network security measures. This requirement applies only to the forwarding of source-routed traffic, such as when IPv4 forwarding is enabled and the system is functioning as a router.\n\nAccepting source-routed packets in the IPv4 protocol has few legitimate uses. It must be disabled unless it is absolutely required.\n\nSatisfies: SRG-OS-000420-GPOS-00186, SRG-OS-000142-GPOS-00073",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281281",
+  "rule_id": "SV-281281r1166795_rule",
+  "stig_id": "RHEL-10-700780",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must prevent a user from overriding the session lock-delay setting for the graphical user interface.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "cci": [
+      "CCI-000057",
+      "CCI-000060"
+    ]
+  },
+  "check_id": "C-85842r1166793_chk",
+  "check_content": "Note: This requirement assumes the use of the RHEL 10 default graphical user interface, the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is not applicable.\n\nVerify RHEL 10 prevents a user from overriding settings for the screensaver lock delay with the following command:\n\n$ gsettings writable org.gnome.desktop.screensaver lock-delay\nfalse\n\nIf \"lock-delay\" is writable, and the result is \"true\", this is a finding.",
+  "fixtext": "Configure RHEL 10 to prevent a user from overriding settings for graphical user interfaces.\n\nNote: The example below is using the database \"local\" for the system. If the system is using another database in \"/etc/dconf/profile/user\", the file should be created under the appropriate subdirectory.\n\nUpdate the \"/etc/dconf/db/local.d/locks/session\" file to prevent nonprivileged users from modifying the lock-delay setting:\n\n$ sudo vi /etc/dconf/db/local.d/locks/session\n\n/org/gnome/desktop/screensaver/lock-delay\n\nRun the following command to update the database:\n\n$ sudo dconf update",
+  "fix_id": "F-85747r1166794_fix",
+  "VulnDiscussion": "A session timeout lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not log out because of the temporary nature of the absence. Rather than relying on the user to manually lock their operating system session prior to vacating the vicinity, the GNOME desktop can be configured to identify when a user's session has idled and take action to initiate the session lock. Therefore, users should not be allowed to change session settings.\n\nSatisfies: SRG-OS-000029-GPOS-00010, SRG-OS-000031-GPOS-00012",
+  "Documentable": "false"
+}

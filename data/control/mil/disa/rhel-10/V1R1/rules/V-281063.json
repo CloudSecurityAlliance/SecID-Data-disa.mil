@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281063",
+  "rule_id": "SV-281063r1195403_rule",
+  "stig_id": "RHEL-10-400230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must be configured to prohibit modification of permissions for cron configuration files and directories from the operating system defaults.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-85624r1195402_chk",
+  "check_content": "Verify RHEL 10 is configured so that the owner, group, and mode of cron configuration files and directories match the operating system defaults with the following command:\n\n$ rpm --verify cronie crontabs | awk '! ($2 == \"c\" && $1 ~ /^.\\..\\.\\.\\.\\..\\./) {print $0}'\n\nIf the command returns any output, this is a finding.",
+  "fixtext": "Configure RHEL 10 to prohibit modification of permissions for cron configuration files and directories from the operating system defaults with the following commands:\n\n$ sudo dnf reinstall cronie crontabs\n$ rpm --setugids cronie crontabs\n$ rpm --setperms cronie crontabs",
+  "fix_id": "F-85529r1165543_fix",
+  "VulnDiscussion": "If the permissions of cron configuration files or directories are modified from the operating system defaults, it may be possible for individuals to insert unauthorized cron jobs that perform unauthorized actions, including potentially escalating privileges.",
+  "Documentable": "false"
+}

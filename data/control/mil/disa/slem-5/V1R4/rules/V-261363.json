@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261363",
+  "rule_id": "SV-261363r996536_rule",
+  "stig_id": "SLEM-05-412015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must initiate a session lock after a 15-minute period of inactivity.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-65092r996534_chk",
+  "check_content": "Verify SLEM 5 must initiate a session logout after a 15-minute period of inactivity for all connection type with the following command:\n\n     > cat /etc/profile.d/autologout.sh\n     TMOUT=900\n     readonly TMOUT\n     export TMOUT\n\nIf the file \"/etc/profile.d/autologout.sh\" does not exist or the output from the function call is not exactly the same, this is a finding.",
+  "fixtext": "Configure SLEM 5 to initiate a session lock after a 15-minute period of inactivity.\n\nCreate or edit the \"/etc/profile.d/autologout.sh\" file and add or modify the following lines:\n\nTMOUT=900\nreadonly TMOUT\nexport TMOUT\n\nSet the proper permissions for the \"/etc/profile.d/autologout.sh\" file with the following command:\n\n     > sudo chmod +x /etc/profile.d/autologout.sh",
+  "fix_id": "F-65000r996535_fix",
+  "VulnDiscussion": "A session time-out lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not log out because of the temporary nature of the absence.\n\nRather than relying on the users to manually lock their SLEM 5 session prior to vacating the vicinity, SLEM 5 needs to be able to identify when a user's session has idled and take action to initiate the session lock.\n\nThe session lock is implemented at the point where session activity can be determined and/or controlled.",
+  "Documentable": "false"
+}

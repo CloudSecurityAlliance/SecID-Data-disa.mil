@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-283429",
+  "rule_id": "SV-283429r1194981_rule",
+  "stig_id": "ASMP-ND-001100",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The HPE Alletra Storage ArcusOS device must be configured to send log data to at least one central log server for the purpose of forwarding alerts to the administrators and the information system security officer (ISSO). For boundary devices, two log servers are required.",
+  "group_title": "SRG-APP-000516-NDM-000350",
+  "idents": {
+    "cci": [
+      "CCI-001851",
+      "CCI-003831"
+    ]
+  },
+  "check_id": "C-87994r1194979_chk",
+  "check_content": "Verify the system is configured to off-load security syslog events with the following command:\n\ncli% showsys -d\n\n--------------------Remote_Syslog_Status--------------------\nActive              :                                      1\nGeneral Server      :   es1-vlan3489-rsyslog.es1-storage.net\nGeneral Connection  :                                    TLS\nRemoteSyslogProfile :                                   None\nSecurity Server     :   es1-vlan3489-rsyslog.es1-storage.net\nSecurity Connection :                                   TLS\n\nFor the options in the \"Remote Syslog Status\" section:\n\nIf \"Active\" is not \"1\", this is a finding.\n\nIf \"Security Server\" is not defined, this is a finding.\n\nIf \"Security Connection\" is not \"TLS\", this is a finding.",
+  "fixtext": "Configure the remote syslog host:\n\ncli% setsys RemoteSyslogSecurityHost <hostname> <address-spec> [:port]\n\nNote: The hostname and address are both required. If both IPv4 and IPv6 addresses are supplied, the IPv6 address must be enclosed in []. The default port is 6514 using TLS.\n\nConfigure the system to use remote syslog:\n\ncli% setsys RemoteSyslog 1",
+  "fix_id": "F-87899r1194980_fix",
+  "VulnDiscussion": "The aggregation of log data kept on a syslog server can be used to detect attacks and trigger an alert to the appropriate security personnel. The stored log data can be used to detect weaknesses in security that enable the network IA team to find and address these weaknesses before breaches can occur. Reviewing these logs, whether before or after a security breach, are important in showing whether someone is an internal employee or an outside threat.\n\nA network boundary device is a piece of networking hardware that sits at the edge of a network, controlling the flow of data traffic between the internal network and external networks like the internet. It acts as a gatekeeper, enforcing security policies and protecting the internal network from unauthorized access and malicious attacks. Having a second central log server delivers a defense in depth approach for critical boundary devices.\n\nSatisfies: SRG-APP-000516-NDM-000350, SRG-APP-000515-NDM-000325, SRG-APP-000795-NDM-000130",
+  "Documentable": "false"
+}

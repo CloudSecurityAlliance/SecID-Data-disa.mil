@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222944",
+  "rule_id": "SV-222944r960930_rule",
+  "stig_id": "TCAT-AS-000361",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Files in the $CATALINA_BASE/logs/ folder must have their permissions set to 640.",
+  "group_title": "SRG-APP-000118-AS-000078",
+  "idents": {
+    "legacy": [
+      "SV-111417",
+      "V-102471"
+    ],
+    "cci": [
+      "CCI-000162"
+    ]
+  },
+  "check_id": "C-24616r426276_chk",
+  "check_content": "Access the Tomcat server from the command line and execute the following OS command:\n\nsudo find $CATALINA_BASE/logs/* -follow -maxdepth 0 -type f \\( \\! -perm 640 \\) -ls\n\nIf ISSM risk acceptance specifies deviation from requirement based on operational/application needs, this is not a finding if the permissions are set in accordance with the risk acceptance.\n\nIf no files are displayed, this is not a finding.\n\nIf results indicate any of the file permissions contained in the $CATALINA_BASE/logs folder are not set to 640, this is a finding.",
+  "fixtext": "If operational/application requirements specify different file permissions, obtain ISSM risk acceptance and set permissions according to risk acceptance.\n\nRun the following command on the Tomcat server:\n\nsudo find $CATALINA_BASE/logs/* -follow -maxdepth 0 -type f -print0 | sudo xargs chmod 640 $CATALINA_BASE/logs/*",
+  "fix_id": "F-24605r426277_fix",
+  "VulnDiscussion": "Tomcat file permissions must be restricted. The standard configuration is to have all Tomcat files owned by root with group Tomcat. While root has read/write privileges, group only has read permissions, and world has no permissions. The exceptions are the logs, temp, and work directories that are owned by the Tomcat user rather than root. This means that even if an attacker compromises the Tomcat process, they cannot change the Tomcat configuration, deploy new web applications, or modify existing web applications. The Tomcat process runs with a umask of 0027 to maintain these permissions.",
+  "Documentable": "false"
+}

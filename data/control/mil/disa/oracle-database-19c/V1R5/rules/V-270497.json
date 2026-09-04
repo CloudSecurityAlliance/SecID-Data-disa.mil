@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-270497",
+  "rule_id": "SV-270497r1167730_rule",
+  "stig_id": "O19C-00-000300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Oracle Database must automatically terminate a user session after organization-defined conditions or trigger events requiring session disconnect.",
+  "group_title": "SRG-APP-000295-DB-000305",
+  "idents": {
+    "cci": [
+      "CCI-002361",
+      "CCI-002363"
+    ]
+  },
+  "check_id": "C-74530r1167728_chk",
+  "check_content": "Review system documentation to obtain the organization's definition of circumstances requiring automatic session termination. If the documentation explicitly states that such termination is not required or is prohibited, this is not a finding.\n\nIf no documentation exists or an automatic session termination time is not explicitly defined, assume a time of 15 minutes.\n\nTo check the max_idle_time set, run the following query:\n\nSELECT gp.inst_id, gp.con_id, gp.value\nFROM sys.gv_$parameter gp\nWHERE gp.name = 'max_idle_time';\n\nIf the value returned is \"0\" or does not match the documented requirement (or 15 when none is specified), this is a finding.",
+  "fixtext": "Configure the database management system (DBMS) to automatically terminate a user session after organization-defined conditions, 15 minutes, or a trigger event requiring session termination.\n\nTo terminate a session after a certain amount of time independent of the consumed resources needed by other users, then set the MAX_IDLE_TIME initialization parameter. The MAX_IDLE_TIME parameter specifies the maximum number of minutes a session can be idle. After the specified amount of time, MAX_IDLE_TIME kills sessions.\n\nALTER SYSTEM SET max_idle_time = 15 \nCOMMENT = 'Altered <date> for STIG compliance'  -- self documenting\nSID = '*'                                       -- required for RAC\nSCOPE = BOTH;",
+  "fix_id": "F-74431r1167729_fix",
+  "VulnDiscussion": "This addresses the termination of user-initiated logical sessions in contrast to the termination of network connections associated with communications sessions (i.e., network disconnect). A logical session (for local, network, and remote access) is initiated whenever a user (or process acting on behalf of a user) accesses an organizational information system. Such user sessions can be terminated (and thus terminate user access) without terminating network sessions. \n\nSession termination ends all processes associated with a user's logical session except those batch processes/jobs that are specifically created by the user (i.e., session owner) to continue after the session is terminated. \n\nConditions or trigger events requiring automatic session termination can include, for example, organization-defined periods of user inactivity, targeted responses to certain types of incidents, and time-of-day restrictions on information system use.\n\nThis capability is typically reserved for specific cases where the system owner, data owner, or organization requires additional assurance.\n\nSatisfies: SRG-APP-000295-DB-000305, SRG-APP-000296-DB-000306",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242391",
+  "rule_id": "SV-242391r1137638_rule",
+  "stig_id": "CNTR-K8-000370",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Kubernetes Kubelet must have anonymous authentication disabled.",
+  "group_title": "SRG-APP-000033-CTR-000090",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-45666r918150_chk",
+  "check_content": "On each Control Plane and Worker Node, run the command:\nps -ef | grep kubelet\n\nIf the \"--anonymous-auth\" option exists, this is a finding. \n\nNote the path to the config file (identified by --config).\n\nInspect the content of the config file:\nLocate the \"anonymous\" section under \"authentication\".  In this section, if the field \"enabled\" does not exist or is set to \"true\", this is a finding.",
+  "fixtext": "On each Control Plane and Worker Node, run the command:\nps -ef | grep kubelet\n\nRemove the \"anonymous-auth\" option if present.\n\nNote the path to the config file (identified by --config).\n\nEdit the config file: \nLocate the \"authentication\" section and the \"anonymous\" subsection. Within the \"anonymous\" subsection, set \"enabled\" to \"false\".\n\nRestart the kubelet service using the following command:\nsystemctl daemon-reload && systemctl restart kubelet",
+  "fix_id": "F-45624r918151_fix",
+  "VulnDiscussion": "A user who has access to the Kubelet essentially has root access to the nodes contained within the Kubernetes Control Plane. To control access, users must be authenticated and authorized. By allowing anonymous connections, the controls put in place to secure the Kubelet can be bypassed.\n\nSetting anonymous authentication to \"false\" also disables unauthenticated requests from kubelets.\n\nWhile there are instances where anonymous connections may be needed (e.g., health checks) and Role-Based Access Controls (RBAC) are in place to limit the anonymous access, this access must be disabled and only enabled when necessary.",
+  "Documentable": "false"
+}

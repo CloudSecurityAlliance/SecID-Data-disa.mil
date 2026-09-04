@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242444",
+  "rule_id": "SV-242444r961863_rule",
+  "stig_id": "CNTR-K8-003110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes component manifests must be owned by root.",
+  "group_title": "SRG-APP-000516-CTR-001325",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-45719r712686_chk",
+  "check_content": "Review the ownership of the Kubernetes manifests files by using the command:\n\nstat -c %U:%G /etc/kubernetes/manifests/* | grep -v root:root\n\nIf the command returns any non root:root file permissions, this is a finding.",
+  "fixtext": "Change the ownership of the manifest files to root: root by executing the command:\n\nchown root:root /etc/kubernetes/manifests/*",
+  "fix_id": "F-45677r712687_fix",
+  "VulnDiscussion": "The Kubernetes manifests are those files that contain the arguments and settings for the Control Plane services. These services are etcd, the api server, controller, proxy, and scheduler. If these files can be changed, the scheduler will be implementing the changes immediately. Many of the security settings within the document are implemented through these manifests.",
+  "Documentable": "false"
+}

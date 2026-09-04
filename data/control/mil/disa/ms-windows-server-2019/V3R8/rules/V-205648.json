@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-205648",
+  "rule_id": "SV-205648r958448_rule",
+  "stig_id": "WN19-PK-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2019 must have the DoD Root Certificate Authority (CA) certificates installed in the Trusted Root Store.",
+  "group_title": "SRG-OS-000066-GPOS-00034",
+  "idents": {
+    "legacy": [
+      "SV-103573",
+      "V-93487"
+    ],
+    "cci": [
+      "CCI-000185",
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-5913r921946_chk",
+  "check_content": "Certificates and thumbprints referenced below apply to unclassified systems; refer to PKE documentation for other networks.\n\nOpen \"Windows PowerShell\" as an administrator.\n\nExecute the following command:\n\nGet-ChildItem -Path Cert:Localmachine\\root | Where Subject -Like \"*DoD*\" | FL Subject, Thumbprint, NotAfter\n\nIf the following certificate \"Subject\" and \"Thumbprint\" information is not displayed, this is a finding. \n\nSubject: CN=DoD Root CA 3, OU=PKI, OU=DoD, O=U.S. Government, C=US\nThumbprint: D73CA91102A2204A36459ED32213B467D7CE97FB\nNotAfter: 12/30/2029\n\nSubject: CN=DoD Root CA 4, OU=PKI, OU=DoD, O=U.S. Government, C=US\nThumbprint: B8269F25DBD937ECAFD4C35A9838571723F2D026\nNotAfter: 7/25/2032\n\nSubject: CN=DoD Root CA 5, OU=PKI, OU=DoD, O=U.S. Government, C=US\nThumbprint: 4ECB5CC3095670454DA1CBD410FC921F46B8564B\nNotAfter: 6/14/2041\n\nSubject: CN=DoD Root CA 6, OU=PKI, OU=DoD, O=U.S. Government, C=US \nThumbprint: D37ECF61C0B4ED88681EF3630C4E2FC787B37AEF\nNotAfter: 1/24/2053 11:36:17 AM\n\nAlternately, use the Certificates MMC snap-in:\n\nRun \"MMC\".\n\nSelect \"File\", \"Add/Remove Snap-in\".\n\nSelect \"Certificates\" and click \"Add\".\n\nSelect \"Computer account\" and click \"Next\".\n\nSelect \"Local computer: (the computer this console is running on)\" and click \"Finish\".\n\nClick \"OK\".\n\nExpand \"Certificates\" and navigate to \"Trusted Root Certification Authorities >> Certificates\".\n\nExpand \"Certificates\" and navigate to \"Trusted Root Certification Authorities >> Certificates\".\n\nFor each of the DoD Root CA certificates noted below:\n\nRight-click on the certificate and select \"Open\".\n\nSelect the \"Details\" tab.\n\nScroll to the bottom and select \"Thumbprint\".\n\nIf the DoD Root CA certificates below are not listed or the value for the \"Thumbprint\" field is not as noted, this is a finding.\n\nDoD Root CA 3\nThumbprint: D73CA91102A2204A36459ED32213B467D7CE97FB\nValid to: Sunday, December 30, 2029\n\nDoD Root CA 4\nThumbprint: B8269F25DBD937ECAFD4C35A9838571723F2D026\nValid to: Sunday, July 25, 2032\n\nDoD Root CA 5\nThumbprint: 4ECB5CC3095670454DA1CBD410FC921F46B8564B\nValid to: Friday, June 14, 2041\n\nDoD Root CA 6\nThumbprint: D37ECF61C0B4ED88681EF3630C4E2FC787B37AEFB\nValid to: Friday, January 24, 2053",
+  "fixtext": "Install the DoD Root CA certificates:\nDoD Root CA 3\nDoD Root CA 4\nDoD Root CA 5\nDoD Root CA 6\n\nThe InstallRoot tool is available on Cyber Exchange at https://cyber.mil/pki-pke/tools-configuration-files. Certificate bundles published by the PKI can be found at https://crl.gds.disa.mil/.",
+  "fix_id": "F-5913r921947_fix",
+  "VulnDiscussion": "To ensure secure DoD websites and DoD-signed code are properly validated, the system must trust the DoD Root CAs. The DoD root certificates will ensure that the trust chain is established for server certificates issued from the DoD CAs.\n\nSatisfies: SRG-OS-000066-GPOS-00034, SRG-OS-000403-GPOS-00182",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281101",
+  "rule_id": "SV-281101r1195411_rule",
+  "stig_id": "RHEL-10-500025",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must allow only the information system security manager (ISSM) (or individuals or roles appointed by the ISSM) to select which auditable events are to be audited.",
+  "group_title": "SRG-OS-000063-GPOS-00032",
+  "idents": {
+    "cci": [
+      "CCI-000171"
+    ]
+  },
+  "check_id": "C-85662r1166253_chk",
+  "check_content": "Verify RHEL 10 sets the files in directory \"/etc/audit/rules.d/\" and \"/etc/audit/auditd.conf\" file to have a mode of \"0640\" or less permissive with the following command:\n\n$ sudo find /etc/audit/rules.d/ /etc/audit/audit.rules /etc/audit/auditd.conf -type f -exec stat -c \"%a %n\" {} \\;\n600 /etc/audit/rules.d/audit.rules\n640 /etc/audit/audit.rules\n640 /etc/audit/auditd.conf\n\nIf the audit configuration files have a mode more permissive than those shown, this is a finding.",
+  "fixtext": "Configure RHEL 10 so that the files in directory \"/etc/audit/rules.d/\" and the \"/etc/audit/auditd.conf\" file have a mode of \"0640\" with the following commands:\n\n$ sudo chmod 0600 /etc/audit/rules.d/audit.rules\n$ sudo chmod 0640 /etc/audit/rules.d/[customrulesfile].rules\n$ sudo chmod 0640 /etc/audit/auditd.conf",
+  "fix_id": "F-85567r1195410_fix",
+  "VulnDiscussion": "Without the capability to restrict the roles and individuals that can select which events are audited, unauthorized personnel may be able to prevent the auditing of critical events. Misconfigured audits may degrade the system's performance by overwhelming the audit log. Misconfigured audits may also make it more difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.",
+  "Documentable": "false"
+}

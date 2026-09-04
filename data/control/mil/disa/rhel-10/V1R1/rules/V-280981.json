@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-280981",
+  "rule_id": "SV-280981r1165298_rule",
+  "stig_id": "RHEL-10-200634",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must be configured so that the file integrity tool verifies Access Control Lists (ACLs).",
+  "group_title": "SRG-OS-000404-GPOS-00183",
+  "idents": {
+    "cci": [
+      "CCI-002475"
+    ]
+  },
+  "check_id": "C-85542r1165296_chk",
+  "check_content": "Verify RHEL 10 AIDE is verifying ACLs.\n\nVerify ACL settings for all uncommented file and directory selection lists with the following command:\n\n$ sudo grep -E '^[^#]*acl' /etc/aide.conf\nFIPSR = p+i+n+u+g+s+m+growing+acl+selinux+xattrs+sha512\n/usr/sbin/auditctl p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/auditd p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512\nDIR = p+i+n+u+g+acl+selinux+xattrs\nPERMS = p+i+u+g+acl+selinux\n\nOpen the file and verify no additional uncommented file and directory selection lines are missing the \"acl\" rule.\n\nIf the \"acl\" rule is not being used on all uncommented selection lines in the \"/etc/aide.conf\" file, or ACLs are not being checked by another file integrity tool, this is a finding.",
+  "fixtext": "Configure RHEL 10 so that the file integrity tool checks file and directory ACLs.\n\nIf AIDE is installed, ensure the \"acl\" rule is present on all uncommented file and directory selection lists.",
+  "fix_id": "F-85447r1165297_fix",
+  "VulnDiscussion": "RHEL 10 installation media ships with an optional file integrity tool called Advanced Intrusion Detection Environment (AIDE). AIDE is highly configurable at install time. This requirement assumes the \"aide.conf\" file is under the \"/etc\" directory.\n\nACLs can provide permissions beyond those permitted through the file mode and must be verified by the file integrity tools.",
+  "Documentable": "false"
+}

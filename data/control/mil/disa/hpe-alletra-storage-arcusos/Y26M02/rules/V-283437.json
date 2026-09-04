@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283437",
+  "rule_id": "SV-283437r1195005_rule",
+  "stig_id": "ASMP-ND-001310",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HPE Alletra Storage ArcusOS device must be configured to protect nonlocal maintenance sessions by separating the maintenance session from other network sessions with the system by logically separated communications paths.",
+  "group_title": "SRG-APP-000880-NDM-000290",
+  "idents": {
+    "cci": [
+      "CCI-004192"
+    ]
+  },
+  "check_id": "C-88002r1195003_chk",
+  "check_content": "Using the nmap tool, verify only secure ports are open. \n\nFrom a command shell on a Linux workstation in the operational environment, enter the following command:\n\n$ sudo nmap -sT -sU -sV --version-all -vv -p 1-65535 <ip address of storage system> \n\nIf any Port is listed other than SSHD(22), NTP(123), SNMP(161,162), 3par-mgmt-ssl (5783), CIM (5989/configurable), or WSAPI (8088/configurable), this is a finding.",
+  "fixtext": "Disable all unencrypted ports:\n\ncli%  setnet disableports yes",
+  "fix_id": "F-87907r1195004_fix",
+  "VulnDiscussion": "To prevent unauthorized connection of devices, unauthorized transfer of information, or unauthorized tunneling (i.e., embedding of data types within data types), organizations must disable unused or unnecessary physical and logical ports/protocols on information systems.\n\nNetwork devices can provide a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., email and web services); however, doing so increases risk over limiting the services provided by any one component. \n\nTo support the requirements and principles of least functionality, the network device must support the organizational requirements providing only essential capabilities and limiting using ports, protocols, and/or services to only those required, authorized, and approved. Some network devices have capabilities enabled by default; if these capabilities are not necessary, they must be disabled. If a particular capability is used, then it must be documented and approved.\n\nConfiguring the network device to implement organizationwide security implementation guides and security checklists ensures compliance with federal standards and establishes a common security baseline across DOD that reflects the most restrictive security posture consistent with operational requirements.\n\nConfiguration settings are the set of parameters that can be changed that affect the security posture and/or functionality of the network device. Security-related parameters are those parameters impacting the security state of the network device, including the parameters required to satisfy other security control requirements.\n\nNonlocal maintenance and diagnostic activities are conducted by individuals who communicate through either an external or internal network. Communications paths can be logically separated using encryption.",
+  "Documentable": "false"
+}

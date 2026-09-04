@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-250348",
+  "rule_id": "SV-250348r1137581_rule",
+  "stig_id": "IBMW-LS-001120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The WebSphere Liberty Server must be configured to use HTTPS only.",
+  "group_title": "SRG-APP-000440-AS-000167",
+  "idents": {
+    "cci": [
+      "CCI-002421"
+    ]
+  },
+  "check_id": "C-53783r862995_chk",
+  "check_content": "Review the ${server.config.dir}/server.xml file and check the ssl-1.0 feature and httpEndpoint settings. \n\nIf the ssl-1.0 feature is not defined, this is a finding. \n\nIf the httpEndpoint settings do not include ssloptions, this is a finding.\n\n<featureManager>\n<feature>servlet-3.0</feature>\n<feature>ssl-1.0</feature>\n<feature>appSecurity-2.0</feature>\n</featureManager>\n\n<httpEndpoint id=\"defaultHttpEndpoint\"\n          host=\"localhost\"\n          httpPort=\"${bvt.prop.HTTP_default}\"\n          httpsPort=\"${bvt.prop.HTTP_default.secure}\" >\n          <tcpOptions soReuseAddr=\"true\" />\n          <sslOptions sslRef=\"testSSLConfig\" />\n</httpEndpoint>",
+  "fixtext": "Modify the server.xml file. Enable the ssl-1.0 feature and configure the httpEndpoint settings. The keystores and truststores must also be configured.\n\n<featureManager>\n<feature>servlet-3.0</feature>\n<feature>ssl-1.0</feature>\n<feature>appSecurity-2.0</feature>\n</featureManager>\n    \n    <httpEndpoint id=\"defaultHttpEndpoint\"\n          host=\"localhost\"\n          httpPort=\"${bvt.prop.HTTP_default}\"\n          httpsPort=\"${bvt.prop.HTTP_default.secure}\" >\n          <tcpOptions soReuseAddr=\"true\" />\n          <sslOptions sslRef=\"testSSLConfig\" />\n</httpEndpoint> \n\n     <ssl id=\"defaultSSLConfig\"\n      keyStoreRef=\"defaultKeyStore\"\n      trustStoreRef=\"defaultKeyStore\"\n      serverKeyAlias=\"default\" />\n\n     <ssl id=\"testSSLConfig\"\n      keyStoreRef=\"defaultKeyStore\"\n      trustStoreRef=\"alternateTrustStore\"\n      serverKeyAlias=\"alternateCert\"\n      enabledCiphers=\"AES256-SHA AES128-SHA\" />\n\n<!-- inbound (HTTPS) keystore -->\n<keyStore id=\"defaultKeyStore\" password=\"Liberty\"\n           location=\"${server.config.dir}/resources/security/sslOptions.jks\" />\n\n<keyStore id=\"defaultTrustStore\" password=\"Liberty\"\n           location=\"${server.config.dir}/resources/security/trust.jks\" />\n           \n<keyStore id=\"alternateTrustStore\" password=\"Liberty\"\n           location=\"${server.config.dir}/resources/security/optionsTrust.jks\" />\n\n    <application type=\"war\" id=\"basicauth\" name=\"basicauth\"\n             location=\"${server.config.dir}/apps/basicauth.war\" />",
+  "fix_id": "F-53737r862996_fix",
+  "VulnDiscussion": "Transmission of data can take place between the application server and a large number of devices/applications external to the application server. Examples are a web client used by a user, a backend database, a log server, or other application servers in an application server cluster.",
+  "Documentable": "false"
+}

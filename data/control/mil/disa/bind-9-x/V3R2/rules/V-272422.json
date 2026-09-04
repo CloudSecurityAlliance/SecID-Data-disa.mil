@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272422",
+  "rule_id": "SV-272422r1137672_rule",
+  "stig_id": "BIND-9X-001720",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "A BIND 9.x server implementation must be running in a chroot(ed) directory structure.",
+  "group_title": "SRG-APP-000243-DNS-000034",
+  "idents": {
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-76472r1124004_chk",
+  "check_content": "Verify that the directory structure where the primary BIND 9.x server configuration files are stored is running in a chroot(ed) environment or a containerized environment: \n\n# ps -ef | grep named\n\nnamed 3015 1 0 12:59 ? 00:00:00 /usr/sbin/named -u named -t /var/named/chroot\n\nIf the output does not contain \"-t <chroot_path>\" and the named process is not running in a container, this is a finding.",
+  "fixtext": "Configure the BIND 9.x server to operate in a chroot(ed) directory structure.",
+  "fix_id": "F-76379r1123578_fix",
+  "VulnDiscussion": "With any network service, there is the potential that an attacker can exploit a vulnerability within the program that allows the attacker to gain control of the process and even run system commands with that control. One possible defense against this attack is to limit the software to particular quarantined areas of the file system, memory, or both. This effectively restricts the service so that it will not have access to the full file system. If such a defense were in place, even if an attacker gained control of the process, the attacker would be unable to reach other commands or files on the system. This approach often is referred to as a padded cell, jail, or sandbox. All of these terms allude to the fact that the software is contained in an area where it cannot harm itself or others. A more technical term is a chroot(ed) directory structure.\n\nBIND must be configured to run in a padded cell or chroot(ed) directory structure.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-277089",
+  "rule_id": "SV-277089r1149391_rule",
+  "stig_id": "APPL-26-002006",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable Unix-to-Unix Copy Protocol (UUCP) service.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-81244r1149324_chk",
+  "check_content": "Verify the macOS system is configured to disable UUCP service with the following command:\n\n  result=\"FAIL\"\n  enabled=$(/bin/launchctl print-disabled system | /usr/bin/grep '\"com.apple.uucp\" => enabled')\n  running=$(/bin/launchctl print system/com.apple.uucp 2>/dev/null)\n  \n  if [[ -z \"$running\" ]] && [[ -z \"$enabled\" ]]; then\n    result=\"PASS\"\n  elif [[ -n \"$running\" ]]; then\n    result=result+\" RUNNING\"\n  elif [[ -n \"$enabled\" ]]; then\n    result=result+\" ENABLED\"\n  fi\n  echo $result\n\nIf the result is not \"PASS\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable UUCP service with the following command:\n\n/bin/launchctl bootout system/com.apple.uucp\n/bin/launchctl disable system/com.apple.uucp\n\nThe system may need a restart for the update to take effect.",
+  "fix_id": "F-81149r1149325_fix",
+  "VulnDiscussion": "The system must not have the UUCP service active.\n\nUUCP, a set of programs that enables sending files between different Unix systems and sending commands to be executed on another system, is not essential and must be disabled to prevent unauthorized connection of devices, transfer of information, and tunneling.\n\nNote: UUCP service is disabled at startup by default with macOS.",
+  "Documentable": "false"
+}

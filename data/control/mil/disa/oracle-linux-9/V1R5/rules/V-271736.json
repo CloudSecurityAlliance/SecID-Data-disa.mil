@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271736",
+  "rule_id": "SV-271736r1091920_rule",
+  "stig_id": "OL09-00-002392",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must disable the ability of systemd to spawn an interactive boot process.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75786r1091918_chk",
+  "check_content": "Verify that OL 9 GRUB 2 is configured to disable interactive boot.\n\nCheck that the current GRUB 2 configuration disables the ability of systemd to spawn an interactive boot process with the following command:\n\n$ sudo grubby --info=ALL | grep args | grep 'systemd.confirm_spawn'\n\nIf any output is returned, this is a finding.",
+  "fixtext": "Configure OL 9 to allocate sufficient audit_backlog_limit to disable the ability of systemd to spawn an interactive boot process with the following command:\n\n$ sudo grubby --update-kernel=ALL --remove-args=\"systemd.confirm_spawn\"",
+  "fix_id": "F-75693r1091919_fix",
+  "VulnDiscussion": "Using interactive or recovery boot, the console user could disable auditing, firewalls, or other services, weakening system security.",
+  "Documentable": "false"
+}

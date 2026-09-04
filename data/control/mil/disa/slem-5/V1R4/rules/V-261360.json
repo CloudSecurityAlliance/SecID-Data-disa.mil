@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261360",
+  "rule_id": "SV-261360r996529_rule",
+  "stig_id": "SLEM-05-411070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must disable account identifiers (individuals, groups, roles, and devices) after 35 days of inactivity after password expiration.",
+  "group_title": "SRG-OS-000118-GPOS-00060",
+  "idents": {
+    "cci": [
+      "CCI-000795"
+    ]
+  },
+  "check_id": "C-65089r996527_chk",
+  "check_content": "Verify SLEM 5 disables account identifiers after 35 days of inactivity after the password expiration with the following command:\n\n     > sudo grep -i '^inactive' /etc/default/useradd\n     INACTIVE=35\n\nIf the value for \"INACTIVE\" is not set to a value greater than \"0\" and less than or equal to \"35\", if the line is commented out, or the line is missing, this is a finding.",
+  "fixtext": "Configure SLEM 5 to disable account identifiers after 35 days of inactivity after the password expiration.\n\nRun the following command to change the configuration for \"useradd\" to disable the account identifier after \"35\" days:\n\n     > sudo useradd -D -f 35\n\nDOD recommendation is \"35\" days, but a lower value greater than \"0\" is acceptable.",
+  "fix_id": "F-64997r996528_fix",
+  "VulnDiscussion": "Inactive identifiers pose a risk to systems and applications because attackers may exploit an inactive identifier and potentially obtain undetected access to the system. Owners of inactive accounts will not notice if unauthorized access to their user account has been obtained.\n\nSLEM 5 must track periods of inactivity and disable application identifiers after 35 days of inactivity.",
+  "Documentable": "false"
+}

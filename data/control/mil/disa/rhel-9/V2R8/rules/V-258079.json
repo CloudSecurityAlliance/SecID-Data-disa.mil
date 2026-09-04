@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258079",
+  "rule_id": "SV-258079r1045159_rule",
+  "stig_id": "RHEL-09-431015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must enable the SELinux targeted policy.",
+  "group_title": "SRG-OS-000445-GPOS-00199",
+  "idents": {
+    "cci": [
+      "CCI-002696"
+    ]
+  },
+  "check_id": "C-61820r1045158_chk",
+  "check_content": "Verify the SELINUX on RHEL 9 is using the targeted policy with the following command:\n\n$ sestatus | grep \"policy name\" \n\nLoaded policy name:             targeted\n\nIf the loaded policy name is not \"targeted\", this is a finding.",
+  "fixtext": "Configure RHEL 9 to use the targetd SELINUX policy.\n\nEdit the file \"/etc/selinux/config\" and add or modify the following line:\n\n SELINUXTYPE=targeted \n\nA reboot is required for the changes to take effect.",
+  "fix_id": "F-61744r926223_fix",
+  "VulnDiscussion": "Setting the SELinux policy to \"targeted\" or a more specialized policy ensures the system will confine processes that are likely to be targeted for exploitation, such as network or system services.\n\nNote: During the development or debugging of SELinux modules, it is common to temporarily place nonproduction systems in \"permissive\" mode. In such temporary cases, SELinux policies should be developed, and once work is completed, the system should be reconfigured to \"targeted\".",
+  "Documentable": "false"
+}

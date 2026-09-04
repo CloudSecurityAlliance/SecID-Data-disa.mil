@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215332",
+  "rule_id": "SV-215332r991592_rule",
+  "stig_id": "AIX7-00-003019",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX user home directories must not have extended ACLs.",
+  "group_title": "SRG-OS-000480-GPOS-00230",
+  "idents": {
+    "legacy": [
+      "SV-101865",
+      "V-91767"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16530r294447_chk",
+  "check_content": "Verify user home directories have no extended ACLs using command: \n\n# cat /etc/passwd | cut -f 6,6 -d \":\" | xargs -n1 aclget \n*\n* ACL_type   AIXC\n*\nattributes:\nbase permissions\n    owner(root):  rwx\n    group(system):  r-x\n    others:  r---\nextended permissions\n    disabled\n\nIf extended permissions are not disabled, this is a finding.",
+  "fixtext": "Remove the extended ACL from the user home directory and disable extended permissions: \n# acledit <directory>",
+  "fix_id": "F-16528r294448_fix",
+  "VulnDiscussion": "Excessive permissions on home directories allow unauthorized access to user files.",
+  "Documentable": "false"
+}

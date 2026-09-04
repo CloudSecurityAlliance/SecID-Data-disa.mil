@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-275939",
+  "rule_id": "SV-275939r1156959_rule",
+  "stig_id": "BIND-9X-002480",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BIND 9.x server implementation must limit the  number of allowed dynamic update clients.",
+  "group_title": "SRG-APP-000516-DNS-000109",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-80041r1123969_chk",
+  "check_content": "Verify the update-quota option is present and set to an organization defined limit. \n\nInspect the named.conf file for the following\n\noptions {\n    ...\n    update-quota <integer>;\n    ...\n};\n\nIf update-quota option is missing or limit not set, this is a finding.",
+  "fixtext": "Edit the named.conf file\n\noptions {\n    ...\n    update-quota <integer>;\n    ...\n};\n\nAfter making changes, save the named.conf file and restart the BIND service to apply the changes.",
+  "fix_id": "F-79946r1123970_fix",
+  "VulnDiscussion": "Limiting the number of concurrent sessions reduces the risk of denial of service (DoS) to the DNS implementation. \n\nName servers do not have direct user connections but accept client connections for queries. Original restriction on client connections should be high enough to prevent a self-imposed denial of service, after which the connections are monitored and fine-tuned to best meet the organization's specific requirements.\n\nPrimary name servers also make outbound connections to secondary name servers to provide zone transfers and accept inbound connection requests from clients wishing to provide a dynamic update. Primary name servers should explicitly limit zone transfers to be made only to designated secondary name servers. Because zone transfers involve the transfer of entire zones and use TCP connections, they place substantial demands on network resources relative to normal DNS queries. Errant or malicious frequent zone transfer requests on the name servers of the enterprise can overload the primary zone server and result in DoS to legitimate users. Primary name servers should be configured to limit the hosts from which they will accept dynamic updates.\n\nAdditionally, the number of concurrent clients, especially TCP clients, must be kept to a level that does not risk placing the system in a DoS state.",
+  "Documentable": "false"
+}

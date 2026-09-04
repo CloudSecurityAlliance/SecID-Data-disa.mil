@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-277083",
+  "rule_id": "SV-277083r1148701_rule",
+  "stig_id": "APPL-26-001140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must configure audit_control to not contain access control lists (ACLs).",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164",
+      "CCI-000171",
+      "CCI-001493",
+      "CCI-001494",
+      "CCI-001495"
+    ]
+  },
+  "check_id": "C-81238r1148699_chk",
+  "check_content": "Verify the macOS system is configured without ACLs applied to audit_control with the following command:\n\n/bin/ls -le /etc/security/audit_control | /usr/bin/awk '{print $1}' | /usr/bin/grep -c \":\"\n\nIf the result is not \"0\", this is a finding.",
+  "fixtext": "Configure the macOS system without ACLs applied to audit_control with the following command:\n\n/bin/chmod -N /etc/security/audit_control",
+  "fix_id": "F-81143r1148700_fix",
+  "VulnDiscussion": "/etc/security/audit_control must not contain ACLs.\n\n/etc/security/audit_control contains sensitive configuration data about the audit service. This rule ensures that the audit service is configured to be readable and writable only by system administrators to prevent normal users from manipulating audit logs.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029, SRG-OS-000063-GPOS-00032, SRG-OS-000256-GPOS-00097, SRG-OS-000257-GPOS-00098, SRG-OS-000258-GPOS-00099",
+  "Documentable": "false"
+}

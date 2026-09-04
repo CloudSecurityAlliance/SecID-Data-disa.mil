@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278135",
+  "rule_id": "SV-278135r1182075_rule",
+  "stig_id": "WN25-DC-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2025 Kerberos user ticket lifetime must be limited to 10 hours or less.",
+  "group_title": "SRG-OS-000112-GPOS-00057",
+  "idents": {
+    "cci": [
+      "CCI-001941"
+    ]
+  },
+  "check_id": "C-82665r1182074_chk",
+  "check_content": "This applies to domain controllers. It is not applicable for other systems.\n\nVerify the following is configured in the Default Domain Policy:\n\nOpen \"Group Policy Management\".\n\nNavigate to \"Group Policy Objects\" in the Domain being reviewed (Forest >> Domains >> Domain).\n\nRight-click the \"Default Domain Policy\".\n\nSelect \"Edit\".\n\nNavigate to Computer Configuration >> Policies >> Windows Settings >> Security Settings >> Account Policies >> Kerberos Policy.\n\nIf the value for \"Maximum lifetime for user ticket\" is \"0\" or greater than \"10\" hours, this is a finding.",
+  "fixtext": "Configure the policy value in the Default Domain Policy for Computer Configuration >> Policies >> Windows Settings >> Security Settings >> Account Policies >> Kerberos Policy >> Maximum lifetime for user ticket to a maximum of \"10\" hours but not \"0\", which equates to \"Ticket doesn't expire\".",
+  "fix_id": "F-82570r1181110_fix",
+  "VulnDiscussion": "In Kerberos, there are two types of tickets: Ticket Granting Tickets (TGTs) and Service Tickets. Kerberos tickets have a limited lifetime so the time an attacker has to implement an attack is limited. This policy controls how long TGTs can be renewed. With Kerberos, the user's initial authentication to the domain controller results in a TGT, which is then used to request Service Tickets to resources. Upon startup, each computer gets a TGT before requesting a service ticket to the domain controller and any other computers it needs to access. For services that start up under a specified user account, users must always get a TGT first and then get Service Tickets to all computers and services accessed.\n\nSatisfies: SRG-OS-000112-GPOS-00057, SRG-OS-000113-GPOS-00058",
+  "Documentable": "false"
+}

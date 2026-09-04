@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279329",
+  "rule_id": "SV-279329r1149390_rule",
+  "stig_id": "APPL-26-005170",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable Apple Intelligence during Setup Assistant.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-83880r1149388_chk",
+  "check_content": "Verify the macOS system is configured to skip Apple Intelligence during Setup Assistant with the following command:\n\n/usr/bin/osascript -l JavaScript 2>/dev/null << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.SetupAssistant.managed')\\\n.objectForKey('SkipSetupItems').containsObject(\"Intelligence\")\nEOS\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable Unlock with Apple Watch during Setup Assistant by installing the \"com.apple.SetupAssistant.managed\" configuration profile.",
+  "fix_id": "F-83785r1149389_fix",
+  "VulnDiscussion": "The prompt for Apple Intelligence setup during Setup Assistant must be disabled.\n\nDisabling Apple watches is a necessary step to ensuring the information system retains a session lock until the user reestablishes access using authorized identification and authentication procedures.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259341",
+  "rule_id": "SV-259341r1156949_rule",
+  "stig_id": "WDNS-22-000009",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Windows DNS Server must prohibit recursion on authoritative name servers for which forwarders have not been configured for external queries.",
+  "group_title": "SRG-APP-000383-DNS-000047",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-63080r1081087_chk",
+  "check_content": "Note: In Windows DNS Server, if forwarders are configured, the recursion setting must also be enabled because disabling recursion will disable forwarders.\n\nIf forwarders are not used, recursion must be disabled.\n\nIn both cases, the use of root hints must be disabled. The root hints configuration requirement is addressed in WDNS-22-000012.\n\nLog on to the DNS server using the Domain Admin or Enterprise Admin account or Local Administrator account.\n\nPress the Windows key + R and execute \"dnsmgmt.msc\".\n\nOn the opened DNS Manager snap-in from the left pane, right-click on the server name for the DNS server and select \"Properties\".\n\nClick the \"Forwarders\" tab.\n\nIf forwarders are enabled and configured, this check is not applicable.\n\nIf forwarders are not enabled, click the \"Advanced\" tab and verify the \"Disable recursion (also disables forwarders)\" check box is selected.\n\nIf forwarders are not enabled and configured, and the \"Disable recursion (also disables forwarders)\" check box in the \"Advanced\" tab is not selected, this is a finding. This is not applicable for classified networks.",
+  "fixtext": "Log on to the DNS server using the Domain Admin or Enterprise Admin account or Local Administrator account.\n\nPress the Windows key + R and execute \"dnsmgmt.msc\".\n\nOn the opened DNS Manager snap-in from the left pane, right-click on the server name for the DNS server and select \"Properties\".\n\nClick the \"Forwarders\" tab.\n\nIf forwarders are not being used, click the \"Advanced\" tab. \n\nSelect the \"Disable recursion (also disables forwarders)\" check box.",
+  "fix_id": "F-62988r939727_fix",
+  "VulnDiscussion": "A potential vulnerability of DNS is that an attacker can poison a name server's cache by sending queries that will cause the server to obtain host-to-IP address mappings from bogus name servers that respond with incorrect information. Once a name server has been poisoned, legitimate clients may be directed to nonexistent hosts (which constitutes a denial of service) or hosts that masquerade as legitimate ones to obtain sensitive data or passwords. \n\nTo guard against poisoning, name servers authoritative for .mil domains should be separated functionally from name servers that resolve queries on behalf of internal clients. Organizations may achieve this separation by dedicating machines to each function or, if possible, by running two instances of the name server software on the same machine: one for the authoritative function and the other for the resolving function. In this design, each name server process may be bound to a different IP address or network interface to implement the required segregation.",
+  "Documentable": "false"
+}

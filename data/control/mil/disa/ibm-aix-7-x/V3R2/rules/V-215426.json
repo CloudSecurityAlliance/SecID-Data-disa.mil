@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215426",
+  "rule_id": "SV-215426r991589_rule",
+  "stig_id": "AIX7-00-003131",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX package management tool must be used daily to verify system software.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101809",
+      "V-91711"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16624r294729_chk",
+  "check_content": "Check the root crontab for a daily job invoking the system package management tool to verify the integrity of installed packages.\n\nFrom the command prompt, run the following command: \n\n# crontab -l | grep lppchk \n55 22 * * * /lppchk.sh # Daily LPP check script\n\nIf no such job exists, this is a finding.",
+  "fixtext": "Add a job to the root crontab invoking the following system package management tool to verify the integrity of installed packages and email the result to root user.\n\nRun the following command to add the cron job: \n# crontab -e\n\nWithin crontab command, add the following daily job to the cron table, then save the change:\n0 23 * * * /usr/bin/lppchk -c > /tmp/111 2>&1; sendmail root < /tmp/111",
+  "fix_id": "F-16622r294730_fix",
+  "VulnDiscussion": "Verification using the system package management tool can be used to determine that system software has not been tampered with. This requirement is not applicable to systems not using package management tools.",
+  "Documentable": "false"
+}

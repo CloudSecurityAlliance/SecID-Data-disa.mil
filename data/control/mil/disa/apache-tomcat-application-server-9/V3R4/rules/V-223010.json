@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-223010",
+  "rule_id": "SV-223010r985887_rule",
+  "stig_id": "TCAT-AS-001731",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The application server must alert the system administrator (SA) and information system security offer (ISSO), at a minimum, in the event of a log processing failure.",
+  "group_title": "SRG-APP-000108-AS-000067",
+  "idents": {
+    "legacy": [
+      "SV-111571",
+      "V-102621"
+    ],
+    "cci": [
+      "CCI-000139",
+      "CCI-003831"
+    ]
+  },
+  "check_id": "C-24682r985885_chk",
+  "check_content": "This requirement cannot be met by the Tomcat server natively and must be done at the OS. Review the operating system. Ensure the OS is configured to alert the ISSO and SA in the event of an audit processing failure.\n\nThe alert notification method itself can be accomplished in a variety of ways and is not restricted to email alone. The intention is to send an alert; the method used to send the alert is not a factor of the requirement. The fix uses email but other alert methods are acceptable.\n\nIf the OS is not configured to alert the ISSO and SA in the event of an audit processing failure, this is a finding.",
+  "fixtext": "Procedures for meeting this requirement will vary according to the OS. For Ubuntu Linux systems, instructions for notifying via email are provided. Other alert methods are also acceptable but are not provided here.\n\nConfigure \"auditd\" service to notify the SA and ISSO in the event of an audit processing failure.\n\nEdit the following line in \"/etc/audit/auditd.conf\" to ensure that administrators are notified via email for those situations:\n\naction_mail_acct = root\n\nRestart the auditd service so the changes take effect:\n# sudo systemctl restart auditd.service",
+  "fix_id": "F-24671r985886_fix",
+  "VulnDiscussion": "Logs are essential to monitor the health of the system, investigate changes that occurred to the system, or investigate a security incident. When log processing fails, the events during the failure can be lost. To minimize the timeframe of the log failure, an alert needs to be sent to the SA and ISSO at a minimum.\n\nLog processing failures include, but are not limited to, failures in the application server log capturing mechanisms or log storage capacity being reached or exceeded. In some instances, it is preferred to send alarms to individuals rather than to an entire group. Application servers must be able to trigger an alarm and send an alert to, at a minimum, the SA and ISSO in the event there is an application server log processing failure.",
+  "Documentable": "false"
+}

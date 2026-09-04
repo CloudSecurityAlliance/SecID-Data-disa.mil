@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-206436",
+  "rule_id": "SV-206436r961632_rule",
+  "stig_id": "SRG-APP-000439-WSR-000153",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Web server cookies, such as session cookies, sent to the client using SSL/TLS must not be compressed.",
+  "group_title": "SRG-APP-000439",
+  "idents": {
+    "legacy": [
+      "SV-70259",
+      "V-56005"
+    ],
+    "cci": [
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-6697r377900_chk",
+  "check_content": "Review the web server documentation and deployed configuration to determine whether cookies are being sent to the client using SSL/TLS.\n\nIf the transmission is through a SSL/TLS connection, but the cookie is not being compressed, this finding is NA.\n\nIf the web server is using SSL/TLS for cookie transmission and the cookie is also being compressed, this is a finding.",
+  "fixtext": "Configure the web server to send the cookie to the client via SSL/TLS without using cookie compression.",
+  "fix_id": "F-6697r377901_fix",
+  "VulnDiscussion": "A cookie is used when a web server needs to share data with the client's browser. The data is often used to remember the client when the client returns to the hosted application at a later date. A session cookie is a special type of cookie used to remember the client during the session. The cookie will contain the session identifier (ID) and may contain authentication data to the hosted application. To protect this data from easily being compromised, the cookie can be encrypted.\n\nWhen a cookie is sent encrypted via SSL/TLS, an attacker must spend a great deal of time and resources to decrypt the cookie. If, along with encryption, the cookie is compressed, the attacker can now use a combination of plaintext injection and inadvertent information leakage through data compression to reduce the time needed to decrypt the cookie. This attack is called Compression Ratio Info-leak Made Easy (CRIME).\n\nCookies shared between the web server and the client when encrypted should not also be compressed.",
+  "Documentable": "false"
+}

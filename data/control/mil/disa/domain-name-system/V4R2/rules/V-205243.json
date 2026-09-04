@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-205243",
+  "rule_id": "SV-205243r961863_rule",
+  "stig_id": "SRG-APP-000516-DNS-000102",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DNS must utilize valid root name servers in the local root zone file.",
+  "group_title": "SRG-APP-000516",
+  "idents": {
+    "legacy": [
+      "SV-69193",
+      "V-54947"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-5510r392642_chk",
+  "check_content": "Review the entries within the root hints file and validate that the entries are correct. G and H root servers are required on the NIPRNet, as a minimum. All default settings on servers must be verified and corrected if necessary. If valid root name servers are not configured, this is a finding.",
+  "fixtext": "Configure the DNS implementation to use valid root name servers.",
+  "fix_id": "F-5510r392643_fix",
+  "VulnDiscussion": "All caching name servers must be authoritative for the root zone because, without this starting point, they would have no knowledge of the DNS infrastructure and thus would be unable to respond to any queries. The security risk is that an adversary could change the root hints and direct the caching name server to a bogus root server. At that point, every query response from that name server is suspect, which would give the adversary substantial control over the network communication of the name servers' clients. When authoritative servers are sent queries for zones that they are not authoritative for, and they are configured as a non-caching server (as recommended), they can either be configured to return a referral to the root servers or they can be configured to refuse to answer the query. The recommendation is to configure authoritative servers to refuse to answer queries for any zones for which they are not authoritative. This is more efficient for the server and allows it to spend more of its resources doing what its intended purpose is, answering authoritatively for its zone.",
+  "Documentable": "false"
+}

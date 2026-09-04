@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274876",
+  "rule_id": "SV-274876r1156668_rule",
+  "stig_id": "OL08-00-030645",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8  must audit any script or executable called by cron as root or by any privileged user.",
+  "group_title": "SRG-OS-000471-GPOS-00215",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-78977r1155545_chk",
+  "check_content": "Verify OL 8 is configured to audit the execution of any system call made by cron as root or as any privileged user.\n\n$ sudo auditctl -l | grep /etc/cron.d\n-w /etc/cron.d -p wa -k cronjobs\n\n$ sudo auditctl -l | grep /var/spool/cron\n-w /var/spool/cron -p wa -k cronjobs\n\nIf either of these commands do not return the expected output, or the lines are commented out, this is a finding.",
+  "fixtext": "Configure OL 8 to audit the execution of any system call made by cron as root or as any privileged user.\n\nAdd or update the following file system rules to \"/etc/audit/rules.d/audit.rules\":\n-w /etc/cron.d/ -p wa -k cronjobs\n-w /var/spool/cron/ -p wa -k cronjobs\n\nTo load the rules to the kernel immediately, use the following command:\n\n$ sudo augenrules --load",
+  "fix_id": "F-78882r1155546_fix",
+  "VulnDiscussion": "Any script or executable called by cron as root or by any privileged user must be owned by that user and must have the permissions 755 or more restrictive and should have no extended rights that allow any nonprivileged user to modify the script or executable.",
+  "Documentable": "false"
+}

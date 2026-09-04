@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230492",
+  "rule_id": "SV-230492r1184277_rule",
+  "stig_id": "RHEL-08-040010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must not install packages from the Extra Packages for Enterprise Linux (EPEL) repository.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-33161r1134886_chk",
+  "check_content": "Verify that RHEL 8 is not able to install packages from the EPEL with the following command:\n\n$ dnf repolist\nrhel-8-for-x86_64-appstream-rpms                      Red Hat Enterprise Linux 8 for x86_64 - AppStream (RPMs)\nrhel-8-for-x86_64-baseos-rpms                         Red Hat Enterprise Linux 8 for x86_64 - BaseOS (RPMs)\nrhel-8-for-x86_64-baseos-source-rpms                  Red Hat Enterprise Linux 8 for x86_64 - BaseOS (Source RPMs)\nrhel-8-for-x86_64-supplementary-rpms                  Red Hat Enterprise Linux 8 for x86_64 - Supplementary (RPMs)\nsatellite-tools-6.10-for-rhel-8-x86_64-rpms           Red Hat Satellite Tools 6.10 for RHEL 8 x86_64 (RPMs)\n\nIf any repositories containing the word \"epel\" in the name exist, this is a finding.",
+  "fixtext": "The repo package can be manually removed with the following command:\n\n$ sudo dnf remove epel-release\n\nConfigure the operating system to disable use of the EPEL repository with the following command:\n\n$ sudo dnf config-manager --set-disabled epel",
+  "fix_id": "F-33136r1134887_fix",
+  "VulnDiscussion": "The EPEL is a repository of high-quality open-source packages for enterprise-class Linux distributions such as RHEL, CentOS, AlmaLinux, Rocky Linux, and Oracle Linux. These packages are not part of the official distribution but are built using the same Fedora build system to ensure compatibility and maintain quality standards.",
+  "Documentable": "false"
+}

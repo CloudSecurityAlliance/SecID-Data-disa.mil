@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281251",
+  "rule_id": "SV-281251r1166705_rule",
+  "stig_id": "RHEL-10-700420",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must use a Linux Security Module configured to enforce limits on system services.",
+  "group_title": "SRG-OS-000445-GPOS-00199",
+  "idents": {
+    "cci": [
+      "CCI-002696",
+      "CCI-001084"
+    ]
+  },
+  "check_id": "C-85812r1166703_chk",
+  "check_content": "Verify RHEL 10 enforces correct operation of security functions through the use of SELinux with the following command:\n\n$ getenforce\nEnforcing\n\nIf SELINUX is not set to \"Enforcing\", this is a finding.\n\nVerify SELinux is configured to be enforcing at boot.\n\n$ sudo grep \"SELINUX=\" /etc/selinux/config | grep -v '#'\nSELINUX=enforcing\n\nIf an uncommented SELinux line is missing or not set to \"enforcing\", this is a finding.",
+  "fixtext": "Configure RHEL 10 to enforce correct operation of security functions.\n\nEdit the file \"/etc/selinux/config\" and add or modify the following line:\n\n SELINUX=enforcing\n\nA reboot is required for the changes to take effect.",
+  "fix_id": "F-85717r1166704_fix",
+  "VulnDiscussion": "Without verification of the security functions, security functions may not operate correctly and the failure may go unnoticed. Security function is defined as the hardware, software, and/or firmware of the information system responsible for enforcing the system security policy and supporting the isolation of code and data on which the protection is based. \n\nSecurity functionality includes, but is not limited to, establishing system accounts, configuring access authorizations (i.e., permissions, privileges), setting events to be audited, and setting intrusion detection parameters.\n\nThis requirement applies to operating systems performing security function verification/testing and/or systems and environments that require this functionality.\n\nSatisfies: SRG-OS-000445-GPOS-00199, SRG-OS-000134-GPOS-00068",
+  "Documentable": "false"
+}

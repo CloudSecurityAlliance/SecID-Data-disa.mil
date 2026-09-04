@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281353",
+  "rule_id": "SV-281353r1167209_rule",
+  "stig_id": "RHEL-10-800210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must not enable Internet Protocol version 4 (IPv4) packet forwarding unless the system is a router.",
+  "group_title": "SRG-OS-000420-GPOS-00186",
+  "idents": {
+    "cci": [
+      "CCI-002385",
+      "CCI-001108"
+    ]
+  },
+  "check_id": "C-85914r1167207_chk",
+  "check_content": "Verify RHEL 10 is not performing IPv4 packet forwarding unless the system is a router.\n\nCheck that \"net.ipv4.conf.all.forwarding\" is disabled using the following command:\n\n$ sudo sysctl net.ipv4.conf.all.forwarding\nnet.ipv4.conf.all.forwarding = 0\n\nIf \"net.ipv4.conf.all.forwarding\" is not set to \"0\" and is not documented with the information system security officer as an operational requirement or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 10 to not allow IPv4 packet forwarding unless the system is a router.\n\nCreate a configuration file if it does not already exist:\n\n$ sudo vi /etc/sysctl.d/ipv4_forwarding.conf\n\nAdd the following line to the file:\n\nnet.ipv4.conf.all.forwarding = 0\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-85819r1167208_fix",
+  "VulnDiscussion": "Routing protocol daemons are typically used on routers to exchange network topology information with other routers. If this capability is used when not required, system network information may be transmitted unnecessarily across the network.\n\nSatisfies: SRG-OS-000420-GPOS-00186, SRG-OS-000142-GPOS-00084",
+  "Documentable": "false"
+}

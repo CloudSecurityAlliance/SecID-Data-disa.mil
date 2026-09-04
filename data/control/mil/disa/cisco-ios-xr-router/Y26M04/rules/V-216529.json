@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216529",
+  "rule_id": "SV-216529r1043177_rule",
+  "stig_id": "CISC-ND-000470",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco router must be configured to be configured to prohibit the use of all unnecessary and nonsecure functions and services.",
+  "group_title": "SRG-APP-000142-NDM-000245",
+  "idents": {
+    "legacy": [
+      "SV-105541",
+      "V-96403"
+    ],
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-17764r1007818_chk",
+  "check_content": "Verify that the router does not have any unnecessary or nonsecure ports, protocols, and services enabled. For example, the following commands should not be in the configuration:\n\nservice ipv4 tcp-small-servers max-servers 10\nservice ipv4 udp-small-servers max-servers 10\nhttp client vrf xxxxx\ntelnet vrf default ipv4 server max-servers 1\nservice call-home\n\nNote: Certain legacy devices may require 'service call-home' be enabled to support Smart Licensing as they do not support the newer smart transport configuration. Those devices do not incur a finding for having call-home enabled for Smart Licensing.\n\nIf any unnecessary or nonsecure ports, protocols, or services are enabled, this is a finding.",
+  "fixtext": "Disable the following services if enabled as shown in the example below.\n\nRP/0/0/CPU0:R3(config)#no service ipv4 tcp-small-servers\nRP/0/0/CPU0:R3(config)#no service ipv4 udp-small-servers\nRP/0/0/CPU0:R3(config)#no http client vrf xxxxx\nRP/0/0/CPU0:R3(config)#no telnet ipv4 server\nRP/0/0/CPU0:R3(config)#no service call-home",
+  "fix_id": "F-17761r939997_fix",
+  "VulnDiscussion": "Network devices are capable of providing a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., email and web services); however, doing so increases risk over limiting the services provided by any one component. \n\nTo support the requirements and principles of least functionality, the network device must support the organizational requirements providing only essential capabilities and limiting the use of ports, protocols, and/or services to only those required, authorized, and approved. Some network devices have capabilities enabled by default; if these capabilities are not necessary, they must be disabled. If a particular capability is used, then it must be documented and approved.",
+  "Documentable": "false"
+}

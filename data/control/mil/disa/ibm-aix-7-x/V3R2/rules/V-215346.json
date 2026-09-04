@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215346",
+  "rule_id": "SV-215346r987796_rule",
+  "stig_id": "AIX7-00-003040",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The AIX rsh daemon must be disabled.",
+  "group_title": "SRG-OS-000074-GPOS-00042",
+  "idents": {
+    "legacy": [
+      "SV-101397",
+      "V-91299"
+    ],
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-16544r294489_chk",
+  "check_content": "From the command prompt, run the following command:\n# grep -v \"^#\" /etc/inetd.conf |grep rshd \n\nThe above command may show the daemon is enabled like this:\nshell   stream  tcp6    nowait  root    /usr/sbin/rshd  rshd \n\nIf the above grep command returned a line that contains \"rshd\", this is a finding.",
+  "fixtext": "Edit the \"/etc/inetd.conf\" file and comment out the \"rshd\" service. \n\nRestart the inetd service:\n# refresh -s inetd",
+  "fix_id": "F-16542r294490_fix",
+  "VulnDiscussion": "The rsh daemon permits username and passwords to be passed over the network in clear text.",
+  "Documentable": "false"
+}

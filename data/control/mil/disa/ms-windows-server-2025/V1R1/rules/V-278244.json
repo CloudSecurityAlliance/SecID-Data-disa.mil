@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278244",
+  "rule_id": "SV-278244r1182211_rule",
+  "stig_id": "WN25-UR-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Windows Server 2025 \"Back up files and directories\" user right must only be assigned to the Administrators group.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-82774r1181869_chk",
+  "check_content": "Verify the effective setting in Local Group Policy Editor.\n\nRun gpedit.msc.\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment.\n\nIf any accounts or groups other than the following are granted the \"Back up files and directories\" user right, this is a finding:\n- Administrators.\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas User_Rights /cfg c:\\path\\filename.txt\n\nReview the text file.\n\nIf any SIDs other than the following are granted the \"SeBackupPrivilege\" user right, this is a finding:\n\nS-1-5-32-544 (Administrators)\n\nIf an application requires this user right, this is not a finding.\n\nVendor documentation must support the requirement for having the user right.\n\nThe requirement must be documented with the information system security officer (ISSO).\n\nThe application account must meet requirements for application account passwords, such as length (WN25-00-000050) and required frequency of changes (WN25-00-000060).",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment >> Back up files and directories to include only the following accounts or groups:\n- Administrators.",
+  "fix_id": "F-82679r1181870_fix",
+  "VulnDiscussion": "Inappropriately granting user rights provides system, administrative, and other high-level capabilities.\n\nAccounts with the \"Back up files and directories\" user right can circumvent file and directory permissions and could allow access to sensitive data.",
+  "Documentable": "false"
+}

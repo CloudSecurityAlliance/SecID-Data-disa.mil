@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221136",
+  "rule_id": "SV-221136r1137930_rule",
+  "stig_id": "CISC-RT-000830",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco multicast Rendezvous Point (RP) switch must be configured to filter Protocol Independent Multicast (PIM) Register messages received from the Designated switch (DR) for any undesirable multicast groups and sources.",
+  "group_title": "SRG-NET-000019-RTR-000013",
+  "idents": {
+    "legacy": [
+      "SV-111091",
+      "V-101987"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-22851r409897_chk",
+  "check_content": "Verify that the RP switch is configured to filter PIM register messages. The example below will deny any multicast streams for groups 239.5.0.0/16 and allow from only sources x.1.2.6 and x.1.2.7. \n\nip pim register-policy PIM_REGISTER_FILTER\n…\n…\n…\nroute-map PIM_REGISTER_FILTER deny 10\n match ip multicast group 239.5.0.0/16 \nroute-map PIM_REGISTER_FILTER permit 20\n match ip multicast source x.1.2.6/32 \nroute-map PIM_REGISTER_FILTER permit 30\n match ip multicast source x.1.2.7/32 \nroute-map PIM_REGISTER_FILTER permit 40\n match ip multicast group-range 232.0.0.0 to 233.255.255.255 \nroute-map PIM_REGISTER_FILTER deny 50\n match ip multicast source 0.0.0.0/0\n\nIf the RP switch peering with PIM-SM switches is not configured with a policy to block registration messages for any undesirable multicast groups and sources, this is a finding.",
+  "fixtext": "Configure the switch to filter PIM register messages received from a multicast DR for any undesirable multicast groups and sources. The example below will deny any multicast streams for groups 239.5.0.0/16 and allow from only sources x.1.2.6 and x.1.2.7. \n\nStep 1: Configure a route map to filter multicast groups and sources as shown in the example below:\n\nSW1(config)# route-map PIM_REGISTER_FILTER deny 10 \nSW1(config-route-map)# match ip multicast group 239.5.0.0/16 \nSW1(config-route-map)# route-map PIM_REGISTER_FILTER permit 20\nSW1(config-route-map)# match ip multicast source x.1.2.6/32\nSW1(config-route-map)# route-map PIM_REGISTER_FILTER permit 30\nSW1(config-route-map)# match ip multicast source x.1.2.7/32\nSW1(config-route-map)# route-map PIM_REGISTER_FILTER permit 40\nSW1(config-route-map)# match ip multicast group-range 232.0.0.0 to 233.255.255.255\nSW1(config-route-map)# route-map PIM_REGISTER_FILTER deny 50\nSW1(config-route-map)# match ip multicast source 0.0.0.0/0\nSW1(config-route-map)# exit\n\nStep 2: Configure a multicast register policy referencing the configured route map.\n\nSW1(config)# ip pim register-policy PIM_REGISTER_FILTER\nSW1(config)# end",
+  "fix_id": "F-22840r409898_fix",
+  "VulnDiscussion": "Real-time multicast traffic can entail multiple large flows of data. An attacker can flood a network segment with multicast packets, over-using the available bandwidth and thereby creating a denial-of-service (DoS) condition. Hence, it is imperative that register messages are accepted only for authorized multicast groups and sources.",
+  "Documentable": "false"
+}

@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-274058",
+  "rule_id": "SV-274058r1186176_rule",
+  "stig_id": "AZLX-23-001285",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 crypto policy must not be overridden.",
+  "group_title": "SRG-OS-000396-GPOS-00176",
+  "idents": {
+    "cci": [
+      "CCI-002450",
+      "CCI-002890",
+      "CCI-003123",
+      "CCI-002421",
+      "CCI-004062",
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-78149r1120160_chk",
+  "check_content": "Verify Amazon Linux 2023 custom crypto policies are loaded correctly with the following command:\n\n$ ls -l /etc/crypto-policies/back-ends/\nlrwxrwxrwx. 1 root root 40 Mar 7 19:22 bind.config -> /usr/share/crypto-policies/FIPS/bind.txt\nlrwxrwxrwx. 1 root root 42 Mar 7 19:22 gnutls.config -> /usr/share/crypto-policies/FIPS/gnutls.txt\nlrwxrwxrwx. 1 root root 40 Mar 7 19:22 java.config -> /usr/share/crypto-policies/FIPS/java.txt\nlrwxrwxrwx. 1 root root 46 Mar 7 19:22 javasystem.config -> /usr/share/crypto-policies/FIPS/javasystem.txt\nlrwxrwxrwx. 1 root root 40 Mar 7 19:22 krb5.config -> /usr/share/crypto-policies/FIPS/krb5.txt\nlrwxrwxrwx. 1 root root 45 Mar 7 19:22 libreswan.config -> /usr/share/crypto-policies/FIPS/libreswan.txt\nlrwxrwxrwx. 1 root root 42 Mar 7 19:22 libssh.config -> /usr/share/crypto-policies/FIPS/libssh.txt\n-rw-r--r--. 1 root root 398 Mar 7 19:22 nss.config\nlrwxrwxrwx. 1 root root 43 Mar 7 19:22 openssh.config -> /usr/share/crypto-policies/FIPS/openssh.txt\nlrwxrwxrwx. 1 root root 49 Mar 7 19:22 opensshserver.config -> /usr/share/crypto-policies/FIPS/opensshserver.txt\nlrwxrwxrwx. 1 root root 43 Mar 7 19:22 openssl.config -> /usr/share/crypto-policies/FIPS/openssl.txt\nlrwxrwxrwx. 1 root root 48 Mar 7 19:22 openssl_fips.config -> /usr/share/crypto-policies/FIPS/openssl_fips.txt\nlrwxrwxrwx. 1 root root 46 Mar 7 19:22 opensslcnf.config -> /usr/share/crypto-policies/FIPS/opensslcnf.txt\n\nIf the paths do not point to the respective files under /usr/share/crypto-policies/FIPS path, this is a finding.\nNote: nss.config must not be hyperlinked.",
+  "fixtext": "Configure Amazon Linux 2023 to correctly implement the systemwide cryptographic policies by reinstalling the crypto-policies package contents.\n\nReinstall crypto-policies with the following command:\n\n$ sudo dnf -y reinstall crypto-policies\n\nSet the crypto-policy to FIPS with the following command:\n\n$ sudo update-crypto-policies --set FIPS\nSetting system policy to FIPS\n\nNote: Systemwide crypto policies are applied on application startup. It is recommended to restart the system for the change of policies to fully take place.",
+  "fix_id": "F-78054r1120161_fix",
+  "VulnDiscussion": "Centralized cryptographic policies simplify applying secure ciphers across an operating system and the applications that run on that operating system. Use of weak or untested encryption algorithms undermines the purposes of utilizing encryption to protect data.\n\nSatisfies: SRG-OS-000396-GPOS-00176, SRG-OS-000393-GPOS-00173, SRG-OS-000394-GPOS-00174, SRG-OS-000424-GPOS-00188, SRG-OS-000073-GPOS-00041, SRG-OS-000120-GPOS-00061",
+  "Documentable": "false"
+}

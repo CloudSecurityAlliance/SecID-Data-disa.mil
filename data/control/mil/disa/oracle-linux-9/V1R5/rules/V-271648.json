@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271648",
+  "rule_id": "SV-271648r1091656_rule",
+  "stig_id": "OL09-00-002031",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must prevent files with the setuid and setgid bit set from being executed on the /boot directory.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-75698r1091654_chk",
+  "check_content": "Verify that OL 9 is configured to mount /boot with the nosuid option.\n\nVerify that the /boot directory is mounted with the \"nosuid\" option with the following command:\n\n$ mount | grep '\\s/boot\\s'\n/dev/sda1 on /boot type xfs (rw,nosuid,relatime,seclabe,attr2,inode64,noquota)\n\nIf the /boot file system does not have the \"nosuid\" option set, this is a finding.",
+  "fixtext": "Configure OL 9 to prevent files with the setuid and setgid bit set from being executed on the /boot directory.\n\nModify \"/etc/fstab\" to use the \"nosuid\" option on the \"/boot\" directory.",
+  "fix_id": "F-75605r1091655_fix",
+  "VulnDiscussion": "The \"nosuid\" mount option causes the system not to execute \"setuid\" and \"setgid\" files with owner privileges. This option must be used for mounting any file system not containing approved \"setuid\" and \"setguid\" files. Executing files from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

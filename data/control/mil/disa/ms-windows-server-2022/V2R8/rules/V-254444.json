@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-254444",
+  "rule_id": "SV-254444r1081077_rule",
+  "stig_id": "WN22-PK-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2022 must have the US DOD CCEB Interoperability Root CA cross-certificates in the Untrusted Certificates Store on unclassified systems.",
+  "group_title": "SRG-OS-000066-GPOS-00034",
+  "idents": {
+    "cci": [
+      "CCI-000185",
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-57929r1081075_chk",
+  "check_content": "This is applicable to unclassified systems. It is NA for others.\n\nOpen \"PowerShell\" as an administrator.\n\nExecute the following command:\n\nGet-ChildItem -Path Cert:Localmachine\\disallowed | Where Issuer -Like \"*CCEB Interoperability*\" | FL Subject, Issuer, Thumbprint, NotAfter\n\nIf the following certificate \"Subject\", \"Issuer\", and \"Thumbprint\" information is not displayed, this is a finding.\n\nSubject: CN=DOD Root CA 3, OU=PKI, OU=DOD, O=U.S. Government, C=US\nIssuer: CN=US DOD CCEB Interoperability Root CA 2, OU=PKI, OU=DOD, O=U.S. Government, C=US\nThumbprint: 9B74964506C7ED9138070D08D5F8B969866560C8\nNotAfter: 7/18/2025 9:56:22 AM\n\nAlternately, use the Certificates MMC snap-in:\n\nRun \"MMC\".\n\nSelect \"File\", \"Add/Remove Snap-in\".\n\nSelect \"Certificates\" and click \"Add\".\n\nSelect \"Computer account\" and click \"Next\".\n\nSelect \"Local computer: (the computer this console is running on)\" and click \"Finish\".\n\nClick \"OK\".\n\nExpand \"Certificates\" and navigate to Untrusted Certificates >> Certificates.\n\nFor each certificate with \"US DOD CCEB Interoperability Root CA ...\" under \"Issued By\":\n\nRight-click on the certificate and select \"Open\".\n\nSelect the \"Details\" tab.\n\nScroll to the bottom and select \"Thumbprint\".\n\nIf the certificate below is not listed or the value for the \"Thumbprint\" field is not as noted, this is a finding.\n\nIssued To: DOD Root CA 3\nIssued By: US DOD CCEB Interoperability Root CA 2\nThumbprint: 9B74964506C7ED9138070D08D5F8B969866560C8\nNotAfter: 7/18/2025\nIssued to: DOD Root CA 6\nIssued By: US DOD CCEB Interoperability Root CA 2\nThumbprint: D471CA32F7A692CE6CBB6196BD3377FE4DBCD106\nNotAfter: 7/18/2026",
+  "fixtext": "Install the US DOD CCEB Interoperability Root CA cross-certificate on unclassified systems.\n\nIssued To - Issued By - Thumbprint\n\nDOD Root CA 3 - US DOD CCEB Interoperability Root CA 2 - 9B74964506C7ED9138070D08D5F8B969866560C8 \nDOD Root CA 6 -US DOD CCEB Interoperability Root CA 2 - D471CA32F7A692CE6CBB6196BD3377FE4DBCD106\n\nAdministrators must run the Federal Bridge Certification Authority (FBCA) Cross-Certificate Removal Tool once as an administrator and once as the current user.\n\nThe FBCA Cross-Certificate Remover Tool and User Guide are available on Cyber Exchange at https://cyber.mil/pki-pke/tools-configuration-files. PKI can be found at https://crl.gds.disa.mil/.",
+  "fix_id": "F-57880r1081076_fix",
+  "VulnDiscussion": "To ensure users do not experience denial of service when performing certificate-based authentication to DOD websites due to the system chaining to a root other than DOD Root CAs, the US DOD CCEB Interoperability Root CA cross-certificates must be installed in the Untrusted Certificate Store. This requirement only applies to unclassified systems.\n\nSatisfies: SRG-OS-000066-GPOS-00034, SRG-OS-000403-GPOS-00182",
+  "Documentable": "false"
+}

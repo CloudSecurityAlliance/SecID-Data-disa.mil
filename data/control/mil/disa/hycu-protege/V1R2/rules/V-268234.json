@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268234",
+  "rule_id": "SV-268234r1038654_rule",
+  "stig_id": "HYCU-ND-000160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must automatically audit account removal actions.",
+  "group_title": "SRG-APP-000029-NDM-000211",
+  "idents": {
+    "cci": [
+      "CCI-001405"
+    ]
+  },
+  "check_id": "C-72255r1038400_chk",
+  "check_content": "Verify the operating system generates audit records for all account removal events.\n\nCheck the auditing rules in \"/etc/audit/audit.rules\" with the following command:\n# grep -E \"/etc/passwd|/etc/gshadow|/etc/shadow|/etc/security/opasswd|/etc/group|/etc/sudoers|/etc/sudoers.d/\" /etc/audit/audit.rules\n\n-w /etc/passwd -p wa -k identity\n-w /etc/gshadow -p wa -k identity\n-w /etc/shadow -p wa -k identity\n-w /etc/security/opasswd -p wa -k identity\n-w /etc/group -p wa -k identity\n-w /etc/sudoers -p wa -k identity\n-w /etc/sudoers.d/ -p wa -k identity\n\nIf the command does not return all the lines above, or one or more of the lines are commented out, this is a finding.",
+  "fixtext": "Log in to the HYCU VM console and load the STIG audit rules by using the following commands:\n\n1. cp /usr/share/audit/sample-rules/10-base-config.rules /usr/share/audit/sample-rules/30-stig.rules /usr/share/audit/sample-rules/31-privileged.rules /usr/share/audit/sample-rules/99-finalize.rules /etc/audit/rules.d/\n\n2. augenrules --load",
+  "fix_id": "F-72158r1038653_fix",
+  "VulnDiscussion": "Account management, as a whole, ensures access to the network device is being controlled in a secure manner by granting access to only authorized personnel. Auditing account removal actions will support account management procedures. When device management accounts are terminated, user or service accessibility may be affected. Auditing also ensures authorized active accounts remain enabled and available for use when required.",
+  "Documentable": "false"
+}

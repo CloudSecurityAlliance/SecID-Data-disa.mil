@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-243464",
+  "rule_id": "SV-243464r991589_rule",
+  "stig_id": "WPAW-00-002500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Restricted remote administration must be enabled for high-value systems.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-78161",
+      "SV-92867"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-46739r722961_chk",
+  "check_content": "In the Registry Editor of the remote target system (high-value assets), verify the following registry key has a value of \"0\":\n\n- HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Lsa\n- Name: DisableRestrictedAdmin\n- Type: REG_DWORD\n- Value: 0\n\nIf restricted remote administration has not been enabled on the target system, this is a finding.\n\nIn the Registry Editor of the PAW system, verify the following registry key has a value of \"1\":\n\nHKLM\\Software\\Policies\\Microsoft\\Windows\\CredentialsDelegation\nName: RestrictedRemoteAdministration\nType: REG_DWORD\nValue: 1\n\nIf restricted remote administration has not been enabled on the PAW and is not enforced by policy, this is a finding.",
+  "fixtext": "Enable RestrictedAdmin mode or Remote Credential Guard on high-value systems.\n\nOn target systems (high-value assets), configure the following registry value:\n\n- HKEY_LOCAL_MACHINE\\System\\CurrentControlSet\\Control\\Lsa\n- Name: DisableRestrictedAdmin\n- Type: REG_DWORD \n- Value: 0\n\nOn PAW systems:\n\nConfigure the policy value for Computer Configuration >> Administrative Templates >> System >> Credentials Delegation \"Restrict delegation of credentials to remote servers\" to \"Enabled\".\n\nRequire Remote Credential Guard\nRequire Restricted Admin\nRestrict Credential Delegation",
+  "fix_id": "F-46696r921974_fix",
+  "VulnDiscussion": "Restricted remote administration features, RestrictedAdmin mode, and Remote Credential Guard for Remote Desktop Protocol (RDP), are an additional safeguard against \"pass the hash\" attacks, where hackers attempt to gain higher administrative privileges from a single compromised machine. Restricted remote administration protects administrator accounts by ensuring that reusable credentials are not stored in memory on remote devices that could potentially be compromised. When restricted remote administration is implemented, the local RDP service tries to log on to the remote device using a network logon, so the user's credentials are not sent across the network. Therefore, if the high-value IT resource is compromised, the credentials of the administrator connecting to the IT resource from the PAW are not compromised.",
+  "Documentable": "false"
+}

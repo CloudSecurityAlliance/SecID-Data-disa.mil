@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223485",
+  "rule_id": "SV-223485r991589_rule",
+  "stig_id": "ACF2-ES-000670",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS Started Tasks must be properly identified and defined to ACF2.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-97669",
+      "SV-106773"
+    ],
+    "cci": [
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-25158r877322_chk",
+  "check_content": "Refer to the site security plan, the system administrator, and system libraries to determine list of stated tasks available on the system.\n\nFrom the ACF command screen enter:\nSET LID \nSET VERBOSE \nLIST IF(STC)\n\nIf all logonids identified as started tasks have the STC attribute specified, this is not a finding.",
+  "fixtext": "All started tasks will be assigned an individual logonid. The logonid for a Started Task Control (STC) will be granted the minimum privileges necessary for the STC to function. In addition to the default LID field settings, all STC logonids will have the following field setting:\n\nSTC\n\nExample:\nSET LID\nINSERT logonid STC",
+  "fix_id": "F-25146r504565_fix",
+  "VulnDiscussion": "Started procedures have system generated job statements that do not contain the user, group, or password statements. To enable the started procedure to access the same protected resources that users and groups access, started procedures must have an associated USERID. If a USERID is not associated with the started procedure, the started procedure will not have access to the resources.\n\nTo ensure accountability and prevent unauthenticated access, organizational users must be identified and authenticated to prevent potential misuse and compromise of the system.",
+  "Documentable": "false"
+}

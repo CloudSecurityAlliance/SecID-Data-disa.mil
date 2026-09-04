@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259334",
+  "rule_id": "SV-259334r960735_rule",
+  "stig_id": "WDNS-22-000001",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Windows DNS Server must restrict incoming dynamic update requests to known clients.",
+  "group_title": "SRG-APP-000001-DNS-000115",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-63073r939705_chk",
+  "check_content": "Log on to the DNS server using the Domain Admin or Enterprise Admin account or Local Administrator account.\n\nPress the Windows key + R and execute \"dnsmgmt.msc\". \n\nOn the opened DNS Manager snap-in from the left pane, expand the server name and then expand \"Forward Lookup Zones\".\n\nFrom the expanded list, click to select the zone.\n\nOnce selected, right-click the name of the zone.\n\nFrom the displayed context menu, click the \"Properties\" option.\n\nOn the opened domain's properties box, click the \"General\" tab.\n\nVerify the \"Type:\" is \"Active Directory-Integrated\".\n\nVerify \"Dynamic updates\" has \"Secure only\" selected.\n\nIf the zone is \"Active Directory-Integrated\" and \"Dynamic updates\" are not configured for \"Secure only\", this is a finding.",
+  "fixtext": "Log on to the DNS server using the Domain Admin or Enterprise Admin account or Local Administrator account.\n\nPress the Windows key + R and execute \"dnsmgmt.msc\".\n\nOn the opened DNS Manager snap-in from the left pane, expand the server name and then expand \"Forward Lookup Zones\".\n\nFrom the expanded list, click to select the zone.\n\nOnce selected, right-click the name of the zone.\n\nFrom the displayed context menu, click the \"Properties\" option.\n\nOn the opened domain's properties box, click the \"General\" tab.\n\nIf the \"Type:\" is not \"Active Directory-Integrated\", configure the zone for Active Directory integration.\n\nSelect \"Secure only\" from the \"Dynamic updates:\" drop-down list.",
+  "fix_id": "F-62981r939706_fix",
+  "VulnDiscussion": "Limiting the number of concurrent sessions reduces the risk of denial of service (DoS) on any system.\n\nA DNS server's function requires it to be able to handle multiple sessions at a time, so limiting concurrent sessions could impact availability.\n\nPrimary name servers must be configured to limit the actual hosts from which they will accept dynamic updates and zone transfer requests, and all name servers should be configured to limit the hosts from/to which they receive/send zone transfers. Restricting sessions to known hosts will mitigate the DoS vulnerability.",
+  "Documentable": "false"
+}

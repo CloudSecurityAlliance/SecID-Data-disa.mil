@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261898",
+  "rule_id": "SV-261898r1137655_rule",
+  "stig_id": "CD16-00-004600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must separate user functionality (including user interface services) from database management functionality.",
+  "group_title": "SRG-APP-000211-DB-000122",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-65752r1000697_chk",
+  "check_content": "Check PostgreSQL settings and vendor documentation to verify that administrative functionality is separate from user functionality.\n\nAs the database administrator (shown here as \"postgres\"), list all roles and permissions for the database:\n\n$ sudo su - postgres\n$ psql -c \"\\du\"\n\nIf any nonadministrative role has the attribute \"Superuser\", \"Create role\", \"Create DB\" or \"Bypass RLS\", this is a finding.\n\nIf administrator and general user functionality are not separated either physically or logically, this is a finding.",
+  "fixtext": "Configure PostgreSQL to separate database administration and general user functionality.\n\nDo not grant superuser, create role, create db, or bypass rls role attributes to users that do not require it.\n\nTo remove privileges, refer to the following example:\n\nALTER ROLE <username> NOSUPERUSER NOCREATEDB NOCREATEROLE NOBYPASSRLS;",
+  "fix_id": "F-65660r1000698_fix",
+  "VulnDiscussion": "Information system management functionality includes functions necessary to administer databases, network components, workstations, or servers and typically requires privileged user access.\n\nThe separation of user functionality from information system management functionality is either physical or logical and is accomplished by using different computers, different central processing units, different instances of the operating system, different network addresses, combinations of these methods, or other methods, as appropriate.\n\nAn example of this type of separation is observed in web administrative interfaces that use separate authentication methods for users of any other information system resources.\n\nThis may include isolating the administrative interface on a different domain and with additional access controls.\n\nIf administrative functionality or information regarding PostgreSQL management is presented on an interface available for users, information on PostgreSQL settings may be inadvertently made available to the user.",
+  "Documentable": "false"
+}

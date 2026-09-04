@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261940",
+  "rule_id": "SV-261940r1000825_rule",
+  "stig_id": "CD16-00-009600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must generate audit records when categories of information (e.g., classification levels/security levels) are accessed.",
+  "group_title": "SRG-APP-000494-DB-000344",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-65794r1000823_chk",
+  "check_content": "As the database administrator (shown here as \"postgres\"), run the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"SHOW pgaudit.log\"\n\nIf pgaudit.log does not contain, \"ddl, write, role\", this is a finding.",
+  "fixtext": "Note: The following instructions use the PGDATA and PGVER environment variables. Refer to APPENDIX-F for instructions on configuring PGDATA and APPENDIX-H for PGVER. \n\nThe DBMS (PostgreSQL) can be configured to audit these requests using pgaudit. Refer to supplementary content APPENDIX-B for documentation on installing pgaudit. \n\nWith pgaudit installed the following configurations can be made:\n\n$ sudo su - postgres  \n\n$ vi ${PGDATA?}/postgresql.conf  \n\nAdd the following parameters (or edit existing parameters):  \n\npgaudit.log = 'ddl, write, role'  \n\nAs the system administrator, reload the server with the new configuration:  \n\n$ sudo systemctl reload postgresql- ${PGVER?}",
+  "fix_id": "F-65702r1000824_fix",
+  "VulnDiscussion": "Changes in categories of information must be tracked. Without an audit trail, unauthorized access to protected data could go undetected.\n\nFor detailed information on categorizing information, refer to FIPS Publication 199, Standards for Security Categorization of federal information and information systems, and FIPS Publication 200, Minimum Security Requirements for federal information and information systems.",
+  "Documentable": "false"
+}

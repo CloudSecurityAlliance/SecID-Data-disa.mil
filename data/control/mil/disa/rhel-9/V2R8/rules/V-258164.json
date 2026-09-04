@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258164",
+  "rule_id": "SV-258164r1045301_rule",
+  "stig_id": "RHEL-09-653075",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 audit system must audit local events.",
+  "group_title": "SRG-OS-000062-GPOS-00031",
+  "idents": {
+    "cci": [
+      "CCI-000169"
+    ]
+  },
+  "check_id": "C-61905r926477_chk",
+  "check_content": "Verify that the RHEL 9 audit system is configured to audit local events with the following command:\n\n$ sudo grep local_events /etc/audit/auditd.conf \n\nlocal_events = yes \n\nIf \"local_events\" isn't set to \"yes\", if the command does not return a line, or the line is commented out, this is a finding.",
+  "fixtext": "Configure RHEL 9 to generate audit records for local events by adding or updating the following line in \"/etc/audit/auditd.conf\":\n\nlocal_events = yes \n\nThe audit daemon must be restarted for the changes to take effect.",
+  "fix_id": "F-61829r926478_fix",
+  "VulnDiscussion": "Without establishing what type of events occurred, the source of events, where events occurred, and the outcome of events, it would be difficult to establish, correlate, and investigate the events leading up to an outage or attack.\n\nIf option \"local_events\" isn't set to \"yes\" only events from network will be aggregated.\n\nSatisfies: SRG-OS-000062-GPOS-00031, SRG-OS-000480-GPOS-00227",
+  "Documentable": "false"
+}

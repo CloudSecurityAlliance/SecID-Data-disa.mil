@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221059",
+  "rule_id": "SV-221059r856422_rule",
+  "stig_id": "CISC-RT-000850",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco multicast Rendezvous Point (RP) must be configured to rate limit the number of Protocol Independent Multicast (PIM) Register messages.",
+  "group_title": "SRG-NET-000362-RTR-000121",
+  "idents": {
+    "legacy": [
+      "SV-110939",
+      "V-101835"
+    ],
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-22774r408971_chk",
+  "check_content": "Review the configuration of the RP to verify that it is rate limiting the number of PIM register messages.\n\nip pim rp-address 10.2.2.2\nip pim register-rate-limit nn\n\nIf the RP is not limiting PIM register messages, this is a finding.",
+  "fixtext": "Configure the RP to rate limit the number of multicast register messages.\n\nSW2(config)#ip pim register-rate-limit nn",
+  "fix_id": "F-22763r408972_fix",
+  "VulnDiscussion": "When a new source starts transmitting in a PIM Sparse Mode network, the DR will encapsulate the multicast packets into register messages and forward them to the RP using unicast. This process can be taxing on the CPU for both the DR and the RP if the source is running at a high data rate and there are many new sources starting at the same time. This scenario can potentially occur immediately after a network failover. The rate limit for the number of register messages should be set to a relatively low value based on the known number of multicast sources within the multicast domain.",
+  "Documentable": "false"
+}

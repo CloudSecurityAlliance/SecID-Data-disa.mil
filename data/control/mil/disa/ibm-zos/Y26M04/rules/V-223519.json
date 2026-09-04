@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223519",
+  "rule_id": "SV-223519r1195303_rule",
+  "stig_id": "ACF2-FT-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS permission bits and user audit bits for HFS objects that are part of the FTP Server component must be properly configured.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "legacy": [
+      "V-97743",
+      "SV-106847"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-25192r1195301_chk",
+  "check_content": "From the ISPF Command shell, enter:\nomvs\nAt the input line enter:\ncd /usr/sbin/\nenter\nls -alW\n\nIf the following file permission and user Audit Bits are true, this is not a finding.\n\n/usr/sbin/ftpd 1740 fff\n/usr/sbin/ftpdns 1755 fff\n\ncd \nls -alW\n\nIf the following file permission and user Audit Bits are true, this is not a finding.\n\n/etc/ftp.data 0744 faf\n/etc/ftp.banner 0744 faf\n\nNOTE: Some of the files listed above are not used in every configuration. The absence of a file is not considered a finding.\n\nThe /usr/sbin/ftpd and /usr/sbin/ftpdns objects are symbolic links to /usr/lpp/tcpip/sbin/ftpd and /usr/lpp/tcpip/sbin/ftpdns, respectively. The permission and user audit bits on the targets of the symbolic links must have the required settings.\n\nThe /etc/ftp.data file may not be the configuration file the server uses. It is necessary to check the SYSFTPD DD statement in the FTP started task JCL to determine the actual file.\n\nThe /etc/ftp.banner file may not be the banner file the server uses. It is necessary to check the BANNER statement in the FTP Data configuration file to determine the actual file. Also, the permission bit setting for this file must be set as indicated in the table above. A more restrictive set of permissions is not permitted.\n\nThe following represents a hierarchy for permission bits from least restrictive to most restrictive:\n\n7 rwx (least restrictive)\n6 rw-\n3 -wx\n2 -w-\n5 r-x\n4 r--\n1 --x\n0 --- (most restrictive)\n\nThe possible audit bits settings are as follows:\n\nf log for failed access attempts\na log for failed and successful access\n- no auditing",
+  "fixtext": "Ensure the UNIX permission bits and user audit bits on the HFS directories and files for the FTP Server conform to the specifications in the table below:\n\nFTP Server HFS Object Security Settings\nFile Permission Bits User Audit Bits\n/usr/sbin/ftpd 1740 fff\n/usr/sbin/ftpdns 1755 fff\n/etc/ftp.data 0744 faf\n/etc/ftp.banner 0744 faf\n\nThe /usr/sbin/ftpd and /usr/sbin/ftpdns objects are symbolic links to /usr/lpp/tcpip/sbin/ftpd and /usr/lpp/tcpip/sbin/ftpdns respectively. The permission and user audit bits on the targets of the symbolic links must have the required settings.\n\nThe /etc/ftp.data file may not be the configuration file the server uses. It is necessary to check the SYSFTPD DD statement in the FTP started task JCL to determine the actual file.\n\nThe /etc/ftp.banner file may not be the banner file the server uses. It is necessary to check the BANNER statement in the FTP Data configuration file to determine the actual file.\n\nThe following represents a hierarchy for permission bits from least restrictive to most restrictive:\n\n7 rwx (least restrictive)\n6 rw-\n3 -wx\n2 -w-\n5 r-x\n4 r--\n1 --x\n0 --- (most restrictive)\n\nThe possible audit bits settings are as follows:\n\nf log for failed access attempts\na log for failed and successful access\n- no auditing\n\nSome of the files listed above (e.g., /etc/ftp.data) are not used in every configuration. While the absence of a file is generally not a security issue, the existence of a file that has not been properly secured can often be an issue. Therefore, all files that do exist should have the specified permission and audit bit settings.\n\nThe following commands can be used (from a user account with an effective UID(0)) to update the permission bits and audit bits:\n\nchmod 1740 /usr/lpp/tcpip/sbin/ftpd\nchaudit rwx=f /usr/lpp/tcpip/sbin/ftpd\nchmod 1755 /usr/lpp/tcpip/sbin/ftpdns\nchaudit rwx=f /usr/lpp/tcpip/sbin/ftpdns\nchmod 0744 /etc/ftp.data\nchaudit w=sf,rx+f /etc/ftp.data\nchmod 0744 /etc/ftp.banner\nchaudit w=sf,rx+f /etc/ftp.banner",
+  "fix_id": "F-25180r1195302_fix",
+  "VulnDiscussion": "MVS data sets of the FTP Server provide the configuration and operational characteristics of this product. Failure to properly secure these data sets may lead to unauthorized access resulting in the compromise of the integrity and availability of customer data and some system services.",
+  "Documentable": "false"
+}

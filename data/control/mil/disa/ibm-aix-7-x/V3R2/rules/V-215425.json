@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215425",
+  "rule_id": "SV-215425r991589_rule",
+  "stig_id": "AIX7-00-003130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The local initialization file lists of preloaded libraries must contain only absolute paths on AIX.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101797",
+      "V-91699"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16623r294726_chk",
+  "check_content": "Identify local initialization files that have library search paths:  \n\n# cat /etc/passwd | cut -f 1,1 -d \":\" | xargs -n1 -IUSER sh -c 'grep -l LDR_PRELOAD ~USER/.*' \n/root/.sh_history\n/home/doejohn/.profile\n/home/doejane/.profile\n\nFor each file identified above, verify the search path contains only absolute paths:\nNote: This variable is formatted as a colon-separated list of paths.\n\n# cat <local_initilization_file> | grep -Ei 'ldr|preload'\nLDR_PRELOAD=/usr/lib\n\nIf the paths listed have not been documented and authorized by the ISSO/ISSM, this is a finding.\nIf there is an empty entry, such as a leading or trailing colon, or two consecutive colons, this is a finding. \nIf an entry begins with a character other than a slash (/) or other than \"$PATH\", it is a relative path, and this is a finding.",
+  "fixtext": "Edit the local initialization file and remove the relative path entry from the library preload variable \"LDR_PRELOAD\".",
+  "fix_id": "F-16621r294727_fix",
+  "VulnDiscussion": "The library preload list environment variable contains a list of libraries for the dynamic linker to load before loading the libraries required by the binary. If this list contains paths to libraries relative to the current working directory, unintended libraries may be preloaded. This variable is formatted as a space-separated list of libraries.",
+  "Documentable": "false"
+}

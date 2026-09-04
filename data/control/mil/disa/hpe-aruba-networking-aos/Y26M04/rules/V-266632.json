@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-266632",
+  "rule_id": "SV-266632r1040624_rule",
+  "stig_id": "ARBA-NT-000850",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The network element must authenticate all network-connected endpoint devices before establishing any connection.",
+  "group_title": "SRG-NET-000343",
+  "idents": {
+    "cci": [
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-70556r1040384_chk",
+  "check_content": "If the AP is not being used as a Remote AP, this check is not applicable.\n\nVerify the AOS configuration with the following commands:\n\n1. Site-to-site VPN: \nshow crypto-local ipsec-map\n\nIf a CA certificate and Server certificate are not configured for each IPsec map, this is a finding.\n\n2. Hardware client VPN: \nshow \"remote ap profile\"\n\nIf certificate authentication is not configured for each RAP profile, this is a finding.",
+  "fixtext": "Configure AOS using the web interface:\n\n1. Navigate to Configuration >> Services >> VPN and expand \"Site-to-Site\". \n2. Select the configured site-to-site VPN IPsec maps. Select the applicable Server certificate. Select the applicable trusted DOD root CA under \"CA certificate:\". \n3. Click Submit >> Pending Changes >> Deploy Changes. \n4. Navigate to Configuration >> Access Points >> Remote APs tab.\n5. Select the check box next to the AP Name in the Remote AP table and click \"Provision\".\n6. In the \"General\" tab, select \"Certificate\" from the \"Authentication method:\" drop-down list.\n7. Click \"Submit\" to apply the configuration and reboot the AP as a certificate Remote AP.\n8. Click Pending Changes >> Deploy Changes.",
+  "fix_id": "F-70459r1040624_fix",
+  "VulnDiscussion": "Without authenticating devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity.\n\nFor distributed architectures (e.g., service-oriented architectures), the decisions regarding the validation of authentication claims may be made by services separate from the services acting on those decisions. In such situations, it is necessary to provide authentication decisions (as opposed to the actual authenticators) to the services that need to act on those decisions.\n\nThis requirement applies to applications that connect locally, remotely, or through a network to an endpoint device (including, but not limited to, workstations, printers, servers outside a datacenter, Voice over Internet Protocol phones, and video teleconferencing codecs). Gateways and service-oriented architecture applications are examples of where this requirement would apply. \n\nDevice authentication is a solution enabling an organization to manage devices. It is an additional layer of authentication ensuring only specific preauthorized devices can access the system.",
+  "Documentable": "false"
+}

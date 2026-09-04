@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271866",
+  "rule_id": "SV-271866r1092310_rule",
+  "stig_id": "OL09-00-006022",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must log IPv4 packets with impossible addresses.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75916r1092308_chk",
+  "check_content": "Verify that OL 9 logs IPv4 martian packets.\n\nCheck the value of the accept source route variable with the following command:\n\n$ sysctl net.ipv4.conf.all.log_martians\nnet.ipv4.conf.all.log_martians = 1\n\nIf the returned line does not have a value of \"1\", a line is not returned, or the line is commented out, this is a finding.",
+  "fixtext": "Configure OL 9 to log martian packets on IPv4 interfaces.\n\nAdd or edit the following line in a single system configuration file in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv4.conf.all.log_martians=1\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-75823r1092309_fix",
+  "VulnDiscussion": "The presence of \"martian\" packets (which have impossible addresses) as well as spoofed packets, source-routed packets, and redirects could be a sign of nefarious network activity. Logging these packets enables this activity to be detected.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260474",
+  "rule_id": "SV-260474r958928_rule",
+  "stig_id": "UBTU-22-213020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must implement address space layout randomization to protect its memory from unauthorized code execution.",
+  "group_title": "SRG-OS-000433-GPOS-00193",
+  "idents": {
+    "cci": [
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-64203r953233_chk",
+  "check_content": "Verify Ubuntu 22.04 LTS implements address space layout randomization (ASLR) by using the following command:  \n  \n     $ sysctl kernel.randomize_va_space \n     kernel.randomize_va_space = 2 \n  \nIf no output is returned, verify the kernel parameter \"randomize_va_space\" is set to \"2\" by using the following command:  \n  \n     $ cat /proc/sys/kernel/randomize_va_space \n     2 \n  \nIf \"kernel.randomize_va_space\" is not set to \"2\", this is a finding.  \n  \nVerify that a saved value of the \"kernel.randomize_va_space\" variable is not defined.  \n  \n     $ sudo grep -ER \"^kernel.randomize_va_space=[^2]\" /etc/sysctl.conf /etc/sysctl.d \n  \nIf this returns a result, this is a finding.",
+  "fixtext": "Remove the \"kernel.randomize_va_space\" entry found in the \"/etc/sysctl.conf\" file or any file located in the \"/etc/sysctl.d/\" directory.  \n \nReload the system configuration files for the changes to take effect by using the following command: \n \n     $ sudo sysctl --system",
+  "fix_id": "F-64111r953234_fix",
+  "VulnDiscussion": "Some adversaries launch attacks with the intent of executing code in nonexecutable regions of memory or in prohibited memory locations. Security safeguards employed to protect memory include, for example, data execution prevention and address space layout randomization. Data execution prevention safeguards can either be hardware-enforced or software-enforced with hardware providing the greater strength of mechanism.  \n  \nExamples of attacks are buffer overflow attacks.",
+  "Documentable": "false"
+}

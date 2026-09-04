@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-243471",
+  "rule_id": "SV-243471r1186313_rule",
+  "stig_id": "AD.0008",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Local administrator accounts on domain systems must not share the same password.",
+  "group_title": "SRG-OS-000112",
+  "idents": {
+    "legacy": [
+      "V-36438",
+      "SV-47844"
+    ],
+    "cci": [
+      "CCI-001941"
+    ]
+  },
+  "check_id": "C-46746r1186312_chk",
+  "check_content": "Verify local administrator accounts on domain systems are using unique passwords. If local administrator accounts on domain systems are sharing a password, this is a finding.\n\nIt is recommended to use Microsoft's Local Administrator Password Solution (LAPS), which provides an automated solution for maintaining and regularly changing a local administrator password for domain-joined systems. LAPS can manage a single local administrator account. The default is the built-in administrator account; however, it can be configured to manage an administrator account of a different name. If additional local administrator accounts exist across systems, the organization must have a process to require unique passwords on each system for the additional accounts.\n\nThe authorizing official (AO) may approve other automated solutions that provide this capability.\n\nOpen \"Windows PowerShell\".\n\nGet-ADComputer -Filter * -Properties msLAPS-EncryptedPassword | Where-Object { $_.\"msLAPS-EncryptedPassword\" -eq $null } | Select-Object Name\n\nThe newer \"Windows LAPS\" function stores the LAPS password in the object attribute \"msLAPS-EncryptedPassword\" as long as the \"encrypted\" option was selected when setting up the LAPS GPO settings. This will check that location. If \"encrypted\" wasn't enabled when setting up LAPS, then adjust the search command to be \"msLAPS-Password\" instead.\n\nReview the returned list for validity.\n\nIf any active/deployed Windows systems that are not managed by another process to ensure unique passwords for local administrator accounts are listed, this is a finding.\n\nIf the query fails, the organization must demonstrate that passwords for local administrator accounts are properly managed to ensure unique passwords for each. If not, this is a finding.",
+  "fixtext": "Set unique passwords for all local administrator accounts on domain systems. \n\nIt is highly recommended to use Microsoft's LAPS, which provides an automated solution for maintaining and regularly changing a local administrator password for domain-joined systems. If additional local administrator accounts exist across systems, the organization must have a process to require unique passwords on each system for the additional accounts.\n\nThe AO may approve other automated solutions that provide this capability.\n\nSee Microsoft Security Advisory 3062591 for additional information and download of LAPS.\nhttps://www.microsoft.com/en-us/download/details.aspx?id=46899",
+  "fix_id": "F-46703r854326_fix",
+  "VulnDiscussion": "Local administrator accounts on domain systems must use unique passwords. In the event a domain system is compromised, sharing the same password for local administrator accounts on domain systems will allow an attacker to move laterally and compromise multiple domain systems.",
+  "Documentable": "false"
+}

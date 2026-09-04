@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213430",
+  "rule_id": "SV-213430r1190710_rule",
+  "stig_id": "WNDF-AV-000006",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Microsoft Defender AV must be configured to not exclude files opened by specified processes.",
+  "group_title": "SRG-APP-000278",
+  "idents": {
+    "legacy": [
+      "SV-89837",
+      "V-75157"
+    ],
+    "cci": [
+      "CCI-002624"
+    ]
+  },
+  "check_id": "C-14655r1190708_chk",
+  "check_content": "Verify the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Exclusions >> \"Process Exclusions\" is set to \"Disabled\" or \"Not Configured\".\n\nProcedure: Use the Windows Registry Editor to navigate to the following key:\nHKLM\\Software\\Policies\\Microsoft\\Windows Defender\\Exclusions\n\nCriteria: If the value \"Exclusions_Processes\" does not exist, this is not a finding.",
+  "fixtext": "Set the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Exclusions >> \"Process Exclusions\" to \"Disabled\" or \"Not Configured\".",
+  "fix_id": "F-14653r1190709_fix",
+  "VulnDiscussion": "This policy setting allows the disabling of scheduled and real-time scanning for any file opened by any of the specified processes. The process itself will not be excluded. To exclude the process, use the Path exclusion. Processes should be added under the options for this setting. Each entry must be listed as a name value pair where the name should be a string representation of the path to the process image. Note that only executables can be excluded. For example, a process might be defined as: \"c:\\windows\\app.exe\". The value is not used and it is recommended that this be set to 0.",
+  "Documentable": "false"
+}

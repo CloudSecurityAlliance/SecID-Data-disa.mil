@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281298",
+  "rule_id": "SV-281298r1166846_rule",
+  "stig_id": "RHEL-10-700950",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "RHEL 10 must disable the systemd Ctrl-Alt-Delete burst key sequence.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-85859r1166844_chk",
+  "check_content": "Verify RHEL 10 is configured to not reboot the system when Ctrl-Alt-Delete is pressed seven times within two seconds with the following command:\n\n$ grep -iR CtrlAltDelBurstAction /etc/systemd/\n/etc/systemd/system.conf:CtrlAltDelBurstAction=none\n\nIf the \"CtrlAltDelBurstAction\" is not set to \"none\", is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 10 to disable the \"CtrlAltDelBurstAction\".\n\nUpdate the \"/etc/systemd/system.conf\" configuration file as follows:\n\n$ sudo vi /etc/systemd/system.conf\n\nCtrlAltDelBurstAction=none\n\nReload the daemon for this change to take effect:\n\n$ sudo systemctl daemon-reload",
+  "fix_id": "F-85764r1166845_fix",
+  "VulnDiscussion": "A locally logged-on user who presses Ctrl-Alt-Delete when at the console can reboot the system. If accidentally pressed, as could happen in the case of a mixed operating system environment, this can create the risk of short-term loss of availability of systems due to unintentional reboot. \n\nIn a graphical user environment, risk of unintentional reboot from the Ctrl-Alt-Delete sequence is reduced because the user will be prompted before any action is taken.",
+  "Documentable": "false"
+}

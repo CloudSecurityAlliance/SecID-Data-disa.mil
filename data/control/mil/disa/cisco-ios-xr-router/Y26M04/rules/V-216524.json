@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216524",
+  "rule_id": "SV-216524r960840_rule",
+  "stig_id": "CISC-ND-000150",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco router must be configured to enforce the limit of three consecutive invalid logon attempts after which time lock out the user account from accessing the device for 15 minutes.",
+  "group_title": "SRG-APP-000065-NDM-000214",
+  "idents": {
+    "legacy": [
+      "SV-105519",
+      "V-96381"
+    ],
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-17759r288258_chk",
+  "check_content": "The Cisco router is not compliant with this requirement. However, the risk associated with this requirement can be fully mitigated if the router is configured to utilize an authentication server to authenticate and authorize users for administrative access.\n\nReview the router configuration to verify that the device is configured to use an authentication server as primary source for authentication as shown in the following example:\n\nradius-server host 10.1.3.16 auth-port 1645 acct-port 1646\n key xxxxxxxxxx\n…\n…\n…\naaa authentication login LOGIN_AUTHENTICATION group radius local\nline console\n login authentication LOGIN_AUTHENTICATION\n!\nline default \n login authentication LOGIN_AUTHENTICATION\n transport input ssh\n\nIf the router is not configured to use an authentication server to authenticate and authorize users for administrative access, this is a finding.",
+  "fixtext": "Step 1: Configure the router to use an authentication server as shown in the following example:\n\nRP/0/0/CPU0:R3(config)#radius-server host 10.1.3.16 key xxxxxxxx\n\nStep 2: Configure the authentication order to use the authentication server as primary source for authentication as shown in the following example:\n\nRP/0/0/CPU0:R3(config)#aaa authentication login LOGIN_AUTHENTICATION  group radius local\n\nStep 3: Configure all network connections associated with a device management to use an authentication server for the purpose of login authentication as shown in the following example:\n\nRP/0/0/CPU0:R3(config)#line default\nRP/0/0/CPU0:R3(config-line)#login authentication LOGIN_AUTHENTICATION\nRP/0/0/CPU0:R3(config-line)#exit\nRP/0/0/CPU0:R3(config)#line console \nRP/0/0/CPU0:R3(config-line)#login authentication LOGIN_AUTHENTICATION",
+  "fix_id": "F-17756r288259_fix",
+  "VulnDiscussion": "By limiting the number of failed login attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-forcing, is reduced.",
+  "Documentable": "false"
+}

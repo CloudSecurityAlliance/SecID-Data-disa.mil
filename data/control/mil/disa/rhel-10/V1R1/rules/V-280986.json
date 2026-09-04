@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-280986",
+  "rule_id": "SV-280986r1184782_rule",
+  "stig_id": "RHEL-10-200643",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must be configured so that the rsyslog daemon does not accept log messages from other servers unless the server is being used for log aggregation.",
+  "group_title": "SRG-OS-000420-GPOS-00186",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-85547r1184781_chk",
+  "check_content": "Note: If the SA can demonstrate that another tool (e.g., SPLUNK) is being used to manage log off-load and aggregation in lieu of rsyslog, this check is not applicable.\n\nVerify RHEL 10 is not configured to receive remote logs using rsyslog.\n\nVerify the setting with the following commands:\n\n$ ss -tulnp | grep rsyslog\n\nIf no output is returned, rsyslog is not listening for remote logs.\n\nIf output appears, check for configured ports (514 is the default for syslog).\n\nCheck for remote logging configuration in rsyslog by examining the rsyslog configuration files:\n\n$ sudo grep -E 'InputTCPServerRun|UDPServerRun|RELPServerRun|imtcp|imudp|imrelp' /etc/rsyslog.conf /etc/rsyslog.d/*\n\nIf this command returns uncommented lines enabling network listeners, the system is accepting remote logs. If this system is not documented and authorized as a log aggregation server, this is a finding.\n\nNote: An error about no files or directories from the above commands may be returned. This is not a finding. Additionally, if a port option used together with a target and protocol is returned from inside an action block, this is not a finding.",
+  "fixtext": "Configure RHEL 10 to not receive remote logs using rsyslog.\n\nRemove the lines in \"/etc/rsyslog.conf\" and any files in the \"/etc/rsyslog.d\" directory that match any of the following:\n\nInputTCPServerRun\nUDPServerRun\nRELPServerRun\nmodule(load=\"imtcp\")\nmodule(load=\"imudp\")\nmodule(load=\"imrelp\")\ninput(type=\"imudp\" port=\"514\")\ninput(type=\"imtcp\" port=\"514\")\ninput(type=\"imrelp\" port=\"514\")\n\nRestart the rsyslog daemon with the following command for the changes to take effect:\n\n$ sudo systemctl restart rsyslog.service",
+  "fix_id": "F-85452r1165312_fix",
+  "VulnDiscussion": "Unintentionally running a rsyslog server accepting remote messages puts the system at increased risk. Malicious rsyslog messages sent to the server could exploit vulnerabilities in the server software, introduce misleading information into the system's logs, or fill the system's storage, leading to a denial of service.\n\nIf the system is intended to be a log aggregation server, its use must be documented with the information system security officer.",
+  "Documentable": "false"
+}

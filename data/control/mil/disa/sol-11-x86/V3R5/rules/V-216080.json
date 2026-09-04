@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216080",
+  "rule_id": "SV-216080r959010_rule",
+  "stig_id": "SOL-11.1-030010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The graphical login service provides the capability of logging into the system using an X-Windows type interface from the console. If graphical login access for the console is required, the service must be in local-only mode.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-60801",
+      "V-47929"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17318r372622_chk",
+  "check_content": "Determine if the X11 server system is providing remote services on the network.\n\n# svcprop -p options/tcp_listen svc:/application/x11/x11-server\n\nIf the output of the command is \"true\" and network access to graphical user login is not required, this is a finding.",
+  "fixtext": "The System Administrator profile is required:\n\nConfigure the X11 server for local system only graphics access.\n\n# pfexec svccfg -s svc:/application/x11/x11-server setprop options/tcp_listen=false",
+  "fix_id": "F-17316r372623_fix",
+  "VulnDiscussion": "Externally accessible graphical desktop software may open the system to remote attacks.",
+  "Documentable": "false"
+}

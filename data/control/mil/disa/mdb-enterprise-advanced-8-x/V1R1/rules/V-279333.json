@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279333",
+  "rule_id": "SV-279333r1179443_rule",
+  "stig_id": "MD8X-00-000300",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "MongoDB must enforce approved authorizations for logical access to information and system resources in accordance with applicable access control policies.",
+  "group_title": "SRG-APP-000033-DB-000084",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-83886r1179164_chk",
+  "check_content": "The MongoDB administrator must ensure that additional application access control is enforced.\n\nReview the system documentation to determine the required levels of protection for MongoDB server securables by type of login. \n\nReview the permissions actually in place on the server.\n\nRun the command to view roles and privileges in a particular <database> :\n\nuse <database>\ndb.getRoles(\n    {\n      rolesInfo: 1,\n      showPrivileges: true,\n      showBuiltinRoles: true\n    }\n)\n\nIf the permissions do not match the documented requirements, this is a finding.",
+  "fixtext": "Use the following statements to add and remove permissions on MongoDB server securables, bringing them in line with the documented requirements:\n\ncreateRole(), \nupdateRole(), \ndropRole(), \ngrantRolesToUser()\n\nMongoDB commands for role management can be found here:\nhttps://www.mongodb.com/docs/v8.0/reference/method/js-role-management/",
+  "fix_id": "F-83791r1179442_fix",
+  "VulnDiscussion": "Authentication with a DOD-approved PKI certificate does not necessarily imply authorization to access the DBMS. To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DOD-approved PKIs, all DOD systems, including databases, must be properly configured to implement access control policies. \n\nSuccessful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement. \n\nAccess control policies include identity-based policies, role-based policies, and attribute-based policies. Access enforcement mechanisms include access control lists, access control matrices, and cryptography. These policies and mechanisms must be employed by the application to control access between users (or processes acting on behalf of users) and objects (e.g., devices, files, records, processes, programs, and domains) in the information system. \n\nThis requirement is applicable to access control enforcement applications, a category that includes database management systems. If the DBMS does not follow applicable policy when approving access, it may be in conflict with networks or other applications in the information system. This may result in users either gaining or being denied access inappropriately and in conflict with applicable policy.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216241",
+  "rule_id": "SV-216241r959010_rule",
+  "stig_id": "SOL-11.1-100040",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The audit system must identify in which zone an event occurred.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-47839",
+      "SV-60713"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17479r373099_chk",
+  "check_content": "This check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nList the non-global zones on the system.\n\n# zoneadm list -vi | grep -v global\n\nThe Audit Configuration profile is required.\n\nDetermine whether the \"zonename\" auditing policy is in effect.\n\n# pfexec auditconfig -getpolicy | grep active | grep zonename\n\nIf no output is returned, this is a finding.",
+  "fixtext": "This check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nList the non-global zones on the system.\n\n# zoneadm list -vi | grep -v global\n\nThe Audit Configuration profile is required.\n\nEnable the \"zonename\" auditing policy.\n\n# pfexec auditconfig -setpolicy +zonename",
+  "fix_id": "F-17477r373100_fix",
+  "VulnDiscussion": "Tracking the specific Solaris zones in the audit trail reduces the time required to determine the cause of a security event.",
+  "Documentable": "false"
+}

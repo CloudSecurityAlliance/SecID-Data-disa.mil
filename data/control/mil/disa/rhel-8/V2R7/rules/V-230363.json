@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-230363",
+  "rule_id": "SV-230363r1017175_rule",
+  "stig_id": "RHEL-08-020170",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must require the change of at least 8 characters when passwords are changed.",
+  "group_title": "SRG-OS-000072-GPOS-00040",
+  "idents": {
+    "cci": [
+      "CCI-000195",
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-33032r833324_chk",
+  "check_content": "Verify the value of the \"difok\" option with the following command:\n\n$ sudo grep -r difok /etc/security/pwquality.conf*\n\n/etc/security/pwquality.conf:difok = 8\n\nIf the value of \"difok\" is set to less than \"8\" or is commented out, this is a finding.\nIf conflicting results are returned, this is a finding.",
+  "fixtext": "Configure the operating system to require the change of at least eight of the total number of characters when passwords are changed by setting the \"difok\" option.\n\nAdd the following line to \"/etc/security/pwquality.conf\" (or modify the line to have the required value):\n\ndifok = 8\n\nRemove any configurations that conflict with the above value.",
+  "fix_id": "F-33007r858782_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks.\n\nPassword complexity is one factor of several that determines how long it takes to crack a password. The more complex the password, the greater the number of possible combinations that need to be tested before the password is compromised.\n\nRHEL 8 utilizes \"pwquality\" as a mechanism to enforce password complexity. The \"difok\" option sets the number of characters in a password that must not be present in the old password.",
+  "Documentable": "false"
+}

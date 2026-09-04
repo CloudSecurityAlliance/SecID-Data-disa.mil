@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-250322",
+  "rule_id": "SV-250322r960735_rule",
+  "stig_id": "IBMW-LS-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Maximum in-memory session count must be set according to application requirements.",
+  "group_title": "SRG-APP-000001-AS-000001",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-53757r795017_chk",
+  "check_content": "Review the System Security plan to determine the maximum number of concurrent sessions allowed. This is a per user setting and must be defined by the application admins.\n\nAs a privileged user with access to the server.xml file, review file content and identify the \"maxInMemorySessionCount\" and the allowOverflow settings.\n\nEXAMPLE:\ngrep -i maxInMemorySessionCount server.xml\n\n<httpSession maxInMemorySessionCount=\"xxxx\" allowOverflow=\"false\" /> \n\nIf maxInMemorySessionCount is not set in server.xml according to the settings defined in the system security plan or if allowOverflow=\"true\", this is a finding.",
+  "fixtext": "To limit the max number of concurrent sessions available, the ${server.config.dir}/server.xml must be configured with maxInMemorySessionCount set according to system security plan and allowOverflow=\"false\".\n\nEXAMPLE:\n<httpSession maxInMemorySessionCount=\"5\" allowOverflow=\"false\" />",
+  "fix_id": "F-53711r795018_fix",
+  "VulnDiscussion": "Application management includes the ability to control the number of sessions that use an application by all accounts and/or account types. Limiting the number of allowed sessions is helpful in limiting risks related to Denial of Service attacks.\n\nApplication servers host and expose business logic and application processes. The application server must possess the capability to limit the maximum number of concurrent sessions in a manner that affects the entire application server or on an individual application basis. Although there is some latitude concerning the settings themselves, the settings should follow DoD-recommended values, but the settings should be configurable to allow for future DoD direction. While the DoD will specify recommended values, the values can be adjusted to accommodate the operational requirement of a given system.\n\nThe System Security Plan should be reviewed and the maximum number of concurrent sessions allowable and defined within that plan should be used in the httpSession element. For example, if the maximum number of concurrent sessions is defined in the System Security Plan as 5000, then the httpSession element in ${server.config.dir}/server.xml should be configured as: \n<httpSession maxInMemorySessionCount=\"5000\" allowOverflow=\"false\" />\n\nFor http session security settings to apply, the security feature (appSecurity-2.0) must be defined in order to configure a user registry for the servlet to authenticate against. The servlet feature (servlet-3.1) must be defined in order to use a web application, and the ldap feature (ldapRegistry-3.0) must be defined in order to configure an enterprise-level user registry for authentication of the servlet users.",
+  "Documentable": "false"
+}

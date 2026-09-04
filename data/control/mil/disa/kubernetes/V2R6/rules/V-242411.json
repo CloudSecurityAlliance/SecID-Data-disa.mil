@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242411",
+  "rule_id": "SV-242411r1043177_rule",
+  "stig_id": "CNTR-K8-000930",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes Scheduler must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).",
+  "group_title": "SRG-APP-000142-CTR-000325",
+  "idents": {
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-45686r1007475_chk",
+  "check_content": "Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Control Plane. Run the command:\ngrep kube-scheduler.manifest -I -insecure-port\n                grep kube-scheduler.manifest -I -secure-port\n-edit manifest file:\nVIM <Manifest Name>\nReview  livenessProbe:\nHttpGet:\nPort:\nReview ports:\n- containerPort:\n       hostPort:\n- containerPort:\n       hostPort:\n\nRun Command: \nkubectl describe services --all-namespaces \nSearch labels for any scheduler namespaces.\nPort:\n\nAny manifest and namespace PPS configuration not in compliance with PPSM CAL is a finding.\n\nReview the information systems documentation and interview the team, gain an understanding of the Scheduler architecture, and determine applicable PPS. Any PPS in the system documentation not in compliance with the CAL PPSM is a finding. Any PPSs not set in the system documentation is a finding.\n\nReview findings against the most recent PPSM CAL:\nhttps://cyber.mil/ppsm/cal/\n\nVerify Scheduler network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.",
+  "fixtext": "Amend any system documentation requiring revision to comply with the PPSM CAL. \n\nUpdate Kubernetes Scheduler manifest and namespace PPS configuration to comply with the PPSM CAL.",
+  "fix_id": "F-45644r1007476_fix",
+  "VulnDiscussion": "Kubernetes Scheduler PPS must be controlled and conform to the PPSM CAL. Those ports, protocols, and services that fall outside the PPSM CAL must be blocked. Instructions on the PPSM can be found in DoD Instruction 8551.01 Policy.",
+  "Documentable": "false"
+}

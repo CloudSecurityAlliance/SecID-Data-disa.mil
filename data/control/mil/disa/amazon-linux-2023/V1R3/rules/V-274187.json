@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-274187",
+  "rule_id": "SV-274187r1120715_rule",
+  "stig_id": "AZLX-23-005000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 audit system must protect logon user identifiers (UIDs) from unauthorized change.",
+  "group_title": "SRG-OS-000462-GPOS-00206",
+  "idents": {
+    "cci": [
+      "CCI-000172",
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164"
+    ]
+  },
+  "check_id": "C-78278r1120547_chk",
+  "check_content": "Verify Amazon Linux 2023 is configured so that the audit system prevents unauthorized changes to login UIDs with the following command:\n\n$ sudo grep -i immutable /etc/audit/audit.rules\n--loginuid-immutable\n\nIf the \"--loginuid-immutable\" option is not returned in the \"/etc/audit/audit.rules\", or the line is commented out, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 auditing to prevent modification of login UIDs once they are set by adding the following line to /etc/audit/rules.d/audit.rules:\n\n--loginuid-immutable\n\nTo load the rules to the kernel immediately, use the following command: \n\n$ sudo augenrules --load",
+  "fix_id": "F-78183r1120548_fix",
+  "VulnDiscussion": "If modification of login UIDs is not prevented, they can be changed by nonprivileged users and make auditing complicated or impossible.\n\nSatisfies: SRG-OS-000462-GPOS-00206, SRG-OS-000475-GPOS-00220, SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029",
+  "Documentable": "false"
+}

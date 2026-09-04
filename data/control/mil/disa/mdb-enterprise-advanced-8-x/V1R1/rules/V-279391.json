@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279391",
+  "rule_id": "SV-279391r1179488_rule",
+  "stig_id": "MD8X-00-008700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "When updates are applied to MongoDB software, any software components that have been replaced or made unnecessary must be removed.",
+  "group_title": "SRG-APP-000454-DB-000389",
+  "idents": {
+    "cci": [
+      "CCI-002617"
+    ]
+  },
+  "check_id": "C-83944r1179487_chk",
+  "check_content": "Run the following command and observe the output. This command will determine if MongoDB has been installed with a package manager (RedHat) and display what version is currently installed:\n\n> rpm -q mongodb-enterprise-server.x86_64\nmongodb-enterprise-server-8.0.8-1.el9.x86_64\n\nThe output of the command above indicates that MongoDB Enterprise Server has been installed with a package manager. \n\nIn the preceding output is an example showing that MongoDB Enterprise Server Version 8.0.8 is installed. The specific version will be dependent on the actual version installed. Upgrading MongoDB with the same package manager used for installation will overwrite or remove files as part of the upgrade process.\n\nIf MongoDB was installed with a Package Manager (YUM/RPM for RedHat) then this is not a finding.\n\nRun the following command and observe the output:\n\n> rpm -q mongodb-enterprise-server.x86_64\npackage mongodb-enterprise-server.x86_64 is not installed\n\nThe output of the command above indicates that MongoDB has not been installed via a package manager or may not have been installed at all.\n\nIf MongoDB has not been installed with a Package Manger (YUM/RPM for RedHat), this is a finding.",
+  "fixtext": "It is recommended to use the official installation packages provided by MongoDB. In the event the software was installed manually and permissions need to be restricted, consider a clean reinstallation. \n\nReview this organizational or site-specific document to determine how and where MongoDB is to be installed on the system. Using this documentation, verify that MongoDB has been installed on the system prior to upgrading.\n\nTo verify the version of MongoDB Enterprise Server, run the following command in the directory where the MongoDB executable binary has been placed according to the organizational or site-specific documentation.\n\n> cd <mongod binary directory>\n> ./mongod --version\n\nThe output will show the version and architecture of the MongoDB Server binary similar to the following:\n\ndb version v8.0.8\nBuild Info: {\n    \"version\": \"8.0.8\",\n    \"gitVersion\": \"7f52660c14217ed2c8d3240f823a2291a4fe6abd\",\n    \"openSSLVersion\": \"OpenSSL 3.2.2 4 Jun 2024\",\n    \"modules\": [\n        \"enterprise\"\n    ],\n    \"allocator\": \"tcmalloc-google\",\n    \"environment\": {\n        \"distmod\": \"rhel93\",\n        \"distarch\": \"x86_64\",\n        \"target_arch\": \"x86_64\"\n    }\n}\n\nVerify the version desired (what the upgraded version should be) matches what is shown in the output.\n\nIf the version is not what is expected, then remove the mongod binary from the system to prevent it from being used and consult the organizational or site-specific documents for further guidance.\n\nRun the following commands as an operating system administrator to remove the MongoDB Enterprise Server binary from the system:\n\n> cd <mongod binary directory>\n> rm ./mongod",
+  "fix_id": "F-83849r1179339_fix",
+  "VulnDiscussion": "Previous versions of database management system (DBMS) components that are not removed from the information system after updates have been installed may be exploited by adversaries. \n\nSome DBMS installation tools may remove older versions of software automatically from the information system. In other cases, manual review and removal will be required. In planning installations and upgrades, organizations must include steps (automated, manual, or both) to identify and remove the outdated modules.\n\nA transition period may be necessary when both the old and the new software are required.",
+  "Documentable": "false"
+}

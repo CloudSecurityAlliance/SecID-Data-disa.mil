@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259356",
+  "rule_id": "SV-259356r961863_rule",
+  "stig_id": "WDNS-22-000026",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Windows DNS Server must implement internal/external role separation.",
+  "group_title": "SRG-APP-000516-DNS-000101",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-63095r939771_chk",
+  "check_content": "Log on to the DNS server using the Domain Admin or Enterprise Admin account or Local Administrator account.\n\nPress the Windows key + R and execute \"dnsmgmt.msc\".\n\nOn the opened DNS Manager snap-in from the left pane, expand the server name for the DNS server and then expand \"Forward Lookup Zones\".\n\nFrom the expanded list, review each zone.\n\nConsult with the DNS Admin to determine if any of the zones also have hostnames that need to be resolved from the external network.\n\nIf the zone is split between internal and external networks, verify separate DNS servers have been implemented for each network.\n\nIf internal and external DNS servers have not been implemented for zones that require resolution from both the internal and external networks, this is a finding.",
+  "fixtext": "Configure separate DNS servers for each of the external and internal networks.",
+  "fix_id": "F-63003r939772_fix",
+  "VulnDiscussion": "DNS servers with an internal role only process name/address resolution requests from within the organization (i.e., internal clients). DNS servers with an external role only process name/address resolution information requests from clients external to the organization (i.e., on the external networks, including the internet). \n\nThe set of clients that can access an authoritative DNS server in a particular role is specified by the organization using address ranges, explicit access control lists, etc. To protect internal DNS resource information, it is important to isolate the requests to internal DNS servers. Separating internal and external roles in DNS prevents address space that is private (e.g., 10.0.0.0/24) or otherwise concealed by some form of Network Address Translation from leaking into the public DNS system.",
+  "Documentable": "false"
+}

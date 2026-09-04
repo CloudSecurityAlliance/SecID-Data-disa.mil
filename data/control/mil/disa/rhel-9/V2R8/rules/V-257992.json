@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257992",
+  "rule_id": "SV-257992r1045047_rule",
+  "stig_id": "RHEL-09-255080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must not allow a noncertificate trusted host SSH logon to the system.",
+  "group_title": "SRG-OS-000480-GPOS-00229",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61733r952189_chk",
+  "check_content": "Verify the operating system does not allow a noncertificate trusted host SSH logon to the system with the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*hostbasedauthentication'\n\nHostbasedAuthentication no\n\nIf the \"HostbasedAuthentication\" keyword is not set to \"no\", is missing, or is commented out, this is a finding.\n\nIf the required value is not set, this is a finding.",
+  "fixtext": "To configure RHEL 9 to not allow a noncertificate trusted host SSH logon to the system, add or modify the following line in \"/etc/ssh/sshd_config\" or in a file in \"/etc/ssh/sshd_config.d\".\n\nHostbasedAuthentication no\n\nRestart the SSH daemon for the settings to take effect:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-61657r1045046_fix",
+  "VulnDiscussion": "SSH trust relationships mean a compromise on one host can allow an attacker to move trivially to other hosts.",
+  "Documentable": "false"
+}

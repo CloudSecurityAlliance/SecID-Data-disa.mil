@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216375",
+  "rule_id": "SV-216375r959010_rule",
+  "stig_id": "SOL-11.1-050080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The system must set strict multihoming.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48193",
+      "SV-61065"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17611r371213_chk",
+  "check_content": "Determine if strict multihoming is configured.\n\n# ipadm show-prop -p _strict_dst_multihoming -co current ipv4\n# ipadm show-prop -p _strict_dst_multihoming -co current ipv6\n\nIf the output of all commands is not \"1\", this is a finding.",
+  "fixtext": "The Network Management profile is required.\n\nDisable strict multihoming for IPv4 and IPv6.\n\n# pfexec ipadm set-prop -p _strict_dst_multihoming=1 ipv4\n# pfexec ipadm set-prop -p _strict_dst_multihoming=1 ipv6",
+  "fix_id": "F-17609r371214_fix",
+  "VulnDiscussion": "These settings control whether a packet arriving on a non-forwarding interface can be accepted for an IP address that is not explicitly configured on that interface.\n\nThis rule is NA for documented systems that have interfaces that cross strict networking domains (for example, a firewall, a router, or a VPN node).",
+  "Documentable": "false"
+}

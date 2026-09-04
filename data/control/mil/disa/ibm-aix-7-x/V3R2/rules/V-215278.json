@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215278",
+  "rule_id": "SV-215278r991592_rule",
+  "stig_id": "AIX7-00-002087",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All files and directories contained in users home directories on AIX must be group-owned by a group in which the home directory owner is a member.",
+  "group_title": "SRG-OS-000480-GPOS-00230",
+  "idents": {
+    "legacy": [
+      "SV-101867",
+      "V-91769"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16476r294285_chk",
+  "check_content": "Check the contents of user home directories for files group-owned by a group of which the home directory's owner is not a member. \n\nList the user accounts: \n\n# cut -d : -f 1 /etc/passwd \nroot\ndaemon\nbin\nsys\nadm\nuucp\nnobody\ninvscout\nsnapp\nipsec\nsrvproxy\nesaadmin\nsshd\ndoejohn\ndirtjoe\n\nFor each user account, get a list of group names for files in the user's home directory: \n\n# find < users home directory > -exec ls -lLd {} \\;\n\nObtain the list of group names associated with the user's account:\n\n# lsuser -a groups < user name > \ndoejohn groups=staff\n\nCheck the group name lists:\n\n# cat /etc/group\nsystem:!:0:root,srvproxy,esaadmin\nstaff:!:1:ipsec,srvproxy,esaadmin,sshd,doejohn\nbin:!:2:root,bin\nsys:!:3:root,bin,sys\nadm:!:4:bin,adm\nmail:!:6:\nsecurity:!:7:root\ncron:!:8:root\naudit:!:10:root\necs:!:28:\nnobody:!:4294967294:nobody,lpd\nusr:!:100:dirtjoe\nperf:!:20:\nshutdown:!:21:\ninvscout:!:12:invscout\nsnapp:!:13:snapp\nipsec:!:200:\nsshd:!:201:sshd\n\nIf there are group names in the file list not present in the user list, this is a finding.",
+  "fixtext": "Change the group of a file not group-owned by a group where the home directory's owner is a member using command: \n# chgrp [user's primary group] [file with bad group ownership]",
+  "fix_id": "F-16474r294286_fix",
+  "VulnDiscussion": "If the Group Identifier (GID) of the home directory is not the same as the GID of the user, this would allow unauthorized access to files.",
+  "Documentable": "false"
+}

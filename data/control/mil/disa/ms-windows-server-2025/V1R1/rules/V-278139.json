@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278139",
+  "rule_id": "SV-278139r1182083_rule",
+  "stig_id": "WN25-DC-000080",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Windows Server 2025 Active Directory SYSVOL directory must have the proper access control permissions.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-82669r1182082_chk",
+  "check_content": "This applies to domain controllers. It is not applicable for other systems.\n\nOpen a command prompt.\n\nRun \"net share\".\n\nMake note of the directory location of the SYSVOL share.\n\nBy default, this will be \\Windows\\SYSVOL\\sysvol. For this requirement, permissions will be verified at the first SYSVOL directory level.\n\nIf any standard user accounts or groups have greater than \"Read & execute\" permissions, this is a finding. \n\nThe default permissions noted below meet this requirement:\n\nOpen command prompt.\n\nRun \"icacls c:\\Windows\\SYSVOL\".\n\nThe following results must be displayed:\n\nNT AUTHORITY\\Authenticated Users:(RX)\nNT AUTHORITY\\Authenticated Users:(OI)(CI)(IO)(GR,GE)\nBUILTIN\\Server Operators:(RX)\nBUILTIN\\Server Operators:(OI)(CI)(IO)(GR,GE)\nBUILTIN\\Administrators:(M,WDAC,WO)\nBUILTIN\\Administrators:(OI)(CI)(IO)(F)\nNT AUTHORITY\\SYSTEM:(F)\nNT AUTHORITY\\SYSTEM:(OI)(CI)(IO)(F)\nCREATOR OWNER:(OI)(CI)(IO)(F)\n\n(RX) - Read & execute \n\nRun \"icacls /help\" to view definitions of other permission codes.",
+  "fixtext": "Maintain the permissions on the SYSVOL directory. Do not allow greater than \"Read & execute\" permissions for standard user accounts or groups. The defaults below meet this requirement:\n\nC:\\Windows\\SYSVOL\nType - \"Allow\" for all\nInherited from - \"None\" for all\n\nPrincipal - Access - Applies to\n\nAuthenticated Users - Read & execute - This folder, subfolder, and files\nServer Operators - Read & execute- This folder, subfolder, and files\nAdministrators - Special - This folder only (Special = Basic Permissions: all selected except Full control)\nCREATOR OWNER - Full control - Subfolders and files only\nAdministrators - Full control - Subfolders and files only\nSYSTEM - Full control - This folder, subfolders, and files",
+  "fix_id": "F-82574r1181122_fix",
+  "VulnDiscussion": "Improper access permissions for directory data files could allow unauthorized users to read, modify, or delete directory data.\n\nThe SYSVOL directory contains public files (to the domain) such as policies and logon scripts. Data in shared subdirectories are replicated to all domain controllers in a domain.",
+  "Documentable": "false"
+}

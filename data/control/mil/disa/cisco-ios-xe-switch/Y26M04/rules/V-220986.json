@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220986",
+  "rule_id": "SV-220986r1195275_rule",
+  "stig_id": "CISC-RT-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must be configured to enforce approved authorizations for controlling the flow of information within the network based on organization-defined information flow control policies.",
+  "group_title": "SRG-NET-000018-RTR-000001",
+  "idents": {
+    "legacy": [
+      "SV-110793",
+      "V-101689"
+    ],
+    "cci": [
+      "CCI-001368"
+    ]
+  },
+  "check_id": "C-22701r1195274_chk",
+  "check_content": "If Virtual Routing and Forwarding (VRF) is used to segment traffic and force traffic to traverse through next generation firewalls with ACLs, this requirement is not applicable.\n\nReview the switch configuration to verify that ACLs are configured to allow or deny traffic for specific source and destination addresses as well as ports and protocols. For example, the configuration below will allow only printer traffic into subnet 10.1.12.0/24 and SQL traffic into subnet 10.1.13.0/24. ICMP is allowed for troubleshooting and OSPF is the routing protocol used within the network.\n\ninterface GigabitEthernet0/1\n no switchport\n ip address 10.2.1.1 255.255.255.252\n ip access-group FILTER_SERVER_TRAFFIC in \n…\n…\n…\nip access-list extended FILTER_SERVER_TRAFFIC\n permit tcp any 10.1.12.0 0.0.0.255 eq lpd 631 9100\n permit tcp any 10.1.13.0 0.0.0.255 eq 1433 1434 4022\n permit icmp any any\n permit ospf any any\n deny ip any any\n\nAlternate: Inter-VLAN routing\n\ninterface Vlan12\n ip address 10.1.12.1 255.255.255.0\n ip access-group FILTER_PRINTER_VLAN out\n!\ninterface Vlan13\n ip address 10.1.13.1 255.255.255.0\n ip access-group FILTER_SQL_VLAN out\n…\n…\n…\nip access-list extended FILTER_PRINTER_VLAN\n permit tcp any any eq lpd 631 9100\n permit icmp any any\n deny ip any any\nip access-list extended FILTER_SQL_VLAN\n permit tcp any any eq 1433 1434 4022\n permit icmp any any\n deny ip any any\n\nIf the switch is not configured to enforce approved authorizations for controlling the flow of information within the network based on organization-defined information flow control policies, this is a finding.",
+  "fixtext": "Configure ACLs to allow or deny traffic for specific source and destination addresses as well as ports and protocols between various subnets as required. The commands used below were used to create the configuration as shown in the check content.\n\nSW1(config)#ip access-list extended FILTER_SERVER_TRAFFIC\nSW1(config-ext-nacl)#permit tcp any 10.1.12.0 0.0.0.255 eq 515 631 9100\nSW1(config-ext-nacl)#permit tcp any 10.1.13.0 0.0.0.255 eq 1433 1434 4022\nSW1(config-ext-nacl)#permit icmp any any\nSW1(config-ext-nacl)#permit ospf any any\nSW1(config-ext-nacl)#deny ip any any\nSW1(config-ext-nacl)#exit\nSW1(config)#interface g0/1\nSW1(config-if)#ip access-group FILTER_SERVER_TRAFFIC in\nSW1(config-if)#end\n\nAlternate: Inter-VLAN routing\n\nSW1(config)#ip access-list extended FILTER_PRINTER_VLAN\nSW1(config-ext-nacl)#permit tcp any any eq lpd 631 9100\nSW1(config-ext-nacl)#permit icmp any any\nSW1(config-ext-nacl)#deny ip any any\nSW1(config-ext-nacl)#exit\nSW1(config)#ip access-list extended FILTER_SQL_VLAN\nSW1(config-ext-nacl)#permit tcp any any eq 1433 1434 4022\nSW1(config-ext-nacl)#permit icmp any any\nSW1(config-ext-nacl)#deny ip any any\nSW1(config-ext-nacl)#exit\nSW1(config)#interface vlan 12\nSW1(config-if)#ip access-group FILTER_PRINTER_VLAN out\nSW1(config-if)#exit\nSW1(config)#interface vlan 13\nSW1(config-if)#ip access-group FILTER_SQL_VLAN out\nSW1(config-if)#end",
+  "fix_id": "F-22690r408753_fix",
+  "VulnDiscussion": "Information flow control regulates where information is allowed to travel within a network and between interconnected networks. The flow of all network traffic must be monitored and controlled so it does not introduce any unacceptable risk to the network infrastructure or data. Information flow control policies and enforcement mechanisms are commonly employed by organizations to control the flow of information between designated sources and destinations (e.g., networks, individuals, and devices) within information systems.\n\nEnforcement occurs, for example, in boundary protection devices (e.g., gateways, switches, guards, encrypted tunnels, and firewalls) that employ rule sets or establish configuration settings that restrict information system services, provide a packet-filtering capability based on header information, or provide a message-filtering capability based on message content (e.g., implementing key word searches or using document characteristics).",
+  "Documentable": "false"
+}

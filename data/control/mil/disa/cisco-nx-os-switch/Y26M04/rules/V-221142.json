@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221142",
+  "rule_id": "SV-221142r999751_rule",
+  "stig_id": "CISC-RT-000900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco Multicast Source Discovery Protocol (MSDP) switch must be configured to only accept MSDP packets from known MSDP peers.",
+  "group_title": "SRG-NET-000364-RTR-000116",
+  "idents": {
+    "legacy": [
+      "SV-111177",
+      "V-102221"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-22857r409915_chk",
+  "check_content": "Review the switch configuration to determine if there is a receive path or interface filter to only accept MSDP packets from known MSDP peers.\n\nStep 1: Verify that interfaces used for MSDP peering have an inbound ACL as shown in the example below:\n\ninterface Ethernet2/3\n no switchport\n ip access-group EXTERNAL_ACL_INBOUND in\n ip address x.1.28.8/24\n ip pim sparse-mode\n\nStep 2: Verify that the ACL restricts MSDP peering to only known sources.\n\nip access-list EXTERNAL_ACL_INBOUND\n 10 permit tcp any any established \n 20 permit tcp x.1.28.2/32 x.1.28.8/32 eq 639 \n 30 deny tcp any x.1.28.8/32 eq 639 log \n 40 permit tcp x.1.28.2/32 10.x.28.8/32 eq bgp \n 50 permit tcp x.1.28.2/32 eq bgp x.1.28.8/32 \n 60 permit pim x.1.28.2/32 x.1.28.8/32 \n…\n …\n …\n120 deny ip any any log\n\nNote: MSDP connections are via TCP port 639.\n\nIf the switch is not configured to only accept MSDP packets from known MSDP peers, this is a finding.",
+  "fixtext": "Configure the receive path or interface ACLs to only accept MSDP packets from known MSDP peers.\n\nSW1(config)# ip access-list EXTERNAL_ACL_INBOUND\nSW1(config-acl) # permit tcp any any established\nSW1(config-acl) # permit tcp host x.1.28.2 host x.1.28.8 eq 639\nSW1(config-acl) # deny tcp any host x1.28.8 eq 639\nSW1(config-acl) # permit tcp host x.1.28.2 host x.1.28.8 eq bgp\nSW1(config-acl) # permit tcp host x.1.28.2 eq bgp host x.1.28.8\nSW1(config-acl) # permit pim host x.1.28.2 host x.1.28.8\n…\n…\n…\nSW1(config-acl)# deny ip any any",
+  "fix_id": "F-22846r409916_fix",
+  "VulnDiscussion": "MSDP peering with customer network switches presents additional risks to the DISN Core, whether from a rogue or misconfigured MSDP-enabled switch. To guard against an attack from malicious MSDP traffic, the receive path or interface filter for all MSDP-enabled RP switches must be configured to only accept MSDP packets from known MSDP peers.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279351",
+  "rule_id": "SV-279351r1179509_rule",
+  "stig_id": "MD8X-00-003900",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "MongoDB must enforce authorized access to all PKI private keys stored/used by the DBMS.",
+  "group_title": "SRG-APP-000176-DB-000068",
+  "idents": {
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-83904r1179455_chk",
+  "check_content": "In the MongoDB database configuration file (default location /etc/mongod.conf), review the following parameters:\n\nnet:\n   tls:\n      mode: requireTLS\n      certificateKeyFile: /etc/ssl/mongodb.pem\n      CAFile: /etc/ssl/mongodbca.pem\n\nVerify ownership, group ownership, and permissions for the MongoDB config file (default /etc/mongod.conf), the certificateKeyFile (default /etc/ssl/mongodb.pem), and the CAFile (default /etc/ssl/mongodbca.pem).\n\nFor each file, run following command and review its output:\n\nls -al <filepath>\n\nExample output:\n-rw------- 1 mongod mongod 566 Apr 26 20:20 <filepath>\n\nIf the user owner is not \"mongod\", this is a finding.\n\nIf the group owner is not \"mongod\", this is a finding.\n\nIf the file is more permissive than \"600\", this is a finding.",
+  "fixtext": "Run these commands:\n\nchown mongod:mongodb /etc/ssl/mongodb.pem\nchmod 600 /etc/ssl/mongodb.pem\nchown mongod:mongod /etc/ssl/mongodbca.pem\nchmod 600 /etc/ssl/mongodbca.pem",
+  "fix_id": "F-83809r1179219_fix",
+  "VulnDiscussion": "The DOD standard for authentication is DOD-approved PKI certificates. PKI certificate-based authentication is performed by requiring the certificate holder to cryptographically prove possession of the corresponding private key.\n\nIf the private key is stolen, an attacker can use the private key(s) to impersonate the certificate holder. In cases where the DBMS-stored private keys are used to authenticate the DBMS to the system's clients, loss of the corresponding private keys would allow an attacker to successfully perform undetected man in the middle attacks against the DBMS system and its clients.\n\nBoth the holder of a digital certificate and the issuing authority must take careful measures to protect the corresponding private key. Private keys should always be generated and protected in FIPS 140-2 or 140-3 validated cryptographic modules.\n\nAll access to the private key(s) of the DBMS must be restricted to authorized and authenticated users. If unauthorized users have access to one or more of the DBMS's private keys, an attacker could gain access to the key(s) and use them to impersonate the database on the network or otherwise perform unauthorized actions.",
+  "Documentable": "false"
+}

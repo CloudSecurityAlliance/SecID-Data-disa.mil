@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-283378",
+  "rule_id": "SV-283378r1194828_rule",
+  "stig_id": "ASMP-ND-000340",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HPE Alletra Storage ArcusOS device must be configured with only one local interactive account to be used as the account of last resort in the event the authentication server is unavailable.",
+  "group_title": "SRG-APP-000148-NDM-000346",
+  "idents": {
+    "cci": [
+      "CCI-001358",
+      "CCI-002111"
+    ]
+  },
+  "check_id": "C-87943r1194826_chk",
+  "check_content": "Verify only one local interactive account is configured:\n\ncli% showuser\n\nThe output will look similar to the example below:\n\nUsername                 Domain     Role       Default\nadminsvc                        all           super         N\nhpesupport                   all           service       N\ntelemetry                       all           service       N\n\nNote: The service role accounts are not interactive and cannot be used for logins.\n\nIf more than one local interactive account to be used as the account of last resort exists, this is a finding.",
+  "fixtext": "Remove all interactive accounts except one account with the \"super\" role for last resort login with, the following command:\n\ncli% removeuser <username>\n\nNote: You must keep at least one account with the \"super\" role and it can be any organizationally defined account name.",
+  "fix_id": "F-87848r1194827_fix",
+  "VulnDiscussion": "Authentication for administrative (privileged level) access to the device is required at all times. An account can be created on the device's local database for use when the authentication server is down or connectivity between the device and the authentication server is not operable. This account is referred to as the account of last resort since it is intended to be used as a last resort and when immediate administrative access is absolutely necessary.\n\nThe account of last resort logon credentials must be stored in a sealed envelope and kept in a safe. The safe must be periodically audited to verify the envelope remains sealed. The signature of the auditor and the date of the audit should be added to the envelope as a record. Administrators should secure the credentials and disable the root account (if possible) when not needed for system administration functions.",
+  "Documentable": "false"
+}

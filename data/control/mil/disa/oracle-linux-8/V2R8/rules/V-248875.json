@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248875",
+  "rule_id": "SV-248875r1156627_rule",
+  "stig_id": "OL08-00-040209",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must prevent IPv4 Internet Control Message Protocol (ICMP) redirect messages from being accepted.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52309r1155457_chk",
+  "check_content": "Verify OL 8 will not accept IPv4 ICMP redirect messages.\n\nCheck the value of the default \"accept_redirects\" variables with the following command:\n\n$ sysctl net.ipv4.conf.default.accept_redirects\nnet.ipv4.conf.default.accept_redirects = 0\n\nIf the returned line does not have a value of \"0\", a line is not returned, or the line is commented out, this is a finding.",
+  "fixtext": "Configure OL 8 to prevent IPv4 ICMP redirect messages from being accepted.\n\nAdd or edit the following line in a single system configuration file in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv4.conf.default.accept_redirects = 0\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-52263r1155458_fix",
+  "VulnDiscussion": "ICMP redirect messages are used by routers to inform hosts that a more direct route exists for a particular destination. These messages modify the host's route table and are unauthenticated. An illicit ICMP redirect message could result in a man-in-the-middle attack.\n\nThe sysctl --system command will load settings from all system configuration files. All configuration files are sorted by their filename in lexicographical order, regardless of the directories in which they reside. If multiple files specify the same option, the entry in the file with the lexicographically latest name will take precedence. Files are read from directories in the following list from top to bottom. Once a file of a given filename is loaded, any file of the same name in subsequent directories is ignored.\n/etc/sysctl.d/*.conf\n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf",
+  "Documentable": "false"
+}

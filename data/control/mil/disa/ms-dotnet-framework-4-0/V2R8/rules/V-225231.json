@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-225231",
+  "rule_id": "SV-225231r961038_rule",
+  "stig_id": "APPNET0063",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": ".NET must be configured to validate strong names on full-trust assemblies.",
+  "group_title": "SRG-APP-000175",
+  "idents": {
+    "legacy": [
+      "SV-40977",
+      "V-30935"
+    ],
+    "cci": [
+      "CCI-000185"
+    ]
+  },
+  "check_id": "C-26930r468008_chk",
+  "check_content": "If there is documented ISSO risk acceptance for development systems, this is not a finding.\nFor 32 bit production systems: \nUse regedit to examine the “HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\.NETFramework” key.  \nOn 64-bit production systems:\nUse regedit to examine both the “HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\.NETFramework” and “HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\.NETFramework” keys.\nIf the \"AllowStrongNameBypass\" value does not exist, or if the “DWORD” value is set to “1”, this is a finding.\n\nDocumentation must include a complete list of installed .Net applications, application versions, and acknowledgement that ISSO trusts each installed application.\n\nIf application versions installed on the system do not match approval documentation, this is a finding.",
+  "fixtext": "For 32 bit production systems: \nSet “HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\.NETFramework\\AllowStrongNameBypass\" to a “DWORD” value of “0”.\nOn 64-bit production systems:\nSet “HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\.NETFramework\\ AllowStrongNameBypass” and “HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\.NETFramework\\ AllowStrongNameBypass” to a “DWORD” value of “0”.\nOr, obtain documented ISSO risk acceptance for each .Net application installed on the system. \n\nApproval documentation will include complete list of all installed .Net applications, application versions, and acknowledgement of ISSO trust of each installed application.",
+  "fix_id": "F-26918r468009_fix",
+  "VulnDiscussion": "The \"bypassTrustedAppStrongNames\" setting specifies whether the bypass feature that avoids validating strong names for full-trust assemblies is enabled. By default the bypass feature is enabled in .Net 4, therefore strong names are not validated for correctness when the assembly/program is loaded. Not validating strong names provides a faster application load time but at the expense of performing certificate validation. \n\nFull trust assemblies are .Net applications launched from the local host. Strong names are digital signatures tied to .Net applications/assemblies.  .Net 4 considers applications installed locally to be fully trusted by default and grants these applications full permissions to access host resources. \n\nThe bypass feature applies to any assembly signed with a strong name and having the following characteristics:\n\n    Fully trusted without the StrongName evidence (for example, has MyComputer zone evidence).\n\n    Loaded into a fully trusted AppDomain.\n\n    Loaded from a location under the ApplicationBase property of that AppDomain.\n\n    Not delay-signed.\n\nNot validating the certificates used to sign strong name assemblies will provide a faster application load time, but falsely assumes that signatures used to sign the application are to be implicitly trusted.  Not validating strong name certificates introduces an integrity risk to the system.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223545",
+  "rule_id": "SV-223545r1137691_rule",
+  "stig_id": "ACF2-OS-000090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS special privileges must be assigned on an as-needed basis to LOGONIDs associated with STCs and LOGONIDs that need to execute TSO in batch.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "legacy": [
+      "SV-106899",
+      "V-97795"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-25218r504678_chk",
+  "check_content": "From the ISPF Command Shell enter:\nACF\nSET LID \nSET VERBOSE\nLIST IF(ACCTPRIV OR CONSOLE OR OPERATOR OR MOUNT)\n\nIf the ACCTPRIV privilege is restricted to security personnel, this is not a finding.\n\nIf the CONSOLE and OPERATOR privileges are restricted to authorized systems personnel (e.g., systems programming personnel, operations staff, etc), this is not a finding.\n\nIf the MOUNT privilege is restricted to DASD batch users only, this is not a finding.",
+  "fixtext": "Review all Logonids for the following and ensure that only authorized users with justification are given access to the privileges.\n\nThe ACCTPRIV privilege is restricted for used to the domain level security personnel (ISSO/ISSM).\n\nThe CONSOLE and OPERATOR privileges are restricted to authorized systems personnel (e.g., systems programming personnel, operations staff, etc).\n\nThe MOUNT privilege is restricted to DASD batch users only on an as-needed basis to execute TSO in batch.\n\nEnsure that all privileges are kept to a minimum and are controlled and documented.",
+  "fix_id": "F-25206r504679_fix",
+  "VulnDiscussion": "To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DoD-approved PKIs, all DoD systems (e.g., web servers and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. Successful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement.\n\nAccess control policies include: identity-based policies, role-based policies, and attribute-based policies. Access enforcement mechanisms include: access control lists, access control matrices, and cryptography. These policies and mechanisms must be employed by the application to control access between users (or processes acting on behalf of users) and objects (e.g., devices, files, records, processes, programs, and domains) in the information system.",
+  "Documentable": "false"
+}

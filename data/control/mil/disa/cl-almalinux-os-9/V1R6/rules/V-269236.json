@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269236",
+  "rule_id": "SV-269236r1050118_rule",
+  "stig_id": "ALMA-09-017730",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must define default permissions for PAM users.",
+  "group_title": "SRG-OS-000480-GPOS-00228",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73267r1048084_chk",
+  "check_content": "Verify that the \"pam_umask\" module is enabled with the following command:\n\n$ grep -i umask /etc/pam.d/*\n\n/etc/pam.d/postlogin:session optional pam_umask.so silent umask=0022\n\nIf a \"pam_umask.so\" line is not returned, this is a finding.\n\nIf the \"umask\" setting is set to anything other than \"0077\", this is a finding.\n\nNote: If the \"umask\" setting is not found, it will use the default UMASK entry in /etc/login.defs.",
+  "fixtext": "Configure AlmaLinux OS 9 to define default permissions for all authenticated users so the user can only read and modify their own files.\n\nAdd or edit the following line at the top of /etc/pam.d/postlogin:\n\nsession     optional     pam_umask.so silent",
+  "fix_id": "F-73168r1049353_fix",
+  "VulnDiscussion": "Setting the most restrictive default permissions ensures that when new accounts are created they do not have unnecessary access.\n\nWith a UMASK of 077, files will be created with 0600 permissions (owner read/write only) and directories will have 0700 permissions (owner read/write/execute only).",
+  "Documentable": "false"
+}

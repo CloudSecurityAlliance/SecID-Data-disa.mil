@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270716",
+  "rule_id": "SV-270716r1066637_rule",
+  "stig_id": "UBTU-24-300030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 24.04 LTS default filesystem permissions must be defined in such a way that all authenticated users can read and modify only their own files.",
+  "group_title": "SRG-OS-000480-GPOS-00228",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-74749r1066635_chk",
+  "check_content": "Verify Ubuntu 24.04 LTS defines default permissions for all authenticated users in such a way that the user can read and modify only their own files with the following command:\n \n$ grep -i '^\\s*umask' /etc/login.defs\nUMASK 077 \n \nIf the \"UMASK\" variable is set to \"000\", this is a finding with the severity raised to a CAT I. \n \nIf the value of \"UMASK\" is not set to \"077\", is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure the system to define the default permissions for all authenticated users in such a way that the user can read and modify only their own files. \n \nEdit the \"UMASK\" parameter in the \"/etc/login.defs\" file to match the example below: \n \nUMASK 077",
+  "fix_id": "F-74650r1066636_fix",
+  "VulnDiscussion": "Setting the most restrictive default permissions ensures that when new accounts are created, they do not have unnecessary access.",
+  "Documentable": "false"
+}

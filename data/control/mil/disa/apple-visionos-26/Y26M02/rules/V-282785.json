@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282785",
+  "rule_id": "SV-282785r1195670_rule",
+  "stig_id": "AVOS-26-003200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Apple visionOS 26 must not allow backup to remote systems (iCloud document and data synchronization).",
+  "group_title": "PP-MDF-333250",
+  "idents": {
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-87346r1195668_chk",
+  "check_content": "Note: This requirement is not applicable if the authorizing official (AO) has approved users' full access to the Apple App Store for downloading unmanaged (personal) apps and syncing personal data on the device with personal cloud data storage accounts. The site must have an AO-signed document showing the AO has assumed the risk for users' full access to the Apple App Store. \n\nThis is a supervised-only control. If the Vision Pro being reviewed is not supervised by the MDM, this control is automatically a finding.\n\nIf the Vision Pro being reviewed is supervised by the MDM, review configuration settings to confirm \"Allow iCloud documents & data\" is disabled.\n\nThis check procedure is performed on both the Apple visionOS management tool and the Vision Pro.\n\nNote: If an organization has multiple configuration profiles, the check procedure must be performed on the relevant configuration profiles applicable to the scope of the review.\n\nIn the Apple visionOS management tool, verify \"Allow iCloud documents & data\" is unchecked.\n\nAlternatively, verify the text \"<key>allowCloudDocumentSync</key> <false/>\" appears in the configuration profile (.mobileconfig file).\n\nOn the Vision Pro:\n1. Open the Settings app.\n2. Tap \"General\".\n3. Tap \"VPN & Device Management\".\n4. Tap the Configuration Profile from the visionOS management tool containing the policy.\n5. Tap \"Restrictions\".\n6. Verify \"Documents in the Cloud not allowed\" is listed.\n\nNote: This also verifies that iCloud Drive and iCloud Photo Library are disabled.\n\nIf \"Allow iCloud documents & data\" is checked in the Apple visionOS management tool, \"<key>allowCloudDocumentSync</key> <true/>\" appears in the configuration profile, or the restrictions policy on the Vision Pro does not list \"Documents in the Cloud not allowed\", this is a finding.",
+  "fixtext": "Install a configuration profile to disable iCloud documents and data. This is a supervised-only control.",
+  "fix_id": "F-87251r1195669_fix",
+  "VulnDiscussion": "If a user is able to configure the security setting, the user could inadvertently or maliciously set it to a value that poses unacceptable risk to DOD information systems. An adversary could exploit vulnerabilities created by the weaker configuration to compromise DOD sensitive information.\n\nSFR ID: FMT_MOF_EXT.1.2 #40",
+  "Documentable": "false"
+}

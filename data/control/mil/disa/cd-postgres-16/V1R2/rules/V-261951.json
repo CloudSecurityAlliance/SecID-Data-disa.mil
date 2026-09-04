@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261951",
+  "rule_id": "SV-261951r1000858_rule",
+  "stig_id": "CD16-00-010700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must generate audit records when unsuccessful attempts to delete privileges/permissions occur.",
+  "group_title": "SRG-APP-000499-DB-000331",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-65805r1000856_chk",
+  "check_content": "Note: The following instructions use the PGDATA and PGLOG environment variables. Refer to APPENDIX-F for instructions on configuring PGDATA and APPENDIX-I for PGLOG.\n\nAs the database administrator (shown here as \"postgres\"), create the roles \"joe\" and \"bob\" with LOGIN by running the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"CREATE ROLE joe LOGIN\"\n$ psql -c \"CREATE ROLE bob LOGIN\"\n\nSet current role to \"bob\" and attempt to alter the role \"joe\":\n\n$ psql -c \"SET ROLE bob; ALTER ROLE joe NOLOGIN;\"\n\nAs the database administrator (shown here as \"postgres\"), verify the denials are logged:\n\n$ sudo su - postgres\n$ cat ${PGDATA?}/${PGLOG?}/<latest_log>\n< 2024-03-17 11:28:10.004 UTC bob 56eacd05.cda postgres: >ERROR: permission denied to alter role\n< 2024-03-17 11:28:10.004 UTC bob 56eacd05.cda postgres: >STATEMENT: ALTER ROLE joe;\n\nIf audit logs are not generated when unsuccessful attempts to delete privileges/permissions occur, this is a finding.",
+  "fixtext": "Configure PostgreSQL to produce audit records when unsuccessful attempts to delete privileges occur.\n\nAll denials are logged if logging is enabled. To ensure logging is enabled, review supplementary content APPENDIX-C for instructions on enabling logging.",
+  "fix_id": "F-65713r1000857_fix",
+  "VulnDiscussion": "Failed attempts to change the permissions, privileges, and roles granted to users and roles must be tracked. Without an audit trail, unauthorized attempts to elevate or restrict privileges could go undetected.\n\nIn an SQL environment, deleting permissions is typically done via the REVOKE or DENY command.\n\nTo aid in diagnosis, it is necessary to keep track of failed attempts in addition to the successful ones.",
+  "Documentable": "false"
+}

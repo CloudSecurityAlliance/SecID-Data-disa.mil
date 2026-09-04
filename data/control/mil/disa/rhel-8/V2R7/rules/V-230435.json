@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230435",
+  "rule_id": "SV-230435r1017236_rule",
+  "stig_id": "RHEL-08-030330",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Successful/unsuccessful uses of the setfacl command in RHEL 8 must generate an audit record.",
+  "group_title": "SRG-OS-000062-GPOS-00031",
+  "idents": {
+    "cci": [
+      "CCI-000169"
+    ]
+  },
+  "check_id": "C-33104r568051_chk",
+  "check_content": "Verify RHEL 8 generates an audit record when successful/unsuccessful attempts to use the \"setfacl\" command by performing the following command to check the file system rules in \"/etc/audit/audit.rules\":\n\n$ sudo grep -w setfacl /etc/audit/audit.rules\n\n-a always,exit -F path=/usr/bin/setfacl -F perm=x -F auid>=1000 -F auid!=unset -k perm_mod\n\nIf the command does not return a line, or the line is commented out, this is a finding.",
+  "fixtext": "Configure the audit system to generate an audit event for any successful/unsuccessful use of the \"setfacl\" command by adding or updating the following rule in the \"/etc/audit/rules.d/audit.rules\" file:\n\n-a always,exit -F path=/usr/bin/setfacl -F perm=x -F auid>=1000 -F auid!=unset -k perm_mod\n\nThe audit daemon must be restarted for the changes to take effect.",
+  "fix_id": "F-33079r568052_fix",
+  "VulnDiscussion": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter). The \"setfacl\" command is used to set file access control lists.\n\nWhen a user logs on, the AUID is set to the UID of the account that is being authenticated. Daemons are not user sessions and have the loginuid set to \"-1\". The AUID representation is an unsigned 32-bit integer, which equals \"4294967295\". The audit system interprets \"-1\", \"4294967295\", and \"unset\" in the same way.\n\nSatisfies: SRG-OS-000062-GPOS-00031, SRG-OS-000037-GPOS-00015, SRG-OS-000042-GPOS-00020, SRG-OS-000062-GPOS-00031, SRG-OS-000392-GPOS-00172, SRG-OS-000462-GPOS-00206, SRG-OS-000471-GPOS-00215",
+  "Documentable": "false"
+}

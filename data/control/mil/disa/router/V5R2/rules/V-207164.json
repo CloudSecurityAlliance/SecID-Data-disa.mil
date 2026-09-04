@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207164",
+  "rule_id": "SV-207164r856649_rule",
+  "stig_id": "SRG-NET-000364-RTR-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The perimeter router must be configured to block inbound packets with source Bogon IP address prefixes.",
+  "group_title": "SRG-NET-000364",
+  "idents": {
+    "legacy": [
+      "V-78239",
+      "SV-92945"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-7425r856647_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone. \n\nVerify that the ingress filter is blocking packets with Bogon source addresses. \n\nReview the router configuration to verify that it is configured to block IP packets with a Bogon source address.\n\nIPv4 Bogon Prefixes\n\n0.0.0.0/8\n10.0.0.0/8\n100.64.0.0/10\n127.0.0.0/8\n169.254.0.0/16\n172.16.0.0/12\n192.0.0.0/24\n192.0.2.0/24  \n192.88.99.0/24\n192.168.0.0/16\n198.18.0.0/15 |\n198.51.100.0/24\n203.0.113.0/24 \n224.0.0.0/4 \n240.0.0.0/4\n\n\nIPv6 Bogon Prefixes\n\n::/128\n::1/128\n0::/96\n::ffff:0:0/96 \n3ffe::/16 \n64:ff9b::/96  \n100::/64   \n2001:10::/28   \n2001:db8::/32   \n2001:2::/48  \n2001::/32  \n2001::/23 \n2002::/16   \nfc00::/7 \nfec0::/10  \nff00::/8\n \n    \nIf the router is not configured to block inbound IP packets containing a Bogon source address, this is a finding.\n\nNote: At a minimum, IP packets containing a source address from the special purpose address space as defined in RFC 6890 must be blocked. The 6Bone prefix (3ffe::/16) is also be considered a Bogon address. Perimeter routers connected to commercial ISPs for Internet or other non-DoD network sources will need to be reviewed for a full Bogon list. \n\nThe IPv4 full Bogon list contains prefixes that have been allocated to RIRs but not assigned by those RIRs. Reference the following link: http://www.team-cymru.org/Services/Bogons/fullbogons-ipv4.txt\n\nThe IPv6 full Bogon list contains prefixes that have not been allocated to RIRs, or those that have been allocated to RIRs but have not been assigned by those RIRs. Reference the following link: https://www.team-cymru.org/Services/Bogons/fullbogons-ipv6.txt",
+  "fixtext": "This requirement is not applicable for the DODIN Backbone. \n\nConfigure the router to block inbound packets with Bogon source addresses.",
+  "fix_id": "F-7425r856648_fix",
+  "VulnDiscussion": "Bogons include IP packets on the public Internet that contain addresses that are not in any range allocated or delegated by the Internet Assigned Numbers Authority (IANA) or a delegated regional Internet registry (RIR) and allowed for public Internet use. Bogons also include multicast, IETF reserved, and special purpose address space as defined in RFC 6890.\nSecurity of the Internet's routing system relies on the ability to authenticate an assertion of unique control of an address block. Measures to authenticate such assertions rely on the validation the address block forms as part of an existing allocated address block, and must be a trustable and unique reference in the IANA address registries. The intended use of a Bogon address would only be for the purpose of address spoofing in denial-of-service attacks. Hence, it is imperative that IP packets with a source Bogon address are blocked at the network’s perimeter.",
+  "Documentable": "false"
+}

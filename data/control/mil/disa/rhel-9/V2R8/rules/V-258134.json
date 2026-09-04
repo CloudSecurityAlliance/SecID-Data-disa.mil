@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-258134",
+  "rule_id": "SV-258134r1155620_rule",
+  "stig_id": "RHEL-09-651010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must have the AIDE package installed.",
+  "group_title": "SRG-OS-000363-GPOS-00150",
+  "idents": {
+    "cci": [
+      "CCI-001744",
+      "CCI-002696"
+    ]
+  },
+  "check_id": "C-61875r1155619_chk",
+  "check_content": "Verify the file integrity tool is configured to verify ACLs.\n\nNote: AIDE is highly configurable at install time. This requirement assumes the \"aide.conf\" file is under the \"/etc\" directory.\n\nVerify AIDE is installed with the following command:\n\n$ sudo dnf list installed aide\n\nUpdating Subscription Management repositories.\nInstalled Packages\naide.x86_64                                0.16-103.el9                                @rhel-9-for-x86_64-appstream-rpms\n\nUse the following command to determine if the file is in a location other than \"/etc/aide/aide.conf\":\n\n$ sudo find / -name aide.conf\n\nIf AIDE is not installed, ask the system administrator (SA) how file integrity checks are performed on the system.",
+  "fixtext": "Install AIDE, initialize it, and perform a manual check.\n\nInstall AIDE:\n\n$ sudo dnf install aide\n\nInitialize AIDE:\n     \n$ sudo /usr/sbin/aide --init\n\nExample output:\n\nStart timestamp: 2023-06-05 10:09:04 -0600 (AIDE 0.16)\nAIDE initialized database at /var/lib/aide/aide.db.new.gz\n\nNumber of entries:      86833\n\n---------------------------------------------------\nThe attributes of the (uncompressed) database(s):\n---------------------------------------------------\n\n/var/lib/aide/aide.db.new.gz\n  MD5      : coZUtPHhoFoeD7+k54fUvQ==\n  SHA1     : DVpOEMWJwo0uPgrKZAygIUgSxeM=\n  SHA256   : EQiZH0XNEk001tcDmJa+5STFEjDb4MPE\n             TGdBJ/uvZKc=\n  SHA512   : 86KUqw++PZhoPK0SZvT3zuFq9yu9nnPP\n             toei0nENVELJ1LPurjoMlRig6q69VR8l\n             +44EwO9eYyy9nnbzQsfG1g==\n\nEnd timestamp: 2023-06-05 10:09:57 -0600 (run time: 0m 53s)\n\nThe new database will need to be renamed to be read by AIDE:\n\n$ sudo mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz\n\nPerform a manual check:\n\n$ sudo /usr/sbin/aide --check\n\nExample output:\n\n2023-06-05 10:16:08 -0600 (AIDE 0.16)\nAIDE found NO differences between database and filesystem. Looks okay!!\n\n...",
+  "fix_id": "F-61799r926388_fix",
+  "VulnDiscussion": "Without verification of the security functions, security functions may not operate correctly, and the failure may go unnoticed. Security function is defined as the hardware, software, and/or firmware of the information system responsible for enforcing the system security policy and supporting the isolation of code and data on which the protection is based. Security functionality includes, but is not limited to, establishing system accounts, configuring access authorizations (i.e., permissions, privileges), setting events to be audited, and setting intrusion detection parameters.\n\nSelection lines in the aide.conf file determine which files and directories AIDE will monitor for changes. They follow this format:\n\n<path> <rules>\n\nThe <path> specifies a file, directory or wildcard pattern to monitor.\nThe <rules>define which attributes (hashes, permissions, timestamps, etc.) to check.\n\nSatisfies: SRG-OS-000363-GPOS-00150, SRG-OS-000445-GPOS-00199",
+  "Documentable": "false"
+}

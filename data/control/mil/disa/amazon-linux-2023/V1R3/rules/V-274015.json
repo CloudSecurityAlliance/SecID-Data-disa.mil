@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274015",
+  "rule_id": "SV-274015r1120033_rule",
+  "stig_id": "AZLX-23-001015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must require users to reauthenticate for privilege escalation.",
+  "group_title": "SRG-OS-000373-GPOS-00156",
+  "idents": {
+    "cci": [
+      "CCI-002038"
+    ]
+  },
+  "check_id": "C-78106r1120031_chk",
+  "check_content": "Verify Amazon Linux 2023 requires users to reauthenticate for privilege escalation. \n\nEnsure that \"/etc/sudoers\" has no occurrences of \"!authenticate\" with the following command:\n\n$ sudo grep -ir '!authenticate' /etc/sudoers /etc/sudoers.d/\n\nIf any occurrences of \"!authenticate\" are returned, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to not allow users to execute privileged actions without authenticating.\n\nRemove any occurrence of \"!authenticate\" found in \"/etc/sudoers\" file or files in the \"/etc/sudoers.d\" directory.\n\n$ sudo sed -i '/\\!authenticate/ s/^/# /g' /etc/sudoers /etc/sudoers.d/*",
+  "fix_id": "F-78011r1120032_fix",
+  "VulnDiscussion": "Without reauthentication, users may access resources or perform tasks for which they do not have authorization.",
+  "Documentable": "false"
+}

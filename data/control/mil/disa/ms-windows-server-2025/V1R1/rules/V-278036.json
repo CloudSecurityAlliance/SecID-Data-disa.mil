@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278036",
+  "rule_id": "SV-278036r1180814_rule",
+  "stig_id": "WN25-AC-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2025 password history must be configured to 24 passwords remembered.",
+  "group_title": "SRG-OS-000710-GPOS-00160",
+  "idents": {
+    "cci": [
+      "CCI-004061"
+    ]
+  },
+  "check_id": "C-82566r1180812_chk",
+  "check_content": "Verify the effective setting in Local Group Policy Editor.\n\nRun gpedit.msc.\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Account Policies >> Password Policy.\n\nIf the value for \"Enforce password history\" is less than \"24\" passwords remembered, this is a finding.\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas SecurityPolicy /CFG C:\\Path\\FileName.Txt\n\nIf \"PasswordHistorySize\" is less than \"24\" in the file, this is a finding.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Account Policies >> Password Policy. Set \"Enforce password history\" to \"24\" passwords remembered.",
+  "fix_id": "F-82471r1180813_fix",
+  "VulnDiscussion": "A system is more vulnerable to unauthorized access when system users recycle the same password several times without being required to change to a unique password on a regularly scheduled basis. This enables users to effectively negate the purpose of mandating periodic password changes. The default value is \"24\" for Windows domain systems. DOD has decided this is the appropriate value for all Windows systems.",
+  "Documentable": "false"
+}

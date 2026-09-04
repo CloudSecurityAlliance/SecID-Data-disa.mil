@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281276",
+  "rule_id": "SV-281276r1166780_rule",
+  "stig_id": "RHEL-10-700730",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must prevent a user from overriding the disabling of the graphical user smart card removal action.",
+  "group_title": "SRG-OS-000028-GPOS-00009",
+  "idents": {
+    "cci": [
+      "CCI-000056",
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-85837r1166778_chk",
+  "check_content": "Note: This requirement assumes the use of the RHEL 10 default graphical user interface, the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is not applicable.\n\nVerify RHEL 10 disables ability of the user to override the smart card removal action setting with the following command:\n\n$ gsettings writable org.gnome.settings-daemon.peripherals.smartcard removal-action\nfalse\n\nIf \"removal-action\" is writable and the result is \"true\", this is a finding.",
+  "fixtext": "Configure RHEL 10 to prevent a user from overriding the disabling of the graphical user smart card removal action.\n\nAdd the following line to \"/etc/dconf/db/local.d/locks/00-security-settings-lock\" to prevent user override of the smart card removal action:\n\n/org/gnome/settings-daemon/peripherals/smartcard/removal-action\n\nUpdate the dconf system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-85742r1166779_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.\n\nThe session lock is implemented at the point where session activity can be determined. Rather than be forced to wait for a period of time to expire before the user session can be locked, RHEL 10 must provide users with the ability to manually invoke a session lock so users can secure their session if they must temporarily vacate the immediate physical vicinity.\n\nSatisfies: SRG-OS-000028-GPOS-00009, SRG-OS-000030-GPOS-00011",
+  "Documentable": "false"
+}

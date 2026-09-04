@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-269953",
+  "rule_id": "SV-269953r1052245_rule",
+  "stig_id": "OS10-L2S-000020",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Dell OS10 Switch must uniquely identify all network-connected endpoint devices before establishing any connection.",
+  "group_title": "SRG-NET-000148-L2S-000015",
+  "idents": {
+    "cci": [
+      "CCI-000778",
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-73986r1052243_chk",
+  "check_content": "Verify if the switch configuration has 802.1x authentication implemented for all access switch ports connecting to LAN outlets (i.e., RJ-45 wall plates) or devices not located in the telecom room, wiring closets, or equipment rooms. \n\nVerify that 802.1x authentication is enabled globally by reviewing the configuration for the presence of:\n\ndot1x system-auth-control\n \nVerify that 802.1x authentication is enabled on the host-facing access interfaces by looking for the following two dot1x settings:\n!\ninterface ethernet1/1/3\n dot1x port-control auto\n dot1x re-authentication\n\nIf 802.1x authentication is not on configured on all access switch ports connecting to LAN outlets or devices not located in the telecom room, wiring closets, or equipment rooms, this is a finding.",
+  "fixtext": "Configure 802.1 x authentications on all host-facing access switch ports. \n\nConfigure RADIUS for 802.1x authentication:\n\nOS10(config)# radius-server host 10.10.1.200 key my-shared-secret\nOS10(config)# radius-server retransmit 10\nOS10(config)# radius-server timeout 10\n\nEnable 802.1X globally in CONFIGURATION mode:\n\nOS10(config)# dot1x system-auth-control\n\nEnable 802.1x on the host-facing access interfaces:\n\nOS10(config)# interface range ethernet 1/1/2-1/1/48\nOS10(conf-rangeeth1/1/2-1/1/48)# dot1x port-control auto\nOS10(conf-rangeeth1/1/2-1/1/48)# dot1x re-authentication",
+  "fix_id": "F-73887r1052244_fix",
+  "VulnDiscussion": "Controlling LAN access via 802.1x authentication can assist in preventing a malicious user from connecting an unauthorized PC to a switch port to inject or receive data from the network without detection.\n\nSatisfies: SRG-NET-000148-L2S-000015, SRG-NET-000343-L2S-000016",
+  "Documentable": "false"
+}

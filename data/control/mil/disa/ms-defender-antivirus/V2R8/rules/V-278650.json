@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278650",
+  "rule_id": "SV-278650r1190732_rule",
+  "stig_id": "WNDF-AV-000046",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Microsoft Defender AV must use advanced protection against ransomware.",
+  "group_title": "SRG-APP-000210",
+  "idents": {
+    "cci": [
+      "CCI-001170"
+    ]
+  },
+  "check_id": "C-83184r1144035_chk",
+  "check_content": "Verify the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Microsoft Defender Exploit Guard >> Attack Surface Reduction >> Configure Attack Surface Reduction rules is set to \"Enabled\".\n\nProcedure: Use the Windows Registry Editor to navigate to the following key: \nHKLM\\Software\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules\n\nCriteria: If the value \"c1db55ab-c21a-4637-bb3f-a12568109d35\" is REG_SZ = 1, this is not a finding.\n\nIf the value is other than 1, this is a finding.",
+  "fixtext": "Set the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Microsoft Defender Exploit Guard >> Attack Surface Reduction >> Configure Attack Surface Reduction rules to \"Enabled\".\n\nUnder the policy option \"Set the state for each ASR rule:\", then click \"Show\".\n\nEnter GUID \"c1db55ab-c21a-4637-bb3f-a12568109d35\" in the \"Value Name\" column.\n\nEnter \"1\" in the \"Value\" column.",
+  "fix_id": "F-83089r1190731_fix",
+  "VulnDiscussion": "This policy setting provides an extra layer of protection against ransomware. It uses both client and cloud heuristics to determine whether a file resembles ransomware. This rule does not block files that have one or more of the following characteristics:\n\n- The file is found to be unharmful in the Microsoft cloud.\n- The file is a valid signed file.\n- The file is prevalent enough to not be considered as ransomware.\n- The rule tends to err on the side of caution to prevent ransomware.",
+  "Documentable": "false"
+}

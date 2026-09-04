@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-279250",
+  "rule_id": "SV-279250r1170680_rule",
+  "stig_id": "SYME-ND-000170",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Edge SWG must be configured to assign appropriate user roles or access levels to authenticated users.",
+  "group_title": "SRG-APP-000033-NDM-000212",
+  "idents": {
+    "cci": [
+      "CCI-000213",
+      "CCI-001368",
+      "CCI-002235",
+      "CCI-003980",
+      "CCI-001813",
+      "CCI-000345",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-83800r1170678_chk",
+  "check_content": "In the Edge SWG Web UI, navigate to the Visual Policy Manager (VPM).\n\nUnder the layers, if an \"Admin Access\" layer is not configured, this is a finding.\n\nIf an \"Admin Access\" layer is configured, for HTTPS-console, verify the group is derived from the CAC/LDAPS admin group; otherwise, this is a finding.\n\nFor the SSH-console, verify the group is derived from the LDAPS admin group; otherwise, this is a finding.",
+  "fixtext": "1. In the Edge SWG Web UI, navigate to the VPM.\n2. Click \"Add Layer\".\n3. Scroll down and select \"Admin Access\", then click \"Add\".\n4. Locate the Admin Access Layer (1) layer that was added and click \"Add rule\".\n5. Inside of the rule, under \"Source\", left-click and select \"Set\".\n6. Click \"Add new Object\".\n7. Select \"Group\".\n8. Under the group field, type in the full LDAPS Distinguished Name (DN) for the admin group. For example: \"CN=roadcom.admins.gsg,OU=BROADCOM,OU=Vendors, DC=dod,DC=local\"\n9. Under the \"Authentication Realm\", select the \"CAC certificate\" realm.\n10. Click \"Apply\", then click \"Set\".\n11. In the same rule, left-click in the \"Service\" field and click \"Set\".\n12. Select \"Service Name: HTTPS-console\" and click \"Set\".\n13. In the same rule, left-click in the \"Action\" field and click \"Set\".\n14. Select the action \"Allow Read/Write Access\" and click \"Set\".\n15. Repeat these steps to add various read-only or read-write groups for the HTTPS-console.\n16. For the SSH-Console click \"Add rule\".\n17. Inside of the rule, under \"Source\", left-click and select \"Set\".\n18. Click \"Add new Object\".\n19. Select \"Group\".\n20. Under the \"Group\" field, type in the full LDAPS Distinguished Name (DN) for the admin group. For example: CN=broadcom.admins.gsg,OU=BROADCOM,OU=Vendors, DC=dod,DC=local\n21. Under the \"Authentication Realm\", select the \"LDAPS\" realm. Do not select the CAC certificate realm.\n22. Click \"Apply\", then click \"Set\".\n23. In the same rule, left-click in the \"Service\" field and click \"Set\".\n24. Select \"Service Name: SSH-console\", and then click \"Set\".\n25. In the same rule, left-click in the \"Action\" field and click \"Set\".\n26. Select the action \"Allow Read/Write Access\" and click \"Set\".\n27. Repeat these steps to add various read-only or read-write groups for the SSH-console.",
+  "fix_id": "F-83705r1170679_fix",
+  "VulnDiscussion": "Successful identification and authentication must not automatically give an entity full access to a network device or security domain. The lack of authorization-based access control could result in the immediate compromise and unauthorized access to sensitive information. All DOD systems must be properly configured to incorporate access control methods that do not rely solely on authentication for authorized access.\n\nAuthorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset or set of resources. Information systems use access control policies and enforcement mechanisms to implement this requirement. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization.\n\nSome network devices are preconfigured with security groups. Other network devices enable operators to create custom security groups with custom permissions. For example, an information system security manager (ISSM) may require read-only access to audit the network device. Operators may create an audit security group, define permissions and access levels for members of the group, and then assign the ISSM's user persona to the audit security group. This is still considered privileged access, but the ISSM's security group is more restrictive than the network administrator's security group.\n\nNetwork devices that rely on AAA brokers for authentication and authorization services may need to identify the available security groups or access levels available on the network devices and convey that information to the AAA operator. Once the AAA broker identifies the user persona on the centralized directory service, the user's security group memberships can be retrieved. The AAA operator may need to create a mapping that links target security groups from the directory service to the appropriate security groups or access levels on the network device. Once these mappings are configured, authorizations can happen dynamically, based on each user's directory service group membership.\n\nSatisfies: SRG-APP-000033-NDM-000212, SRG-APP-000038-NDM-000213, SRG-APP-000340-NDM-000288, SRG-APP-000378-NDM-000302, SRG-APP-000380-NDM-000304, SRG-APP-000516-NDM-000335",
+  "Documentable": "false"
+}

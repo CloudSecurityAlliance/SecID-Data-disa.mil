@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261963",
+  "rule_id": "SV-261963r1000894_rule",
+  "stig_id": "CD16-00-011900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must generate audit records when unsuccessful accesses to objects occur.",
+  "group_title": "SRG-APP-000507-DB-000357",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-65817r1000892_chk",
+  "check_content": "Note: The following instructions use the PGDATA and PGLOG environment variables. Refer to APPENDIX-F for instructions on configuring PGDATA and APPENDIX-I for PGLOG.\n\nAs the database administrator (shown here as \"postgres\"), create a schema, test_schema, create a table, test_table, within test_schema, and insert a value:\n\n$ sudo su - postgres\n$ psql -c \"CREATE SCHEMA test_schema\"\n$ psql -c \"CREATE TABLE test_schema.test_table(id INT)\"\n$ psql -c \"INSERT INTO test_schema.test_table(id) VALUES (0)\"\n\nCreate a role \"bob\" and attempt to SELECT, INSERT, UPDATE, and DROP from the test table: \n\n$ psql -c \"CREATE ROLE BOB\"\n$ psql -c \"SET ROLE bob; SELECT * FROM test_schema.test_table\"\n\n$ psql -c \"SET ROLE bob; INSERT INTO test_schema.test_table VALUES (0)\"\n$ psql -c \"SET ROLE bob; UPDATE test_schema.test_table SET id = 1 WHERE id = 0\"\n$ psql -c \"SET ROLE bob; DROP TABLE test_schema.test_table\"\n$ psql -c \"SET ROLE bob; DROP SCHEMA test_schema\"\n\nAs the database administrator (shown here as \"postgres\"), review PostgreSQL/database security and audit settings to verify that audit records are created for unsuccessful attempts at the specified access to the specified objects:\n\n$ sudo su - postgres\n$ cat ${PGDATA?}/${PGLOG?}/<latest_log>\n2024-03-30 17:23:41.254 EDT postgres postgres ERROR: permission denied for schema test_schema at character 15\n2024-03-30 17:23:41.254 EDT postgres postgres STATEMENT: SELECT * FROM test_schema.test_table;\n2024-03-30 17:23:53.973 EDT postgres postgres ERROR: permission denied for schema test_schema at character 13\n2024-03-30 17:23:53.973 EDT postgres postgres STATEMENT: INSERT INTO test_schema.test_table VALUES (0);\n2024-03-30 17:24:32.647 EDT postgres postgres ERROR: permission denied for schema test_schema at character 8\n2024-03-30 17:24:32.647 EDT postgres postgres STATEMENT: UPDATE test_schema.test_table SET id = 1 WHERE id = 0;\n2024-03-30 17:24:46.197 EDT postgres postgres ERROR: permission denied for schema test_schema\n2024-03-30 17:24:46.197 EDT postgres postgres STATEMENT: DROP TABLE test_schema.test_table;\n2024-03-30 17:24:51.582 EDT postgres postgres ERROR: must be owner of schema test_schema\n2024-03-30 17:24:51.582 EDT postgres postgres STATEMENT: DROP SCHEMA test_schema;\n\nIf any of the above steps did not create audit records for SELECT, INSERT, UPDATE, and DROP, this is a finding.",
+  "fixtext": "Configure PostgreSQL to produce audit records when unsuccessful attempts to access objects occur.\n\nAll errors and denials are logged if logging is enabled. To ensure logging is enabled, see the instructions in the supplementary content APPENDIX-C.",
+  "fix_id": "F-65725r1000893_fix",
+  "VulnDiscussion": "Without tracking all or selected types of access to all or selected objects (tables, views, procedures, functions, etc.), it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nIn an SQL environment, types of access include, but are not limited to:\nSELECT\nINSERT\nUPDATE\nDELETE\nEXECUTE\n\nTo aid in diagnosis, it is necessary to keep track of failed attempts in addition to the successful ones.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274152",
+  "rule_id": "SV-274152r1120738_rule",
+  "stig_id": "AZLX-23-002445",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must enable the SELinux targeted policy.",
+  "group_title": "SRG-OS-000445-GPOS-00199",
+  "idents": {
+    "cci": [
+      "CCI-002696"
+    ]
+  },
+  "check_id": "C-78243r1120442_chk",
+  "check_content": "Verify Amazon Linux 2023 SELINUX is using the targeted policy with the following command:\n\n$ sestatus | grep policy\nLoaded policy name: targeted\n\nIf the loaded policy name is not \"targeted\", this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to use the targeted SELINUX policy.\n\nEdit the file \"/etc/selinux/config\" and add or modify the following line:\n\n SELINUXTYPE=targeted \n\nA reboot is required for the changes to take effect.",
+  "fix_id": "F-78148r1120737_fix",
+  "VulnDiscussion": "Setting the SELinux policy to \"targeted\" or a more specialized policy ensures the system will confine processes that are likely to be targeted for exploitation, such as network or system services.\n\nNote: During the development or debugging of SELinux modules, it is common to temporarily place nonproduction systems in \"permissive\" mode. In such temporary cases, SELinux policies should be developed, and once work is completed, the system should be reconfigured to \"targeted\".",
+  "Documentable": "false"
+}

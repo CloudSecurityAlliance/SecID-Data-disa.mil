@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233338",
+  "rule_id": "SV-233338r811427_rule",
+  "stig_id": "FORE-NC-000450",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Forescout must deny network connection for endpoints that cannot be authenticated using an approved method. This is required for compliance with C2C Step 4.",
+  "group_title": "SRG-NET-000148-NAC-000620",
+  "idents": {
+    "cci": [
+      "CCI-000778"
+    ]
+  },
+  "check_id": "C-36533r811426_chk",
+  "check_content": "If DoD is not at C2C Step 4 or higher, this is not a finding.\n\nUse the Forescout Administrator UI to verify that a policy exists to deny network connections for endpoints that cannot be authenticated using an approved method and that the authentication failure is logged.\n\n1. Log on to Forescout UI.\n2. From the Policy tab, select the Authentication and Authorization policy.\n3. Find the 802.1x Authorization policy.\n\nIf NAC does not have an authorization policy that denies network connection for endpoints that cannot be authenticated using an approved method and log authentication failures, this is a finding.",
+  "fixtext": "Use the Forescout Administrator UI to configure a policy to deny network access using a control action for any endpoints that cannot be authenticated using an approved method as defined in the SSP.\n\n1. Log on to Forescout UI.\n2. From the Policy tab, select the Authentication and Authorization policy.\n3. Find the 802.1x Authorization policy and click Edit.\n4. From the Sub-Rules section, check that all of the options for authentication are selected including the following:\n-Machine Authenticated\n-User+Machine Authenticated\n-User+Managed Machine \n-User+NotMachine Authenticated\n\nIf these are all configured, check that the final step is not authorized by one of the previous steps, and block traffic in accordance with the SSP by selecting \"Add>\".\n\n1. Give the policy a name like \"Deny Access\".\n2. In the Condition box, click \"Add\" and select \"802.1x RADIUS Authentication State\".\n3. Check the box labeled \"RADIUS-Rejected\", and then click \"OK\".\n4. In the Actions box, click \"Add\" and select a block action in accordance with the SSP.",
+  "fix_id": "F-36498r803489_fix",
+  "VulnDiscussion": "Without identifying devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity. Identification failure does not need to result in connection termination or preclude compliance assessment. This is particularly true for unmanaged systems or when the NAC is performing network discovery.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269399",
+  "rule_id": "SV-269399r1050282_rule",
+  "stig_id": "ALMA-09-037310",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must be configured so that libuser is configured to store only encrypted representations of passwords.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-004062"
+    ]
+  },
+  "check_id": "C-73430r1048573_chk",
+  "check_content": "Verify the user and group account administration utilities are configured to store only encrypted representations of passwords with the following command:\n\n$ grep crypt_style /etc/libuser.conf \n\ncrypt_style = sha512\n\nIf the \"crypt_style\" variable is not set to \"sha512\", is not in the defaults section, is commented out, or does not exist, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to use the SHA-512 algorithm for password hashing.\n\nAdd or change the following line in the \"[defaults]\" section of the \"/etc/libuser.conf\" file:\n\ncrypt_style = sha512",
+  "fix_id": "F-73331r1049633_fix",
+  "VulnDiscussion": "Passwords must be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nThe system must use a strong hashing algorithm to store the password.",
+  "Documentable": "false"
+}

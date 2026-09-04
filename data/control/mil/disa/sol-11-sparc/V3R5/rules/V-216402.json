@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216402",
+  "rule_id": "SV-216402r958358_rule",
+  "stig_id": "SOL-11.1-060010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The operating system must use mechanisms for authentication to a cryptographic module meeting the requirements of applicable federal laws, Executive orders, directives, policies, regulations, standards, and guidance for such authentication.",
+  "group_title": "SRG-OS-000481",
+  "idents": {
+    "legacy": [
+      "V-48187",
+      "SV-61059"
+    ],
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-17638r371294_chk",
+  "check_content": "This check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nThe Crypto Management profile is required to execute this command.\n\nCheck to ensure that FIPS-140 encryption mode is enabled.\n\n# cryptoadm list fips-140| grep -c \"is disabled\"\n\nIf the output of this command is not \"0\", this is a finding.",
+  "fixtext": "The Crypto Management profile is required to execute this command.\n\nThis action applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this action applies.\n\nEnable FIPS-140 mode.\n\n# pfexec cryptoadm enable fips-140\n\nReboot the system as requested.",
+  "fix_id": "F-17636r371295_fix",
+  "VulnDiscussion": "Encryption is only as good as the encryption modules utilized. Unapproved cryptographic module algorithms cannot be verified, and cannot be relied upon to provide confidentiality or integrity, and DoD data may be compromised due to weak algorithms. \n\nApplications utilizing encryption are required to use approved encryption modules meeting the requirements of applicable federal laws, Executive orders, directives, policies, regulations, standards, and guidance. \n\nFIPS 140-2 is the current standard for validating cryptographic modules, and NSA Type-X (where X=1, 2, 3, 4) products are NSA-certified hardware based encryption modules.\n\nSatisfies: SRG-OS-000120, SRG-OS-000169",
+  "Documentable": "false"
+}

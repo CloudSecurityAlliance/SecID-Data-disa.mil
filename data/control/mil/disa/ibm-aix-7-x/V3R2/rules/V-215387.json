@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215387",
+  "rule_id": "SV-215387r958478_rule",
+  "stig_id": "AIX7-00-003082",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The imap2 service must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "V-91405",
+      "SV-101503"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16585r294612_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^imap2[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"imap2\" entry by running command: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'imap2' -p 'tcp'\n\nRestart inetd:\n#  refresh -s inetd",
+  "fix_id": "F-16583r294613_fix",
+  "VulnDiscussion": "The imap2 service or Internet Message Access Protocol (IMAP) supports the IMAP4 remote mail access protocol. It works with sendmail and bellmail. This service should be disabled if it is not required to prevent attacks.",
+  "Documentable": "false"
+}

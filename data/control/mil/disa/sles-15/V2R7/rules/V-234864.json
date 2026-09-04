@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234864",
+  "rule_id": "SV-234864r1184462_rule",
+  "stig_id": "SLES-15-010570",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must notify the System Administrator (SA) when Advanced Intrusion Detection Environment (AIDE) discovers anomalies in the operation of any security functions.",
+  "group_title": "SRG-OS-000447-GPOS-00201",
+  "idents": {
+    "cci": [
+      "CCI-002702"
+    ]
+  },
+  "check_id": "C-38052r1184460_chk",
+  "check_content": "Verify the SUSE operating system notifies the SA when AIDE discovers anomalies in the operation of any security functions.\n\nVerify the aide cron job sends an email when executed with the following command:\n\n     > grep -i \"aide\" /etc/cron.*/aide \n     0 0 * * * /usr/bin/aide --check | /bin/mail -s \"$HOSTNAME - Daily AIDE integrity check run\" root@example_server_name.mil\n\nIf the \"aide\" file does not exist under the \"/etc/cron\" directory structure or the cron job is not configured to execute a binary to send an email (such as \"/bin/mail\"), this is a finding.",
+  "fixtext": "Configure the SUSE operating system to notify the SA when AIDE discovers anomalies in the operation of any security functions.\n\nCreate the aide crontab file in \"/etc/cron.daily\" and add following command replacing the \"[E-MAIL]\" parameter with a proper email address for the SA:\n\n     0 0 * * * /usr/bin/aide --check | /bin/mail -s \"$HOSTNAME - Daily AIDE integrity check run\" root@example_server_name.mil\n\nNote: Per requirement SLES-15-010418, the \"mailx\" package must be installed on the system to enable email functionality.",
+  "fix_id": "F-38015r1184461_fix",
+  "VulnDiscussion": "If anomalies are not acted on, security functions may fail to secure the system. \n\nSecurity function is defined as the hardware, software, and/or firmware of the information system responsible for enforcing the system security policy and supporting the isolation of code and data on which the protection is based. Security functionality includes, but is not limited to, establishing system accounts, configuring access authorizations (i.e., permissions, privileges), setting events to be audited, and setting intrusion detection parameters.\n\nNotifications provided by information systems include messages to local computer consoles and/or hardware indications, such as lights.\n\nThis capability must take into account operational requirements for availability for selecting an appropriate response. The organization may choose to shut down or restart the information system upon security function anomaly detection.",
+  "Documentable": "false"
+}

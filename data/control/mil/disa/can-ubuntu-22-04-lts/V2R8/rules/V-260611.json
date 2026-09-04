@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260611",
+  "rule_id": "SV-260611r991586_rule",
+  "stig_id": "UBTU-22-654045",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must generate audit records for successful/unsuccessful attempts to use the fdisk command.",
+  "group_title": "SRG-OS-000477-GPOS-00222",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-64340r953644_chk",
+  "check_content": "Verify Ubuntu 22.04 LTS is configured to audit the execution of the partition management program \"fdisk\" by using the following command:  \n  \n     $ sudo auditctl -l | grep fdisk \n     -w /usr/sbin/fdisk -p x -k fdisk \n  \nIf the command does not return a line, or the line is commented out, this is a finding.  \n  \nNote: The \"-k\" value is arbitrary and can be different from the example output above.",
+  "fixtext": "Configure Ubuntu 22.04 LTS to audit the execution of the partition management program \"fdisk\".  \n  \nAdd or modify the following line in the \"/etc/audit/rules.d/stig.rules\" file:  \n  \n-w /usr/sbin/fdisk -p x -k fdisk \n   \nTo reload the rules file, issue the following command:  \n  \n     $ sudo augenrules --load \n \nNote: The \"-k <keyname>\" at the end of the line gives the rule a unique meaning to help during an audit investigation. The <keyname> does not need to match the example above.",
+  "fix_id": "F-64248r953645_fix",
+  "VulnDiscussion": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.  \n  \nAudit records can be generated from various components within the information system (e.g., module or policy filter).",
+  "Documentable": "false"
+}

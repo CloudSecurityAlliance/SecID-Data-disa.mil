@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-278193",
+  "rule_id": "SV-278193r1182311_rule",
+  "stig_id": "WN25-PK-000020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2025 must have the DOD Interoperability Root Certificate Authority (CA) cross-certificates installed in the Untrusted Certificates Store on unclassified systems.",
+  "group_title": "SRG-OS-000066-GPOS-00034",
+  "idents": {
+    "cci": [
+      "CCI-000185",
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-82723r1182310_chk",
+  "check_content": "This is applicable to unclassified systems. It is not applicable for others.\n\nOpen PowerShell as an administrator.\n\nExecute the following command:\n\nGet-ChildItem -Path Cert:Localmachine\\disallowed | Where {$_.Issuer -Like \"*DOD Interoperability*\" -and $_.Subject -Like \"*DOD*\"} | FL Subject, Issuer, Thumbprint, NotAfter\n\nIf the following certificate \"Subject\", \"Issuer\", and \"Thumbprint\" information is not displayed, this is a finding:\n\nSubject: CN=DOD Root CA 3, OU=PKI, OU=DOD, O=U.S. Government, C=US\nIssuer: CN=DOD Interoperability Root CA 2, OU=PKI, OU=DOD, O=U.S. Government, C=US\nThumbprint: AC06108CA348CC03B53795C64BF84403C1DBD341\nNotAfter: 1/22/2025 10:22:56 AM\n\nSubject: CN=DOD Root CA 2, OU=PKI, OU=DOD, O=U.S. Government, C=US\nIssuer: CN=DOD Interoperability Root CA 1, OU=PKI, OU=DOD, O=U.S. Government, C=US\nThumbprint: A8C27332CCB4CA49554CE55D34062A7DD2850C02\nNotAfter: 8/26/2025 9:25:51 AM\n\nAlternately, use the Certificates MMC snap-in:\n\nRun \"MMC\".\n\nSelect \"File\", \"Add/Remove Snap-in\".\n\nSelect \"Certificates\" and click \"Add\".\n\nSelect \"Computer account\" and click \"Next\".\n\nSelect \"Local computer: (the computer this console is running on)\" and click \"Finish\".\n\nClick \"OK\".\n\nExpand \"Certificates\" and navigate to Untrusted Certificates >> Certificates.\n\nFor each certificate with \"DOD Root CA...\" under \"Issued To\" and \"DOD Interoperability Root CA...\" under \"Issued By\":\n\nRight-click the certificate and select \"Open\".\n\nSelect the \"Details\" tab.\n\nScroll to the bottom and select \"Thumbprint\".\n\nIf the certificates below are not listed or the value for the \"Thumbprint\" field is not as noted, this is a finding:\n\nIssued To: DOD Root CA 3\nIssued By: DOD Interoperability Root CA 2\nThumbprint: 49CBE933151872E17C8EAE7F0ABA97FB610F6477\nValid to: Wednesday, November 16, 2024\n\nIssued To: DOD Root CA 3\nIssued By: DOD Interoperability Root CA 2\nThumbprint: AC06108CA348CC03B53795C64BF84403C1DBD341\nValid to: Saturday, January 22, 2025",
+  "fixtext": "Install the DOD Interoperability Root CA cross-certificates on unclassified systems.\n\nIssued To - Issued By - Thumbprint\n\nDOD Root CA 3- DOD Interoperability Root CA 2 - 49CBE933151872E17C8EAE7F0ABA97FB610F6477\n\nDOD Root CA 3 - DOD Interoperability Root CA 2 - AC06108CA348CC03B53795C64BF84403C1DBD341\n\nAdministrators must run the Federal Bridge Certification Authority (FBCA) Cross-Certificate Removal Tool once as an administrator and once as the current user.\n\nThe FBCA Cross-Certificate Remover Tool and User Guide are available on Cyber Exchange at https://cyber.mil/pki-pke/tools-configuration-files.",
+  "fix_id": "F-82628r1181284_fix",
+  "VulnDiscussion": "To ensure users do not experience denial of service when performing certificate-based authentication to DOD websites due to the system chaining to a root other than DOD Root CAs, the DOD Interoperability Root CA cross-certificates must be installed in the Untrusted Certificate Store. This requirement only applies to unclassified systems.\n\nSatisfies: SRG-OS-000066-GPOS-00034, SRG-OS-000403-GPOS-00182",
+  "Documentable": "false"
+}

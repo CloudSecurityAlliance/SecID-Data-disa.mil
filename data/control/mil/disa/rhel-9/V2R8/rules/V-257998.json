@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257998",
+  "rule_id": "SV-257998r1082181_rule",
+  "stig_id": "RHEL-09-255110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RHEL 9 SSH server configuration file must be owned by root.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61739r1082179_chk",
+  "check_content": "Verify the ownership of the \"/etc/ssh/sshd_config\" file and the contents of \"/etc/ssh/sshd_config.d\" with the following command:\n\n$ sudo find /etc/ssh/sshd_config /etc/ssh/sshd_config.d -exec stat -c \"%U %n\" {} \\;\n\nroot /etc/ssh/sshd_config\nroot /etc/ssh/sshd_config.d\nroot /etc/ssh/sshd_config.d/50-cloud-init.conf\nroot /etc/ssh/sshd_config.d/50-redhat.conf\n\nIf the \"/etc/ssh/sshd_config\" file or \"/etc/ssh/sshd_config.d\" or any files in the \"sshd_config.d\" directory do not have an owner of \"root\", this is a finding.",
+  "fixtext": "Configure  the \"/etc/ssh/sshd_config\" file and the contents of \"/etc/ssh/sshd_config.d\" to be owned by root with the following command:\n\n$ sudo chown -R root /etc/ssh/sshd_config /etc/ssh/sshd_config.d",
+  "fix_id": "F-61663r1082180_fix",
+  "VulnDiscussion": "Service configuration files enable or disable features of their respective services, which if configured incorrectly, can lead to insecure and vulnerable configurations. Therefore, service configuration files must be owned by the correct group to prevent unauthorized changes.",
+  "Documentable": "false"
+}

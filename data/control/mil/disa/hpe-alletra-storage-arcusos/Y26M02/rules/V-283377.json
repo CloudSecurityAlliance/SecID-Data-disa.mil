@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283377",
+  "rule_id": "SV-283377r1194825_rule",
+  "stig_id": "ASMP-ND-000330",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The HPE Alletra Storage ArcusOS device must be configured to prohibit using all unnecessary and/or nonsecure ports, protocols, and/or services.",
+  "group_title": "SRG-APP-000142-NDM-000245",
+  "idents": {
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-87942r1194823_chk",
+  "check_content": "Issue the following commands to check various services:\n\ncli%  setnet disableports yes\n\ncli% stoprda\nRDA service is already disabled.\n\nNote: There is no command to show the status of the disabled ports or the RDA service.\n\ncli% showrcopy -d\n\nRemote Copy System Information\nStatus: Stopped, Normal\n\ncli% showvasa\n\n-Service-   -------------------VASA_API2_URL-------------------                                -MemUsage(MiB)- -Version-\nEnabled    https://HPE_Alletra_Storage_MP-4UW0002474:9997/vasa             147                               5.2.0.18\n\ncli% showcim\n\n-Service- -State- --SLP-- SLPPort -HTTPS- HTTPSPort PGVer  CIMVer\nEnabled   Active  Enabled     427 Enabled      5989 2.14.1 10.5.0\n\ncli% showwsapi -d\n\nservice State Enabled\n\nIf any unnecessary and/or nonsecure ports, protocols, and/or services are enabled, this is a finding.",
+  "fixtext": "Disable all unnecessary and/or nonsecure ports, protocols, and/or services.\n\nDisable unsecure ports:\ncli%  setnet disableports yes\n\nStop the RDA Service:\ncli% stoprda\n\nStop the Remote Copy Service:\n%cli stoprcopy\"\n\nStop the VASA Service:\ncli% stopvasa -f\n\nStop the CIM Service:\ncli% stopcim -f\n\nStop the Web Services API:\ncli% stopwsapi -f",
+  "fix_id": "F-87847r1194824_fix",
+  "VulnDiscussion": "To prevent unauthorized connection of devices, unauthorized transfer of information, or unauthorized tunneling (i.e., embedding of data types within data types), organizations must disable unused or unnecessary physical and logical ports/protocols on information systems.\n\nNetwork devices can provide a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., email and web services); however, doing so increases risk over limiting the services provided by any one component. \n\nTo support the requirements and principles of least functionality, the network device must support the organizational requirements providing only essential capabilities and limiting using ports, protocols, and/or services to only those required, authorized, and approved. Some network devices have capabilities enabled by default; if these capabilities are not necessary, they must be disabled. If a particular capability is used, then it must be documented and approved.\n\nConfiguring the network device to implement organizationwide security implementation guides and security checklists ensures compliance with federal standards and establishes a common security baseline across DOD that reflects the most restrictive security posture consistent with operational requirements.\n\nConfiguration settings are the set of parameters that can be changed that affect the security posture and/or functionality of the network device. Security-related parameters are those parameters impacting the security state of the network device, including the parameters required to satisfy other security control requirements.\n\nNonlocal maintenance and diagnostic activities are conducted by individuals who communicate through either an external or internal network. Communications paths can be logically separated using encryption.",
+  "Documentable": "false"
+}

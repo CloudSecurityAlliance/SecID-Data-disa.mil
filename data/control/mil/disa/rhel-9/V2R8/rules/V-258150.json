@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258150",
+  "rule_id": "SV-258150r1045296_rule",
+  "stig_id": "RHEL-09-652060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must use cron logging.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61891r1045295_chk",
+  "check_content": "Verify that \"rsyslog\" is configured to log cron events with the following command:\n\nNote: If another logging package is used, substitute the utility configuration file for \"/etc/rsyslog.conf\" or \"/etc/rsyslog.d/*.conf\" files.\n\n$ grep -s cron /etc/rsyslog.conf /etc/rsyslog.d/*.conf\n\n/etc/rsyslog.conf:*.info;mail.none;authpriv.none;cron.none /var/log/messages\n/etc/rsyslog.conf:cron.* /var/log/cron\n\nIf the command does not return a response, check for cron logging all facilities with the following command:\n\n$ logger -p local0.info \"Test message for all facilities.\"\n\nCheck the logs for the test message with:\n\n$ sudo tail /var/log/messages\n\nIf \"rsyslog\" is not logging messages for the cron facility or all facilities, this is a finding.",
+  "fixtext": "Configure \"rsyslog\" to log all cron messages by adding or updating the following line to \"/etc/rsyslog.conf\" or a configuration file in the /etc/rsyslog.d/ directory:\n\ncron.* /var/log/cron\n\nThe rsyslog daemon must be restarted for the changes to take effect:\n\n$ sudo systemctl restart rsyslog.service",
+  "fix_id": "F-61815r926436_fix",
+  "VulnDiscussion": "Cron logging can be used to trace the successful or unsuccessful execution of cron jobs. It can also be used to spot intrusions into the use of the cron facility by unauthorized and malicious users.",
+  "Documentable": "false"
+}

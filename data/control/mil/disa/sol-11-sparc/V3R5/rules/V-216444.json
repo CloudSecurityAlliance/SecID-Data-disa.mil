@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216444",
+  "rule_id": "SV-216444r959010_rule",
+  "stig_id": "SOL-11.1-080030",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Address Space Layout Randomization (ASLR) must be enabled.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-60895",
+      "V-48023"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17680r371420_chk",
+  "check_content": "This check applies to the global zone only. \n\nDetermine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nDetermine if address space layout randomization is enabled.\n\nDetermine the OS version you are currently securing:. \n# uname –v\n\nFor Solaris 11, 11.1, 11.2, and 11.3:\n# sxadm info -p | grep aslr | grep enabled\n\nFor Solaris 11.4 or newer:\n# sxadm status -p -o status aslr | grep enabled \n\nIf no output is produced, this is a finding.",
+  "fixtext": "The root role is required.\n\nThis action applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this action applies.\n\nEnable address space layout randomization.\n\n# sxadm delcust aslr\n\nEnabling ASLR may affect the function or stability of some applications, including those that use Solaris Intimate Shared Memory features.",
+  "fix_id": "F-17678r371421_fix",
+  "VulnDiscussion": "Modification of memory area can result in executable code vulnerabilities. ASLR can reduce the likelihood of these attacks. ASLR activates the randomization of key areas of the process such as stack, brk-based heap, memory mappings, and so forth.",
+  "Documentable": "false"
+}

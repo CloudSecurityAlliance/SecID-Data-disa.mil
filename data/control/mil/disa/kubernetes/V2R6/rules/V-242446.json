@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242446",
+  "rule_id": "SV-242446r961863_rule",
+  "stig_id": "CNTR-K8-003130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes conf files must be owned by root.",
+  "group_title": "SRG-APP-000516-CTR-001325",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-45721r712692_chk",
+  "check_content": "Review the Kubernetes conf files by using the command:\n\nstat -c %U:%G /etc/kubernetes/admin.conf | grep -v root:root\nstat -c %U:%G /etc/kubernetes/scheduler.conf | grep -v root:root\nstat -c %U:%G /etc/kubernetes/controller-manager.conf | grep -v root:root\n\nIf the command returns any non root:root file permissions, this is a finding.",
+  "fixtext": "Change the ownership of the conf files to root: root by executing the command:\n\nchown root:root /etc/kubernetes/admin.conf \nchown root:root /etc/kubernetes/scheduler.conf \nchown root:root /etc/kubernetes/controller-manager.conf",
+  "fix_id": "F-45679r712693_fix",
+  "VulnDiscussion": "The Kubernetes conf files contain the arguments and settings for the Control Plane services. These services are controller and scheduler. If these files can be changed, the scheduler will be implementing the changes immediately. Many of the security settings within the document are implemented through this file.",
+  "Documentable": "false"
+}

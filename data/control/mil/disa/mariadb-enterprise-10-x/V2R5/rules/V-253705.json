@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253705",
+  "rule_id": "SV-253705r1137655_rule",
+  "stig_id": "MADB-10-004600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must separate user functionality (including user interface services) from database management functionality.",
+  "group_title": "SRG-APP-000211-DB-000122",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-57157r1051297_chk",
+  "check_content": "To show the list of system privileges that the MariaDB server supports, run:\nMariaDB> SHOW PRIVILEGES;\n \nGather a list of SHOW GRANTS commands. SHOW GRANTS will list the privileges granted to the account.\n\nRun this database query to create the SHOW GRANTS script for each user: \n\nMariaDB> SELECT DISTINCT CONCAT( 'SHOW GRANTS FOR ', user,'@', host,';') AS grantQuery FROM mysql.user WHERE is_role = 'N';\n\nRun each SHOW GRANTS command for each user.\n\nMariaDB> SHOW GRANTS FOR 'user'@'host';\n\nIf any nonadministrative role has any one of the following privileges, this is a finding. \n\nCreate user \nEvent\nProcess \nProxy\nReload\nReplication client \nReplication slave \nShow databases \nShutdown \nSuper\n\nIf administrator and general user functionality are not separated either physically or logically, this is a finding.",
+  "fixtext": "Configure MariaDB Enterprise Server to separate database administration and general user functionality.\n\nDo not grant Create user, Event, Process, Proxy, Reload, Replication client, Replication slave, Show databases, Shutdown, Super, Create tablespace privileges to users and roles that do not require it.\n\nTo remove privileges, refer to the following examples:\n \n1. Revoke privileges from a specific user: \n\nMariaDB> REVOKE SUPER, PROCESS ON *.* FROM 'user'@'host';\n \n2. Revoke privileges from a role:\n\nMariaDB> REVOKE 'role' FROM 'user'@'host';",
+  "fix_id": "F-57108r1051298_fix",
+  "VulnDiscussion": "Information system management functionality includes functions necessary to administer databases, network components, workstations, or servers and typically requires privileged user access. \n\nThe separation of user functionality from information system management functionality is either physical or logical and is accomplished by using different computers, different central processing units, different instances of the operating system, different network addresses, combinations of these methods, or other methods, as appropriate. \n\nAn example of this type of separation is observed in web administrative interfaces that use separate authentication methods for users of any other information system resources. \n\nThis may include isolating the administrative interface on a different domain and with additional access controls.\n\nIf administrative functionality or information regarding MariaDB management is presented on an interface available for users, information on MariaDB settings may be inadvertently made available to the user.",
+  "Documentable": "false"
+}

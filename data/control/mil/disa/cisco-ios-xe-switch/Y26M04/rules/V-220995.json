@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-220995",
+  "rule_id": "SV-220995r1107540_rule",
+  "stig_id": "CISC-RT-000120",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco switch must be configured to protect against or limit the effects of denial-of-service (DoS) attacks by employing control plane protection.",
+  "group_title": "SRG-NET-000362-RTR-000110",
+  "idents": {
+    "legacy": [
+      "SV-110811",
+      "V-101707"
+    ],
+    "cci": [
+      "CCI-002385",
+      "CCI-001097",
+      "CCI-004866"
+    ]
+  },
+  "check_id": "C-22710r1107538_chk",
+  "check_content": "Review the Cisco switch configuration to verify it is compliant with this requirement. \n\nStep 1: To verify that the CoPP policy map has been saved, issue the \"show running-config\" command in privileged EXEC mode and verify the following line exists in the output:\n\npolicy-map system-cpp-policy\n\nStep 2: To view the policy map and verify the correct policer rates are set according to organization-defined standards, run the following command:\n\nshow policy-map control-plane\n\nNote: Starting from Cisco IOS XE Fuji 16.8.1a, the creation of user-defined class-maps is not supported. A user can only enable/disable a CPU queue or change the policer rate of a CPU queue.\n\nIf the Cisco switch is not configured to protect against known types of DoS attacks by employing organization-defined security safeguards, this is a finding.",
+  "fixtext": "Configure the Cisco switch to protect against known types of DoS attacks on the route processor. \n\nStep 1: Configure the default policer rates for all control plane CPU queues and save the configuration.\n\nDevice> enable\nDevice# configure terminal\nDevice(config)# cpp system-default\nDefaulting CPP : Policer rate for all classes will be set to their defaults\nDevice(config)# end\nDevice# copy running-configuration startup-configuration\n\nStep 2: View the policy map and verify the correct policer rates are set according to organization-defined standards.\n\nshow policy-map control-plane\n\nStep 3: Change any policer rates to match the organization-defined standards.\n\nNote: Starting from Cisco IOS XE Fuji 16.8.1a, the creation of user-defined class-maps is not supported. A user can only enable/disable a CPU queue or change the policer rate of a CPU queue.",
+  "fix_id": "F-22699r1107539_fix",
+  "VulnDiscussion": "The Route Processor (RP) is critical to all network operations because it is the component used to build all forwarding paths for the data plane via control plane processes. It is also instrumental with ongoing network management functions that keep the routers and links available for providing network services. Any disruption to the RP or the control and management planes can result in mission-critical network outages.\n\nA DoS attack targeting the RP can result in excessive CPU and memory utilization. To maintain network stability and RP security, the router must be able to handle specific control plane and management plane traffic that is destined to the RP. In the past, one method of filtering was to use ingress filters on forwarding interfaces to filter both forwarding path and receiving path traffic, as well as limiting traffic destined to the device. However, this method does not scale well as the number of interfaces grows and the size of the ingress filters grows. Control plane policing increases the security of routers and multilayer switches by protecting the RP from unnecessary or malicious traffic. Filtering and rate limiting the traffic flow of control plane packets can be implemented to protect routers against reconnaissance and DoS attacks, allowing the control plane to maintain packet forwarding and protocol states despite an attack or heavy load on the router or multilayer switch.",
+  "Documentable": "false"
+}

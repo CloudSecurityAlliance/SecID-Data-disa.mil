@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278651",
+  "rule_id": "SV-278651r1190734_rule",
+  "stig_id": "WNDF-AV-000047",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Microsoft Defender AV must audit process creations originating from PSExec and WMI commands.",
+  "group_title": "SRG-APP-000210",
+  "idents": {
+    "cci": [
+      "CCI-001170"
+    ]
+  },
+  "check_id": "C-83185r1144037_chk",
+  "check_content": "Verify the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Microsoft Defender Exploit Guard >> Attack Surface Reduction >> Configure Attack Surface Reduction rules is set to \"Enabled\".\n\nProcedure: Use the Windows Registry Editor to navigate to the following key: \nHKLM\\Software\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules\n\nCriteria: If the value \"d1e49aac-8f56-4280-b9ba-993a6d77406c\" is REG_SZ = 2, this is not a finding.\n\nIf the value is other than 2, this is a finding.",
+  "fixtext": "Set the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Microsoft Defender Exploit Guard >> Attack Surface Reduction >> Configure Attack Surface Reduction rules to \"Enabled\".\n\nUnder the policy option \"Set the state for each ASR rule:\", then click \"Show\".\n\nEnter GUID \"d1e49aac-8f56-4280-b9ba-993a6d77406c\" in the \"Value Name\" column.\n\nEnter \"2\" in the \"Value\" column.",
+  "fix_id": "F-83090r1190733_fix",
+  "VulnDiscussion": "This policy setting blocks processes created through PsExec and WMI from running. Both PsExec and WMI can remotely execute code. There is a risk of malware abusing functionality of PsExec and WMI for command and control purposes, or to spread an infection throughout an organization's network.",
+  "Documentable": "false"
+}

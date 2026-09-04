@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278241",
+  "rule_id": "SV-278241r1182208_rule",
+  "stig_id": "WN25-UR-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Windows Server 2025 \"Access Credential Manager as a trusted caller\" user right must not be assigned to any groups or accounts.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-82771r1181427_chk",
+  "check_content": "Verify the effective setting in Local Group Policy Editor.\n\nRun gpedit.msc.\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment.\n\nIf any accounts or groups are granted the \"Access Credential Manager as a trusted caller\" user right, this is a finding.\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas User_Rights /cfg c:\\path\\filename.txt\n\nReview the text file.\n\nIf any SIDs are granted the \"SeTrustedCredManAccessPrivilege\" user right, this is a finding.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment >> Access Credential Manager as a trusted caller to be defined but containing no entries (blank).",
+  "fix_id": "F-82676r1181428_fix",
+  "VulnDiscussion": "Inappropriately granting user rights provides system, administrative, and other high-level capabilities.\n\nAccounts with the \"Access Credential Manager as a trusted caller\" user right may be able to retrieve the credentials of other accounts from Credential Manager.",
+  "Documentable": "false"
+}

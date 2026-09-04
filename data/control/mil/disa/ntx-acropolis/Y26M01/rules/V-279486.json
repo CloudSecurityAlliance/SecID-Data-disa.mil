@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279486",
+  "rule_id": "SV-279486r1192542_rule",
+  "stig_id": "NXAC-AS-000089",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Nutanix VMM must separate user functionality (including user interface services) from VMM management functionality.",
+  "group_title": "SRG-APP-000211-AS-000146",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-84039r1191242_chk",
+  "check_content": "Management information flow can be isolated to a separate VLAN from the guest VMs. Verify a management LAN is configured.\n\n1. Log in to Prism Element.\n2. Click the gear icon in the upper right-corner.\n3. Under the \"Settings\" menu, click \"Network Configuration\", then select the \"Internal Interfaces\" tab.\n4. Click \"Management LAN\".\n\nIf \"VLAN ID\" is \"0\" or blank, this is a finding.",
+  "fixtext": "Configure management information flow to isolate to a separate VLAN from the guest VMs.\n\n1. Log in to Prism Element.\n2. Click the gear icon in the upper-right corner.\n3. Under the \"Settings\" menu, click \"Network Configuration\", then select the \"Internal Interfaces\" tab.\n4. Click \"Management LAN\".\n5. Set the VLAN to the VLAN used for management functions.\na. SSH into each CVM host as user \"Nutanix\" and issue the following command: \n\nchange_cvm_vlan vlan_id.\n\nb. SSH into each AHV host as root and issue the following command: \n\novs-vsctl set port br0 tag=vlan_id\n\nNote: All network switches connected to Nutanix nodes must be appropriately configured with the same VLAN ID.",
+  "fix_id": "F-83944r1192541_fix",
+  "VulnDiscussion": "VMM management functionality includes functions necessary for administration and requires privileged user access. Allowing nonprivileged users to access VMM management functionality capabilities increases the risk that nonprivileged users may obtain elevated privileges. \n\nVMM management functionality includes functions necessary to administer console, network components, workstations, or servers, and typically requires privileged user access. \n\nThe separation of user functionality from VMM management functionality is either physical or logical and is accomplished by using different guest VMs, different computers, different central processing units, different instances of the VMM, different network addresses, different TCP/UDP ports, other virtualization techniques, combinations of these methods, or other methods, as appropriate.",
+  "Documentable": "false"
+}

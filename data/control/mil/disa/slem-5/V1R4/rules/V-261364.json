@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-261364",
+  "rule_id": "SV-261364r996863_rule",
+  "stig_id": "SLEM-05-412020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must lock an account after three consecutive invalid access attempts.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044",
+      "CCI-002238"
+    ]
+  },
+  "check_id": "C-65093r996537_chk",
+  "check_content": "Verify SLEM 5 locks a user account after three consecutive failed access attempts until the locked account is released by an administrator with the following command:\n\n     > grep pam_tally2.so /etc/pam.d/common-auth \n     auth required pam_tally2.so onerr=fail deny=3 \n\nIf \"deny\" set to a value other than \"1\", \"2\", or \"3\", if \"onerr=fail\" is missing, if the line is commented out, or the line is missing, this is a finding.",
+  "fixtext": "Configure SLEM 5 to lock an account when three unsuccessful access attempts occur.\n\nNote: Manual changes to the listed files may be overwritten by the \"pam-config\" program. The \"pam-config\" program should not be used to update the configurations listed in this requirement.\n\nAdd or modify the first line of the auth section in the \"/etc/pam.d/common-auth\" file to match the following line:\n\nauth required pam_tally2.so onerr=fail silent audit deny=3\n\nAdd or modify the following line in the \"/etc/pam.d/common-account\" file:\n\naccount required pam_tally2.so",
+  "fix_id": "F-65001r996538_fix",
+  "VulnDiscussion": "By limiting the number of failed access attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-forcing, is reduced. Limits are imposed by locking the account.\n\nThe pam_tally2.so module maintains a count of attempted accesses. This includes username entry into a logon field as well as password entry. With counting access attempts, it is possible to lock an account without presenting a password into the password field. This should be taken into consideration as it poses as an avenue for denial of service (DoS).",
+  "Documentable": "false"
+}

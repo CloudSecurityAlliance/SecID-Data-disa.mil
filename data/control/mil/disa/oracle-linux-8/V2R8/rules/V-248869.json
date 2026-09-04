@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248869",
+  "rule_id": "SV-248869r991589_rule",
+  "stig_id": "OL08-00-040170",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The x86 Ctrl-Alt-Delete key sequence must be disabled on OL 8.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52303r780171_chk",
+  "check_content": "Verify OL 8 is not configured to reboot the system when Ctrl-Alt-Delete is pressed with the following command: \n \n$ sudo systemctl status ctrl-alt-del.target | grep Loaded: \n \nLoaded: masked (Reason: Unit ctrl-alt-del.target is masked.)  \n \nIf the \"ctrl-alt-del.target\" Loaded: value is not set to \"masked\", this is a finding.",
+  "fixtext": "Configure the system to disable the Ctrl-Alt-Delete sequence for the command line with the following commands: \n \n$ sudo systemctl disable ctrl-alt-del.target \n\n$ sudo systemctl mask ctrl-alt-del.target \n \nCreated symlink /etc/systemd/system/ctrl-alt-del.target -> /dev/null \n \nReload the daemon to take effect: \n \n$ sudo systemctl daemon-reload",
+  "fix_id": "F-52257r833245_fix",
+  "VulnDiscussion": "A locally logged-on user, who presses Ctrl-Alt-Delete when at the console, can reboot the system. If accidentally pressed, as could happen in the case of a mixed OS environment, this can create the risk of short-term loss of system availability due to unintentional reboot. In a graphical user environment, risk of unintentional reboot from the Ctrl-Alt-Delete sequence is reduced because the user will be prompted before any action is taken.",
+  "Documentable": "false"
+}

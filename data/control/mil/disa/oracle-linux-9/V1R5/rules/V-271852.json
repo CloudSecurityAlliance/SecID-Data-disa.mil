@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271852",
+  "rule_id": "SV-271852r1184227_rule",
+  "stig_id": "OL09-00-005005",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must be configured to forward audit records via TCP to a different system or media from the system being audited via rsyslog.",
+  "group_title": "SRG-OS-000479-GPOS-00224",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-75902r1184225_chk",
+  "check_content": "Verify OL 9 audit system offloads audit records onto a different system or media from the system being audited via rsyslog using TCP with the following commands:\n\nTo check for legacy configuration syntax, perform the following:\n$ sudo grep -ir '@@' /etc/rsyslog.conf /etc/rsyslog.d/\n\nTo check for Rainer script syntax, perform the following:\n$ sudo grep -rq 'type=\"omfwd\"' /etc/rsyslog.conf /etc/rsyslog.d/\n\nIf a remote server is not configured, or the line is commented out, ask the system administrator (SA) to indicate how the audit logs are offloaded to a different system or media. \n\nIf there is no evidence that the audit logs are being offloaded to another system or media, this is a finding.",
+  "fixtext": "Configure OL 9 to offload audit records onto a different system or media from the system being audited via TCP using rsyslog by specifying the remote logging server in \"/etc/rsyslog.conf\" or \"/etc/rsyslog.d/[customfile].conf\" with the name or IP address of the log aggregation server.  Following are examples of the configuration for the legacy syntax and for the newer Rainer script. Only one should be used.\n\nUsing legacy '@host:port\" syntax example:\n*.* @@[remoteloggingserver]:[port]\n\nUsing Rainer script example:\naction(\n    type=\"omfwd\"\n    target=\"logserver.example.com\"\n    port=\"514\"\n    protocol=\"tcp\"\n    action.resumeRetryCount=\"-1\"\n    queue.type=\"linkedList\"\n    que.size=\"10000\"\n)\n\nNote: The Rainer Script above does not contain the required encryption settings.",
+  "fix_id": "F-75809r1184226_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOffloading is a common process in information systems with limited audit storage capacity.\n\nOL 9 installation media provides \"rsyslogd\", a system utility providing support for message logging. Support for both internet and Unix domain sockets enables this utility to support both local and remote logging. Coupling this utility with \"gnutls\" (a secure communications library implementing the SSL, TLS, and DTLS protocols) creates a method to securely encrypt and offload auditing.\n\nRsyslog provides three ways to forward message: the traditional UDP transport, which is extremely lossy but standard; the plain TCP based transport, which loses messages only during certain situations but is widely available; and the RELP transport, which does not lose messages but is currently available only as part of the rsyslogd 3.15.0 and above.\n\nExamples of each configuration:\nUDP *.* @remotesystemname\nTCP *.* @@remotesystemname\nRELP *.* :omrelp:remotesystemname:2514\nNote that a port number was given as there is no standard port for RELP.\n\nSatisfies: SRG-OS-000479-GPOS-00224, SRG-OS-000342-GPOS-00133",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268228",
+  "rule_id": "SV-268228r1038752_rule",
+  "stig_id": "HYCU-ND-000100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must display the Standard Mandatory DOD Notice and Consent Banner before granting access to the device.",
+  "group_title": "SRG-APP-000068-NDM-000215",
+  "idents": {
+    "cci": [
+      "CCI-000048"
+    ]
+  },
+  "check_id": "C-72249r1038641_chk",
+  "check_content": "Log in to the HYCU VM console and verify the banner setting is in use in the \"/etc/ssh/sshd_config\" file by executing the following command:\ngrep Banner /etc/ssh/sshd_config\n\nIf the banner is not set to \"/etc/issue\", this is a finding.\n\nVerify \"/etc/issue\" contains valid DOD notice text by executing the following command:\nsudo cat /etc/issue\n\nIf the DOD notice is not present in the \"/etc/issue\" file, this is a finding.\n\nOpen the HYCU Web UI login page and verify the mandatory notice is present on the welcome page.\n\nIf the mandatory notice is not present at the HYCU Web UI welcome page, this is a finding.",
+  "fixtext": "The GUI login page welcome message and look of the console/ssh login can be changed by following the procedure below:\n\n1. Open a remote session to the HYCU backup controller:\nssh hycu@<HYCUBackupControllerIPAddress>\n\n2. Create the /hycudata/var/branding folder by executing:\nsudo mkdir -p /hycudata/var/branding\n\n3. Make the following files available in /hycudata/var/branding:\nloginImage.PNG/ JPG - Login screen background (1574?×?1920)\n\nconsole.txt - Pre-login banner for text-based console\n\nsshd.txt - Pre-login banner for SSH access\n\n3. Update the branding configuration by running the following command:\nsudo /opt/grizzly/bin/hycu-branding.sh\n\n4. Perform a hard reload of the HYCU Web UI page in the web browser.",
+  "fix_id": "F-72152r1038751_fix",
+  "VulnDiscussion": "Display of the DOD-approved use notification before granting access to the network device ensures privacy and security notification verbiage used is consistent with applicable federal laws, Executive Orders, directives, policies, regulations, standards, and guidance.",
+  "Documentable": "false"
+}

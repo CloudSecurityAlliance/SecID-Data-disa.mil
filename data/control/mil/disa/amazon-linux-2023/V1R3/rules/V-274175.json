@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-274175",
+  "rule_id": "SV-274175r1190705_rule",
+  "stig_id": "AZLX-23-002565",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must synchronize internal information system clocks to the authoritative time source at least every 24 hours.",
+  "group_title": "SRG-OS-000356-GPOS-00144",
+  "idents": {
+    "cci": [
+      "CCI-004926",
+      "CCI-004922",
+      "CCI-001890",
+      "CCI-004923"
+    ]
+  },
+  "check_id": "C-78266r1190704_chk",
+  "check_content": "Verify Amazon Linux 2023 chrony service specifies a maximum interval of 24 hours between requests sent to a United States Naval Observatory (USNO) server with the following command:\n\nNote: <USNO/DOD Server> is used in place of a time source IP address.\n\n$ sudo grep maxpoll /etc/chrony.conf\nserver <USNO/DOD Server> iburst maxpoll 16\n\nIf the \"maxpoll\" option is not configured, set to a number greater than 16, or the line is commented out, this is a finding.\n\nVerify Amazon Linux 2023 chrony service is configured to use authoritative USNO or appropriate DOD time source with the following command:\n\n$ sudo grep -i server /etc/chrony.conf\nserver <USNO/DOD Server>\n\nIf the parameter \"server\" is not set or is not set to an authoritative USNO/DOD time source, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to compare internal information system clocks at least every 24 hours with an NTP server. Ensure the following line is added or updated in \"/etc/chrony.conf\":\n\nserver <USNO/DOD Server> iburst maxpoll 16",
+  "fix_id": "F-78171r1184034_fix",
+  "VulnDiscussion": "Inaccurate time stamps make it more difficult to correlate events and can lead to an inaccurate analysis. Determining the correct time a particular event occurred on a system is critical when conducting forensic analysis and investigating system events. Sources outside the configured acceptable allowance (drift) may be inaccurate.\n\nSynchronizing internal information system clocks provides uniformity of time stamps for information systems with multiple system clocks and systems connected over a network.\n\nDepending on the infrastructure in use, the \"pool\" directive may not be supported.\n\nSatisfies: SRG-OS-000356-GPOS-00144, SRG-OS-000785-GPOS-00250, SRG-OS-000359-GPOS-00146",
+  "Documentable": "false"
+}

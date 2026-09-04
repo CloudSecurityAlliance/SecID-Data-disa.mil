@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269149",
+  "rule_id": "SV-269149r1184091_rule",
+  "stig_id": "ALMA-09-007720",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must automatically lock an account when three unsuccessful logon attempts occur during a 15-minute time period.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-73180r1184090_chk",
+  "check_content": "Verify AlmaLinux OS 9 locks an account after three unsuccessful logon attempts within a period of 15 minutes with the following command:\n\n$ grep fail_interval /etc/security/faillock.conf\n\nfail_interval = 900\n\nIf the \"fail_interval\" option is not set to 900 or less (but not 0), the line is commented out, or the line is missing, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to lock an account after a number of incorrect login attempts within 15 minutes using pam_faillock.\n\nFirst, enable the feature using the following command:\n\n$ authselect enable-feature with-faillock\n\nThen, add or uncomment the following line in the \"/etc/security/faillock.conf\" file:\n\nfail_interval = 900",
+  "fix_id": "F-73081r1049207_fix",
+  "VulnDiscussion": "By limiting the number of failed logon attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-force attacks, is reduced. Limits are imposed by locking the account.",
+  "Documentable": "false"
+}

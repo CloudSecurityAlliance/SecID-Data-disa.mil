@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281328",
+  "rule_id": "SV-281328r1167134_rule",
+  "stig_id": "RHEL-10-701260",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must require authentication to access single-user mode.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-85889r1167132_chk",
+  "check_content": "Verify RHEL 10 requires authentication for single-user mode with the following command:\n\n$ sudo grep systemd-sulogin /usr/lib/systemd/system/rescue.service\n# ExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue\n\nIf the line is not returned from the default \"systemd\" file, use the following command to look for modifications to \"rescue.service\":\n\n$ sudo grep systemd-sulogin /etc/systemd/system/rescue.service.d/*.conf \nExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue\n\nIf the line is not returned from either location, this is a finding.\n\nNote: The configuration setting can be in either the default location or the drop-in file but not in both locations.",
+  "fixtext": "Configure RHEL 10 to require authentication for single-user mode.\n\nCreate a directory for supplementary configuration files: \n\n$ sudo mkdir /etc/systemd/system/rescue.service.d/\n\nCopy the original \"rescue.service\" file to the new directory with:\n\n$ sudo cp  /usr/lib/systemd/system/rescue.service  /etc/systemd/system/rescue.service.d/rescue.service.conf\n\nOpen the new file:\n\n$ sudo vi /etc/systemd/system/rescue.service.d/rescue.service.conf\n\nAdd or modify the following line in the new file:\n\nExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue\n\nComment out or remove the \"ExecStart\" and \"ExecStartPre\" lines in \"/usr/lib/systemd/system/rescue.service\" as they can only exist in one location.\n\nApply changes to unit files without rebooting the system:\n\n$ sudo systemctl daemon-reload",
+  "fix_id": "F-85794r1167133_fix",
+  "VulnDiscussion": "To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DOD-approved PKIs, all DOD systems (e.g., web servers and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. \n\nSuccessful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement.\n\nThis requirement prevents attackers with physical access from trivially bypassing security on the machine and gaining root access. Such accesses are further prevented by configuring the bootloader password.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270519",
+  "rule_id": "SV-270519r1112463_rule",
+  "stig_id": "O19C-00-008300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The role(s)/group(s) used to modify database structure (including but not necessarily limited to tables, indexes, storage, etc.) and logic modules (stored procedures, functions, triggers, links to software external to the DBMS, etc.) must be restricted to authorized users.",
+  "group_title": "SRG-APP-000133-DB-000362",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-74552r1112462_chk",
+  "check_content": "Review accounts for direct assignment of administrative privileges. Connected as SYSDBA, run the query:\n\nSELECT grantee, privilege\nFROM dba_sys_privs\nWHERE grantee IN \n(\nSELECT username\nFROM dba_users\nWHERE username NOT IN \n(\n'XDB', 'SYSTEM', 'SYS', 'LBACSYS',\n'DVSYS', 'DVF', 'SYSMAN_RO',\n'SYSMAN_BIPLATFORM', 'SYSMAN_MDS',\n'SYSMAN_OPSS', 'SYSMAN_STB', 'DBSNMP',\n'SYSMAN', 'APEX_040200', 'WMSYS',\n'SYSDG', 'SYSBACKUP', 'SPATIAL_WFS_ADMIN_USR',\n'SPATIAL_CSW_ADMIN_US', 'GSMCATUSER',\n'OLAPSYS', 'SI_INFORMTN_SCHEMA',\n'OUTLN', 'ORDSYS', 'ORDDATA', 'OJVMSYS',\n'ORACLE_OCM', 'MDSYS', 'ORDPLUGINS',\n'GSMADMIN_INTERNAL', 'MDDATA', 'FLOWS_FILES',\n'DIP', 'CTXSYS', 'AUDSYS',\n'APPQOSSYS', 'APEX_PUBLIC_USER', 'ANONYMOUS',\n'SPATIAL_CSW_ADMIN_USR', 'SYSKM',\n'SYSMAN_TYPES', 'MGMT_VIEW',\n'EUS_ENGINE_USER', 'EXFSYS', 'SYSMAN_APM'\n)\n)\nAND privilege NOT IN ('UNLIMITED TABLESPACE'\n, 'REFERENCES', 'INDEX', 'SYSDBA', 'SYSOPER', 'CREATE SESSION'\n)\nORDER BY 1, 2;\n\nIf any administrative privileges have been assigned directly to a database account, this is a finding.\n\nThe list of special accounts that are excluded from this requirement may not be complete. It is expected that the database administrator (DBA) will edit the list to suit local circumstances, adding other special accounts as necessary, and removing any that are not supposed to be in use in the Oracle deployment that is under review.",
+  "fixtext": "Create roles for administrative function assignments. Assign the necessary privileges for the administrative functions to a role. Do not assign administrative privileges directly to users, except for those that Oracle does not permit to be assigned via roles.",
+  "fix_id": "F-74453r1064834_fix",
+  "VulnDiscussion": "If the database management system (DBMS) were to allow any user to make changes to database structure or logic, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n\nAccordingly, only qualified and authorized individuals must be allowed to obtain access to information system components for purposes of initiating changes, including upgrades and modifications.\n\nUnmanaged changes that occur to the database software libraries or configuration can lead to unauthorized or compromised installations.",
+  "Documentable": "false"
+}

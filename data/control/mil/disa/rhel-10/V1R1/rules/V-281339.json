@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281339",
+  "rule_id": "SV-281339r1167167_rule",
+  "stig_id": "RHEL-10-800070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must not have unauthorized IP tunnels configured.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-85900r1167165_chk",
+  "check_content": "Verify RHEL 10 does not have unauthorized IP tunnels configured.\n\nDetermine if the IPsec service is active with the following command:\n\n$ systemctl is-active ipsec\nInactive\n\nIf the IPsec service is active, check for configured IPsec connections (\"conn\"), with the following command:\n\n$ sudo grep -rni conn /etc/ipsec.conf /etc/ipsec.d/\n\nVerify any returned results are documented with the ISSO.\n\nIf the IPsec tunnels are active and not approved, this is a finding.",
+  "fixtext": "Configure RHEL 10 to not have unauthorized IP tunnels configured.\n\nRemove all unapproved tunnels from the system, or document them with the ISSO.",
+  "fix_id": "F-85805r1167166_fix",
+  "VulnDiscussion": "IP tunneling mechanisms can be used to bypass network filtering. If tunneling is required, it must be documented with the information system security officer (ISSO).",
+  "Documentable": "false"
+}

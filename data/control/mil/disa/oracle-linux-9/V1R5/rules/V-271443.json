@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271443",
+  "rule_id": "SV-271443r1092463_rule",
+  "stig_id": "OL09-00-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must be configured to disable the Asynchronous Transfer Mode (ATM) kernel module.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-75493r1091039_chk",
+  "check_content": "Verify that OL 9 disables the ability to load the ATM kernel module with the following command:\n\n$ grep -r atm /etc/modprobe.conf /etc/modprobe.d/* \ninstall atm /bin/false\nblacklist atm\n\nIf the command does not return any output, or the line is commented out, and use of ATM is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure OL 9 to prevent the atm kernel module from being loaded.\n\nAdd the following line to the file /etc/modprobe.d/atm.conf (or create atm.conf if it does not exist):\n\ninstall atm /bin/false\nblacklist atm",
+  "fix_id": "F-75400r1091040_fix",
+  "VulnDiscussion": "Disabling ATM protects the system against exploitation of any flaws in its implementation.",
+  "Documentable": "false"
+}

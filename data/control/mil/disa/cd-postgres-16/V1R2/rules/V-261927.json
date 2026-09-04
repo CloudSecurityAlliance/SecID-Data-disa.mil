@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261927",
+  "rule_id": "SV-261927r1050788_rule",
+  "stig_id": "CD16-00-008100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must require users to reauthenticate when organization-defined circumstances or situations require reauthentication.",
+  "group_title": "SRG-APP-000389-DB-000372",
+  "idents": {
+    "cci": [
+      "CCI-002038"
+    ]
+  },
+  "check_id": "C-65781r1000784_chk",
+  "check_content": "Determine all situations where a user must reauthenticate. Check if the mechanisms that handle such situations use the following SQL:\n\nTo make a single user reauthenticate, the following must be present:\n\nSELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE user='<username>'\n\nTo make all users reauthenticate, run the following:\n\nSELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE user LIKE '%'\n\nIf the provided SQL does not force reauthentication, this is a finding.",
+  "fixtext": "Modify and/or configure PostgreSQL and related applications and tools so that users are always required to reauthenticate when changing role or escalating privileges.\n\nTo make a single user reauthenticate, the following must be present:\n\nSELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE user='<username>'\n\nTo make all users reauthenticate, the following must be present:\n\nSELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE user LIKE '%'",
+  "fix_id": "F-65689r1000785_fix",
+  "VulnDiscussion": "The DOD standard for authentication of an interactive user is the presentation of a Common Access Card (CAC) or other physical token bearing a valid, current, DOD-issued Public Key Infrastructure (PKI) certificate, coupled with a Personal Identification Number (PIN) to be entered by the user at the beginning of each session and whenever reauthentication is required.\n\nWithout reauthentication, users may access resources or perform tasks for which they do not have authorization. \n\nWhen applications provide the capability to change security roles or escalate the functional capability of the application, it is critical the user reauthenticate.\n\nIn addition to the reauthentication requirements associated with session locks, organizations may require reauthentication of individuals and/or devices in other situations, including (but not limited to) the following circumstances:\n\n(i) When authenticators change; \n(ii) When roles change; \n(iii) When security categories of information systems change; \n(iv) When the execution of privileged functions occurs; \n(v) After a fixed period of time; or\n(vi) Periodically.\n\nWithin the DOD, the minimum circumstances requiring reauthentication are privilege escalation and role changes.",
+  "Documentable": "false"
+}

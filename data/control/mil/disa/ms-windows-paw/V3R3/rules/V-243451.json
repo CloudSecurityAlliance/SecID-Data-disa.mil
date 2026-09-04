@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-243451",
+  "rule_id": "SV-243451r1192857_rule",
+  "stig_id": "WPAW-00-001060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Device Guard Code Integrity Policy must be used on the Windows PAW to restrict applications that can run on the system (Device Guard User Mode Code Integrity).",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-78163",
+      "SV-92869"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-46726r1192855_chk",
+  "check_content": "Verify Device Guard is enforcing a code integrity policy to restrict authorized applications.\n\nRun \"PowerShell\" with elevated privileges (run as administrator).\n\nEnter the following:\n\n\"Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\\Microsoft\\Windows\\DeviceGuard | FL *codeintegrity*\"\n\nIf \"UserModeCodeIntegrityPolicyEnforcementStatus\" does not have a value of \"2\" indicating \"Enforced\", this is a finding.\n\n(For reference: 0 - Not Configured; 1 - Audit; 2 - Enforced)\n\nAlternately:\n\nRun \"System Information\".\n\nUnder \"System Summary\", verify the following:\n\nIf \"Device Guard user mode Code Integrity\" does not display \"Enforced\", this is finding.",
+  "fixtext": "Implement an allowlist of authorized PAW applications using Device Guard.",
+  "fix_id": "F-46683r1192856_fix",
+  "VulnDiscussion": "A main security architectural construct of a PAW is to restrict non-administrative applications and functions from the PAW workstation. Many standard user applications and functions, including email processing, Internet browsing, and using business applications, can increase the security risk to the workstation. These apps and functions are susceptible to many security vulnerabilities, including phishing attacks and embedded malware. This increased risk is not acceptable for the highly privileged activities of a PAW.",
+  "Documentable": "false"
+}

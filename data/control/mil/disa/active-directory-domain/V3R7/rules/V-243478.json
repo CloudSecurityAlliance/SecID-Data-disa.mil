@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-243478",
+  "rule_id": "SV-243478r959010_rule",
+  "stig_id": "AD.0018",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Domain-joined systems (excluding domain controllers) must not be configured for unconstrained delegation.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-92285",
+      "SV-102373"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-46753r723467_chk",
+  "check_content": "Open \"Windows PowerShell\" on a domain controller.\n\nEnter \"Get-ADComputer -Filter {(TrustedForDelegation -eq $True) -and (PrimaryGroupID -eq 515)} -Properties TrustedForDelegation, TrustedToAuthForDelegation, ServicePrincipalName, Description, PrimaryGroupID\".\n\nIf any computers are returned, this is a finding. \n(TrustedForDelegation equaling True indicates unconstrained delegation.)\n\nPrimaryGroupID 515 = Domain computers (excludes DCs)\nTrustedForDelegation = Unconstrained Delegation\nTrustedToAuthForDelegation = Constrained delegation\nServicePrincipalName = Service Names\nDescription = Computer Description",
+  "fixtext": "Remove unconstrained delegation from computers in the domain. \n\nSelect \"Properties\" for the computer object.\n\nSelect the \"Delegation\" tab.\n\nDe-select \"Trust this computer for delegation to any service (Kerberos only)\"\n\nConfigured constrained delegation for specific services where required.",
+  "fix_id": "F-46710r723468_fix",
+  "VulnDiscussion": "Unconstrained delegation enabled on a computer can allow the computer account to be impersonated without limitation. If delegation is required, it must be limited/constrained to the specific services and accounts required.",
+  "Documentable": "false"
+}

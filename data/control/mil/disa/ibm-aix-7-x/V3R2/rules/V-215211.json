@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215211",
+  "rule_id": "SV-215211r1009534_rule",
+  "stig_id": "AIX7-00-001100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must be configured to allow users to directly initiate a session lock for all connection types.",
+  "group_title": "SRG-OS-000030-GPOS-00011",
+  "idents": {
+    "legacy": [
+      "V-91235",
+      "SV-101335"
+    ],
+    "cci": [
+      "CCI-000057",
+      "CCI-000058"
+    ]
+  },
+  "check_id": "C-16409r294084_chk",
+  "check_content": "Check if the \"lock\" command exists by using the following command:\n# ls /usr/bin/lock\n\nThe above command should display the following:\n/usr/bin/lock\n\nIf the above command does not show that \"/usr/bin/lock\" exists, this is a finding.\n\nCheck if the \"xlock\" command exists by using the following command:\n# ls  /usr/bin/X11/xlock\n\nThe above command should display the following:\n/usr/bin/X11/xlock\n\nIf the above command does not show that \"/usr/bin/xlock\" exists, this is a finding.",
+  "fixtext": "Install, or re-install, bos.rte.security fileset from the AIX DVD Volume 1 using the following command (assuming that the DVD device is /dev/cd0):\n# installp -aXYgd /dev/cd0 -e /tmp/install.log bos.rte.security",
+  "fix_id": "F-16407r294085_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.\n\nThe session lock is implemented at the point where session activity can be determined. Rather than be forced to wait for a period of time to expire before the user session can be locked, operating systems need to provide users with the ability to manually invoke a session lock so users may secure their session should the need arise for them to temporarily vacate the immediate physical vicinity.",
+  "Documentable": "false"
+}

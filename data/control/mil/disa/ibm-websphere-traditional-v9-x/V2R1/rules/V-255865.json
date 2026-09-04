@@ -1,0 +1,33 @@
+{
+  "vuln_id": "V-255865",
+  "rule_id": "SV-255865r960972_rule",
+  "stig_id": "WBSP-AS-001030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The WebSphere Application Server multifactor authentication for network access to privileged accounts must be used.",
+  "group_title": "SRG-APP-000149-AS-000102",
+  "idents": {
+    "legacy": [
+      "SV-96025",
+      "V-81311"
+    ],
+    "cci": [
+      "CCI-000187",
+      "CCI-000765",
+      "CCI-000767",
+      "CCI-001184",
+      "CCI-001953",
+      "CCI-001954",
+      "CCI-002009",
+      "CCI-002010",
+      "CCI-002011"
+    ]
+  },
+  "check_id": "C-59538r876884_chk",
+  "check_content": "Check that the admin console is enabled for client certificate logon.\n\nIn the Deployment Manager, check the file on: <WAS_INSTALL>/profiles/<profileName>/config/cells/<cellName>/applications/isclite.ear/deployments/isclite/isclite.war/WEB-INF/web.xml.\n\nIf the \"XML element <auth-method>FORM</auth-method>\" is present, this is a finding.",
+  "fixtext": "From the admin console, select System Administration >> Deployment Manager >> Java and Process Management >> Process definition >> Java Virtual Machine >> Custom Properties.\n\nSelect \"New\".\n\nInsert the following case sensitive value into the \"Name\" field: \"adminconsole.certLogin\".\n\nSelect \"Value\".\n\nEnter \"true\".\n\nClick \"Apply\".\n\nClick \"Save\".\n\nSelect Security >> SSL Certificate and Key management >> SSL Configurations >> Select CellDefaultSSLSettings >> Quality of Protection (QOP) settings.\n\nIn the \"Client Authentication\" drop-box, make sure \"Supported\" or \"Required\" is selected. \n\nClick \"Apply\".\n\nClick \"Save\".\n\nSave a backup copy and edit the \"Web.xml\" file as follows: <WAS_INSTALL>/profiles/<profileName>/config/cells/<cellName>/applications/isclite.ear/deployments/isclite/isclite.war/WEB-INF/web.xml:\n--- Change: \n< security-constraint>\n<web-resource-collection>\n<web-resource-name>Protected Area</web-resource-name>\n<url-pattern>/</url-pattern>\n--- So it becomes:\n< security-constraint>\n<web-resource-collection>\n<web-resource-name>Protected Area</web-resource-name>\n<url-pattern>/</url-pattern>\n<url-pattern>/logon.jsp</url-pattern>\n<url-pattern>/logonError.jsp</url-pattern>\n--- Add these security constraints if not already present:\n<security-constraint>\n<web-resource-collection>\n<web-resource-name>free pages</web-resource-name>\n<url-pattern>/*.jsp</url-pattern>\n<url-pattern>/css/*</url-pattern>\n<url-pattern>/images/*</url-pattern>\n<url-pattern>/j_security_check</url-pattern>\n</web-resource-collection>\n</security-constraint> \n--- Change:\n<auth-method>FORM</auth-method>\nto\n<auth-method>CLIENT-CERT</auth-method>\n\nSave the \"web.xml\" file.\n\nStop and restart the Deployment Manager. \n\nLog on to the admin console using your certificate.",
+  "fix_id": "F-59481r876885_fix",
+  "VulnDiscussion": "Multifactor authentication creates a layered defense and makes it more difficult for an unauthorized person to access the application server. If one factor is compromised or broken, the attacker still has at least one more barrier to breach before successfully breaking into the target. Unlike a simple username/password scenario where the attacker could gain access by knowing both the username and password without the user knowing his account was compromised, multifactor authentication adds the requirement that the attacker must have something from the user, such as a token, or to biometrically be the user.\n\nMultifactor authentication is defined as: using two or more factors to achieve authentication. \n\nFactors include: \n(i) something a user knows (e.g., password/PIN); \n(ii) something a user has (e.g., cryptographic identification device, token); or \n(iii) something a user is (e.g., biometric). A CAC or PKI Hardware Token meets this definition.\n\nA privileged account is defined as an information system account with authorizations of a privileged user. These accounts would be capable of accessing the web management interface.\n\nWhen accessing the application server via a network connection, administrative access to the application server must be PKI Hardware Token enabled.\n\nSatisfies: SRG-APP-000149-AS-000102, SRG-APP-000391-AS-000239, SRG-APP-000392-AS-000240, SRG-APP-000151-AS-000103, SRG-APP-000177-AS-000126, SRG-APP-000402-AS-000247, SRG-APP-000403-AS-000248, SRG-APP-000404-AS-000249, SRG-APP-000219-AS-000147",
+  "Documentable": "false"
+}

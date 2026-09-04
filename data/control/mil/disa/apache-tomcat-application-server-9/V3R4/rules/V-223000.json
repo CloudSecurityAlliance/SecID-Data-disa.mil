@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223000",
+  "rule_id": "SV-223000r1193100_rule",
+  "stig_id": "TCAT-AS-001592",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Changes to $CATALINA_HOME/lib/ folder must be logged.",
+  "group_title": "SRG-APP-000504-AS-000229",
+  "idents": {
+    "legacy": [
+      "SV-111523",
+      "V-102583"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-24672r1192759_chk",
+  "check_content": "Check the audit rules for the Tomcat folders. Run the following command from the Tomcat server as a privileged user:\n\nsudo auditctl -l | grep $CATALINA_HOME/lib\n\nIf the results do not include \"-w $CATALINA_HOME/lib -p wa -k tomcat\" or if there are no results, this is a finding.",
+  "fixtext": "From the Tomcat server as a privileged user:\n\n1. Identify the home folder for the Tomcat server:\n#grep -i -- 'catalina_home\\|catalina_base' /etc/systemd/system/tomcat.service\n\nLines similar to the following should be returned:\nEnvironment=\"CATALINA_HOME=/opt/tomcat\"\nEnvironment=\"CATALINA_BASE=/opt/tomcat\"\nwhere /opt/tomcat in the example will be referred to as <homefolderpath>\n\n2. Add rules to a rules file. These files will typically be /etc/audit/rules.d/audit.rules or stig.rules. Open the rules file <rulesfile> in a text editor.\n\n3. Alter or add the following line to the rules file, replacing <homefolderpath> with the actual path. (e.g., /opt/tomcat):\n-w <homefolderpath>/lib -p wa -k tomcat\n\n4. Load the rules, replacing <rulesfile> with the actual filename (e.g., audit.rules):\n#auditctl -R <rulesfile>\n\n5. Make the rules persistent:\n#augenrules --load",
+  "fix_id": "F-24661r1193099_fix",
+  "VulnDiscussion": "The $CATALINA_HOME/lib folder contains library files for the Tomcat Catalina server. These are in the form of java archive (jar) files. To provide forensic evidence in the event of file tampering, changes to contents in this folder must be logged. For Linux OS flavors other than Ubuntu, use the relevant OS commands. This can be done on the Ubuntu OS via the auditctl command. Using the -p wa flag set the permissions flag for a file system watch and logs file attribute and content change events into syslog.",
+  "Documentable": "false"
+}

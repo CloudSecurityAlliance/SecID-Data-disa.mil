@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216348",
+  "rule_id": "SV-216348r959010_rule",
+  "stig_id": "SOL-11.1-040315",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to a domain console via telnet must be restricted to the local host.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-71495",
+      "SV-86119"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17584r371132_chk",
+  "check_content": "This action applies only to the control domain. \n\nDetermine the domain that you are currently securing.\n\n# virtinfo \nDomain role: LDoms control I/O service root\nThe current domain is the control domain, which is also an I/O domain, the service domain, and a root I/O domain.\n\nIf the current domain is not the control domain, this check does not apply.\n\nDetermine if vnsd is in use.\n\n# svcs vntsd\nSTATE          STIME    FMRI\nonline         Oct_08   svc:/ldoms/vntsd:default\n\nIf the state is not \"online\", this is not applicable.\n\nDetermine if a role has been created for domain console access.\n\n# cat /etc/user_attr | grep solaris.vntsd.consoles\nrolename::::type=role;auths=solaris.vntsd.consoles;profiles=All;roleauth=role\n\nIf a role for \"vntsd.consoles\" is not established, this is a finding.",
+  "fixtext": "The root role is required. This action applies only to the control domain. \n\nDetermine the domain that you are currently securing.\n\n# virtinfo \nDomain role: LDoms control I/O service root\nThe current domain is the control domain, which is also an I/O domain, the service domain, and a root I/O domain.\n\nIf the current domain is not the control domain, this action does not apply.\n\nCreate a password-controlled role that has the solaris.vntsd.consoles authorization, which permits access to all domain consoles.\n\n# roleadd -A solaris.vntsd.consoles [role-name]\n# passwd [role-name]\n\nAssign the new role to a user.\n# usermod -R [role-name] [username]",
+  "fix_id": "F-17582r371133_fix",
+  "VulnDiscussion": "Telnet is an insecure protocol.",
+  "Documentable": "false"
+}

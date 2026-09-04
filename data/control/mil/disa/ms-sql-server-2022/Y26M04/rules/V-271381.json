@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271381",
+  "rule_id": "SV-271381r1111095_rule",
+  "stig_id": "SQLI-22-015500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SQL Server must generate audit records for all direct access to the database(s).",
+  "group_title": "SRG-APP-000508-DB-000358",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-75424r1111094_chk",
+  "check_content": "Determine whether any Server Audits are configured to filter records. From SQL Server Management Studio, execute the following query:\nSELECT name AS AuditName, predicate AS AuditFilter\nFROM sys.server_audits\nWHERE predicate IS NOT NULL\n\nIf any audits are returned, review the associated filters. If any direct access to the database(s) is being excluded, this is a finding.",
+  "fixtext": "Check the system documentation for required SQL Server Audits. Remove any Audit filters that exclude or reduce required auditing. Update filters to ensure direct access is not excluded.",
+  "fix_id": "F-75331r1109049_fix",
+  "VulnDiscussion": "In this context, direct access is any query, command, or call to SQL Server that comes from any source other than the application(s) that it supports. Examples would be the command line or a database management utility program. The intent is to capture all activity from administrative and nonstandard sources.",
+  "Documentable": "false"
+}

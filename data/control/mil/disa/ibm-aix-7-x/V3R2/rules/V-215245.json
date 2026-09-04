@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-215245",
+  "rule_id": "SV-215245r958434_rule",
+  "stig_id": "AIX7-00-002015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Audit logs on the AIX system must be set to 660 or less permissive.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "legacy": [
+      "V-91267",
+      "SV-101367"
+    ],
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164"
+    ]
+  },
+  "check_id": "C-16443r294186_chk",
+  "check_content": "Check the log files under the audit logging directory have correct permissions.\n\nThe default log file is /audit/trail.\n\nThe log file can be set by the \"trail\" variable in /etc/security/audit/config.\n# grep trail /etc/security/audit/config\n        trail = /audit/trail\n\n# ls -l <auditlog dir>\ntotal 240\n-rw-rw----    1 root     system            0 Feb 23 08:44 bin1\n-rw-rw----    1 root     system            0 Feb 23 08:44 bin2\n-rw-r-----    1 root     system       116273 Feb 23 08:44 trail\n\nIf any file has a mode more permissive than \"660\", this is a finding.",
+  "fixtext": "Set the permission of the audit log file to \"660\".\n\n# chmod 660 <auditlog file>",
+  "fix_id": "F-16441r294187_fix",
+  "VulnDiscussion": "Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.\n\nAudit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit operating system activity.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029",
+  "Documentable": "false"
+}

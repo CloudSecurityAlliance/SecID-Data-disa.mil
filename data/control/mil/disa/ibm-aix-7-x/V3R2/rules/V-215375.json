@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215375",
+  "rule_id": "SV-215375r958478_rule",
+  "stig_id": "AIX7-00-003070",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The ntalk daemon must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "V-91379",
+      "SV-101477"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16573r294576_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^ntalk[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"ntalk\" entry by running command: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'ntalk' -p 'udp'\n\nRestart inetd:\n# refresh -s inetd",
+  "fix_id": "F-16571r294577_fix",
+  "VulnDiscussion": "This service establishes a two-way communication link between two users, either locally or remotely. Unless required the ntalk service will be disabled to prevent attacks.",
+  "Documentable": "false"
+}

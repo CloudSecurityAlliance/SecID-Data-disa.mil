@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259346",
+  "rule_id": "SV-259346r1156952_rule",
+  "stig_id": "WDNS-22-000015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NSEC3 must be used for all internal DNS zones.",
+  "group_title": "SRG-APP-000516-DNS-000084",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-63085r945249_chk",
+  "check_content": "Note: This check is not applicable for Windows DNS Servers that host only Active Directory-integrated zones or for Windows DNS Servers on a classified network.\n\nLog on to the DNS server using the Domain Admin or Enterprise Admin account or Local Administrator account.\n\nOpen an elevated Windows PowerShell prompt on a DNS server using the Domain Admin or Enterprise Admin account.\n\nType the following command, where example.com is replaced with the zone hosted on the DNS Server: \n\nPS C:\\> Get-DnsServerResourceRecord -ZoneName example.com <enter>\n\nAll of the zone's resource records will be returned. This should include the NSEC3 RRs, as depicted below.\n\nIf NSEC3 RRs are not returned for the zone, this is a finding.\n\n2vf77rkf63hrgismnuvnb8... NSEC3      0                    01:00:00        [RsaSha1][False][50][F2738D980008F73C]\n7ceje475rse25gppr3vphs... NSEC3      0                    01:00:00        [RsaSha1][False][50][F2738D980008F73C]",
+  "fixtext": "Log on to the DNS server using the Domain Admin or Enterprise Admin account or Local Administrator account.\n\nIf not automatically started, initialize the Server Manager window by clicking its icon from the bottom left corner of the screen.\n\nOnce the Server Manager window is initialized, from the left pane, click to select the DNS category.\n\nFrom the right pane, under the \"SERVERS\" section, right-click the DNS server.\n\nFrom the context menu that appears, click \"DNS Manager\".\n\nOn the opened DNS Manager snap-in from the left pane, expand the server name and then expand \"Forward Lookup Zones\".\n\nFrom the expanded list, click to select the zone.\n\nRight-click the zone and select DNSSEC >> Sign the Zone.\n\nRe-sign the zone using an NSEC3 algorithm (RSA/SHA-1 (NSEC3), RSA/SHA-256, RSA/SHA-512).",
+  "fix_id": "F-62993r939742_fix",
+  "VulnDiscussion": "NSEC records list the resource record types for the name, as well as the name of the next resource record. This information reveals that the resource record type for the name queried, or the resource record name requested, does not exist. \n\nNSEC uses the actual resource record names, whereas NSEC3 uses a one-way hash of the name. In this way, walking zone data from one record to the next is prevented at the expense of some CPU cycles on the authoritative server and the resolver. To prevent giving access to an entire zone file, NSEC3 should be configured. To use NSEC3, RSA/SHA-1 should be used as the algorithm, as some resolvers that understand RSA/SHA-1 might not understand NSEC3. Using RSA/SHA-256 is a safe alternative.",
+  "Documentable": "false"
+}

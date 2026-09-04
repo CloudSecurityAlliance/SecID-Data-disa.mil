@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281309",
+  "rule_id": "SV-281309r1184631_rule",
+  "stig_id": "RHEL-10-701070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must enable kernel parameters to enforce discretionary access control (DAC) on hardlinks.",
+  "group_title": "SRG-OS-000312-GPOS-00122",
+  "idents": {
+    "cci": [
+      "CCI-002165",
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-85870r1167075_chk",
+  "check_content": "Verify RHEL 10 is configured to enable DAC on hardlinks.\n\nCheck the status of the \"fs.protected_hardlinks\" kernel parameter with the following command:\n\n$ sudo sysctl fs.protected_hardlinks\nfs.protected_hardlinks = 1\n\nIf \"fs.protected_hardlinks\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 10 to enable DAC on hardlinks.\n\nCreate a drop-in if it does not already exist:\n\n$ sudo vi /etc/sysctl.d/99-fs_protected_hardlinks.conf\n\nAdd the following to the file:\n\nfs.protected_hardlinks = 1\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-85775r1184630_fix",
+  "VulnDiscussion": "By enabling the \"fs.protected_hardlinks\" kernel parameter, users can no longer create soft or hard links to files they do not own. Disallowing such hardlinks mitigates vulnerabilities based on insecure file systems accessed by privileged programs, avoiding an exploitation vector exploiting unsafe use of open() or creat().\n\nSatisfies: SRG-OS-000312-GPOS-00122, SRG-OS-000312-GPOS-00123, SRG-OS-000324-GPOS-00125",
+  "Documentable": "false"
+}

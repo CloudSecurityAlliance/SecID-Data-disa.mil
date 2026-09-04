@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223427",
+  "rule_id": "SV-223427r1137691_rule",
+  "stig_id": "ACF2-ES-000060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS system commands must be properly protected.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "legacy": [
+      "V-97551",
+      "SV-106655"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-25100r504419_chk",
+  "check_content": "From a Command input line enter:\nSET RESOURCE(OPR)\nSET VERBOSE\nLIST LIKE(MVS-)\n\nNOTE: If CLASMAP defines OPERCMDS as anything other than the default of TYPE(OPR), replace OPR with the appropriate three letters.\n\nIf the MVS resource is defined to the OPERCMDS class with a default access of PREVENT, and all access logged, i.e., MVS.** is defined with access of PREVENT, this is not finding.\n\nIf Access to z/OS system commands defined in the table entitled MVS commands, RACF access authorities, and resource names, in the IBM z/OS MVS System Commands manual, is restricted to the appropriate personnel (e.g., operations staff, systems programming personnel, general users) as determined in the Documented site Security Plan, this is not a finding.\n\nNote: Display commands and others as deemed by the site IAW site security plan may be allowed for all users with no logging. The (MVS.SEND) Command will not be a finding if used by all.",
+  "fixtext": "Configure z/OS Sensitive System Commands to be defined to the OPERCMDS resource class. Only limited number of authorized people are able to issue these commands. All access is logged.\n\nConfigure the MVS resource to be defined to the OPERCMDS class with a default access of PREVENT, all access is logged, and access is restricted to the appropriate personnel (e.g., operations staff, systems programming personnel, general users).\n\nNote: Ensure access to z/OS system commands defined in the MVS commands, RACF access authorities, and resource names, in the IBM z/OS MVS System Commands, is restricted to the appropriate personnel (e.g., operations staff, systems programming personnel, general users).\n\nExample for ACF2:\n$KEY(MVS) TYPE(OPR) \nACTIVATE.- UID(sysprgmr) LOG \nACTIVATE.- UID(*) PREVENT \n\nSET R(OPR)\nCOMPILE 'ACF2.MVA.OPR(MVS)' STORE\n\nF ACF2,REBUILD(OPR)",
+  "fix_id": "F-25088r504420_fix",
+  "VulnDiscussion": "To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DoD-approved PKIs, all DoD systems (e.g., web servers and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. Successful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement.\n\nAccess control policies include: identity-based policies, role-based policies, and attribute-based policies. Access enforcement mechanisms include: access control lists, access control matrices, and cryptography. These policies and mechanisms must be employed by the application to control access between users (or processes acting on behalf of users) and objects (e.g., devices, files, records, processes, programs, and domains) in the information system.",
+  "Documentable": "false"
+}

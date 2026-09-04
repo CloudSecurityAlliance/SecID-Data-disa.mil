@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215322",
+  "rule_id": "SV-215322r987796_rule",
+  "stig_id": "AIX7-00-003005",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AIX must disable /usr/bin/rcp,\n/usr/bin/rlogin,\n/usr/bin/rsh, /usr/bin/rexec and /usr/bin/telnet commands.",
+  "group_title": "SRG-OS-000074-GPOS-00042",
+  "idents": {
+    "legacy": [
+      "SV-101393",
+      "V-91295"
+    ],
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-16520r294417_chk",
+  "check_content": "From the command prompt, execute the following commands:\n# ls -l /usr/bin/rcp | awk '{print $1}'\n# ls -l /usr/bin/rlogin | awk '{print $1}'\n# ls -l /usr/bin/rsh | awk '{print $1}'\n# ls -l /usr/bin/telnet | awk '{print $1}'\n# ls -l /usr/bin/rexec | awk '{print $1}'\n\nEach of the above commands should return with the following permissions:\n ----------\n\nIf the permissions are more permissive, this is a finding.",
+  "fixtext": "Use the chmod command to remove all permissions on these commands: \n# chmod ugo= /usr/bin/rcp\n# chmod ugo= /usr/bin/rlogin\n# chmod ugo= /usr/bin/rsh\n# chmod ugo= /usr/bin/rexec\n# chmod ugo= /usr/bin/telnet",
+  "fix_id": "F-16518r294418_fix",
+  "VulnDiscussion": "The listed applications permit the transmission of passwords in plain text.  Alternative applications such as SSH, which encrypt data, should be use instead.",
+  "Documentable": "false"
+}

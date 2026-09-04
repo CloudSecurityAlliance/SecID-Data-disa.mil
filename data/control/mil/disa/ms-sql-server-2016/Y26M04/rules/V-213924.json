@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213924",
+  "rule_id": "SV-213924r961461_rule",
+  "stig_id": "SQL6-D0-003100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SQL Server must enforce access restrictions associated with changes to the configuration of the database(s).",
+  "group_title": "SRG-APP-000380-DB-000360",
+  "idents": {
+    "legacy": [
+      "SV-93817",
+      "V-79111"
+    ],
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-15142r313204_chk",
+  "check_content": "Execute the following query to obtain a listing of user databases whose owner is a member of a fixed server role:\n\n SELECT \n              D.name AS database_name, SUSER_SNAME(D.owner_sid) AS owner_name,\n              FRM.is_fixed_role_member\nFROM sys.databases D\nOUTER APPLY (\n              SELECT MAX(fixed_role_member) AS is_fixed_role_member\n              FROM (\n                            SELECT IS_SRVROLEMEMBER(R.name, SUSER_SNAME(D.owner_sid)) AS fixed_role_member\n                            FROM sys.server_principals R\n                            WHERE is_fixed_role = 1\n              ) A\n) FRM\nWHERE D.database_id > 4\n              AND (FRM.is_fixed_role_member = 1 \n                            OR FRM.is_fixed_role_member IS NULL)\nORDER BY database_name \n\nIf no databases are returned, this is not a finding. \n\nFor each database/login returned, review the Server Role memberships \n\n1.\tIn SQL Server Management Studio, Expand “Logins”\n2.\tDouble-click the name of the Login\n3.\tClick the “Server Roles” tab \n\nIf any server roles are selected, but not documented and authorized, this is a finding.",
+  "fixtext": "Remove unauthorized users from roles:\n\nALTER ROLE DROP MEMBER user;\n\nhttps://msdn.microsoft.com/en-us/library/ms189775.aspx\n\nSet the owner of the database to an authorized login:\n\nALTER AUTHORIZATION ON database::DatabaseName TO login;\n\nhttps://msdn.microsoft.com/en-us/library/ms187359.aspx",
+  "fix_id": "F-15140r313205_fix",
+  "VulnDiscussion": "Failure to provide logical access restrictions associated with changes to configuration may have significant effects on the overall security of the system. \n\nWhen dealing with access restrictions pertaining to change control, it should be noted that any changes to the hardware, software, and/or firmware components of the information system can potentially have significant effects on the overall security of the system. \n\nAccordingly, only qualified and authorized individuals should be allowed to obtain access to system components for the purposes of initiating changes, including upgrades and modifications.",
+  "Documentable": "false"
+}

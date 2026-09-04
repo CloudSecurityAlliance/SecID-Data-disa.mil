@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269423",
+  "rule_id": "SV-269423r1117266_rule",
+  "stig_id": "ALMA-09-040830",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must restrict exposed kernel pointer addresses access.",
+  "group_title": "SRG-OS-000132-GPOS-00067",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-73454r1048645_chk",
+  "check_content": "Verify the runtime status of the kernel.kptr_restrict kernel parameter with the following command:\n\n$ sysctl kernel.kptr_restrict \n\nkernel.kptr_restrict = 1\n\nVerify the configuration of the kernel.kptr_restrict kernel parameter with the following command:\n\n$ /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' |  grep -F kernel.kptr_restrict | tail -1\n\nkernel.kptr_restrict =1\n\nIf \"kernel.kptr_restrict\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to restrict exposed kernel pointer addresses access with the following command:\n\n$ echo \"kernel.kptr_restrict = 1\" > /etc/sysctl.d/60-kptr.conf\n\nLoad settings from all system configuration files with the following command:\n\n$ sysctl --system",
+  "fix_id": "F-73355r1049680_fix",
+  "VulnDiscussion": "Exposing kernel pointers (through procfs or \"seq_printf()\") exposes kernel writeable structures, which may contain functions pointers. If a write vulnerability occurs in the kernel, allowing write access to any of this structure, the kernel can be compromised. \n\nThis option disallows any program without the CAP_SYSLOG capability to get the addresses of kernel pointers by replacing them with \"0\".",
+  "Documentable": "false"
+}

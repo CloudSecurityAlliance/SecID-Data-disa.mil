@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278166",
+  "rule_id": "SV-278166r1182138_rule",
+  "stig_id": "WN25-DC-000350",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Windows Server 2025 \"Add workstations to domain\" user right must only be assigned to the Administrators group on domain controllers.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-82696r1182137_chk",
+  "check_content": "This applies to domain controllers. It is not applicable for other systems.\n\nVerify the effective setting in Local Group Policy Editor.\n\nRun gpedit.msc.\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment.\n\nIf any accounts or groups other than the following are granted the \"Add workstations to domain\" right, this is a finding:\n- Administrators.\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas User_Rights /cfg c:\\path\\filename.txt\n\nReview the text file.\n\nIf any SIDs other than the following are granted the \"SeMachineAccountPrivilege\" user right, this is a finding.\n\nS-1-5-32-544 (Administrators)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment >> Add workstations to domain to include only the following accounts or groups:\n- Administrators.",
+  "fix_id": "F-82601r1181827_fix",
+  "VulnDiscussion": "Inappropriately granting user rights provides system, administrative, and other high-level capabilities.\n\nAccounts with the \"Add workstations to domain\" right may add computers to a domain. This could result in unapproved or incorrectly configured systems being added to a domain.",
+  "Documentable": "false"
+}

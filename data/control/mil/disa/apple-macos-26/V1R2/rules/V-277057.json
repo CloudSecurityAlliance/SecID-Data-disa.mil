@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-277057",
+  "rule_id": "SV-277057r1148623_rule",
+  "stig_id": "APPL-26-000170",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must be configured to use an authorized time server.",
+  "group_title": "SRG-OS-000355-GPOS-00143",
+  "idents": {
+    "cci": [
+      "CCI-004923",
+      "CCI-004926"
+    ]
+  },
+  "check_id": "C-81212r1148621_chk",
+  "check_content": "Verify the macOS system is configured to use an authorized time server with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.MCX')\\\n.objectForKey('timeServer').js\nEOS\n\nIf the result is not an authoritative time server that is synchronized with redundant USNO time servers as designated for the appropriate DOD network, this is a finding.",
+  "fixtext": "Configure the macOS system to use an authorized time server by installing the \"com.apple.MCX\" configuration profile.",
+  "fix_id": "F-81117r1148622_fix",
+  "VulnDiscussion": "An approved time server must be the only server configured for use. As of macOS 10.13, only one time server is supported.\n\nThis rule ensures the uniformity of time stamps for information systems with multiple system clocks and systems connected over a network.\n\nSatisfies: SRG-OS-000355-GPOS-00143, SRG-OS-000356-GPOS-00144",
+  "Documentable": "false"
+}

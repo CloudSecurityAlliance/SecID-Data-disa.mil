@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-282802",
+  "rule_id": "SV-282802r1195721_rule",
+  "stig_id": "AVOS-26-010600",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Apple visionOS 26 must implement the management setting: not allow automatic completion of Safari browser passcodes.",
+  "group_title": "PP-MDF-993300",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-87363r1195719_chk",
+  "check_content": "Review configuration settings to confirm \"Enable autofill\" is unchecked.\n\nThis check procedure is performed on both the Apple visionOS management tool and the Vision Pro.\n\nNote: If an organization has multiple configuration profiles, the check procedure must be performed on the relevant configuration profiles applicable to the scope of the review.\n\nIn the Apple visionOS management tool, verify \"Enable autofill\" is unchecked.\n\nAlternatively, verify the text \"<key>safariAllowAutoFill</key><false>\" appears in the configuration profile (.mobileconfig file).\n\nOn the Vision Pro:\n1. Open the Settings app.\n2. Tap \"General\".\n3. Tap \"VPN & Device Management\".\n4. Tap the Configuration Profile from the visionOS management tool containing the management policy.\n5. Tap \"Restrictions\".\n6. Verify \"Auto-fill in Safari not allowed\" is present.\n\nIf \"Enable autofill\" is checked in the Apple visionOS management tool, \"<key>safariAllowAutoFill</key><true>\" appears in the configuration profile, or the restrictions policy on the Vision Pro does not list \"Auto-fill in Safari not allowed\", this is a finding.",
+  "fixtext": "Install a configuration profile to disable the AutoFill capability in the Safari app.",
+  "fix_id": "F-87268r1195720_fix",
+  "VulnDiscussion": "The AutoFill functionality in the Safari web browser allows the user to complete a form that contains sensitive information, such as Personally Identifiable Information, without previous knowledge of the information. By allowing the use of the AutoFill functionality, an adversary who learns a user's Vision Pro passcode, or who otherwise is able to unlock the device, may be able to further breach other systems by relying on the AutoFill feature to provide information unknown to the adversary. Disabling the AutoFill functionality significantly mitigates the risk of an adversary gaining additional information about the device's user or compromising other systems.\n\nSFR ID: FMT_SMF.1.1 #47",
+  "Documentable": "false"
+}

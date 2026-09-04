@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253123",
+  "rule_id": "SV-253123r991589_rule",
+  "stig_id": "TOSS-04-040820",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must not allow interfaces to perform Internet Control Message Protocol (ICMP) redirects by default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56576r825039_chk",
+  "check_content": "Verify TOSS does not allow interfaces to perform Internet Protocol version 4 (IPv4) ICMP redirects by default.\n\nNote: If IPv4 is disabled on the system, this requirement is Not Applicable.\n\nCheck the value of the \"default send_redirects\" variables with the following command:\n\n$ sudo sysctl net.ipv4.conf.default.send_redirects\n\nnet.ipv4.conf.default.send_redirects=0\n\nIf the returned line does not have a value of \"0\", or a line is not returned, this is a finding.",
+  "fixtext": "Configure TOSS to not allow interfaces to perform Internet Protocol version 4 (IPv4) ICMP redirects by default with the following command:\n\n$ sudo sysctl -w net.ipv4.conf.default.send_redirects=0\n\nIf \"0\" is not the system's default value then add or update the following line in the appropriate file under \"/etc/sysctl.d\":\n\nnet.ipv4.conf.default.send_redirects=0",
+  "fix_id": "F-56526r825040_fix",
+  "VulnDiscussion": "ICMP redirect messages are used by routers to inform hosts that a more direct route exists for a particular destination. These messages contain information from the system's route table, possibly revealing portions of the network topology.\n\nThere are notable differences between Internet Protocol version 4 (IPv4) and Internet Protocol version 6 (IPv6). There is only a directive to disable sending of IPv4 redirected packets. Refer to RFC4294 for an explanation of \"IPv6 Node Requirements\", which resulted in this difference between IPv4 and IPv6.",
+  "Documentable": "false"
+}

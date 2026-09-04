@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269316",
+  "rule_id": "SV-269316r1050198_rule",
+  "stig_id": "ALMA-09-026750",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must mount /dev/shm with the nosuid option.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-73347r1048324_chk",
+  "check_content": "Verify \"/dev/shm\" is mounted with the \"nosuid\" option with the following command:\n\n$ mount | grep /dev/shm\n\ntmpfs on /dev/shm type tmpfs (rw,nosuid,nodev,noexec,seclabel,size=2097152k,inode64)\n\nIf the /dev/shm file system is mounted without the \"noexec\" option, this is a finding.",
+  "fixtext": "Modify \"/etc/fstab\" to use the \"nosuid\" option on the \"/dev/shm\" file system.",
+  "fix_id": "F-73248r1048325_fix",
+  "VulnDiscussion": "The \"nosuid\" mount option causes the system to not execute \"setuid\" and \"setgid\" files with owner privileges. This option must be used for mounting any file system not containing approved \"setuid\" and \"setguid\" files.\n\nExecuting files from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276751",
+  "rule_id": "SV-276751r1140045_rule",
+  "stig_id": "GOOG-16-006300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Google Android 16 must be configured to lock the display after 15 minutes (or less) of inactivity.",
+  "group_title": "PP-MDF-333030",
+  "idents": {
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-80906r1140043_chk",
+  "check_content": "Review managed Google Android device configuration settings to determine if the mobile device is enforcing a screen-lock policy that will lock the display after a period of 15 minutes or less of inactivity.\n\nNote: The Google Android 16 Settings user interface (UI) does not support the 15-minute increment, but this value can be set by the MDM.\n\nThis validation procedure is performed on the EMM Administration Console. \n\nOn the EMM console:\n\nCOBO:\n\n1. Open \"Lock screen restrictions\".\n2. Verify that \"Max time to screen lock\" is set to \"900\".\nNote: The units are in seconds.\n\nCOPE:\n\n1. Open \"Lock screen restrictions\".\n2. Select \"Personal Profile\".\n3. Verify that \"Max time to screen lock\" is set to \"900\".\nNote: The units are in seconds.\n\nIf the EMM console device policy is not set to enable a screen-lock policy that will lock the display after a period of inactivity of 900 seconds, this is a finding.",
+  "fixtext": "Configure the Google Android 16 device to enable a screen-lock policy of 15 minutes for the max period of inactivity. \n\nNote: The Google Android 16 Settings UI does not support the 15-minute increment, but this value can be set by the MDM. \n\nOn the EMM console:\n\nCOBO:\n\n1. Open \"Lock screen restrictions\".\n2. Set \"Max time to screen lock\" to \"900\".\nNote: The units are in seconds.\n\nCOPE:\n\n1. Open \"Lock screen restrictions\".\n2. Select \"Personal Profile\".\n3. Set \"Max time to screen lock\" to \"900\".\nNote: The units are in seconds.\n\nConfiguration API: setMaximumTimeToLock",
+  "fix_id": "F-80811r1140044_fix",
+  "VulnDiscussion": "The screen lock timeout must be set to a value that helps protect the device from unauthorized access. Having a too-long timeout would increase the window of opportunity for adversaries who gain physical access to the mobile device through loss, theft, etc. Such devices are much more likely to be in an unlocked state when acquired by an adversary, thus granting immediate access to the data on the mobile device. The maximum timeout period of 15 minutes has been selected to balance functionality and security; shorter timeout periods may be appropriate depending on the risks posed to the mobile device.\n\nSFR ID: FMT_SMF.1.1 #2",
+  "Documentable": "false"
+}

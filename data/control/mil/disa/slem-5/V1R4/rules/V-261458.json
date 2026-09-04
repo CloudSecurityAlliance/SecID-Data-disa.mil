@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-261458",
+  "rule_id": "SV-261458r996781_rule",
+  "stig_id": "SLEM-05-654175",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must generate audit records for all uses of the \"mount\" system call.",
+  "group_title": "SRG-OS-000037-GPOS-00015",
+  "idents": {
+    "cci": [
+      "CCI-000130",
+      "CCI-000169",
+      "CCI-002884",
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-65187r996779_chk",
+  "check_content": "Verify SLEM 5 generates an audit record for all uses of the \"mount\" system call with the following command:\n\n     > sudo auditctl -l | grep -w 'mount'\n     -a always,exit -F arch=b32 -S mount -F auid>=1000 -F auid!=-1 -F key=privileged-mount\n     -a always,exit -F arch=b64 -S mount -F auid>=1000 -F auid!=-1 -F key=privileged-mount\n\nIf both the \"b32\" and \"b64\" audit rules are not defined for the \"mount\" syscall, this is a finding.\n\nNote: The \"key=\" value is arbitrary and can be different from the example output above.",
+  "fixtext": "Configure SLEM 5 to generate an audit record for all uses of the \"mount\" system call.\n\nAdd or modify the following lines in the \"/etc/audit/rules.d/audit.rules\" file:\n\n-a always,exit -F arch=b32 -S mount -F auid>=1000 -F auid!=unset -k privileged-mount\n-a always,exit -F arch=b64 -S mount -F auid>=1000 -F auid!=unset -k privileged-mount\n\nTo reload the rules file, restart the audit daemon:\n\n     > sudo systemctl restart auditd.service\n\nor issue the following command:\n\n     > sudo augenrules --load",
+  "fix_id": "F-65095r996780_fix",
+  "VulnDiscussion": "Reconstruction of harmful events or forensic analysis is not possible if audit records do not contain enough information.\n\nAt a minimum, the organization must audit the full-text recording of privileged commands. The organization must maintain audit trails in sufficient detail to reconstruct events to determine the cause and impact of compromise.",
+  "Documentable": "false"
+}

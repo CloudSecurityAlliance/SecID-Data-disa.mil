@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223309",
+  "rule_id": "SV-223309r961779_rule",
+  "stig_id": "O365-CO-000027",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Flash player activation must be disabled in all Office programs.",
+  "group_title": "SRG-APP-000488",
+  "idents": {
+    "legacy": [
+      "SV-108797",
+      "V-99693"
+    ],
+    "cci": [
+      "CCI-002460"
+    ]
+  },
+  "check_id": "C-24982r811478_chk",
+  "check_content": "Verify the policy value for Computer Configuration >> Administrative Templates >> MS Security Guide >> Block Flash activation in Office documents >> Enabled >> Block all activation is set to \"Enabled\" Block all activation.\n\nUse the Windows Registry Editor to navigate to the following key:\n\nHKLM\\SOFTWARE\\Microsoft\\Office\\Common\\COM Compatibility\n\nIf the value for COMMENT is REG_SZ = Block all Flash activation, this is not a finding.",
+  "fixtext": "Set the policy value for Computer Configuration >> Administrative Templates >> MS Security Guide >> Block Flash activation in Office documents >> Enabled >> Block all activation to \"Enabled\" (Block all activation).",
+  "fix_id": "F-24970r442147_fix",
+  "VulnDiscussion": "This policy setting controls whether the Adobe Flash control can be activated by Office documents. Note that activation blocking applies only within Office processes.\n\nIf you enable this policy setting, you can choose from three options to control whether and how Flash is blocked from activation:\n\n1. \"Block all activation\" prevents the Flash control from being loaded, whether directly referenced by the document or indirectly by another embedded object.\n2. \"Block embedding/linking, allow other activation\" prevents the Flash control from being loaded when directly referenced by the document, but does not prevent activation through another object.\n3. \"Allow all activation\" restores Office's default behavior, allowing the Flash control to be activated.\n\nBecause this setting is not a true Group Policy setting and \"tattoos\" the registry, enabling the \"Allow all activation\" option is the only way to restore default behavior after either of the \"Block\" options has been applied. It is not recommended to configure this setting to \"Disabled\" or \"Not Configured\" after it has been enabled.",
+  "Documentable": "false"
+}

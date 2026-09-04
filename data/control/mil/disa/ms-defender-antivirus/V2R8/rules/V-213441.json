@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213441",
+  "rule_id": "SV-213441r1190717_rule",
+  "stig_id": "WNDF-AV-000017",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Microsoft Defender AV Group Policy settings must take priority over the local preference settings.",
+  "group_title": "SRG-APP-000278",
+  "idents": {
+    "legacy": [
+      "SV-89899",
+      "V-75219"
+    ],
+    "cci": [
+      "CCI-002624"
+    ]
+  },
+  "check_id": "C-14666r820170_chk",
+  "check_content": "Verify the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Real-time Protection >> \"Configure local setting override to turn on real-time protection\" is set to \"Disabled\" or \"Not Configured\".\n \nProcedure: Use the Windows Registry Editor to navigate to the following key: \nHKLM\\Software\\Policies\\Microsoft\\Windows Defender\\Real-Time Protection\n\nCriteria: If the value \"LocalSettingOverrideDisableRealtimeMonitoring\" is REG_DWORD = 0, this is not a finding.\n\nIf the value does not exist, this is not a finding.\n\nIf the value is 1, this is a finding.",
+  "fixtext": "Set the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Real-time Protection >> \"Configure local setting override to turn on real-time protection\" to \"Disabled\" or \"Not Configured\".",
+  "fix_id": "F-14664r823053_fix",
+  "VulnDiscussion": "This policy setting configures a local override for the configuration to turn on real-time protection. This setting can only be set by Group Policy. If this setting is enabled, the local preference setting will take priority over Group Policy. If this setting is disabled or not configured, Group Policy will take priority over the local preference setting.",
+  "Documentable": "false"
+}

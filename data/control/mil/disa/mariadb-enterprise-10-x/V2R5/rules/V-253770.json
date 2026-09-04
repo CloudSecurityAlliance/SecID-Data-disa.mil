@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253770",
+  "rule_id": "SV-253770r961836_rule",
+  "stig_id": "MADB-10-011800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must be able to generate audit records when successful accesses to objects occur.",
+  "group_title": "SRG-APP-000507-DB-000356",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-57222r841833_chk",
+  "check_content": "Verify the MariaDB Enterprise Audit plugin is loaded and actively logging:\n\nMariaDB> SHOW GLOBAL STATUS LIKE 'Server_audit_active';\n\nDefault Audit Filter is applied to all users by default. \n\nNamed Audit Filters are assigned to specific users. \n\nCheck what filters are in place by running the following as an administrative user: \n\nMariaDB> SELECT * FROM mysql.server_audit_filters;\n\nCheck what Named Audit Filters are assigned to what users: \n\nMariaDB> SELECT sau.host, sau.user, saf.filtername,\n   JSON_DETAILED(saf.rule)\nFROM mysql.server_audit_filters saf\nJOIN mysql.server_audit_users sau\n   ON saf.filtername = sau.filtername\nWHERE saf.filtername != 'default'\\G\n\nIf the MariaDB Enterprise Audit plugin is not active and/or necessary auditing is not in place, this is a finding.",
+  "fixtext": "If the MariaDB Enterprise Audit plugin is not active, enable it in one of the two following ways. \n\n1. Config file (requires restart): \n\n[mariadb]\nserver_audit_logging = ON\n\n2. SQL (does not require restart): \n\nMariaDB> SET GLOBAL server_audit_logging=ON;\n\nOnce the MariaDB Enterprise Audit plugin is loaded, verify the MariaDB Enterprise Audit plugin is loaded and actively logging:\n\nMariaDB> SHOW GLOBAL STATUS LIKE 'Server_audit_active';\n\nIf the necessary auditing is not in place for all or specific users, modify the filters. \n\nTo modify the default filter, delete, and recreate: \n\nMariaDB> DELETE FROM mysql.server_audit_filters WHERE filtername = 'default';\n\nMariaDB> INSERT INTO mysql.server_audit_filters (filtername, rule)\n   VALUES ('default',\n      JSON_COMPACT(\n         '{\n            \"logging\":\"ON\",\n            \"connect_event\":\"ALL\",\n            \"query_event\":\"ALL\",\n            \"table_event\":\"ALL\"\n         }'\n      ));\n\nSpecific objects can be added to filters with inclusion or exclusion. \n\nignore_databases: Do not log actions on these databases. \nignore_tables: Do not log actions on these tables. \ndatabases: Log actions on these databases.\ntables: Log actions on these tables.\n\nExample: \n\nMariaDB> INSERT INTO mysql.server_audit_filters (filtername, rule)\n   VALUES (\n       'reporting',\n       JSON_COMPACT(\n          '{\n              \"tables\": [\n                  \"production.*\",\n                  \"reporting.*\",\n                  {\n                     \"table_event\": [\n                         \"WRITE\",\n                         \"CREATE\",\n                         \"DROP\",\n                         \"RENAME\",\n                         \"ALTER\"\n                     ],\n                     \"query_event\": [\n                         \"DML\",\n                         \"DDL\",\n                         {\n                             \"ignore_tables\": [\n                                 \"production.customer_profiles\",\n                                 \"production.customer_addresses\"\n                             ]\n                         }\n                     ]\n                  }\n              ]\n          }'\n       )\n    );",
+  "fix_id": "F-57173r841834_fix",
+  "VulnDiscussion": "Without tracking all or selected types of access to all or selected objects (tables, views, procedures, functions, etc.), it would be difficult to establish, correlate, and investigate the events relating to an incident, or identify those responsible for one. \n\nIn an SQL environment, types of access include, but are not necessarily limited to:\n\nSELECT\nINSERT\nUPDATE\nDELETE\nEXECUTE",
+  "Documentable": "false"
+}

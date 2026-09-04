@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215256",
+  "rule_id": "SV-215256r991589_rule",
+  "stig_id": "AIX7-00-002057",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX audit logs must be rotated daily.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91651",
+      "SV-101749"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16454r294219_chk",
+  "check_content": "Check for any \"crontab\" entries that rotate audit logs:\n\n# crontab -l \n30  23  * * * /root/logrotate.sh     #Daily log rotation script\nIf such a cron job is found, this is not a finding. \n\nOtherwise, query the SA. \n\nIf there is a process automatically rotating audit logs, this is not a finding. \n\nIf the SA manually rotates audit logs, this is a finding.  \n\nIf the audit output is not archived daily, to tape or disk, this is a finding. \n\nReview the audit log directory.\n\nIf more than one file is there, or if the file does not have today's date, this is a finding.",
+  "fixtext": "Configure a cron job or other automated process to rotate the audit logs on a daily basis.",
+  "fix_id": "F-16452r294220_fix",
+  "VulnDiscussion": "Rotate audit logs daily to preserve audit file system space and to conform to the DoD/DISA requirement. If it is not rotated daily and moved to another location, then there is more of a chance for the compromise of audit data by malicious users.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230546",
+  "rule_id": "SV-230546r1155413_rule",
+  "stig_id": "RHEL-08-040282",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must restrict usage of ptrace to descendant  processes.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-33215r1155411_chk",
+  "check_content": "Verify RHEL 8 restricts usage of ptrace to descendant processes with the following commands:\n\n$ sudo sysctl kernel.yama.ptrace_scope\n\nkernel.yama.ptrace_scope = 1\n\nIf \"kernel.yama.ptrace_scope\" is not set to \"1\", is missing, or commented out, this is a finding.",
+  "fixtext": "Configure RHEL 8 to restrict usage of ptrace to descendant processes by adding the following line in a dropfile, in the \"/etc/sysctl.d\" directory with the following commands:\n\nCreate the dropfile if it doesn't already exist:\n$ sudo vi /etc/sysctl.d/99-ptrace-restrict.conf\n\nAdd the following line to the file:\nkernel.yama.ptrace_scope = 1\n\nThe system configuration files need to be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-33190r1155412_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore, may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nThe sysctl --system command will load settings from all system configuration files. All configuration files are sorted by their filename in lexicographical order, regardless of which of the directories they reside in. If multiple files specify the same option, the entry in the file with the lexicographically latest name will take precedence. Files are read from directories in the following list from top to bottom. Once a file of a given filename is loaded, any file of the same name in subsequent directories is ignored.\n/etc/sysctl.d/*.conf\n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf",
+  "Documentable": "false"
+}

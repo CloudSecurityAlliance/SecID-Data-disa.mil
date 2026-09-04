@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242447",
+  "rule_id": "SV-242447r961863_rule",
+  "stig_id": "CNTR-K8-003140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes Kube Proxy kubeconfig must have file permissions set to 644 or more restrictive.",
+  "group_title": "SRG-APP-000516-CTR-001325",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-45722r712695_chk",
+  "check_content": "Check if Kube-Proxy is running and obtain --kubeconfig parameter use the following command:\nps -ef | grep kube-proxy\n\nIf Kube-Proxy exists:\nReview the permissions of the Kubernetes Kube Proxy by using the command:\nstat -c %a <location from --kubeconfig>\n\nIf the file has permissions more permissive than \"644\", this is a finding.",
+  "fixtext": "Change the permissions of the Kube Proxy to \"644\" by executing the command:\n\nchmod 644 <location from kubeconfig>.",
+  "fix_id": "F-45680r821611_fix",
+  "VulnDiscussion": "The Kubernetes Kube Proxy kubeconfig contain the argument and setting for the Control Planes. These settings contain network rules for restricting network communication between pods, clusters, and networks. If these files can be changed, data traversing between the Kubernetes Control Panel components would be compromised. Many of the security settings within the document are implemented through this file.",
+  "Documentable": "false"
+}

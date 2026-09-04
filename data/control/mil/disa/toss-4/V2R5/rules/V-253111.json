@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253111",
+  "rule_id": "SV-253111r991589_rule",
+  "stig_id": "TOSS-04-040700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must be configured to prevent unrestricted mail relaying.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56564r825003_chk",
+  "check_content": "Verify the system is configured to prevent unrestricted mail relaying.\n\nDetermine if \"postfix\" is installed with the following commands:\n\n$ sudo yum list installed postfix\n\npostfix.x86_64  2:3.5.8-2.el8 \n\nIf postfix is not installed, this is Not Applicable.\n\nIf postfix is installed, determine if it is configured to reject connections from unknown or untrusted networks with the following command:\n\n$ sudo postconf -n smtpd_client_restrictions\n\nsmtpd_client_restrictions = permit_mynetworks, reject\n\nIf the \"smtpd_client_restrictions\" parameter contains any entries other than \"permit_mynetworks\" and \"reject\", this is a finding.",
+  "fixtext": "If \"postfix\" is installed, modify the \"/etc/postfix/main.cf\" file to restrict client connections to the local network with the following command:\n\n$ sudo postconf -e 'smtpd_client_restrictions = permit_mynetworks,reject'",
+  "fix_id": "F-56514r825004_fix",
+  "VulnDiscussion": "If unrestricted mail relaying is permitted, unauthorized senders could use this host as a mail relay for the purpose of sending spam or other unauthorized activity.",
+  "Documentable": "false"
+}

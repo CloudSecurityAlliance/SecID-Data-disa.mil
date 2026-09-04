@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270753",
+  "rule_id": "SV-270753r1066748_rule",
+  "stig_id": "UBTU-24-600190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 24.04 LTS must be configured to use TCP syncookies.",
+  "group_title": "SRG-OS-000142-GPOS-00071",
+  "idents": {
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-74786r1066746_chk",
+  "check_content": "Verify Ubuntu 24.04 LTS is configured to use TCP syncookies with the following command:\n \n$ sysctl net.ipv4.tcp_syncookies \nnet.ipv4.tcp_syncookies = 1 \n \nIf the value is not \"1\", this is a finding. \n \nCheck the saved value of TCP syncookies with the following command: \n \n$ sudo grep -ir net.ipv4.tcp_syncookies /etc/sysctl.d/*.conf /run/sysctl.d/*.conf /usr/local/lib/sysctl.d/*.conf /usr/lib/sysctl.d/*.conf /lib/sysctl.d/*.conf /etc/sysctl.conf 2> /dev/null \n/etc/sysctl.d/99-sysctl.conf:net.ipv4.tcp_syncookies=1\n/etc/sysctl.conf:net.ipv4.tcp_syncookies=1\n\nIf the \"net.ipv4.tcp_syncookies\" option is not set to \"1\", is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure Ubuntu 24.04 LTS to use TCP syncookies with the following command: \n \n$ sudo sysctl -w net.ipv4.tcp_syncookies=1 \n \nIf \"1\" is not the system's default value, add or update the following line in \"/etc/sysctl.conf\": \n \nnet.ipv4.tcp_syncookies = 1",
+  "fix_id": "F-74687r1066747_fix",
+  "VulnDiscussion": "Denial of service (DoS) occurs when a resource is not available for legitimate users, resulting in the organization not being able to accomplish its mission or causing it to operate at degraded capacity.  \n \nManaging excess capacity ensures sufficient capacity is available to counter flooding attacks. Employing increased capacity and service redundancy may reduce the susceptibility to some DoS attacks. Managing excess capacity may include, for example, establishing selected usage priorities, quotas, or partitioning.",
+  "Documentable": "false"
+}

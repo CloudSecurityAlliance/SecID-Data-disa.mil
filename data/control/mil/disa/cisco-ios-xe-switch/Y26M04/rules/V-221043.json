@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221043",
+  "rule_id": "SV-221043r622190_rule",
+  "stig_id": "CISC-RT-000690",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco PE switch must be configured to enforce the split-horizon rule for all pseudowires within a Virtual Private LAN Services (VPLS) bridge domain.",
+  "group_title": "SRG-NET-000512-RTR-000010",
+  "idents": {
+    "legacy": [
+      "SV-110907",
+      "V-101803"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-22758r408923_chk",
+  "check_content": "Review the PE switch configuration to verify that split horizon is enabled. By default, split horizon is enabled; hence, the attribute no-split-horizon should not be seen on the neighbor command as shown in the example below:\n\nl2 vfi VPLS_A manual \n vpn id 110\n bridge-domain 100\n neighbor 10.3.3.3 encapsulation mpls no-split-horizon\n\nIf split horizon is not enabled, this is a finding.\n\nNote: This requirement is only applicable to a mesh VPLS topology. VPLS solves the loop problem by using a split-horizon rule which states that member PE switches of a VPLS must forward VPLS traffic only to the local attachment circuits when they receive the traffic from the other PE switches. In a ring VPLS, split horizon must be disabled so that a PE switch can forward a packet received from one pseudowire to another pseudowire. To prevent the consequential loop, at least one span in the ring would not have a pseudowire for any given VPLS instance.",
+  "fixtext": "Enable split horizon on all PE switches deploying VPLS in a full-mesh configuration.\n\nSW1(config)#l2 vfi VPLS_A manual \nSW1(config-vfi)#neighbor 10.3.3.3 encapsulation mpls",
+  "fix_id": "F-22747r408924_fix",
+  "VulnDiscussion": "A virtual forwarding instance (VFI) must be created on each participating PE switch for each customer VLAN using VPLS for carrier Ethernet services. The VFI specifies the VPN ID of a VPLS domain, the addresses of other PE switches in the domain, and the type of tunnel signaling and encapsulation mechanism for each peer PE switch. The set of VFIs formed by the interconnection of the emulated VCs is called a VPLS instance, which forms the logic bridge over the MPLS core network.\n\nThe PE switches use the VFI with a unique VPN ID to establish a full mesh of emulated virtual circuits or pseudowires to all the other PE switches in the VPLS instance. The full-mesh configuration allows the PE switch to maintain a single broadcast domain. With a full-mesh configuration, signaling and packet replication requirements for each provisioned virtual circuit on a PE can be high. To avoid the problem of a packet looping in the provider core, thereby adding more overhead, the PE devices must enforce a split-horizon principle for the emulated virtual circuits; that is, if a packet is received on an emulated virtual circuit, it is not forwarded on any other virtual circuit.",
+  "Documentable": "false"
+}

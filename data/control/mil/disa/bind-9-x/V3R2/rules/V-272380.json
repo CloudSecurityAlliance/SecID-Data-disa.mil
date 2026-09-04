@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272380",
+  "rule_id": "SV-272380r1124037_rule",
+  "stig_id": "BIND-9X-001230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "On a BIND 9.x server in a split DNS configuration, where separate name servers are used between the external and internal networks, the internal name server must be configured to not be reachable from outside resolvers.",
+  "group_title": "SRG-APP-000516-DNS-000093",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-76430r1124036_chk",
+  "check_content": "If the BIND 9.x name server is not configured for split DNS, this is not applicable.\n\nVerify that the BIND 9.x server is configured to use the \"match-clients\" sub-statement to limit the reach of the internal view from the external view.\n\nInspect the \"named.conf\" file for the following:\n\nview \"internal\" {\nmatch-clients { <ip_address> | <address_match_list>; };\n};\n\nIf the \"match-clients\" sub-statement is missing for the internal view, this is a finding.\n\nIf the \"match-clients\" sub-statement for the internal view does not limit the view to authorized hosts, this is a finding.\n\nIf any of the IP addresses defined for the \"match-clients\" sub-statement in the internal view are assigned to external hosts, this is a finding.",
+  "fixtext": "Edit the \"named.conf\" file.\n\nConfigure the internal view statement to limit use authorized internal hosts:\n\nview \"internal\" {\nmatch-clients { <ip_address> | <address_match_list>; };\n};\n\nRemove any IP address that is assigned to an external host from the internal view statement.\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76337r1123452_fix",
+  "VulnDiscussion": "Instead of having the same set of authoritative name servers serve different types of clients, an enterprise could have two different sets of authoritative name servers. \n\nOne set, called external name servers, can be located within a DMZ. These would be the only name servers that are accessible to external clients and would serve RRs pertaining to hosts with public services (web servers that serve external web pages or provide B2C services, mail servers, etc.).\n\nThe other set, called internal name servers, must be located within the firewall. They must be configured so they are not reachable from outside and therefore provide naming services exclusively to internal clients.",
+  "Documentable": "false"
+}

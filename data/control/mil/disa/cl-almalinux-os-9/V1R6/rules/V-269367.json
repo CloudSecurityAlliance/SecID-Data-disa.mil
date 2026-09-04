@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269367",
+  "rule_id": "SV-269367r1050250_rule",
+  "stig_id": "ALMA-09-033240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 SSHD must accept public key authentication.",
+  "group_title": "SRG-OS-000105-GPOS-00052",
+  "idents": {
+    "cci": [
+      "CCI-000765"
+    ]
+  },
+  "check_id": "C-73398r1049562_chk",
+  "check_content": "Note: If the system administrator (SA) demonstrates the use of an approved alternate multifactor authentication method, this requirement is Not Applicable.\n\nVerify that AlmaLinux OS 9 SSH daemon accepts public key encryption with the following command:\n \n$ sshd -T | grep -i pubkeyauthentication\n\npubkeyauthentication yes\n \nIf \"PubkeyAuthentication\" is set to no, or the line is missing, this is a finding.",
+  "fixtext": "Configure the SSH daemon to accept public key encryption.\n\nAdd the following line to \"/etc/ssh/sshd_config\", or uncomment the line and set the value to \"yes\":\n\nPubkeyAuthentication yes\n\nAlternatively, add the setting to an include file if the line \"Include /etc/ssh/sshd_config.d/*.conf\" is found at the top of the \"/etc/ssh/sshd_config\" file:\n\n$ cat << EOF | tee /etc/ssh/sshd_config.d/pubkey.conf\nPubkeyAuthentication yes\nEOF\n\nRestart the SSH daemon for the settings to take effect:\n\n$ systemctl restart sshd.service",
+  "fix_id": "F-73299r1048478_fix",
+  "VulnDiscussion": "Without the use of multifactor authentication, the ease of access to privileged functions is greatly increased.\n\nMultifactor authentication requires using two or more factors to achieve authentication.\n\nFactors include: \n1) something a user knows (e.g., password/PIN);\n2) something a user has (e.g., cryptographic identification device, token); and\n3) something a user is (e.g., biometric).\n\nA privileged account is defined as an information system account with authorizations of a privileged user.\n\nNetwork access is defined as access to an information system by a user (or a process acting on behalf of a user) communicating through a network (e.g., local area network, wide area network, or the internet).\n\nThe DOD CAC with DOD-approved PKI is an example of multifactor authentication.",
+  "Documentable": "false"
+}

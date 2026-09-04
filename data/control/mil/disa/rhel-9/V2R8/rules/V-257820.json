@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-257820",
+  "rule_id": "SV-257820r1044878_rule",
+  "stig_id": "RHEL-09-214015",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "RHEL 9 must check the GPG signature of software packages originating from external software repositories before installation.",
+  "group_title": "SRG-OS-000366-GPOS-00153",
+  "idents": {
+    "cci": [
+      "CCI-003992",
+      "CCI-001749"
+    ]
+  },
+  "check_id": "C-61561r1044877_chk",
+  "check_content": "Verify that dnf always checks the GPG signature of software packages originating from external software repositories before installation:\n\n$ grep -w gpgcheck /etc/dnf/dnf.conf\n\ngpgcheck=1\n\nIf \"gpgcheck\" is not set to \"1\", or if the option is missing or commented out, ask the system administrator how the GPG signatures of software packages are being verified.\n\nIf there is no process to verify GPG signatures that is approved by the organization, this is a finding.",
+  "fixtext": "Configure dnf to always check the GPG signature of software packages originating from external software repositories before installation.\n\nAdd or update the following line in the [main] section of the /etc/dnf/dnf.conf file:\n\ngpgcheck=1",
+  "fix_id": "F-61485r925446_fix",
+  "VulnDiscussion": "Changes to any software components can have significant effects on the overall security of the operating system. This requirement ensures the software has not been tampered with and that it has been provided by a trusted vendor.\n\nAll software packages must be signed with a cryptographic key recognized and approved by the organization.\n\nVerifying the authenticity of software prior to installation validates the integrity of the software package received from a vendor. This verifies the software has not been tampered with and that it has been provided by a trusted vendor.",
+  "Documentable": "false"
+}

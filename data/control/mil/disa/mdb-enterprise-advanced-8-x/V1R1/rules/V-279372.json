@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279372",
+  "rule_id": "SV-279372r1179475_rule",
+  "stig_id": "MD8X-00-006500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MongoDB must enforce Discretionary Access Control (DAC) policies, as defined by the data owner, over defined subjects and objects.",
+  "group_title": "SRG-APP-000328-DB-000301",
+  "idents": {
+    "cci": [
+      "CCI-002165"
+    ]
+  },
+  "check_id": "C-83925r1179473_chk",
+  "check_content": "Review the MongoDB configuration file (default location /etc/mongod.conf).\n\nIf the file does not contain the following entry, this is a finding:\n\nsecurity:\n    authorization: enabled",
+  "fixtext": "Enable authentication for MongoDB by following the instructions here: \nhttps://www.mongodb.com/docs/v8.0/tutorial/enable-authentication/\n\nCreate an administrative user in MongoDB:\n\nuse admin\ndb.createUser(\n  {\n    user:  < username >,\n    pwd:  < passwordPrompt() >, // or cleartext password\n    roles: [\n      { role: \"userAdminAnyDatabase\", db: \"admin\" },\n      { role: \"readWriteAnyDatabase\", db: \"admin\" }\n    ]\n  }\n)\n\nEnable authorization by adding the following entry to the MongoDB configuration file:\n\nsecurity:\n    authorization: enabled\n\nRestart the MongoDB service from the OS.\n\n$ sudo systemctl restart mongod\n\nThe \"UserAdmin\" user created above can use the \"createUser\" and \"createRole\" MongoDB commands to add the required users and roles per organizational or site-specific documentation.\n\nhttps://www.mongodb.com/docs/v8.0/reference/command/createUser/\n\nhttps://www.mongodb.com/docs/v8.0/reference/command/createRole/",
+  "fix_id": "F-83830r1179474_fix",
+  "VulnDiscussion": "DAC is based on the idea that individual users are \"owners\" of objects and therefore, have discretion over who should be authorized to access the object and in which mode (e.g., read or write). Ownership is usually acquired as a consequence of creating the object or via specified ownership assignment. DAC allows the owner to determine who will have access to objects they control. An example of DAC includes user-controlled table permissions.\n\nWhen discretionary access control policies are implemented, subjects are not constrained with regard to what actions they can take with information for which they have already been granted access. Thus, subjects that have been granted access to information are not prevented from passing (i.e., the subjects have the discretion to pass) the information to other subjects or objects. \n\nA subject that is constrained in its operation by Mandatory Access Control (MAC) policies is still able to operate under the less rigorous constraints of this requirement. Thus, while MAC imposes constraints preventing a subject from passing information to another subject operating at a different sensitivity level, this requirement permits the subject to pass the information to any subject at the same sensitivity level. \n\nThe policy is bound by the information system boundary. Once the information is passed outside of the control of the information system, additional means may be required to ensure the constraints remain in effect. While the older, more traditional definitions of discretionary access control require identity-based access control, that limitation is not required for this use of DAC.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-277114",
+  "rule_id": "SV-277114r1149392_rule",
+  "stig_id": "APPL-26-002050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable Screen Sharing and Apple Remote Desktop.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-81269r1149327_chk",
+  "check_content": "Verify the macOS system is configured to disable Screen Sharing and Apple Remote Desktop with the following command:\n\nresult=\"FAIL\"\n  enabled=$(/bin/launchctl print-disabled system | /usr/bin/grep '\"com.apple.screensharing\" => enabled')\n  running=$(/bin/launchctl print system/com.apple.screensharing 2>/dev/null)\n  \n  if [[ -z \"$running\" ]] && [[ -z \"$enabled\" ]]; then\n    result=\"PASS\"\n  elif [[ -n \"$running\" ]]; then\n    result=result+\" RUNNING\"\n  elif [[ -n \"$enabled\" ]]; then\n    result=result+\" ENABLED\"\n  fi\n  echo $result\n\nIf the result is not \"PASS\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable Screen Sharing and Apple Remote Desktop with the following command:\n\n/bin/launchctl bootout system/com.apple.screensharing\n/bin/launchctl disable system/com.apple.screensharing\n\nNote: This will apply to the whole system.",
+  "fix_id": "F-81174r1149328_fix",
+  "VulnDiscussion": "Support for both Screen Sharing and Apple Remote Desktop is nonessential and must be disabled.\n\nThe information system must be configured to provide only essential capabilities. Disabling Screen Sharing and Apple Remote Desktop helps prevent unauthorized connection of devices, transfer of information, and tunneling.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279364",
+  "rule_id": "SV-279364r1179259_rule",
+  "stig_id": "MD8X-00-005400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to database files must be limited to relevant processes and to authorized, administrative users.",
+  "group_title": "SRG-APP-000243-DB-000374",
+  "idents": {
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-83917r1179257_chk",
+  "check_content": "By default, the MongoDB official installation packages restrict user and group ownership and read/write permissions on the underlying data files and critical configuration files from other operating system users.\n\nIn addition, process and memory isolation is used by default. System administrators should also consider if whole database encryption would be an effective control on an application basis.\n\nRun the following commands to verify proper permissions for the following database files or directories:\n\n$ stat /etc/mongod.conf\n\nIf the owner and group are not both \"mongod\", this is a finding.\n\nIf the file permissions are more permissive than \"600\", this is a finding.\n\n$ stat  /var/lib/mongo\n\nIf the owner and group are not both \"mongod\", this is a finding.\n\nIf the file permissions are more permissive than \"755\", this is a finding.\n\n$ ls -l /var/lib/mongo\n\nIf the owner and group of any file or sub-directory is not \"mongod\", this is a finding.\n\nIf the permission of any file in the main directory (/var/lib/mongo) or sub-directory of (/var/lib/mongo) is more permissive than \"600\", this is a finding.\n\nIf the permission of any sub-directory of (/var/lib/mongo) is more permissive than \"700\", this is a finding.",
+  "fixtext": "Correct the permission to the files and/or directories that are in violation.\n\nMongoDB Configuration file (default location /etc/mongod.conf): \n\n$  chown mongod:mongod /etc/mongod.conf\n$  chmod 600 /etc/mongod.conf\n\nMongoDB datafiles and directories (default location /var/lib/mongo): \n\n$ chown -R mongod:mongod /var/lib/mongo\n$ chmod 755 /var/lib/mongo\n\n$ find /var/lib/mongo/* -type f | xargs  chmod 600\n$ find /var/lib/mongo/* -type d | xargs  chmod 700",
+  "fix_id": "F-83822r1179258_fix",
+  "VulnDiscussion": "Applications, including database management systems (DBMSs), must prevent unauthorized and unintended information transfer via shared system resources. Permitting only DBMS processes and authorized, administrative users to have access to the files where the database resides helps ensure that those files are not shared inappropriately and are not open to backdoor access and manipulation.\n\nSatisfies: SRG-APP-000243-DB-000374, SRG-APP-000243-DB-000373",
+  "Documentable": "false"
+}

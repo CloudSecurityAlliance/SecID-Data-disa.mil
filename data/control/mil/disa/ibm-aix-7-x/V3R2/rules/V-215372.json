@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215372",
+  "rule_id": "SV-215372r958478_rule",
+  "stig_id": "AIX7-00-003067",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The uucp (UNIX to UNIX Copy Program) daemon must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "V-91373",
+      "SV-101471"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16570r294567_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^uucp[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"uucp\" entry by running command: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'uucp' -p 'tcp'\n\nRestart inetd:\n# refresh -s inetd",
+  "fix_id": "F-16568r294568_fix",
+  "VulnDiscussion": "This service facilitates file copying between networked servers.\n\nThe uucp (UNIX to UNIX Copy Program), service allows users to copy files between networked machines. Unless an application or process requires UUCP this should be disabled to prevent attacks.",
+  "Documentable": "false"
+}

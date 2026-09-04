@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258077",
+  "rule_id": "SV-258077r1155659_rule",
+  "stig_id": "RHEL-09-412080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must terminate idle user sessions.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-61818r1155657_chk",
+  "check_content": "Verify RHEL 9 logs out sessions that are idle for 10 minutes with the following command:\n\n$ systemd-analyze cat-config systemd/logind.conf | grep StopIdleSessionSec\n\n#StopIdleSessionSec=infinity\nStopIdleSessionSec=600\n\nIf \"StopIdleSessionSec\" is not configured to \"600\" seconds, this is a finding.",
+  "fixtext": "Configure RHEL 9 to log out idle sessions.\n\nCreate the directory if necessary:\n\n$ mkdir -p /etc/systemd/logind.conf.d/\n\nCreate a *.conf file in /etc/systemd/logind.conf.d/ with the following content:\n\n[Login]\nStopIdleSessionSec=600\nKillUserProcesses=no\n\nRestart systemd-logind:\n\n$ systemctl restart systemd-logind",
+  "fix_id": "F-61742r1155658_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242412",
+  "rule_id": "SV-242412r1043177_rule",
+  "stig_id": "CNTR-K8-000940",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes Controllers must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).",
+  "group_title": "SRG-APP-000142-CTR-000330",
+  "idents": {
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-45687r1007478_chk",
+  "check_content": "Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Control Plane. Run the command: \ngrep kube-conntroller-manager.manifest -I -secure-port\n\n-Review manifest file by executing the following:\nVIM <Manifest Name>:\nReview  livenessProbe:\nHttpGet:\nPort:\nReview ports:\n- containerPort:\n       hostPort:\n- containerPort:\n       hostPort:\n\nRun Command: \nkubectl describe services --all-namespaces \nSearch labels for any controller namespaces.\n\nAny manifest and namespace PPS or services configuration not in compliance with PPSM CAL is a finding.\n\nReview the information systems documentation and interview the team, gain an understanding of the Controller architecture, and determine applicable PPS. Any PPS in the system documentation not in compliance with the CAL PPSM is a finding. Any PPS not set in the system documentation is a finding.\n\nReview findings against the most recent PPSM CAL:\nhttps://cyber.mil/ppsm/cal/\n\nVerify Controller network boundary with the PPS associated with the Controller for Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.",
+  "fixtext": "Amend any system documentation requiring revision to comply with the PPSM CAL. \n\nUpdate Kubernetes Controller manifest and namespace PPS configuration to comply with PPSM CAL.",
+  "fix_id": "F-45645r1007479_fix",
+  "VulnDiscussion": "Kubernetes Controller ports, protocols, and services must be controlled and conform to the PPSM CAL. Those PPS that fall outside the PPSM CAL must be blocked. Instructions on the PPSM can be found in DoD Instruction 8551.01 Policy.",
+  "Documentable": "false"
+}

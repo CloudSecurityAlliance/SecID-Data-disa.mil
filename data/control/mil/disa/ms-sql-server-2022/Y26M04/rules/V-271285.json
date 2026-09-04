@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271285",
+  "rule_id": "SV-271285r1109236_rule",
+  "stig_id": "SQLI-22-006500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SQL Server must limit privileges to change software modules and links to software external to SQL Server.",
+  "group_title": "SRG-APP-000133-DB-000179",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-75328r1109235_chk",
+  "check_content": "Review Server documentation to determine the authorized owner and users or groups with modify rights for this SQL instance's binary files. Additionally check the owner and users or groups with modify rights for shared software library paths on disk. \n \nIf any unauthorized users are granted modify rights or the owner is incorrect, this is a finding. \n\nTo determine the location for these instance-specific binaries:\n\n1. Launch SQL Server Management Studio (SSMS). \n2. Connect to the instance to be reviewed. \n3. Right-click server name in \"Object Explorer\".\n4. Click \"Facets\".\n5. Select the \"Server\" facet. \n6. Record the value for the \"RootDirectory\" facet property. \n7. Navigate to the folder above and review the \"Binn\" subdirectory.\n\nTIP: Use the Get-FileHash cmdlet shipped with PowerShell 5.0 to get the SHA-2 hash of one or more files.",
+  "fixtext": "Change the ownership of all shared software libraries on disk to the authorized account. Remove any modify permissions granted to unauthorized users or groups.",
+  "fix_id": "F-75235r1108470_fix",
+  "VulnDiscussion": "If the system were to allow any user to make changes to software libraries, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process. \n \nAccordingly, only qualified and authorized individuals must be allowed to obtain access to information system components for purposes of initiating changes, including upgrades and modifications. \n \nUnmanaged changes that occur to the database software libraries or configuration can lead to unauthorized or compromised installations.",
+  "Documentable": "false"
+}

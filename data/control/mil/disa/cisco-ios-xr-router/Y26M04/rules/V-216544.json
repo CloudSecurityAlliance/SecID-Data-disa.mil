@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216544",
+  "rule_id": "SV-216544r1137887_rule",
+  "stig_id": "CISC-ND-001370",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco router must be configured to use at least two authentication servers for the purpose of authenticating users prior to granting administrative access.",
+  "group_title": "SRG-APP-000516-NDM-000336",
+  "idents": {
+    "legacy": [
+      "SV-105621",
+      "V-96483"
+    ],
+    "cci": [
+      "CCI-000370"
+    ]
+  },
+  "check_id": "C-17779r916073_chk",
+  "check_content": "Review the Cisco router configuration to verify that the device is configured to use at least two authentication servers as primary source for authentication as shown in the following example:\n\nradius-server host 10.1.3.16 auth-port 1645 acct-port 1646\n key xxxxxxxxxx\nradius-server host 10.1.3.17 auth-port 1645 acct-port 1646\n key xxxxxxxxxx…\n…\n…\naaa authentication login LOGIN_AUTHENTICATION group radius local\nline console\n login authentication LOGIN_AUTHENTICATION\n!\nline default \n login authentication LOGIN_AUTHENTICATION\n transport input ssh\n\nIf the Cisco router is not configured to use at least two authentication servers for the purpose of authenticating users prior to granting administrative access, this is a finding.",
+  "fixtext": "Step 1: Configure the router to use at least two authentication servers as shown in the following example:\n\nRP/0/0/CPU0:R3(config)#radius-server host 10.1.3.16 key xxxxxxxx\nRP/0/0/CPU0:R3(config)#radius-server host 10.1.3.17 key xxxxxxxx\n\nStep 2: Configure the authentication order to use the authentication servers as primary source for authentication as shown in the following example:\n\nRP/0/0/CPU0:R3(config)#aaa authentication login LOGIN_AUTHENTICATION  group radius local\n\nStep 3: Configure all network connections associated with a device management to use the authentication servers for the purpose of login authentication as shown in the following example:\n\nRP/0/0/CPU0:R3(config)#line default\nRP/0/0/CPU0:R3(config-line)#login authentication LOGIN_AUTHENTICATION\nRP/0/0/CPU0:R3(config-line)#exit\nRP/0/0/CPU0:R3(config)#line console \nRP/0/0/CPU0:R3(config-line)#login authentication LOGIN_AUTHENTICATION",
+  "fix_id": "F-17776r916074_fix",
+  "VulnDiscussion": "Centralized management of user accounts and authentication increases the administrative access to the router. This control is particularly important protection against the insider threat. With robust centralized management, audit records for administrator account access to the organization's network devices can be more readily analyzed for trends and anomalies. The alternative method of defining administrator accounts on each device exposes the device configuration to remote access authentication attacks and system administrators with multiple authenticators for each network device.",
+  "Documentable": "false"
+}

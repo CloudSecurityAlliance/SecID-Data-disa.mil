@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269247",
+  "rule_id": "SV-269247r1050129_rule",
+  "stig_id": "ALMA-09-018940",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must limit the number of bogus Internet Control Message Protocol (ICMP) response errors logs.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73278r1049373_chk",
+  "check_content": "Verify AlmaLinux OS 9 ignores bogus ICMP error responses with the following command:\n\n$ sysctl net.ipv4.icmp_ignore_bogus_error_responses \n\nnet.ipv4.icmp_ignore_bogus_error_responses = 1\n\nIf the returned line does not have a value of \"1\", this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to use reverse path filtering on all IP interfaces.\n\nCreate a numbered *.conf file in /etc/sysctl.d/ with the following content:\n\nnet.ipv4.icmp_ignore_bogus_error_responses = 1\n\nThe system configuration files need to be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sysctl --system",
+  "fix_id": "F-73179r1049374_fix",
+  "VulnDiscussion": "Some routers will send responses to broadcast frames that violate RFC-1122, which fills up a log file system with many useless error messages. An attacker may take advantage of this and attempt to flood the logs with bogus error logs. Ignoring bogus ICMP error responses reduces log size, although some activity would not be logged.",
+  "Documentable": "false"
+}

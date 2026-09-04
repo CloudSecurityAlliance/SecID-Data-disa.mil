@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254426",
+  "rule_id": "SV-254426r958726_rule",
+  "stig_id": "WN22-DC-000420",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2022 Enable computer and user accounts to be trusted for delegation user right must only be assigned to the Administrators group on domain controllers.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-57911r849092_chk",
+  "check_content": "This applies to domain controllers. A separate version applies to other systems.\n\nVerify the effective setting in Local Group Policy Editor.\n\nRun \"gpedit.msc\".\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment.\n\nIf any accounts or groups other than the following are granted the \"Enable computer and user accounts to be trusted for delegation\" user right, this is a finding.\n\n- Administrators\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas User_Rights /cfg c:\\path\\filename.txt\n\nReview the text file.\n\nIf any SIDs other than the following are granted the \"SeEnableDelegationPrivilege\" user right, this is a finding.\n\nS-1-5-32-544 (Administrators)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment >> Enable computer and user accounts to be trusted for delegation to include only the following accounts or groups:\n\n- Administrators",
+  "fix_id": "F-57862r849093_fix",
+  "VulnDiscussion": "Inappropriate granting of user rights can provide system, administrative, and other high-level capabilities.\n\nThe \"Enable computer and user accounts to be trusted for delegation\" user right allows the \"Trusted for Delegation\" setting to be changed. This could allow unauthorized users to impersonate other users.",
+  "Documentable": "false"
+}

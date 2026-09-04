@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253732",
+  "rule_id": "SV-253732r961461_rule",
+  "stig_id": "MADB-10-007900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must enforce access restrictions associated with changes to the configuration of MariaDB or database(s).",
+  "group_title": "SRG-APP-000380-DB-000360",
+  "idents": {
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-57184r841719_chk",
+  "check_content": "To list all the permissions of individual roles, as the database administrator, run the following SQL:\n \n1. For User privileges:\n\nGather a list of SHOW GRANTS commands. SHOW GRANTS will list the privileges granted to the account.\n\nRun this script to create the SHOW GRANTS script for each user: \nMariaDB> SELECT DISTINCT CONCAT( 'SHOW GRANTS FOR ', user,'@', host,';') AS grantQuery FROM mysql.user WHERE is_role = 'N';\n\nRun each SHOW GRANTS command for each user.\n\n2. For role privileges (except admin_option, whether the role can be granted by a particular use):\n\n  MariaDB> SELECT CONCAT('SHOW GRANTS FOR ',Role,';' ) FROM mysql.roles_mapping;\n \nRun each SHOW GRANTS command for each role.\n\nIf any role has admin_option that should not, this is a finding.\n\nThere are no privileges assigned to databases or tables, security is enforced through the traditional way with granting very specific user privileges.\n \nIf any database or schema has update or create privileges and should not, this is a finding.",
+  "fixtext": "Configure MariaDB to enforce access restrictions associated with changes to the configuration of MariaDB or database(s). \n \n1. Use REVOKE to revoke privileges or roles on objects from users.\n \nMariaDB>  REVOKE  privileges  ON  object  FROM  user ;\n \n2. Use REVOKE to remove a role from a user or another role that it was previously assigned to.\n \nMariaDB>  REVOKE  role  FROM  grantee or role ;",
+  "fix_id": "F-57135r841720_fix",
+  "VulnDiscussion": "Failure to provide logical access restrictions associated with changes to configuration may have significant effects on the overall security of the system. \n\nWhen dealing with access restrictions pertaining to change control, it should be noted that any changes to the hardware, software, and/or firmware components of the information system can potentially have significant effects on the overall security of the system. \n\nAccordingly, only qualified and authorized individuals should be allowed to obtain access to system components for the purposes of initiating changes, including upgrades and modifications.",
+  "Documentable": "false"
+}

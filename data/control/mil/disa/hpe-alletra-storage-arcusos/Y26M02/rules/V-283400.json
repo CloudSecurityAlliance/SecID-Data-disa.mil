@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283400",
+  "rule_id": "SV-283400r1194894_rule",
+  "stig_id": "ASMP-ND-000740",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HPE Alletra Storage ArcusOS device must allocate audit record storage capacity in accordance with organization-defined audit record storage requirements.",
+  "group_title": "SRG-APP-000357-NDM-000293",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-87965r1194892_chk",
+  "check_content": "Verify the system is configured to limit the size of event logs stored on the system with the following command:\n\ncli% showsys -param\n\n----------Parameter-----------      ----Value----\nRawSpaceAlertSSD :              100\nRawSpaceAlertQLC :               0\nRemoteSyslog :                1\nRemoteSyslogHost  :          16.172.70.122\nRemoteSyslogProfile :             None\nRemoteSyslogSecurityHost:    16.172.70.200\nSparingAlgorithm:          Default\nEventLogSize:               10M\nEventLogNum :            30\n\nIf \"EventLogSize\" is set to a value less than \"10M\", this is a finding.",
+  "fixtext": "Configure the system to limit the size of event logs stored:\n\ncli% setsys EventLogSize 10M",
+  "fix_id": "F-87870r1194893_fix",
+  "VulnDiscussion": "Network devices must be able to allocate audit record storage capacity to ensure sufficient storage capacity in which to write the audit logs. The task of allocating audit record storage capacity is usually performed during initial device setup if it is modifiable.\n \nThe value for the organization-defined audit record storage requirement will depend on the amount of storage available on the network device, the anticipated volume of logs, the frequency of transfer from the network device to centralized log servers, and other factors.",
+  "Documentable": "false"
+}

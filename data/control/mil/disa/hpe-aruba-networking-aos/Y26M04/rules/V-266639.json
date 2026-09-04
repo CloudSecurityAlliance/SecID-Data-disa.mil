@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-266639",
+  "rule_id": "SV-266639r1117244_rule",
+  "stig_id": "ARBA-NT-000920",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AOS must use cryptographic algorithms approved by the National Security Agency (NSA) to protect national security systems (NSS) when transporting classified traffic across an unclassified network.",
+  "group_title": "SRG-NET-000352",
+  "idents": {
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-70563r1040405_chk",
+  "check_content": "If AOS is not being used for CSFC, this requirement is not applicable.\n\n1. Verify the AOS configuration with the following command:\nshow crypto-local ipsec-map\n\nNote the IKEv2 Policy number for each configured map.\n\n2. For each configured policy number, run the following command:\nshow crypto isakmp policy <IKEv2 Policy #>\n\n3. Verify each configured transform-set with the following command:\nshow crypto ipsec transform-set\n\nIf the configured IPsec map, ISAKMP policy, and transform-set do not contain the following, this is a finding:\n\nECDCA 384 certificate\nIKEv2 policy with AES256, SHA-384, ECDSA-384, Group 20\nTransform set with AES-256-GCM",
+  "fixtext": "Configure AOS with the following commands:\ncrypto pki csr ec curve_name secp384r1 common_name <common_name> country <US> state_or_province <state> city <city> organization <org> unit <unit> email <email>\nshow crypto pki csr\n\n1. Use DOD PKI to generate a public certificate based on the CSR.\n2. Using the web GUI, navigate to Configuration >> System >> Certificates >> Import Certificates. \n3. Click the plus sign (+) and enter \"Certificate name:\", browse to the public certificate file, choose the appropriate format, \"ServerCert\" type, and click \"Submit\". \n4. Navigate to Configuration >> System >> Admin, choose the imported certificate under \"Server Certificate\", and click \"Submit\". \n5. Click Pending Changes >> Deploy Changes. \n\nconfigure terminal\ncrypto ipsec transform-set <name> esp-aes256-gcm\ncrypto isakmp policy <#>\nauthentication ecdsa-384\nencryption aes256\ngroup 20\nhash sha2-384-192\nprf prf-hmac-sha384\nversion v2\nexit\ncrypto-local ipsec-map <name> <priority>\nset transform-set <set created earlier name>\n<configure VPN settings as needed>\nexit\nwrite memory",
+  "fix_id": "F-70466r1040406_fix",
+  "VulnDiscussion": "Use of weak or untested encryption algorithms undermines the purposes of using encryption to protect data.\n\nNational Institute of Standards and Technology (NIST) cryptographic algorithms are approved by NSA to protect NSS. Based on an analysis of the impact of quantum computing, cryptographic algorithms specified by CNSSP-15 and approved for use in products in the Commercial Solutions for Classified (CSfC) program have been changed to more stringent protocols and configured with increased bit sizes and other secure characteristics to protect against quantum computing threats. The Commercial National Security Algorithm (CNSA) Suite replaces Suite B.\n\nSatisfies: SRG-NET-000352, SRG-NET-000565",
+  "Documentable": "false"
+}

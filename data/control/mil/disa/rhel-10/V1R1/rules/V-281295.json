@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281295",
+  "rule_id": "SV-281295r1166837_rule",
+  "stig_id": "RHEL-10-700920",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must automatically exit interactive command shell user sessions after 15 minutes of inactivity.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "cci": [
+      "CCI-001133",
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-85856r1166835_chk",
+  "check_content": "Verify RHEL 10 is configured to exit interactive command shell user sessions after 10 minutes of inactivity or less with the following command:\n\n$ sudo grep -i tmout /etc/profile /etc/profile.d/*.sh\n/etc/profile.d/tmout.sh:declare -xr TMOUT=600\n\nIf \"TMOUT\" is not set to \"600\" or less in a script located in the \"/etc/'profile.d/\" directory, is missing, or is commented out, this is a finding.",
+  "fixtext": "Configure RHEL 10 to exit interactive command shell user sessions after 15 minutes of inactivity.\n\nAdd or edit the following line in \"/etc/profile.d/tmout.sh\":\n\n#!/bin/bash\n\ndeclare -xr TMOUT=600",
+  "fix_id": "F-85761r1166836_fix",
+  "VulnDiscussion": "Terminating an idle interactive command shell user session within a short time period reduces the window of opportunity for unauthorized personnel to take control of it when left unattended in a virtual terminal or physical console.\n\nSatisfies: SRG-OS-000163-GPOS-00072, SRG-OS-000029-GPOS-00010",
+  "Documentable": "false"
+}

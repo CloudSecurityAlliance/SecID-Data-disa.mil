@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271267",
+  "rule_id": "SV-271267r1108417_rule",
+  "stig_id": "SQLI-22-004200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SQL Server must protect against a user falsely repudiating by ensuring only clearly unique Active Directory user accounts can connect to the instance.",
+  "group_title": "SRG-APP-000080-DB-000063",
+  "idents": {
+    "cci": [
+      "CCI-000166"
+    ]
+  },
+  "check_id": "C-75310r1108415_chk",
+  "check_content": "Execute the following:\n\nSELECT name\nFROM sys.server_principals\nWHERE type in ('U','G')\nAND name LIKE '%$'\n\nIf no logins are returned, this is not a finding.\n\nIf logins are returned, determine whether each login is a computer account.\n\nLaunch PowerShell and execute the following code:\n\nNote: <name> represents the username portion of the login. For example, if the login is \"CONTOSO\\user1$\", the username is \"user1\".\n\n([ADSISearcher]\"(&(ObjectCategory=Computer)(Name=<name>))\").FindAll()\n\nIf no account information is returned, this is not a finding.\n\nIf account information is returned, this is a finding.",
+  "fixtext": "Remove all logins that were returned in the check content.",
+  "fix_id": "F-75217r1108416_fix",
+  "VulnDiscussion": "Nonrepudiation of actions taken is required to maintain data integrity. Examples of particular actions taken by individuals include creating information, sending a message, approving information (e.g., indicating concurrence or signing a contract), and receiving a message. \n \nNonrepudiation protects against later claims by a user of not having created, modified, or deleted a particular data item or collection of data in the database. \n \nIn designing a database, the organization must define the types of data and the user actions that must be protected from repudiation. The implementation must then include building audit features into the application data tables and configuring the DBMS's audit tools to capture the necessary audit trail. Design and implementation also must ensure that applications pass individual user identification to the DBMS, even where the application connects to the DBMS with a standard, shared account. \n \nIf the computer account of a remote computer is granted access to SQL Server, any service or scheduled task running as NT AUTHORITY\\SYSTEM or NT AUTHORITY\\NETWORK SERVICE can log into the instance and perform actions. These actions cannot be traced back to a specific user or process.",
+  "Documentable": "false"
+}

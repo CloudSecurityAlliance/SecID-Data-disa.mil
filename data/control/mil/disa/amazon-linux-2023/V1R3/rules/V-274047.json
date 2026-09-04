@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-274047",
+  "rule_id": "SV-274047r1120129_rule",
+  "stig_id": "AZLX-23-001230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 SSHD must accept public key authentication.",
+  "group_title": "SRG-OS-000105-GPOS-00052",
+  "idents": {
+    "cci": [
+      "CCI-000765",
+      "CCI-000766"
+    ]
+  },
+  "check_id": "C-78138r1120127_chk",
+  "check_content": "Verify Amazon Linux 2023 is configured so that the SSH daemon accepts public key encryption with the following command:\n \n$ sudo grep -ir PubkeyAuthentication /etc/ssh/sshd_config /etc/ssh/sshd_config.d/\n/etc/ssh/sshd_config:#PubkeyAuthentication yes\n/etc/ssh/sshd_config.d/90-PubkeyAuth:PubkeyAuthentication yes\n \nIf \"PubkeyAuthentication\" is set to no, the line is commented out, or the line is missing, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to use public key authentication for SSHD by adding or modifying the following line in \"/etc/ssh/sshd_config\" or in a file in \"/etc/ssh/sshd_config.d\".\n\nPubkeyAuthentication yes\n\nRestart the SSH daemon for the settings to take effect:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-78043r1120128_fix",
+  "VulnDiscussion": "Without the use of multifactor authentication, the ease of access to privileged functions is greatly increased.\n\nMultifactor authentication requires using two or more factors to achieve authentication.\n\nFactors include: \n1. Something a user knows (e.g., password/PIN);\n2. Something a user has (e.g., cryptographic identification device, token); and\n3. Something a user is (e.g., biometric).\n\nA privileged account is defined as an information system account with authorizations of a privileged user.\n\nNetwork access is defined as access to an information system by a user (or a process acting on behalf of a user) communicating through a network (e.g., local area network, wide area network, or the internet).\n\nThe DOD Common Access Card (CAC) with DOD-approved PKI is an example of multifactor authentication.\n\nSatisfies: SRG-OS-000105-GPOS-00052, SRG-OS-000106-GPOS-00053, SRG-OS-000107-GPOS-00054, SRG-OS-000108-GPOS-00055",
+  "Documentable": "false"
+}

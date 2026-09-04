@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268510",
+  "rule_id": "SV-268510r1131221_rule",
+  "stig_id": "APPL-15-002063",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable the guest account.",
+  "group_title": "SRG-OS-000364-GPOS-00151",
+  "idents": {
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-72540r1131220_chk",
+  "check_content": "Verify the macOS system is configured to disable the guest account with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\nfunction run() {\nlet pref1 = ObjC.unwrap($.NSUserDefaults.alloc.initWithSuiteName('com.apple.MCX')\\\n.objectForKey('DisableGuestAccount'))\nlet pref2 = ObjC.unwrap($.NSUserDefaults.alloc.initWithSuiteName('com.apple.MCX')\\\n.objectForKey('EnableGuestAccount'))\nif ( pref1 == true && pref2 == false ) {\nreturn(\"true\")\n} else {\nreturn(\"false\")\n}\n}\nEOS\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable the guest account by installing the \"com.apple.MCX\" configuration profile.",
+  "fix_id": "F-72441r1034469_fix",
+  "VulnDiscussion": "Guest access must be disabled.\n\nTurning off guest access prevents anonymous users from accessing files.",
+  "Documentable": "false"
+}

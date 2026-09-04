@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281287",
+  "rule_id": "SV-281287r1166813_rule",
+  "stig_id": "RHEL-10-700840",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must disable the user list at login for graphical user interfaces.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-85848r1166811_chk",
+  "check_content": "Note: This requirement assumes the use of the RHEL 10 default graphical user interface, the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is not applicable.\n\nVerify RHEL 10 disables the user login list for graphical user interfaces with the following command:\n\n$ gsettings get org.gnome.login-screen disable-user-list\ntrue\n\nIf the setting is \"false\", this is a finding.",
+  "fixtext": "Configure RHEL 10 to disable the user list at login for graphical user interfaces.\n\nNote: The example below is using the database \"local\" for the system. If the system is using another database in \"/etc/dconf/profile/user\", the file should be created under the appropriate subdirectory.\n\nCreate a database to contain the systemwide screensaver settings (if it does not already exist) with the following command:\n\n$ sudo vi /etc/dconf/db/local.d/02-login-screen\n\n[org/gnome/login-screen]\ndisable-user-list=true\n\nUpdate the system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-85753r1166812_fix",
+  "VulnDiscussion": "Leaving the user list enabled is a security risk because it allows anyone with physical access to the system to enumerate known user accounts without authenticated access to the system.",
+  "Documentable": "false"
+}

@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-260547",
+  "rule_id": "SV-260547r1015009_rule",
+  "stig_id": "UBTU-22-411035",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must disable account identifiers (individuals, groups, roles, and devices) after 35 days of inactivity.",
+  "group_title": "SRG-OS-000118-GPOS-00060",
+  "idents": {
+    "cci": [
+      "CCI-003627",
+      "CCI-003628",
+      "CCI-000795"
+    ]
+  },
+  "check_id": "C-64276r953452_chk",
+  "check_content": "Verify the account identifiers (individuals, groups, roles, and devices) are disabled after 35 days of inactivity by using the following command:  \n  \nCheck the account inactivity value by performing the following command:  \n  \n     $ grep INACTIVE /etc/default/useradd  \n     INACTIVE=35  \n  \nIf \"INACTIVE\" is set to \"-1\" or is not set to \"35\", is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure Ubuntu 22.04 LTS to disable account identifiers after 35 days of inactivity after the password expiration.   \n  \nRun the following command to change the configuration for adduser:  \n  \n     $ sudo useradd -D -f 35 \n  \nNote: DOD recommendation is 35 days, but a lower value is acceptable. The value \"0\" will disable the account immediately after the password expires.",
+  "fix_id": "F-64184r953453_fix",
+  "VulnDiscussion": "Inactive identifiers pose a risk to systems and applications because attackers may exploit an inactive identifier and potentially obtain undetected access to the system. Owners of inactive accounts will not notice if unauthorized access to their user account has been obtained.  \n  \nOperating systems need to track periods of inactivity and disable application identifiers after 35 days of inactivity.",
+  "Documentable": "false"
+}

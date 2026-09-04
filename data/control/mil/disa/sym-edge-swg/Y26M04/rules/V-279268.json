@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279268",
+  "rule_id": "SV-279268r1170603_rule",
+  "stig_id": "SYME-ND-000710",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Edge SWG must be configured to authenticate SNMP messages using a FIPS-validated Keyed-Hash Message Authentication Code (HMAC).",
+  "group_title": "SRG-APP-000395-NDM-000310",
+  "idents": {
+    "cci": [
+      "CCI-001967"
+    ]
+  },
+  "check_id": "C-83818r1170601_chk",
+  "check_content": "1. Log in to the Edge SWG SSH CLI.\n2. Enter \"show snmp\". \n\nIf the line for SNMPv1 and SNMPv2c does not say \"disabled\", this is a finding.\n\nBelow is an example of what the line will look in a correct state:\n\"SNMPv1 is disabled. SNMPv2c is disabled.\"",
+  "fixtext": "1. In the Edge SWG Web UI, navigate to the Administration tab.\n2. Select the \"SNMP\" and \"SNMP\" areas.\n3. Under \"V3 Users\", click \"Add User\".\n4. Enter the username.\n5. Select \"SHA\" for authentication and type a passphrase.\n6. Select AES and type a passphrase.\n7. Under \"V3 Traps and Informs\", add a trap destination if applicable.\n\n1. In the Edge SWG Web UI, navigate to the Configuration tab.\n2. Select the \"Services\" and \"Management Services\" areas.\n3. Enable SNMP, add the listener for both IPv4 and IPv6.\n\n1. In the Edge SWG Web UI, navigate to the Visual Policy Manager. \nNote: Ensure the Admin Access Layer was created before moving on to this step.\n2. Under the \"Admin Access Layer\", click \"Add Rule\".\n3. Under \"Source\", select \"Any\".\n4. Under \"Service\", select \"Service Name: SNMP\".\n5. Under \"Action\", select \"Allow Read-only Access\".\n6. Apply the policy.",
+  "fix_id": "F-83723r1170602_fix",
+  "VulnDiscussion": "Without authenticating devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity. Bidirectional authentication provides stronger safeguards to validate the identity of other devices for connections that are of greater risk.\n\nA local connection is any connection with a device communicating without the use of a network. A network connection is any connection with a device that communicates through a network (e.g., local area or wide area network, internet). A remote connection is any connection with a device communicating through an external network (e.g., the internet).\n\nBecause of the challenges of applying this requirement on a large scale, organizations are encouraged to only apply the requirement to those limited number (and type) of devices that truly need to support this capability.",
+  "Documentable": "false"
+}

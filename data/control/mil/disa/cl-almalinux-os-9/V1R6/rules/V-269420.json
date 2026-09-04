@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269420",
+  "rule_id": "SV-269420r1050303_rule",
+  "stig_id": "ALMA-09-040390",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must enable the Pluggable Authentication Module (PAM) interface for SSHD.",
+  "group_title": "SRG-OS-000125-GPOS-00065",
+  "idents": {
+    "cci": [
+      "CCI-000877"
+    ]
+  },
+  "check_id": "C-73451r1049672_chk",
+  "check_content": "Verify the AlmaLinux OS 9 SSHD is configured to allow for the UsePAM interface with the following command:\n\n$ sshd -T | grep usepam\n\nusepam yes\n\nIf the \"UsePAM\" keyword is set to \"no\", is missing, or is commented out, this is a finding.",
+  "fixtext": "Configure the SSH daemon to use PAM.\n\nAdd the following line to \"/etc/ssh/sshd_config\", or uncomment the line and set the value to \"yes\":\n\nUsePAM yes\n\nAlternatively, add the setting to an include file if the line \"Include /etc/ssh/sshd_config.d/*.conf\" is found at the top of the \"/etc/ssh/sshd_config\" file:\n\n$ cat << EOF | tee /etc/ssh/sshd_config.d/pam.conf\nUsePAM yes\nEOF\n\nRestart the SSH daemon for the settings to take effect:\n\n$ systemctl restart sshd.service",
+  "fix_id": "F-73352r1048637_fix",
+  "VulnDiscussion": "When UsePAM is set to \"yes\", PAM runs through account and session types properly. This is important when restricted access to services based off of IP, time, or other factors of the account is needed.\n\nAdditionally, this ensures users can inherit certain environment variables on login or disallow access to the server.",
+  "Documentable": "false"
+}

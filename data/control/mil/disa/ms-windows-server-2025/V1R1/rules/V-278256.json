@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-278256",
+  "rule_id": "SV-278256r1182224_rule",
+  "stig_id": "WN25-UR-000160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Windows Server 2025 \"Lock pages in memory\" user right must not be assigned to any groups or accounts.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235",
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-82786r1181472_chk",
+  "check_content": "Verify the effective setting in Local Group Policy Editor.\n\nRun gpedit.msc.\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment.\n\nIf any accounts or groups are granted the \"Lock pages in memory\" user right, this is a finding.\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas User_Rights /cfg c:\\path\\filename.txt\n\nReview the text file.\n\nIf any SIDs are granted the \"SeLockMemoryPrivilege\" user right, this is a finding.\n\nIf an application requires this user right, this is not a finding.\n\nVendor documentation must support the requirement for having the user right.\n\nThe requirement must be documented with the information system security officer (ISSO).\n\nThe application account must meet requirements for application account passwords, such as length (WN25-00-000050) and required frequency of changes (WN25-00-000060).",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment >> Lock pages in memory to be defined but containing no entries (blank).",
+  "fix_id": "F-82691r1181473_fix",
+  "VulnDiscussion": "Inappropriately granting user rights provides system, administrative, and other high-level capabilities.\n\nThe \"Lock pages in memory\" user right allows physical memory to be assigned to processes, which could cause performance issues or a denial of service.\n\nSatisfies: SRG-OS-000324-GPOS-00125, SRG-OS-000433-GPOS-00193",
+  "Documentable": "false"
+}

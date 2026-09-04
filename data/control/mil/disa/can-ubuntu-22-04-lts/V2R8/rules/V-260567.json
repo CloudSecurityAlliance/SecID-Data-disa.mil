@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260567",
+  "rule_id": "SV-260567r991587_rule",
+  "stig_id": "UBTU-22-611045",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must be configured so that when passwords are changed or new passwords are established, pwquality must be used.",
+  "group_title": "SRG-OS-000480-GPOS-00225",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-64296r953512_chk",
+  "check_content": "Verify Ubuntu 22.04 LTS enforces password complexity rules by using the following command:   \n \n     $ grep -i enforcing /etc/security/pwquality.conf  \n     enforcing = 1  \n  \nIf \"enforcing\" is not \"1\", is commented out, or is missing, this is a finding.  \n  \nCheck for the use of \"pwquality\" by using the following command:  \n  \n     $ cat /etc/pam.d/common-password | grep requisite | grep pam_pwquality \n      password     requisite     pam_pwquality.so retry=3  \n  \nIf \"retry\" is set to \"0\" or is greater than \"3\", or is missing, this is a finding.",
+  "fixtext": "Configure Ubuntu 22.04 LTS to enforce password complexity rules. \n  \nAdd or modify the following line in the \"/etc/security/pwquality.conf\" file: \n  \nenforcing = 1  \n  \nAdd or modify the following line in the \"/etc/pam.d/common-password\" file: \n  \npassword requisite pam_pwquality.so retry=3  \n  \nNote: The value of \"retry\" should be between \"1\" and \"3\".",
+  "fix_id": "F-64204r953513_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. \"pwquality\" enforces complex password construction configuration and has the ability to limit brute-force attacks on the system.",
+  "Documentable": "false"
+}

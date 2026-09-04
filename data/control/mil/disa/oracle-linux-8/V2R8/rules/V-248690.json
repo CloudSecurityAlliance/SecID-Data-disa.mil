@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-248690",
+  "rule_id": "SV-248690r1015050_rule",
+  "stig_id": "OL08-00-020140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must require the maximum number of repeating characters of the same character class be limited to four when passwords are changed.",
+  "group_title": "SRG-OS-000072-GPOS-00040",
+  "idents": {
+    "cci": [
+      "CCI-004066",
+      "CCI-000195"
+    ]
+  },
+  "check_id": "C-52124r833225_chk",
+  "check_content": "Check for the value of the \"maxclassrepeat\" option in \"/etc/security/pwquality.conf\" or \"/etc/security/pwquality.conf.d/*.conf\" files with the following command: \n \n$ sudo grep -r maxclassrepeat /etc/security/pwquality.conf*\n \n/etc/security/pwquality.conf:maxclassrepeat = 4 \n \nIf the value of \"maxclassrepeat\" is set to \"0\", more than \"4\" or is commented out, this is a finding.\nIf conflicting results are returned, this is a finding.",
+  "fixtext": "Configure OL 8 to require the change of the number of repeating characters of the same character class when passwords are changed by setting the \"maxclassrepeat\" option.\n\nAdd or update the following line in the \"/etc/security/pwquality.conf\" file or a configuration file in the \"/etc/security/pwquality.conf.d/\" directory:\n\nmaxclassrepeat = 4\n\nRemove any configurations that conflict with the above value.",
+  "fix_id": "F-52078r858636_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. \n \nPassword complexity is one factor of several that determines how long it takes to crack a password. The more complex the password, the greater the number of possible combinations that need to be tested before the password is compromised. \n \nOL 8 uses \"pwquality\" as a mechanism to enforce password complexity. The \"maxclassrepeat\" option sets the maximum number of allowed same consecutive characters in the same class in the new password.",
+  "Documentable": "false"
+}

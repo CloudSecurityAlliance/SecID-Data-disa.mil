@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215304",
+  "rule_id": "SV-215304r991591_rule",
+  "stig_id": "AIX7-00-002122",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX SSH daemon must be configured to not use host-based authentication.",
+  "group_title": "SRG-OS-000480-GPOS-00229",
+  "idents": {
+    "legacy": [
+      "SV-101845",
+      "V-91747"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16502r294363_chk",
+  "check_content": "Check the SSH daemon configuration for allowed host-based authentication using command: \n\n# grep -i HostbasedAuthentication /etc/ssh/sshd_config | grep -v '^#'\nHostbasedAuthentication no\n\nIf no lines are returned, or the returned \"HostbasedAuthentication\" directive contains \"yes\", this is a finding.",
+  "fixtext": "Edit \"/etc/ssh/sshd_config\" and add or update the \"HostbasedAuthentication\" line as:\nHostbasedAuthentication  no\n\nSave the change and restart ssh daemon:\n# stopsrc -s sshd\n# startsrc -s sshd",
+  "fix_id": "F-16500r294364_fix",
+  "VulnDiscussion": "SSH trust relationships mean a compromise on one host can allow an attacker to move trivially to other hosts.",
+  "Documentable": "false"
+}

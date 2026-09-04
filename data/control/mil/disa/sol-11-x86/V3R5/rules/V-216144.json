@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216144",
+  "rule_id": "SV-216144r959010_rule",
+  "stig_id": "SOL-11.1-050140",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The system must implement TCP Wrappers.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-61093",
+      "V-48221"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17382r372814_chk",
+  "check_content": "Determine if TCP Wrappers is configured.\n\n# inetadm -p | grep tcp_wrappers\n\nIf the output of this command is \"FALSE\", this is a finding.\n\nThe above command will check whether TCP Wrappers is enabled for all TCP-based services started by inetd. TCP Wrappers are enabled by default for sendmail and SunSSH (version 0.5.11). The use of OpenSSH access is controlled by the sshd_config file starting with Solaris\n11.3. SunSSH is removed starting with Solaris 11.4.\n\nIndividual inetd services may still be configured to use TCP Wrappers even if the global parameter (above) is set to \"FALSE\". To check the status of individual inetd services, use the command:\n\n\n# for svc in `inetadm | awk '/svc:\\// { print $NF }'`; do\nval=`inetadm -l ${svc} | grep -c tcp_wrappers=TRUE`\nif [ ${val} -eq 1 ]; then\necho \"TCP Wrappers enabled for ${svc}\"\nfi\ndone\n\nIf the required services are not configured to use TCP Wrappers, this is finding.\n\n# ls /etc/hosts.deny\n# ls /etc/hosts.allow\n\nIf these files are not found, this is a finding.",
+  "fixtext": "The root role is required.\n\nConfigure allowed and denied hosts per organizational policy.\n\n1. Create and customize the policy in /etc/hosts.allow:\n\n# echo \"ALL: [net]/[mask] , [net]/[mask], ...\" > /etc/hosts.allow\n\nwhere each [net>/[mask> combination (for example, the Class C address block \"192.168.1.0/255.255.255.0\") can represent one network block in use by the organization that requires access to this system.\n\n2. Create a default deny policy in /etc/hosts.deny: # echo \"ALL: ALL\" >/etc/hosts.deny\n\n3. Enable TCP Wrappers for all services started by inetd: \n\n# inetadm -M tcp_wrappers=TRUE",
+  "fix_id": "F-17380r372815_fix",
+  "VulnDiscussion": "TCP Wrappers is a host-based access control system that allows administrators to control who has access to various network services based on the IP address of the remote end of the connection. TCP Wrappers also provides logging information via syslog about both successful and unsuccessful connections.\n\nTCP Wrappers provides granular control over what services can be accessed over the network. Its logs show attempted access to services from non-authorized systems, which can help identify unauthorized access attempts.",
+  "Documentable": "false"
+}

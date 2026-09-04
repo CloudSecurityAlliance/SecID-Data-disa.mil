@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216449",
+  "rule_id": "SV-216449r959010_rule",
+  "stig_id": "SOL-11.1-080070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The centralized process core dump data directory must have mode 0700 or less permissive.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-60887",
+      "V-48015"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17685r371435_chk",
+  "check_content": "Check the defined directory for process core dumps.\n# coreadm | grep \"global core file pattern\"\n\nCheck the permissions of the directory.\n\n# ls -lLd [core file directory]\n\nIf the directory has a mode more permissive than 0700 (rwx --- ---), this is a finding.",
+  "fixtext": "The root role is required.\n\nChange the mode of the core file directory. \n\n# chmod 0700 [core file directory]",
+  "fix_id": "F-17683r371436_fix",
+  "VulnDiscussion": "Process core dumps contain the memory in use by the process when it crashed. Any data the process was handling may be contained in the core file, and it must be protected accordingly. If the process core dump data directory has a mode more permissive than 0700, unauthorized users may be able to view or to modify sensitive information contained in any process core dumps in the directory.",
+  "Documentable": "false"
+}

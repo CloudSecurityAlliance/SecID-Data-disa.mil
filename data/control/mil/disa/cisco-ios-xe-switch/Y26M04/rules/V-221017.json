@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221017",
+  "rule_id": "SV-221017r856412_rule",
+  "stig_id": "CISC-RT-000370",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco perimeter switch must be configured to have Cisco Discovery Protocol (CDP) disabled on all external interfaces.",
+  "group_title": "SRG-NET-000364-RTR-000111",
+  "idents": {
+    "legacy": [
+      "SV-110855",
+      "V-101751"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-22732r408845_chk",
+  "check_content": "Step 1: Verify if CDP is enabled globally as shown below:\n\ncdp run\n\nBy default, CDP is not enabled globally or on any interface. If CDP is enabled globally, proceed to Step 2.\n\nStep 2: Verify CDP is not enabled on any external interface as shown in the example below:\n\ninterface GigabitEthernet2\n ip address z.1.24.4 255.255.255.252\n…\n …\n …\ncdp enable\n\nIf CDP is enabled on any external interface, this is a finding.",
+  "fixtext": "Disable CDP on all external interfaces via no cdp enable command or disable CDP globally via no cdp run command.",
+  "fix_id": "F-22721r408846_fix",
+  "VulnDiscussion": "CDP is a Cisco proprietary neighbor discovery protocol used to advertise device capabilities, configuration information, and device identity. CDP is media-and-protocol-independent as it runs over layer 2; therefore, two network nodes that support different layer 3 protocols can still learn about each other. Allowing CDP messages to reach external network nodes provides an attacker a method to obtain information of the network infrastructure that can be useful to plan an attack.",
+  "Documentable": "false"
+}

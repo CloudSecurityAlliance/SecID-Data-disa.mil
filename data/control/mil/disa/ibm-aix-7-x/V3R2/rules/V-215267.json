@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215267",
+  "rule_id": "SV-215267r958566_rule",
+  "stig_id": "AIX7-00-002071",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX log files must be owned by a system group.",
+  "group_title": "SRG-OS-000206-GPOS-00084",
+  "idents": {
+    "legacy": [
+      "SV-101553",
+      "V-91455"
+    ],
+    "cci": [
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-16465r569440_chk",
+  "check_content": "Check the group of log files:\n\n# ls -lL /var/log /var/log/syslog /var/adm \n/var/adm:\ntotal 376\ndrw-r----- 2 root system 256 Jan 24 12:31 SRC\ndrwx------ 4 root system 256 Jan 24 07:28 config\n-rw-r----- 1 root system 1081 Jan 24 09:05 dev_pkg.fail\n-rw-r----- 1 root system 250 Jan 24 09:05 dev_pkg.success\n-rw------- 1 root system 64 Jan 24 09:43 sulog\ndrwxr-xr-x 3 root system 256 Jan 24 12:28 sw\ndrwx------ 2 root system 256 Jan 24 08:06 wpars\n-rw-r-----    1 adm adm  7517448 Apr 29 14:10 wtmp\n\n/var/log:\ntotal 8\ndrwxr-xr-x 2 root system 256 Jan 24 08:44 aso\n-rw-r----- 1 root system 603 Jan 24 10:30 cache_mgt.dr.log\n\nIf any of the log files have group other than a system group, this is a finding.",
+  "fixtext": "Change the group of the system log file(s) to a system group: \n# chgrp [system_group] /path/to/system-log-file",
+  "fix_id": "F-16463r569441_fix",
+  "VulnDiscussion": "Only authorized personnel should be aware of errors and the details of the errors. Error messages are an indicator of an organization's operational state or can identify AIX or platform. Additionally, Personally Identifiable Information (PII) and operational information must not be revealed through error messages to unauthorized personnel or their designated representatives.\n\nThe structure and content of error messages must be carefully considered by the organization and development team. The extent to which the information system is able to identify and handle error conditions is guided by organizational policy and operational requirements.",
+  "Documentable": "false"
+}

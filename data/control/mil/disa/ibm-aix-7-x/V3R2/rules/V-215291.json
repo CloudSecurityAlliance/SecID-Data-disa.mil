@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215291",
+  "rule_id": "SV-215291r1009547_rule",
+  "stig_id": "AIX7-00-002107",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must disable Kerberos Authentication in ssh config file to enforce access restrictions.",
+  "group_title": "SRG-OS-000365-GPOS-00152",
+  "idents": {
+    "legacy": [
+      "SV-101627",
+      "V-91529"
+    ],
+    "cci": [
+      "CCI-003938",
+      "CCI-001814"
+    ]
+  },
+  "check_id": "C-16489r294324_chk",
+  "check_content": "Check the SSH daemon configuration for the Kerberos authentication setting: \n# grep -i KerberosAuthentication /etc/ssh/sshd_config | grep -v '^#' \n\nIf the setting is present and set to \"yes\", this is a finding.",
+  "fixtext": "Edit the \"/etc/ssh/sshd_config\" file and add or change the \"KerberosAuthentication\" value of the setting to \"no\".\n\nRefresh sshd:\n# stopsrc -s sshd\n# startsrc -s sshd",
+  "fix_id": "F-16487r294325_fix",
+  "VulnDiscussion": "Without auditing the enforcement of access restrictions against changes to the application configuration, it will be difficult to identify attempted attacks and an audit trail will not be available for forensic investigation for after-the-fact actions.\n\nEnforcement actions are the methods or mechanisms used to prevent unauthorized changes to configuration settings. Enforcement action methods may be as simple as denying access to a file based on the application of file permissions (access restriction). Audit items may consist of lists of actions blocked by access restrictions or changes identified after the fact.",
+  "Documentable": "false"
+}

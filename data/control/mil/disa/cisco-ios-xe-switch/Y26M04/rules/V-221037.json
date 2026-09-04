@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221037",
+  "rule_id": "SV-221037r622190_rule",
+  "stig_id": "CISC-RT-000630",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco PE switch must be configured to have each Virtual Routing and Forwarding (VRF) instance bound to the appropriate physical or logical interfaces to maintain traffic separation between all MPLS L3VPNs.",
+  "group_title": "SRG-NET-000512-RTR-000005",
+  "idents": {
+    "legacy": [
+      "SV-110895",
+      "V-101791"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-22752r408905_chk",
+  "check_content": "Step 1: Review the design plan for deploying L3VPN and VRF-lite. \n\nStep 2: Review the design plan for deploying L3VPN and VRF-lite. Review all CE-facing interfaces and verify that the proper VRF is defined via the \"ip vrf forwarding\" command. In the example below, COI1 is bound to interface GigabitEthernet0/1, while COI2 is bound to GigabitEthernet0/2.\n\ninterface GigabitEthernet0/1\n description link to COI1\n no switchport\n ip vrf forwarding COI1\n ip address x.1.0.1 255.255.255.0\n!\ninterface GigabitEthernet0/2\ndescription link to COI2\nno switchport\n ip vrf forwarding COI2\n ip address x.2.0.2 255.255.255.0\n\nIf any VRFs are not bound to the appropriate physical or logical interface, this is a finding.",
+  "fixtext": "Configure the PE switch to have each VRF bound to the appropriate physical or logical interfaces to maintain traffic separation between all MPLS L3VPNs.",
+  "fix_id": "F-22741r408906_fix",
+  "VulnDiscussion": "The primary security model for an MPLS L3VPN infrastructure is traffic separation. The service provider must guarantee the customer that traffic from one VPN does not leak into another VPN or into the core, and that core traffic must not leak into any VPN. Hence, it is imperative that each CE-facing interface can only be associated to one VRF—that alone is the fundamental framework for traffic separation.",
+  "Documentable": "false"
+}

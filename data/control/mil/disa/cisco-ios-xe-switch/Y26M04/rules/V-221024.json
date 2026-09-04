@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221024",
+  "rule_id": "SV-221024r1137895_rule",
+  "stig_id": "CISC-RT-000500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco BGP switch must be configured to reject inbound route advertisements for any prefixes belonging to the local autonomous system (AS).",
+  "group_title": "SRG-NET-000018-RTR-000003",
+  "idents": {
+    "legacy": [
+      "SV-110869",
+      "V-101765"
+    ],
+    "cci": [
+      "CCI-001368"
+    ]
+  },
+  "check_id": "C-22739r408866_chk",
+  "check_content": "Review the switch configuration to verify that it will reject routes belonging to the local AS.\n\nStep 1: Verify a prefix list has been configured containing prefixes belonging to the local AS. In the example below x.13.1.0/24 is the global address space allocated to the local AS.\n\nip prefix-list PREFIX_FILTER seq 5 deny 0.0.0.0/8 le 32\n…\n…\n…\nip prefix-list PREFIX_FILTER seq 74 deny x.13.1.0/24 le 32\nip prefix-list PREFIX_FILTER seq 75 permit 0.0.0.0/0 ge 8\n\nStep 2: Verify that the prefix list has been applied to all external BGP peers as shown in the example below:\n\n router bgp xx\nno synchronization\nbgp log-neighbor-changes\nneighbor x.1.1.9 remote-as yy\nneighbor x.1.1.9 prefix-list PREFIX_FILTER in\nneighbor x.2.1.7 remote-as zz\nneighbor x.2.1.7 prefix-list PREFIX_FILTER in\n\nIf the switch is not configured to reject inbound route advertisements belonging to the local AS, this is a finding.",
+  "fixtext": "Review the switch configuration to verify that it will reject routes belonging to the local AS.\n\nConfigure the router to reject inbound route advertisements for any prefixes belonging to the local AS.\n\nStep 1: Add to the prefix filter list those prefixes belonging to the local autonomous system.\n\nSW1(config)#ip prefix-list PREFIX_FILTER seq 74 deny x.13.1.0/24 le 32\n\nStep 2: If not already completed to be compliant with previous requirement, apply the prefix list filter inbound to each external BGP neighbor as shown in the example.\n\nSW1(config)#switch bgp xx\nSW1(config-switch)#neighbor x.1.1.9 prefix-list PREFIX_FILTER in\nSW1(config-switch)#neighbor x.2.1.7 prefix-list PREFIX_FILTER in\nSW1(config-switch)#end",
+  "fix_id": "F-22728r408867_fix",
+  "VulnDiscussion": "Accepting route advertisements belonging to the local AS can result in traffic looping or being black-holed, or at a minimum, using a non-optimized path.",
+  "Documentable": "false"
+}

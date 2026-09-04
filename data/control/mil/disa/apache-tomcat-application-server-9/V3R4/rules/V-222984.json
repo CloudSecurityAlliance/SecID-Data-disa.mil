@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222984",
+  "rule_id": "SV-222984r961353_rule",
+  "stig_id": "TCAT-AS-001060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Tomcat user account must be a non-privileged user.",
+  "group_title": "SRG-APP-000340-AS-000185",
+  "idents": {
+    "legacy": [
+      "SV-111491",
+      "V-102551"
+    ],
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-24656r944934_chk",
+  "check_content": "Run the following command to identify the Tomcat process UID:\nps -ef | { head -1; grep catalina; } | cut -f1 -d\" \"\n\nRun the following command to obtain the OS user ID tied to the Tomcat process:\ncat /etc/passwd|grep -i <UID>|cut -f3 -d:\n\nUnless operationally necessary, the Tomcat process should not be tied to a privileged OS user ID. Depending on the operating system, privileged OS user IDs will typically be assigned user ID values <500 or <1000.\n\nIf the Tomcat process is running as a privileged user and is not documented and approved, this is a finding.\n\nIf the user ID field of the passwd file is set to 0, this is a finding.",
+  "fixtext": "From the Tomcat server, create a tomcat user by adding a new non-privileged user OS account with the following command:\n  \nsudo useradd tomcat\n\nEdit the systemd tomcat.service file or create one if it does not exist. Use the new \"tomcat\" user account by setting; USER=tomcat\n\nLocation of the file should be /etc/systemd/system/tomcat.service.\n\nEnable the Tomcat service:\nsudo restorecon /etc/systemd/system/tomcat.service\nsudo chmod 644 /etc/systemd/system/tomcat.service\nsudo systemctl enable tomcat.service\n\nStart Tomcat:\nsudo systemctl start tomcat",
+  "fix_id": "F-24645r426397_fix",
+  "VulnDiscussion": "Use a distinct non-privileged user account for running Tomcat. If Tomcat processes are compromised and a privileged user account is used to operate the Tomcat server processes, the entire system becomes compromised.\n\nSample passwd file:\ntomcat:x:1001:1001::/opt/tomcat/usr/sbin/nologin\n\nThe user ID is stored in field 3 of the passwd file.",
+  "Documentable": "false"
+}

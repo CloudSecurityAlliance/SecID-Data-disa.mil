@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278091",
+  "rule_id": "SV-278091r1182244_rule",
+  "stig_id": "WN25-CC-000130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2025 Early Launch Antimalware, Boot-Start Driver Initialization Policy must prevent boot drivers identified as bad.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-82621r1180977_chk",
+  "check_content": "The default behavior is for Early Launch Antimalware - Boot-Start Driver Initialization policy to enforce \"Good, unknown and bad but critical\" (preventing \"bad\").\n\nIf the registry value name below does not exist, this is not a finding.\n\nIf it exists and is configured with a value of \"0x00000007 (7)\", this is a finding.\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SYSTEM\\CurrentControlSet\\Policies\\EarlyLaunch\\\n\nValue Name: DriverLoadPolicy\n\nValue Type: REG_DWORD\nValue: 0x00000001 (1), 0x00000003 (3), or 0x00000008 (8) (or if the Value Name does not exist)\n\nPossible values for this setting are:\n8 - Good only\n1 - Good and unknown\n3 - Good, unknown and bad but critical\n7 - All (which includes \"bad\" and would be a finding)",
+  "fixtext": "The default behavior is for Early Launch Antimalware - Boot-Start Driver Initialization policy to enforce \"Good, unknown and bad but critical\" (preventing \"bad\").\n\nTo correct this, or if a more secure setting is desired, configure the policy value for Computer Configuration >> Administrative Templates >> System >> Early Launch Antimalware >> Boot-Start Driver Initialization Policy to \"Not Configured\" or \"Enabled\" with any option other than \"All\" selected.",
+  "fix_id": "F-82526r1182243_fix",
+  "VulnDiscussion": "Compromised boot drivers can introduce malware prior to protection mechanisms that load after initialization. The Early Launch Antimalware driver can limit allowed drivers based on classifications determined by the malware protection application. At a minimum, drivers determined to be bad must not be allowed.",
+  "Documentable": "false"
+}

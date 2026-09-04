@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215327",
+  "rule_id": "SV-215327r991589_rule",
+  "stig_id": "AIX7-00-003013",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX passwd.nntp file must have mode 0600 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101697",
+      "V-91599"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16525r294432_chk",
+  "check_content": "If NNTP is not being used, this is Not Applicable.\n\nCheck passwd.nntp file permissions using command:\n# find / -name passwd.nntp -exec ls -lL {} \\; \n\nThe above command may yield the following output:\n-rw-------    1 root     system           19 Oct 16 10:46 /etc/news/passwd.nntp\n\nIf a \"passwd.nntp\" file has a mode more permissive than \"0600\", this is a finding.",
+  "fixtext": "Change the mode of all the found passwd.nntp files that have mode more permissive than \"0600\" using command: \n# chmod 0600 <passwd.nntp_file>",
+  "fix_id": "F-16523r294433_fix",
+  "VulnDiscussion": "File permissions more permissive than 0600 for /etc/news/passwd.nntp may allow access to privileged information by system intruders or malicious users.",
+  "Documentable": "false"
+}

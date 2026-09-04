@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220994",
+  "rule_id": "SV-220994r856401_rule",
+  "stig_id": "CISC-RT-000090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must not be configured to have any zero-touch deployment feature enabled when connected to an operational network.",
+  "group_title": "SRG-NET-000362-RTR-000109",
+  "idents": {
+    "legacy": [
+      "SV-110809",
+      "V-101705"
+    ],
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-22709r408776_chk",
+  "check_content": "Review the device configuration to determine if auto-configuration or zero-touch deployment via Cisco Networking Services (CNS) is enabled. \n\nAuto-Configuration Example:\n\nversion 15.0\nservice config\n…\n…\n…\nboot-start-marker\nboot network tftp://x.x.x.x/R5-config\nboot-end-marker\n\nCNS Zero-Touch Example:\n\ncns trusted-server config x.x.x.x\ncns trusted-server image x.x.x.x\ncns config initial x.x.x.x 80\ncns exec 80\ncns image\n\nIf a configuration auto-loading feature or zero-touch deployment feature is enabled, this is a finding. \n\nNote: Auto-configuration or zero-touch deployment features can be enabled when the switch is offline for the purpose of image loading or building out the configuration. In addition, this would not be applicable to the provisioning of virtual switches via a software-defined network (SDN) orchestration system.",
+  "fixtext": "Disable configuration auto-loading if enabled using the following commands:\n\nSW1(config)#no boot network\nSW1(config)#no service config\n\nDisable CNS zero-touch deployment if enabled as shown in the example below:\n\nSW2(config)#no cns config initial\nSW2(config)#no cns exec\nSW2(config)#no cns image\nSW2(config)#no cns trusted-server config x.x.x.x\nSW2(config)#no cns trusted-server image x.x.x.x",
+  "fix_id": "F-22698r408777_fix",
+  "VulnDiscussion": "Network devices that are configured via a zero-touch deployment or auto-loading feature can have their startup configuration or image pushed to the device for installation via TFTP or Remote Copy (rcp). Loading an image or configuration file from the network is taking a security risk because the file could be intercepted by an attacker who could corrupt the file, resulting in a denial of service.",
+  "Documentable": "false"
+}

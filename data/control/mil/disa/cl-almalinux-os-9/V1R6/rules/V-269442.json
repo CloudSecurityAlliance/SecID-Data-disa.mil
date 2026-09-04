@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269442",
+  "rule_id": "SV-269442r1050325_rule",
+  "stig_id": "ALMA-09-043800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must not show boot up messages.",
+  "group_title": "SRG-OS-000206-GPOS-00084",
+  "idents": {
+    "cci": [
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-73473r1048702_chk",
+  "check_content": "Without using the \"quiet\" grub kernel parameter, the hardware and service information are printed to the console on boot and sometimes afterwards. This information could be useful for attackers with physical access, or so-called \"shoulder surfers\".\n\nBoot failures will still be shown, as will the LUKS password prompt.\n\nVerify the grub bootloader has the \"quiet\" option set with the following command:\n\n$ grubby --info=ALL | grep quiet\n\nargs=\"ro audit=1 audit_backlog_limit=8192 page_poison=1 vsyscall=none slub_debug=P pti=on iommu=force resume=/dev/mapper/luks-89bf0df8-547f-4613-af07-215e5f62e9a9 rd.luks.uuid=luks-8a7154ec-8eeb-46c8-9d75-66fc4b80d665 rd.lvm.lv=rootvg/root rd.luks.uuid=luks-89bf0df8-547f-4613-af07-215e5f62e9a9 rd.lvm.lv=rootvg/swap rd.shell=0 quiet splash fips=1 boot=UUID=eda01e9b-b7e1-431b-9549-16d5dcddf665 selinux=1 enforcing=1\"\n\nargs=\"ro audit=1 audit_backlog_limit=8192 page_poison=1 vsyscall=none slub_debug=P pti=on iommu=force resume=/dev/mapper/luks-89bf0df8-547f-4613-af07-215e5f62e9a9 rd.luks.uuid=luks-8a7154ec-8eeb-46c8-9d75-66fc4b80d665 rd.lvm.lv=rootvg/root rd.luks.uuid=luks-89bf0df8-547f-4613-af07-215e5f62e9a9 rd.lvm.lv=rootvg/swap rd.shell=0 quiet splash fips=1 boot=UUID=eda01e9b-b7e1-431b-9549-16d5dcddf665 selinux=1 enforcing=1\"\n\nIf nothing is returned, this is a finding.",
+  "fixtext": "Configure the grub bootloader to use the \"quiet\" parameter using the following command:\n\n$ grubby --update-kernel=ALL --args=quiet",
+  "fix_id": "F-73374r1048703_fix",
+  "VulnDiscussion": "Only authorized personnel should be aware of errors and the details of the errors. Error messages are an indicator of an organization's operational state or can identify the AlmaLinux OS 9 system or platform.\n\nAdditionally, personally identifiable information (PII) and operational information must not be revealed through error messages to unauthorized personnel or their designated representatives.\n\nThe structure and content of error messages must be carefully considered by the organization and development team. The extent to which the information system is able to identify and handle error conditions is guided by organizational policy and operational requirements.",
+  "Documentable": "false"
+}

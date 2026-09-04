@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216418",
+  "rule_id": "SV-216418r959010_rule",
+  "stig_id": "SOL-11.1-070020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Permissions on user home directories must be 750 or less permissive.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48133",
+      "SV-61005"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17654r371342_chk",
+  "check_content": "The root role is required.\n\nCheck that the permissions on users' home directories are 750 or less permissive.\n\n# for dir in `logins -ox |\\\nawk -F: '($8 == \"PS\") { print $6 }'`; do\nfind ${dir} -type d -prune \\( -perm -g+w -o \\\n-perm -o+r -o -perm -o+w -o -perm -o+x \\) -ls\ndone\n\nIf output is created, this is finding.",
+  "fixtext": "The root role is required. \n\nChange the permissions on users' directories to 750 or less permissive.\n\n# chmod 750 [directory name]",
+  "fix_id": "F-17652r371343_fix",
+  "VulnDiscussion": "Group-writable or world-writable user home directories may enable malicious users to steal or modify other users' data or to gain another user's system privileges.",
+  "Documentable": "false"
+}

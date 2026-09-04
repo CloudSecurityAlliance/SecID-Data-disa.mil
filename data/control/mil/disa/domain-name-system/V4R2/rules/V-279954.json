@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279954",
+  "rule_id": "SV-279954r1156971_rule",
+  "stig_id": "SRG-APP-000033-DNS-000111",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The private key corresponding to the ZSK, stored on name servers accepting dynamic updates, must have appropriate directory/file-level access control list-based or cryptography-based protections.",
+  "group_title": "SRG-APP-000148",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-84515r1156969_chk",
+  "check_content": "Review the DNS name server and documentation to determine whether it accepts dynamic updates. If dynamic updates are accepted, ensure the private key corresponding to the ZSK alone is protected with directory/file-level access control list-based or cryptography-based protections.\n\nIf the private key corresponding to the ZSK alone is not protected with directory/file-level access control list-based or cryptography-based protections, this is a finding.",
+  "fixtext": "Apply permissions to the private key corresponding to the ZSK alone with read/modify permissions for the account under which the name server software is run.",
+  "fix_id": "F-84420r1156970_fix",
+  "VulnDiscussion": "The private keys in the KSK and ZSK key pairs must be protected from unauthorized access. If possible, the private keys should be stored off-line (with respect to the Internet-facing, DNSSEC-aware name server) in a physically secure, non-network-accessible machine along with the zone file master copy.\n\nThis strategy is not feasible in situations in which the DNSSEC-aware name server has to support dynamic updates. To support dynamic update transactions, the DNSSEC-aware name server (which usually is a primary authoritative name server) has to have both the zone file master copy and the private key corresponding to the zone-signing key (ZSK-private) online to immediately update the signatures for the updated RRsets. The private key corresponding to the key-signing key (KSK-private) can still be kept off-line.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279435",
+  "rule_id": "SV-279435r1191091_rule",
+  "stig_id": "NXAC-AS-000029",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Nutanix AOS must use multifactor authentication for local access to privileged accounts.",
+  "group_title": "SRG-APP-000151-AS-000103",
+  "idents": {
+    "cci": [
+      "CCI-000765"
+    ]
+  },
+  "check_id": "C-83988r1191089_chk",
+  "check_content": "Confirm the Nutanix VM application server Envoy Reverse Proxy server only has one local account, and that it is the account of last resort. The Envoy Reverse Proxy server relies on AD for user management.\n\n1. Log in to Prism Element.\n2. Click the gear icon in the upper-right corner.\n3. Navigate to Authentication settings.\n\nIf an Active Directory or OpenLDAP servers are not configured, this is a finding.",
+  "fixtext": "Configure the Nutanix VM application server to use an enterprise user management system to authenticate individual users.\n\n1. Log in to Prism Element.\n2. Click the gear icon in the upper-right corner.\n3. Navigate to Authentication settings.\n4. Add an Active Directory or OpenLDAP server to the directory list.\n\nAlternatively, individual local users can be created within Prism.\n\n1. Log in to Prism Element.\n2. Click the gear icon in the upper-right corner.\n3. Navigate to Local User Management.\n4. Select \"+ New Users\".",
+  "fix_id": "F-83893r1191090_fix",
+  "VulnDiscussion": "Multifactor authentication creates a layered defense and makes it more difficult for an unauthorized person to access the application server. If one factor is compromised or broken, the attacker still has at least one more barrier to breach before successfully breaking into the target. Unlike a simple username/password scenario where the attacker could gain access by knowing both the username and password without the user knowing his account was compromised, multifactor authentication adds the requirement the attacker must have something from the user, such as a token, or to biometrically be the user.\n\nMultifactor authentication is defined as using two or more factors to achieve authentication. \n\nFactors include: \n(i) Something a user knows (e.g., password/PIN); \n(ii) Something a user has (e.g., cryptographic identification device, token); or \n(iii) Something a user is (e.g., biometric). A CAC or PKI Hardware Token meets this definition.\n\nA privileged account is defined as an information system account with authorizations of a privileged user. These accounts would be capable of accessing the command line management interface.\n\nWhen accessing the application server via a local connection, administrative access to the application server must be PKI hardware token enabled.",
+  "Documentable": "false"
+}

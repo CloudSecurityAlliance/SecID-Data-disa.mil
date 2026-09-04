@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279361",
+  "rule_id": "SV-279361r1179250_rule",
+  "stig_id": "MD8X-00-005000",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "MongoDB must protect the confidentiality and integrity of all information at rest.",
+  "group_title": "SRG-APP-000231-DB-000154",
+  "idents": {
+    "cci": [
+      "CCI-001199"
+    ]
+  },
+  "check_id": "C-83914r1179248_chk",
+  "check_content": "To provide integrity and confidentiality for data at rest, MongoDB must be configured to use the Encrypted Storage Engine.\n\nRun the following command to verify whether or not the Encrypted Storage Engine is enabled:\n\n> db.serverStatus().encryptionAtRest.encryptionEnabled\n\nAny output other than \"true\" is a finding.\n\nValidate whether the Encrypted Storage Engine is running with an AEAD block cipher, which provides integrity, by running the following command:\n\n> db.serverStatus().encryptionAtRest.encryptionCipherMode\n\nAny response other than \"AES256-GCM\" is a finding.\n\nValidate the system is configured to use KMIP to obtain a master encryption key, rather than storing the master key on the local filesystem.\n\nRun: \n\n> db.serverStatus().encryptionAtRest.encryptionKeyId\n\nIf the response is \"local\" or no response, this is a finding.",
+  "fixtext": "Enable the Encrypted Storage Engine with KMIP as the key storage mechanism and AES256-GCM as the encryption mode.\n\nConsult MongoDB documentation for encryption setup instruction here:\nhttps://www.mongodb.com/docs/v8.0/tutorial/configure-encryption/",
+  "fix_id": "F-83819r1179249_fix",
+  "VulnDiscussion": "This control is intended to address the confidentiality and integrity of information at rest in nonmobile devices and covers user information and system information. Information at rest refers to the state of information when it is located on a secondary storage device (e.g., disk drive, tape drive) within an organizational information system. Applications and application users generate information throughout the course of their application use. \n\nUser data generated, as well as application-specific configuration data, needs to be protected. Organizations may choose to employ different mechanisms to achieve confidentiality and integrity protections, as appropriate. \n\nIf the confidentiality and integrity of application data is not protected, the data will be open to compromise and unauthorized modification.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230383",
+  "rule_id": "SV-230383r1017192_rule",
+  "stig_id": "RHEL-08-020351",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must define default permissions for all authenticated users in such a way that the user can only read and modify their own files.",
+  "group_title": "SRG-OS-000480-GPOS-00228",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-33052r567895_chk",
+  "check_content": "Verify the operating system defines default permissions for all authenticated users in such a way that the user can only read and modify their own files.\n\nCheck for the value of the \"UMASK\" parameter in \"/etc/login.defs\" file with the following command:\n\nNote: If the value of the \"UMASK\" parameter is set to \"000\" in \"/etc/login.defs\" file, the Severity is raised to a CAT I.\n\n# grep -i umask /etc/login.defs\n\nUMASK 077\n\nIf the value for the \"UMASK\" parameter is not \"077\", or the \"UMASK\" parameter is missing or is commented out, this is a finding.",
+  "fixtext": "Configure the operating system to define default permissions for all authenticated users in such a way that the user can only read and modify their own files.\n\nAdd or edit the line for the \"UMASK\" parameter in \"/etc/login.defs\" file to \"077\":\n\nUMASK 077",
+  "fix_id": "F-33027r567896_fix",
+  "VulnDiscussion": "Setting the most restrictive default permissions ensures that when new accounts are created, they do not have unnecessary access.",
+  "Documentable": "false"
+}

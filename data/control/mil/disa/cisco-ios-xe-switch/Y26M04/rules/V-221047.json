@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221047",
+  "rule_id": "SV-221047r622190_rule",
+  "stig_id": "CISC-RT-000730",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco PE switch must be configured to block any traffic that is destined to the IP core infrastructure.",
+  "group_title": "SRG-NET-000205-RTR-000007",
+  "idents": {
+    "legacy": [
+      "SV-110915",
+      "V-101811"
+    ],
+    "cci": [
+      "CCI-001097"
+    ]
+  },
+  "check_id": "C-22762r408935_chk",
+  "check_content": "Step 1: Review the switch configuration to verify that an ingress ACL is applied to all external or CE-facing interfaces. \n\ninterface GigabitEthernet0/2\n no switchport\n ip address x.1.12.2 255.255.255.252\n ip access-group BLOCK_TO_CORE in\n\nStep 2: Verify that the ingress ACL discards and logs packets destined to the IP core address space. \n\nip access-list extended BLOCK_TO_CORE\n deny ip any 10.1.x.0 0.0.255.255 log-input\n permit ip any any\n!\n\nIf the PE switch is not configured to block any traffic with a destination address assigned to the IP core infrastructure, this is a finding.\n\nNote: Internet Control Message Protocol (ICMP) echo requests and traceroutes will be allowed to the edge from external adjacent neighbors.",
+  "fixtext": "Configure protection for the IP core to be implemented at the edges by blocking any traffic with a destination address assigned to the IP core infrastructure.\n\nStep 1: Configure an ingress ACL to discard and log packets destined to the IP core address space.\n\nSW2(config)#ip access-list extended BLOCK_TO_CORE\nSW2(config-ext-nacl)#deny ip any 10.1.x.0 0.0.255.255 log-input\nSW2(config-ext-nacl)#exit\n\nStep 2: Apply the ACL inbound to all external or CE-facing interfaces.\n\nSW2(config)#int SW1(config)#int g0/2\nSW2(config-if)#ip access-group BLOCK_TO_CORE in\nSW2(config-if)#end",
+  "fix_id": "F-22751r408936_fix",
+  "VulnDiscussion": "IP addresses can be guessed. Core network elements must not be accessible from any external host. Protecting the core from any attack is vital for the integrity and privacy of customer traffic as well as the availability of transit services. A compromise of the IP core can result in an outage or, at a minimum, non-optimized forwarding of customer traffic. Protecting the core from an outside attack also prevents attackers from using the core to attack any customer. Hence, it is imperative that all switches at the edge deny traffic destined to any address belonging to the IP core infrastructure.",
+  "Documentable": "false"
+}

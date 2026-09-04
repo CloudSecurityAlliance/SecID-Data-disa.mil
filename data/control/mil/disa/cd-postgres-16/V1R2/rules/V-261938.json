@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261938",
+  "rule_id": "SV-261938r1000819_rule",
+  "stig_id": "CD16-00-009400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must be able to generate audit records when security objects are accessed.",
+  "group_title": "SRG-APP-000492-DB-000332",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-65792r1000817_chk",
+  "check_content": "As the database administrator, verify pgaudit is enabled by running the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"SHOW shared_preload_libraries\"\n\nIf the output does not contain pgaudit, this is a finding.\n\nVerify that role, read, write, and ddl auditing are enabled:\n\n$ psql -c \"SHOW pgaudit.log\"\n\nIf the output does not contain role, read, write, and ddl, this is a finding.",
+  "fixtext": "Note: The following instructions use the PGDATA and PGVER environment variables. Refer to APPENDIX-F for instructions on configuring PGDATA and APPENDIX-H for PGVER.\n\nPostgreSQL can be configured to audit these requests using pgaudit.. Refer to supplementary content APPENDIX-B for documentation on installing pgaudit.\n\nWith pgaudit installed, the following configurations can be made:\n\n$ sudo su - postgres\n$ vi ${PGDATA?}/postgresql.conf\n\nAdd the following parameters (or edit existing parameters):\n\npgaudit.log='ddl, role, read, write'\n\nAs the system administrator, reload the server with the new configuration:\n\n$ sudo systemctl reload postgresql-${PGVER?}",
+  "fix_id": "F-65700r1000818_fix",
+  "VulnDiscussion": "Changes to the security configuration must be tracked.\n\nThis requirement applies to situations where security data is retrieved or modified via data manipulation operations, as opposed to via specialized security functionality.\n\nIn an SQL environment, types of access include, but are not necessarily limited to:\nSELECT\nINSERT\nUPDATE\nDELETE\nEXECUTE",
+  "Documentable": "false"
+}

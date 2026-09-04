@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242442",
+  "rule_id": "SV-242442r1188293_rule",
+  "stig_id": "CNTR-K8-002700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Kubernetes must remove old components after updated versions have been installed.",
+  "group_title": "SRG-APP-000454-CTR-001110",
+  "idents": {
+    "cci": [
+      "CCI-002617"
+    ]
+  },
+  "check_id": "C-45717r863905_chk",
+  "check_content": "To view all pods and the images used to create the pods, from the Control Plane, run the following command:\nkubectl get pods --all-namespaces -o jsonpath=\"{..image}\" | \\\ntr -s '[[:space:]]' '\\n' | \\\nsort | \\\nuniq -c\n\nReview the images used for pods running within Kubernetes.\n\nIf there are multiple versions of the same image, this is a finding.",
+  "fixtext": "Remove any old pods that are using older images. On the Control Plane, run the command:\nkubectl delete pod podname\n(Note: \"podname\" is the name of the pod to delete.)",
+  "fix_id": "F-45675r863906_fix",
+  "VulnDiscussion": "Previous versions of Kubernetes components that are not removed after updates have been installed may be exploited by adversaries by allowing the vulnerabilities to still exist within the cluster. It is important for Kubernetes to remove old pods when newer pods are created using new images to always be at the desired security state.",
+  "Documentable": "false"
+}

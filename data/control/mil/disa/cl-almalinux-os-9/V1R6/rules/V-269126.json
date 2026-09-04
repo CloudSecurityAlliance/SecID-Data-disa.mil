@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-269126",
+  "rule_id": "SV-269126r1107617_rule",
+  "stig_id": "ALMA-09-004320",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must use the TuxCare FIPS packages and not the default encryption packages.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "cci": [
+      "CCI-000068",
+      "CCI-002450",
+      "CCI-000877"
+    ]
+  },
+  "check_id": "C-73157r1049145_chk",
+  "check_content": "Verify that AlmaLinux OS 9 is using the TuxCare FIPS packages with the following command:\n\n$ rpm -qa | grep -E '^(gnutls|nettle|nss|openssl|libgcrypt|kernel)-[0-9]+' | grep -v tuxcare\n\nIf the command returns anything, this is a finding.",
+  "fixtext": "Ensure FIPS-validated packages are in use instead of OS defaults using the following commands:\n\n$ dnf -y upgrade\n$ reboot\n\nAfter rebooting into a FIPS kernel, remove the OS default kernel packages, using for example:\n\n$ dnf remove kernel-5.14.0-284.11.1.el9_2.x86_64 kernel-5.14.0-284.30.1.el9_2.x86_64\n$ dnf autoremove",
+  "fix_id": "F-73058r1101833_fix",
+  "VulnDiscussion": "FIPS 140-3-validated packages are available from TuxCare here: https://tuxcare.com/fips-for-almalinux/\n\nThe original community packages must be replaced with the versions that have gone through the CMVP.\n\nSatisfies: SRG-OS-000033-GPOS-00014, SRG-OS-000478-GPOS-00223, SRG-OS-000396-GPOS-00176, SRG-OS-000125-GPOS-00065",
+  "Documentable": "false"
+}

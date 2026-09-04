@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-215249",
+  "rule_id": "SV-215249r991557_rule",
+  "stig_id": "AIX7-00-002026",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX audit tools must be group-owned by audit.",
+  "group_title": "SRG-OS-000256-GPOS-00097",
+  "idents": {
+    "legacy": [
+      "V-91469",
+      "SV-101567"
+    ],
+    "cci": [
+      "CCI-001493",
+      "CCI-001494",
+      "CCI-001495"
+    ]
+  },
+  "check_id": "C-16447r294198_chk",
+  "check_content": "Check the following audit tools are group-owned by \"audit\":\n\n    /usr/sbin/audit\n    /usr/sbin/auditbin\n    /usr/sbin/auditcat\n    /usr/sbin/auditconv\n    /usr/sbin/auditmerge\n    /usr/sbin/auditpr\n    /usr/sbin/auditselect\n    /usr/sbin/auditstream\n\n# ls -l /usr/sbin/audit*|grep -v ldap\n-r-sr-x---    1 root     audit         64926 Mar 30 2016  /usr/sbin/audit\n-r-sr-x---    1 root     audit         41240 Mar 30 2016  /usr/sbin/auditbin\n-r-sr-x---    1 root     audit         40700 Mar 30 2016  /usr/sbin/auditcat\n-r-sr-x---    1 root     audit         13072 Mar 30 2016  /usr/sbin/auditconv\n-r-sr-x---    1 root     audit         11328 Mar 30 2016  /usr/sbin/auditmerge\n-r-sr-x---    1 root     audit         53466 Mar 30 2016  /usr/sbin/auditpr\n-r-sr-x---    1 root     audit         33128 Mar 30 2016  /usr/sbin/auditselect\n-r-sr-x---    1 root     audit         29952 Mar 30 2016  /usr/sbin/auditstream\n\nIf any above file's are not group-owned by \"audit\", this is a finding. \n\nVerify that \"/usr/sbin/auditldap\" group-owned by \"security\":\n\n# ls -l /usr/sbin/auditldap\n-r-x------    1 root     security      12204 Mar 30 2016  /usr/sbin/auditldap\n\nIf the group-owner of \"/usr/sbin/auditldap\" is not \"security\", this is a finding.",
+  "fixtext": "For each audit tool in: \n   /usr/sbin/audit\n    /usr/sbin/auditbin\n    /usr/sbin/auditcat\n    /usr/sbin/auditconv\n    /usr/sbin/auditmerge\n    /usr/sbin/auditpr\n    /usr/sbin/auditselect\n    /usr/sbin/auditstream\n\nSet the group to \"audit\".  \n# chgrp audit <audit tool>\n\nFor  /usr/sbin/auditldap:\n\nSet the group to \"security\". \n# chgrp security  /usr/sbin/auditldap",
+  "fix_id": "F-16445r294199_fix",
+  "VulnDiscussion": "Protecting audit information also includes identifying and protecting the tools used to view and manipulate log data. Therefore, protecting audit tools is necessary to prevent unauthorized operation on audit information.\n\nOperating systems providing tools to interface with audit information will leverage user permissions and roles identifying the user accessing the tools and the corresponding rights the user enjoys in order to make access decisions regarding the access to audit tools.\n\nAudit tools include, but are not limited to, vendor-provided and open source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.\n\nSatisfies: SRG-OS-000256-GPOS-00097, SRG-OS-000257-GPOS-00098, SRG-OS-000258-GPOS-00099",
+  "Documentable": "false"
+}

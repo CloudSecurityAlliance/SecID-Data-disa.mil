@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281149",
+  "rule_id": "SV-281149r1166399_rule",
+  "stig_id": "RHEL-10-500630",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must generate audit records for successful and unsuccessful uses of the \"poweroff\" command.",
+  "group_title": "SRG-OS-000477-GPOS-00222",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-85710r1166397_chk",
+  "check_content": "Verify RHEL 10 is configured to audit the execution of the \"poweroff\" command with the following command:\n\n$ sudo auditctl -l | grep poweroff\n-a always,exit -S all -F path=/usr/sbin/poweroff -F perm=x -F auid>=1000 -F auid!=-1 -F key=privileged-poweroff\n\nIf the command does not return a line, or the line is commented out, this is a finding.",
+  "fixtext": "Configure RHEL 10 to generate audit records upon successful and unsuccessful uses of the \"poweroff\" command by adding or updating the following rule in the \"/etc/audit/rules.d/audit.rules\" file:\n\n-a always,exit -F path=/usr/sbin/poweroff -F perm=x -F auid>=1000 -F auid!=unset -k privileged-poweroff\n\nRestart the audit daemon with the following command for the changes to take effect:\n\n$ sudo service auditd restart",
+  "fix_id": "F-85615r1166398_fix",
+  "VulnDiscussion": "Misuse of the \"poweroff\" command may cause availability issues for the system.",
+  "Documentable": "false"
+}

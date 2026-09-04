@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221122",
+  "rule_id": "SV-221122r999775_rule",
+  "stig_id": "CISC-RT-000680",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco PE switch providing Virtual Private LAN Services (VPLS) must be configured to have all attachment circuits defined to the virtual forwarding instance (VFI) with the globally unique VPN ID assigned for each customer VLAN.",
+  "group_title": "SRG-NET-000512-RTR-000009",
+  "idents": {
+    "legacy": [
+      "SV-111063",
+      "V-101959"
+    ],
+    "cci": [
+      "CCI-004931"
+    ]
+  },
+  "check_id": "C-22837r409855_chk",
+  "check_content": "Step 1: Review the implementation plan and the VPN IDs assigned to customer VLANs for the VPLS deployment.\n\nStep 2: Review the PE switch configuration to verify that customer attachment circuits are associated to the appropriate VFI. In the example below, the attached circuit at interface GigabitEthernet3 is associated to VPN ID 110.\n\nbridge-domain 100\n member vfi CUST1_VPLS\n member Ethernet2/2 service instance 1\n\nl2vpn vfi context CUST1_VPLS\n vpn id 100\nmember Pseudowire12\nmember Pseudowire13\n…\n…\n…\ninterface Ethernet2/2\n service instance 1 ethernet\n encapsulation dot1q 100\n…\n…\n…\ninterface Pseudowire12 \n encapsulation mpls\n neighbor 10.2.2.2 100\n\ninterface Pseudowire13 \n encapsulation mpls\n neighbor 10.3.3.3 100\n\nIf the attachment circuits have not been bound to the VFI configured with the assigned VPN ID for each VLAN, this is a finding.",
+  "fixtext": "Assign globally unique VPN IDs for each customer bridge domain using VPLS for carrier Ethernet services between multiple sites, and configure the attachment circuits to the appropriate VFI.\n\nStep 1: Configure the pseudowire interfaces with the assigned VC-ID.\n\nSW1(config)# interface Pseudowire12 \nSW1(config-if-pseudowire)# neighbor 10.2.2.2 100\nSW1(config-if-pseudowire)# encapsulation mpls\nSW1(config-pseudowire-mpls)# exit\nSW1(config-if-pseudowire)# exit\nSW1(config)# interface Pseudowire13 \nSW1(config-if-pseudowire)# neighbor 10.3.3.3 100\nSW1(config-if-pseudowire)# encapsulation mpls\nSW1(config-pseudowire-mpls)# exit\nSW1(config-if-pseudowire)# exit\n\nStep 2: Configure the virtual forwarding instance for the pseudowires as shown in the example with the assigned VPN ID.\n\nSW1(config)# l2vpn vfi context CUST1_VPLS\nSW1(config-l2vpn-vfi)# vpn 100\nSW1(config-l2vpn-vfi)# member Pseudowire12\nSW1(config-l2vpn-vfi)# member Pseudowire13\nSW1(config-l2vpn-vfi)# exit\n\nStep 3: Configure the service instance on the attachment circuit as shown in the example below:\n\nSW1(config)# interface ethernet 2/2\nSW1(config-if)# service instance 1 ethernet\nSW1(config-if-srv)# encapsulation dot1q 100\nSW1(config-if-srv)# exit\nSW1(config-if)# exit\n\nStep 4: Configure the bridge domain. \n\nSW1(config)# bridge-domain 100\nSW1(config-bdomain)# member ethernet 2/2 service-instance 1\nSW1(config-bdomain)# member vfi CUST1_VPLS\nSW1(config-bdomain)# end\n\nNote: The service instance configured on the attachment circuit must map to the service instance configured on the bridge domain in order to be bound to the correct bridge domain with the VFI that defines the appropriate VPN ID.",
+  "fix_id": "F-22826r409856_fix",
+  "VulnDiscussion": "VPLS defines an architecture that delivers Ethernet multipoint services over an MPLS network. Customer Layer 2 frames are forwarded across the MPLS core via pseudowires using IEEE 802.1q Ethernet bridging principles. A pseudowire is a virtual bidirectional connection between two attachment circuits (virtual connections between PE and CE switches). A pseudowire contains two unidirectional label-switched paths (LSP) between two PE switches. Each MAC virtual forwarding table instance (VFI) is interconnected using pseudowires provisioned for the bridge domain, thereby maintaining privacy and logical separation between each VPLS bridge domain.\n\nThe VFI specifies the pseudowires associated with connecting PE switches and the customer-facing attachment circuits belonging to a given VLAN. Resembling a Layer 2 switch, the VFI is responsible for learning MAC addresses and providing loop-free forwarding of customer traffic to the appropriate end nodes. Each VPLS domain is identified by a globally unique VPN ID; hence, VFIs of the same VPLS domain must be configured with the same VPN ID on all participating PE switches. To guarantee traffic separation for all customer VLANs and that all packets are forwarded to the correct destination, it is imperative that the correct attachment circuits are associated with the appropriate VFI and that each VFI is associated to the unique VPN ID assigned to the customer VLAN.",
+  "Documentable": "false"
+}

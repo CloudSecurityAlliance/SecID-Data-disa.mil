@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278030",
+  "rule_id": "SV-278030r1182043_rule",
+  "stig_id": "WN25-00-000450",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2025 must have orphaned security identifiers (SIDs) removed from user rights.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-82560r1182042_chk",
+  "check_content": "Review the effective User Rights setting in Local Group Policy Editor.\n\nRun gpedit.msc.\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment.\n\nReview each User Right listed for any unresolved SIDs to determine whether they are valid, such as due to being temporarily disconnected from the domain. (Unresolved SIDs have the format that begins with \"*S-1-\".)\n\nIf any unresolved SIDs exist and are not for currently valid accounts or groups, this is a finding.\n\nFor server core installations, run the following command:\n\nSecedit /export /areas USER_RIGHTS /cfg c:\\path\\UserRights.txt\n\nThe results in the file identify user right assignments by SID instead of group name. Review the SIDs to determine which are unidentified. A list of typical SIDs\\Groups is below; search Microsoft for articles on well-known SIDs for others. \n\nIf any unresolved SIDs exist and are not for currently valid accounts or groups, this is a finding.\n\nSID - Group\nS-1-5-11 - Authenticated Users\nS-1-5-113 - Local account\nS-1-5-114 - Local account and member of Administrators group\nS-1-5-19 - Local Service\nS-1-5-20 - Network Service\nS-1-5-32-544 - Administrators\nS-1-5-32-546 - Guests\nS-1-5-6 - Service\nS-1-5-9 - Enterprise Domain Controllers\nS-1-5-domain-512 - Domain Admins\nS-1-5-root domain-519 - Enterprise Admins\nS-1-5-80-3139157870-2983391045-3678747466-658725712-1809340420 - NT Service\\WdiServiceHost",
+  "fixtext": "Remove any unresolved SIDs found in User Rights assignments that are determined to not be for currently valid accounts or groups by removing the accounts or groups from the appropriate group policy.",
+  "fix_id": "F-82465r1180795_fix",
+  "VulnDiscussion": "Accounts or groups given rights on a system may show up as unresolved SIDs for various reasons including deletion of the accounts or groups. If the account or group objects are reanimated, there is a potential they may still have rights no longer intended. Valid domain accounts or groups may also show up as unresolved SIDs if a connection to the domain cannot be established.",
+  "Documentable": "false"
+}

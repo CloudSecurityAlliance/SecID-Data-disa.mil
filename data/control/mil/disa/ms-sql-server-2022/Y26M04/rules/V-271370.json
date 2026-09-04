@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271370",
+  "rule_id": "SV-271370r1111091_rule",
+  "stig_id": "SQLI-22-013800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SQL Server must generate audit records when successful and unsuccessful attempts to modify or delete security objects occur.",
+  "group_title": "SRG-APP-000496-DB-000334",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-75413r1111090_chk",
+  "check_content": "Review the SQL configuration to verify that audit records are produced when denied actions occur.\n\nTo determine if an audit is configured, execute the following script:\nSELECT name AS 'Audit Name',\nstatus_desc AS 'Audit Status',\naudit_file_path AS 'Current Audit File'\nFROM sys.dm_server_audit_status\n\nIf no records are returned, this is a finding.\n\nExecute the following to verify the events below are included in the server audit specification:\nSCHEMA_OBJECT_CHANGE_GROUP\n\nSELECT a.name AS 'AuditName',\ns.name AS 'SpecName',\nd.audit_action_name AS 'ActionName',\nd.audited_result AS 'Result'\nFROM sys.server_audit_specifications s\nJOIN sys.server_audits a ON s.audit_guid = a.audit_guid\nJOIN sys.server_audit_specification_details d ON s.server_specification_id = d.server_specification_id\nWHERE a.is_state_enabled = 1\nAND d.audit_action_name IN (\n'SCHEMA_OBJECT_CHANGE_GROUP'\n)\nOrder by d.audit_action_name\n\nIf the identified groups are not returned, this is a finding.",
+  "fixtext": "Add the required events to the server audit specification to audit denied actions.\n\nRefer to the supplemental file \"SQL2022Audit.sql\" script.\n\nReference: https://learn.microsoft.com/en-us/sql/relational-databases/security/auditing/sql-server-audit-database-engine?",
+  "fix_id": "F-75320r1109043_fix",
+  "VulnDiscussion": "Changes and deletions of the database objects (tables, views, procedures, functions) that record and control permissions, privileges, and roles granted to users and roles must be tracked. Without an audit trail, unauthorized changes to the security subsystem could go undetected. The database could be severely compromised or rendered inoperative. \n \nTo aid in diagnosis, it is necessary to track failed attempts in addition to the successful ones.\n\nSatisfies: SRG-APP-000496-DB-000334, SRG-APP-000496-DB-000335, SRG-APP-000501-DB-000336, SRG-APP-000501-DB-000337",
+  "Documentable": "false"
+}

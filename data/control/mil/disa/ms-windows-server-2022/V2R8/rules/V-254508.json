@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254508",
+  "rule_id": "SV-254508r958726_rule",
+  "stig_id": "WN22-UR-000180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2022 modify firmware environment values user right must only be assigned to the Administrators group.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-57993r849338_chk",
+  "check_content": "Verify the effective setting in Local Group Policy Editor.\n\nRun \"gpedit.msc\".\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment.\n\nIf any accounts or groups other than the following are granted the \"Modify firmware environment values\" user right, this is a finding:\n\n- Administrators\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas User_Rights /cfg c:\\path\\filename.txt\n\nReview the text file.\n\nIf any SIDs other than the following are granted the \"SeSystemEnvironmentPrivilege\" user right, this is a finding:\n\nS-1-5-32-544 (Administrators)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment >> Modify firmware environment values to include only the following accounts or groups:\n\n- Administrators",
+  "fix_id": "F-57944r849339_fix",
+  "VulnDiscussion": "Inappropriate granting of user rights can provide system, administrative, and other high-level capabilities.\n\nAccounts with the \"Modify firmware environment values\" user right can change hardware configuration environment variables. This could result in hardware failures or a denial of service.",
+  "Documentable": "false"
+}

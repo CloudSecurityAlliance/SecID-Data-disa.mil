@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281315",
+  "rule_id": "SV-281315r1167095_rule",
+  "stig_id": "RHEL-10-701130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must implement address space layout randomization (ASLR) to protect its memory from unauthorized code execution.",
+  "group_title": "SRG-OS-000433-GPOS-00193",
+  "idents": {
+    "cci": [
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-85876r1167093_chk",
+  "check_content": "Verify RHEL 10 is implementing ASLR.\n\nCheck the status of the \"kernel.randomize_va_space\" kernel parameter with the following command:\n\n$ sudo sysctl kernel.randomize_va_space\nkernel.randomize_va_space = 2\n\nIf \"kernel.randomize_va_space\" is not set to \"2\" or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 10 to implement ASLR.\n\nCreate the drop-in if it does not already exist:\n\n$ sudo vi /etc/sysctl.d/99-kernel_randomize_va_space.conf\n\nAdd the following line to the file:\n\nkernel.randomize_va_space = 2\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-85781r1167094_fix",
+  "VulnDiscussion": "ASLR makes it more difficult for an attacker to predict the location of attack code they have introduced into a process's address space during an attempt at exploitation. Additionally, ASLR makes it more difficult for an attacker to know the location of existing code to repurpose it using return-oriented programming techniques.",
+  "Documentable": "false"
+}

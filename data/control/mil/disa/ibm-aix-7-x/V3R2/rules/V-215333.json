@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215333",
+  "rule_id": "SV-215333r958702_rule",
+  "stig_id": "AIX7-00-003020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must use Trusted Execution (TE) Check policy.",
+  "group_title": "SRG-OS-000312-GPOS-00124",
+  "idents": {
+    "legacy": [
+      "V-91509",
+      "SV-101607"
+    ],
+    "cci": [
+      "CCI-002165"
+    ]
+  },
+  "check_id": "C-16531r294450_chk",
+  "check_content": "Run the following command to show the current status of the \"TE\", \"CHKEXEC\", and \"CHKKERNEXT\" on the system:\n# trustchk -p 2>&1 | egrep -e \"TE=|CHKEXEC|CHKKERNEXT\"\n\nThe above command should yield the following output:\nTE=ON\nCHKEXEC=ON\nCHKKERNEXT=ON\n\nIf \"TE\", \"CHKEXEC\", or \"CHKKERNEXT\" is \"OFF\", this is a finding.",
+  "fixtext": "Run the following command to turn on the all parts of Trusted Execution (TE):\n# trustchk -p TE=on CHKEXEC=on CHKKERNEXT=on",
+  "fix_id": "F-16529r294451_fix",
+  "VulnDiscussion": "Discretionary Access Control (DAC) is based on the notion that individual users are \"owners\" of objects and therefore have discretion over who should be authorized to access the object and in which mode (e.g., read or write). Ownership is usually acquired as a consequence of creating the object or via specified ownership assignment. DAC allows the owner to determine who will have access to objects they control. An example of DAC includes user-controlled file permissions.\n\nWhen discretionary access control policies are implemented, subjects are not constrained with regard to what actions they can take with information for which they have already been granted access. Thus, subjects that have been granted access to information are not prevented from passing (i.e., the subjects have the discretion to pass) the information to other subjects or objects. A subject that is constrained in its operation by Mandatory Access Control policies is still able to operate under the less rigorous constraints of this requirement. Thus, while Mandatory Access Control imposes constraints preventing a subject from passing information to another subject operating at a different sensitivity level, this requirement permits the subject to pass the information to any subject at the same sensitivity level. The policy is bounded by the information system boundary. Once the information is passed outside the control of the information system, additional means may be required to ensure the constraints remain in effect. While the older, more traditional definitions of discretionary access control require identity-based access control, that limitation is not required for this use of discretionary access control.",
+  "Documentable": "false"
+}

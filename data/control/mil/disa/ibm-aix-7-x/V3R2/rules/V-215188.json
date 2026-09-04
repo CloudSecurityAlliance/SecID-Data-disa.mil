@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215188",
+  "rule_id": "SV-215188r958400_rule",
+  "stig_id": "AIX7-00-001029",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must provide xlock command in the CDE environment to let users retain their sessions lock until users are reauthenticated.",
+  "group_title": "SRG-OS-000028-GPOS-00009",
+  "idents": {
+    "legacy": [
+      "SV-101331",
+      "V-91231"
+    ],
+    "cci": [
+      "CCI-000056"
+    ]
+  },
+  "check_id": "C-16386r294015_chk",
+  "check_content": "If AIX CDE (X11) is not used, this is Not Applicable.\n\nCheck the system to determine if \"X11.apps.clients\" is installed: \n# lslpp -L X11.apps.clients\n\nIf the \"X11.apps.clients\" fileset is not installed, this is a finding. \n\nCheck if \"xlock\" command exists using the following command:\n# ls  /usr/bin/X11/xlock\n\nThe above command should display the following:\n/usr/bin/X11/xlock\n\nIf the above command does not show that \"/usr/bin/X11/xlock\" exists, this is a finding.",
+  "fixtext": "Install \"X11.apps.clients\" fileset from the AIX DVD Volume 1 using the following command (assuming that the DVD is mounted to/dev/cd0):\n\n# installp -aXYgd /dev/cd0 -e /tmp/install.log X11.apps.clients",
+  "fix_id": "F-16384r294016_fix",
+  "VulnDiscussion": "All systems are vulnerable if terminals are left logged in and unattended. Leaving system terminals unsecure poses a potential security hazard.\n\nIf the interface is AIXwindows (CDE), use the xlock command to lock the sessions.",
+  "Documentable": "false"
+}

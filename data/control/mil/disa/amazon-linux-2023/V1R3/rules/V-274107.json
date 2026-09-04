@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274107",
+  "rule_id": "SV-274107r1120309_rule",
+  "stig_id": "AZLX-23-002220",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must off-load audit records onto a different system in the event the audit storage volume is full.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-78198r1120307_chk",
+  "check_content": "Verify Amazon Linux 2023 takes the appropriate action when the audit storage volume is full using the following command:\n\n$ sudo grep disk_full_action /etc/audit/auditd.conf\ndisk_full_action = SYSLOG\n\nIf the value of the \"disk_full_action\" option is not \"SYSLOG\", \"SINGLE\", or \"HALT\", or the line is commented out, ask the system administrator to indicate how the system takes appropriate action when an audit storage volume is full. If there is no evidence of appropriate action, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to off-load audit logs in the event the audit storage volume becomes full.\n\nAdd or update the following line (depending on configuration \"disk_full_action\" can be set to \"SYSLOG\" or \"SINGLE\" depending on configuration) in \"/etc/audit/auditd.conf\" file:\n\ndisk_full_action = SYSLOG",
+  "fix_id": "F-78103r1120308_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.",
+  "Documentable": "false"
+}

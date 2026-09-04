@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261949",
+  "rule_id": "SV-261949r1000852_rule",
+  "stig_id": "CD16-00-010500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must generate audit records when unsuccessful attempts to modify categories of information (e.g., classification levels/security levels) occur.",
+  "group_title": "SRG-APP-000498-DB-000347",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-65803r1000850_chk",
+  "check_content": "As the database administrator, verify pgaudit is enabled by running the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"SHOW shared_preload_libraries\"\n\nIf the output does not contain \"pgaudit\", this is a finding.\n\nVerify that role, read, write, and ddl auditing are enabled:\n\n$ psql -c \"SHOW pgaudit.log\"\n\nIf the output does not contain role, read, write, and ddl, this is a finding.",
+  "fixtext": "Note: The following instructions use the PGDATA and PGVER environment variables. Refer to APPENDIX-F for instructions on configuring PGDATA and APPENDIX-H for PGVER.\n\nConfigure PostgreSQL to produce audit records when unsuccessful attempts to modify categories of information occur.\n\nTo ensure logging is enabled, see the instructions in the supplementary content APPENDIX-C. All denials are logged when logging is enabled.\n\nWith pgaudit installed the following configurations can be made:\n\n$ sudo su - postgres\n$ vi ${PGDATA?}/postgresql.conf\n\nAdd the following parameters (or edit existing parameters):\n\npgaudit.log='ddl, role, read, write'\n\nAs the system administrator, reload the server with the new configuration:\n\n$ sudo systemctl reload postgresql-${PGVER?}",
+  "fix_id": "F-65711r1000851_fix",
+  "VulnDiscussion": "Changes in categories of information must be tracked. Without an audit trail, unauthorized access to protected data could go undetected.\n\nTo aid in diagnosis, it is necessary to keep track of failed attempts in addition to the successful ones.\n\nFor detailed information on categorizing information, refer to FIPS Publication 199, Standards for Security Categorization of federal information and information systems, and FIPS Publication 200, Minimum Security Requirements for federal information and information systems.",
+  "Documentable": "false"
+}

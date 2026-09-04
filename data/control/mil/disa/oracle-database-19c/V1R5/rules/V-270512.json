@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270512",
+  "rule_id": "SV-270512r1065305_rule",
+  "stig_id": "O19C-00-007300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Oracle Database must support enforcement of logical access restrictions associated with changes to the database management system (DBMS) configuration and to the database itself.",
+  "group_title": "SRG-APP-000380-DB-000360",
+  "idents": {
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-74545r1065303_chk",
+  "check_content": "Review access restrictions associated with changes to the configuration of the DBMS or database(s).\n\nOn Unix Systems:\nls -ld [pathname]\n\nReplace [pathname] with the directory path where the Oracle Database software is installed (e.g., /u01/app/oracle/product/19.0.0/dbhome_1).\n\nIf permissions are granted for world access, this is a finding.\n\nIf any groups that include members other than the software owner account, database administrators (DBAs), or any accounts not listed as authorized, this is a finding.\n\nFor Windows Systems:\nReview the permissions that control access to the Oracle installation software directories (e.g., \\Program Files\\Oracle\\).\n\nIf access is given to members other than the software owner account, DBAs, or any accounts not listed as authorized, this is a finding.\n\nCompare the access control employed with that documented in the system documentation.\n\nIf access does not match the documented requirement, this is a finding.",
+  "fixtext": "For Unix Systems:\nSet the umask of the Oracle software owner account to 022. Determine the shell being used for the Oracle software owner account:\n\n  env | grep -i shell\n\nStartup files for each shell are as follows (located in users $HOME directory):\n\n  C-Shell (CSH) = .cshrc\n  Bourne Shell (SH) = .profile\n  Korn Shell (KSH) = .kshrc\n  TC Shell (TCS) = .tcshrc\n  BASH Shell = .bash_profile or .bashrc\n\nEdit the shell startup file for the account and add or modify the line:\n\n  umask 022\n\nLog off and log on, then enter the umask command to confirm the setting.\n\nNote: To effect this change for all Oracle processes, a reboot of the DBMS server may be required.\n\nFor Windows Systems:\nRestrict access to the DBMS software libraries to the fewest accounts that clearly require access based on job function.\n\nDocument authorized access controls and justify any access grants that do not fall under DBA, DBMS process, ownership, or system administrator (SA) accounts.",
+  "fix_id": "F-74446r1065304_fix",
+  "VulnDiscussion": "Failure to provide logical access restrictions associated with changes to configuration may have significant effects on the overall security of the system. \n\nWhen dealing with access restrictions pertaining to change control, it should be noted that any changes to the hardware, software, and/or firmware components of the information system can potentially have significant effects on the overall security of the system. \n\nAccordingly, only qualified and authorized individuals should be allowed to obtain access to system components for the purposes of initiating changes, including upgrades and modifications.",
+  "Documentable": "false"
+}

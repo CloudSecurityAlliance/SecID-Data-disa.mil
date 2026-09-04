@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281065",
+  "rule_id": "SV-281065r1165550_rule",
+  "stig_id": "RHEL-10-400240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must enforce mode \"0750\" or less permissive for local interactive user home directories.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-85626r1165548_chk",
+  "check_content": "Verify RHEL 10 is configured so that the assigned home directory of all local interactive users has a mode of \"0750\" or less permissive with the following command:\n\nNote: This may miss interactive users that have been assigned a privileged user identifier (UID). Evidence of interactive use may be obtained from a number of log files containing system login information.\n\n$ stat -L -c '%a %n' $(awk -F: '($3>=1000)&&($7 !~ /nologin/){print $6}' /etc/passwd) 2>/dev/null\n700 /home/disauser\n\nIf home directories referenced in \"/etc/passwd\" do not have a mode of \"0750\" or less permissive, this is a finding.",
+  "fixtext": "Configure RHEL 10 so that the mode of interactive user's home directories is set to \"0750\". \n\nTo change the mode of a local interactive user's home directory, use the following command:\n\nNote: The example will be for the user \"disauser\".\n\n$ sudo chmod 0750 /home/disauser",
+  "fix_id": "F-85531r1165549_fix",
+  "VulnDiscussion": "Excessive permissions on local interactive user home directories may allow unauthorized access to user files by other users.",
+  "Documentable": "false"
+}

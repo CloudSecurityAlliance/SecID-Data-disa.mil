@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215374",
+  "rule_id": "SV-215374r958478_rule",
+  "stig_id": "AIX7-00-003069",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The talk daemon must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "SV-101475",
+      "V-91377"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16572r294573_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^talk[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"talkd\" entry by running command:\n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'talk' -p 'udp'\n\nRestart inetd:\n# refresh -s inetd",
+  "fix_id": "F-16570r294574_fix",
+  "VulnDiscussion": "This talk service is used to establish an interactive two-way communication link between two UNIX users. Unless required the talk service will be disabled to prevent attacks.",
+  "Documentable": "false"
+}

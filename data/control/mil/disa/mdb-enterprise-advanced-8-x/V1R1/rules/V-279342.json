@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279342",
+  "rule_id": "SV-279342r1179447_rule",
+  "stig_id": "MD8X-00-002800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The role(s)/group(s) used to modify database structure (including but not necessarily limited to tables, indexes, storage, etc.) and logic modules (stored procedures, functions, triggers, links to software external to MongoDB, etc.) must be restricted to authorized users.",
+  "group_title": "SRG-APP-000133-DB-000362",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-83895r1179446_chk",
+  "check_content": "For each database in MongoDB, run the following command to obtain the roles:\n\nuse <database>\ndb.getRoles(\n    {\n      rolesInfo: 1,\n      showPrivileges:true,\n      showBuiltinRoles: true\n    }\n)\n\nRun the following command to the roles assigned to users:\n\nuse admin\ndb.system.users.find()\n\nAnalyze the output and if any roles or users have unauthorized access, this is a finding. This will vary on an application basis.",
+  "fixtext": "Use the following commands to remove unauthorized access to a MongoDB database:\n \ndb.revokePrivilegesFromRole()\ndb.revokeRolesFromUser()\n\nMongoDB commands for role management can be found here:\n\nhttps://www.mongodb.com/docs/v8.0/reference/method/js-role-management/",
+  "fix_id": "F-83800r1179192_fix",
+  "VulnDiscussion": "If MongoDB were to allow any user to make changes to database structure or logic, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n\nAccordingly, only qualified and authorized individuals shall be allowed to obtain access to information system components for purposes of initiating changes, including upgrades and modifications.\n\nUnmanaged changes that occur to the database software libraries or configuration can lead to unauthorized or compromised installations.",
+  "Documentable": "false"
+}

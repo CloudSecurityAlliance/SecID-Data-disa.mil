@@ -1,0 +1,29 @@
+{
+  "vuln_id": "V-279252",
+  "rule_id": "SV-279252r1170685_rule",
+  "stig_id": "SYME-ND-000410",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Edge SWG must be configured to send log data to at least one central log server for the purpose of forwarding alerts to the administrators and the information system security officer (ISSO).",
+  "group_title": "SRG-APP-000027-NDM-000209",
+  "idents": {
+    "cci": [
+      "CCI-001403",
+      "CCI-000018",
+      "CCI-001404",
+      "CCI-001405",
+      "CCI-000172",
+      "CCI-000130",
+      "CCI-003938",
+      "CCI-001851",
+      "CCI-003831"
+    ]
+  },
+  "check_id": "C-83802r1170683_chk",
+  "check_content": "1. In the Edge SWG Web UI, navigate to the Administration tab.\n2. Select the \"Logging\" and \"Event Logging\" areas.\n3. Scroll down to the \"Syslog Loghosts\". \n\nIf a syslog server hostname/IP address is not configured, this is a finding.\n\nIf the syslog loghost is configured but is not using the TLS protocol, this is a finding.\n\n4. Scroll down to the \"Default Notification\" section, under \"Syslog\". \n\nIf it is not \"Enabled\" and set to \"all messages\", this is a finding.",
+  "fixtext": "1. In the Edge SWG Web UI, navigate to the Administration tab.\n2. Select the \"Logging\" and \"Event Logging\" areas.\nNote: This section sets the \"SSL Keyring\", which is needed for the \"SSL Device Profile\". Once the SSL Device Profile has been created properly, scroll down to the \"Syslog Loghosts\".\n3. Click \"Add loghost\".\n4. Click \"TLS\".\n5. Enter the fully qualified domain name of the log server.\n6. Enter the port, by default TLS syslog is 6514.\n7. Under \"SSL Device Profile\" select the profile associated with the DOD PKI certificate and key created previously.\n8. Click \"Add\".\n9. Scroll down to \"Default Notifications\", ensure \"Syslog\" is set to \"Enabled\", and the \"Level\" is \"All Messages\".\n10. On the syslog server, ensure the server is receiving the messages and troubleshoot any TLS-related communications issues.",
+  "fix_id": "F-83707r1170684_fix",
+  "VulnDiscussion": "Before continuing, the site must follow the configuration steps under SYME-ND-000800.\n\nThe aggregation of log data kept on a syslog server can be used to detect attacks and trigger an alert to the appropriate security personnel. The stored log data can be used to detect weaknesses in security that enable the network IA team to find and address these weaknesses before breaches can occur. Reviewing these logs, whether before or after a security breach, are important in showing whether someone is an internal employee or an outside threat.\n\nSatisfies: SRG-APP-000027-NDM-000209, SRG-APP-000026-NDM-000208, SRG-APP-000028-NDM-000210, SRG-APP-000029-NDM-000211, SRG-APP-000091-NDM-000223, SRG-APP-000095-NDM-000225, SRG-APP-000381-NDM-000305, SRG-APP-000515-NDM-000325, SRG-APP-000516-NDM-000350, SRG-APP-000795-NDM-000130",
+  "Documentable": "false"
+}

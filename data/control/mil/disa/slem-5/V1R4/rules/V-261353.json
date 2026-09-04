@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261353",
+  "rule_id": "SV-261353r1184417_rule",
+  "stig_id": "SLEM-05-411035",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All SLEM 5 local interactive user initialization files executable search paths must contain only paths that resolve to the users' home directory.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65082r1184416_chk",
+  "check_content": "Verify that all SLEM 5 local interactive user initialization files executable search path statements do not contain statements that will reference a working directory other than the user's home directory with the following command:\n\nNote: The example will be for the user \"dosuser\", who has a home directory of \"/home/dosuser\".\n\n     > sudo grep -i path= /home/dosuser/.*\n\n/home/dosuser/.bash_profile:PATH=$PATH:$HOME/.local/bin:$HOME/bin\n\nIf any local interactive user initialization files have executable search path statements that include directories outside of their home directory, and the additional path statements are not documented with the ISSO as an operational requirement, this is a finding.",
+  "fixtext": "Edit SLEM 5 local interactive user initialization files to change any PATH variable statements for executables that reference directories other than their home directory. If a local interactive user requires path variables to reference a directory owned by the application, it must be documented with the ISSO.",
+  "fix_id": "F-64990r996511_fix",
+  "VulnDiscussion": "The executable search path (typically the PATH environment variable) contains a list of directories for the shell to search to find executables. If this path includes the current working directory (other than the user's home directory), executables in these directories may be executed instead of system commands. This variable is formatted as a colon-separated list of directories. If there is an empty entry, such as a leading or trailing colon or two consecutive colons, this is interpreted as the current working directory. If deviations from the default system search path for the local interactive user are required, they must be documented with the information system security officer (ISSO).",
+  "Documentable": "false"
+}

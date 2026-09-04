@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269164",
+  "rule_id": "SV-269164r1050046_rule",
+  "stig_id": "ALMA-09-009700",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must ensure cryptographic verification of vendor software packages.",
+  "group_title": "SRG-OS-000366-GPOS-00153",
+  "idents": {
+    "cci": [
+      "CCI-003992"
+    ]
+  },
+  "check_id": "C-73195r1047868_chk",
+  "check_content": "Confirm AlmaLinux and TuxCare package-signing keys are installed on the system and verify their fingerprints match vendor values.\n\nThe keys are stored as \"RPM-GPG-KEY-AlmaLinux-9\" and \"RPM-GPG-KEY-TuxCare\" inside the \"/etc/pki/rpm-gpg/\" directory.\n\nList GPG keys installed on the system using the following command:\n\n$ rpm -q --queryformat \"%{SUMMARY}\\n\" gpg-pubkey\n\nTuxCare (Software Signing Key) <packager@tuxcare.com> public key\nAlmaLinux OS 9 <packager@almalinux.org> public key\n\nIf the AlmaLinux and TuxCare GPG keys are not installed, this is a finding.\n\nList key fingerprints of installed GPG keys using the following commands:\n\n$ gpg -q --keyid-format short --with-fingerprint /etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux-9 \n\npub   rsa4096/B86B3716 2022-01-18 [SC]\n      Key fingerprint = BF18 AC28 7617 8908 D6E7  1267 D36C B86C B86B 3716\nuid                   AlmaLinux OS 9 <packager@almalinux.org>\nsub   rsa4096/C9BA6CAA 2022-01-18 [E]\n\n$ gpg -q --keyid-format short --with-fingerprint /etc/pki/rpm-gpg/RPM-GPG-KEY-TuxCare\n\npub   rsa4096/8D50EB66 2023-03-06 [SC]\n      Key fingerprint = FAD7 8590 81D0 738B 7A82  8496 D07B F2A0 8D50 EB66\nuid                   TuxCare (Software Signing Key) <packager@tuxcare.com>\nsub   rsa4096/A9C70659 2023-03-06 [E]\n\nIf either \"/etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux-9\" or \"/etc/pki/rpm-gpg/RPM-GPG-KEY-TuxCare\" key files are missing, this is a finding.\n\nCompare key fingerprints of installed AlmaLinux and TuxCare GPG keys with fingerprints listed at \n\nhttps://almalinux.org/security/\n\nhttps://docs.tuxcare.com/enterprise-support-for-almalinux/#gnupg-keys\n\nIf the key fingerprints do not match, this is a finding.",
+  "fixtext": "Install AlmaLinux and TuxCare package-signing keys on the system and verify their fingerprints match vendor values.\n\n$ curl https://repo.almalinux.org/almalinux/RPM-GPG-KEY-AlmaLinux-9 -o /etc/pki/rpm-gpg/RPM-GPG-KEY-AlmaLinux-9\n\n$ curl https://repo.tuxcare.com/tuxcare/RPM-GPG-KEY-TuxCare -o /etc/pki/rpm-gpg/RPM-GPG-KEY-TuxCare\n\n$ rpm --import https://repo.almalinux.org/almalinux/RPM-GPG-KEY-AlmaLinux-9\n\n$ rpm --import https://repo.tuxcare.com/tuxcare/RPM-GPG-KEY-TuxCare\n\nUsing the steps listed in the Check, confirm the newly imported keys show as installed on the system and verify their fingerprints match vendor values.",
+  "fix_id": "F-73096r1047869_fix",
+  "VulnDiscussion": "Changes to any software components can have significant effects on the overall security of the operating system. This requirement ensures the software has not been tampered with and that it has been provided by a trusted vendor.\n\nAccordingly, patches, service packs, device drivers, or operating system components must be signed with a certificate recognized and approved by the organization.\n\nVerifying the authenticity of the software prior to installation validates the integrity of the patch or upgrade received from a vendor. This ensures the software has not been tampered with and that it has been provided by a trusted vendor. Self-signed certificates are not allowed by this requirement. The operating system should not have to verify the software again. This requirement does not mandate DOD certificates for this purpose; however, the certificate used to verify the software must be from an approved certificate authority (CA).",
+  "Documentable": "false"
+}

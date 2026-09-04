@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-250323",
+  "rule_id": "SV-250323r960759_rule",
+  "stig_id": "IBMW-LS-000020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The WebSphere Liberty Server Quality of Protection (QoP) must be set to use TLSv1.2 or higher.",
+  "group_title": "SRG-APP-000014-AS-000009",
+  "idents": {
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-53758r862963_chk",
+  "check_content": "As a privileged user with local file access to ${server.config.dir}/server.xml, verify the appSecurity-x.x feature and the sslProtocol settings are configured.\n\ngrep -i appsecurity- server.xml\n\nRESULT:\n<feature>appSecurity-2.0</feature>\n\nVerify the SSL protocol setting is configured for TLSV1.2 for every SSL configuration. There can be multiple SSL configurations and SSL ID settings.\n\ngrep -i \"<ssl id=\" server.xml\n\nSAMPLE RESULT:\n<ssl id=\"TLSSettings\" keyStoreRef=\"TLSKeyStore\" trustStoreRef=\"TLSTrustStore\" sslProtocol=\"TLSv1.2\"/>\n\nIf the SSL protocol setting does not specify TLS v.1.2 or higher, or if the appSecurity feature is not configured, this is a finding.",
+  "fixtext": "To ensure the QoP is set to TLS v1.2 or higher, the ${server.config.dir}/server.xml file must be configured as follows: \n\n<featureManager><feature>appSecurity-2.0</feature><feature>ssl-1.0</feature></featureManager>\n\nFor every SSL configuration, the sslProtocol field must be set to TLS v1.2 or higher.\n\n <ssl id=\"TLSSettings\" keyStoreRef=\"TLSKeyStore\" trustStoreRef=\"TLSTrustStore\"  sslProtocol=\"TLSv1.2\" />",
+  "fix_id": "F-53712r862964_fix",
+  "VulnDiscussion": "Quality of Protection in WebSphere Liberty specifies the security level, ciphers, and mutual authentication settings for the Secure Socket Layer (SSL/TLS) configuration. For Quality of Protection settings to apply, the security feature (appSecurity-2.0) must be defined in order to configure a user registry for the servlet to authenticate against. The SSL feature (ssl-1.0) must be defined in order to configure ssl settings, and the ldap feature (ldapRegistry-3.0) must be defined in order to configure an enterprise-level user registry for authentication of users.",
+  "Documentable": "false"
+}

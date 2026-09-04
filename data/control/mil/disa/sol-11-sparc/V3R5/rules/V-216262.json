@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216262",
+  "rule_id": "SV-216262r958594_rule",
+  "stig_id": "SOL-11.1-010270",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The operating system must automatically audit account termination.",
+  "group_title": "SRG-OS-000241",
+  "idents": {
+    "legacy": [
+      "SV-60689",
+      "V-47813"
+    ],
+    "cci": [
+      "CCI-001405"
+    ]
+  },
+  "check_id": "C-17498r916440_chk",
+  "check_content": "The Audit Configuration profile is required.\n\nThis check applies to the global zone only. Determine the zone currently being secured.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nDetermine the OS version currently being secured.\n# uname -v\n\nFor Solaris 11, 11.1, 11.2, and 11.3:\n# pfexec auditconfig -getflags | grep active | cut -f2 -d=\n\nIf \"ps\" audit flag is not included in the output, this is a finding.\n\nFor Solaris 11.4 or newer:\n# pfexec auditconfig -t -getflags | cut -f2 -d=\n\nIf \"cusa,fm,fd,-fa,-ps,-ex\" audit flags are not included in the output, this is a finding.\n\nDetermine if auditing policy is set to collect command line arguments.\n\n# pfexec auditconfig -getpolicy | grep active | grep argv\n\nIf the active audit policies line does not appear, this is a finding.",
+  "fixtext": "The Audit Configuration profile is required. All audit flags must be enabled in a single command.\n\nThis action applies to the global zone only. Determine the zone currently being secured.\n\n# zonename\n\nIf the command output is \"global\", this action applies.\n\nFor Solaris 11, 11.1, 11.2, and 11.3:\n# pfexec auditconfig -setflags cusa,-ps,fd,-fa,fm\n\nFor Solaris 11.4 or newer:\n# pfexec auditconfig -setflags cusa,-fa,-ex,-ps,fd,fm\n\nEnable the audit policy to collect command line arguments.\n\n# pfexec auditconfig -setpolicy +argv\n\nThese changes will not affect users that are currently logged in.",
+  "fix_id": "F-17496r877428_fix",
+  "VulnDiscussion": "Without auditing, malicious activity cannot be detected.",
+  "Documentable": "false"
+}

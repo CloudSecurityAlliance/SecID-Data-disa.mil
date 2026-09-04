@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279399",
+  "rule_id": "SV-279399r1179524_rule",
+  "stig_id": "MD8X-00-012800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MongoDB must require users to be individually authenticated before granting access to the shared accounts or resources.",
+  "group_title": "SRG-APP-000815-DB-000160",
+  "idents": {
+    "cci": [
+      "CCI-004045"
+    ]
+  },
+  "check_id": "C-83952r1179362_chk",
+  "check_content": "Check the MongoDB configuration file (default location /etc/mongod.conf) for a section named \"security\". \n \nIf this section does not contain the subkey of \"authorization\" with a value of \"enabled\" as shown below, this is a finding.\n\nsecurity:\n    authorization: enabled",
+  "fixtext": "Enable authorization for MongoDB Enterprise.\n\nRead the directions in the MongoDB documentation here: \nhttps://www.mongodb.com/docs/v8.0/tutorial/configure-scram-client-authentication/\n\nCreate the user administrator.\n\nEdit the MongoDB database configuration file (default location /etc/mongod.conf) to contain the following setting in the security section:\n\nsecurity:\n    authorization: enabled\n\nStop/start (restart) the mongod or mongos instance using this configuration.\n\nLog on to MongoDB as an authorized user created by the user administrator and run the following command to verify the output is \"true\":\n\ndb.getSiblingDB(\"admin\").runCommand({getCmdLineOpts: 1}).parsed.security.authorization\n\nThe output of this command must be \"true\".",
+  "fix_id": "F-83857r1179523_fix",
+  "VulnDiscussion": "Individual authentication prior to shared group authentication mitigates the risk of using group accounts or authenticators.",
+  "Documentable": "false"
+}

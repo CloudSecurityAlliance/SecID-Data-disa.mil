@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-225223",
+  "rule_id": "SV-225223r961038_rule",
+  "stig_id": "APPNET0031",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Digital signatures assigned to strongly named assemblies must be verified.",
+  "group_title": "SRG-APP-000175",
+  "idents": {
+    "legacy": [
+      "SV-7438",
+      "V-7055"
+    ],
+    "cci": [
+      "CCI-000185"
+    ]
+  },
+  "check_id": "C-26922r467984_chk",
+  "check_content": "Use regedit to review the Windows registry key \nHKLM\\Software\\Microsoft\\StrongName\\Verification. \nThere should be no assemblies or hash values listed under this registry key. If the StrongName\\Verification key does not exist, this is not a finding.\n\nIf there are assemblies or hash values listed in this key, each value represents a distinct application assembly that does not have the application strong name verified.  \n\nIf any assemblies are listed as omitting strong name verification in a production environment, this is a finding.\n\nIf any assemblies are listed as omitting strong name verification in a development or test environment and the IAO has not provided documented approvals, this is a finding.",
+  "fixtext": "Use regedit to remove the values stored in Windows registry key HKLM\\Software\\Microsoft\\StrongName\\Verification. There should be no assemblies or hash values listed under this registry key.\n\nAll assemblies must require strong name verification in a production environment.\n\nStrong name assemblies that do not require verification in a development or test environment must have documented approvals from the IAO.",
+  "fix_id": "F-26910r467985_fix",
+  "VulnDiscussion": "A strong name consists of the assembly's identity, simple text name, version number, and culture information (if provided)—plus a public key and a digital signature.  Strong names serve to identify the author of the code.  If digital signatures used to sign strong name assemblies are not verified, any self signed code can be impersonated.  This can lead to a loss of system integrity.",
+  "Documentable": "false"
+}

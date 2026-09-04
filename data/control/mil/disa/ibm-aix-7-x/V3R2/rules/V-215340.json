@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215340",
+  "rule_id": "SV-215340r991589_rule",
+  "stig_id": "AIX7-00-003034",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All AIX files and directories must have a valid owner.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101725",
+      "V-91627"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16538r294471_chk",
+  "check_content": "Check the system for files with no assigned owner using the following command:\n# find / -nouser -print \n\nIf any files have no assigned owner, this is a finding.",
+  "fixtext": "All directories and files (executable and data) will have an identifiable owner and group name. Either trace files to an authorized user, change the file's owner to \"root\", or delete them. Determine the legitimate owner of the files and use the \"chown\" command to set the owner and group to the correct value. If the legitimate owner cannot be determined, change the owner to \"root\" (but make sure none of the changed files remain executable because they could be trojan horses or other malicious code). Examine the files to determine their origin and the reason for their lack of an owner/group. \n\nFrom the command prompt, run the following command to set the owner and/or group on a file:\n# chown <a-valid-user>.<a-valid-group> <directory>/<file>",
+  "fix_id": "F-16536r294472_fix",
+  "VulnDiscussion": "Unowned files do not directly imply a security problem, but they are generally a sign that something is amiss. They may be caused by an intruder, by incorrect software installation or draft software removal, or by failure to remove all files belonging to a deleted account. The files should be repaired so they will not cause problems when accounts are created in the future, and the cause should be discovered and addressed.",
+  "Documentable": "false"
+}

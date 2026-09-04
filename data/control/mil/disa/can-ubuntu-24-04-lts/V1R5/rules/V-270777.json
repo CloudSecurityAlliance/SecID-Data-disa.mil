@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270777",
+  "rule_id": "SV-270777r1066820_rule",
+  "stig_id": "UBTU-24-900060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 24.04 LTS must permit only authorized groups to own the audit configuration files.",
+  "group_title": "SRG-OS-000063-GPOS-00032",
+  "idents": {
+    "cci": [
+      "CCI-000171"
+    ]
+  },
+  "check_id": "C-74810r1066818_chk",
+  "check_content": "Verify /etc/audit/audit.rules, /etc/audit/rules.d/*, and /etc/audit/auditd.conf files are owned by \"root\" group with the following command: \n \n$ sudo ls -al /etc/audit/ /etc/audit/rules.d/\n/etc/audit/: \n \n-rw-r-----   1 root root   804 Nov 25 11:01 auditd.conf \n -rw-r-----   1 root root  9128 Dec 27 09:56 audit.rules \n-rw-r-----   1 root root   127 Feb  7  2018 audit-stop.rules \n \ndrwxr-x---   2 root root  4096 Dec 27 09:56 rules.d \n \n/etc/audit/rules.d/: \n\n -rw-r----- 1 root root 244 Dec 27 09:56 audit.rules \n-rw-r----- 1 root root 10357 Dec 27 09:56 stig.rules \n \nIf the \"/etc/audit/audit.rules\", \"/etc/audit/rules.d/*\", or \"/etc/audit/auditd.conf\" file is owned by a group other than \"root\", this is a finding.",
+  "fixtext": "Configure /etc/audit/audit.rules, /etc/audit/rules.d/*, and /etc/audit/auditd.conf files to be owned by \"root\" group by using the following command: \n \n$ sudo chown :root /etc/audit/audit*.{rules,conf} /etc/audit/rules.d/*",
+  "fix_id": "F-74711r1066819_fix",
+  "VulnDiscussion": "Without the capability to restrict which roles and individuals can select which events are audited, unauthorized personnel may be able to prevent the auditing of critical events.  \n \nMisconfigured audits may degrade the system's performance by overwhelming the audit log. Misconfigured audits may also make it more difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.",
+  "Documentable": "false"
+}

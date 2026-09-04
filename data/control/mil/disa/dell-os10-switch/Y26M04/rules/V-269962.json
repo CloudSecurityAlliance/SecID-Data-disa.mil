@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269962",
+  "rule_id": "SV-269962r1052327_rule",
+  "stig_id": "OS10-L2S-000160",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Dell OS10 Switch must have Storm Control configured on all host-facing switch ports.",
+  "group_title": "SRG-NET-000512-L2S-000001",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73995r1052270_chk",
+  "check_content": "Review the Dell OS10 Switch configuration to verify that storm control is enabled on all host-facing switch ports.\n\nFor each host-facing switch port: \n\ninterface ethernet1/1/1\n  switchport access vlan 100\n  storm-control broadcast 1000\n  storm-control multicast rate 100 Mbps\n  storm-control unknown-unicast rate 600 Kbps\n\nNote that the rates may be entered in bits per second or packets per second units.\n\nIf the switch has not enabled storm control on all host-facing switch ports, this is a finding.",
+  "fixtext": "Configure the Dell OS10 Switch to enable storm control is on all host-facing switch ports as shown in the example below:\n\nOS10(config)# interface ethernet 1/1/1\nOS10(conf-if-eth1/1/1)# storm-control broadcast 1000\nOS10(conf-if-eth1/1/1)# storm-control multicast rate 100 Mbps\nOS10(conf-if-eth1/1/1)# storm-control unknown-unicast rate 600 Kbps",
+  "fix_id": "F-73896r1052271_fix",
+  "VulnDiscussion": "A traffic storm occurs when packets flood a LAN, creating excessive traffic and degrading network performance. Traffic storm control prevents network disruption by suppressing ingress traffic when the number of packets reaches a configured threshold level. Traffic storm control monitors ingress traffic levels on a port and drops traffic when the number of packets reaches the configured threshold level during any one-second interval.",
+  "Documentable": "false"
+}

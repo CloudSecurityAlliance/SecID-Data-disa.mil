@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222933",
+  "rule_id": "SV-222933r1137578_rule",
+  "stig_id": "TCAT-AS-000080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Cookies must have http-only flag set.",
+  "group_title": "SRG-APP-000033-AS-000024",
+  "idents": {
+    "legacy": [
+      "SV-111397",
+      "V-102449"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-24605r426243_chk",
+  "check_content": "From the Tomcat server console, run the following command:\n\nsudo grep -i -B10 -A1 \\/cookie-config $CATALINA_BASE/conf/web.xml\n\nIf the command returns no results or if the <http-only> element is not set to true, this is a finding.\n\nEXAMPLE:\n<session-config>\n   <session-timeout>15</session-timeout>\n     <cookie-config>\n       <http-only>true</http-only>\n        <secure>true</secure>\n     </cookie-config>\n</session-config>",
+  "fixtext": "From the Tomcat server console as a privileged user:\n\nedit the $CATALINA_BASE/conf/web.xml\n\nIf the cookie-config section does not exist it must be added. Add or modify the <http-only> setting and set to true.\n\nEXAMPLE:\n<session-config>\n   <session-timeout>15</session-timeout>\n     <cookie-config>\n       <http-only>true</http-only>\n        <secure>true</secure>\n     </cookie-config>\n</session-config>",
+  "fix_id": "F-24594r426244_fix",
+  "VulnDiscussion": "It is possible to steal or manipulate web application session and cookies without having a secure cookie. Configuring the secure flag injects the setting into the response header.\n\nThe $CATALINA_BASE/conf/web.xml file controls how all applications handle cookies via the <cookie-config> element.",
+  "Documentable": "false"
+}

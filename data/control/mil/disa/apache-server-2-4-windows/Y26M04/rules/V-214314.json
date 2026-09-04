@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214314",
+  "rule_id": "SV-214314r960930_rule",
+  "stig_id": "AS24-W1-000180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Apache web server log files must only be accessible by privileged users.",
+  "group_title": "SRG-APP-000118-WSR-000068",
+  "idents": {
+    "legacy": [
+      "SV-102447",
+      "V-92359"
+    ],
+    "cci": [
+      "CCI-000162"
+    ]
+  },
+  "check_id": "C-15526r277445_chk",
+  "check_content": "Review the <'INSTALL PATH'>\\conf\\httpd.conf file to determine the location of the logs.\n\nDetermine permissions for log files. From the command line, navigate to the directory where the log files are located and enter the following command:\n\nicacls <'Apache Directory'>\\logs\\*\n\nex: icacls c:\\Apache24\\logs\\*\n\nOnly the Auditors, Web Managers, Administrators, and the account that runs the web server should have permissions to the files.\n\nIf any users other than those authorized have read access to the log files, this is a finding.",
+  "fixtext": "To maintain the integrity of the data that is being captured in the log files, ensure that only the members of the Auditors group, Administrators, and the user assigned to run the web server software are granted permissions to read the log files.",
+  "fix_id": "F-15524r277446_fix",
+  "VulnDiscussion": "Log data is essential in the investigation of events. If log data were to become compromised, competent forensic analysis and discovery of the true source of potentially malicious system activity would be difficult, if not impossible, to achieve. In addition, access to log records provides information an attacker could potentially use to their advantage since each event record might contain communication ports, protocols, services, trust relationships, user names, etc.\n\nThe web server must protect the log data from unauthorized read, write, copy, etc. This can be done by the web server if the web server is also doing the logging function. The web server may also use an external log system. In either case, the logs must be protected from access by non-privileged users.",
+  "Documentable": "false"
+}

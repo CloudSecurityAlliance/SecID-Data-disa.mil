@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253372",
+  "rule_id": "SV-253372r991589_rule",
+  "stig_id": "WN11-CC-000085",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Early Launch Antimalware, Boot-Start Driver Initialization Policy must prevent boot drivers.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56825r829198_chk",
+  "check_content": "The default behavior is for Early Launch Antimalware - Boot-Start Driver Initialization policy is to enforce \"Good, unknown and bad but critical\" (preventing \"bad\").\n\nIf the registry value name below does not exist, this is a finding.\n\nIf it exists and is configured with a value of \"7\", this is a finding.\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SYSTEM\\CurrentControlSet\\Policies\\EarlyLaunch\\\n\nValue Name: DriverLoadPolicy\n\nValue Type: REG_DWORD\nValue: 1, 3, or 8 \n\nPossible values for this setting are:\n8 - Good only\n1 - Good and unknown\n3 - Good, unknown and bad but critical\n7 - All (which includes \"Bad\" and would be a finding)",
+  "fixtext": "Ensure that Early Launch Antimalware - Boot-Start Driver Initialization policy is set to enforce \"Good, unknown and bad but critical\" (preventing \"bad\").\n\nTo correct this, configure the policy value for Computer Configuration >> Administrative Templates >> System >> Early Launch Antimalware >> \"Boot-Start Driver Initialization Policy\" to \"Enabled with \"Good, unknown and bad but critical\" selected.",
+  "fix_id": "F-56775r829199_fix",
+  "VulnDiscussion": "The default behavior is for Early Launch Antimalware - Boot-Start Driver Initialization policy is to enforce \"Good, unknown and bad but critical\" (preventing \"bad\"). By being launched first by the kernel, ELAM ( Early Launch Antimalware) is ensured to be launched before any third-party software, and is therefore able to detect malware in the boot process and prevent it from initializing.",
+  "Documentable": "false"
+}

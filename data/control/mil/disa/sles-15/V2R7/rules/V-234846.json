@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234846",
+  "rule_id": "SV-234846r958674_rule",
+  "stig_id": "SLES-15-010370",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must have a firewall system installed to immediately disconnect or disable remote access to the whole operating system.",
+  "group_title": "SRG-OS-000298-GPOS-00116",
+  "idents": {
+    "cci": [
+      "CCI-002322"
+    ]
+  },
+  "check_id": "C-38034r618807_chk",
+  "check_content": "Verify \"firewalld\" is configured to protect the SUSE operating system. \n\nRun the following command:\n\n> systemctl status firewalld.service\n firewalld.service - firewalld - dynamic firewall daemon\n   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; enabled; vendor preset: disabled)\n   Active: active (running) since Wed 2019-11-06 10:58:11 CET; 24h ago\n     Docs: man:firewalld(1)\n Main PID: 1105 (firewalld)\n    Tasks: 2 (limit: 4915)\n   CGroup: /system.slice/firewalld.service\n           ??1105 /usr/bin/python3 -Es /usr/sbin/firewalld --nofork --nopid\n\nIf the service is not enabled, this is a finding.\n\nIf the service is not active, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to enable the firewall service. This is needed to be able to immediately disconnect or disable remote access to the whole system.\n\nEnable the \"firewalld.service\" by running the following command:\n\n> sudo systemctl enable firewalld.service\n\nStart the \"firewalld.service\" by running the following command:\n\n> sudo systemctl start firewalld.service\n\nTo immediately disconnect or disable remote access the firewall needs to be set into panic mode.\n\n> sudo firewall-cmd --panic-on\n\nTo enable remote connection again, panic mode needs to be disabled.\n\n> sudo firewall-cmd --panic-off",
+  "fix_id": "F-37997r618808_fix",
+  "VulnDiscussion": "Operating system remote access functionality must have the capability to immediately disconnect current users remotely accessing the information system and/or disable further remote access. The speed of disconnect or disablement varies based on the criticality of mission functions and the need to eliminate immediate or future remote access to organizational information systems.\n\nSUSE operating systems are capable to immediately stop remote connections and services by a local system administrator.\n\nTo immediately disconnect or disable remote access, the firewall needs to be set into panic mode.\n\n> sudo firewall-cmd --panic-on\n\nTo enable remote connection again, panic mode needs to be disabled.\n\n> sudo firewall-cmd --panic-off",
+  "Documentable": "false"
+}

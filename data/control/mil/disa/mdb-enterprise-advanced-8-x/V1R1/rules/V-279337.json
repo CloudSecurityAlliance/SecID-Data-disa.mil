@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-279337",
+  "rule_id": "SV-279337r1179178_rule",
+  "stig_id": "MD8X-00-002300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MongoDB must protect its audit features from unauthorized access, modification, and removal.",
+  "group_title": "SRG-APP-000123-DB-000204",
+  "idents": {
+    "cci": [
+      "CCI-001495",
+      "CCI-001493",
+      "CCI-001494"
+    ]
+  },
+  "check_id": "C-83890r1179176_chk",
+  "check_content": "To ensure audit configurations are protected from unauthorized access, modification, and removal, the default installation of MongoDB restricts permission on the configuration file. \n\nVerify User ownership, Group ownership, and permissions on the <MongoDB configuration file>:\n\nNote: Default name and location is: /etc/mongod.conf. The name and location for the MongoDB configuration file will vary according to local circumstances.\n\nUsing the default name and location the command would be:\n\n$ stat /etc/mongod.conf\n\nIf the User owner is not \"mongod\", this is a finding.\n\nIf the Group owner is not \"mongod\", this is a finding.\n\nIf the filename is more permissive than \"600\", this is a finding.\n\nNote that the audit destination cannot be modified at runtime.",
+  "fixtext": "Run these commands: \n\n\"chown mongod <MongoDB configuration file>\" \n\"chgrp mongod <MongoDB configuration file>\" \n\"chmod 600 <MongoDB configuration file>\"\n\nNote: The name and location for the MongoDB configuration file will vary according to local circumstances. The default name and location is /etc/mongod.conf.\n\nUsing the default name and location the commands would be:\n\n$ chown mongod /etc/mongod.conf  \n$ chgrp  mongod /etc/mongod.conf  \n$ chmod 600 /etc/mongod.conf",
+  "fix_id": "F-83795r1179177_fix",
+  "VulnDiscussion": "Protecting audit data also includes identifying and protecting the tools used to view and manipulate log data. Therefore, protecting audit tools is necessary to prevent unauthorized operation on audit data.\n\nApplications providing tools to interface with audit data will leverage user permissions and roles identifying the user accessing the tools and the corresponding rights the user enjoys in order to make access decisions regarding the deletion of audit tools.\n\nAudit tools include, but are not limited to, vendor-provided and open source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.\n\nSatisfies: SRG-APP-000123-DB-000204, SRG-APP-000121-DB-000202, SRG-APP-000122-DB-000203",
+  "Documentable": "false"
+}

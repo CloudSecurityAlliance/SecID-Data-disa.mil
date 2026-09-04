@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216540",
+  "rule_id": "SV-216540r1156820_rule",
+  "stig_id": "CISC-ND-001150",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco router must be configured to authenticate Network Time Protocol (NTP) sources using authentication with FIPS-compliant algorithms.",
+  "group_title": "SRG-APP-000395-NDM-000347",
+  "idents": {
+    "legacy": [
+      "SV-105605",
+      "V-96467"
+    ],
+    "cci": [
+      "CCI-001967"
+    ]
+  },
+  "check_id": "C-17775r1156818_chk",
+  "check_content": "Review the Cisco router configuration to verify that it authenticates NTP sources using authentication with FIPS-compliant algorithms as shown in the configuration example below:\n\nntp\nauthentication-key 1 hmac-sha2 encrypted xxxxxx\ntrusted-key 1\nauthenticate\nserver 198.51.100.1 key 1\n\nIf the Cisco router is not configured to authenticate NTP sources using authentication with FIPS-compliant algorithms, this is a finding.",
+  "fixtext": "Configure the Cisco router to authenticate NTP sources using authentication with FIPS-compliant algorithms as shown in the example below:\n\nRP/0/0/CPU0:router# configure\nRP/0/0/CPU0:router(config)# ntp\nRP/0/0/CPU0:router(config-ntp)# authentication-key 1 hmac-sha2 encrypted xxxxxx\nRP/0/0/CPU0:router(config-ntp)# trusted-key 1\nRP/0/0/CPU0:router(config-ntp)# authenticate\nRP/0/0/CPU0:router(config-ntp)# server 198.51.100.1 key 1\nRP/0/0/CPU0:router(config-ntp)# commit",
+  "fix_id": "F-17772r1156819_fix",
+  "VulnDiscussion": "If NTP is not authenticated, an attacker can introduce a rogue NTP server. This rogue server can then be used to send incorrect time information to network devices, which will make log timestamps inaccurate and affect scheduled actions. NTP authentication is used to prevent this tampering by authenticating the time source.",
+  "Documentable": "false"
+}

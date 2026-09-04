@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253667",
+  "rule_id": "SV-253667r1136896_rule",
+  "stig_id": "MADB-10-000200",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "MariaDB must integrate with an organization-level authentication/access mechanism providing account management and automation for all users, groups, roles, and any other principals.",
+  "group_title": "SRG-APP-000023-DB-000001",
+  "idents": {
+    "cci": [
+      "CCI-000015"
+    ]
+  },
+  "check_id": "C-57119r1136894_chk",
+  "check_content": "If all accounts are authenticated by the organization-level authentication/access mechanism, such as LDAP, Kerberos, or Active Directory, and not by MariaDB, this is not a finding.\n\nIf any accounts are managed by the DBMS, review the system documentation for justification and approval of these accounts.\n\nIf any DBMS-managed accounts exist that are not documented and approved, this is a finding.\n\nAs the OS administrator, review the configuration in the /etc/pam.conf file or the /etc/pam.d directory. If there are no configuration file(s), this is a finding. \nExample for LDAP authentication and authorization via PAM would be /etc/pam.d/mariadb_ldap: \n\n#############################\nauth         required     pam_ldap.so\naccount    required     pam_ldap.so\n#############################\n\nVerify that PAM is installed:\n\nMariaDB> SHOW PLUGINS;\n\nIf pam is not listed as active, this is a finding.\n\nTo find users not using PAM plugin for authentication: \n\nMariaDB> SELECT user, host, plugin FROM mysql.user WHERE plugin != 'pam';\n\nIf any users are returned, this is a finding.",
+  "fixtext": "Integrate MariaDB security with an organization-level authentication/access mechanism providing account management for all users, groups, roles, and any other principals.\n\nAs the database administrator, install and configure the PAM authentication module:\n\nMariaDB> INSTALL SONAME 'auth_pam';\n\nPAM supports many authentication methods including LDAP, Active Directory, and Kerberos. Each method must be configured properly in the /etc/pam.conf file or the /etc/pam.d directory. \n\nTo alter non-PAM authenticated users to using PAM:\n\nMariaDB> ALTER USER 'username'@'host' IDENTIFIED VIA pam USING mariadb_ldap;",
+  "fix_id": "F-57070r1136895_fix",
+  "VulnDiscussion": "Enterprise environments make account management for applications and databases challenging and complex. A manual process for account management functions adds the risk of a potential oversight or other error. Managing accounts for the same person in multiple places is inefficient and prone to problems with consistency and synchronization.\n\nA comprehensive application account management process that includes automation helps to ensure that accounts designated as requiring attention are consistently and promptly addressed. \n\nExamples include, but are not limited to, using automation to take action on multiple accounts designated as inactive, suspended, or terminated, or disabling accounts located in noncentralized account stores, such as multiple servers. Account management functions can also include assignment of group or role membership; identifying account type; specifying user access authorizations (i.e., privileges); account removal, update, or termination; and administrative alerts. The use of automated mechanisms can include, for example, using email or text messaging to notify account managers when users are terminated or transferred, using the information system to monitor account usage, and using automated telephone notification to report atypical system account usage.\n\nMariaDB must be configured to automatically utilize organization-level account management functions, and these functions must immediately enforce the organization's current account policy. \n\nAutomation may comprise differing technologies that when placed together contain an overall mechanism supporting an organization's automated account management requirements.",
+  "Documentable": "false"
+}

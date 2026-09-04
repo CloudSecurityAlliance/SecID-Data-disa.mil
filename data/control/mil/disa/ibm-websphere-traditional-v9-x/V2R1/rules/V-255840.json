@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-255840",
+  "rule_id": "SV-255840r960885_rule",
+  "stig_id": "WBSP-AS-000380",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The WebSphere Application Server must generate log records when successful/unsuccessful attempts to access subject privileges occur.",
+  "group_title": "SRG-APP-000091-AS-000052",
+  "idents": {
+    "legacy": [
+      "SV-95951",
+      "V-81237"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-59513r876809_chk",
+  "check_content": "In the administrative console, navigate to Security >> Security auditing >> Audit Service Provider.\n\nClick on the providers in the list.\n\nNote: names of all the filters, e.g., \"DefaultAuditSpecification_1\".\n\nGo back to Security >> Security auditing >> Event type Filters.\n\nFind the filters previously noted.\n\nIf you do not see the filter for SECURITY_AUTHN, SECURITY_AUTHZ, SECURITY_AUTHN_TERMINATE, and ADMIN_REPOSITORY_SAVE that has INFO, ERROR, SUCCESS, DENIED, REDIRECT, and WARNING defined, this is a finding.",
+  "fixtext": "In the administrative console, navigate to Security >> Security auditing >> Audit Service Provider.\n\nClick on the providers in the list.\n\nNote the names of all the filters, e.g., \"DefaultAuditSpecification_1\".\n\nGo back to Security >> Security auditing >> Event type Filters.\n\nFind the filters previously noted.\n\nIf you do not see that the provider filter for SECURITY_AUTHN, SECURITY_AUTHZ, SECURITY_AUTHN_TERMINATE, and ADMIN_REPOSITORY_SAVE that has INFO, ERROR, SUCCESS, DENIED, REDIRECT, and WARNING defined, click the \"New\" button to create a new filter.\n\nGive it a unique name.\n\nSelect \"SECURITY_AUTHN\" and \"ADMIN_REPOSITORY_SAVE\" from the \"Events to associate with audit filter\" field.\n\nClick the right arrow to fill in \"Enabled events\" field.\n\nFrom \"Event outcomes to associate with an audit filter\" field, select INFO, ERROR, SUCCESS, DENIED, REDIRECT, and WARNING.\n\nClick the right arrow to fill in \"Enabled event outcomes\" field.\n\nClick \"OK\".\n\nGo back to Security >> Security auditing >> Audit Service Provider >> [provider].\n\nUnder \"Selectable filters\", select the new filter just created.\n\nClick the right arrow to add it to the list.\n\nClick \"OK\".\n\nClick \"Save\".\n\nRestart the DMGR and all the JVMs.",
+  "fix_id": "F-59456r876810_fix",
+  "VulnDiscussion": "Accessing a subject's privileges can be used to elevate a lower-privileged subject's privileges temporarily in order to cause harm to the application server or to gain privileges to operate temporarily for a designed purpose. When these actions take place, the event needs to be logged.\n\nApplication servers either provide a local user store, or they integrate with enterprise user stores like LDAP. When the application server provides the user store and enforces authentication, the application server must generate a log record when modification of privileges is successfully or unsuccessfully performed.",
+  "Documentable": "false"
+}

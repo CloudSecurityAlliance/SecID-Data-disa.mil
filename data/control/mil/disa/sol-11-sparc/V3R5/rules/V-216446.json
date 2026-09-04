@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216446",
+  "rule_id": "SV-216446r959010_rule",
+  "stig_id": "SOL-11.1-080045",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The system must be configured to store any process core dumps in a specific, centralized directory.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-95717",
+      "SV-104855"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17682r371426_chk",
+  "check_content": "Check the defined directory for process core dumps:\n\n# coreadm | grep \"global core file pattern\"\n\nIf the parameter is not set, or is not an absolute path (does not start with a slash [/]), this is a finding.",
+  "fixtext": "The root role is required.\n\nSet the core file directory and file pattern.\n\n# coreadm -g /var/share/cores/core.%f.%p",
+  "fix_id": "F-17680r371427_fix",
+  "VulnDiscussion": "Specifying a centralized location for core file creation allows for the centralized protection of core files. Process core dumps contain the memory in use by the process when it crashed. Any data the process was handling may be contained in the core file, and it must be protected accordingly. If process core dump creation is not configured to use a centralized directory, core dumps may be created in a directory that does not have appropriate ownership or permissions configured, which could result in unauthorized access to the core dumps.",
+  "Documentable": "false"
+}

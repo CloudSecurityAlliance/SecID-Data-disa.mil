@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-277091",
+  "rule_id": "SV-277091r1149419_rule",
+  "stig_id": "APPL-26-002008",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable the built-in web server.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-81246r1149384_chk",
+  "check_content": "Verify the macOS system is configured to disable the built-in web server with the following command:\n\nresult=\"FAIL\"\n  enabled=$(/bin/launchctl print-disabled system | /usr/bin/grep '\"org.apache.httpd\" => enabled')\n  running=$(/bin/launchctl print system/org.apache.httpd 2>/dev/null)\n  \n  if [[ -z \"$running\" ]] && [[ -z \"$enabled\" ]]; then\n    result=\"PASS\"\n  elif [[ -n \"$running\" ]]; then\n    result=result+\" RUNNING\"\n  elif [[ -n \"$enabled\" ]]; then\n    result=result+\" ENABLED\"\n  fi\n  echo $result\n\nIf the result is not \"PASS\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable the built-in web server with the following command:\n\n/usr/sbin/apachectl stop 2>/dev/null\n/bin/launchctl disable system/org.apache.httpd\n\nThe system may need a restart for the update to take effect.",
+  "fix_id": "F-81151r1149385_fix",
+  "VulnDiscussion": "The built-in web server managed by launchd is a nonessential service built into macOS and must be disabled and not running.\n\nNote: The built-in web server is disabled at startup by default with macOS.",
+  "Documentable": "false"
+}

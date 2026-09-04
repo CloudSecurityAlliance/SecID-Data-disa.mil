@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269255",
+  "rule_id": "SV-269255r1050137_rule",
+  "stig_id": "ALMA-09-019820",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must use reverse path filtering on all IP interfaces.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73286r1049392_chk",
+  "check_content": "Verify AlmaLinux OS 9 uses reverse path filtering on all IP interfaces with the following command:\n\n$ sysctl -a | grep -E '\\.rp_filter'\n\nnet.ipv4.conf.all.rp_filter = 0\nnet.ipv4.conf.default.rp_filter = 1\nnet.ipv4.conf.enp1s0.rp_filter = 1\nnet.ipv4.conf.lo.rp_filter = 1\n\nIf the returned lines do not all have a value of \"1\", this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to use reverse path filtering on all IP interfaces.\n\nCreate a numbered *.conf file in /etc/sysctl.d/ with the following content:\n\nnet.ipv4.conf.all.rp_filter = 1\nnet.ipv4.conf.default.rp_filter = 1\nnet.ipv4.conf.lo.rp_filter = 1\n\nThe system configuration files need to be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sysctl --system",
+  "fix_id": "F-73187r1049393_fix",
+  "VulnDiscussion": "Enabling reverse path filtering drops packets with source addresses that should not have been able to be received on the interface on which they were received. It must not be used on systems that are routers for complicated networks, but is helpful for end hosts and routers serving small networks.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220440",
+  "rule_id": "SV-220440r1137935_rule",
+  "stig_id": "CISC-RT-000240",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco perimeter switch must be configured to deny network traffic by default and allow network traffic by exception.",
+  "group_title": "SRG-NET-000202-RTR-000001",
+  "idents": {
+    "legacy": [
+      "SV-110727",
+      "V-101623"
+    ],
+    "cci": [
+      "CCI-001109"
+    ]
+  },
+  "check_id": "C-22155r508405_chk",
+  "check_content": "Review the switch configuration to verify that the inbound access control list (ACL) applied to all external interfaces is configured to allow specific ports and protocols and deny all other traffic. \n\nStep 1: Verify that an inbound ACL is applied to all external interfaces as shown in the example below: \n\ninterface GigabitEthernet0/2 \n ip address x.11.1.2 255.255.255.254 \n ip access-group EXTERNAL_ACL in \n\nStep 2: Review the inbound ACL to verify that it is configured to deny all other traffic that is not explicitly allowed. \n\nip access-list extended EXTERNAL_ACL \n permit tcp any any established \n permit icmp host x.11.1.1 host x.11.1.2 echo \n permit icmp host x.11.1.1 host x.11.1.2 echo-reply \n… \n … \n … \ndeny ip any any log-input \n\nIf the ACL is not configured to allow specific ports and protocols and deny all other traffic, this is a finding. \n\nIf the ACL is not configured inbound on all external interfaces, this is a finding.",
+  "fixtext": "Step 1: Configure an inbound ACL to deny all other traffic by default as shown in the example below: \n\nSW1(config)#ip access-list extended EXTERNAL_ACL \nSW1(config-ext-nacl)#permit tcp any any established \nSW1(config-ext-nacl)#permit icmp host x.11.1.1 host x.11.1.2 echo \nSW1(config-ext-nacl)#permit icmp host x.11.1.1 host x.11.1.2 echo-reply \n… \n… \n… \nSW1(config-ext-nacl)#deny ip any any log-input \n\nStep 2: Apply the ingress filter to all external interfaces. \n\nSW1(config)#int g0/2 \nSW1(config-if)#ip access-group EXTERNAL_ACL in",
+  "fix_id": "F-22144r508406_fix",
+  "VulnDiscussion": "A deny-all, permit-by-exception network communications traffic policy ensures that only connections that are essential and approved are allowed. \n\nThis requirement applies to both inbound and outbound network communications traffic. All inbound and outbound traffic must be denied by default. Firewalls and perimeter switches should only allow traffic through that is explicitly permitted. The initial defense for the internal network is to block any traffic at the perimeter that is attempting to make a connection to a host residing on the internal network. In addition, allowing unknown or undesirable outbound traffic by the firewall or switch will establish a state that will permit the return of this undesirable traffic inbound.",
+  "Documentable": "false"
+}

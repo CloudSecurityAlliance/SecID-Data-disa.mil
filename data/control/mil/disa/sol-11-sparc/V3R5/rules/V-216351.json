@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216351",
+  "rule_id": "SV-216351r959010_rule",
+  "stig_id": "SOL-11.1-040330",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "X11 forwarding for SSH must be disabled.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-60965",
+      "V-48093"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17587r371141_chk",
+  "check_content": "Determine if X11 Forwarding is enabled.\n\n# grep \"^X11Forwarding\" /etc/ssh/sshd_config\n\nIf the output of this command is not:\n\nX11Forwarding no\n\nthis is a finding.",
+  "fixtext": "The root role is required.\n\nModify the sshd_config file.\n\n# pfedit /etc/ssh/sshd_config\n\nLocate the line containing:\n\nX11Forwarding \n\nChange it to:\n\nX11Forwarding no\n\nRestart the SSH service.\n\n# svcadm restart svc:/network/ssh",
+  "fix_id": "F-17585r371142_fix",
+  "VulnDiscussion": "As enabling X11 Forwarding on the host can permit a malicious user to secretly open another X11 connection to another remote client during the session and perform unobtrusive activities such as keystroke monitoring, if the X11 services are not required for the system's intended function, they should be disabled or restricted as appropriate to the user's needs.",
+  "Documentable": "false"
+}

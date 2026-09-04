@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221121",
+  "rule_id": "SV-221121r999774_rule",
+  "stig_id": "CISC-RT-000670",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco PE switch providing MPLS Virtual Private Wire Service (VPWS) must be configured to have the appropriate virtual circuit identification (VC ID) for each attachment circuit.",
+  "group_title": "SRG-NET-000512-RTR-000008",
+  "idents": {
+    "legacy": [
+      "SV-111061",
+      "V-101957"
+    ],
+    "cci": [
+      "CCI-004931"
+    ]
+  },
+  "check_id": "C-22836r409852_chk",
+  "check_content": "Verify that the correct and unique VCID has been configured for the appropriate attachment circuit. In the example below Ethernet2/1 is the CE-facing interface that is configured for VPWS with the VCID of 55.\n\nStep 1: Review the L2VPN virtual circuits and determine the member attachment circuit and pseudowire.\n\nl2vpn xconnect context VC55\n member Ethernet2/1\n member Pseudowire55\n\nStep 2: Determine the VCID as configured for neighbor and verify the same VCID is defined on the remote PE device.\n\nport-profile type pseudowire MPLS_PROFILE\n encapsulation mpls\n\ninterface Pseudowire55\n neighbor 10.10.22.1 55\n inherit port-profile MPLS_PROFILE\n\nNote: VPWS is also known as Ethernet over MPLS (EoMPLS) and Ethernet Virtual Circuit (EVC).\n\nIf the correct VC ID has not been configured on both switches, this is a finding.",
+  "fixtext": "Assign globally unique VC IDs for each virtual circuit and configure the attachment circuits with the appropriate VC ID.",
+  "fix_id": "F-22825r409853_fix",
+  "VulnDiscussion": "VPWS is an L2VPN technology that provides a virtual circuit between two PE switches to forward Layer 2 frames between two customer-edge switches or switches through an MPLS-enabled IP core. The ingress PE switch (virtual circuit head-end) encapsulates Ethernet frames inside MPLS packets using label stacking and forwards them across the MPLS network to the egress PE switch (virtual circuit tail-end). During a virtual circuit setup, the PE switches exchange VC label bindings for the specified VC ID. The VC ID specifies a pseudowire associated with an ingress and egress PE switch and the customer-facing attachment circuits. \n\nTo guarantee that all frames are forwarded onto the correct pseudowire and to the correct customer and attachment circuits, it is imperative that the correct VC ID is configured for each attachment circuit.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269960",
+  "rule_id": "SV-269960r1052266_rule",
+  "stig_id": "OS10-L2S-000140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Dell OS10 Switch must have Source Address Validation (SAV) enabled on all user-facing or untrusted access switch ports.",
+  "group_title": "SRG-NET-000362-L2S-000026",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-73993r1052264_chk",
+  "check_content": "Review the Dell OS10 Switch configuration and verify that SAV is enabled on all user-facing or untrusted access switch ports.\n\nVerify that DHCP snooping is enabled globally:\n\nip dhcp snooping\n\nVerify that interfaces attached to trusted DHCP servers are configured:\n\ninterface ethernet 1/1/4\n  ip dhcp snooping trust\n\nEnable source IP and MAC address validation in INTERFACE mode for each untrusted and user-facing port:\n\nip dhcp snooping source-address-validation ipmac\n\nIf the switch does not have DHCP snooping is enabled globally, a trusted DHCP server port specified, and Source Address Validation enabled for all user-facing or untrusted access switch ports, this is a finding.",
+  "fixtext": "Configure the Dell OS10 Switch to have DHCP snooping for all user VLANs to validate DHCP messages from untrusted sources, as shown in the example below:\n\nEnable DHCP snooping globally in CONFIGURATION mode:\n\n   OS10(config)# ip dhcp snooping\n\nSpecify physical interfaces which are user facing or untrusted in INTERFACE mode:\n\n   OS10(config)# interface ethernet 1/1/24\n   OS10(conf-if-eth1/1/1)# ip dhcp snooping source-address-validation ipmac",
+  "fix_id": "F-73894r1052265_fix",
+  "VulnDiscussion": "IP Source Guard provides source IP address filtering on a Layer 2 port to prevent a malicious host from impersonating a legitimate host by assuming the legitimate host's IP address. The feature uses dynamic DHCP snooping and static IP source binding to match IP addresses to hosts on untrusted Layer 2 access ports. Initially, all IP traffic on the protected port is blocked except for DHCP packets. After a client receives an IP address from the DHCP server, or after static IP source binding is configured by the administrator, all traffic with that IP source address is permitted from that client. Traffic from other hosts is denied. This filtering limits a host's ability to attack the network by claiming a neighbor host's IP address.",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-268225",
+  "rule_id": "SV-268225r1137875_rule",
+  "stig_id": "HYCU-ND-000070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must enforce approved authorizations for controlling the flow of management information within the appliance based on information flow control policies.",
+  "group_title": "SRG-APP-000038-NDM-000213",
+  "idents": {
+    "cci": [
+      "CCI-001368",
+      "CCI-004192"
+    ]
+  },
+  "check_id": "C-72246r1038373_chk",
+  "check_content": "Verify the firewall is running by executing the following command:\nsudo firewall-cmd --state\n\nIf service is not running, this is a finding.\n\nDetermine which services and ports are open by executing the following command:\nsudo firewall-cmd --list-all\n\nOutput should show the following two lines:\n\n'services: cockpit dhcpv6-client iscsi-target samba ssh'\n'ports: 8443/tcp'\n\nIf more services than those listed above are open, this is a finding.",
+  "fixtext": "Enable the firewall by executing the following commands:\nsudo systemctl enable firewalld\n\nsudo systemctl start firewalld",
+  "fix_id": "F-72149r1038374_fix",
+  "VulnDiscussion": "A mechanism to detect and prevent unauthorized communication flow must be configured or provided as part of the system design. If management information flow is not enforced based on approved authorizations, the network device may become compromised. Information flow control regulates where management information is allowed to travel within a network device. The flow of all management information must be monitored and controlled so it does not introduce any unacceptable risk to the network device or data.\n\nSatisfies: SRG-APP-000038-NDM-000213, SRG-APP-000880-NDM-000290",
+  "Documentable": "false"
+}

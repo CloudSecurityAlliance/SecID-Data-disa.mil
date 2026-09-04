@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-225233",
+  "rule_id": "SV-225233r1117179_rule",
+  "stig_id": "APPNET0065",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Trust must be established prior to enabling the loading of remote code in .Net 4.",
+  "group_title": "SRG-APP-000431",
+  "idents": {
+    "legacy": [
+      "SV-41010",
+      "V-30968"
+    ],
+    "cci": [
+      "CCI-002530"
+    ]
+  },
+  "check_id": "C-26932r468014_chk",
+  "check_content": "Open Windows explorer and search for *.exe.config.\n\nSearch each config file found for the \"loadFromRemoteSources\" element.\n\nIf the loadFromRemoteSources element is enabled  \n(\"loadFromRemoteSources enabled = true\"), and the remotely loaded application is not run in a sandboxed environment, or if OS based software controls, such as AppLocker or Software Security Policies, are not utilized, this is a finding.",
+  "fixtext": ".Net application code loaded from a remote source must be run in a controlled environment.  \n\nA controlled environment consists of a sandbox, such as running in an Internet Explorer host environment or employing OS based software access controls, such as AppLocker or Software Security Policies, when application design permits.  \n\nObtain documented IAO approvals for all remotely loaded code.",
+  "fix_id": "F-26920r468015_fix",
+  "VulnDiscussion": "In the .NET Framework version 3.5 and earlier versions, if an application assembly loaded code/objects from a remote location, that assembly would run partially trusted with a permissions grant set that depended on the zone in which it was loaded. For example, if an assembly was loaded from a web site, it was loaded into the Internet zone and granted the Internet permission set. In other words, it was executed in an Internet sandbox.\n\nIf the same program is run in the .NET Framework version 4, an exception is thrown which effectively states; either explicitly create a sandbox for the assembly or run it in full trust.\n\nThe <loadFromRemoteSources> element specifies the assemblies that run partially trusted in earlier versions of the .NET Framework will be run fully trusted in the .NET Framework 4.\n\nIf loadFromRemoteSources is set to true, the remotely loaded application code is granted full trust.  This could create an integrity vulnerability on the system.  The required method to address this is to explicitly create a sandboxed environment for the remotely loaded code to run in rather than allowing remotely loaded code to run with full trust.\n\nThe appropriate level of trust must be established prior to enabling the loading of remote code in .Net 4 applications and that code must be run in a controlled environment.  The following is an example of the use of loadFromRemoteSources.\n\n<configuration>\n<runtime>\n    <loadFromRemoteSources enabled=\"true\" \"https://my.dodorg.gov\" />\n    <loadFromRemoteSources enabled=\"true\" \"https://192.168.0.*\" />\n    <loadFromRemoteSources enabled=\"false\" \"*\" />\n</runtime>\n</configuration>",
+  "Documentable": "false"
+}

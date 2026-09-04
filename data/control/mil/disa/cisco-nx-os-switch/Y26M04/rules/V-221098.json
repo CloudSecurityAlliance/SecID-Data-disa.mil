@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221098",
+  "rule_id": "SV-221098r999707_rule",
+  "stig_id": "CISC-RT-000380",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco perimeter switch must be configured to have Proxy ARP disabled on all external interfaces.",
+  "group_title": "SRG-NET-000364-RTR-000112",
+  "idents": {
+    "legacy": [
+      "SV-111015",
+      "V-101911"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-22813r409783_chk",
+  "check_content": "Review the switch configuration to determine if IP Proxy ARP is enabled on any external interface as shown in the example below:\n\ninterface Ethernet2/2\n description link to DISN\n no switchport\n ip address x.1.12.2/24\n ip proxy-arp\n no shutdown\n\nNote: By default Proxy ARP is disabled on all interfaces.\n\nIf IP Proxy ARP is enabled on any external interface, this is a finding.",
+  "fixtext": "Disable Proxy ARP on all external interfaces as shown in the example below:\n\nSW1(config)#int e2/2 \nSW1(config-if)# no ip proxy-arp\nSW1(config-if)# end",
+  "fix_id": "F-22802r409784_fix",
+  "VulnDiscussion": "When Proxy ARP is enabled on a switch, it allows that switch to extend the network (at Layer 2) across multiple interfaces (LAN segments). Because proxy ARP allows hosts from different LAN segments to look like they are on the same segment, proxy ARP is only safe when used between trusted LAN segments. Attackers can leverage the trusting nature of proxy ARP by spoofing a trusted host and then intercepting packets. Proxy ARP should always be disabled on switch interfaces that do not require it, unless the switch is being used as a LAN bridge.",
+  "Documentable": "false"
+}

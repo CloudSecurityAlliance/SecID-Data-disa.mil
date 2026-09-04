@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261351",
+  "rule_id": "SV-261351r1184412_rule",
+  "stig_id": "SLEM-05-411025",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All SLEM 5 local interactive users must have a home directory assigned in the /etc/passwd file.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65080r1184410_chk",
+  "check_content": "Verify SLEM 5 local interactive users on the system have a home directory assigned with the following command:\n\n     > sudo pwck -r\n     user 'dosuser': directory '/home/dosuser' does not exist\n\nAsk the system administrator (SA) if any users found without home directories are local interactive users. If the SA is unable to provide a response, check for users with a User Identifier (UID) of 1000 or greater with the following command:\n\n     > awk -F: '($3>=1000)&&($1!=\"nobody\"){print $1 \":\" $3}' /etc/passwd\n\nIf any interactive users do not have a home directory assigned, this is a finding.",
+  "fixtext": "Assign home directories to all SLEM 5 local interactive users that currently do not have a home directory assigned.\n\nAssign a home directory to users via the usermod command:\n\n     > sudo usermod -d /home/dosuser dosuser",
+  "fix_id": "F-64988r1184411_fix",
+  "VulnDiscussion": "If local interactive users are not assigned a valid home directory, there is no place for the storage and control of files they should own.",
+  "Documentable": "false"
+}

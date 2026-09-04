@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207243",
+  "rule_id": "SV-207243r1005432_rule",
+  "stig_id": "SRG-NET-000369-VPN-001620",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The VPN Gateway must disable split-tunneling for remote clients VPNs.",
+  "group_title": "SRG-NET-000369",
+  "idents": {
+    "legacy": [
+      "SV-106319",
+      "V-97181"
+    ],
+    "cci": [
+      "CCI-002397"
+    ]
+  },
+  "check_id": "C-7503r1005431_chk",
+  "check_content": "Verify the VPN Gateway disables split-tunneling for remote clients VPNs.\n\nIf the VPN Gateway does not disable split-tunneling for remote clients VPNs, this is a finding.\n\nNote: Certain cloud products require direct connectivity to operate correctly. These items may be excluded from the split tunneling restriction if documented and approved.\n\nIf split-tunneling for remote client VPNs is enabled by the above exception, verify only authorized external destinations are excluded from tunneling as shown in the example below:\n\nWebvpn\nanyconnect-custom-attr dynamic-split-exclude-domains description DoD IL5 Authorized Destinations\nanyconnect-custom-data dynamic-split-exclude-domains DoD-IL5 dod.teams.microsoft.us,azureedge.net,core.usgovcloudapi.net,streaming.media.usgovcloudapi.net,wvd.azure.us,cdn.office365.us\n\n anyconnect-custom dynamic-split-exclude-domains value DoD-IL5\n\nIf any unauthorized exempted connections exist, this is a finding.",
+  "fixtext": "Configure the VPN Gateway to disable split-tunneling for remote clients VPNs.",
+  "fix_id": "F-7503r378351_fix",
+  "VulnDiscussion": "Split tunneling would in effect allow unauthorized external connections, making the system more vulnerable to attack and to exfiltration of organizational information.\n\nA VPN hardware or software client with split tunneling enabled provides an unsecured backdoor to the enclave from the Internet. With split tunneling enabled, a remote client has access to the Internet while at the same time has established a secured path to the enclave via an IPsec tunnel. A remote client connected to the Internet that has been compromised by an attacker in the Internet, provides an attack base to the enclave’s private network via the IPsec tunnel. Hence, it is imperative that the VPN gateway enforces a no split-tunneling policy to all remote clients.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271845",
+  "rule_id": "SV-271845r1092247_rule",
+  "stig_id": "OL09-00-003051",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 system accounts must not have an interactive login shell.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75895r1092245_chk",
+  "check_content": "Verify that OL 9 configures system accounts to not have an interactive login shell with the following command:\n\n$ awk -F: '($3<1000){print $1 \":\" $3 \":\" $7}' /etc/passwd\nroot:0:/bin/bash\nbin:1:/sbin/nologin\ndaemon:2:/sbin/nologin\nadm:3:/sbin/nologin\nlp:4:/sbin/nologin\n\nIdentify the system accounts from this listing that do not have a nologin shell.\n\nIf any system account (other than the root account) has a login shell and it is not documented with the information system security officer (ISSO), this is a finding.",
+  "fixtext": "Configure OL 9 so that all noninteractive accounts on the system do not have an interactive shell assigned to them.\n\nIf the system account needs a shell assigned for mission operations, document the need with the ISSO.\n\nRun the following command to disable the interactive shell for a specific noninteractive user account:\n\nReplace <user> with the user that has a login shell.\n\n$ sudo usermod --shell /sbin/nologin <user>\n\nDo not perform the steps in this section on the root account. Doing so will cause the system to become inaccessible.",
+  "fix_id": "F-75802r1092246_fix",
+  "VulnDiscussion": "Ensuring shells are not given to system accounts upon login makes it more difficult for attackers to make use of system accounts.",
+  "Documentable": "false"
+}

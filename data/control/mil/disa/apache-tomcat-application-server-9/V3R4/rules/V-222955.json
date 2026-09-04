@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222955",
+  "rule_id": "SV-222955r960963_rule",
+  "stig_id": "TCAT-AS-000530",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The deployXML attribute must be set to false in hosted environments.",
+  "group_title": "SRG-APP-000141-AS-000095",
+  "idents": {
+    "legacy": [
+      "SV-111435",
+      "V-102493"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-24627r944930_chk",
+  "check_content": "If the SSP associated with the Host contains ISSM documented approvals for deployXML, this is not a finding.\n\nFrom the Tomcat server as a privileged user:\n\nsudo grep -i deployXML $CATALINA_BASE/conf/server.xml\ndeployXML=\"false\"\n\nIf the deployXML=\"true\" and there is no documented authorization to allow automatic deployment of applications, this is a finding.\n\nIf no results are generated, confirm the default behavior is \"false\". For example: If the attribute is not set and security manager is not enabled, the default value is \"true\". When security manager is enabled, the default value is \"false\". \n\nIf the default value is \"true\", this is a finding.",
+  "fixtext": "Document authorization for application auto deployment in the System Security Plan (SSP).\n\nFrom the Tomcat server as a privileged user, edit the $CATALINA_BASE/conf/server.xml file.\n\nsudo nano $CATALINA_BASE/conf/server.xml\n\nLocate each <host> element in the server xml file.  \n\nIf the deployXML=\"true\" ensure each host is authorized for application auto deployment and document the authorization in the system security plan.\n\nIf authorization is not provided, set the deployXML=\"false\".",
+  "fix_id": "F-24616r426310_fix",
+  "VulnDiscussion": "The Host element controls deployment. Automatic deployment allows for simpler management, but also makes it easier for an attacker to deploy a malicious application. Automatic deployment is controlled by the autoDeploy and deployOnStartup attributes. If both are false, only Contexts defined in server.xml will be deployed, and any changes will require a Tomcat restart.\n\nIn a hosted environment where web applications may not be trusted, set the deployXML attribute to false to ignore any context.xml packaged with the web application that may try to assign increased privileges to the web application. Note that if the security manager is enabled that the deployXML attribute will default to false.\n\nThis requirement is NA for test and development systems on non-production networks. For DevSecOps application environments, the ISSM may authorize autodeploy functions on a production Tomcat system if the mission need specifies it and an application security vulnerability testing and assurance regimen is included in the DevSecOps process.",
+  "Documentable": "false"
+}

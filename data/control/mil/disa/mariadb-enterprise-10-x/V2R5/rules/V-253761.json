@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253761",
+  "rule_id": "SV-253761r961818_rule",
+  "stig_id": "MADB-10-010900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must generate audit records when unsuccessful attempts to delete security objects occur.",
+  "group_title": "SRG-APP-000501-DB-000337",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-57213r841806_chk",
+  "check_content": "Verify the MariaDB Enterprise Audit plugin is loaded and actively logging:\n\nMariaDB> SHOW GLOBAL STATUS LIKE 'Server_audit_active';\n\nIf the MariaDB Enterprise Audit is not active, this is a finding. \n\nAs the database administrator, create a user without special permissions:\nMariaDB>  CREATE USER testuser IDENTIFIED BY  password ;\n\nIn one terminal, tail the audit log file. For example: \n$ tail -F /var/lib/mysql/server_audit.log (default location)\n\nAs the database administrator, create a role by running the following SQL: \nMariaDB>  CREATE ROLE user_role\n\nAs the database administrator, GRANT user_role to testuser: \nMariaDB>  GRANT user_role to testuser\n\nAs the database administrator, add two privileges to user_role for testdb and then delete one of the privileges:\nMariaDB>  GRANT SELECT,DELETE on testdb to testuser\nMariaDB>  GRANT SELECT on testdb to testuser\n\nAs the database administrator, revoke grant from testuser:\nMariaDB>  REVOKE user_role to testuser\n\nIf the audit records for REVOKE and the second SELECT are not produced in the first terminal, this is a finding.",
+  "fixtext": "Super/administrative users must not have access to modify tables within the mysql database. Verify users do not have access and revoke as necessary. Example: \n\nView user grants:\n\nMariaDB> SHOW GRANTS FOR 'username'@'host';\n\nIf user has INSERT, UPDATE, and/or DELETE on the mysql database or all databases, modify the user privileges as necessary. \n\nThe MariaDB Enterprise Audit plugin can be configured to audit these changes. \n\nUpdate necessary audit filters to include query_event ALL. Example: \n\nMariaDB> DELETE FROM mysql.server_audit_filters WHERE filtername = 'default';\n\nMariaDB> INSERT INTO mysql.server_audit_filters (filtername, rule)\n   VALUES ('default',\n      JSON_COMPACT(\n         '{\n            \"connect_event\": [\n               \"CONNECT\",\n               \"DISCONNECT\"\n            ],\n            \"query_event\": [\n                \"ALL\"\n            ]\n         }'\n      ));",
+  "fix_id": "F-57164r841807_fix",
+  "VulnDiscussion": "The removal of security objects from the database/DBMS would seriously degrade a system s information assurance posture. If such an action is attempted, it must be logged.\n\nTo aid in diagnosis, it is necessary to keep track of failed attempts in addition to the successful ones.",
+  "Documentable": "false"
+}

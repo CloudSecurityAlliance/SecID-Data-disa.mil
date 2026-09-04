@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230310",
+  "rule_id": "SV-230310r1155383_rule",
+  "stig_id": "RHEL-08-010670",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must disable kernel dumps unless needed.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-32979r1155382_chk",
+  "check_content": "Verify RHEL 8 kernel core dumps are disabled unless needed with the following command:\n\n$ sudo systemctl status kdump.service\n\no kdump.service - Crash recovery kernel arming\n   Loaded: loaded (/usr/lib/systemd/system/kdump.service; disabled; vendor preset: enabled)\n   Active: inactive (dead)\n\nIf the \"kdump\" service is active, ask the system administrator if the use of the service is required and documented with the information system security officer (ISSO).\n\nIf the service is active and is not documented, this is a finding.",
+  "fixtext": "If kernel core dumps are not required, disable the \"kdump\" service with the following command:\n\n# systemctl disable kdump.service\n\nIf kernel core dumps are required, document the need with the ISSO.",
+  "fix_id": "F-32954r567677_fix",
+  "VulnDiscussion": "Kernel core dumps may contain the full contents of system memory at the time of the crash. Kernel core dumps may consume a considerable amount of disk space and may result in denial of service by exhausting the available space on the target file system partition.\n\nRHEL 8 installation media presents the option to enable or disable the kdump service at the time of system installation.",
+  "Documentable": "false"
+}

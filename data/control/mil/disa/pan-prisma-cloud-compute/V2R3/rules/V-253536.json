@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253536",
+  "rule_id": "SV-253536r1051115_rule",
+  "stig_id": "CNTR-PC-000530",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Prisma Cloud Compute Console must run as nonroot user (uid 2674).",
+  "group_title": "SRG-APP-000148-CTR-000345",
+  "idents": {
+    "cci": [
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-56988r840444_chk",
+  "check_content": "Locate the node in which the Prisma Cloud Compute Console container is running. \n\nDetermine the process owner for \"app/server\".\n\nExecute: \"ps -aux | grep \"/app/server\"\n\nIf the process is owned by root, this is a finding.",
+  "fixtext": "In the root directory of the extracted release tar file, modify the twistlock.cfg file's line:\nRUN_CONSOLE_AS_ROOT=false\n\nFor Kubernetes deployment, perform these additional steps:\n\nWhen generating the twistlock_console.yaml deployment file, supply the --run-as-user flag.\n\nLinux/twistcli console export kubernetes --service-type ClusterIP --run-as-user 2674\n\nModify the resulting twistlock_console.yaml file to include fsGroup: 2674 within the Deployment pod specification's securityContext:\nsecurityContext: fsGroup: 2674\n\nAdd runAsGroup: 2674 to the container specification's securityContext:\nsecurityContext: runAsUser: 2674\nrunAsGroup: 2674",
+  "fix_id": "F-56939r840445_fix",
+  "VulnDiscussion": "Containers not requiring root-level permissions must run as a unique user account. To ensure accountability and prevent unauthenticated access to containers, the user the container is using to execute must be uniquely identified and authenticated to prevent potential misuse and compromise of the system.",
+  "Documentable": "false"
+}

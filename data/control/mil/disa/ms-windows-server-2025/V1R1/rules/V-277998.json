@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-277998",
+  "rule_id": "SV-277998r1180700_rule",
+  "stig_id": "WN25-00-000140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2025 permissions for the system drive root directory (usually C:\\) must conform to minimum requirements.",
+  "group_title": "SRG-OS-000312-GPOS-00122",
+  "idents": {
+    "cci": [
+      "CCI-002165"
+    ]
+  },
+  "check_id": "C-82528r1180698_chk",
+  "check_content": "The default permissions are adequate when the Security Option \"Network access: Let Everyone permissions apply to anonymous users\" is set to \"Disabled\" (WN25-SO-000240).\n\nReview the permissions for the system drive's root directory (usually C:\\). Nonprivileged groups such as Users or Authenticated Users must not have greater than \"Read & execute\" permissions except where noted as defaults. Individual accounts must not be used to assign permissions.\n\nIf permissions are not as restrictive as the default permissions listed below, this is a finding.\n\nViewing in File Explorer:\n\nView the Properties of the system drive's root directory.\n\nSelect the \"Security\" tab, and then click \"Advanced\".\n\nDefault permissions:\nC:\\\nType - \"Allow\" for all\nInherited from - \"None\" for all\n\nPrincipal - Access - Applies to\n\nSYSTEM - Full control - This folder, subfolders, and files\nAdministrators - Full control - This folder, subfolders, and files\nUsers - Read & execute - This folder, subfolders, and files\nUsers - Create folders/append data - This folder and subfolders\nUsers - Create files/write data - Subfolders only\nCREATOR OWNER - Full Control - Subfolders and files only\n\nAlternately, use icacls:\n\nOpen \"command prompt (Admin)\".\n\nEnter \"icacls\" followed by the directory:\n\n\"icacls c:\\\"\n\nThe following results must be displayed:\n\nc:\\\nNT AUTHORITY\\SYSTEM:(OI)(CI)(F)\nBUILTIN\\Administrators:(OI)(CI)(F)\nBUILTIN\\Users:(OI)(CI)(RX)\nBUILTIN\\Users:(CI)(AD)\nBUILTIN\\Users:(CI)(IO)(WD)\nCREATOR OWNER:(OI)(CI)(IO)(F)\nSuccessfully processed 1 files; Failed processing 0 files",
+  "fixtext": "Maintain the default permissions for the system drive's root directory and configure the Security Option \"Network access: Let Everyone permissions apply to anonymous users\" to \"Disabled\" (WN25-SO-000240).\n\nDefault Permissions\nC:\\\nType - \"Allow\" for all\nInherited from - \"None\" for all\n\nPrincipal - Access - Applies to\n\nSYSTEM - Full control - This folder, subfolders, and files\nAdministrators - Full control - This folder, subfolders, and files\nUsers - Read & execute - This folder, subfolders, and files\nUsers - Create folders/append data - This folder and subfolders\nUsers - Create files/write data - Subfolders only\nCREATOR OWNER - Full Control - Subfolders and files only",
+  "fix_id": "F-82433r1180699_fix",
+  "VulnDiscussion": "Changing the system's file and directory permissions allows the possibility of unauthorized and anonymous modification to the operating system and installed applications.\n\nThe default permissions are adequate when the Security Option \"Network access: Let Everyone permissions apply to anonymous users\" is set to \"Disabled\" (WN25-SO-000240).\n\nSatisfies: SRG-OS-000312-GPOS-00122, SRG-OS-000312-GPOS-00123, SRG-OS-000312-GPOS-00124",
+  "Documentable": "false"
+}

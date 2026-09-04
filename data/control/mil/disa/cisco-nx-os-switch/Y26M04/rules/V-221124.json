@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221124",
+  "rule_id": "SV-221124r999733_rule",
+  "stig_id": "CISC-RT-000710",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco PE switch must be configured to implement Internet Group Management Protocol (IGMP) or Multicast Listener Discovery (MLD) snooping for each Virtual Private LAN Services (VPLS) bridge domain.",
+  "group_title": "SRG-NET-000362-RTR-000119",
+  "idents": {
+    "legacy": [
+      "SV-111067",
+      "V-101963"
+    ],
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-22839r409861_chk",
+  "check_content": "Review the switch configuration to verify that IGMP or MLD snooping has been configured for IPv4 and IPv6 multicast traffic respectively for each VPLS bridge domain. The example below are the steps to verify that IGMP snooping is enabled for a VPLS bridge domain.\n\nStep 1: Verify that IGMP snooping is enabled globally. By default, IGMP snooping is enabled globally; hence, the following command should not be in the switch configuration: no ip igmp snooping\n\nStep 2: If IGMP snooping is enabled globally, it will also be enabled by default for each VPLS bridge domain. Hence, the command “no ip igmp snooping” should not be configured for any VPLS bridge domain as shown in the example below:\n\nbridge-domain 100 \n no ip igmp snooping\n\nIf the switch is not configured to implement IGMP or MLD snooping for each VPLS bridge domain, this is a finding.",
+  "fixtext": "Configure IGMP or MLD snooping for IPv4 and IPv6 multicast traffic respectively for each VPLS bridge domain.\n\nSW1(config)# bridge-domain 100\nSW1(config-bdomain)# ip igmp snooping \nSW1(config-bdomain)# end",
+  "fix_id": "F-22828r409862_fix",
+  "VulnDiscussion": "IGMP snooping provides a way to constrain multicast traffic at Layer 2. By monitoring the IGMP membership reports sent by hosts within the bridge domain, the snooping application can set up Layer 2 multicast forwarding tables to deliver traffic only to ports with at least one interested member within the VPLS bridge, thereby significantly reducing the volume of multicast traffic that would otherwise flood an entire VPLS bridge domain. The IGMP snooping operation applies to both access circuits and pseudowires within a VPLS bridge domain.",
+  "Documentable": "false"
+}

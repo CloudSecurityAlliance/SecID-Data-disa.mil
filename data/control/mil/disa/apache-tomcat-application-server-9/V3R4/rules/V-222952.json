@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222952",
+  "rule_id": "SV-222952r1135497_rule",
+  "stig_id": "TCAT-AS-000500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Unapproved connectors must be disabled.",
+  "group_title": "SRG-APP-000141-AS-000095",
+  "idents": {
+    "legacy": [
+      "SV-111429",
+      "V-102487"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-24624r1135496_chk",
+  "check_content": "Review SSP for list of approved connectors and associated TCP/IP ports. Verify only approved connectors are present. Execute the following command on the Tomcat server to find configured Connectors:\n\nsudo cat $CATALINA_BASE/conf/server.xml | grep -i \"Connector\"\n\nReview results and verify all connectors and their associated network ports are approved in the SSP.\n\nIf connectors are found but are not approved in the SSP, this is a finding.",
+  "fixtext": "Obtain ISSO approvals for the configured connectors and document in the SSP.\n\nAlternatively, edit the $CATALINA_BASE/conf/server.xml file, remove any unapproved connectors, and restart Tomcat: \nsudo systemctl restart tomcat\nsudo systemctl daemon-reload",
+  "fix_id": "F-24613r426301_fix",
+  "VulnDiscussion": "Connectors are how Tomcat receives requests, passes them to hosted web applications, and then sends back the results to the requestor. Tomcat provides HTTP and Apache JServ Protocol (AJP) connectors and makes these protocols available via configured network ports. Unapproved connectors provide open network connections to either of these protocols and put the system at risk.",
+  "Documentable": "false"
+}

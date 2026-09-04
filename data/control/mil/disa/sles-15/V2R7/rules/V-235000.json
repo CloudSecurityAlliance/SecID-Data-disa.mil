@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235000",
+  "rule_id": "SV-235000r991589_rule",
+  "stig_id": "SLES-15-040160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SUSE operating system file systems that are being imported via Network File System (NFS) must be mounted to prevent files with the setuid and setgid bit set from being executed.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-38188r619269_chk",
+  "check_content": "Verify SUSE operating system file systems that are being NFS exported are mounted with the \"nosuid\" option.\n\nFind the file system(s) that contain the directories being exported with the following command:\n\n> grep nfs /etc/fstab\n\nUUID=e06097bb-cfcd-437b-9e4d-a691f5662a7d /store nfs rw,nosuid 0 0\n\nIf a file system found in \"/etc/fstab\" refers to NFS and it does not have the \"nosuid\" option set, this is a finding.",
+  "fixtext": "Configure the SUSE operating system \"/etc/fstab\" file to use the \"nosuid\" option on file systems that are being exported via NFS.",
+  "fix_id": "F-38151r619270_fix",
+  "VulnDiscussion": "The \"nosuid\" mount option causes the system to not execute \"setuid\" and \"setgid\" files with owner privileges. This option must be used for mounting any file system not containing approved \"setuid\" and \"setguid\" files. Executing files from untrusted file systems increases the opportunity for unprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

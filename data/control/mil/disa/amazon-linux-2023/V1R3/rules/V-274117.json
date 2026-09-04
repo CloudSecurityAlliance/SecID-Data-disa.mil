@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274117",
+  "rule_id": "SV-274117r1120339_rule",
+  "stig_id": "AZLX-23-002270",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must ensure the audit log directory be owned by root to prevent unauthorized read access.",
+  "group_title": "SRG-OS-000206-GPOS-00084",
+  "idents": {
+    "cci": [
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-78208r1120337_chk",
+  "check_content": "Verify Amazon Linux 2023 is configured so that the audit logs directory is owned by \"root\". \n\nFirst determine where the audit logs are stored with the following command:\n\n$ sudo grep -iw log_file /etc/audit/auditd.conf\nlog_file = /var/log/audit/audit.log\n\nThen using the location of the audit log file, determine if the audit log directory is owned by \"root\" using the following command:\n\nsudo stat -c '%U %n' /var/log/audit\nroot /var/log/audit\n\nIf the audit log directory is not owned by \"root\", this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 audit logs to be protected from unauthorized read access by setting the correct owner as \"root\" with the following command:\n\n$ sudo chown root /var/log/audit",
+  "fix_id": "F-78113r1120338_fix",
+  "VulnDiscussion": "Only authorized personnel should be aware of errors and the details of the errors. Error messages are an indicator of an organization's operational state or can identify Amazon Linux 2023 or platform. Additionally, Personally Identifiable Information (PII) and operational information must not be revealed through error messages to unauthorized personnel or their designated representatives.\n\nThe structure and content of error messages must be carefully considered by the organization and development team. The extent to which the information system is able to identify and handle error conditions is guided by organizational policy and operational requirements.",
+  "Documentable": "false"
+}

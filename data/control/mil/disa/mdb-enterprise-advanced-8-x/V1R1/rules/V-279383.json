@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279383",
+  "rule_id": "SV-279383r1179483_rule",
+  "stig_id": "MD8X-00-007700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MongoDB must require users to reauthenticate when organization-defined circumstances or situations require reauthentication.",
+  "group_title": "SRG-APP-000389-DB-000372",
+  "idents": {
+    "cci": [
+      "CCI-002038"
+    ]
+  },
+  "check_id": "C-83936r1179482_chk",
+  "check_content": "In MongoDB, a user can reauthenticate by explicitly logging out and then logging back in with the db.logout() and db.auth() commands, respectively. \n\nThe steps to accomplish this would typically depend on the environment and interface, for example, shell, driver, or MongoDB Atlas.\n\nLog out of the current session using the db.logout() command.\n\nRun the following command from the database the user has authenticated from (example below uses \"test\" as the authentication database):\n\n> use test\n> db.logout()\n\nExample output:\n\n{ ok: 1 }\n\nIf the above output is not displayed upon logout, this is a finding.\n\nLog back in, using the db.auth() command:\n\n> use test\n> db.auth({\n  user: '<username>',\n  pwd: '<password>'\n})\n\nExample output:\n\n { ok: 1 }\n\nIf the above output is not displayed upon login, this is a finding.",
+  "fixtext": "Enable authentication for MongoDB by following the instructions here: https://www.mongodb.com/docs/v8.0/tutorial/enable-authentication/\n\nCreate an administrative user in MongoDB:\n\n> use admin\n> db.createUser(\n  {\n    user: \"UserAdmin\",\n    pwd:  passwordPrompt(), // or cleartext password\n    roles: [\n      { role: \"userAdminAnyDatabase\", db: \"admin\" },\n      { role: \"readWriteAnyDatabase\", db: \"admin\" }\n    ]\n  }\n)\n\nEnable authorization by adding the following entry to the MongoDB configuration file:\n\nsecurity:\n    authorization: enabled\n\nRestart the MongoDB service from the OS.\n\n$ sudo systemctl restart mongod\n\nThe \"UserAdmin\" user created above can use the \"createUser\" and \"createRole\" MongoDB commands to add the required users and roles per organizational or site-specific documentation.\n\nMore information can be found here:\n\nhttps://www.mongodb.com/docs/v8.0/reference/command/createUser/\n\nhttps://www.mongodb.com/docs/v8.0/reference/command/createRole/",
+  "fix_id": "F-83841r1179315_fix",
+  "VulnDiscussion": "The DOD standard for authentication of an interactive user is the presentation of a common access card (CAC) or other physical token bearing a valid, current, DOD-issued Public Key Infrastructure (PKI) certificate, coupled with a Personal Identification Number (PIN) to be entered by the user at the beginning of each session and whenever reauthentication is required.\n\nWithout reauthentication, users may access resources or perform tasks for which they do not have authorization. \n\nWhen applications provide the capability to change security roles or escalate the functional capability of the application, it is critical the user reauthenticate.\n\nIn addition to the reauthentication requirements associated with session locks, organizations may require reauthentication of individuals and/or devices in other situations, including (but not limited to) the following circumstances:\n\n(i) When authenticators change; \n(ii) When roles change; \n(iii) When security categories of information systems change; \n(iv) When the execution of privileged functions occurs; \n(v) After a fixed period of time; or\n(vi) Periodically.\n\nWithin the DOD, the minimum circumstances requiring reauthentication are privilege escalation and role changes.",
+  "Documentable": "false"
+}

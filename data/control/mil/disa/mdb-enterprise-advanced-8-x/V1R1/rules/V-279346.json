@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279346",
+  "rule_id": "SV-279346r1179449_rule",
+  "stig_id": "MD8X-00-003300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MongoDB must be configured to prohibit or restrict the use of organization-defined functions, ports, protocols, and/or services, as defined in the PPSM CAL and vulnerability assessments.",
+  "group_title": "SRG-APP-000142-DB-000094",
+  "idents": {
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-83899r1179448_chk",
+  "check_content": "Check the MongoDB configuration file (default location /etc/mongod.conf) to verify the following entry:\n\nnet:\n  port: 27017\n\nIf the port listed is not authorized, this is a finding.\n\nVerify only TLS 1.2+ is being used. If the following entry is not in the configuration file, this is a finding.\n\nnet:\n  tls:\n    mode: requireTLS\n    disabledProtocols: TLS1_0,TLS1_1\n\nVerify the binding of IP addresses does not include \"0.0.0.0\" or \":0\":\n\nnet:\n  bindIp: 127.0.0.1,<specific-ip-addresses>\n\nIf the bindIp contains \"0.0.0.0\" or \"::0\", this is a finding.",
+  "fixtext": "Check the MongoDB configuration file (default location /etc/mongod.conf):\n\nEnsure the following section exists and set the port in the to an allowed port:\n\nnet:\n  port: 27017\n\nEnsure that TLS 1.2+ is being used by adding the following entry into the configuration file.\n\nnet:\n  tls:\n    mode: requireTLS\n    disabledProtocols: TLS1_0,TLS1_1\n\nEnsure the following section exists in the configuration file and that it does not contain wildcard binding (occurrences of \"0.0.0.0\" or \"::0\" or equivalents).\n\nnet:\n  bindIp: 127.0.0.1,<specific-ip-addresses>",
+  "fix_id": "F-83804r1179204_fix",
+  "VulnDiscussion": "To prevent unauthorized connection of devices, unauthorized transfer of information, or unauthorized tunneling (i.e., embedding of data types within data types), organizations must disable or restrict unused or unnecessary physical and logical ports/protocols/services on information systems.\n\nApplications are capable of providing a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., email and web services); however, doing so increases risk over limiting the services provided by any one component. \n\nTo support the requirements and principles of least functionality, the application must support the organizational requirements providing only essential capabilities and limiting the use of ports, protocols, and/or services to only those required, authorized, and approved to conduct official business or to address authorized quality of life issues.\n\nDatabase Management Systems using ports, protocols, and services deemed unsafe are open to attack through those ports, protocols, and services. This can allow unauthorized access to the database and through the database to other components of the information system.",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-268552",
+  "rule_id": "SV-268552r1034596_rule",
+  "stig_id": "APPL-15-004030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must configure system log files owned by root and group to wheel.",
+  "group_title": "SRG-OS-000205-GPOS-00083",
+  "idents": {
+    "cci": [
+      "CCI-001312",
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-72582r1034594_chk",
+  "check_content": "Verify the macOS system is configured with system log files owned by root and group to wheel with the following command:\n\n/usr/bin/stat -f '%Su:%Sg:%N' $(/usr/bin/grep -v '^#' /etc/newsyslog.conf | /usr/bin/awk '{ print $1 }') 2> /dev/null | /usr/bin/awk '!/^root:wheel:/{print $1}' | /usr/bin/wc -l | /usr/bin/tr -d ' '\n\nIf the result is not \"0\", this is a finding.",
+  "fixtext": "Configure the macOS system with system log files owned by root and group to wheel with the following command: \n\n/usr/sbin/chown root:wheel $(/usr/bin/stat -f '%Su:%Sg:%N' $(/usr/bin/grep -v '^#' /etc/newsyslog.conf | /usr/bin/awk '{ print $1 }') 2> /dev/null | /usr/bin/awk -F\":\" '!/^root:wheel:/{print $3}')",
+  "fix_id": "F-72483r1034595_fix",
+  "VulnDiscussion": "The system log files must be owned by root.\n\nSystem logs contain sensitive data about the system and users. Setting log files to be readable and writable only by system administrators mitigates the risk.\n\nSatisfies: SRG-OS-000205-GPOS-00083, SRG-OS-000206-GPOS-00084",
+  "Documentable": "false"
+}

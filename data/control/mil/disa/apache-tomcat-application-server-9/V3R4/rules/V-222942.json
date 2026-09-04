@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222942",
+  "rule_id": "SV-222942r960897_rule",
+  "stig_id": "TCAT-AS-000270",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The first line of request must be logged.",
+  "group_title": "SRG-APP-000097-AS-000060",
+  "idents": {
+    "legacy": [
+      "SV-111413",
+      "V-102467"
+    ],
+    "cci": [
+      "CCI-000132"
+    ]
+  },
+  "check_id": "C-24614r426270_chk",
+  "check_content": "As an elevated user on the Tomcat server:\n\nEdit the $CATALINA_BASE/conf/server.xml file.\n\nReview all \"Valve\" elements.\n\nIf the pattern= statement does not include &quot;%r&quot;, this is a finding.\n\nEXAMPLE:\n<Host name=\"localhost\"  appBase=\"webapps\"\n            unpackWARs=\"true\" autoDeploy=\"false\">\n...\n<Valve className=\"org.apache.catalina.valves.AccessLogValve\" directory=\"logs\"\n               prefix=\"localhost_access_log\" suffix=\".txt\"\n               pattern=\"%h %l %t %u &quot;%r&quot; %s %b\" />\n  ...\n</Host>",
+  "fixtext": "As a privileged user on the Tomcat server:\n\nEdit the $CATALINA_BASE/conf/server.xml file.\n\nModify the <Valve> element(s) nested within the <Host> element(s).\n\nChange the AccessLogValve setting to include &quot;%r&quot; in the pattern= statement. \n\nEXAMPLE:\n<Host name=\"localhost\"  appBase=\"webapps\"\n            unpackWARs=\"true\" autoDeploy=\"false\">\n...\n<Valve className=\"org.apache.catalina.valves.AccessLogValve\" directory=\"logs\"\n               prefix=\"localhost_access_log\" suffix=\".txt\"\n               pattern=\"%h %l %t %u &quot;%r&quot; %s %b\" />\n  ...\n</Host>\n\nRestart the Tomcat server:\nsudo systemctl restart tomcat\nsudo systemctl daemon-reload",
+  "fix_id": "F-24603r426271_fix",
+  "VulnDiscussion": "The access logfile format is defined within a Valve that implements the org.apache.catalina.valves.AccessLogValve interface within the /opt/tomcat/server.xml configuration file: The &quot;%r&quot; pattern code is included in the pattern element and logs the first line associated with the event, namely the request method, URL path, query string, and protocol (\"&quot;\" simply specifies a literal double quote). Including the pattern in the log configuration provides useful information about the time of the event which is critical for troubleshooting and forensic investigations.",
+  "Documentable": "false"
+}

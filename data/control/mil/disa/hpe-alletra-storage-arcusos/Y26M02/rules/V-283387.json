@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-283387",
+  "rule_id": "SV-283387r1194855_rule",
+  "stig_id": "ASMP-ND-000600",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The HPE Alletra Storage ArcusOS device must use FIPS 140-approved algorithms for authentication to a cryptographic module.",
+  "group_title": "SRG-APP-000179-NDM-000265",
+  "idents": {
+    "cci": [
+      "CCI-000803",
+      "CCI-000197",
+      "CCI-001188",
+      "CCI-002890",
+      "CCI-003123"
+    ]
+  },
+  "check_id": "C-87952r1194853_chk",
+  "check_content": "Verify the status of the FIPS communication library with the following command:\n\ncli% controlsecurity fips status\n\nFIPS mode: Enabled\nService                      Status\nAUTHN                        Enabled\nCIM                          Disabled\nCLI          Enabled\nEKM         Enabled\nLDAP         Enabled\nQW          Enabled\nRDA         Enabled\nSC CONNECTOR Disabled\nSNMP         Enabled\nSSH          Enabled\nSYSLOG       Enabled\nVASA         Enabled\nWSAPI        Enabled\n\nIf the line \"FIPS Mode:\" is not \"Enabled\", this is a finding.\n\nIf any of the service lines for \"CLI\", \"EKM\", \"LDAP\", \"SNMP\", \"SSH\", or \"SYSLOG\" are \"Disabled\", this is a finding.\n\nIf CIM, VASA, or WSAPI are \"Disabled\", and the services are enabled, this is a finding.",
+  "fixtext": "Warning: Enabling FIPS mode requires restarting all system management interfaces, which will terminate all existing connections including this one.\n\nSet the communications encryption module into FIPS mode:\n\ncli% controlsecurity fips enable",
+  "fix_id": "F-87857r1194854_fix",
+  "VulnDiscussion": "Passwords must be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nNetwork devices can accomplish this by making direct function calls to encryption modules or by leveraging operating system encryption capabilities.\n\nUnapproved mechanisms used for authentication to the cryptographic module are not validated and therefore, cannot be relied upon to provide confidentiality or integrity, and DOD data may be compromised.\n\nNetwork devices using encryption are required to use FIPS-compliant mechanisms for authenticating to cryptographic modules.\n\nFIPS 140-2 is the current standard for validating that mechanisms used to access cryptographic modules use authentication that meets DOD requirements. However, authentication algorithms must configure security processes to use only FIPS-approved and NIST-recommended authentication algorithms.\n\nThe use of secure protocols instead of their unsecured counterparts, such as SSH instead of telnet, SCP instead of FTP, and HTTPS instead of HTTP. If unsecured protocols (lacking cryptographic mechanisms) are used for sessions, the contents of those sessions will be susceptible to eavesdropping, potentially putting sensitive data (including administrator passwords) at risk of compromise and potentially allowing hijacking of maintenance sessions.\n\nSatisfies: SRG-APP-000179-NDM-000265, SRG-APP-000172-NDM-000259, SRG-APP-000224-NDM-000270, SRG-APP-000411-NDM-000330, SRG-APP-000412-NDM-000331",
+  "Documentable": "false"
+}

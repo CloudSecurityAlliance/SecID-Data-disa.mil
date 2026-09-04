@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-258209",
+  "rule_id": "SV-258209r1045412_rule",
+  "stig_id": "RHEL-09-654175",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must audit all uses of the usermod command.",
+  "group_title": "SRG-OS-000037-GPOS-00015",
+  "idents": {
+    "cci": [
+      "CCI-000130",
+      "CCI-000135",
+      "CCI-000169",
+      "CCI-000172",
+      "CCI-002884"
+    ]
+  },
+  "check_id": "C-61950r1045410_chk",
+  "check_content": "Verify that RHEL 9 is configured to audit the execution of the \"usermod\" command with the following command:\n\n$ sudo auditctl -l | grep usermod\n\n-a always,exit -S all -F path=/usr/sbin/usermod -F perm=x -F auid>=1000 -F auid!=-1 -F key=privileged-usermod\n\nIf the command does not return a line, or the line is commented out, this is a finding.",
+  "fixtext": "Configure RHEL 9 to generate audit records upon successful/unsuccessful attempts to use the \"usermod \" command by adding or updating the following rule in \"/etc/audit/rules.d/audit.rules\":\n\n-a always,exit -F path=/usr/sbin/usermod -F perm=x -F auid>=1000 -F auid!=unset -k privileged-usermod\n\nTo load the rules to the kernel immediately, use the following command:\n\n$ sudo augenrules --load",
+  "fix_id": "F-61874r1045411_fix",
+  "VulnDiscussion": "Without generating audit record specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).\n\nWhen a user logs on, the auid is set to the uid of the account being authenticated. Daemons are not user sessions and have the loginuid set to -1. The auid representation is an unsigned 32-bit integer, which equals 4294967295. The audit system interprets -1, 4294967295, and \"unset\" in the same way.\n\nThe system call rules are loaded into a matching engine that intercepts each system call made by all programs on the system. Therefore, it is very important to use system call rules only when absolutely necessary since these affect performance. The more rules, the bigger the performance hit. The performance can be helped, however, by combining system calls into one rule whenever possible.\n\nSatisfies: SRG-OS-000037-GPOS-00015, SRG-OS-000042-GPOS-00020, SRG-OS-000062-GPOS-00031, SRG-OS-000392-GPOS-00172, SRG-OS-000462-GPOS-00206, SRG-OS-000471-GPOS-00215, SRG-OS-000466-GPOS-00210",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-277128",
+  "rule_id": "SV-277128r1148836_rule",
+  "stig_id": "APPL-26-002120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable AppleID and internet Account Modification.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-81283r1148834_chk",
+  "check_content": "Verify the macOS system is configured to disable account modification with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.applicationaccess')\\\n.objectForKey('allowAccountModification').js\nEOS\n\nIf the result is not \"false\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable Account Modification by installing the \"com.apple.applicationaccess\" configuration profile.",
+  "fix_id": "F-81188r1148835_fix",
+  "VulnDiscussion": "The system must disable Account Modification. \n\nAccount Modification includes adding or modifying internet accounts in Apple Mail, Calendar, or Contacts in the Internet Account System Setting Pane or the AppleID System Setting Pane.\n\nThis prevents the addition of unauthorized accounts.\n\n[IMPORTANT]\n====\nSome organizations may allow the use and configuration of the built-in Mail.app, Calendar.app, and Contacts.app for organizational communication. Information system security officers (ISSOs) may make the risk-based decision not to disable the Internet Accounts System Preference pane to avoid losing this functionality, but they are advised to first fully weigh the potential risks posed to their organization.\n====",
+  "Documentable": "false"
+}

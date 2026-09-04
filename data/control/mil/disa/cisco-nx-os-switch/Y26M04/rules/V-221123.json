@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221123",
+  "rule_id": "SV-221123r999732_rule",
+  "stig_id": "CISC-RT-000700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco PE switch providing Virtual Private LAN Services (VPLS) must be configured to have traffic storm control thresholds on CE-facing interfaces.",
+  "group_title": "SRG-NET-000193-RTR-000002",
+  "idents": {
+    "legacy": [
+      "SV-111065",
+      "V-101961"
+    ],
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-22838r409858_chk",
+  "check_content": "Review the switch configuration to verify that storm control is enabled on CE-facing interfaces deploying VPLS as shown in the example below:\n\ninterface Ethernet2/4\n no shutdown\n no switchport\n storm-control broadcast level 40.00\n service instance 1 ethernet\n encapsulation dot1q 100\n\nIf storm control is not enabled at a minimum for broadcast traffic, this is a finding.",
+  "fixtext": "Configure storm control for each CE-facing interface as shown in the example below:\n\nSW1(config)# int e2/4\nSW1(config-if)# storm-control broadcast level 40 \nSW1(config-if)# end",
+  "fix_id": "F-22827r409859_fix",
+  "VulnDiscussion": "A traffic storm occurs when packets flood a VPLS bridge, creating excessive traffic and degrading network performance. Traffic storm control prevents VPLS bridge disruption by suppressing traffic when the number of packets reaches configured threshold levels. Traffic storm control monitors incoming traffic levels on a port and drops traffic when the number of packets reaches the configured threshold level during any one-second interval.",
+  "Documentable": "false"
+}

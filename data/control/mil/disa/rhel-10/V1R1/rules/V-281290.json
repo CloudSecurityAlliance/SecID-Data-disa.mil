@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-281290",
+  "rule_id": "SV-281290r1166822_rule",
+  "stig_id": "RHEL-10-700870",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must disable wireless network adapters.",
+  "group_title": "SRG-OS-000299-GPOS-00117",
+  "idents": {
+    "cci": [
+      "CCI-001444",
+      "CCI-001443",
+      "CCI-002421",
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-85851r1166820_chk",
+  "check_content": "Note: This requirement is not applicable for systems that do not have physical wireless network radios.\n\nVerify RHEL 10 disables wireless interfaces on the system with the following command:\n\n$ nmcli device status\nDEVICE                    TYPE            STATE                    CONNECTION\nvirbr0                      bridge         connected             virbr0\nwlp7s0                    wifi              connected            wifiSSID\nenp6s0                    ethernet     disconnected        --\np2p-dev-wlp7s0     wifi-p2p     disconnected        --\nlo                             loopback    unmanaged           --\nvirbr0-nic                tun              unmanaged          --\n\nIf a wireless interface is configured and has not been documented and approved by the information system security officer, this is a finding.",
+  "fixtext": "Configure RHEL 10 to disable all wireless network interfaces with the following command:\n\n$ nmcli radio all off",
+  "fix_id": "F-85756r1166821_fix",
+  "VulnDiscussion": "This requirement applies to wireless peripheral technologies (e.g., wireless mice, keyboards, displays, etc.) used with RHEL 10 systems. Wireless peripherals (e.g., Wi-Fi/Bluetooth/IR keyboards, mice and pointing devices, and near field communications [NFC]) present a unique challenge by creating an open, unsecured port on a computer. \n\nWireless peripherals must meet DOD requirements for wireless data transmission and be approved for use by the authorizing official. Even though some wireless peripherals, such as mice and pointing devices, do not ordinarily carry information that must be protected, modification of communications with these wireless peripherals may be used to compromise the RHEL 10 operating system.\n\nSatisfies: SRG-OS-000299-GPOS-00117, SRG-OS-000300-GPOS-00118, SRG-OS-000424-GPOS-00188, SRG-OS-000481-GPOS-00481",
+  "Documentable": "false"
+}

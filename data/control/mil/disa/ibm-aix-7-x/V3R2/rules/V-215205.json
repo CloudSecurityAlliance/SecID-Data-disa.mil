@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215205",
+  "rule_id": "SV-215205r958828_rule",
+  "stig_id": "AIX7-00-001046",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If LDAP authentication is required, AIX must setup LDAP client to refresh user and group caches less than a day.",
+  "group_title": "SRG-OS-000383-GPOS-00166",
+  "idents": {
+    "legacy": [
+      "SV-101645",
+      "V-91547"
+    ],
+    "cci": [
+      "CCI-002007"
+    ]
+  },
+  "check_id": "C-16403r294066_chk",
+  "check_content": "If LDAP authentication is not required, this is Not Applicable.\n\nVerify the \"/etc/security/ldap/ldap.cfg\" file to see if the following two keywords have a value that is greater than \"900\" seconds:\n\n# grep -i usercachetimeout /etc/security/ldap/ldap.cfg\nusercachetimeout: 900\n\n# grep -i groupcachetimeout /etc/security/ldap/ldap.cfg\ngroupcachetimeout: 900\n\nIf any of the above keywords does not exist, is commented out, or any value of the above keywords are greater than \"900\", this is a finding.",
+  "fixtext": "Edit the \"/etc/security/ldap/ldap.cfg\" file to set the following two keywords to have value of \"900\":\nusercachetimeout\ngroupcachetimeout\n\nRestart LDAP client using command:\n# /usr/sbin/restart-secldapclntd",
+  "fix_id": "F-16401r294067_fix",
+  "VulnDiscussion": "If cached authentication information is out-of-date, the validity of the authentication information may be questionable.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-245541",
+  "rule_id": "SV-245541r1069469_rule",
+  "stig_id": "CNTR-K8-001300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Kubernetes Kubelet must not disable timeouts.",
+  "group_title": "SRG-APP-000190-CTR-000500",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-48816r1069467_chk",
+  "check_content": "Follow these steps to check streaming-connection-idle-timeout:\n\n1. On the Control Plane, run the command:\n\nps -ef | grep kubelet\n\nIf the \"--streaming-connection-idle-timeout\" option exists, this is a finding.\n\nNote the path to the config file (identified by --config).\n\n2. Run the command:\n\ngrep -i streamingConnectionIdleTimeout <path_to_config_file>\n\nIf the setting \"streamingConnectionIdleTimeout\" is set to less than \"5m\" or is not configured, this is a finding.",
+  "fixtext": "Follow these steps to configure streaming-connection-idle-timeout:\n1. On the Control Plane, run the command:\nps -ef | grep kubelet\n\nRemove the \"--streaming-connection-idle-timeout\" option if present.\n\nNote the path to the config file (identified by --config).\n\n2. Edit the Kubernetes Kubelet file in the --config directory on the Kubernetes Control Plane:\n\nSet the argument \"streamingConnectionIdleTimeout\" to a value of \"5m\".",
+  "fix_id": "F-48771r1069468_fix",
+  "VulnDiscussion": "Idle connections from the Kubelet can be used by unauthorized users to perform malicious activity to the nodes, pods, containers, and cluster within the Kubernetes Control Plane. Setting the streamingConnectionIdleTimeout defines the maximum time an idle session is permitted prior to disconnect. Setting the value to \"0\" never disconnects any idle sessions. Idle timeouts must never be set to \"0\" and should be defined at \"5m\" (the default is 4hr).",
+  "Documentable": "false"
+}

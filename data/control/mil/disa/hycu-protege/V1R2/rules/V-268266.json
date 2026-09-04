@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268266",
+  "rule_id": "SV-268266r1038758_rule",
+  "stig_id": "HYCU-ND-000580",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must enforce a minimum 15-character password length.",
+  "group_title": "SRG-APP-000164-NDM-000252",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-72287r1038496_chk",
+  "check_content": "Check for the value of the \"minlen\" option in \"/etc/security/pwquality.conf\" with the following command:\ngrep minlen /etc/security/pwquality.conf \n\nIf the minlen value is not set to \"15\", this is a finding.\n\nCheck for the value of the \"user.password.min.length\" variable in \"/opt/grizzly/config.properties\" HYCU configuration file with the following command:\ngrep user.password.min.length /opt/grizzly/config.properties\n\nIf the value is not set to 15 or more, this is a finding.",
+  "fixtext": "Add the following line to \"/etc/security/pwquality.conf\" (or modify the line to have the required value).\nminlen = 15\n\nAdd or modify the following line in the /opt/grizzly/config.properties configuration file:\nuser.password.min.length=15\n\nReload the HYCU application by running the following command:\nsudo systemctl reload grizzly",
+  "fix_id": "F-72190r1038757_fix",
+  "VulnDiscussion": "Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. Password length is one factor of several that helps to determine strength and how long it takes to crack a password.\n\nThe shorter the password, the lower the number of possible combinations that need to be tested before the password is compromised. Use of more characters in a password helps to exponentially increase the time and/or resources required to compromise the password.",
+  "Documentable": "false"
+}

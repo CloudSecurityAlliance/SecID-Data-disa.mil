@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221008",
+  "rule_id": "SV-221008r1137907_rule",
+  "stig_id": "CISC-RT-000250",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco perimeter switch must be configured to enforce approved authorizations for controlling the flow of information between interconnected networks in accordance with applicable policy.",
+  "group_title": "SRG-NET-000019-RTR-000002",
+  "idents": {
+    "legacy": [
+      "SV-110837",
+      "V-101733"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-22723r408818_chk",
+  "check_content": "Review the switch configuration to verify that ACLs are configured to allow or deny traffic for specific source and destination addresses as well as ports and protocols. In the example below, the switch is peering BGP with DISN. ICMP echo and echo-reply packets are allowed for troubleshooting connectivity. WWW traffic is permitted inbound to the NIPRNet host-facing web server (x.12.1.22).\n\ninterface GigabitEthernet0/1\n description Link to DISN\n ip address x.12.1.10 255.255.255.0\n ip access-group FILTER_PERIMETER in\n…\n…\n…\nip access-list extended FILTER_PERIMETER\n permit tcp any any established\n permit tcp host x.12.1.9 host x.12.1.10 eq bgp\n permit tcp host x.12.1.9 eq bgp host x.12.1.10\n permit icmp host x.12.1.9 host x.12.1.10 echo\n permit icmp host x.12.1.9 host x.12.1.10 echo-reply\n permit tcp any host x.12.1.22 eq www\n deny ip any any log-input\n\nIf the switch is not configured to enforce approved authorizations for controlling the flow of information between interconnected networks, this is a finding.",
+  "fixtext": "Step 1: Configure an ACL to allow or deny traffic as shown in the example below:\n\nSW1(config)#ip access-list extended FILTER_PERIMETER\nSW1(config-ext-nacl)#permit tcp any any established\nSW1(config-ext-nacl)#permit tcp host x.12.1.9 host x.12.1.10 eq bgp\nSW1(config-ext-nacl)#permit tcp host x.12.1.9 eq bgp host x.12.1.10\nSW1(config-ext-nacl)#permit icmp host x.12.1.9 host x.12.1.10 echo\nSW1(config-ext-nacl)#permit icmp host x.12.1.9 host x.12.1.10 echo-reply\nSW1(config-ext-nacl)#permit tcp any host x.12.1.22 eq www\nSW1(config-ext-nacl)#deny ip any any log-input\nSW1(config-ext-nacl)#exit\n\nStep 2: Apply the ACL inbound on all external interfaces.\n\nR2(config)#int g0/0\nSW1(config-if)#ip access-group FILTER_PERIMETER in",
+  "fix_id": "F-22712r408819_fix",
+  "VulnDiscussion": "Information flow control regulates authorized information to travel within a network and between interconnected networks. Controlling the flow of network traffic is critical so it does not introduce any unacceptable risk to the network infrastructure or data. An example of a flow control restriction is blocking outside traffic claiming to be from within the organization. For most switches, internal information flow control is a product of system design.",
+  "Documentable": "false"
+}

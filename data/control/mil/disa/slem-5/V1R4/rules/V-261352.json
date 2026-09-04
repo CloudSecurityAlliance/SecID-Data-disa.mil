@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261352",
+  "rule_id": "SV-261352r1184415_rule",
+  "stig_id": "SLEM-05-411030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All SLEM 5 local interactive user home directories defined in the /etc/passwd file must exist.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65081r1184413_chk",
+  "check_content": "Verify the assigned home directory of all SLEM 5 local interactive users on the system exists.\n\nCheck the home directory assignment for all local interactive nonprivileged users on the system with the following command:\n\n     > awk -F: '($3>=1000)&&($7 !~ /nologin/){print $1, $6}' /etc/passwd\n     dosuser /home/dosuser\n\nNote: This may miss interactive users that have been assigned a privileged User Identifier (UID). Evidence of interactive use may be obtained from a number of log files containing system logon information.\n\nCheck that all referenced home directories exist with the following command:\n\n     > sudo pwck -r\n     user 'dosuser': directory '/home/dosuser' does not exist\n\nIf any home directories referenced in \"/etc/passwd\" are returned as not defined, this is a finding.",
+  "fixtext": "Create home directories to all SLEM 5 local interactive users that currently do not have a home directory assigned. Use the following commands to create the user home directory assigned in \"/etc/ passwd\":\n\nNote: The example will be for the user dosuser, who has a home directory of \"/home/dosuser\", a UID of \"dosuser\", and a Group Identifier (GID) of \"users assigned\" in \"/etc/passwd\".\n\n     > sudo mkdir /home/dosuser \n     > sudo chown dosuser /home/dosuser\n     > sudo chgrp users /home/dosuser\n     > sudo chmod 0750 /home/dosuser",
+  "fix_id": "F-64989r1184414_fix",
+  "VulnDiscussion": "If a local interactive user has a home directory defined that does not exist, the user may be given access to the / directory as the current working directory upon logon. This could create a denial of service (DoS) because the user would not be able to access their logon configuration files, and it may give them visibility to system files they normally would not be able to access.",
+  "Documentable": "false"
+}

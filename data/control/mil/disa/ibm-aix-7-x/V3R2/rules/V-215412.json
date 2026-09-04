@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215412",
+  "rule_id": "SV-215412r991589_rule",
+  "stig_id": "AIX7-00-003114",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "If the AIX host is running an SMTP service, the SMTP greeting must not provide version information.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91653",
+      "SV-101751"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16610r294687_chk",
+  "check_content": "If the AIX host is not running an SMTP service, this is Not Applicable.\n\nCheck the value of the \"SmtpGreetingMessage\" parameter in the \"sendmail.cf\" file:\n# grep SmtpGreetingMessage /etc/mail/sendmail.cf\n\nIf the value of the \"SmtpGreetingMessage\" parameter contains the \"$v\" or \"$Z\" macros, this is a finding.",
+  "fixtext": "Ensure \"Sendmail\" or its equivalent has been configured to mask the version information. If necessary, change the \"O SmtpGreetingMessage\" line in the \"/etc/sendmail.cf\" file from: \nO SmtpGreetingMessage=$j Sendmail $v/$Z; $b \n\nto: \n\nO SmtpGreetingMessage= Mail Server Ready ; $b",
+  "fix_id": "F-16608r294688_fix",
+  "VulnDiscussion": "The version of the SMTP service can be used by attackers to plan an attack based on vulnerabilities present in the specific version.",
+  "Documentable": "false"
+}

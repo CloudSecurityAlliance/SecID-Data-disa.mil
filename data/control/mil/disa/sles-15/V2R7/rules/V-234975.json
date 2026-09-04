@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234975",
+  "rule_id": "SV-234975r991581_rule",
+  "stig_id": "SLES-15-030760",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must generate audit records for the /run/utmp file.",
+  "group_title": "SRG-OS-000472-GPOS-00217",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-38163r619194_chk",
+  "check_content": "Verify the SUSE operating system generates an audit record for the \"/run/utmp\" file.\n\nCheck that the file is being audited by performing the following command:\n\n> sudo auditctl -l | grep -w '/run/utmp'\n\n-w /run/utmp -p wa -k login_mod\n\nIf the command does not return a line that match the example, this is a finding.\n\nNote:\nThe \"-k\" allows for specifying an arbitrary identifier. The string following \"-k\" does not need to match the example output above.",
+  "fixtext": "Configure the SUSE operating system to generate an audit record for the \"/run/utmp\" file. \n\nAdd or update the following rules to \"/etc/audit/rules.d/audit.rules\":\n\n-w /run/utmp -p wa -k login_mod\n\nTo reload the rules file, restart the audit daemon\n\n> sudo systemctl restart auditd.service\n\nor issue the following command:\n\n> sudo augenrules --load",
+  "fix_id": "F-38126r619195_fix",
+  "VulnDiscussion": "Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).",
+  "Documentable": "false"
+}

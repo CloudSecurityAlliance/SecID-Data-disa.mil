@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279271",
+  "rule_id": "SV-279271r1170700_rule",
+  "stig_id": "SYME-ND-000740",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Edge SWG must be configured to protect against known types of denial-of-service (DoS) attacks by employing organization-defined security safeguards.",
+  "group_title": "SRG-APP-000435-NDM-000315",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-83821r1170699_chk",
+  "check_content": "1. In the Edge SWG Web UI and navigate to the Configuration tab.\n2. Go to \"Authentication\" and \"Console Access\".\n\nIf under \"Console Access\" there is no configured ACL, this is a finding.\n\nIf there is a configured ACL, but \"Enforce ACL for built-in administrators\" is not checked, this is a finding.\n\n1. Log in to the Edge SWG SSH CLI.\n2. Enter \"show security\".\n\nIf under \"Account\" \"CLI session timeout\" does not say \"5 minutes\", this is a finding.\n\nIf under \"Account\" \"Web interface session timeout\" does not say \"5 minutes\", this is a finding.\n\n1. Log in to the Edge SWG SSH CLI.\n2. Enter \"enable\" and \"configure terminal\".\n3. Issue the command \"security local-user-list edit local\", then type \"view\".\n\nIf \"Max failed attempts\" under \"Account lockout\" does not equal \"3\", this is a finding.\n\nIf \"Lockout duration\" under \"Account lockout\" does not equal \"900 seconds\", this is a finding.",
+  "fixtext": "1. In the Edge SWG Web UI, navigate to the Configuration tab.\n2. Go to \"Authentication\" and \"Console Access\".\n3. Under \"Console Access\", click \"Add ACL Entry\".\n4. In the open block, add the IPv4 or IPv6 source address or network under \"Source Address\", then add the subnet mask or CIDR prefix under \"Prefix Length\" (e.g., 2001:db8:1:: and 48).\n5. Click \"Apply\" next to the entry.\n6. Repeat the above steps by adding all the allowed management prefixes.\nNote: Ensure the subnet is in one of the allowed IPv4 or IPv6 subnets or the session will be disconnected after clicking \"Save\".\n7. Once completed, click \"Save\".\n\nTo add the timeouts: \n1. Log in to the Edge SWG SSH CLI.\n2. Enter \"enable\" and \"configure terminal\".\n3. Enter \"security management web-timeout 5\".\n4. Enter \"security management cli-timeout 5\".\n\nTo add lockout configurations:\n1. Log in to the Edge SWG SSH CLI.\n2. Enter \"enable\" and \"configure terminal\".\n3. Issue the command \"security local-user-list create local\".\n4. Enter \"security local-user-list edit local\".\n5. Enter \"max-failed-attempts 3\".\n6. Enter \"lockout-duration 900\".\n7. Enter \"reset-interval 900\".",
+  "fix_id": "F-83726r1170573_fix",
+  "VulnDiscussion": "DoS is a condition when a resource is not available for legitimate users. When this occurs, the organization either cannot accomplish its mission or must operate at degraded capacity.\n\nThis requirement addresses the configuration of network devices to mitigate the impact of DoS attacks that have occurred or are ongoing on device availability. For each network device, known and potential DoS attacks must be identified and solutions for each type implemented. A variety of technologies exist to limit or, in some cases, eliminate the effects of DoS attacks (e.g., limiting processes or restricting the number of sessions the device opens at one time). Employing increased capacity and bandwidth, combined with service redundancy, may reduce the susceptibility to some DoS attacks.\n\nThe security safeguards cannot be defined at the DOD level because they vary according to the capabilities of the individual network devices and the security controls applied on the adjacent networks (for example, firewalls performing packet filtering to block DoS attacks).",
+  "Documentable": "false"
+}

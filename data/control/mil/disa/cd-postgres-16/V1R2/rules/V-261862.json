@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261862",
+  "rule_id": "SV-261862r1000591_rule",
+  "stig_id": "CD16-00-000600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must allow only the information system security manager (ISSM), or individuals or roles appointed by the ISSM, to select which events are to be audited.",
+  "group_title": "SRG-APP-000090-DB-000065",
+  "idents": {
+    "cci": [
+      "CCI-000171"
+    ]
+  },
+  "check_id": "C-65716r1000589_chk",
+  "check_content": "Note: The following instructions use the PGDATA environment variable. Refer to APPENDIX-F for instructions on configuring PGDATA.\n\nCheck PostgreSQL settings and documentation to determine whether designated personnel are able to select which auditable events are being audited.\n\nAs the database administrator (shown here as \"postgres\"), verify the permissions for PGDATA:\n\n$ ls -la ${PGDATA?}\n\nIf anything in PGDATA is not owned by the database administrator, this is a finding.\n\nAs the database administrator, run the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"\\du\"\n\nReview the role permissions, if any role is listed as superuser but should not have that access, this is a finding.",
+  "fixtext": "Configure PostgreSQL's settings to allow designated personnel to select which auditable events are audited.\n\nUsing pgaudit allows administrators the flexibility to choose what they log. For an overview of the capabilities of pgaudit, refer to https://github.com/pgaudit/pgaudit. \n\nRefer to supplementary content APPENDIX-B for documentation on installing pgaudit.\n\nRefer to supplementary content APPENDIX-C for instructions on enabling logging. Only administrators/superuser can change PostgreSQL configurations. Access to the database administrator must be limited to designated personnel only.\n\nTo ensure that postgresql.conf is owned by the database owner:\n\n$ chown postgres:postgres ${PGDATA?}/postgresql.conf\n$ chmod 600 ${PGDATA?}/postgresql.conf",
+  "fix_id": "F-65624r1000590_fix",
+  "VulnDiscussion": "Without the capability to restrict which roles and individuals can select which events are audited, unauthorized personnel may be able to prevent or interfere with the auditing of critical events.\n\nSuppression of auditing could permit an adversary to evade detection.\n\nMisconfigured audits can degrade the system's performance by overwhelming the audit log. Misconfigured audits may also make it more difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.",
+  "Documentable": "false"
+}

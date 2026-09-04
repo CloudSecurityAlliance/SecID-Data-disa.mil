@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281350",
+  "rule_id": "SV-281350r1167200_rule",
+  "stig_id": "RHEL-10-800180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must limit the number of bogus Internet Control Message Protocol (ICMP) response errors logs.",
+  "group_title": "SRG-OS-000420-GPOS-00186",
+  "idents": {
+    "cci": [
+      "CCI-002385",
+      "CCI-001105"
+    ]
+  },
+  "check_id": "C-85911r1167198_chk",
+  "check_content": "Verify RHEL 10 limits the number of bogus ICMP response errors logs.\n\nCheck the value of the \"net.ipv4.icmp_ignore_bogus_error_response\" variables with the following command:\n\n$ sudo sysctl net.ipv4.icmp_ignore_bogus_error_responses\nnet.ipv4.icmp_ignore_bogus_error_responses = 1\n\nIf \"net.ipv4.icmp_ignore_bogus_error_response\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 10 to not log bogus ICMP errors.\n\nCreate a configuration file if it does not already exist:\n\n$ sudo vi /etc/sysctl.d/ipv4_icmp_ignore_bogus_error_responses.conf\n\nAdd the following line to the file:\n\nnet.ipv4.icmp_ignore_bogus_error_responses = 1\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-85816r1167199_fix",
+  "VulnDiscussion": "Some routers will send responses to broadcast frames that violate RFC-1122, which fills up a log file system with many useless error messages. An attacker may take advantage of this and attempt to flood the logs with bogus error logs. Ignoring bogus ICMP error responses reduces log size, although some activity would not be logged.\n\nSatisfies: SRG-OS-000420-GPOS-00186, SRG-OS-000142-GPOS-00081",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-248680",
+  "rule_id": "SV-248680r1156673_rule",
+  "stig_id": "OL08-00-020060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must automatically lock graphical user sessions after 15 minutes of inactivity.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "cci": [
+      "CCI-000057",
+      "CCI-000060"
+    ]
+  },
+  "check_id": "C-52114r1155557_chk",
+  "check_content": "Note: This requirement assumes the use of the OL 8 default graphical user interface, Gnome Shell. If the system does not have any graphical user interface installed, this requirement is Not Applicable. \n \nVerify OL 8 initiates a session lock after a 10-minute period of inactivity for graphical user interfaces with the following commands: \n \n$ sudo gsettings get org.gnome.desktop.session idle-delay \n \nuint32 600 \n \nIf \"idle-delay\" is set to \"0\" or a value greater than \"600\", this is a finding.",
+  "fixtext": "Configure OL 8 to initiate a screensaver after a 10-minute period of inactivity for graphical user interfaces. \n \nCreate a database to contain the systemwide screensaver settings (if it does not already exist) with the following command: \n \n$ sudo touch /etc/dconf/db/local.d/00-screensaver \n \nEdit \"/etc/dconf/db/local.d/00-screensaver\" and add or update the following lines: \n \n[org/gnome/desktop/session] \n# Set the lock time out to 600 seconds before the session is considered idle \nidle-delay=uint32 600 \n \nUpdate the system databases: \n \n$ sudo dconf update",
+  "fix_id": "F-52068r1155558_fix",
+  "VulnDiscussion": "A session time-out lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not log out because of the temporary nature of the absence. Rather than relying on the user to manually lock their operating system session prior to vacating the vicinity, operating systems must be able to identify when a user's session has idled and take action to initiate the session lock. \n \nThe session lock is implemented at the point where session activity can be determined and/or controlled.\n\nSatisfies: SRG-OS-000029-GPOS-00010, SRG-OS-000031-GPOS-00012",
+  "Documentable": "false"
+}

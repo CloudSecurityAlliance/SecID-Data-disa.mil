@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281360",
+  "rule_id": "SV-281360r1167230_rule",
+  "stig_id": "RHEL-10-800280",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must not forward Internet Protocol version 6 (IPv6) source-routed packets by default.",
+  "group_title": "SRG-OS-000420-GPOS-00186",
+  "idents": {
+    "cci": [
+      "CCI-002385",
+      "CCI-001115"
+    ]
+  },
+  "check_id": "C-85921r1167228_chk",
+  "check_content": "Note: If IPv6 is disabled on the system, this requirement is not applicable.\n\nVerify RHEL 10 does not accept IPv6 source-routed packets by default.\n\nCheck the value of the \"net.ipv6.conf.default.accept_source_route\" variables with the following command:\n\n$ sudo sysctl net.ipv6.conf.default.accept_source_route\nnet.ipv6.conf.default.accept_source_route = 0\n\nIf \"net.ipv6.conf.default.accept_source_route\" is not set to \"0\" or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 10 to not accept IPv6 source-routed packets by default.\n\nCreate a configuration file if it does not already exist:\n\n$ sudo vi /etc/sysctl.d/ipv6_accept_source_route.conf\n\nAdd the following line to the file:\n\nnet.ipv6.conf.default.accept_source_route = 0\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-85826r1167229_fix",
+  "VulnDiscussion": "Source-routed packets allow the source of the packet to suggest that routers forward the packet along a different path than configured on the router, which can be used to bypass network security measures. This requirement applies only to the forwarding of source-routed traffic, such as when forwarding is enabled and the system is functioning as a router.\n\nAccepting source-routed packets in the IPv6 protocol has few legitimate uses. It must be disabled unless it is absolutely required.\n\nSatisfies: SRG-OS-000420-GPOS-00186, SRG-OS-000142-GPOS-00091",
+  "Documentable": "false"
+}

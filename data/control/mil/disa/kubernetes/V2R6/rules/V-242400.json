@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242400",
+  "rule_id": "SV-242400r1137638_rule",
+  "stig_id": "CNTR-K8-000470",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes API server must have Alpha APIs disabled.",
+  "group_title": "SRG-APP-000033-CTR-000090",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-45675r927094_chk",
+  "check_content": "On the Control Plane, change to the manifests' directory at /etc/kubernetes/manifests and run the command:\ngrep -i feature-gates *\n\nReview the \"--feature-gates\" setting, if one is returned.\n\nIf the \"--feature-gate\"s setting is available and contains the \"AllAlpha\" flag set to \"true\", this is a finding.",
+  "fixtext": "Edit any manifest file that contains the \"--feature-gates\" setting with \"AllAlpha\" set to \"true\".\n\nSet the value of \"AllAlpha\" to \"false\" or remove the setting completely. (AllAlpha - default=false)",
+  "fix_id": "F-45633r927095_fix",
+  "VulnDiscussion": "Kubernetes allows alpha API calls within the API server. The alpha features are disabled by default since they are not ready for production and likely to change without notice. These features may also contain security issues that are rectified as the feature matures. To keep the Kubernetes cluster secure and stable, these alpha features must not be used.",
+  "Documentable": "false"
+}

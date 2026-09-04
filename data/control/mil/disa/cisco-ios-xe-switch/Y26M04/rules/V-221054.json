@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221054",
+  "rule_id": "SV-221054r1137911_rule",
+  "stig_id": "CISC-RT-000800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco multicast switch must be configured to bind a Protocol Independent Multicast (PIM) neighbor filter to interfaces that have PIM enabled.",
+  "group_title": "SRG-NET-000019-RTR-000004",
+  "idents": {
+    "legacy": [
+      "SV-110929",
+      "V-101825"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-22769r408956_chk",
+  "check_content": "Step 1: Verify all interfaces enabled for PIM have a neighbor ACL bound to the interface as shown in the example below:\n\ninterface GigabitEthernet1/1\n no switchport\n ip address 10.1.2.2 255.255.255.0\n ip pim neighbor-filter PIM_NEIGHBORS\n ip pim sparse-mode\n\nStep 2: Review the configured ACL for filtering PIM neighbors as shown in the example below:\n\nip access-list standard PIM_NEIGHBORS\n permit 10.1.2.6\n\nIf PIM neighbor ACLs are not bound to all interfaces that have PIM enabled, this is a finding.",
+  "fixtext": "Configure neighbor ACLs to only accept PIM control plane traffic from documented PIM neighbors. Bind neighbor ACLs to all PIM enabled interfaces.\n\nStep 1: Configure ACL for PIM neighbors.\n\nSW2(config)#ip access-list standard PIM_NEIGHBORS\nSW2(config-std-nacl)#permit 10.1.2.6\nSW2(config-std-nacl)#exit\n\nStep 2: Apply the ACL to all interfaces enabled for PIM.\n\nSW2(config)#int g1/1\nSW2(config-if)#ip pim neighbor-filter PIM_NEIGHBORS",
+  "fix_id": "F-22758r408957_fix",
+  "VulnDiscussion": "PIM is a routing protocol used to build multicast distribution trees for forwarding multicast traffic across the network infrastructure. PIM traffic must be limited to only known PIM neighbors by configuring and binding a PIM neighbor filter to those interfaces that have PIM enabled. If a PIM neighbor filter is not applied to those interfaces that have PIM enabled, unauthorized switches can join the PIM domain, discover and use the rendezvous points, and also advertise their rendezvous points into the domain. This can result in a denial of service by traffic flooding or result in the unauthorized transfer of data.",
+  "Documentable": "false"
+}

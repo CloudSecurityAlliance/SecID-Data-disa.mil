@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281040",
+  "rule_id": "SV-281040r1184734_rule",
+  "stig_id": "RHEL-10-400115",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must be configured so that library files are group-owned by \"root\" or a system account.",
+  "group_title": "SRG-OS-000259-GPOS-00100",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-85601r1184734_chk",
+  "check_content": "Verify RHEL 10 is configured so that the systemwide shared library files are group-owned by \"root\"  or a system account with the following command:\n\n$ sudo find -L /lib /lib64 /usr/lib /usr/lib64 ! -group root ! -type d -exec stat -L -c \"%G %n\" {} \\;\n\nIf any systemwide shared library file is returned and is not group-owned by \"root\" or a required system account, this is a finding.",
+  "fixtext": "Configure RHEL 10 so that the systemwide shared library files (/lib, /lib64, /usr/lib, and /usr/lib64) are protected from unauthorized access.\n\nRun the following command, replacing \"[FILE]\" with any library file not group-owned by \"root\".\n\n$ sudo chgrp root [FILE]",
+  "fix_id": "F-85506r1165474_fix",
+  "VulnDiscussion": "If RHEL 10 allowed any user to make changes to software libraries, those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n\nThis requirement applies to RHEL 10 with software libraries that are accessible and configurable, as in the case of interpreted languages. Software libraries also include privileged programs that execute with escalated privileges.",
+  "Documentable": "false"
+}

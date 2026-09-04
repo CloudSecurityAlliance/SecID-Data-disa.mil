@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281217",
+  "rule_id": "SV-281217r1195450_rule",
+  "stig_id": "RHEL-10-600650",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must ensure that the pam_unix.so module is configured in the password-auth file to use a FIPS 140-3-approved cryptographic hashing algorithm for system authentication.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-004062",
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-85778r1166601_chk",
+  "check_content": "Verify RHEL 10 configures the pam_unix.so module to use sha512 in \"/etc/pam.d/password-auth\" with the following command:\n\n$ sudo grep \"^password.*pam_unix.so.*sha512\" /etc/pam.d/password-auth\npassword sufficient pam_unix.so sha512\n\nIf \"sha512\" is missing, or the line is commented out, this is a finding.",
+  "fixtext": "Configure RHEL 10 to use the sha512 cryptographic hashing algorithm for local account passwords.\n\nEdit/modify the following line in the \"/etc/pam.d/password-auth\" file to include the sha512 option for pam_unix.so:\n\npassword sufficient pam_unix.so sha512",
+  "fix_id": "F-85683r1195449_fix",
+  "VulnDiscussion": "Unapproved mechanisms that are used for authentication to the cryptographic module are not verified; therefore, they cannot be relied on to provide confidentiality or integrity, and DOD data may be compromised.\n\nRHEL 10 systems using encryption are required to use FIPS-compliant mechanisms for authenticating to cryptographic modules.\n\nFIPS 140-3 is the current standard for validating that mechanisms used to access cryptographic modules use authentication that meets DOD requirements. This allows for Security Levels 1, 2, 3, or 4 for use on a general-purpose computing system.\n\nSatisfies: SRG-OS-000073-GPOS-00041, SRG-OS-000120-GPOS-00061",
+  "Documentable": "false"
+}

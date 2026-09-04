@@ -1,0 +1,37 @@
+{
+  "vuln_id": "V-272417",
+  "rule_id": "SV-272417r1156947_rule",
+  "stig_id": "BIND-9X-001650",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "A BIND 9.x server implementation must maintain the integrity and confidentiality of DNS information while it is being prepared for transmission, in transmission, and in use and must perform integrity verification and data origin verification for all DNS information.",
+  "group_title": "SRG-APP-000348-DNS-000042",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-001902",
+      "CCI-002463",
+      "CCI-001178",
+      "CCI-001184",
+      "CCI-001663",
+      "CCI-001901",
+      "CCI-001904",
+      "CCI-002420",
+      "CCI-002422",
+      "CCI-002462",
+      "CCI-002464",
+      "CCI-002465",
+      "CCI-002466",
+      "CCI-002467",
+      "CCI-002468",
+      "CCI-001310"
+    ]
+  },
+  "check_id": "C-76467r1123930_chk",
+  "check_content": "For a recursive server, verify that dnssec-validation yes is enabled.\n\nInspect the \"named.conf\" file for the following:\n\ndnssec-validation yes;\n\nIf \"dnssec-validation yes\" does not exist or is not set to \"yes\", this is a finding.\n\nFor an authoritative server, verify that each zone on the name server has been signed.\n\nIdentify each zone file for which the name server is responsible and search each file for the \"DNSKEY\" entries:\n\n# less <signed_zone_file>\n86400 DNSKEY 257 3 8 ( HASHED_KEY ) ; KSK; alg = ECDSAP256SHA256; key id = 31225\n86400 DNSKEY 256 3 8 ( HASHED_KEY ) ; ZSK; alg = ECDSAP256SHA256; key id = 52179\n\nVerify that there are separate \"DNSKEY\" entries for the \"KSK\" and the \"ZSK\".\n\nIf the \"DNSKEY\" entries are missing, the zone file is not signed.\n\nIf the zone files are not signed, this is a finding.",
+  "fixtext": "Set the \"dnssec-validation\" option to \"yes\".\n\nSign each zone file for which the name server is responsible.\n\nConfigure each zone for which the name server is responsible to use a DNSSEC signed zone.",
+  "fix_id": "F-76374r1123931_fix",
+  "VulnDiscussion": "DNSSEC is required for securing the DNS query/response transaction by providing data origin authentication and data integrity verification through signature verification and the chain of trust.\n\nFailure to accomplish data origin authentication and data integrity verification could have significant effects on DNS infrastructure. The resultant response could be forged, it may have come from a poisoned cache, the packets could have been intercepted without the resolver's knowledge, or resource records could have been removed that would result in query failure or denial of service.\n\nFailure to validate name server replies would cause many networking functions and communications to be adversely affected. With DNS, the presence of Delegation Signer (DS) records associated with child zones informs clients of the security status of child zones. These records are crucial to the DNSSEC chain of trust model. Each parent domain's DS record is used to verify the DNSKEY record in its subdomain, from the top of the DNS hierarchy down.\n\nFailure to validate the chain of trust used with DNSSEC would have a significant impact on the security posture of the DNS server. Nonvalidated trust chains may contain rouge DNS servers and allow those unauthorized servers to introduce invalid data into an organization's DNS infrastructure. A compromise of this type would be difficult to detect and may have devastating effects on the validity and integrity of DNS zone information.\n\nSatisfies: SRG-APP-000348-DNS-000042, SRG-APP-000420-DNS-000053, SRG-APP-000213-DNS-000024, SRG-APP-000219-DNS-000028, SRG-APP-000219-DNS-000029, SRG-APP-000219-DNS-000030, SRG-APP-000215-DNS-000026, SRG-APP-000347-DNS-000041, SRG-APP-000349-DNS-000043, SRG-APP-000441-DNS-000066, SRG-APP-000442-DNS-000067, SRG-APP-000422-DNS-000055, SRG-APP-000421-DNS-000054, SRG-APP-000423-DNS-000056, SRG-APP-000424-DNS-000057, SRG-APP-000425-DNS-000058, SRG-APP-000426-DNS-000059, SRG-APP-000251-DNS-000037",
+  "Documentable": "false"
+}

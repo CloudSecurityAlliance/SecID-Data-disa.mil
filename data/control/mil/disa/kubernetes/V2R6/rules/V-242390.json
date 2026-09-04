@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242390",
+  "rule_id": "SV-242390r1137640_rule",
+  "stig_id": "CNTR-K8-000360",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Kubernetes API server must have anonymous authentication disabled.",
+  "group_title": "SRG-APP-000033-CTR-000100",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-45665r927088_chk",
+  "check_content": "Change to the /etc/kubernetes/manifests directory on the Kubernetes Control Plane. Run the command:\n\ngrep -i anonymous-auth * \n\nIf the setting \"--anonymous-auth\" is set to \"true\" in the Kubernetes API Server manifest file, this is a finding.",
+  "fixtext": "Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Control Plane. \n\nSet the value of  \"--anonymous-auth\" to \"false\".",
+  "fix_id": "F-45623r927089_fix",
+  "VulnDiscussion": "The Kubernetes API Server controls Kubernetes via an API interface. A user who has access to the API essentially has root access to the entire Kubernetes cluster. To control access, users must be authenticated and authorized. By allowing anonymous connections, the controls put in place to secure the API can be bypassed.\n\nSetting \"--anonymous-auth\" to \"false\" also disables unauthenticated requests from kubelets.\n\nWhile there are instances where anonymous connections may be needed (e.g., health checks) and Role-Based Access Controls (RBACs) are in place to limit the anonymous access, this access should be disabled, and only enabled when necessary.",
+  "Documentable": "false"
+}

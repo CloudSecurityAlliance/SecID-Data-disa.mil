@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-279272",
+  "rule_id": "SV-279272r1172804_rule",
+  "stig_id": "SYME-ND-000780",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Edge SWG must be configured to conduct backups of system-level information contained in the information system when changes occur.",
+  "group_title": "SRG-APP-000516-NDM-000340",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-000537",
+      "CCI-000539"
+    ]
+  },
+  "check_id": "C-83822r1170701_chk",
+  "check_content": "1. Log in to the Edge SWG SSH CLI.\n2. Enter \"show archive-configuration\".\n\nIf no server is configured, this is a finding.\n\nIf \"Automatic upload\" is not set to \"Enabled\", this is a finding.\n\nIf \"Upload interval\" is not set for \"every 10080 minutes\", this is a finding.",
+  "fixtext": "1. Log in to the Edge SWG SSH CLI.\n2. Enter \"enable\" and \"configure terminal\".\n3. Enter \"archive-configuration archive-signing enforce-signed enable\".\n4. Enter \"archive-configuration automatic-upload\".\n5. Enter \"archive-configuration host\" and add the IP address or hostname of the site's SCP backup server.\n6. Enter \"archive-configuration username\" and add the username of the site's SCP backup server.\n7. Enter \"archive-configuration password\" and add the site's password of the site's SCP backup server.\n8. Enter \"archive-configuration path\" and add the site's backup server path (e.g., /home/tachyon-ftp/files/broadcom/).\n9. Enter \"archive-configuration filename-prefix SG_%l_%Y%m%d%H%M\".\n10. Enter \"archive-configuration periodic-upload minutes 10080\".\n11. Enter \"archive-configuration protocol scp\".\n12. Enter \"archive-configuration scp-authentication password\".\n13. Enter \"archive-configuration ssl-device-profile\" and add the \"SSL Device Profile\" in use for the HTTPS-console and x509 authentication.",
+  "fix_id": "F-83727r1172803_fix",
+  "VulnDiscussion": "System-level information includes default and customized settings and security attributes, including ACLs that relate to the network device configuration, as well as software required for the execution and operation of the device. Information system backup is a critical step in ensuring system integrity and availability. If the system fails and there is no backup of the system-level information, a denial-of-service (DoS) condition is possible for all who utilize this critical network component.\n\nThis control requires the network device to support the organizational central backup process for system-level information associated with the network device. This function may be provided by the network device itself; however, the preferred best practice is a centralized backup rather than each network device performing discrete backups.\n\nSatisfies: SRG-APP-000516-NDM-000340, SRG-APP-000516-NDM-000341",
+  "Documentable": "false"
+}

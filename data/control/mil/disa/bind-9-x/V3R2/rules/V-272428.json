@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272428",
+  "rule_id": "SV-272428r1123761_rule",
+  "stig_id": "BIND-9X-001840",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DNSSEC keys used with the BIND 9.x implementation must be owned by a privileged account.",
+  "group_title": "SRG-APP-000231-DNS-000033",
+  "idents": {
+    "cci": [
+      "CCI-001199"
+    ]
+  },
+  "check_id": "C-76478r1123595_chk",
+  "check_content": "With the assistance of the DNS administrator, identify all of the DNSSEC keys used by the BIND 9.x implementation.\n\nIdentify the account that the \"named\" process is running as:\n\n# ps -ef | grep named\nnamed 3015 1 0 12:59 ? 00:00:00 /usr/sbin/named -u named -t /var/named/chroot\n\nWith the assistance of the DNS administrator, determine the location of the DNSSEC keys used by the BIND 9.x implementation.\n\n# ls -al <DNSSEC_Key_Location>\n-r--------. 1 named named 76 May 10 20:35 DNSSEC-example.key\n\nIf any of the DNSSEC keys are not owned by the above account, this is a finding.",
+  "fixtext": "Change the ownership of the DNSSEC keys to the named process it is running as.\n\n# chown <named_proccess_owner> <DNSSEC_key_file>.",
+  "fix_id": "F-76385r1123761_fix",
+  "VulnDiscussion": "Information at rest refers to the state of information when it is located on a secondary storage device within an organizational information system. Mobile devices, laptops, desktops, and storage devices can be either lost or stolen, and the contents of their data storage (e.g., hard drives and nonvolatile memory) can be read, copied, or altered. Applications and application users generate information throughout the course of their application use.\n\nThe DNS server must protect the confidentiality and integrity of the DNSSEC keys and must protect the integrity of DNS information. There is no need to protect the confidentiality of DNS information because it is accessible by all devices that can contact the server.",
+  "Documentable": "false"
+}

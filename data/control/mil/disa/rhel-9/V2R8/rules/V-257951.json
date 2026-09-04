@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257951",
+  "rule_id": "SV-257951r1014843_rule",
+  "stig_id": "RHEL-09-252050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must be configured to prevent unrestricted mail relaying.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61692r1014842_chk",
+  "check_content": "If postfix is not installed, this is Not Applicable.\n\nVerify RHEL 9 is configured to prevent unrestricted mail relaying with the following command:\n\n$ postconf -n smtpd_client_restrictions \n\nsmtpd_client_restrictions = permit_mynetworks,reject \n\nIf the \"smtpd_client_restrictions\" parameter contains any entries other than \"permit_mynetworks\" and \"reject\", and the additional entries have not been documented with the information system security officer (ISSO), this is a finding.",
+  "fixtext": "Modify the postfix configuration file to restrict client connections to the local network with the following command:\n\n$ sudo postconf -e 'smtpd_client_restrictions = permit_mynetworks,reject'",
+  "fix_id": "F-61616r925839_fix",
+  "VulnDiscussion": "If unrestricted mail relaying is permitted, unauthorized senders could use this host as a mail relay for the purpose of sending spam or other unauthorized activity.",
+  "Documentable": "false"
+}

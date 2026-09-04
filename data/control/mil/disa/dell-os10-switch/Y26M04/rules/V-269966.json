@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269966",
+  "rule_id": "SV-269966r1052284_rule",
+  "stig_id": "OS10-L2S-000210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Dell OS10 Switch must have all disabled switch ports assigned to an unused VLAN.",
+  "group_title": "SRG-NET-000512-L2S-000007",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73999r1052282_chk",
+  "check_content": "Review the switch configurations and examine all access switch ports. Each access switch port not in use should have membership to an inactive VLAN that is not used for any purpose and is not allowed on any trunk links.\n\nVerify that there is a shutdown VLAN configured for unused ports:\n\n!\ninterface vlan999\n description \"Unused VLAN\"\n shutdown\n \nVerify that the unused switch ports are assigned to the inactive VLAN:\n \n!\ninterface ethernet1/1/57\n shutdown\n switchport access vlan 999\n flowcontrol receive off\n!\ninterface ethernet1/1/58\n shutdown\n switchport access vlan 999\n flowcontrol receive off\n\nVerify that no trunk links are configured to accept the unused VLAN ID:\n\n!\ninterface ethernet1/1/1\n no shutdown\n switchport mode trunk\n switchport access vlan 100\n flowcontrol receive off\n \nIf there are any access switch ports not in use and not in an inactive VLAN, this is a finding.",
+  "fixtext": "Assign all switch ports not in use to an inactive VLAN.\n\nAssign a VLAN interface to be unused:\n\nOS10(config)# interface vlan 999\nOS10(conf-if-vl-999)# description \"Unused VLAN\"\nOS10(conf-if-vl-999)# shutdown\nOS10(conf-if-vl-999)# exit\n\nAssign unused switch ports to the unused VLAN:\n\nOS10(config)# interface range eth1/1/50-1/1/58\nOS10(conf-range-eth1/1/50-1/1/58)# switchport access vlan 999",
+  "fix_id": "F-73900r1052283_fix",
+  "VulnDiscussion": "It is possible that a disabled port that is assigned to a user or management VLAN becomes enabled by accident or by an attacker and as a result gains access to that VLAN as a member.",
+  "Documentable": "false"
+}

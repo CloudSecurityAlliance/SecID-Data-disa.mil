@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216459",
+  "rule_id": "SV-216459r959010_rule",
+  "stig_id": "SOL-11.1-090030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Direct logins must not be permitted to shared, default, application, or utility accounts.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-47983",
+      "SV-60855"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17695r371465_chk",
+  "check_content": "The Audit Review profile is required.\n\nThis check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nUse the \"auditreduce\" command to check for multiple accesses to an account\n\n# auditreduce -c lo -u [shared_user_name] | praudit -l\n\nIf users log directly into accounts, rather than using the \"su\" command from their own named account to access them, this is a finding. Also, ask the SA or the IAO if shared accounts are logged into directly or if users log into an individual account and switch user to the shared account.",
+  "fixtext": "The root role is required.\n\nThis action applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this action applies.\n\nUse the switch user (\"su\") command from a named account login to access shared accounts. Maintain audit trails that identify the actual user of the account name. Document requirements and procedures for users/administrators to log into their own accounts first and then switch user (\"su\") to the shared account.",
+  "fix_id": "F-17693r371466_fix",
+  "VulnDiscussion": "Shared accounts (accounts where two or more people log in with the same user identification) do not provide identification and authentication. There is no way to provide for non-repudiation or individual accountability.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221033",
+  "rule_id": "SV-221033r622190_rule",
+  "stig_id": "CISC-RT-000590",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco MPLS switch must be configured to use its loopback address as the source address for LDP peering sessions.",
+  "group_title": "SRG-NET-000512-RTR-000002",
+  "idents": {
+    "legacy": [
+      "SV-110887",
+      "V-101783"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-22748r408893_chk",
+  "check_content": "Review the switch configuration to determine if it is compliant with this requirement.\n\nVerify that a loopback address has been configured as shown in the example below:\n\ninterface Loopback0\n ip address 10.1.1.1 255.255.255.255\n\nBy default, switches will use its loopback address for LDP peering. If an address has not be configured on the loopback interface, it will use its physical interface connecting to the LDP peer. If the router-id command is specified that overrides this default behavior, verify that it is a loopback interface as shown in the example below:\n\nmpls ldp router-id Loopback0\n\nIf the switch is not configured to use its loopback address for LDP peering, this is a finding.",
+  "fixtext": "Configure the switch to use their loopback address as the source address for LDP peering sessions. As noted in the check content, the default behavior is to use its loopback address. \n\nSW1(config)#mpls ldp router-id lo0",
+  "fix_id": "F-22737r408894_fix",
+  "VulnDiscussion": "Using a loopback address as the source address offers a multitude of uses for security, access, management, and scalability of backbone switches. It is easier to construct appropriate ingress filters for switch management plane traffic destined to the network management subnet since the source addresses will be from the range used for loopback interfaces instead of from a larger range of addresses used for physical interfaces. Log information recorded by authentication and syslog servers will record the switch's loopback address instead of the numerous physical interface addresses.",
+  "Documentable": "false"
+}

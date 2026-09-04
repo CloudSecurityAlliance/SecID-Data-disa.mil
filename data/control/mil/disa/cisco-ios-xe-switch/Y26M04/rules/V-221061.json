@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221061",
+  "rule_id": "SV-221061r863381_rule",
+  "stig_id": "CISC-RT-000870",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco multicast Designated switch (DR) must be configured to filter the Internet Group Management Protocol (IGMP) and Multicast Listener Discovery (MLD) Report messages to allow hosts to join a multicast group only from sources that have been approved by the organization.",
+  "group_title": "SRG-NET-000364-RTR-000115",
+  "idents": {
+    "legacy": [
+      "SV-110943",
+      "V-101839"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-22776r507606_chk",
+  "check_content": "Review the configuration of the DR to verify that it is filtering IGMP or MLD report messages, allowing hosts to only join multicast groups from sources that have been approved.\n\nStep 1: Verify that all host-facing layer 3 and VLAN interfaces are configured to filter IGMP Membership Report messages (IGMP joins) as shown in the example below:\n\ninterface Vlan3\n ip address 10.3.3.3 255.255.255.0\n ip pim sparse-mode\n ip igmp access-group IGMP_JOIN_FILTER\n ip igmp version 3\n\nStep 2: Verify that the ACL denies unauthorized sources or allows only authorized sources. The example below denies all groups from 232.8.0.0/16 range and permits sources only from the x.0.0.0/8 network.\n\nip access-list extended IGMP_JOIN_FILTER\n deny ip any 232.8.0.0 0.0.255.255\n permit ip x.0.0.0 0.255.255.255 any\n deny ip any any\n\nNote: This requirement is only applicable to Source Specific Multicast (SSM) implementation.\n\nIf the DR is not filtering IGMP or MLD report messages, this is a finding.",
+  "fixtext": "Configure the DR to filter the IGMP and MLD report messages to allow hosts to join only those multicast groups from sources that have been approved as shown in the example below:\n\nSW2(config)#ip access-list extended IGMP_JOIN_FILTER\nSW2(config-ext-nacl)#deny ip any 232.8.0.0 0.0.255.255\nSW2(config-ext-nacl)#permit ip x.0.0.0 0.255.255.255 any\nSW2(config-ext-nacl)#deny ip any any\nSW2(config-ext-nacl)#exit\n\nStep 2: Apply the filter to all host-facing layer 3 and VLAN interfaces.\n\nSW2(config)#int vlan3\nSW2(config-if)#ip igmp access-group IGMP_JOIN_FILTER",
+  "fix_id": "F-22765r507607_fix",
+  "VulnDiscussion": "Real-time multicast traffic can entail multiple large flows of data. Large unicast flows tend to be fairly isolated (i.e., someone doing a file download here or there), whereas multicast can have broader impact on bandwidth consumption, resulting in extreme network congestion. Hence, it is imperative that there is multicast admission control to restrict which multicast groups hosts are allowed to join via IGMP or MLD.",
+  "Documentable": "false"
+}

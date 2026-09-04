@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281221",
+  "rule_id": "SV-281221r1166615_rule",
+  "stig_id": "RHEL-10-600730",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "RHEL 10 must employ FIPS 140-3-approved cryptographic hashing algorithms for all stored passwords.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-004062",
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-85782r1166613_chk",
+  "check_content": "Verify RHEL 10 employs FIPS 140-3-approved cryptographic hashing algorithms for all stored passwords for interactive user accounts with the following command:\n\n$ sudo cut -d: -f2 /etc/shadow\n$6$kcOnRq/5$NUEYPuyL.wghQwWssXRcLRFiiru7f5JPV6GaJhNC2aK5F3PZpE/BCCtwrxRc/AInKMNX3CdMw11m9STiql12f/\n\nPassword hashes \"!\" or \"*\" indicate inactive accounts not available for login and are not evaluated.\n\nIf any interactive user password hash does not begin with \"$6\", this is a finding.",
+  "fixtext": "Configure RHEL 10 to employ FIPS 140-3-approved cryptographic hashing algorithms for all stored passwords.\n\nLock all interactive user accounts not using SHA-512 hashing until the passwords can be regenerated with SHA-512.",
+  "fix_id": "F-85687r1166614_fix",
+  "VulnDiscussion": "The system must use a strong hashing algorithm to store the password.\n\nPasswords must be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nSatisfies: SRG-OS-000073-GPOS-00041, SRG-OS-000120-GPOS-00061",
+  "Documentable": "false"
+}

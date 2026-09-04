@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213926",
+  "rule_id": "SV-213926r1196261_rule",
+  "stig_id": "SQL6-D0-003300",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "SQL Server must implement cryptographic mechanisms to prevent unauthorized modification of organization-defined information at rest (to include, at a minimum, PII and classified information) on organization-defined information system components.",
+  "group_title": "SRG-APP-000428-DB-000386",
+  "idents": {
+    "legacy": [
+      "SV-93821",
+      "V-79115"
+    ],
+    "cci": [
+      "CCI-002475"
+    ]
+  },
+  "check_id": "C-15144r1196260_chk",
+  "check_content": "Review the system documentation to determine whether the organization has defined the information at rest be protected from modification, which must include at a minimum, PII and classified information. \n\nIf no information is identified as requiring such protection, this is not a finding. \n\nReview the configuration of SQL Server, Windows, and additional software as relevant. \n\nIf full-disk encryption is required, and Windows or the storage system is not configured for this, this is a finding. \n\nIf database transparent data encryption (TDE) is called for, verify it is enabled: \n\nSELECT db.name AS DatabaseName, db.is_encrypted AS IsEncrypted,\nCASE\nWHEN dm.encryption_state = 0 THEN 'No database encryption key present, no encryption'\nWHEN dm.encryption_state = 1 THEN 'Unencrypted'\nWHEN dm.encryption_state = 2 THEN 'Encryption in progress'\nWHEN dm.encryption_state = 3 THEN 'Encrypted'\nWHEN dm.encryption_state = 4 THEN 'Key change in progress'\nWHEN dm.encryption_state = 5 THEN 'Decryption in progress'\nWHEN dm.encryption_state = 6 THEN 'Protection change in progress'\nEND AS EncryptionState,\ndm.encryption_state AS EncryptionState,\ndm.key_algorithm AS KeyAlgorithm,\ndm.key_length AS KeyLength\nFROM sys.databases db\nLEFT OUTER JOIN sys.dm_database_encryption_keys dm ON db.database_id = dm.database_id\nWHERE db.database_id NOT IN (1,2,3,4)\n\nFor each user database for which encryption is called for and that is marked Unencrypted, this is a finding. \n\nIf table/column encryption and/or a separation between those who own the data (and can view it) and those who manage the data (but should have no access) is required for PII or similar types of data, use Always Encrypted. The details for configuring Always Encrypted are located here: https://msdn.microsoft.com/en-us/library/mt163865.aspx.\n\nReview the definitions and contents of the relevant tables/columns for the Always Encrypted settings. If any of the information that requires cryptographic protection is not encrypted, this is a finding.",
+  "fixtext": "Where full-disk encryption is required, configure Windows and/or the storage system to provide this. \n\nWhere transparent data encryption (TDE) is required, create a master key, obtain a certificate protected by the master key, create a database encryption key and protect it by the certificate, and then set the database to use encryption. For guidance from MSDN on how to do this: https://msdn.microsoft.com/en-us/library/bb934049.aspx. \n\nWhere table/column encryption is required, enable encryption on the tables/columns in question. For guidance from the Microsoft Developer Network on how to do this with Always Encrypted: https://msdn.microsoft.com/en-us/library/mt163865.aspx.",
+  "fix_id": "F-15142r313211_fix",
+  "VulnDiscussion": "Database management systems (DBMSs) handling data requiring \"data at rest\" protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest. These cryptographic mechanisms may be native to SQL Server or implemented via additional software or operating system/file system settings, as appropriate to the situation.\n\nSelection of a cryptographic mechanism is based on the need to protect the integrity of organizational information. The strength of the mechanism is commensurate with the security category and/or classification of the information. Organizations have the flexibility to either encrypt all information on storage devices (i.e., full disk encryption) or encrypt specific data structures (e.g., files, records, or fields). \n\nThe decision whether and what to encrypt rests with the data owner and is also influenced by the physical measures taken to secure the equipment and media on which the information resides.\n\nSatisfies: SRG-APP-000428-DB-000386, SRG-APP-000429-DB-000387",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-278029",
+  "rule_id": "SV-278029r1182267_rule",
+  "stig_id": "WN25-00-000440",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Windows Server 2025 time service must synchronize with an appropriate DOD time source.",
+  "group_title": "SRG-OS-000355-GPOS-00143",
+  "idents": {
+    "cci": [
+      "CCI-004923",
+      "CCI-004922"
+    ]
+  },
+  "check_id": "C-82559r1182266_chk",
+  "check_content": "Review the Windows time service configuration.\n\nOpen an elevated command prompt (run as administrator).\n\nEnter \"W32tm /query /configuration\".\n\nDomain-joined systems (excluding the domain controller with the PDC emulator role):\n\nIf the value for \"Type\" under \"NTP Client\" is not \"NT5DS\", this is a finding.\n\nOther systems:\n\nIf systems are configured with a \"Type\" of \"NTP\", including stand-alone or nondomain-joined systems and the domain controller with the PDC Emulator role, and do not have a DOD time server defined for \"NTPServer\", this is a finding.\n\nTo determine the domain controller with the PDC Emulator role:\n\nOpen PowerShell.\n\nEnter \"Get-ADDomain | FT PDCEmulator\".",
+  "fixtext": "Configure the system to synchronize time with an appropriate DOD time source.\n\nDomain-joined systems use NT5DS to synchronize time from other systems in the domain by default.\n\nIf needed, configure the system to point to an authorized time server by setting the policy value for Computer Configuration >> Administrative Templates >> System >> Windows Time Service >> Time Providers. Change \"Configure Windows NTP Client\" to \"Enabled\" and configure the \"NtpServer\" field to point to an appropriate DOD time server.\n\nThe US Naval Observatory operates stratum one-time servers, identified at https://www.usno.navy.mil/USNO/time/ntp/DOD-customers. Time synchronization will occur through a hierarchy of time servers down to the local level. Clients and lower-level servers will synchronize with an authorized time server in the hierarchy.",
+  "fix_id": "F-82464r1182040_fix",
+  "VulnDiscussion": "The Windows Time Service controls time synchronization settings. Time synchronization is essential for authentication and auditing purposes. If the Windows Time Service is used, it must synchronize with a secure, authorized time source. Domain-joined systems are automatically configured to synchronize with domain controllers. If an NTP server is configured, it must synchronize with a secure, authorized time source.\n\nSatisfies: SRG-OS-000785-GPOS-000250.",
+  "Documentable": "false"
+}

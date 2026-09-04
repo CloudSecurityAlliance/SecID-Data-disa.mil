@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-253030",
+  "rule_id": "SV-253030r958730_rule",
+  "stig_id": "TOSS-04-030860",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The TOSS audit system must prevent all software from executing at higher privilege levels than users executing the software and the audit system must be configured to audit the execution of privileged functions.",
+  "group_title": "SRG-OS-000326-GPOS-00126",
+  "idents": {
+    "cci": [
+      "CCI-002233",
+      "CCI-002234"
+    ]
+  },
+  "check_id": "C-56483r824760_chk",
+  "check_content": "Verify TOSS audits the execution of privileged functions.\n\nCheck if TOSS is configured to audit the execution of the \"execve\" system call, by running the following command:\n\n$ sudo grep execve /etc/audit/audit.rules\n\n-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -k execpriv \n-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -k execpriv\n-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -k execpriv \n-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -k execpriv\n\nIf the command does not return all lines, or the lines are commented out, this is a finding.",
+  "fixtext": "Configure TOSS to audit the execution of the \"execve\" system call.\n\nAdd or update the following file system rules to \"/etc/audit/rules.d/audit.rules\":\n\n-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -k execpriv \n-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -k execpriv\n-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -k execpriv \n-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -k execpriv \n\nThe audit daemon must be restarted for the changes to take effect.",
+  "fix_id": "F-56433r824761_fix",
+  "VulnDiscussion": "In certain situations, software applications/programs need to execute with elevated privileges to perform required functions. However, if the privileges required for execution are at a higher level than the privileges assigned to organizational users invoking such applications/programs, those users are indirectly provided with greater privileges than assigned by the organizations.\n\nSome programs and processes are required to operate at a higher privilege level and therefore should be excluded from the organization-defined software list after review.\n\nSatisfies: SRG-OS-000326-GPOS-00126, SRG-OS-000327-GPOS-00127",
+  "Documentable": "false"
+}

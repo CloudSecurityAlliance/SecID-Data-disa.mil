@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279442",
+  "rule_id": "SV-279442r1192581_rule",
+  "stig_id": "NXAC-AS-000038",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Nutanix AOS must perform RFC 5280-compliant certification path validation.",
+  "group_title": "SRG-APP-000175-AS-000124",
+  "idents": {
+    "cci": [
+      "CCI-000185"
+    ]
+  },
+  "check_id": "C-83995r1192350_chk",
+  "check_content": "Confirm the Nutanix VM application server has OCSP checking enabled.\n\nRun the following command:\n\n$ ncli authconfig get-client-authentication-config\n 'Auth Config Status        : true'\n\nIf \"Auth config status\" is not set to \"true\", this is a finding.",
+  "fixtext": "Configure the Nutanix VM application server to use OSCP for certificate revocation.\n\nSet the OCSP responder URL:\n\n$ ncli authconfig set-certificate-revocation set-ocsp-responder=<ocsp url><ocsp url>",
+  "fix_id": "F-83900r1192351_fix",
+  "VulnDiscussion": "A certificate's certification path is the path from the end entity certificate to a trusted root certification authority (CA). Certification path validation is necessary for a relying party to make an informed decision regarding acceptance of an end entity certificate. Certification path validation includes checks such as certificate issuer trust, time validity, and revocation status for each certificate in the certification path. Revocation status information for CA and subject certificates in a certification path is commonly provided via certificate revocation lists (CRLs) or online certificate status protocol (OCSP) responses.",
+  "Documentable": "false"
+}

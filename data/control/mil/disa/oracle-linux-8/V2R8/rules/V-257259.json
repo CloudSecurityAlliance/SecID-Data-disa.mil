@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257259",
+  "rule_id": "SV-257259r1156674_rule",
+  "stig_id": "OL08-00-020035",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must terminate idle user sessions.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-60943r1155560_chk",
+  "check_content": "Verify OL 8 logs out sessions that are idle for 10 minutes with the following command:\n\n$ systemd-analyze cat-config systemd/logind.conf | grep StopIdleSessionSec\n\n#StopIdleSessionSec=infinity\nStopIdleSessionSec=600\n\nIf \"StopIdleSessionSec\" is not configured to \"600\" seconds, this is a finding.",
+  "fixtext": "Configure OL 8 to log out idle sessions.\n\nCreate the directory if necessary:\n\n$ mkdir -p /etc/systemd/logind.conf.d/\n\nCreate a *.conf file in /etc/systemd/logind.conf.d/ with the following content:\n\n[Login]\nStopIdleSessionSec=600\nKillUserProcesses=no\n\nRestart systemd-logind:\n\n$ systemctl restart systemd-logind",
+  "fix_id": "F-60885r1155561_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended.",
+  "Documentable": "false"
+}

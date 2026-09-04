@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261945",
+  "rule_id": "SV-261945r1000840_rule",
+  "stig_id": "CD16-00-010100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must generate audit records when unsuccessful attempts to modify privileges/permissions occur.",
+  "group_title": "SRG-APP-000495-DB-000329",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-65799r1000838_chk",
+  "check_content": "Note: The following instructions use the PGDATA and PGLOG environment variables. Refer to APPENDIX-F for instructions on configuring PGDATA and APPENDIX-I for PGLOG.\n\nAs the database administrator (shown here as \"postgres\"), create a role \"bob\" and a test table by running the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"CREATE ROLE bob; CREATE TABLE test(id INT)\"\n\nSet current role to \"bob\" and attempt to modify privileges:\n\n$ psql -c \"SET ROLE bob; GRANT ALL PRIVILEGES ON test TO bob;\"\n$ psql -c \"SET ROLE bob; REVOKE ALL PRIVILEGES ON test FROM bob;\"\n\nAs the database administrator (shown here as \"postgres\"), verify the unsuccessful attempt was logged:\n\n$ sudo su - postgres\n$ cat ${PGDATA?}/${PGLOG?}/<latest_log>\n2024-07-14 18:12:23.208 EDT postgres postgres ERROR: permission denied for relation test\n2024-07-14 18:12:23.208 EDT postgres postgres STATEMENT: GRANT ALL PRIVILEGES ON test TO bob;\n2024-07-14 18:14:52.895 EDT postgres postgres ERROR: permission denied for relation test\n2024-07-14 18:14:52.895 EDT postgres postgres STATEMENT: REVOKE ALL PRIVILEGES ON test FROM bob;\n\nIf audit logs are not generated when unsuccessful attempts to modify privileges/permissions occur, this is a finding.",
+  "fixtext": "Configure PostgreSQL to produce audit records when unsuccessful attempts to modify privileges occur.\n\nAll denials are logged by default if logging is enabled. To ensure logging is enabled, see the instructions in the supplementary content APPENDIX-C.",
+  "fix_id": "F-65707r1000839_fix",
+  "VulnDiscussion": "Failed attempts to change the permissions, privileges, and roles granted to users and roles must be tracked. Without an audit trail, unauthorized attempts to elevate or restrict privileges could go undetected. \n\nIn an SQL environment, modifying permissions is typically done via the GRANT, REVOKE, and DENY commands. \n\nTo aid in diagnosis, it is necessary to keep track of failed attempts in addition to the successful ones.",
+  "Documentable": "false"
+}

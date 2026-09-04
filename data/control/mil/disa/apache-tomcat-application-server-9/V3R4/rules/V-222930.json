@@ -1,0 +1,31 @@
+{
+  "vuln_id": "V-222930",
+  "rule_id": "SV-222930r960765_rule",
+  "stig_id": "TCAT-AS-000050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AccessLogValve must be configured for each application context.",
+  "group_title": "SRG-APP-000016-AS-000013",
+  "idents": {
+    "legacy": [
+      "SV-111379",
+      "V-102435"
+    ],
+    "cci": [
+      "CCI-000067",
+      "CCI-000130",
+      "CCI-000133",
+      "CCI-000134",
+      "CCI-000166",
+      "CCI-000169",
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-24602r426234_chk",
+  "check_content": "As an elevated user on the Tomcat server:\n\nEdit the $CATALINA_BASE/conf/server.xml file.\n\nReview for all <Context> elements.\n\nIf a <Valve className=\"org.apache.catalina.valves.AccessLogValve\" .../> element is not defined within each <Context> element, this is a finding.\n\nEXAMPLE:\n\n<Context\n...\n<Valve className=\"org.apache.catalina.valves.AccessLogValve\" directory=\"logs\"\n               prefix=\"application_name_log\" suffix=\".txt\"\n               pattern=\"\"%h %l %t %u &quot;%r&quot; %s %b\" />\n  ...\n/>",
+  "fixtext": "As a privileged user on the Tomcat server:\n\nEdit the $CATALINA_BASE/conf/server.xml file.\n\nCreate a <Valve> element that is nested within the <Context> element containing an AccessLogValve.\n\nEXAMPLE:\n\n<Context \n...\n<Valve className=\"org.apache.catalina.valves.AccessLogValve\" directory=\"logs\"\n               prefix=\"application_name_log\" suffix=\".txt\"\n               pattern=\"%h %l %t %u &quot;%r&quot; %s %b\" />\n  ...\n/>\n\nRestart the Tomcat server:\nsudo systemctl restart tomcat\nsudo systemctl daemon-reload",
+  "fix_id": "F-24591r426235_fix",
+  "VulnDiscussion": "Tomcat has the ability to host multiple contexts (applications) on one physical server by using the <Host><Context> attribute. This allows the admin to specify audit log settings on a per application basis.\n\nSatisfies: SRG-APP-000016-AS-000013, SRG-APP-000080-AS-000045, SRG-APP-000089-AS-000050, SRG-APP-000091-AS-000052, SRG-APP-000095-AS-000056, SRG-APP-000098-AS-000061, SRG-APP-000099-AS-000062",
+  "Documentable": "false"
+}

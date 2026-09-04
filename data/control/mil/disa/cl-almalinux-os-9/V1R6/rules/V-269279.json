@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269279",
+  "rule_id": "SV-269279r1050161_rule",
+  "stig_id": "ALMA-09-022460",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must disable the ability of a user to restart the system from the login screen.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73310r1049429_chk",
+  "check_content": "Note: This requirement assumes the use of the AlmaLinux OS 9 default graphical user interface, Gnome Shell. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\nVerify AlmaLinux OS 9 disables a user's ability to restart the system with the following command:\n\n$ grep -R disable-restart-buttons /etc/dconf/db/*\n\n/etc/dconf/db/distro.d/20-authselect:disable-restart-buttons='true'\n\nIf the \"disable-restart-button\" setting is not set to \"true\", is missing or commented out from the dconf database files, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to disable a user's ability to restart the system.\n\nAdd or update the [org/gnome/settings-daemon/] section of the /etc/dconf/db/local.d/00-security-settings\" database file and add or update the following lines:\n\n[org/gnome/login-screen]\ndisable-restart-buttons=true\n\nThen update the dconf system databases:\n\n$ dconf update",
+  "fix_id": "F-73211r1049430_fix",
+  "VulnDiscussion": "A user who is at the console can reboot the system at the login screen. If restart or shutdown buttons are pressed at the login screen, this can create the risk of short-term loss of availability of systems due to reboot.",
+  "Documentable": "false"
+}

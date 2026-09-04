@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279253",
+  "rule_id": "SV-279253r1170687_rule",
+  "stig_id": "SYME-ND-000500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Edge SWG must be configured to enforce the limit of three consecutive invalid logon attempts, after which time it must block any login attempt for 15 minutes.",
+  "group_title": "SRG-APP-000065-NDM-000214",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-83803r1170686_chk",
+  "check_content": "1. Log in to the Edge SWG SSH CLI.\n2. Enter \"enable\" and \"configure terminal\".\n3. Issue the command \"security local-user-list edit local\", then type \"view\".\n\nIf \"Max failed attempts\" under \"Account lockout\" does not equal \"3\", this is finding.\n\nIf \"Lockout duration\" under \"Account lockout\" does not equal \"900 seconds\", this is a finding.",
+  "fixtext": "1. Log in to the Edge SWG SSH CLI.\n2. Enter \"enable\" and \"configure terminal\".\n3. Issue the command \"security local-user-list create local\".\n4. Enter \"security local-user-list edit local\".\n5. Enter \"max-failed-attempts 3\".\n6. Enter \"lockout-duration 900\".\n7. Enter \"reset-interval 900\".",
+  "fix_id": "F-83708r1170522_fix",
+  "VulnDiscussion": "By limiting the number of failed login attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-forcing, is reduced.",
+  "Documentable": "false"
+}

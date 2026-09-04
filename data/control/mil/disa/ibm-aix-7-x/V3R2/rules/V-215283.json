@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-215283",
+  "rule_id": "SV-215283r991589_rule",
+  "stig_id": "AIX7-00-002096",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must encrypt user data at rest using AIX Encrypted File System (EFS) if it is required.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91723",
+      "SV-101821"
+    ],
+    "cci": [
+      "CCI-000366",
+      "CCI-002475",
+      "CCI-002476"
+    ]
+  },
+  "check_id": "C-16481r294300_chk",
+  "check_content": "If the organization does not require to encrypt the data at rest, this is Not Applicable.\n\nCheck if \"clic.rte\" fileset is installed:\n# lslpp -l |grep clic\n\nThe above command should yield the following output:\n  clic.rte.kernext          4.10.0.1  COMMITTED  CryptoLite for C Kernel\n  clic.rte.lib                    4.10.0.1  COMMITTED  CryptoLite for C Library\n  clic.rte.kernext          4.10.0.1  COMMITTED  CryptoLite for C Kernel\n\nIf the \"clic.rte.lib\", or the \"clic.rte.kernext\", fileset is not installed, this is a finding.\n\nTo check if a JFS2 file system (mounted as /fs2_mnt) is EFS-enabled, use the following command:\n# lsfs -q /fs2_mnt\n\nName            Nodename   Mount Pt               VFS   Size    Options    Auto Accounting\n/dev/fslv00     --         /fs2_mnt                   jfs2  262144  --         no   no \n  (lv size: 262144, fs size: 262144, block size: 4096, sparse files: yes, inline log: no, inline log size: 0, EAformat: v2, Quota: no, DMAPI: no, VIX: yes, EFS: no, ISNAPSHOT: no, MAXEXT: 0, MountGuard: no)\n\nIf the above command shows \"EFS: no\", this is a finding.",
+  "fixtext": "Install \"clic.rte\" filesets from AIX DVD Volume 1 using the following commands (assuming that the DVD device is /dev/cd0):\n# installp -aXYgd /dev/cd0 -e /tmp/install.log clic.rte.lib\n# installp -aXYgd /dev/cd0 -e /tmp/install.log clic.rte.kernext\n\nRun the follow command to initialize and enable EFS on the system:\n# efsenable -a\n\nTo create a new EFS-enabled JFS2 file system and mount the file system, using the following commands:\n# crfs -v jfs2 -g rootvg -m /fs2 -a size=100M -a efs=yes\n# mount /fs2\n\nTo enable EFS on a JFS2 file system (like, /fs3), run the following command:\nchfs -a efs=yes /fs3",
+  "fix_id": "F-16479r294301_fix",
+  "VulnDiscussion": "The AIX Encrypted File System (EFS) is a J2 filesystem-level encryption through individual key stores. This allows for file encryption in order to protect confidential data from attackers with physical access to the computer. User authentication and access control lists can protect files from unauthorized access (even from root user) while the operating system is running. \n\nOperating systems handling data requiring \"data at rest\" protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest.\n\nSelection of a cryptographic mechanism is based on the need to protect the integrity of organizational information. The strength of the mechanism is commensurate with the security category and/or classification of the information. Organizations have the flexibility to either encrypt all information on storage devices (i.e., full disk encryption) or encrypt specific data structures (e.g., files, records, or fields).\n\nSatisfies: SRG-OS-000480-GPOS-00227, SRG-OS-000405-GPOS-00184, SRG-OS-000404-GPOS-00183",
+  "Documentable": "false"
+}

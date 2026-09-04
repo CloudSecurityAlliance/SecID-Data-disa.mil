@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261354",
+  "rule_id": "SV-261354r996514_rule",
+  "stig_id": "SLEM-05-411040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All SLEM 5 local initialization files must not execute world-writable programs.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65083r996513_chk",
+  "check_content": "Verify that SLEM 5 local initialization files do not execute world-writable programs with the following command:\n\n     > sudo find / -xdev -perm -002 -type f -exec ls -ld {} \\;\n\nFor all files listed, check for their presence in the local initialization files with the following command:\n\nNote: The example will be for a system that is configured to create users' home directories in the \"/home\" directory.\n\n     > sudo find /home/* -maxdepth 1 -type f -name \\.\\* -exec grep -H <file     > {} \\;\n\nIf any local initialization files are found to reference world-writable files, this is a finding.",
+  "fixtext": "Remove the references to these files in the local initialization scripts or remove the world-writable permission of files referenced by SLEM 5 local initialization scripts with the following command:\n\n     > sudo chmod 755 <file>",
+  "fix_id": "F-64991r995928_fix",
+  "VulnDiscussion": "If user start-up files execute world-writable programs, especially in unprotected directories, they could be maliciously modified to destroy user files or otherwise compromise the system at the user level. If the system is compromised at the user level, it is easier to elevate privileges to eventually compromise the system at the root and network level.",
+  "Documentable": "false"
+}

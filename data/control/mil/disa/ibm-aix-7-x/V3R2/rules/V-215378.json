@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215378",
+  "rule_id": "SV-215378r958478_rule",
+  "stig_id": "AIX7-00-003073",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The dtspc daemon must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "V-91385",
+      "SV-101483"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16576r294585_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^dtspc[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"dtspc\" entry by running command: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'dtspc' -p 'tcp'\n\nRestart inetd:\n# refresh -s inetd",
+  "fix_id": "F-16574r294586_fix",
+  "VulnDiscussion": "The dtspc service deals with the CDE interface of the X11 daemon. It is started automatically by the inetd daemon in response to a CDE client requesting a process to be started on the daemon's host. This makes it vulnerable to buffer overflow attacks, which may allow an attacker to gain root privileges on a host. This service must be disabled unless it is absolutely required.",
+  "Documentable": "false"
+}

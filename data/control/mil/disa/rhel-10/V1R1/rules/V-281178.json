@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281178",
+  "rule_id": "SV-281178r1195418_rule",
+  "stig_id": "RHEL-10-600190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must ensure that all local interactive user home directories defined in the \"/etc/passwd\" file must exist.",
+  "group_title": "SRG-OS-000420-GPOS-00186",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-85739r1195417_chk",
+  "check_content": "Verify RHEL 10 interactive users' home directories exist on the system with the following command:\n\n$ sudo pwck -r\nuser 'mailnull': directory 'var/spool/mqueue' does not exist\n\nThe output should not return any interactive users.\n\nIf an interactive user's home directory does not exist, this is a finding.",
+  "fixtext": "Configure RHEL 10 interactive users' home directories to exist on the system.\n\nCreate home directories to all local interactive users that do not have a home directory assigned. Use the following commands to create the user home directory assigned in \"/etc/ passwd\":\n\nNote: The example will be for the user \"disauser\", who has a home directory of \"/home/disauser\", a user identifier (UID) of \"disauser\", and a group identifier (GID) of \"users assigned\" in \"/etc/passwd\".\n\n$ sudo mkdir /home/disauser\n$ sudo chown disauser /home/disauser\n$ sudo chgrp users /home/disauser\n$ sudo chmod 0750 /home/disauser",
+  "fix_id": "F-85644r1166485_fix",
+  "VulnDiscussion": "If a local interactive user has a home directory defined that does not exist, the user may be given access to the / directory as the current working directory upon login. This could create a denial of service because the user would not be able to access their login configuration files, and it may give them visibility to system files they normally would not be able to access.",
+  "Documentable": "false"
+}

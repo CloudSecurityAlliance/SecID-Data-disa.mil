@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-252984",
+  "rule_id": "SV-252984r958434_rule",
+  "stig_id": "TOSS-04-030190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The TOSS audit system must protect logon UIDs from unauthorized change.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164"
+    ]
+  },
+  "check_id": "C-56437r824274_chk",
+  "check_content": "Verify the audit system prevents unauthorized changes to logon UIDs with the following command:\n\n$ sudo grep -i immutable /etc/audit/audit.rules\n\n--loginuid-immutable\n\nIf the login UIDs are not set to be immutable by adding the \"--loginuid-immutable\" option to the \"/etc/audit/audit.rules\", this is a finding.",
+  "fixtext": "Configure the audit system to set the logon UIDs to be immutable by adding the following line to \"/etc/audit/rules.d/audit.rules\":\n\n--loginuid-immutable",
+  "fix_id": "F-56387r824275_fix",
+  "VulnDiscussion": "Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.\n\nAudit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit TOSS system activity.\n\nIn immutable mode, unauthorized users cannot execute changes to the audit system to potentially hide malicious activity and then put the audit rules back. A system reboot would be noticeable and a system administrator could then investigate the unauthorized changes.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029",
+  "Documentable": "false"
+}

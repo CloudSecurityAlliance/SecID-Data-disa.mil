@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-279389",
+  "rule_id": "SV-279389r1179334_rule",
+  "stig_id": "MD8X-00-008400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MongoDB must maintain the confidentiality and integrity of information during preparation for transmission.",
+  "group_title": "SRG-APP-000441-DB-000378",
+  "idents": {
+    "cci": [
+      "CCI-002420",
+      "CCI-002422"
+    ]
+  },
+  "check_id": "C-83942r1179332_chk",
+  "check_content": "If the data owner does not have a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process, this is not a finding. \n\nIf such a requirement is present, inspect the MongoDB configuration file (default location: /etc/mongod.conf) for the following entries:\n\nnet:\n  tls:\n    mode: requireTLS\n    certificateKeyFile: <PEM File>\n    CAFile: <PEM File>\n    allowInvalidCertificates: false\n    allowConnectionsWithoutCertificates: false\n    FIPSMode: true\n\nIf net.tls.mode is not set to \"requireTLS\", this is a finding.",
+  "fixtext": "Stop the MongoDB instance if it is running. \n\nObtain a certificate from a valid DOD certificate authority to be used for encrypted data transmission. \n\nModify the MongoDB configuration file to include the following TLS configuration options:\n\nnet:\n  tls:\n    mode: requireTLS\n    certificateKeyFile: <PEM File>\n    CAFile: <PEM File>\n    allowInvalidCertificates: false\n    allowConnectionsWithoutCertificates: false\n    FIPSMode: true\n\nSet \"net.tls.mode\" to the \"requireTLS\".\n<PEM File> is the fullpathnames to the certificates used for the option.\n\nStart/stop (restart) all mongod or mongos instances using the MongoDB configuration file (default location: /etc/mongod.conf).",
+  "fix_id": "F-83847r1179333_fix",
+  "VulnDiscussion": "Information can be either unintentionally or maliciously disclosed or modified during preparation for transmission, including, for example, during aggregation, at protocol transformation points, and during packing/unpacking. These unauthorized disclosures or modifications compromise the confidentiality or integrity of the information.\n\nUse of this requirement will be limited to situations where the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process. \n\nWhen transmitting data, the DBMS, associated applications, and infrastructure must leverage transmission protection mechanisms.\n\nSatisfies: SRG-APP-000441-DB-000378, SRG-APP-000442-DB-000379",
+  "Documentable": "false"
+}

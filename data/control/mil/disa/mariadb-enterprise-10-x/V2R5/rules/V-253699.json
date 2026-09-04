@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253699",
+  "rule_id": "SV-253699r961038_rule",
+  "stig_id": "MADB-10-004000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB, when utilizing PKI-based authentication, must validate certificates by performing RFC 5280-compliant certification path validation.",
+  "group_title": "SRG-APP-000175-DB-000067",
+  "idents": {
+    "cci": [
+      "CCI-000185"
+    ]
+  },
+  "check_id": "C-57151r841620_chk",
+  "check_content": "As the database administrator, list all users and their SSL setup by running the following:\n\nMariaDB> SELECT user, host, ssl_type FROM mysql.user;\n\nUse the result of the next query to verify the MariaDB Server is using certificates:\n\nMariaDB>  STATUS;\n\nVerify the line beginning with \"SSL:\" returns expected SSL information. \n\nUsing the following query, verify SSL is configured as expected: \n\nMariaDB>  SHOW GLOBAL VARIABLES LIKE  %ssl% ;\n\nIf not configured as expected, this is a finding.",
+  "fixtext": "As the administrator locate the MariaDB configuration file to change. This varies depending on setup and how configuration files are managed but should be in /etc/my.cnf.d/. It is recommended to have a separate configuration file within this directory for SSL connection information. \n\nIn the [server] section add the lines for SSL:\n\nssl-ca=/path/to/ssl/ca-cert.pem\nssl-cert=/path/to/ssl/server-cert.pem\nssl-key=/path/to/ssl/server-key.pem\n\nTo fully implement SSL for MariaDB, the client settings and user accounts need to be set up as well. More information can be found here:\nhttps://mariadb.com/kb/en/securing-connections-for-client-and-server/",
+  "fix_id": "F-57102r841621_fix",
+  "VulnDiscussion": "The DoD standard for authentication is DoD-approved PKI certificates.\n\nA certificate's certification path is the path from the end entity certificate to a trusted root certification authority (CA). Certification path validation is necessary for a relying party to make an informed decision regarding acceptance of an end entity certificate. Certification path validation includes checks such as certificate issuer trust, time validity and revocation status for each certificate in the certification path. Revocation status information for CA and subject certificates in a certification path is commonly provided via certificate revocation lists (CRLs) or online certificate status protocol (OCSP) responses.\n\nDatabase Management Systems that do not validate certificates by performing RFC 5280-compliant certification path validation are in danger of accepting certificates that are invalid and/or counterfeit. This could allow unauthorized access to the database.",
+  "Documentable": "false"
+}

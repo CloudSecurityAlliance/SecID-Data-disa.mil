@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222980",
+  "rule_id": "SV-222980r961278_rule",
+  "stig_id": "TCAT-AS-001020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "LockOutRealms must be used for management of Tomcat.",
+  "group_title": "SRG-APP-000315-AS-000094",
+  "idents": {
+    "legacy": [
+      "SV-111483",
+      "V-102543"
+    ],
+    "cci": [
+      "CCI-002314"
+    ]
+  },
+  "check_id": "C-24652r426384_chk",
+  "check_content": "From the Tomcat server console, run the following command:\n\nsudo grep -i  LockOutRealm $CATALINA_BASE/conf/server.xml.  \n\nIf there are no results or if the LockOutRealm is not used for the Tomcat management application context, this is a finding.",
+  "fixtext": "From the Tomcat server console as a privileged user edit the $CATALINA_BASE/conf/server.xml file.\n\nsudo nano $CATALINA_BASE/conf/server.xml file\n\nLocate or add the LockOutRealm element. Make sure the LockOutRealm element is applied to the management application at a minimum (if the management application is in use on the system). This is done by ensuring the LockOutRealm is nested under the Engine, Host or directly within the management application Context container.\n\nEXAMPLE:\n\n      <Realm className=\"org.apache.catalina.realm.LockOutRealm\" failureCount=\"5\" lockOutTime=\"600\">\n...\n</Realm>",
+  "fix_id": "F-24641r426385_fix",
+  "VulnDiscussion": "A LockOutRealm adds the ability to lock a user out after multiple failed logins. LockOutRealm is an implementation of the Tomcat Realm interface that extends the CombinedRealm to provide user lock out functionality if there are too many failed authentication attempts in a given period of time. A LockOutRealm is created by wrapping around a standard realm such as a JNDI Directory Realm which connects Tomcat to an LDAP Directory. \n\nA Catalina container (Engine, Host, or Context) may contain no more than one Realm element (although this one Realm may itself contain multiple nested Realms). In addition, the Realm associated with an Engine or a Host is automatically inherited by lower-level containers unless the lower level container explicitly defines its own Realm. If no Realm is configured for the Engine, an instance of the Null Realm will be configured for the Engine automatically.",
+  "Documentable": "false"
+}

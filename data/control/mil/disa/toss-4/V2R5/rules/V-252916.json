@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-252916",
+  "rule_id": "SV-252916r958498_rule",
+  "stig_id": "TOSS-04-010050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The TOSS file system automounter must be disabled unless required.",
+  "group_title": "SRG-OS-000114-GPOS-00059",
+  "idents": {
+    "cci": [
+      "CCI-000778"
+    ]
+  },
+  "check_id": "C-56369r824070_chk",
+  "check_content": "Verify the operating system disables the ability to automount devices.\n\nCheck to see if automounter service is active with the following command:\n\nNote: If the autofs service is not installed, this requirement is Not Applicable.\n\n$ sudo systemctl status autofs\n\nautofs.service - Automounts filesystems on demand\nLoaded: loaded (/usr/lib/systemd/system/autofs.service; disabled)\nActive: inactive (dead)\n\nIf the \"autofs\" status is set to \"active\" and is not documented with the Information System Security Officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure the operating system to disable the ability to automount devices.\n\nTurn off the automount service with the following commands:\n\n$ sudo systemctl stop autofs\n$ sudo systemctl disable autofs\n\nIf \"autofs\" is required for Network File System (NFS), it must be documented with the ISSO.",
+  "fix_id": "F-56319r824071_fix",
+  "VulnDiscussion": "Automatically mounting file systems permits easy introduction of unknown devices, thereby facilitating malicious activity.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216157",
+  "rule_id": "SV-216157r959010_rule",
+  "stig_id": "SOL-11.1-050370",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The system must prevent local applications from generating source-routed packets.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48213",
+      "SV-61085"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17395r372853_chk",
+  "check_content": "Determine the OS version you are currently securing.\n# uname –v\n\nSolaris 11, 11.1, 11.2, and 11.3 use IP Filter.  To continue checking IP Filter, the IP Filter Management profile is required.\n\nCheck the system for an IPF rule blocking outgoing source-routed packets.\n\n# ipfstat -o\n\nExamine the list for rules such as: \nblock out log quick from any to any with opt lsrr\nblock out log quick from any to any with opt ssrr\n\nIf the listed rules do not block both lsrr and ssrr options, this is a finding.\n\nFor Solaris 11.3 or newer that use Packet Filter, the Network Firewall Management rights profile is required.\n\nEnsure that IP Options are not in use:\n# pfctl -s rules | grep allow-opts\n\nIf any output is returned, this is a finding.",
+  "fixtext": "The root role is required.\n\n# pfedit /etc/ipf/ipf.conf \n\nFor Solaris 11, 11.1, 11.2, and 11.3 that use IP Filter dd rules to block outgoing source-routed packets, such as:\n\nblock out log quick all with opt lsrr \nblock out log quick all with opt ssrr\n\nReload the IPF rules.\n\n# ipf -Fa -A -f /etc/ipf/ipf.conf   \n\nFor Solaris 11.3 or newer that use Packet Filter remove or modify any rules that include \"allow-opts\".\n\nReload the Packet Filter rules:\n# svcadm refresh firewall:default",
+  "fix_id": "F-17393r372854_fix",
+  "VulnDiscussion": "Source-routed packets allow the source of the packet to suggest that routers forward the packet along a different path than configured on the router, which can be used to bypass network security measures.",
+  "Documentable": "false"
+}

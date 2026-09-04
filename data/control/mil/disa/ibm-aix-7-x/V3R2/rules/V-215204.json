@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215204",
+  "rule_id": "SV-215204r987796_rule",
+  "stig_id": "AIX7-00-001045",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "IF LDAP is used, AIX LDAP client must use SSL to authenticate with LDAP server.",
+  "group_title": "SRG-OS-000074-GPOS-00042",
+  "idents": {
+    "legacy": [
+      "V-91297",
+      "SV-101395"
+    ],
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-16402r294063_chk",
+  "check_content": "Run the following command to check if \"authtype\" is \"ldap_auth\":\n# grep -iE \"^authtype:[[:blank:]]*ldap_auth\" /etc/security/ldap/ldap.cfg\n\nThe above command should yield the following output:\nauthtype:ldap_auth\n\nRun the following command to check if SSL is not used in the \"/etc/security/ldap/ldap.cfg\" file:\n# grep -iE \"^useSSL:[[:blank:]]*yes\" /etc/security/ldap/ldap.cfg\n\nThe above command should yield the following output:\nuseSSL:yes\n\nIf the first command displays \"authtype:ldap_auth\" but the second command does not display \"useSSL:yes\",  this is a finding.",
+  "fixtext": "Edit the \"/etc/security/ldap/ldap.cfg\" file to have the following line:\nuseSSL:yes\n\nConfigure the LDAP server and LDAP client to use the SSL according to AIX LDAP documentation.\n\nRestart the client daemon:\n# restart-secldapclntd",
+  "fix_id": "F-16400r294064_fix",
+  "VulnDiscussion": "While LDAP client's authentication type is ldap_auth (server-side authentication), the client sends password to the server in clear text for authentication. SSL must be used in this case.",
+  "Documentable": "false"
+}

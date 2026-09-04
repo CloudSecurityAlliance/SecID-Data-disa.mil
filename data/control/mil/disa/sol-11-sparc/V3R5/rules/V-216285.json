@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216285",
+  "rule_id": "SV-216285r958634_rule",
+  "stig_id": "SOL-11.1-020080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "System packages must be configured with the vendor-provided files, permissions, and ownerships.",
+  "group_title": "SRG-OS-000278",
+  "idents": {
+    "legacy": [
+      "SV-60763",
+      "V-47891"
+    ],
+    "cci": [
+      "CCI-001496"
+    ]
+  },
+  "check_id": "C-17521r370943_chk",
+  "check_content": "The Software Installation Profile is required.\n\nDetermine what the signature policy is for pkg publishers:\n\n# pkg property | grep signature-policy\n\nCheck that output produces:\n\nsignature-policy verify\n\nIf the output does not confirm that signature-policy verify is active, this is a finding.\n\nCheck that package permissions are configured and signed per vendor requirements.\n\n# pkg verify\n\nIf the command produces any output unrelated to STIG changes, this is a finding.\n\nThere is currently a Solaris 11 bug 16267888 which reports pkg verify errors for a variety of python packages. These can be ignored.",
+  "fixtext": "The Software Installation Profile is required.\n\nConfigure the package system to ensure that digital signatures are verified.\n\n# pfexec pkg set-property signature-policy verify\n\nCheck that package permissions are configured per vendor requirements.\n\n# pfexec pkg verify\n\nIf any errors are reported unrelated to STIG changes, use:\n\n# pfexec pkg fix\n\nto bring configuration settings and permissions into factory compliance.",
+  "fix_id": "F-17519r370944_fix",
+  "VulnDiscussion": "Failure to maintain system configurations may result in privilege escalation.",
+  "Documentable": "false"
+}

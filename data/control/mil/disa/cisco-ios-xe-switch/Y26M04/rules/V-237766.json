@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-237766",
+  "rule_id": "SV-237766r1132545_rule",
+  "stig_id": "CISC-RT-000394",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco perimeter switch must be configured to drop IPv6 packets containing a Hop-by-Hop header with invalid option type values.",
+  "group_title": "SRG-NET-000364-RTR-000202",
+  "idents": {
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-40978r1132544_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone. \n\nReview the switch configuration to determine if it is compliant with this requirement.  \n\nStep 1: Verify that an inbound IPv6 ACL has been configured on the external interface.\n\ninterface gigabitethernet1/0\n ipv6 address 2001::1:0:22/64\n ipv6 traffic-filter FILTER_IPV6 in\n\nStep 2: Verify that the ACL drops IPv6 packets containing a Hop-by-Hop header with option type values of 0x04 (Tunnel Encapsulation Limit), 0xC9 (Home Address Destination), or 0xC3 (NSAP Address) as shown in the example below.\n\nipv6 access-list FILTER_IPV6\n deny hbh any any dest-option log\n permit ipv6 …\n …\n …\n …\n deny ipv6 any any log\n\nNote: Cisco has deprecated the dest-option-type command used to filter by option type within Hop-by-Hop header. Therefore, all packets with the Hop-by-Hop header option types must be dropped.\n\nIf the switch is not configured to drop IPv6 packets containing a Hop-by-Hop header with destination options, this is a finding.",
+  "fixtext": "Drop IPv6 packets containing a Hop-by-Hop header as shown in the example below.\n\nSW1(config)#ipv6 access-list FILTER_IPV6\nSW1(config-ipv6-acl)#deny hbh any any dest-option log\nSW1(config-ipv6-acl)# permit ipv6 …\n…\n…\n…\nSW1(config-ipv6-acl)#deny ipv6 any any log\nSW1(config-ipv6-acl)#exit\nSW1(config)#int g1/0\nSW1(config-if)#ipv6 traffic-filter FILTER_IPV6\nSW1(config-if)#end",
+  "fix_id": "F-40940r1132515_fix",
+  "VulnDiscussion": "These options are intended to be for the Destination Options header only. The optional and extensible natures of the IPv6 extension headers require higher scrutiny since many implementations do not always drop packets with headers that it cannot recognize and hence could cause a Denial-of-Service on the target device. In addition, the type, length, value (TLV) formatting provides the ability for headers to be very large.",
+  "Documentable": "false"
+}

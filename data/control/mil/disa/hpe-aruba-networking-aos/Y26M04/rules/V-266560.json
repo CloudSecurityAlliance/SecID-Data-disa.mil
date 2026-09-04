@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-266560",
+  "rule_id": "SV-266560r1040170_rule",
+  "stig_id": "ARBA-NT-000130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The network element must protect wireless access to the system using Federal Information Processing Standard (FIPS)-validated Advanced Encryption Standard (AES) block cipher algorithms with an approved confidentiality mode.",
+  "group_title": "SRG-NET-000070",
+  "idents": {
+    "cci": [
+      "CCI-001444",
+      "CCI-001967"
+    ]
+  },
+  "check_id": "C-70484r1040168_chk",
+  "check_content": "Verify the AOS configuration with the following commands:\nshow fips\nshow ap system-profile\n\nFor each configured ap system profile:\nshow ap system-profile <profile-name>  | include FIPS\n\nIf FIPS is not enabled, this is a finding.",
+  "fixtext": "Configure AOS with the following command:\nconfigure terminal\n\nFor each ap system-profile, run the following commands:\nap system-profile <profile-name> \nfips-enable\nexit\nfips enable\nwrite memory\nreload",
+  "fix_id": "F-70387r1040169_fix",
+  "VulnDiscussion": "Allowing devices and users to connect to the system without first authenticating them allows untrusted access and can lead to a compromise or attack. Because wireless communications can be intercepted, encryption must be used to protect the confidentiality of information in transit.\n\nWireless technologies include, for example, microwave, packet radio (UHF/VHF), 802.11x, and Bluetooth. Wireless networks use authentication protocols (e.g., Extensible Authentication Protocol (EAP)/Transport Layer Security (TLS) and Protected EAP [PEAP]), which provide credential protection and mutual authentication.\n\nThis requirement applies to operating systems that control wireless devices.\n\nA block cipher mode is an algorithm that features the use of a symmetric key block cipher algorithm to provide an information service, such as confidentiality or authentication.\n\nAES is the FIPS-validated cipher block cryptographic algorithm approved for use in the DOD. For an algorithm implementation to be listed on a FIPS 140-2/140-3 cryptographic module validation certificate as an approved security function, the algorithm implementation must meet all the requirements of FIPS 140-2/140-3 and must successfully complete the cryptographic algorithm validation process. Currently, the National Institute of Standards and Technology (NIST) has approved the following confidentiality modes to be used with AES: ECB, CBC, OFB, CFB, CTR, XTS-AES, FF1, FF3, CCM, GCM, KW, KWP, and TKW.\n\nSatisfies: SRG-NET-000070, SRG-NET-000151",
+  "Documentable": "false"
+}

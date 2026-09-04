@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279331",
+  "rule_id": "SV-279331r1179501_rule",
+  "stig_id": "MD8X-00-000150",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "MongoDB must limit the total number of concurrent connections to the database.",
+  "group_title": "SRG-APP-000001-DB-000031",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-83884r1179500_chk",
+  "check_content": "Mongo can limit the total number of connections.\n\nVerify the MongoDB configuration file (default location: /etc/mongod.conf) contains the following:\n\nnet:\n  maxIncomingConnections:  %int%      \n\nIf this parameter is not present, or the OS is not used to limit connections, this is a finding.",
+  "fixtext": "MongoDB can limit the total number of connections served by the mongod process by setting the following in the MongoDB configuration file (default location: /etc/mongod.conf):\n\nnet:\n  maxIncomingConnections:  %int%      \n\nRefer to the following documentation: \nhttps://www.mongodb.com/docs/manual/reference/configuration-options/\n\nProducts outside of MongoDB can be used to monitor database sessions and limit the maximum number of connections that can be made. \n\nAlternatively, most Unix-like operating systems, including Linux and macOS, provide ways to limit and control the usage of system resources such as threads, files, and network connections on a per-process and per-user basis. \n\nThese ulimits prevent single users from using too many system resources. \n\nThe following is the MongoDB documentation regarding these user limits: https://www.mongodb.com/docs/manual/reference/ulimit/.",
+  "fix_id": "F-83789r1179437_fix",
+  "VulnDiscussion": "Database management includes the ability to control the number of users and user sessions utilizing a DBMS. Unlimited concurrent connections to the DBMS could allow a successful denial-of-service (DoS) attack by exhausting connection resources; and a system can also fail or be degraded by an overload of legitimate users. Limiting the number of concurrent sessions per user is helpful in reducing these risks.\n\nThis requirement addresses concurrent session control for the total number of sessions across all accounts.\n\n(Sessions may also be referred to as connections or logons, which for the purposes of this requirement are synonyms.)",
+  "Documentable": "false"
+}

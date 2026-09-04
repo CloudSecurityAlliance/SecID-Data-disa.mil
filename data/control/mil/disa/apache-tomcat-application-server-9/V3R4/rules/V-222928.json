@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222928",
+  "rule_id": "SV-222928r960762_rule",
+  "stig_id": "TCAT-AS-000030",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "HTTP Strict Transport Security (HSTS) must be enabled.",
+  "group_title": "SRG-APP-000015-AS-000010",
+  "idents": {
+    "legacy": [
+      "SV-111375",
+      "V-102431"
+    ],
+    "cci": [
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-48815r754862_chk",
+  "check_content": "From the Tomcat server console, run the following command:\n\nsudo grep -i -A5 -B8 hstsEnable $CATALINA_BASE/conf/web.xml file.\n\nIf the httpHeaderSecurity filter is commented out or if hstsEnable is not set to \"true\", this is a finding.",
+  "fixtext": "From the Tomcat server as a privileged user, edit the web.xml file:\n\nsudo nano $CATALINA_BASE/conf/web.xml file.\n\nUncomment the existing httpHeaderSecurity filter section or create the filter section using the following code:\n\nNOTE: includeSubDomains param-value and url-pattern values may change and can vary according to local deployment requirements. \n<filter>\n<filter-name>httpHeaderSecurity</filter-name>\n<filter-class>org.apache.catalina.filters.HttpHeaderSecurityFilter</filter-class>\n<init-param>\n <param-name>hstsEnabled</param-name>\n <param-value>true</param-value>\n</init-param>\n<init-param>\n <param-name>hstsMaxAgeSeconds</param-name>\n <param-value>31536000</param-value>\n </init-param>\n <init-param>\n <param-name>hstsIncludeSubDomains</param-name>\n <param-value>true</param-value>\n </init-param>\n<async-supported>true</async-supported>\n</filter>\n\nCreate or uncomment the httpHeaderSecurity filter mapping:\n<filter-mapping>\n<filter-name>httpHeaderSecurity</filter-name>\n<url-pattern>/*</url-pattern>\n<dispatcher>REQUEST</dispatcher>\n</filter-mapping>",
+  "fix_id": "F-37850r918124_fix",
+  "VulnDiscussion": "HTTP Strict Transport Security (HSTS) instructs web browsers to only use secure connections for all future requests when communicating with a website. Doing so helps prevent SSL protocol attacks, SSL stripping, cookie hijacking, and other attempts to circumvent SSL protection.\n\nImplementing HSTS requires testing of your web applications to ensure SSL certificates align correctly with application requirements and sub-domains if sub-domains are used. Ensure certificates are installed and working correctly. If sub-domains are in use, all sub-domains must be covered in the SSL/TLS certificate and the includeSubDomains directive must be specified in order for HSTS to function properly.",
+  "Documentable": "false"
+}

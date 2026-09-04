@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281337",
+  "rule_id": "SV-281337r1167161_rule",
+  "stig_id": "RHEL-10-800050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must enable hardening for the Berkeley Packet Filter (BPF) just-in-time compiler.",
+  "group_title": "SRG-OS-000433-GPOS-00192",
+  "idents": {
+    "cci": [
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-85898r1167159_chk",
+  "check_content": "Verify RHEL 10 enables hardening for the BPF JIT compiler.\n\nCheck the status of the \"net.core.bpf_jit_harden\" parameter with the following command:\n\n$ sudo sysctl net.core.bpf_jit_harden\nnet.core.bpf_jit_harden = 2\n\nIf \"net.core.bpf_jit_harden\" is not equal to \"2\" or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 10 to enable hardening for the BPF JIT compiler.\n\nCreate the drop-in file if it does not already exist:\n\n$ sudo vi /etc/sysctl.d/99-net_core-bpf_jit_harden.conf\n\nAdd the following line to the file:\n\nnet.core.bpf_jit_harden = 2\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-85803r1167160_fix",
+  "VulnDiscussion": "When hardened, the extended BPF just-in-time (JIT) compiler will randomize any kernel addresses in the BPF programs and maps, and will not expose the JIT addresses in \"/proc/kallsyms\".",
+  "Documentable": "false"
+}

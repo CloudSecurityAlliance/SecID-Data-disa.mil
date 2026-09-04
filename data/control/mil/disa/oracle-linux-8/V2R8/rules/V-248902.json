@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248902",
+  "rule_id": "SV-248902r1106146_rule",
+  "stig_id": "OL08-00-040350",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If the Trivial File Transfer Protocol (TFTP) server is required, the OL 8 TFTP daemon must be configured to operate in secure mode.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52336r1106144_chk",
+  "check_content": "Note: If TFTP is not required, it must not be installed. If TFTP is not installed, this rule is not applicable.\n\nCheck to see if TFTP server is installed with the following command:\n\n$ sudo dnf list installed | grep tftp-server \ntftp-server.x86_64 x.x-x.el8\n\nVerify the TFTP daemon, if tftp.server is installed, is configured to operate in secure mode with the following command:\n\n$ grep -i execstart /usr/lib/systemd/system/tftp.service\nExecStart=/usr/sbin/in.tftpd -s /var/lib/tftpboot\n\nNote: The \"-s\" option ensures the TFTP server only serves files from the specified directory, which is a security measure to prevent unauthorized access to other parts of the file system.",
+  "fixtext": "Configure the TFTP daemon to operate in secure mode with the following command:\n$ sudo systemctl edit tftp.service\n\nIn the editor, enter:\n[Service]\nExecStart=/usr/sbin/in.tftpd -s /var/lib/tftpboot\n\nAfter making changes, reload the systemd daemon and restart the TFTP service as follows:\n$ sudo systemctl daemon-reload\n$ sudo systemctl restart tftp.service",
+  "fix_id": "F-52290r1106145_fix",
+  "VulnDiscussion": "Restricting TFTP to a specific directory prevents remote users from copying, transferring, or overwriting system files.",
+  "Documentable": "false"
+}

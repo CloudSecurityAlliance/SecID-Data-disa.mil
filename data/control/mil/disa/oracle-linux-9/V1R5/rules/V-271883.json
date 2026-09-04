@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271883",
+  "rule_id": "SV-271883r1092361_rule",
+  "stig_id": "OL09-00-006046",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must not forward IPv6 source-routed packets by default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75933r1092359_chk",
+  "check_content": "Note: If IPv6 is disabled on the system, this requirement is Not Applicable.\n\nVerify that OL 9 does not accept IPv6 source-routed packets by default.\n\nCheck the value of the accept source route variable with the following command:\n\n$ sysctl net.ipv6.conf.default.accept_source_route\nnet.ipv6.conf.default.accept_source_route = 0\n\nIf the returned line does not have a value of \"0\", a line is not returned, or the line is commented out, this is a finding.",
+  "fixtext": "Configure OL 9 to not forward IPv6 source-routed packets by default.\n\nAdd or edit the following line in a single system configuration file in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv6.conf.default.accept_source_route = 0\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-75840r1092360_fix",
+  "VulnDiscussion": "Source-routed packets allow the source of the packet to suggest that routers forward the packet along a different path than configured on the router, which can be used to bypass network security measures. This requirement applies only to the forwarding of source-routed traffic, such as when forwarding is enabled and the system is functioning as a router.\n\nAccepting source-routed packets in the IPv6 protocol has few legitimate uses. It must be disabled unless it is absolutely required.",
+  "Documentable": "false"
+}

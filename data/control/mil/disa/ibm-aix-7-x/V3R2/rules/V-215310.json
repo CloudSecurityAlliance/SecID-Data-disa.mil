@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215310",
+  "rule_id": "SV-215310r958640_rule",
+  "stig_id": "AIX7-00-002129",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "If Bourne / ksh shell is used, AIX must display logout messages.",
+  "group_title": "SRG-OS-000281-GPOS-00111",
+  "idents": {
+    "legacy": [
+      "SV-101595",
+      "V-91497"
+    ],
+    "cci": [
+      "CCI-002364"
+    ]
+  },
+  "check_id": "C-16508r294381_chk",
+  "check_content": "Verify users have a \".logout\" file in their home directory:\n\n# for home in `cut -d: -f6 /etc/passwd`; do ls -alL $home/.logout; done\n-rwxr-----    1 root  system           297 Jan 29 09:47 /root/.logout\n-rwxr-----    1 doejohn  staff        297 Jul 4 00:47 /home/doejohn/.logout\n\nIf an interactive user does not have their \".logout\" file, this is a finding.\n\nVerify that each \".logout\" file identified above contains a logout message:\n\n# cat <user_home_directory>/.logout\necho \"You are being disconnected.\"\nsleep 5\n\nIf the \".logout\" file does not display a logout message, this is a finding.\n\nVerify each users' \".profile\" file calls \"$HOME/.logout\" while logging out:\n\n# grep \"trap '$HOME/.logout' EXIT \" <user_home_directory>/.profile\ntrap '$HOME/.logout' EXIT\n\nIf the \".profile\" file does not call \"$HOME/.logout\", this is a finding.",
+  "fixtext": "Create the \".logout\" file if it does not exist.\n\nAdd the following two lines to \".logout\" to display a logout message and sleep for \"5\" seconds:\necho \"You are being disconnected.\"\nsleep 5\n\nCreate, or modify, \".profile\" to include the following line:\ntrap '$HOME/.logout' EXIT",
+  "fix_id": "F-16506r294382_fix",
+  "VulnDiscussion": "If a user cannot explicitly end an operating system session, the session may remain open and be exploited by an attacker; this is referred to as a zombie session. Users need to be aware of whether or not the session has been terminated.\n\nInformation resources to which users gain access via authentication include, for example, local workstations and remote services. Logoff messages can be displayed after authenticated sessions have been terminated. However, for some types of interactive sessions, including, for example, remote login, information systems typically send logoff messages as final messages prior to terminating sessions.",
+  "Documentable": "false"
+}

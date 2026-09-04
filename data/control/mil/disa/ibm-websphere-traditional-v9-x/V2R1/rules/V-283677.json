@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-283677",
+  "rule_id": "SV-283677r1193276_rule",
+  "stig_id": "WBSP-AS-001770",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The WebSphere Application Server must use FIPS 140-3-approved encryption modules when authenticating users and processes.",
+  "group_title": "SRG-APP-000179-AS-000129",
+  "idents": {
+    "cci": [
+      "CCI-000803",
+      "CCI-001188",
+      "CCI-002418",
+      "CCI-002421",
+      "CCI-002422",
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-88242r1193274_chk",
+  "check_content": "Note: If FIPS 140-2 is configured in WBSP-AS-001290, this is not applicable. This is allowed until 21 September 2026. If FIPS 140-2 is still in use after this date, this is a finding.\n\nFrom administrative console, click Security >> SSL certificate and key management >> Manage FIPS.\n\nIf \"Enable FIPS 140-3\" is not selected, this is a finding.",
+  "fixtext": "Implementation for Cell Profile (Network Deployment):\n\n1. Back up the existing configuration:\n\nbackupConfig.sh <backup_directory>\n\n2. Stop all servers except the deployment manager:\n\n- Stop all node agents and application servers.\n- Keep only the deployment manager running.\n\n3. Enable FIPS 140-3.\n\nOption A - Using Administrative Console:\n1. Click Security >> SSL certificate and key management >> Manage FIPS.\n\n\n2. Select \"Enable FIPS 140-3\".\n3. Click \"Apply\".\n\nOption B - Using Admin Command:\nAdminTask.enableFips('[-enableFips true -fipsLevel FIPS140-3 ]')\n\n1. Stop the deployment manager.\n\n2. Restart the deployment manager.\n\n3. Synchronize nodes. On each node, run:\n\nsyncNode.sh <dmgr_host> <dmgr_port>\n\n4. Start node agents and servers\n\nImplementation for Standalone Profile:\n1. Back up the existing configuration:\n\nbackupConfig.sh <backup_directory>\n\n2. Enable FIPS 140-3.\n\nOption A - Using Administrative Console:\n1. Click Security >> SSL certificate and key management >> Manage FIPS.\n\n2. Select \"Enable FIPS 140-3\".\n\n3. Click \"Apply\".\n\nOption B - Using Admin Command:\nAdminTask.enableFips('[-enableFips true -fipsLevel FIPS140-3 ]')\n\nFor both methods, restart the application server.",
+  "fix_id": "F-88147r1193275_fix",
+  "VulnDiscussion": "Encryption is only as good as the encryption modules in use. Unapproved cryptographic module algorithms cannot be verified and cannot be relied upon to provide confidentiality or integrity, and DOD data may be compromised due to weak algorithms. The use of TLS provides confidentiality of data in transit between the application server and client. FIPS 140-3-approved TLS versions include TLS V1.0 or greater. \n\nTLS must be enabled and non-FIPS-approved SSL versions must be disabled. NIST SP 800-52 specifies the preferred configurations for government systems.",
+  "Documentable": "false"
+}

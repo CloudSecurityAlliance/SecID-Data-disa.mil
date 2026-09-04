@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278198",
+  "rule_id": "SV-278198r1182317_rule",
+  "stig_id": "WN25-SO-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Windows Server 2025 built-in guest account must be renamed.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-82728r1182316_chk",
+  "check_content": "This applies to member servers and stand-alone or nondomain-joined systems; it is not applicable for domain controllers.\n\nVerify the effective setting in Local Group Policy Editor.\n\nRun \"gpedit.msc\".\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> Security Options.\n\nIf the value for \"Accounts: Rename guest account\" is not set to a value other than \"Guest\", this is a finding.\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas SecurityPolicy /CFG C:\\Path\\FileName.Txt\n\nIf \"NewGuestName\" is not something other than \"Guest\" in the file, this is a finding.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> Security Options >> Accounts: Rename guest account to a name other than \"Guest\".",
+  "fix_id": "F-82633r1181299_fix",
+  "VulnDiscussion": "The built-in guest account is a well-known user account on all Windows systems and, as initially installed, does not require a password. This can allow access to system resources by unauthorized users. Renaming this account to an unidentified name improves the protection of this account and the system.",
+  "Documentable": "false"
+}

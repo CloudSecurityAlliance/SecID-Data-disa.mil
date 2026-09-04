@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221012",
+  "rule_id": "SV-221012r622190_rule",
+  "stig_id": "CISC-RT-000320",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco perimeter switch must be configured to filter traffic destined to the enclave in accordance with the guidelines contained in DoD Instruction 8551.1.",
+  "group_title": "SRG-NET-000205-RTR-000003",
+  "idents": {
+    "legacy": [
+      "SV-110845",
+      "V-101741"
+    ],
+    "cci": [
+      "CCI-001097"
+    ]
+  },
+  "check_id": "C-22727r408830_chk",
+  "check_content": "Review the switch configuration to verify that the ingress ACL is in accordance with DoD 8551.1.\n\nStep 1: Verify that an inbound ACL is configured on all external interfaces.\n\ninterface GigabitEthernet0/2\n ip address x.11.1.2 255.255.255.254\n ip access-group EXTERNAL_ACL_INBOUND in\n\nStep 2. Review the inbound ACL to verify that it is filtering traffic in accordance with DoD 8551.1.\n\nip access-list extended EXTERNAL_ACL_INBOUND\n permit tcp any any established\n permit tcp host x.11.1.1 eq bgp host x.11.1.2\n permit tcp host x.11.1.1 host x.11.1.2 eq bgp\n permit icmp host x.11.1.1 host x.11.1.2 echo\n permit icmp host x.11.1.1 host x.11.1.2 echo-reply\n…\n … < must be in accordance with DoD Instruction 8551.1>\n…\ndeny ip any any log-input\n\nIf the switch does not filter traffic in accordance with the guidelines contained in DoD 8551.1, this is a finding.",
+  "fixtext": "Configure the switch to use an inbound ACL on all external interfaces as shown in the example below to restrict traffic in accordance with the guidelines contained in DOD Instruction 8551.1.\n\nSW1(config)#ip access-list extended EXTERNAL_ACL_INBOUND\nSW1(config-ext-nacl)#permit tcp any any established\nSW1(config-ext-nacl)#permit tcp host x.11.1.1 eq bgp host x.11.1.2 \nSW1(config-ext-nacl)#permit tcp host x.11.1.1 host x.11.1.2 eq bgp\nSW1(config-ext-nacl)#permit icmp host x.11.1.1 host x.11.1.2 echo\nSW1(config-ext-nacl)#permit icmp host x.11.1.1 host x.11.1.2 echo-reply\n…\n… < must be in accordance with DoD Instruction 8551.1>\n…\nSW1(config-ext-nacl)#deny ip any any log-input\nSW1(config-ext-nacl)#exit\nSW1(config)#int g0/2\nSW1(config-if)#ip access-group EXTERNAL_ACL_INBOUND in",
+  "fix_id": "F-22716r408831_fix",
+  "VulnDiscussion": "Vulnerability assessments must be reviewed by the System Administrator, and protocols must be approved by the Information Assurance (IA) staff before entering the enclave.\n\nACLs are the first line of defense in a layered security approach. They permit authorized packets and deny unauthorized packets based on port or service type. They enhance the posture of the network by not allowing packets to reach a potential target within the security domain. The lists provided are highly susceptible ports and services that should be blocked or limited as much as possible without adversely affecting customer requirements. Auditing packets attempting to penetrate the network that are stopped by an ACL will allow network administrators to broaden their protective ring and more tightly define the scope of operation.\n\nIf the perimeter is in a Deny-by-Default posture and what is allowed through the filter is in accordance with DoD Instruction 8551.1, and if the permit rule is explicitly defined with explicit ports and protocols allowed, then all requirements related to PPS being blocked would be satisfied.",
+  "Documentable": "false"
+}

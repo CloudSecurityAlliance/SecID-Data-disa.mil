@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215220",
+  "rule_id": "SV-215220r1009538_rule",
+  "stig_id": "AIX7-00-001123",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AIX must require the change of at least 50% of the total number of characters when passwords are changed.",
+  "group_title": "SRG-OS-000072-GPOS-00040",
+  "idents": {
+    "legacy": [
+      "V-91287",
+      "SV-101385"
+    ],
+    "cci": [
+      "CCI-004066",
+      "CCI-000195"
+    ]
+  },
+  "check_id": "C-16418r294111_chk",
+  "check_content": "From the command prompt, run the following command to check the system default \"mindiff\" attribute value:\n# lssec -f /etc/security/user -s default -a mindiff\ndefault mindiff=8\n\nIf the default \"mindiff\" value is not set, or its value is less than \"8\", this is a finding.\n\nFrom the command prompt, run the following command to check \"mindiff\" attribute value for all accounts:\n# lsuser -a mindiff ALL\nroot  mindiff=9\nuser1 mindiff=8\nuser2 mindiff=8\nuser3 mindiff=10\n\nIf any user's \"mindiff\" value is less than \"8\", this is a finding.",
+  "fixtext": "From the command prompt, run the following command to set \"mindiff=8\" (assume that the password is at least 15-character long) for the default stanza in \"/etc/security/user\":\n# chsec -f /etc/security/user -s default -a mindiff=8\n\nFor each user who has \"mindiff\" value less than \"8\", set its \"mindiff\" value to \"8\" by running the following command from command prompt:\n# chsec -f /etc/security/user -s [user_name] -a mindiff=8",
+  "fix_id": "F-16416r294112_fix",
+  "VulnDiscussion": "If the operating system allows the user to consecutively reuse extensive portions of passwords, this increases the chances of password compromise by increasing the window of opportunity for attempts at guessing and brute-force attacks.\n\nThe number of changed characters refers to the number of changes required with respect to the total number of positions in the current password. In other words, characters may be the same within the two passwords; however, the positions of the like characters must be different.\n\nIf the password length is an odd number then number of changed characters must be rounded up.  For example, a password length of 15 characters must require the change of at least 8 characters.",
+  "Documentable": "false"
+}

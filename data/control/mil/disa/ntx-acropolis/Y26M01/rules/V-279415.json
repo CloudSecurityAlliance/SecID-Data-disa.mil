@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279415",
+  "rule_id": "SV-279415r1191367_rule",
+  "stig_id": "NXAC-AS-000001",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Nutanix AOS must limit the number of concurrent sessions to 10 for all accounts and/or account types.",
+  "group_title": "SRG-APP-000001-AS-000001",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-83968r1191029_chk",
+  "check_content": "Verify DODIN mode is enabled to ensure maximum concurrent session is limited to 10.\n\n1. For AOS, run the following command:\n\n$ ncli cluster get-cvm-security-config\nEnable DoDin Additiona... : true\n\n2. For Prism Central, run the following command:\n\n$ ncli cluster get-pcvm-security-config\nEnable DoDin Additiona... : true\n\n3. For Files, run the following command:\n\n$ ncli cluster get-afs-security-config\nEnable DoDin Additiona... : true\n\nIf the value for \"Enable DoDin Additional\" is not set to \"True\", this is a finding.",
+  "fixtext": "Set max concurrent connections to 10 by running the following command:\n\n$ configure_dod_mode.sh enter_dod_mode",
+  "fix_id": "F-83873r1191030_fix",
+  "VulnDiscussion": "Application management includes the ability to control the number of sessions that use an application by all accounts and/or account types. Limiting the number of allowed sessions is helpful in limiting risks related to denial-of-service (DOS) attacks.\n\nApplication servers host and expose business logic and application processes.\n\nThe application server must limit the maximum number of concurrent sessions in a manner that affects the entire application server or on an individual application basis.\n\nAlthough there is some latitude concerning the settings themselves, the settings should follow DOD-recommended values, but the settings should be configurable to allow for future DOD direction.\n\nWhile the DOD will specify recommended values, the values can be adjusted to accommodate the operational requirement of a given system.",
+  "Documentable": "false"
+}

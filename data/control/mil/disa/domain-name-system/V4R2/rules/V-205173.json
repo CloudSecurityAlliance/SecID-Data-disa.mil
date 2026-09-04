@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-205173",
+  "rule_id": "SV-205173r961041_rule",
+  "stig_id": "SRG-APP-000176-DNS-000094",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Only the private key corresponding to the ZSK alone must be kept on the name server that does support dynamic updates.",
+  "group_title": "SRG-APP-000176",
+  "idents": {
+    "legacy": [
+      "SV-69055",
+      "V-54809"
+    ],
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-5440r392435_chk",
+  "check_content": "Review the DNS name server and documentation to determine whether it accepts dynamic updates. If dynamic updates are accepted, verify only the private keys corresponding to the ZSK (Zone Signing Key) are located on the server.\n\nIf the private keys to the KSK are located on the name server that accepts dynamic updates, this is a finding.",
+  "fixtext": "Store the private keys of the ZSK and KSK off-line in an encrypted file system.",
+  "fix_id": "F-5440r392436_fix",
+  "VulnDiscussion": "The private keys in the KSK and ZSK key pairs must be protected from unauthorized access. If possible, the private keys should be stored off-line (with respect to the Internet-facing, DNSSEC-aware name server) in a physically secure, non-network-accessible machine along with the zone file master copy. \n\nThis strategy is not feasible in situations in which the DNSSEC-aware name server has to support dynamic updates. To support dynamic update transactions, the DNSSEC-aware name server (which usually is a primary authoritative name server) has to have both the zone file master copy and the private key corresponding to the zone-signing key (ZSK-private) online to immediately update the signatures for the updated RRsets. The private key corresponding to the key-signing key (KSK-private) can still be kept off-line.",
+  "Documentable": "false"
+}

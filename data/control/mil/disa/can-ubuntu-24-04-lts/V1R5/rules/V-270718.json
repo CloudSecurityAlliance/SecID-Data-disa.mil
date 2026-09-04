@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-270718",
+  "rule_id": "SV-270718r1134811_rule",
+  "stig_id": "UBTU-24-300039",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 24.04 LTS must disable automatic mounting of Universal Serial Bus (USB) mass storage driver.",
+  "group_title": "SRG-OS-000690-GPOS-00140",
+  "idents": {
+    "cci": [
+      "CCI-003959",
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-74751r1134809_chk",
+  "check_content": "Verify that Ubuntu 24.04 LTS disables the ability to load the USB storage kernel module with the following command:\n\n$ sudo grep usb-storage /etc/modprobe.d/* | grep \"/bin/false\" \n/etc/modprobe.d/DISASTIG.conf:install usb-storage /bin/false\n\nIf the command does not return any output, or the line is commented out, this is a finding.\n\nVerify Ubuntu 24.04 LTS disables the ability to use USB mass storage devices.\n\n$ sudo grep usb-storage /etc/modprobe.d/* | grep -i \"blacklist\"\n/etc/modprobe.d/DISASTIG.conf:blacklist usb-storage\n\nIf the command does not return any output, or the line is commented out, this is a finding.",
+  "fixtext": "Configure Ubuntu 24.04 LTS to disable using the USB storage kernel module with the following command: \n\n$ sudo su -c \"echo install usb-storage /bin/false >> /etc/modprobe.d/DISASTIG.conf\"\n\nConfigure Ubuntu 24.04 LTS to disable the ability to use USB mass storage devices with the following command:\n\n$ sudo su -c \"echo blacklist usb-storage >> /etc/modprobe.d/DISASTIG.conf\"",
+  "fix_id": "F-74652r1134810_fix",
+  "VulnDiscussion": "Without authenticating devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity.\n\nPeripherals include, but are not limited to, devices such as flash drives, external storage, and printers.\n\nSatisfies: SRG-OS-000690-GPOS-00140, SRG-OS-000378-GPOS-00163",
+  "Documentable": "false"
+}

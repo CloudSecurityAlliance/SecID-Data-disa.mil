@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-271507",
+  "rule_id": "SV-271507r1091233_rule",
+  "stig_id": "OL09-00-000341",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must enable the fapolicy module.",
+  "group_title": "SRG-OS-000370-GPOS-00155",
+  "idents": {
+    "cci": [
+      "CCI-001774",
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-75557r1091231_chk",
+  "check_content": "Verify that OL 9 fapolicyd is active with the following command:\n\n$ systemctl is-active fapolicyd\nactive\n\nIf fapolicyd module is not active, this is a finding.",
+  "fixtext": "Enable the fapolicyd service with the following command:\n\n$ sudo systemctl enable --now fapolicyd",
+  "fix_id": "F-75464r1091232_fix",
+  "VulnDiscussion": "The organization must identify authorized software programs and permit execution of authorized software. The process used to identify software programs that are authorized to execute on organizational information systems is commonly referred to as allowlisting.\n\nUsing an allowlist provides a configuration management method for allowing the execution of only authorized software. Using only authorized software decreases risk by limiting the number of potential vulnerabilities. Verification of allowlisted software occurs prior to execution or at system startup.\n\nUser home directories/folders may contain information of a sensitive nature. Nonprivileged users should coordinate any sharing of information with a system administrator (SA) through shared resources.\n\nOL 9 ships with many optional packages. One such package is a file access policy daemon called \"fapolicyd\". \"fapolicyd\" is a userspace daemon that determines access rights to files based on attributes of the process and file. It can be used to either blocklist or allowlist processes or file access.\n\nProceed with caution with enforcing the use of this daemon. Improper configuration may render the system nonfunctional. The \"fapolicyd\" API is not namespace aware and can cause issues when launching or running containers.\n\nSatisfies: SRG-OS-000370-GPOS-00155, SRG-OS-000368-GPOS-00154",
+  "Documentable": "false"
+}

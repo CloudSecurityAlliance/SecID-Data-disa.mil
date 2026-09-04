@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223551",
+  "rule_id": "SV-223551r1169916_rule",
+  "stig_id": "ACF2-OS-000150",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS Time Protocol must be properly configured.",
+  "group_title": "SRG-OS-000355-GPOS-00143",
+  "idents": {
+    "legacy": [
+      "V-97807",
+      "SV-106911"
+    ],
+    "cci": [
+      "CCI-004923"
+    ]
+  },
+  "check_id": "C-25224r1169807_chk",
+  "check_content": "Any Time Protocol must be configured to restrict access and/or control to appropriate personnel. \nConfigure SNTP as shown below:\n\nFrom the ISPF Command Shell, enter:\ncd /usr/sbin\nls -al\n\nIf the following file permission and user audit bits are true, this is not a finding.\n\n/usr/sbin/sntpd 1740 faf\n\nThe following represents a hierarchy for permission bits from least restrictive to most restrictive:\n\n7 rwx (least restrictive)\n6 rw-\n3 -wx\n2 -w-\n5 r-x\n4 r--\n1 --x\n0 --- (most restrictive)\n\nThe possible audit bits settings are as follows:\nf log for failed access attempts\na log for failed and successful access\n- no auditing",
+  "fixtext": "Whichever Time Protocol is used, consult the system programmer for configuration information. If using SNTP with the assistance of a systems programmer with UID(0) and/or SUPERUSER access, configure the Unix permission bits and user audit bits on the SNTPD to conform to the specifications below:\n\n/usr/sbin/sntpd 1740 faf",
+  "fix_id": "F-25212r1169772_fix",
+  "VulnDiscussion": "Inaccurate time stamps make it more difficult to correlate events and can lead to an inaccurate analysis. Determining the correct time a particular event occurred on a system is critical when conducting forensic analysis and investigating system events. Sources outside the configured acceptable allowance (drift) may be inaccurate.\n\nSynchronizing internal information system clocks provides uniformity of time stamps for information systems with multiple system clocks and systems connected over a network.\n\nOrganizations should consider endpoints that may not have regular access to the authoritative time server (e.g., mobile, teleworking, and tactical endpoints).",
+  "Documentable": "false"
+}

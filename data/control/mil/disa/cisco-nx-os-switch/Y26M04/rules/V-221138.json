@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221138",
+  "rule_id": "SV-221138r999747_rule",
+  "stig_id": "CISC-RT-000860",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco multicast Designated switch (DR) must be configured to filter the Internet Group Management Protocol (IGMP) and Multicast Listener Discovery (MLD) Report messages to allow hosts to join only multicast groups that have been approved by the organization.",
+  "group_title": "SRG-NET-000364-RTR-000114",
+  "idents": {
+    "legacy": [
+      "SV-111169",
+      "V-102213"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-22853r409903_chk",
+  "check_content": "Review the configuration of the DR to verify that it is filtering IGMP or MLD Membership Report messages, allowing hosts to join only those groups that have been approved.\n\nStep 1: Verify that all host facing interfaces are configured to filter IGMP Membership Report messages (IGMP joins) as shown in the example below:\n\ninterface Ethernet2/4\n no switchport\n ip address 10.2.22.3/24 ip pim sparse-mode\n ip igmp version 3\n ip igmp report-policy ALLOWED_GROUPS\n\nStep 2: Verify that the report policy denies unauthorized groups or permits only authorized groups. \n\nroute-map ALLOWED_GROUPS permit 10\n match ip multicast group 233.1.1.0/24 \nroute-map ALLOWED_GROUPS permit 20\n match ip multicast group 233.1.1.0/32 \nroute-map ALLOWED_GROUPS permit 30\n match ip multicast group 233.1.1.1/32 \nroute-map ALLOWED_GROUPS deny 40\n match ip multicast group 224.0.0.0/4\n\nNote: This requirement is only applicable to Source Specific Multicast (SSM) implementation. This requirement is not applicable to Any Source Multicast (ASM) since the filtering is being performed by the Rendezvous Point.\n\nIf the DR is not filtering IGMP or MLD Membership Report messages, this is a finding.",
+  "fixtext": "Configure the DR to filter the IGMP or MLD Membership Report messages to allow hosts to join only those multicast groups that have been approved.\n\nStep 1: Configure the report policy to filter IGMP Membership Report messages as shown in the example below:\n\nSW1(config)# route-map ALLOWED_GROUPS permit\nSW1(config-route-map)# match ip multicast group 233.1.1.0/24\nSW1(config-route-map)# route-map ALLOWED_GROUPS permit 20\nSW1(config-route-map)# match ip multicast group 233.1.1.0/32\nSW1(config-route-map)# route-map ALLOWED_GROUPS permit 30\nSW1(config-route-map)# match ip multicast group 233.1.1.1/32\nSW1(config-route-map)# route-map ALLOWED_GROUPS deny 40\nSW1(config-route-map)# match ip multicast group 224.0.0.0/4\nSW1(config-route-map)# exit\n\nStep 2: Apply the report policy to all applicable interfaces.\n\nSW1(config)# int e2/4\nSW1(config-if)# ip igmp report-policy ALLOWED_GROUPS \nSW1(config-if)# end",
+  "fix_id": "F-22842r409904_fix",
+  "VulnDiscussion": "Real-time multicast traffic can entail multiple large flows of data. Large unicast flows tend to be fairly isolated (i.e., someone doing a file download here or there), whereas multicast can have broader impact on bandwidth consumption, resulting in extreme network congestion. Hence, it is imperative that there is multicast admission control to restrict which multicast groups hosts are allowed to join via IGMP or MLD.",
+  "Documentable": "false"
+}

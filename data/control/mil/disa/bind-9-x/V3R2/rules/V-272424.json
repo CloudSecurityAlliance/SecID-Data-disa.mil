@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272424",
+  "rule_id": "SV-272424r1124066_rule",
+  "stig_id": "BIND-9X-001750",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "A BIND 9.x server implementation must manage excess capacity, bandwidth, or other redundancy to limit the effects of information flooding types of denial-of-service (DoS) attacks.",
+  "group_title": "SRG-APP-000247-DNS-000036",
+  "idents": {
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-76474r1124065_chk",
+  "check_content": "If this is a recursive name server, this is not applicable.\n\nExcessive, almost-identical UDP responses can be controlled by configuring a rate-limit clause in an options or view statement. This mechanism keeps authoritative BIND 9 from being used to amplify reflection denial-of-service (DoS) attacks.\n\nInspect the \"named.conf\" file for the following:\n\noptions {\n  ...\n  rate-limit {\n    responses-per-second <integer>;\n    window <integer>; \n  };\n\nIf the rate-limit sub-statements are missing, this is a finding.",
+  "fixtext": "Configure the authoritative name server to prohibit recursion.\n\nEdit the \"named.conf\" file and add the following sub-statements to the options statement:\n\noptions {\n  rate-limit {\n    responses-per-second <integer>;\n    window <integer>;            \n  };\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-76381r1123942_fix",
+  "VulnDiscussion": "A DoS is a condition when a resource is not available for legitimate users. When this occurs, the organization either cannot accomplish its mission or must operate at degraded capacity. \n\nA DoS attack against the DNS infrastructure has the potential to cause a DoS to all network users. As the DNS is a distributed backbone service of the internet, various forms of amplification attacks resulting in DoS, while using the DNS, are still prevalent on the internet today. Some potential DoS flooding attacks against the DNS include malformed packet flood, spoofed source addresses, and distributed DoS. Without the DNS, users and systems would not have the ability to perform simple name to IP resolution. \n\nConfiguring the DNS implementation to defend against cache poisoning, employing increased capacity and bandwidth, building redundancy into the DNS architecture, using DNSSEC, limiting and securing recursive services, DNS black holes, etc., may reduce the susceptibility to some flooding types of DoS attacks.",
+  "Documentable": "false"
+}

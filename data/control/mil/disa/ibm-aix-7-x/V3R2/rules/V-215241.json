@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215241",
+  "rule_id": "SV-215241r958424_rule",
+  "stig_id": "AIX7-00-002008",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must be configured to generate an audit record when 75% of the audit file system is full.",
+  "group_title": "SRG-OS-000046-GPOS-00022",
+  "idents": {
+    "legacy": [
+      "V-91257",
+      "SV-101357"
+    ],
+    "cci": [
+      "CCI-000139"
+    ]
+  },
+  "check_id": "C-16439r294174_chk",
+  "check_content": "Check if \"freespace\" is configured for the audit subsystem:\n\n# grep -E freespace* /etc/security/audit/config \nfreespace = 65536\n\nIf the above command returns empty, or if the value is less than 25% of the filesystem size, this is a finding.",
+  "fixtext": "Ensure the \"/etc/security/audit/config\" file contains the following line:\nfreepsace = <value>\nwhere <value> is greater than 25%* filesystem capacity\n\nReset the audit system with the following command:\n# /usr/sbin/audit shutdown\n\nStart the audit system with the following command:\n# /usr/sbin/audit start",
+  "fix_id": "F-16437r294175_fix",
+  "VulnDiscussion": "It is critical for the appropriate personnel to be aware if a system is at risk of failing to process audit logs as required. Without this notification, the security personnel may be unaware of an impending failure of the audit capability, and system operation may be adversely affected.\n\nAudit processing failures include software/hardware errors, failures in the audit capturing mechanisms, and audit storage capacity being reached or exceeded.\n\nThis requirement applies to each audit data storage repository (i.e., distinct information system component where audit records are stored), the centralized audit storage capacity of organizations (i.e., all audit data storage repositories combined), or both.",
+  "Documentable": "false"
+}

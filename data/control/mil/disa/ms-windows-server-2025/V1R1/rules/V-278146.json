@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278146",
+  "rule_id": "SV-278146r1182098_rule",
+  "stig_id": "WN25-DC-000150",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Windows Server 2025 directory data (outside the root DSE) of a nonpublic directory must be configured to prevent anonymous access.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-82676r1182097_chk",
+  "check_content": "This applies to domain controllers. It is not applicable for other systems.\n\nOpen command prompt (not elevated).\n\nRun \"ldp.exe\".\n\nFrom the \"Connection menu\", select \"Bind\".\n\nClear the User, Password, and Domain fields.\n\nSelect \"Simple bind\" for the Bind type, and then click \"OK\".\n\nConfirmation of anonymous access will be displayed at the end:\n\nres = ldap_simple_bind_s\nAuthenticated as: 'NT AUTHORITY\\ANONYMOUS LOGON'\n\nFrom the \"Browse\" menu, select \"Search\".\n\nIn the Search dialog, enter the DN of the domain naming context (e.g., \"dc=disaost,dc=mil\") in the Base DN field.\n\nClear the Attributes field and select \"Run\".\n\nError messages must display related to Bind and user not authenticated.\n\nIf attribute data is displayed, anonymous access is enabled to the domain naming context and this is a finding.\n\nThe following network controls allow the finding severity to be downgraded to a CAT II since these measures lower the risk associated with anonymous access.\n\nNetwork hardware ports at the site are subject to 802.1x authentication or MAC address restrictions. \n\nPremise firewall or host restrictions prevent access to ports 389, 636, 3268, and 3269 from client hosts not explicitly identified by domain (.mil) or IP address.",
+  "fixtext": "Configure directory data (outside the root DSE) of a nonpublic directory to prevent anonymous access.\n\nFor AD, there are multiple configuration items that could enable anonymous access.\n\nChanging the access permissions on the domain naming context object (from the secure defaults) could enable anonymous access. If the check procedures indicate this is the cause, the process that was used to change the permissions must be reversed. This could have been through the Windows Support Tools ADSI Edit console (adsiedit.msc).\n\nThe dsHeuristics option is used. This is addressed in the check for AD.0230 in the AD Forest STIG.",
+  "fix_id": "F-82581r1181143_fix",
+  "VulnDiscussion": "To the extent that anonymous access to directory data (outside the root DSE) is permitted, read access control of the data is effectively disabled. If other means of controlling access (such as network restrictions) are compromised, there may be nothing else to protect the confidentiality of sensitive directory data.",
+  "Documentable": "false"
+}

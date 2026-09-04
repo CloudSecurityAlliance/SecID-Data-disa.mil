@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261374",
+  "rule_id": "SV-261374r1050789_rule",
+  "stig_id": "SLEM-05-432020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must require reauthentication when using the \"sudo\" command.",
+  "group_title": "SRG-OS-000373-GPOS-00156",
+  "idents": {
+    "cci": [
+      "CCI-002038"
+    ]
+  },
+  "check_id": "C-65103r996559_chk",
+  "check_content": "Verify SLEM 5 requires reauthentication when using the \"sudo\" command to elevate privileges with the following command:\n\n     > sudo grep -ir 'timestamp_timeout' /etc/sudoers /etc/sudoers.d\n     /etc/sudoers:Defaults timestamp_timeout=0\n\nIf \"timestamp_timeout\" is set to a negative number, is commented out, conflicting results are returned, or no results are returned, this is a finding.",
+  "fixtext": "Configure the \"sudo\" command to require reauthentication.\n\nAdd or modify the following line in the \"/etc/sudoers\" file:\n\nDefaults timestamp_timeout=<value>\n\nNote: The \"<value>\" must be a number that is greater than or equal to \"0\".",
+  "fix_id": "F-65011r995988_fix",
+  "VulnDiscussion": "Without reauthentication, users may access resources or perform tasks for which they do not have authorization.\n\nWhen operating systems provide the capability to escalate a functional capability, it is critical the organization requires the user to reauthenticate when using the \"sudo\" command.\n\nIf the value is set to an integer less than 0, the user's time stamp will not expire and the user will not have to reauthenticate for privileged actions until the user's session is terminated.",
+  "Documentable": "false"
+}

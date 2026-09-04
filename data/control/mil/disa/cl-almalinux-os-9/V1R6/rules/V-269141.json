@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269141",
+  "rule_id": "SV-269141r1101851_rule",
+  "stig_id": "ALMA-09-006730",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Ctrl-Alt-Delete key sequence must be disabled on AlmaLinux OS 9.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-73172r1101849_chk",
+  "check_content": "Verify AlmaLinux OS 9 is not configured to reboot the system when Ctrl-Alt-Delete is pressed with the following command:\n\n$ systemctl status ctrl-alt-del.target\n\nctrl-alt-del.target\n     Loaded: masked (Reason: Unit ctrl-alt-del.target is masked.)\n     Active: inactive (dead)\n\nIf the \"ctrl-alt-del.target\" is loaded and not masked, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to disable the ctrl-alt-del.target with the following command:\n\n$ systemctl disable --now ctrl-alt-del.target\n$ systemctl mask --now ctrl-alt-del.target",
+  "fix_id": "F-73073r1101850_fix",
+  "VulnDiscussion": "A locally logged-on user who presses Ctrl-Alt-Delete when at the console can reboot the system.\n\nIf accidentally pressed, as could happen in the case of a mixed OS environment, this can create the risk of short-term loss of availability of systems due to unintentional reboot.\n\nIn a graphical user environment, risk of unintentional reboot from the Ctrl-Alt-Delete sequence is reduced because the user will be prompted before any action is taken.",
+  "Documentable": "false"
+}

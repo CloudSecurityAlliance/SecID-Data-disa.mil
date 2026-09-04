@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242395",
+  "rule_id": "SV-242395r1137639_rule",
+  "stig_id": "CNTR-K8-000420",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Kubernetes dashboard must not be enabled.",
+  "group_title": "SRG-APP-000033-CTR-000095",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-45670r863786_chk",
+  "check_content": "From the Control Plane, run the command:\n\nkubectl get pods --all-namespaces -l k8s-app=kubernetes-dashboard\n\nIf any resources are returned, this is a finding.",
+  "fixtext": "Delete the Kubernetes dashboard deployment with the following command:\n\nkubectl delete deployment kubernetes-dashboard --namespace=kube-system",
+  "fix_id": "F-45628r712540_fix",
+  "VulnDiscussion": "While the Kubernetes dashboard is not inherently insecure on its own, it is often coupled with a misconfiguration of Role-Based Access control (RBAC) permissions that can unintentionally over-grant access. It is not commonly protected with \"NetworkPolicies\", preventing all pods from being able to reach it. In increasingly rare circumstances, the Kubernetes dashboard is exposed publicly to the internet.",
+  "Documentable": "false"
+}

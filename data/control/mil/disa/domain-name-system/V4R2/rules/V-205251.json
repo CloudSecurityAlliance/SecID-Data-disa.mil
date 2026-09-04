@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-205251",
+  "rule_id": "SV-205251r961863_rule",
+  "stig_id": "SRG-APP-000516-DNS-000113",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "A zone file must not include resource records that resolve to a fully qualified domain name residing in another zone.",
+  "group_title": "SRG-APP-000516",
+  "idents": {
+    "legacy": [
+      "SV-69209",
+      "V-54963"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-5518r392666_chk",
+  "check_content": "Review the zone files and confirm with the DNS administrator that the hosts defined in the zone files do not resolve to hosts in another zone with its fully qualified domain name.\n\nThe exceptions are glue records supporting zone delegations, CNAME records supporting a system migration, or CNAME records that point to third party Content Delivery Networks (CDN) or cloud computing platforms. In the case of third-party CDNs or cloud offerings, an approved mission need must be demonstrated.\n\nIf resource records are maintained that resolve to a fully qualified domain name in another zone, and the usage is not for resource records resolving to hosts that are glue records supporting zone delegations, CNAME records supporting a system migration, or CNAME records that point to third-party Content Delivery Networks (CDN) or cloud computing platforms with a documented and approved mission need, this is a finding.",
+  "fixtext": "Remove any resource records in a zone file if the resource record resolves to a fully qualified domain name residing in another zone.",
+  "fix_id": "F-5518r392667_fix",
+  "VulnDiscussion": "If a name server were able to claim authority for a resource record in a domain for which it was not authoritative, this would pose a security risk. In this environment, an adversary could use illicit control of a name server to impact IP address resolution beyond the scope of that name server (i.e., by claiming authority for records outside of that server's zones). Fortunately, all but the oldest versions of BIND and most other DNS implementations do not allow for this behavior. Nevertheless, the best way to eliminate this risk is to eliminate from the zone files any records for hosts in another zone.\n\nThe exceptions are glue records supporting zone delegations, CNAME records supporting a system migration, or CNAME records that point to third-party Content Delivery Networks (CDN) or cloud computing platforms.  In the case of third-party CDNs or cloud offerings, an approved mission need must be demonstrated.",
+  "Documentable": "false"
+}

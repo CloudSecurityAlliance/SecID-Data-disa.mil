@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-277185",
+  "rule_id": "SV-277185r1186397_rule",
+  "stig_id": "APPL-26-999999",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The macOS system must install security-relevant software updates within 30 days unless the time period is directed by an authoritative source (e.g., IAVM, CTOs, DTMs, STIGs).",
+  "group_title": "SRG-OS-000439-GPOS-00195",
+  "idents": {
+    "cci": [
+      "CCI-002605"
+    ]
+  },
+  "check_id": "C-81340r1184564_chk",
+  "check_content": "Verify security-relevant software updates are installed on the operating system within 30 days with the following command:\n\nsoftwareupdate_date_epoch=$(/bin/date -j -f \"%Y-%m-%d\" \"$(/usr/bin/defaults read /Library/Preferences/com.apple.SoftwareUpdate.plist LastFullSuccessfulDate | /usr/bin/awk '{print $1}')\" \"+%s\")\nthirty_days_epoch=$(/bin/date -v -30d \"+%s\")\nif [[ $softwareupdate_date_epoch -lt $thirty_days_epoch ]]; then\n/bin/echo \"0\"\nelse\n/bin/echo \"1\"\nfi\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Install the latest updates within 30 days unless the time period is directed by an authoritative source (e.g., IAVM, CTOs, DTMs, STIGs).\nhttps://support.apple.com/en-us/108382 \n\nIf enrolled in an MDM, consult the MDM's documentation for automated methods.",
+  "fix_id": "F-81245r1186396_fix",
+  "VulnDiscussion": "Security flaws with operating systems are discovered daily. Vendors are constantly updating and patching their products to address newly discovered security vulnerabilities. Organizations (including any contractor to the organization) are required to promptly install security-relevant software updates (e.g., patches, service packs, and hot fixes). Flaws discovered during security assessments, continuous monitoring, incident response activities, or information system error handling must also be addressed expeditiously.",
+  "Documentable": "false"
+}

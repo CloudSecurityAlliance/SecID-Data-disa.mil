@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-277121",
+  "rule_id": "SV-277121r1148815_rule",
+  "stig_id": "APPL-26-002066",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The macOS system must disable unattended or automatic login to the system.",
+  "group_title": "SRG-OS-000104-GPOS-00051",
+  "idents": {
+    "cci": [
+      "CCI-000764",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-81276r1148813_chk",
+  "check_content": "Verify the macOS system is configured to disable unattended or automatic login to the system with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.loginwindow')\\\n.objectForKey('com.apple.login.mcx.DisableAutoLoginClient').js\nEOS\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable unattended or automatic login to the system by installing the \"com.apple.loginwindow\" configuration profile.",
+  "fix_id": "F-81181r1148814_fix",
+  "VulnDiscussion": "Automatic login must be disabled.\n\nWhen automatic logins are enabled, the default user account is automatically logged on at boot time without prompting the user for a password. Even if the screen is later locked, a malicious user would be able to reboot the computer and find it already logged in. Disabling automatic logins mitigates this risk.\n\nSatisfies: SRG-OS-000104-GPOS-00051, SRG-OS-000480-GPOS-00229",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-250343",
+  "rule_id": "SV-250343r961392_rule",
+  "stig_id": "IBMW-LS-000830",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The WebSphere Liberty Server must allocate JVM log record storage capacity in accordance with organization-defined log record storage requirements.",
+  "group_title": "SRG-APP-000357-AS-000038",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-53778r795080_chk",
+  "check_content": "Review the ${server.config.dir}/bootstrap.properties file, verify console logging is not turned off. If the property com.ibm.ws.logging.console.log.level=OFF, this is a finding. \n\nReview the ${server.config.dir}/server.xml file and verify the logging traceSpecification setting is configured according to system capacity requirements. If the logging traceSpecification settings are not configured, this is a finding.\n\nEXAMPLE:\n<logging traceSpecification=\"*=info=enabled:my.package.*=all\" maxFileSize=\"40\" maxFiles=\"20\"/>",
+  "fixtext": "Edit the bootstrap.properties file and configure the  com.ibm.ws.logging.console.log.level=ON. \n\nEdit the ${server.config.dir}/server.xml file. Configure <logging traceSpecification> in accordance with local policy and system storage limits.\n\nEXAMPLE:\n<logging traceSpecification=\"*=info=enabled:my.package.*=all\" maxFileSize=\"40\" maxFiles=\"20\"/>, \n\nwhere maxFileSize is set to the maximum file size defined in local policy and maxFiles is set to the maximum number of historical files defined in local policy and in accordance with system storage limits.",
+  "fix_id": "F-53732r850900_fix",
+  "VulnDiscussion": "JVM logs are logs used to store application and runtime related events, rather than audit related events. They are mainly used to diagnose application or runtime bugs. However, they are useful for providing more context when correlated with audit related events. \n\nBy default, Liberty automatically logs the console.log, messages.log, and trace.log but these default settings must be validated.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221032",
+  "rule_id": "SV-221032r622190_rule",
+  "stig_id": "CISC-RT-000580",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco BGP switch must be configured to use its loopback address as the source address for iBGP peering sessions.",
+  "group_title": "SRG-NET-000512-RTR-000001",
+  "idents": {
+    "legacy": [
+      "SV-110885",
+      "V-101781"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-22747r408890_chk",
+  "check_content": "Step 1: Review the switch configuration to verify that a loopback address has been configured.\n\ninterface Loopback0\n ip address 10.1.1.1 255.255.255.255\n\nStep 2: Verify that the loopback interface is used as the source address for all iBGP sessions.\n\nrouter bgp xx\n no synchronization\n no bgp enforce-first-as\n bgp log-neighbor-changes\n redistribute static\n neighbor 10.1.1.1 remote-as xx\n neighbor 10.1.1.1 password xxxxxxxx\n neighbor 10.1.1.1 update-source Loopback0\n\nIf the switch does not use its loopback address as the source address for all iBGP sessions, this is a finding.",
+  "fixtext": "Configure the switch to use its loopback address as the source address for all iBGP peering.\n\nSW1(config)#router bgp xx\nSW1(config-switch)#neighbor 10.1.1.1 update-source Loopback0",
+  "fix_id": "F-22736r408891_fix",
+  "VulnDiscussion": "Using a loopback address as the source address offers a multitude of uses for security, access, management, and scalability of the BGP switches. It is easier to construct appropriate ingress filters for switch management plane traffic destined to the network management subnet since the source addresses will be from the range used for loopback interfaces instead of a larger range of addresses used for physical interfaces. Log information recorded by authentication and syslog servers will record the switch’s loopback address instead of the numerous physical interface addresses.\n\nWhen the loopback address is used as the source for eBGP peering, the BGP session will be harder to hijack since the source address to be used is not known globally, making it more difficult for a hacker to spoof an eBGP neighbor. By using traceroute, a hacker can easily determine the addresses for an eBGP speaker when the IP address of an external interface is used as the source address. The switches within the iBGP domain should also use loopback addresses as the source address when establishing BGP sessions.",
+  "Documentable": "false"
+}

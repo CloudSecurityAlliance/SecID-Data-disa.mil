@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281270",
+  "rule_id": "SV-281270r1166762_rule",
+  "stig_id": "RHEL-10-700670",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must forward mail from postmaster to the root account using a postfix alias.",
+  "group_title": "SRG-OS-000046-GPOS-00022",
+  "idents": {
+    "cci": [
+      "CCI-000139"
+    ]
+  },
+  "check_id": "C-85831r1166760_chk",
+  "check_content": "Verify RHEL 10 notifies administrators in the event of an audit processing failure.\n\nCheck that the \"/etc/aliases\" file has a defined value for \"root\".\n\n$ sudo grep \"postmaster:\\s*root$\" /etc/aliases\npostmaster:     root\n\nIf the command does not return a line, or the line is commented out, ask the system administrator to indicate how they and the information systems security officer are notified of an audit process failure. \n\nIf there is no evidence of the proper personnel being notified of an audit processing failure, this is a finding.",
+  "fixtext": "Configure RHEL 10 to have a valid email address as an alias for the root account.\n\nAppend the following line to \"/etc/aliases\":\n\npostmaster: root\n\nRun the following command:\n\n$ sudo newaliases",
+  "fix_id": "F-85736r1166761_fix",
+  "VulnDiscussion": "It is critical for the appropriate personnel to be aware if a system is at risk of failing to process audit logs as required. Without this notification, the security personnel may be unaware of an impending failure of the audit capability, and system operation may be adversely affected.\n\nAudit processing failures include software/hardware errors, failures in the audit capturing mechanisms, and audit storage capacity being reached or exceeded.",
+  "Documentable": "false"
+}

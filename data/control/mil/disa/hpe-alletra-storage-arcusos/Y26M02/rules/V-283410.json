@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-283410",
+  "rule_id": "SV-283410r1194924_rule",
+  "stig_id": "ASMP-ND-000840",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HPE Alletra Storage ArcusOS device must authenticate Network Time Protocol (NTP) sources using authentication that is cryptographically based.",
+  "group_title": "SRG-APP-000395-NDM-000347",
+  "idents": {
+    "cci": [
+      "CCI-001967",
+      "CCI-004922",
+      "CCI-004923"
+    ]
+  },
+  "check_id": "C-87975r1194922_chk",
+  "check_content": "Verify the NTP server is configured to utilize a valid key using the following command:\n\ncli% shownet -d \nExample output:\n\nDetailed information about configured NTP servers\n16.110.135.123 : \n10.157.44.5    : key 1\n\nIf \"Detailed information about configured NTP servers\" does not display an NTP server with a key, this is a finding.",
+  "fixtext": "Import the NTP key and add it to the NTP server with the following commands:\n\ncli% setnet ntp -add <server ip address>\n\ncli% importkeys ntp stdin\nPlease paste the keys for ntp. Once finished, please press Enter twice.\n1 SHA256 myfirstsecretkey\ncli%\ncli%  setnet ntp -add -key <ID> <NTP_Server_IP>",
+  "fix_id": "F-87880r1194923_fix",
+  "VulnDiscussion": "If NTP is not authenticated, an attacker can introduce a rogue NTP server. This rogue server can then be used to send incorrect time information to network devices, which will make log timestamps inaccurate and affect scheduled actions. NTP authentication is used to prevent this tampering by authenticating the time source.\n\nSatisfies: SRG-APP-000395-NDM-000347, SRG-APP-000920-NDM-000320, SRG-APP-000925-NDM-000330",
+  "Documentable": "false"
+}

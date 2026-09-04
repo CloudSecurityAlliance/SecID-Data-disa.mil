@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248714",
+  "rule_id": "SV-248714r991589_rule",
+  "stig_id": "OL08-00-020330",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "OL 8 must not allow accounts configured with blank or null passwords.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52148r951575_chk",
+  "check_content": "To verify that null passwords cannot be used, run the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*permitemptypasswords'\n\nPermitEmptyPasswords no\n\nIf \"PermitEmptyPasswords\" is set to \"yes\", this is a finding.\n\nIf conflicting results are returned, this is a finding.",
+  "fixtext": "Edit the following line in \"etc/ssh/sshd_config\" to prevent logons with empty passwords. \n \nPermitEmptyPasswords no \n \nThe SSH daemon must be restarted for the changes to take effect. To restart the SSH daemon, run the following command: \n \n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-52102r779707_fix",
+  "VulnDiscussion": "If an account has an empty password, anyone could log on and run commands with the privileges of that account. Accounts with empty passwords should never be used in operational environments.",
+  "Documentable": "false"
+}

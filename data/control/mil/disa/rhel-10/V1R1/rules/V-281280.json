@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-281280",
+  "rule_id": "SV-281280r1166792_rule",
+  "stig_id": "RHEL-10-700770",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must initiate a session lock for graphical user interfaces when the screensaver is activated.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "cci": [
+      "CCI-000057",
+      "CCI-000060"
+    ]
+  },
+  "check_id": "C-85841r1166790_chk",
+  "check_content": "Note: This requirement assumes the use of the RHEL 10 default graphical user interface, the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is not applicable.\n\nVerify RHEL 10 initiates a session lock for graphical user interfaces when the screensaver is activated with the following command:\n\n$ gsettings get org.gnome.desktop.screensaver lock-delay\nuint32 5\n\nIf the \"uint32\" setting is not set to \"5\" or less, or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 10 to initiate a session lock for graphical user interfaces when a screensaver is activated.\n\nNote: The example below is using the database \"local\" for the system. If the system is using another database in \"/etc/dconf/profile/user\", the file should be created under the appropriate subdirectory.\n\nCreate a database to contain the systemwide screensaver settings (if it does not already exist) with the following command:\n\n$ sudo vi /etc/dconf/db/local.d/00-screensaver\n\n[org/gnome/desktop/screensaver]\nlock-delay=uint32 5\n\nThe \"uint32\" must be included along with the integer key values as shown.\n\nUpdate the system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-85746r1166791_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.\n\nSatisfies: SRG-OS-000029-GPOS-00010, SRG-OS-000031-GPOS-00012",
+  "Documentable": "false"
+}

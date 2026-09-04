@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271717",
+  "rule_id": "SV-271717r1091863_rule",
+  "stig_id": "OL09-00-002355",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 SSH daemon must not allow compression or must only allow compression after successful authentication.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75767r1091861_chk",
+  "check_content": "Verify that OL 9 SSH daemon performs compression after a user successfully authenticates with the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*compression'\nCompression delayed\n\nIf the \"Compression\" keyword is set to \"yes\", is missing, or the returned line is commented out, this is a finding.",
+  "fixtext": "Configure the SSH daemon to not allow compression.\n\nAdd the following line to \"/etc/ssh/sshd_config\" or to a file in \"/etc/ssh/sshd_config.d\" or uncomment the line and set the value to \"delayed\" or \"no\":\n\nCompression no\n\nThe SSH service must be restarted for changes to take effect:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-75674r1091862_fix",
+  "VulnDiscussion": "If compression is allowed in an SSH connection prior to authentication, vulnerabilities in the compression software could result in compromise of the system from an unauthenticated connection, potentially with root privileges.",
+  "Documentable": "false"
+}

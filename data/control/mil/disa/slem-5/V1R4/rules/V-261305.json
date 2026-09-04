@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261305",
+  "rule_id": "SV-261305r1184403_rule",
+  "stig_id": "SLEM-05-232100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All SLEM 5 local interactive user home directories must be group-owned by the home directory owner's primary group.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65034r1184401_chk",
+  "check_content": "Verify the assigned home directory of all SLEM 5 local interactive users is group-owned by that user's primary GID with the following command:\n\nNote: This may miss local interactive users that have been assigned a privileged User Identifier (UID). Evidence of interactive use may be obtained from a number of log files containing system logon information. The returned directory \"/home/dosuser\" is used as an example.\n\n     > awk -F: '($3>=1000)&&($7 !~ /nologin/){print $4, $6}' /etc/passwd)\n     250:/home/dosuser\n\nCheck the user's primary group with the following command:\n\n     > grep users /etc/group\n     users:x:250:dosuser,dosuser,nsauser\n\nIf the user home directory referenced in \"/etc/passwd\" is not group-owned by that user's primary GID, this is a finding.",
+  "fixtext": "Change the group owner of a SLEM 5 local interactive user's home directory to the group found in \"/etc/passwd\". To change the group owner of a local interactive user's home directory, use the following command:\n\nNote: The example will be for the user \"dosuser\", who has a home directory of \"/home/dosuser\", and has a primary group of users.\n\n     > sudo chgrp users /home/dosuser",
+  "fix_id": "F-64942r1184402_fix",
+  "VulnDiscussion": "If the Group Identifier (GID) of a local interactive user's home directory is not the same as the primary GID of the user, this would allow unauthorized access to the user's files, and users that share the same group may not be able to access files that they legitimately should.",
+  "Documentable": "false"
+}

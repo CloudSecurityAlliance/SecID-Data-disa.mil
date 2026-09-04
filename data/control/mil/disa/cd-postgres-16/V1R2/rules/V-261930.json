@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261930",
+  "rule_id": "SV-261930r1018552_rule",
+  "stig_id": "CD16-00-008500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must implement cryptographic mechanisms to prevent unauthorized modification of organization-defined information at rest (to include, at a minimum, PII and classified information) on organization-defined information system components.",
+  "group_title": "SRG-APP-000428-DB-000386",
+  "idents": {
+    "cci": [
+      "CCI-002475"
+    ]
+  },
+  "check_id": "C-65784r1000793_chk",
+  "check_content": "Review the system documentation to determine whether the organization has defined the information at rest that is to be protected from modification, which must include, at a minimum, PII and classified information.\n\nIf no information is identified as requiring such protection, this is not a finding.\n\nReview the configuration of PostgreSQL, operating system/file system, and additional software as relevant.\n\nIf any of the information defined as requiring cryptographic protection from modification is not encrypted in a manner that provides the required level of protection, this is a finding.\n\nOne possible way to encrypt data within PostgreSQL is to use pgcrypto extension.\n\nTo check if pgcrypto is installed on PostgreSQL, as a database administrator (shown here as \"postgres\"), run the following command:\n\n$ sudo su - postgres\n$ psql -c \"SELECT * FROM pg_available_extensions where name='pgcrypto'\"\n\nIf data in the database requires encryption and pgcrypto is not available, this is a finding.\n\nIf disk or filesystem requires encryption, ask the system owner, database administrator (DBA), and system administrator (SA) to demonstrate filesystem or disk level encryption.\n\nIf this is required and is not found, this is a finding.",
+  "fixtext": "Configure PostgreSQL, operating system/file system, and additional software as relevant, to provide the required level of cryptographic protection.\n\nThe pgcrypto module provides cryptographic functions for PostgreSQL. Refer to supplementary content APPENDIX-E for documentation on installing pgcrypto.\n\nWith pgcrypto installed, it is possible to insert encrypted data into the database:\n\nINSERT INTO accounts(username, password) VALUES ('bob', crypt('mypass', gen_salt('bf', 4));",
+  "fix_id": "F-65692r1000794_fix",
+  "VulnDiscussion": "PostgreSQLs handling data requiring \"data at rest\" protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest. These cryptographic mechanisms may be native to PostgreSQL or implemented via additional software or operating system/file system settings, as appropriate to the situation.\n\nSelection of a cryptographic mechanism is based on the need to protect the integrity of organizational information. The strength of the mechanism is commensurate with the security category and/or classification of the information. Organizations have the flexibility to either encrypt all information on storage devices (i.e., full disk encryption) or encrypt specific data structures (e.g., files, records, or fields). \n\nThe decision whether and what to encrypt rests with the data owner and is also influenced by the physical measures taken to secure the equipment and media on which the information resides.",
+  "Documentable": "false"
+}

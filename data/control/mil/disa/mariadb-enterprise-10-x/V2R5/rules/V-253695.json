@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-253695",
+  "rule_id": "SV-253695r1018598_rule",
+  "stig_id": "MADB-10-003700",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "If MariaDB authentication, using passwords, is employed, then MariaDB must enforce the DOD standards for password complexity.",
+  "group_title": "SRG-APP-000164-DB-000401",
+  "idents": {
+    "cci": [
+      "CCI-004066",
+      "CCI-000192"
+    ]
+  },
+  "check_id": "C-57147r998222_chk",
+  "check_content": "Check the simple_password_check plugin variables to ensure they match the password requirements. \n\nMariaDB> SHOW GLOBAL VARIABLES LIKE 'simple_password_check_%';\n\nDetermine whether the following rules are enforced. If they do not meet the following password requirements, this is a finding. \n\na. minimum of 15 characters, including at least one of each of the following character sets:\n- Uppercase\n- Lowercase\n- Numerics\n- Special characters (e.g., ~ ! @ # $ % ^ & * ( ) _ + = - ' [ ] / ? > <)\n\nb. Minimum number of characters changed from previous password: 50 percent of the minimum password length; that is, eight.",
+  "fixtext": "Locate the MariaDB Enterprise Server configuration file (mariadb-enterprise.cnf) which contains the simple_password_check plugin variables within /etc/my.cnf.d/. Edit the variables. \n\nExample: \n\nsimple_password_check_digits = 2\nsimple_password_check_letters_same_case = 2\nsimple_password_check_minimal_length = 15\nsimple_password_check_other_characters = 2",
+  "fix_id": "F-57098r841609_fix",
+  "VulnDiscussion": "OS/enterprise authentication and identification must be used (SRG-APP-000023-DB-000001). Native MariaDB authentication may be used only when circumstances make it unavoidable; and must be documented and Authorizing Official (AO)-approved.\n\nThe DOD standard for authentication is DOD-approved PKI certificates. Authentication based on User ID and Password may be used only when it is not possible to employ a PKI certificate and requires AO approval.\n\nIn such cases, the DOD standards for password complexity and lifetime must be implemented. DBMS products that can inherit the rules for these from the operating system or access control program (e.g., Microsoft Active Directory) must be configured to do so. For MariaDB, the rules must be enforced using available configuration parameters or custom code.\n\nBy default, MariaDB Enterprise Server has the simple_password_check plugin installed and enabled. However, the default password requirements are eight character minimum, one numeric character, and one special character.",
+  "Documentable": "false"
+}

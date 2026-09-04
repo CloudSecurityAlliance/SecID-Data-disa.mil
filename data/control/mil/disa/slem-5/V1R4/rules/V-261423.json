@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261423",
+  "rule_id": "SV-261423r996677_rule",
+  "stig_id": "SLEM-05-653075",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The information system security officer (ISSO) and system administrator (SA), at a minimum, must have mail aliases to be notified of a SLEM 5 audit processing failure.",
+  "group_title": "SRG-OS-000046-GPOS-00022",
+  "idents": {
+    "cci": [
+      "CCI-000139"
+    ]
+  },
+  "check_id": "C-65152r996675_chk",
+  "check_content": "Verify the administrators are notified in the event of a SLEM 5 audit processing failure with the following commands:\n\n     > grep -i \"^postmaster:\" /etc/aliases\n     postmaster: root\n\nIf the above command does not return a value of \"root\", or the output is commented out, this is a finding.\n\nVerify the alias for root forwards to a monitored e-mail account:\n\n     > grep -i \"^root:\" /etc/aliases\n     root: person@server.mil\n\nIf the alias for root does not forward to a monitored e-mail account, or the output is commented out, this is a finding.",
+  "fixtext": "Configure the auditd service to notify the administrators in the event of a SLEM 5 audit processing failure.\n\nConfigure an alias value for the postmaster with the following command:\n\n     > sudo sh -c 'echo \"postmaster: root\" >> /etc/aliases' \n\nConfigure an alias for root that forwards to a monitored email address with the following command:\n\n     > sudo sh -c 'echo \"root: box@server.mil\" >> /etc/aliases'\n\nThe following command must be run to implement changes to the /etc/aliases file:\n\n     > sudo newaliases",
+  "fix_id": "F-65060r996676_fix",
+  "VulnDiscussion": "It is critical for the appropriate personnel to be aware if a system is at risk of failing to process audit logs as required. Without this notification, the security personnel may be unaware of an impending failure of the audit capability, and system operation may be adversely affected.\n\nAudit processing failures include software/hardware errors, failures in the audit capturing mechanisms, and audit storage capacity being reached or exceeded.\n\nThis requirement applies to each audit data storage repository (i.e., distinct information system component where audit records are stored), the centralized audit storage capacity of organizations (i.e., all audit data storage repositories combined), or both.",
+  "Documentable": "false"
+}

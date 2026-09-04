@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281088",
+  "rule_id": "SV-281088r1165619_rule",
+  "stig_id": "RHEL-10-400355",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must prevent device files from being interpreted on file systems that contain user home directories.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-85649r1165617_chk",
+  "check_content": "Verify RHEL 10 is configured so that \"/home\" is mounted with the \"nodev\" option with the following command:\n\nNote: If a separate file system has not been created for the user home directories (user home directories are mounted under \"/\"), this is automatically a finding, as the \"nodev\" option cannot be used on the \"/\" system.\n\n$ mount | grep /home\n/dev/mapper/luks-ca2261ed-7b00-4b7b-84cd-8cd6d8fa4b28 on /home type xfs (rw,nodev,nosuid,noexec,seclabel)\n\nIf the \"/home\" file system is mounted without the \"nodev\" option, this is a finding.",
+  "fixtext": "Configure RHEL 10 to prevent device files from being interpreted on file systems that contain user home directories.\n\nModify \"/etc/fstab\" to use the \"nodev\" option on the \"/home\" directory.",
+  "fix_id": "F-85554r1165618_fix",
+  "VulnDiscussion": "The \"nodev\" mount option causes the system to not interpret character or block special devices. Executing character or block special devices from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.\n\nThe only legitimate location for device files is the \"/dev\" directory located on the root partition, with the exception of chroot jails if implemented.",
+  "Documentable": "false"
+}

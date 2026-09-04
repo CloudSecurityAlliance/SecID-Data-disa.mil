@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-266644",
+  "rule_id": "SV-266644r1040422_rule",
+  "stig_id": "ARBA-NT-000970",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AOS, in conjunction with a remote device, must prevent the device from simultaneously establishing nonremote connections with the system and communicating via some other connection to resources in external networks.",
+  "group_title": "SRG-NET-000369",
+  "idents": {
+    "cci": [
+      "CCI-002397"
+    ]
+  },
+  "check_id": "C-70568r1040420_chk",
+  "check_content": "Verify the AOS configuration with the following commands:\nshow running-configuration | include split-tunnel\nshow running-config | include double-encrypt\n\nIf any instances of forward-mode split-tunnel are found or if double-encrypt is not enabled, this is a finding.",
+  "fixtext": "Configure AOS using the web interface: \n\n1. Navigate to Configuration >> System >> Profiles.\n2. Under \"All Profiles\", expand \"Virtual AP\".\n3. Select each Virtual AP profile. Under \"General\", select tunnel as the Forward mode.\n4. Click Submit >> Pending Changes >> Deploy Changes.\n5. In configuration mode (CLI), for each ap system-profile, run the following commands:\nap system-profile <profile-name>\ndouble-encrypt\nexit\nwrite memory",
+  "fix_id": "F-70471r1040421_fix",
+  "VulnDiscussion": "Split tunneling would in effect allow unauthorized external connections, making the system more vulnerable to attack and to exfiltration of organizational information.\n\nThis requirement applies to virtual private network (VPN) concentrators and clients. It is implemented within remote devices (e.g., notebook computers) through configuration settings to disable split tunneling in those devices and by preventing those configuration settings from being readily configurable by users. This requirement is implemented within the information system by the detection of split tunneling (or configuration settings that allow split tunneling) in the remote device and by prohibiting the connection if the remote device is using split tunneling. \n\nThe use of VPNs for remote connections, when adequately provisioned with appropriate security controls, may provide the organization with sufficient assurance that it can effectively treat such connections as nonremote connections from the confidentiality and integrity perspective. VPNs thus provide a means for allowing nonremote communications paths from remote devices. The use of an adequately provisioned VPN does not eliminate the need for preventing split tunneling.",
+  "Documentable": "false"
+}

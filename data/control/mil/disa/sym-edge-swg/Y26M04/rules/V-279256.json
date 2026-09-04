@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-279256",
+  "rule_id": "SV-279256r1170694_rule",
+  "stig_id": "SYME-ND-000590",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Edge SWG must be configured with only one local account to be used as the account of last resort in the event the authentication server is unavailable.",
+  "group_title": "SRG-APP-000148-NDM-000346",
+  "idents": {
+    "cci": [
+      "CCI-001358",
+      "CCI-002111"
+    ]
+  },
+  "check_id": "C-83806r1170693_chk",
+  "check_content": "1. Log in to the Edge SWG SSH CLI.\n2. Enter \"enable\" and \"configure terminal\".\n3. Issue the command \"show security local-user-list\".\n\nIf any user exists in either the \"local_user_database\" or \"local\" list, this is a finding. \n\nNote: The admin user is not included in either list as it is the emergency account of last resort.",
+  "fixtext": "1. Log in to the Edge SWG SSH CLI.\n2. Enter \"enable\" and \"configure terminal\".\n3. Issue the command \"security local-user-list edit local\".\n4. To delete any local user, type \"user delete <username> force\".\n5. Enter \"view\" to show any other users that may remain.",
+  "fix_id": "F-83711r1170531_fix",
+  "VulnDiscussion": "Authentication for administrative (privileged level) access to the device is required at all times. An account can be created on the device's local database for use when the authentication server is down or connectivity between the device and the authentication server is not operable. This account is referred to as the account of last resort since it is intended to be used as a last resort and when immediate administrative access is absolutely necessary.\n\nThe account of last resort logon credentials must be stored in a sealed envelope and kept in a safe. The safe must be periodically audited to verify the envelope remains sealed. The signature of the auditor and the date of the audit should be added to the envelope as a record. Administrators should secure the credentials and disable the root account (if possible) when not needed for system administration functions.",
+  "Documentable": "false"
+}

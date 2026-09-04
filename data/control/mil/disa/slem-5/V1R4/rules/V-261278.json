@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261278",
+  "rule_id": "SV-261278r1184371_rule",
+  "stig_id": "SLEM-05-231010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "A separate file system must be used for SLEM 5 user home directories (such as /home or an equivalent).",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65007r1184370_chk",
+  "check_content": "Verify that a separate file system/partition has been created for SLEM 5 nonprivileged local interactive users (those with a UID greater than 1000) home directories with the following command:\n\n     > awk -F: '($3>=1000)&&($7 !~ /nologin/){print $1, $3, $6, $7}' /etc/passwd\n     disauser 1002 /home/disauser /bin/bash\n     dosuser 1003 /home/dosuser /bin/bash\n     dosuser 1001 /home/dosuser /bin/bash\n\nThe output of the command will give the directory/partition that contains the home directories for the nonprivileged users on the system (in this example, /home) and user's shell. All accounts with a valid shell (such as /bin/bash) are considered interactive users.\n\nCheck that a file system/partition has been created for the nonprivileged interactive users with the following command:\n\nNote: The partition of /home is used in the example.\n\n     > grep /home /etc/fstab\n     UUID=c4e898dd-6cd9-4091-a733-9435e505957a /home btrfs defaults,subvol=@/home 0 0\n\nIf a separate entry for the file system/partition that contains the nonprivileged interactive users' home directories does not exist, this is a finding.",
+  "fixtext": "Create a separate file system/partition for SLEM 5 nonprivileged local interactive user home directories.\n\nMigrate the nonprivileged local interactive user home directories onto the separate file system/partition.",
+  "fix_id": "F-64915r995700_fix",
+  "VulnDiscussion": "The use of separate file systems for different paths can protect the system from failures resulting from a file system becoming full or failing.",
+  "Documentable": "false"
+}

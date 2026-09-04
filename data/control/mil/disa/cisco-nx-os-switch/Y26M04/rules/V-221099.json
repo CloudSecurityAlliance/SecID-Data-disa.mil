@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221099",
+  "rule_id": "SV-221099r999708_rule",
+  "stig_id": "CISC-RT-000390",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco perimeter switch must be configured to block all outbound management traffic.",
+  "group_title": "SRG-NET-000364-RTR-000113",
+  "idents": {
+    "legacy": [
+      "SV-111017",
+      "V-101913"
+    ],
+    "cci": [
+      "CCI-001097"
+    ]
+  },
+  "check_id": "C-22814r409786_chk",
+  "check_content": "The perimeter switch of the managed network must be configured with an outbound ACL on the egress interface to block all management traffic as shown in the example below:\n\nStep 1: Verify that all external interfaces has been configured with an outbound ACL as shown in the example below:\n\ninterface Ethernet2/2\n description link to DISN\n no switchport\n ip access-group EXTERNAL_ACL_OUTBOUND out\n ip address x.11.1.2 255.255.255.254\n\nStep 2: Verify that the outbound ACL discards management traffic as shown in the example below:\n\nip access-list EXTERNAL_ACL_OUTBOUND\n 10 deny tcp any any eq tacacs log \n 20 deny tcp any any eq 22 log \n 30 deny udp any any eq snmp log \n 40 deny udp any any eq snmptrap log \n 50 deny udp any any eq syslog log \n 60 permit tcp any any eq www log \n 70 deny ip any any log\n\nIf management traffic is not blocked at the perimeter, this is a finding.",
+  "fixtext": "Configure the perimeter switch of the managed network with an outbound ACL on the egress interface to block all management traffic.\n\nStep 1: Configure an ACL to block egress management traffic.\n\nSW1(config)# ip access-list EXTERNAL_ACL_OUTBOUND\nSW1(config-acl)# deny tcp any any eq tacacs log\nSW1(config-acl)# deny tcp any any eq 22 log\nSW1(config-acl)# deny udp any any eq snmp log\nSW1(config-acl)# deny udp any any eq snmptrap log\nSW1(config-acl)# deny udp any any eq syslog log\nSW1(config-acl)# permit tcp any any eq www\nSW1(config-acl)# deny ip any any log\nSW1(config-acl)# exit\n\nNote: Permit commands would be configured to allow applicable outbound traffic. The example above is allowing web traffic.\n\nStep 2: Configure the external interfaces with the outbound ACL.\n\nSW1(config)#int e2/2\nSW1(config-if)# ip access-group EXTERNAL_ACL_OUTBOUND out",
+  "fix_id": "F-22803r409787_fix",
+  "VulnDiscussion": "For in-band management, the management network must have its own subnet in order to enforce control and access boundaries provided by Layer 3 network nodes, such as switches and firewalls. Management traffic between the managed network elements and the management network is routed via the same links and nodes as that used for production or operational traffic. Safeguards must be implemented to ensure that the management traffic does not leak past the perimeter of the managed network.",
+  "Documentable": "false"
+}

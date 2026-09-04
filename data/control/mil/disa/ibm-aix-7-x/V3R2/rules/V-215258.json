@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215258",
+  "rule_id": "SV-215258r987796_rule",
+  "stig_id": "AIX7-00-002059",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AIX telnet daemon must not be running.",
+  "group_title": "SRG-OS-000074-GPOS-00042",
+  "idents": {
+    "legacy": [
+      "SV-101403",
+      "V-91305"
+    ],
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-16456r294225_chk",
+  "check_content": "Determine if the \"telnet\" daemon is running by running the following command:\n# grep -v '^#' /etc/inetd.conf | grep telnet \n\nIf an entry is returned, this is a finding.",
+  "fixtext": "Disable the \"telnet\" entry in \"/etc/inetd.conf\" using command: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'telnet' -p 'tcp6' \n\nReload the inetd process:\n# refresh -s inetd",
+  "fix_id": "F-16454r294226_fix",
+  "VulnDiscussion": "This telnet service is used to service remote user connections. This is historically the most commonly used remote access method for UNIX servers. The username and passwords are passed over the network in clear text and therefore insecurely. Unless required the telnetd daemon will be disabled. This function, if required, should be facilitated through SSH.",
+  "Documentable": "false"
+}

@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-216333",
+  "rule_id": "SV-216333r1016276_rule",
+  "stig_id": "SOL-11.1-040130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Systems must employ cryptographic hashes for passwords using the SHA-2 family of algorithms or FIPS 140-2 approved successors.",
+  "group_title": "SRG-OS-000073",
+  "idents": {
+    "legacy": [
+      "SV-61115",
+      "V-48243"
+    ],
+    "cci": [
+      "CCI-004062",
+      "CCI-000196"
+    ]
+  },
+  "check_id": "C-17569r986404_chk",
+  "check_content": "Determine which cryptographic algorithms are configured.\n\n# grep ^CRYPT /etc/security/policy.conf\n\nIf the command output does not include the lines, this is a finding.\n\nCRYPT_DEFAULT=6\nCRYPT_ALGORITHMS_ALLOW=5,6",
+  "fixtext": "The root role is required.\n\nConfigure the system to disallow the use of UNIX encryption and enable SHA256 as the default encryption hash.\n\n# pfedit /etc/security/policy.conf\n\nCheck that the following lines exist and are not commented out:\nCRYPT_DEFAULT=6\nCRYPT_ALGORITHMS_ALLOW=5,6",
+  "fix_id": "F-17567r986405_fix",
+  "VulnDiscussion": "Cryptographic hashes provide quick password authentication while not actually storing the password.",
+  "Documentable": "false"
+}

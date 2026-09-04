@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-253696",
+  "rule_id": "SV-253696r1018599_rule",
+  "stig_id": "MADB-10-003750",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If MariaDB authentication using passwords is employed, MariaDB must enforce the DOD standards for password lifetime.",
+  "group_title": "SRG-APP-000164-DB-000401",
+  "idents": {
+    "cci": [
+      "CCI-004066",
+      "CCI-000192"
+    ]
+  },
+  "check_id": "C-57148r841611_chk",
+  "check_content": "Check the default password lifetime variable to verify it matches the password requirement. \n\nMariaDB> SHOW GLOBAL VARIABLES LIKE 'default_password_lifetime%';\n\nIf the value returned is not 60 or less, this is a finding.",
+  "fixtext": "Locate the MariaDB Enterprise Server configuration file (mariadb-enterprise.cnf) that contains the password variables within /etc/my.cnf.d/. Edit the variables. \n\nExample: \n\ndefault_password_lifetime = 60",
+  "fix_id": "F-57099r841612_fix",
+  "VulnDiscussion": "OS/enterprise authentication and identification must be used (SRG-APP-000023-DB-000001). Native MariaDB authentication may be used only when circumstances make it unavoidable and must be documented and Authorizing Official (AO)-approved.\n\nThe DOD standard for authentication is DOD-approved PKI certificates. Authentication based on User ID and Password may be used only when it is not possible to employ a PKI certificate and requires AO approval.\n\nIn such cases, the DOD standards for password complexity and lifetime must be implemented. DBMS products that can inherit the rules for these from the operating system or access control program (e.g., Microsoft Active Directory) must be configured to do so. For MariaDB, the rules must be enforced using available configuration parameters or custom code.",
+  "Documentable": "false"
+}

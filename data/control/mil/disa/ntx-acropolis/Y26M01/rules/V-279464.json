@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279464",
+  "rule_id": "SV-279464r1192371_rule",
+  "stig_id": "NXAC-AS-000067",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Nutanix UI must initiate session logging upon startup.",
+  "group_title": "SRG-APP-000092-AS-000053",
+  "idents": {
+    "cci": [
+      "CCI-001464"
+    ]
+  },
+  "check_id": "C-84017r1192369_chk",
+  "check_content": "Verify Prism Element enables logging upon startup of Envoy proxy services by running the following command:\n\n$ ps -ef | grep ikat_proxy.out\nnutanix    68158       1  0 Oct10 ?        00:00:00 /bin/bash -lc  /home/nutanix/bin/service_monitor  --run_as_user=apache /home/nutanix/data/logs/ikat_proxy.FATAL -- /usr/local/nutanix/ikat_proxy/bin/envoy -c /home/nutanix/config/ikat_proxy/envoy.yaml --disable-hot-restart  --concurrency 4 |& /home/nutanix/bin/logpipe -o /home/nutanix/data/logs/ikat_proxy.out\nnutanix    68376   68158  0 Oct10 ?        00:00:01 /home/nutanix/bin/logpipe -o /home/nutanix/data/logs/ikat_proxy.out\n\nIf the output of \"ikat_proxy.out\" does not list the path as \"/home/nutanix/data/logs/ikat_proxy.out\", or if there is no output, this is a finding.",
+  "fixtext": "Prism Element is configured by default for the Envoy proxy services with logging level of \"info\". If this control is a finding, then some corruption has occurred and the VM must be rebuilt.",
+  "fix_id": "F-83922r1192370_fix",
+  "VulnDiscussion": "An attacker can compromise a web server during the startup process. If logging is not initiated until all the web server processes are started, key information may be missing and not available during a forensic investigation. To ensure all loggable events are captured, the web server must begin logging once the first web server process is initiated.",
+  "Documentable": "false"
+}

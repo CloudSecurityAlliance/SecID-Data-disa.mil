@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-283403",
+  "rule_id": "SV-283403r1194903_rule",
+  "stig_id": "ASMP-ND-000770",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HPE Alletra Storage ArcusOS device must be configured to collect and send SNMPv3 notifications.",
+  "group_title": "SRG-APP-000360-NDM-000295",
+  "idents": {
+    "cci": [
+      "CCI-001858"
+    ]
+  },
+  "check_id": "C-87968r1194901_chk",
+  "check_content": "Identify the SNMP trap recipient and report SNMP configuration with the following command:\n\ncli%  showsnmpmgr\nHostIP                                      Port          SNMPVersion   User                            Notify          AlertClear\n<snmp trap recipient IP>  162                                    3    Alletrasnmpuser   standard   standard\n\nIf the SNMP trap recipient IP address is incorrect, this is a finding.\n\nIf the SNMP port is not \"162\", this is a finding.\n\nIf the SNMP version is not \"3\", this is a finding.\n\nIf the SNMP user ID is incorrect, this is a finding.",
+  "fixtext": "Configure SNMPv3 alert notifications using the following sequence of operations:\n\nAdd the IP address of the SNMPv3 trap recipient, where permissions of the account are used.\n\ncli%  addsnmpmgr -version 3 -snmpuser Alletrasnmpuser  <ip address>",
+  "fix_id": "F-87873r1194902_fix",
+  "VulnDiscussion": "It is critical for the appropriate personnel to be aware if a system is at risk of failing to process audit logs as required. Without a real-time alert, security personnel may be unaware of an impending failure of the audit capability and system operation may be adversely affected. \n\nAlerts provide organizations with urgent messages. Real-time alerts provide these messages immediately (i.e., the time from event detection to alert occurs in seconds or less).\n\nWithout authenticating devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity. Bidirectional authentication provides stronger safeguards to validate the identity of other devices for connections that are of greater risk.\n\nA local connection is any connection with a device communicating without using a network. A network connection is any connection with a device that communicates through a network (e.g., local area or wide area network; internet). A remote connection is any connection with a device communicating through an external network (e.g., the internet).\n\nBecause of the challenges of applying this requirement on a large scale, organizations are encouraged to only apply the requirement to those limited number (and type) of devices that truly need to support this capability.",
+  "Documentable": "false"
+}

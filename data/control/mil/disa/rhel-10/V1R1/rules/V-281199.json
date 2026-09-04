@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-281199",
+  "rule_id": "SV-281199r1166549_rule",
+  "stig_id": "RHEL-10-600450",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 10 must not have unauthorized accounts.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-85760r1166547_chk",
+  "check_content": "Verify RHEL 10 has no unauthorized local interactive user accounts with the following command:\n\n$ less /etc/passwd\nroot:x:0:0:root:/root:/bin/bash\n...\nnsauser:x:1000:1000:nsauser:/home/nsauser:/bin/bash\ndoduser:x:1001:1001:doduser:/home/doduser:/bin/bash\n\nInteractive user accounts generally will have a user ID (UID) of 1000 or greater, a home directory in a specific partition, and an interactive shell.\n\nObtain the list of interactive user accounts authorized to be on the system from the system administrator or information system security officer and compare it to the list of local interactive user accounts on the system.\n\nIf there are unauthorized local user accounts on the system, this is a finding.",
+  "fixtext": "Configure RHEL 10 to have no unauthorized local interactive user accounts with the following command, where <unauthorized_user> is the unauthorized account:\n\n$ sudo userdel  <unauthorized_user>",
+  "fix_id": "F-85665r1166548_fix",
+  "VulnDiscussion": "Having lockouts persist across reboots ensures that account is unlocked only by an administrator. If the lockouts did not persist across reboots, an attacker could reboot the system to continue brute force attacks against the accounts on the system.",
+  "Documentable": "false"
+}
