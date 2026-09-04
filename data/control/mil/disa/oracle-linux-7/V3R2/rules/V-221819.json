@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221819",
+  "rule_id": "SV-221819r991579_rule",
+  "stig_id": "OL07-00-030810",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must audit all uses of the pam_timestamp_check command.",
+  "group_title": "SRG-OS-000471-GPOS-00215",
+  "idents": {
+    "legacy": [
+      "V-99377",
+      "SV-108481"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-23534r833092_chk",
+  "check_content": "Verify the operating system generates audit records when successful/unsuccessful attempts to use the \"pam_timestamp_check\" command occur. \n\nCheck the auditing rules in \"/etc/audit/audit.rules\" with the following command:\n\n$ sudo grep -w \"/usr/sbin/pam_timestamp_check\" /etc/audit/audit.rules\n\n-a always,exit -F path=/usr/sbin/pam_timestamp_check -F perm=x -F auid>=1000 -F auid!=unset -k privileged-pam \n\nIf the command does not return any output, this is a finding.",
+  "fixtext": "Configure the operating system to generate audit records when successful/unsuccessful attempts to use the \"pam_timestamp_check\" command occur. \n\nAdd or update the following rule in \"/etc/audit/rules.d/audit.rules\": \n\n-a always,exit -F path=/usr/sbin/pam_timestamp_check -F perm=x -F auid>=1000 -F auid!=unset -k privileged-pam\n\nThe audit daemon must be restarted for the changes to take effect.",
+  "fix_id": "F-23523r833093_fix",
+  "VulnDiscussion": "Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nWhen a user logs on, the auid is set to the uid of the account that is being authenticated. Daemons are not user sessions and have the loginuid set to -1. The auid representation is an unsigned 32-bit integer, which equals 4294967295. The audit system interprets -1, 4294967295, and \"unset\" in the same way.",
+  "Documentable": "false"
+}

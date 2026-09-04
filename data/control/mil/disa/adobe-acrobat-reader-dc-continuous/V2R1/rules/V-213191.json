@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213191",
+  "rule_id": "SV-213191r400378_rule",
+  "stig_id": "ARDC-CN-000335",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Adobe Reader DC must disable periodical uploading of Adobe certificates.",
+  "group_title": "SRG-APP-000427",
+  "idents": {
+    "legacy": [
+      "SV-80165",
+      "V-65675"
+    ],
+    "cci": [
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-14426r276791_chk",
+  "check_content": "Verify the following registry configuration:\n\nNote: The Key Names \"cDigSig\" and \"cAdobeDownload\" are not created by default in the Adobe Reader DC install and must be created.\n\nUtilizing the Registry Editor, navigate to the following: HKEY_CURRENT_USER\\Software\\Adobe\\Acrobat Reader\\DC\\Security\\cDigSig\\cAdobeDownload\n\nValue Name: bLoadSettingsFromURL \nType: REG_DWORD\nValue: 0\n\nIf the value for bLoadSettingsFromURL is not set to “0” and Type configured to REG_DWORD or does not exist, then this is a finding.",
+  "fixtext": "Configure the following registry value:\n\nNote: The Key Names \"cDigSig\" and \"cAdobeDownload\" are not created by default in the Adobe Reader DC install and must be created.\n\nRegistry Hive: HKEY_CURRENT_USER\nRegistry Path: \\Software\\Adobe\\Acrobat Reader\\DC\\Security\\cDigSig\\cAdobeDownload\n\nValue Name: bLoadSettingsFromURL \nType: REG_DWORD\nValue: 0",
+  "fix_id": "F-14424r276792_fix",
+  "VulnDiscussion": "By default, the user can update Adobe certificates from an Adobe server through the GUI.\n\nWhen uploading Adobe certificates is disabled, it prevents the automatic download and installation of certificates and disables and locks the end user's ability to upload those certificates.",
+  "Documentable": "false"
+}

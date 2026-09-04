@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-228872",
+  "rule_id": "SV-228872r1056123_rule",
+  "stig_id": "PANW-AG-000120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Palo Alto Networks security platform must generate an alert to, at a minimum, the ISSO and ISSM when rootkits or other malicious software that allows unauthorized nonprivileged access is detected.",
+  "group_title": "SRG-NET-000392-ALG-000147",
+  "idents": {
+    "legacy": [
+      "V-62625",
+      "SV-77115"
+    ],
+    "cci": [
+      "CCI-002664"
+    ]
+  },
+  "check_id": "C-31107r1056121_chk",
+  "check_content": "Ask the Administrator how the ISSO and ISSM are receiving alerts (email, SNMP Trap, or Syslog).\n\nView the configured Server Profile. If there is no Server Profile for the method explained, this is a finding.\n\nView the Log Forwarding Profiles:\n1. Go to Objects >> Log Forwarding.\n2. Determine which Server Profile is associated with each Log Forwarding Profile.\n3. View the Security Policies that are used to filter traffic into the Internal or DMZ zones.\n4. Verify the \"Profile\" column displays the \"Antivirus Profile\" symbol, the \"Vulnerability Protection Profile\" symbol, and the \"Anti-spyware\" symbol (which looks like a magnifying glass on a shield).\n\nIf the \"Profile\" column does not display the symbols noted above, this is a finding.\n\nAlternatively, verify an Antivirus, an Anti-spyware, and a Vulnerability Protection Profile are included in the actively used profile group that is referenced by the Security policy rule. \n\nIf the required profiles are not configured, this is a finding.",
+  "fixtext": "This requires the use of an Antivirus Profile, an Anti-spyware Profile, and a Vulnerability Protection Profile.\n1. Configure a Server Profile for use with Log Forwarding Profile(s); if email is used, the ISSO and ISSM must be recipients.\n2. Configure a Log Forwarding Profile:\nGo to Objects >> Log Forwarding.\n3. Configure an Antivirus Profile, an Anti-spyware Profile, and a Vulnerability Protection Profile in turn.\n\nNote: A custom Anti-spyware Profile or the Strict Anti-spyware Profile must be used instead of the Default Anti-spyware Profile. The selected Anti-spyware Profile must use the block action at the critical, high, and medium severity threat levels.\n\nUse the Antivirus Profile, Anti-spyware Profile, and Vulnerability Protection Profile in a Security Policy that filters traffic to Internal and DMZ zones:\n1. Go to Policies >> Security.\n2. Select an existing policy rule or select \"Add\" to create a new one.\n3. In the \"Actions\" tab in the \"Profile Setting\" section, in the \"Profile Type\" field, select \"Profiles\". The window will change to display the different categories of Profiles.\n4. In the \"Actions\" tab in the \"Profile Setting\" section, in the \"Antivirus\" field, select the configured Antivirus Profile.\n5. In the \"Actions\" tab in the \"Profile Setting\" section, in the \"Anti-spyware\" field, select the configured or Strict Anti-spyware Profile.\n6. In the \"Actions\" tab in the \"Profile Setting\" section, in the \"Vulnerability Protection\" field, select the configured Vulnerability Protection Profile.\n7. In the \"Actions\" tab in the \"Log Setting\" section, select \"Log At Session End\". This generates a traffic log entry for the end of a session and logs drop and deny entries.\n8. In the \"Actions\" tab in the \"Log Setting\" section, in the \"Log Forwarding\" field, select the log forwarding profile from the drop-down list.\n9. Select \"OK\".\n10. Commit changes by selecting \"Commit\" in the upper-right corner of the screen.\n11. Select \"OK\" when the confirmation dialog appears.",
+  "fix_id": "F-31084r1056122_fix",
+  "VulnDiscussion": "Without an alert, security personnel may be unaware of major detection incidents that require immediate action, and this delay may result in the loss or compromise of information.\n\nThe device generates an alert that notifies designated personnel of the Indicators of Compromise (IOCs) that require real-time alerts. These messages should include a severity level indicator or code as an indicator of the criticality of the incident. These indicators reflect the occurrence of a compromise or a potential compromise.\n\nSince these incidents require immediate action, these messages are assigned a critical or level 1 priority/severity, depending on the system's priority schema.\n\nCJCSM 6510.01B, \"Cyber Incident Handling Program\", lists nine Cyber Incident and Reportable Event Categories. DOD has determined that categories identified by CJCSM 6510.01B Major Indicators (category 1, 2, 4, or 7 detection events) will require an alert when an event is detected.\n\nAlerts may be transmitted, for example, telephonically, by electronic mail messages, or by text messaging. The Palo Alto Networks security platform must either send the alert to a management console that is actively monitored by authorized personnel or use a messaging capability to send the alert directly to designated personnel.",
+  "Documentable": "false"
+}

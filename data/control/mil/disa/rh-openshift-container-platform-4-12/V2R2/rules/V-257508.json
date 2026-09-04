@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257508",
+  "rule_id": "SV-257508r1043176_rule",
+  "stig_id": "CNTR-OS-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The kubeadmin account must be disabled.",
+  "group_title": "SRG-APP-000023-CTR-000055",
+  "idents": {
+    "cci": [
+      "CCI-000015"
+    ]
+  },
+  "check_id": "C-61243r921465_chk",
+  "check_content": "Verify the kubeadmin account is disabled by executing the following:\n\noc get secrets kubeadmin -n kube-system\n\nIf the command returns an error, the secret was not found, and this is not a finding.\n\n(Example output:\nError from server (NotFound): secrets \"kubeadmin\" not found)\n\nIf the command returns a listing that includes the kubeadmin secret, its type, the data count, and age, this is a finding.\n\n(Example Output for not a finding: \nNAME        TYPE     DATA   AGE\nkubeadmin   Opaque   1      6h3m)",
+  "fixtext": "If an alternative IDP is already configured and an administrative user exists with the role of cluster-admin, disable the kubeadmin account by running the following command as a cluster administrator:\n\noc delete secrets kubeadmin -n kube-system",
+  "fix_id": "F-61167r921466_fix",
+  "VulnDiscussion": "Using a centralized user management solution for account management functions enhances security, simplifies administration, improves user experience, facilitates compliance, and provides scalability and integration capabilities. It is a foundational element of effective identity and access management practices.\n\nOpenShift supports several different types of identity providers. To add users and grant access to OpenShift, an identity provider needs to be configured. Some of the identity provider types, such as HTPassword, only provide simple user management and are not intended for production. Other types are public services, like GitHub. These provider types may not be appropriate as they are managed by public service providers and therefore are unable to enforce the organizations account management requirements.\n\nAfter a new install, the default authentication uses kubeadmin as the default cluster-admin account. This default account must be disabled and another user account must be given cluster-admin rights.",
+  "Documentable": "false"
+}

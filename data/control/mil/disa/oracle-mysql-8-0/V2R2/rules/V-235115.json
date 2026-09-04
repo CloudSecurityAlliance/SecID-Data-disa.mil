@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235115",
+  "rule_id": "SV-235115r961803_rule",
+  "stig_id": "MYS8-00-002800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must generate audit records when security objects are modified.",
+  "group_title": "SRG-APP-000496-DB-000334",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-38334r623465_chk",
+  "check_content": "Review the system documentation to determine if MySQL Server is required to audit when security objects are modified.\n\nCheck if MySQL audit is configured and enabled. The my.cnf file will set the variable audit_file.\n\nTo further check, execute the following query: \nSELECT PLUGIN_NAME, PLUGIN_STATUS\n      FROM INFORMATION_SCHEMA.PLUGINS\n      WHERE PLUGIN_NAME LIKE 'audit%';\n\nThe status of the audit_log plugin must be \"active\". If it is not \"active\", this is a finding.\n\nReview audit filters and associated users by running the following queries:\nSELECT `audit_log_filter`.`NAME`,\n   `audit_log_filter`.`FILTER`\nFROM `mysql`.`audit_log_filter`;\n\nSELECT `audit_log_user`.`USER`,\n   `audit_log_user`.`HOST`,\n   `audit_log_user`.`FILTERNAME`\nFROM `mysql`.`audit_log_user`;\n\nAll currently defined audits for the MySQL server instance will be listed. If no audits are returned, this is a finding.\n\nTo check if the audit filters that are in place are generating records when security objects are modified, run the following, which will test auditing without destroying data:\nupdate mysql.global_grants set host='%' where PRIV='XXXX’;\n\nReview the audit log by running the Linux command:\nsudo cat  <directory where audit log files are located>/audit.log|egrep global_grants\nFor example if the values returned by \"select @@datadir, @@audit_log_file; \" are  /usr/local/mysql/data/,  audit.log\nsudo cat  /usr/local/mysql/data/audit.log |egrep global_grants\nFor example if the values returned by \"select @@datadir, @@audit_log_file; \" are  /usr/local/mysql/data/,  audit.log\nsudo cat  /usr/local/mysql/data/audit.log |egrep global_grants\n\nThe audit data will look similar to the example below:\n{ \"timestamp\": \"2020-08-19 21:32:27\", \"id\": 2, \"class\": \"general\", \"event\": \"status\", \"connection_id\": 9, \"account\": { \"user\": \"root\", \"host\": \"localhost\" }, \"login\": { \"user\": \"root\", \"os\": \"\", \"ip\": \"::1\", \"proxy\": \"\" }, \"general_data\": { \"command\": \"Query\", \"sql_command\": \"update\", \"query\": \"update mysql.global_grants set host='%' where PRIV='XXXX'\", \"status\": 0 } }\n\nIf the audit event is not present, this is a finding.",
+  "fixtext": "If currently required, configure the MySQL Database Server to produce audit records when security objects are modified.\n\nSee the supplemental file \"MySQL80Audit.sql\".",
+  "fix_id": "F-38297r623466_fix",
+  "VulnDiscussion": "Changes in the database objects (tables, views, procedures, functions) that record and control permissions, privileges, and roles granted to users and roles must be tracked. Without an audit trail, unauthorized changes to the security subsystem could go undetected. The database could be severely compromised or rendered inoperative.",
+  "Documentable": "false"
+}

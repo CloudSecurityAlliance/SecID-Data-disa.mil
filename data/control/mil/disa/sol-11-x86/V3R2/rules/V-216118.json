@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216118",
+  "rule_id": "SV-216118r959010_rule",
+  "stig_id": "SOL-11.1-040370",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Login must not be permitted with empty/null passwords for SSH.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48107",
+      "SV-60979"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17356r372736_chk",
+  "check_content": "Determine if empty/null passwords are allowed for the SSH service.\n\n# grep \"^PermitEmptyPasswords\" /etc/ssh/sshd_config\n\nIf the output of this command is not:\n\nPermitEmptyPasswords no\n\nthis is a finding.",
+  "fixtext": "The root role is required.\n\nModify the sshd_config file\n\n# pfedit /etc/ssh/sshd_config\n\nLocate the line containing:\n\nPermitEmptyPasswords\n\nChange it to:\n\nPermitEmptyPasswords no\n\nRestart the SSH service.\n\n# svcadm restart svc:/network/ssh",
+  "fix_id": "F-17354r372737_fix",
+  "VulnDiscussion": "Permitting login without a password is inherently risky.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222486",
+  "rule_id": "SV-222486r1043188_rule",
+  "stig_id": "APSC-DV-001120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The application must shut down by default upon audit failure (unless availability is an overriding concern).",
+  "group_title": "SRG-APP-000109",
+  "idents": {
+    "legacy": [
+      "SV-84077",
+      "V-69455"
+    ],
+    "cci": [
+      "CCI-000140"
+    ]
+  },
+  "check_id": "C-24156r493366_chk",
+  "check_content": "Review system documentation and interview application administrator for details regarding logging configuration.\n\nIdentify application shut down capability regarding audit processing failure events.  Locate and verify application logging settings that specify the application will halt processing on detected audit failure.\n\nIf ISSO approval to continue operating and not shut down the application upon an audit failure exists and is documented, validate the application is configured as follows:\n\nIf logging locally and the failure is attributed to a lack of disk space:\n\nEnsure the application is configured to overwrite the oldest logs first so as to maintain the most up to date audit events in the event of an audit failure.\n\nWhen logging centrally:\n\nEnsure the application is configured to locally spool/queue audit events in the event an audit failure is detected with the centralized system.\n\nIf the application does not shut down processing when an audit failure is detected, or if the application does not take steps needed to ensure audit events are not lost due to audit failure, this is a finding.",
+  "fixtext": "Configure the application to cease processing if the audit system fails or configure the application to continue logging in a manner that compensates for the audit failure.",
+  "fix_id": "F-24145r493367_fix",
+  "VulnDiscussion": "It is critical that when the application is at risk of failing to process audit logs as required, it take action to mitigate the failure. Audit processing failures include: software/hardware errors; failures in the audit capturing mechanisms; and audit storage capacity being reached or exceeded. Responses to audit failure depend upon the nature of the failure mode.\n\nWhen availability is an overriding concern, other approved actions in response to an audit failure are as follows: \n\n(i) If the failure was caused by the lack of audit record storage capacity, the application must continue generating audit records if possible (automatically restarting the audit service if necessary), overwriting the oldest audit records in a first-in-first-out manner.\n\n(ii) If audit records are sent to a centralized collection server and communication with this server is lost or the server fails, the application must queue audit records locally until communication is restored or until the audit records are retrieved manually. Upon restoration of the connection to the centralized collection server, action should be taken to synchronize the local audit data with the collection server.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221862",
+  "rule_id": "SV-221862r991589_rule",
+  "stig_id": "OL07-00-040450",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that the SSH daemon performs strict mode checking of home directory configuration files.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-99463",
+      "SV-108567"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23577r419658_chk",
+  "check_content": "Verify the SSH daemon performs strict mode checking of home directory configuration files.\n\nThe location of the \"sshd_config\" file may vary if a different daemon is in use.\n\nInspect the \"sshd_config\" file with the following command:\n\n# grep -i strictmodes /etc/ssh/sshd_config\n\nStrictModes yes\n\nIf \"StrictModes\" is set to \"no\", is missing, or the returned line is commented out, this is a finding.",
+  "fixtext": "Uncomment the \"StrictModes\" keyword in \"/etc/ssh/sshd_config\" (this file may be named differently or be in a different location if using a version of SSH that is provided by a third-party vendor) and set the value to \"yes\":\n\nStrictModes yes\n\nThe SSH service must be restarted for changes to take effect.",
+  "fix_id": "F-23566r419659_fix",
+  "VulnDiscussion": "If other users have access to modify user-specific SSH configuration files, they may be able to log on to the system as another user.",
+  "Documentable": "false"
+}

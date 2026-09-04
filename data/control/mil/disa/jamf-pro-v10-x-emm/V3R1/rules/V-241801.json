@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-241801",
+  "rule_id": "SV-241801r971326_rule",
+  "stig_id": "JAMF-10-100100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Separate MySQL user accounts with limited privileges must be created within Jamf Pro EMM.",
+  "group_title": "PP-MDM-991000",
+  "idents": {
+    "legacy": [
+      "SV-108707",
+      "V-99603"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-45077r685155_chk",
+  "check_content": "Verify separate MySQL user accounts with limited privileges have been created within Jamf Pro EMM.\n\nIn MySQL, execute the following command: \nshow grants for username@localhost;\n\nVerify the privileges match what is in the Jamf Knowledge Base article.\n\nIf separate MySQL user accounts with limited privileges have not been created within Jamf Pro EMM, this is a finding.",
+  "fixtext": "Create separate MySQL user accounts with limited privileges within Jamf Pro EMM.\n\nThe procedures for creating user accounts and assigning account privileges are found in the following Jamf Knowledge Base articles:\n\nMySQL 8.0: https://dev.mysql.com/doc/refman/8.0/en/creating-accounts.html\nMySQL 5.7: https://dev.mysql.com/doc/refman/5.7/en/creating-accounts.html\n\nFollowing is a list MySQL privileges that are required for different types of environments:\n- For a standalone web application or the master node in clustered environments:\nINSERT, SELECT, UPDATE, DELETE, CREATE, DROP, ALTER, INDEX, LOCK TABLES\n\n- For a child node in clustered environments: \nINSERT, SELECT, UPDATE, DELETE, DROP, LOCK TABLES\n\n- To view connections from cluster nodes with different MySQL users:\nPROCESS\n\nNote: The \"PROCESS\" privilege requires the use of \"*.*\".",
+  "fix_id": "F-45036r685156_fix",
+  "VulnDiscussion": "If separate MySQL accounts with limited privileges are not created an adversary could gain unauthorized access to the application or gain access unauthorized features which could lead to the compromise of sensitive DoD data.\n\nSFR ID: FMT_SMF.1(2)b. / CM-6 b\n\nSatisfies: SRG-APP-000516",
+  "Documentable": "false"
+}

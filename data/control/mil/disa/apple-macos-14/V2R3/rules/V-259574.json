@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259574",
+  "rule_id": "SV-259574r991589_rule",
+  "stig_id": "APPL-14-005110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must enforce enrollment in mobile device management.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-63313r941342_chk",
+  "check_content": "Verify the macOS system is configured to enforce enrollment in mobile device management with the following command:\n\n/usr/bin/profiles status -type enrollment | /usr/bin/awk -F: '/MDM enrollment/ {print $2}' | /usr/bin/grep -c \"Yes (User Approved)\"\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Configure the macOS system by ensuring that system is enrolled via UAMDM.",
+  "fix_id": "F-63221r941343_fix",
+  "VulnDiscussion": "Users must enroll their Mac in a Mobile Device Management (MDM) software.\n\nUser Approved MDM (UAMDM) enrollment or enrollment via Apple Business Manager (ABM)/Apple School Manager (ASM) is required to manage certain security settings. Currently these include:\n\n* Allowed Kernel Extensions\n* Allowed Approved System Extensions\n* Privacy Preferences Policy Control Payload\n* ExtensibleSingleSignOn\n* FDEFileVault\n\nIn macOS 11, UAMDM grants Supervised status on a Mac, unlocking the following MDM features, which were previously locked behind ABM:\n\n* Activation Lock Bypass\n* Access to Bootstrap Tokens\n* Scheduling Software Updates\n* Query list and delete local users",
+  "Documentable": "false"
+}

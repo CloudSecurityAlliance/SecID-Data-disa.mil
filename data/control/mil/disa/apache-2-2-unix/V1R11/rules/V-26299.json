@@ -1,0 +1,18 @@
+{
+  "vuln_id": "V-26299",
+  "rule_id": "SV-33220r3_rule",
+  "stig_id": "WA00520 A22",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The web server must not be configured as a proxy server.",
+  "group_title": "WA00520",
+  "idents": {},
+  "check_id": "C-33762r3_chk",
+  "check_content": "Note: If the Apache web server is only performing in a proxy server role and does not host any websites nor support any applications, this check is Not Applicable.\n\nEnter the following command:\n/usr/local/Apache2.2/bin/httpd –M.\nThis will provide a list of all loaded modules. If any of the following modules are found, this is a finding:\nproxy_module\nproxy_ajp_module\nproxy_balancer_module\nproxy_ftp_module\nproxy_http_module\nproxy_connect_module",
+  "fixtext": "Edit the httpd.conf file and remove the following modules:\n\nproxy_module\nproxy_ajp_module\nproxy_balancer_module\nproxy_ftp_module\nproxy_http_module\nproxy_connect_module",
+  "fix_id": "F-29398r1_fix",
+  "VulnDiscussion": "The Apache proxy modules allow the server to act as a proxy (either forward or reverse proxy) of http and other protocols with additional proxy modules loaded. If the Apache installation is not intended to proxy requests to or from another network then the proxy module should not be loaded. Proxy servers can act as an important security control when properly configured, however a secure proxy server is not within the scope of this STIG. A web server should be primarily a web server or a proxy server but not both, for the same reasons that other multi-use servers are not recommended. Scanning for web servers that will also proxy requests is a very common attack, as proxy servers are useful for anonymizing attacks on other servers, or possibly proxying requests into an otherwise protected network.",
+  "Documentable": "false",
+  "Responsibility": "Web Administrator"
+}

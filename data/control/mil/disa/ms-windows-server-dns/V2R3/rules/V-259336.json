@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-259336",
+  "rule_id": "SV-259336r987679_rule",
+  "stig_id": "WDNS-22-000003",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Windows DNS Server must notify the DNS administrator in the event of an error validating another DNS server's identity.",
+  "group_title": "SRG-APP-000350-DNS-000044",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-001906"
+    ]
+  },
+  "check_id": "C-63075r945233_chk",
+  "check_content": "Windows DNS Servers hosting Active Directory (AD)-integrated zones transfer zone information via AD replication. Windows DNS Servers hosting non-AD-integrated zones as a secondary name server and/or not hosting AD-integrated zones use zone transfer to sync zone data.\n\nIf the Windows DNS Server hosts only AD-integrated zones and all other name servers for the zones hosted are Active Directory Domain Controllers, this requirement is not applicable.\n\nIf the Windows DNS Server is not an Active Directory Domain Controller or is a secondary name server for a zone with a non-AD-integrated name server as the master, this requirement is applicable.\n\nAdministrator notification is only possible if a third-party event monitoring system is configured or, at a minimum, there are documented procedures requiring the administrator to review the DNS logs on a routine, daily basis.\n\nIf a third-party event monitoring system is not configured or a document procedure is not in place requiring the administrator to review the DNS logs on a routine, daily basis, this is a finding.",
+  "fixtext": "To detect and notify the administrator, configure a third-party event monitoring system or, at a minimum, document and implement a procedure to require the administrator to check the DNS logs on a routine, daily basis.",
+  "fix_id": "F-62983r939712_fix",
+  "VulnDiscussion": "Failing to act on validation errors may result in the use of invalid, corrupted, or compromised information. The validation of bindings can be achieved, for example, using cryptographic checksums. Validations must be performed automatically.\n\nAt a minimum, the application must log the validation error. However, more stringent actions can be taken based on the security posture and value of the information. The organization should consider the system's environment and impact of the errors when defining the actions. Additional examples of actions include automated notification to administrators, halting system process, or halting the specific operation.\n\nThe DNS server should audit all failed attempts at server authentication through DNSSEC and TSIG/SIG(0). The actual auditing is performed by the operating system/network device manager, but the configuration to trigger the auditing is controlled by the DNS server.",
+  "Documentable": "false"
+}

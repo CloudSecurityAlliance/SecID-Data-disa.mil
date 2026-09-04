@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219847",
+  "rule_id": "SV-219847r1067809_rule",
+  "stig_id": "O121-BP-023600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Only authorized system accounts must have the SYSTEM tablespace specified as the default tablespace.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "legacy": [
+      "SV-75949",
+      "V-61459"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-21558r1067808_chk",
+  "check_content": "Run the query: \n\nselect property_name, property_value\nfrom database_properties\nwhere property_name in \n('DEFAULT_PERMANENT_TABLESPACE','DEFAULT_TEMP_TABLESPACE');\n\nIf either value is set to SYSTEM, this is a finding.\n\nRun the query:\n\nselect username from dba_users \nwhere (default_tablespace = 'SYSTEM' or temporary_tablespace = 'SYSTEM')\nand username not in\n('LBACSYS','OUTLN','SYS','SYSTEM', 'SYSKM', 'SYSDG', 'SYSBACKUP', 'SYSRAC');\n\nIf any nondefault account records are returned, this is a finding.",
+  "fixtext": "Create and dedicate tablespaces to support only one application.\n\nDo not share tablespaces between applications.\n\nDo not grant quotas to application object owners on tablespaces not dedicated to their associated application.\n\nRun the queries:\n\nalter database default tablespace <tablespace_name>;\nalter database default temporary tablespace <temporary_tablespace_name>;\n\nalter user <username> default tablespace <tablespace_name> temporary tablespace <temporary_tablespace_name>;\n\nReplace <username> with the named user account.\nReplace <tablespace_name> with the new default tablespace name.\nReplace <temporary_tablespace_name> with the new default temporary tablespace name (typically TEMP).\nRepeat the \"alter user\" for each affected user account.",
+  "fix_id": "F-21557r533079_fix",
+  "VulnDiscussion": "The Oracle SYSTEM tablespace is used by the database to store all DBMS system objects. Other use of the system tablespace may compromise system availability and the effectiveness of host system access controls to the tablespace files.",
+  "Documentable": "false"
+}

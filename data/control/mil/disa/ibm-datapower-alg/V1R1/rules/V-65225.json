@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-65225",
+  "rule_id": "SV-79715r1_rule",
+  "stig_id": "WSDP-AG-000042",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DataPower Gateway that provides intermediary services for TLS must validate certificates used for TLS functions by performing RFC 5280-compliant certification path validation.",
+  "group_title": "SRG-NET-000164-ALG-000100",
+  "idents": {
+    "cci": [
+      "CCI-000185"
+    ]
+  },
+  "check_id": "C-65853r1_chk",
+  "check_content": "Using the WebGUI, go to Objects >> Crypto Configuration >> SSL Client Profile and SSL Server Profile. \n\nConfirm that each Profile's parameters are set correctly (as defined in the Fix column) and that each profile is using a correctly defined Crypto Validation Credentials (as defined in the Fix column). \n\nIf they are not correctly defined, this is a finding.",
+  "fixtext": "Objects >> Crypto Configuration >> Crypto Validation Credentials >> Press add to create a credential. Supply the following parameters:\n\nName: Assign a name to these Crypto Validation Credentials\n\nCertificates: Define the certificate aliases for the Crypto Validation Credentials object. Each certificate in the Validation Credentials object is the certificate that a TLS peer might send or is the certificate of the Certification Authority (CA) that signed the certificate sent by a peer or is the root certificate.\n\nCertificate Validation Mode: Select \"Full certificate chain checking (PKIX)\".\n\nUse CRL: On\n\nRequire CRL: On\n\nCRL Distribution Points Handling: Require. \nSpecifying this option will result in checks against, but does not fetch, the CRLs in the X.509 CRL Distribution Point extensions. If any CRL in a CRL Distribution Point extension no longer exists in the CRL cache, the certificate validation fails.\n\nUSE THE ABOVE-DEFINED CRYPTO-VALIDATION CREDENTIALS FOR TLS PATH VALIDATION.\n\nSSL CLIENT PROFILE\nUsing the WebGUI, go to Objects >> Crypto Configuration >> SSL Client Profile. Supply the following parameters:\n\nProtocols: Check only TLS versions 1.1 and 1.2\n\nValidate server certificate: On\n\nValidation credentials: Select from the dropdown the above-defined Crypto Validation Credentials\n\nSSL SERVER PROFILE\nUsing the WebGUI, go to Objects >> Crypto Configuration >> SSL Server Profile. Supply the following parameters:\n\nProtocols: Check only TLS versions 1.1 and 1.2\n\nRequest client authentication: On\n\nRequire client authentication: On\n\nValidate client certificate: On\n\nSend client authentication CA list: On\n\nValidation credentials: Select from the dropdown the above-defined Crypto Validation Credentials.",
+  "fix_id": "F-71165r1_fix",
+  "VulnDiscussion": "A certificate's certification path is the path from the end entity certificate to a trusted root certification authority (CA). Certification path validation is necessary for a relying party to make an informed decision regarding acceptance of an end entity certificate. \n\nCertification path validation includes checks such as certificate issuer trust, time validity and revocation status for each certificate in the certification path. Revocation status information for CA and subject certificates in a certification path is commonly provided via certificate revocation lists (CRLs) or online certificate status protocol (OCSP) responses.",
+  "Documentable": "false"
+}

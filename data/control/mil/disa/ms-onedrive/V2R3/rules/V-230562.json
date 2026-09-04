@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-230562",
+  "rule_id": "SV-230562r879887_rule",
+  "stig_id": "DTOO605",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OneDrive must only allow synchronizing of accounts for DoD organization instances.",
+  "group_title": "SRG-APP-000516",
+  "idents": {
+    "legacy": [
+      "SV-98853",
+      "V-88203"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-33231r603236_chk",
+  "check_content": "If the organization is using a DoD instance of OneDrive, verify synchronizing is only allowed to the organization's DoD instance.\n\nIf the organization does not have an instance of OneDrive, verify this is configured with the noted dummy entry to prevent synchronizing with other instances.\n\nIf the following registry value does not exist or is not configured as specified, this is a finding.\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\OneDrive\\AllowTenantList\\\n\nValue Name: Organization's Tenant GUID\n\nValue Type: REG_SZ\nValue: Organization's Tenant GUID\n\nIf the organization does not have an instance of OneDrive, the Value Name and Value must be 1111-2222-3333-4444.\n\nIf it is not, this is a finding.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Administrative Templates >> OneDrive >> \"Allow syncing OneDrive accounts for only specific organizations\", with the Tenant GUID of the organization's DoD instance in the format 1111-2222-3333-4444.\n\nIf the organization does not have an instance of OneDrive, configure the Tenant GUID with \"1111-2222-3333-4444\".\n\nGroup policy files for OneDrive are located on a system with OneDrive in \"%localappdata%\\Microsoft\\OneDrive\\BuildNumber\\adm\\\".\n\nCopy the OneDrive.admx and .adml files to the \\Windows\\PolicyDefinitions and \\Windows\\PolicyDefinitions\\en-US directories respectively.",
+  "fix_id": "F-33206r603118_fix",
+  "VulnDiscussion": "OneDrive provides access to external services for data storage, which must be restricted to authorized instances if enabled. Configuring this setting will restrict synchronizing of OneDrive accounts to DoD organization instances.",
+  "Documentable": "false"
+}

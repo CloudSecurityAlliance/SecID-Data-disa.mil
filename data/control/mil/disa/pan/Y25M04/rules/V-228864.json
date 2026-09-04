@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-228864",
+  "rule_id": "SV-228864r831606_rule",
+  "stig_id": "PANW-AG-000111",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Palo Alto Networks security platform must be configured to integrate with a system-wide intrusion detection system.",
+  "group_title": "SRG-NET-000383-ALG-000135",
+  "idents": {
+    "legacy": [
+      "SV-77099",
+      "V-62609"
+    ],
+    "cci": [
+      "CCI-002656"
+    ]
+  },
+  "check_id": "C-31099r513887_chk",
+  "check_content": "Go to Device >> Server Profiles >> NetFlow\nIf no NetFlow Server Profiles are configured, this is a finding.\n\nThis step assumes that it is one of the Ethernet interfaces that is being monitored.\nThe verification is the same for Ethernet, VLAN, Loopback and Tunnel interfaces.\nAsk the administrator which interface is being monitored; there may be more than one.\nGo to Network >> Interfaces >> Ethernet\nSelect the interface that is being monitored.\nIf the \"Netflow Profile\" field is \"None\", this is a finding.",
+  "fixtext": "To create a NetFlow Server Profile:\nGo to Device >> Server Profiles >> NetFlow\nSelect \"Add\".\nIn the \"NetFlow Server Profile\" window, complete the required fields.\nIn the \"Name\" field, enter the name of the NetFlow Server Profile.\nIn the \"Minutes\" field, enter the number of minutes after which the NetFlow template is refreshed. \nIn the \"Packets\" field, enter the number of packets after which the NetFlow template is refreshed.\nIn the \"Active Timeout\" field, enter the frequency (in minutes) the device exports records.\nSelect the \"PAN-OS Field Types\" check box to export \"App-ID\" and \"User-ID\" fields.\nSelect \"Add\" to add a NetFlow collector.\nIn the \"Name\" field, enter the name of the server.\nIn the \"NetFlow Server\" field, enter the hostname or IP address of the server.\nIn the \"Port\" field enter the port used by the NetFlow collector (default 2055).\nSelect \"OK\".\n\nAssign the NetFlow server profile to the interfaces that carry the traffic to be analyzed.  These steps assume that it is one of the Ethernet interfaces.  The configuration is the same for Ethernet, VLAN, Loopback, and Tunnel interfaces.\nGo to Network >> Interfaces >> Ethernet\nSelect the interface that the traffic traverses.\nIn the \"Ethernet Interface\" window, in the \"Netflow Profile\" field, select the configured Netflow Profile.\nSelect \"OK\".\nCommit changes by selecting \"Commit\" in the upper-right corner of the screen.\nSelect \"OK\" when the confirmation dialog appears.",
+  "fix_id": "F-31076r513888_fix",
+  "VulnDiscussion": "Without coordinated reporting between separate devices, it is not possible to identify the true scale and possible target of an attack.\n\nIntegration of the Palo Alto Networks security platform with a system-wide intrusion detection system supports continuous monitoring and incident response programs. This requirement applies to monitoring at internal boundaries using TLS gateways, web content filters, email gateways, and other types of ALGs. The Palo Alto Networks security platform can work as part of the network monitoring capabilities to off-load inspection functions from the external boundary IDPS by performing more granular content inspection of protocols at the upper layers of the OSI reference model.\n\nNetFlow is an industry-standard protocol that enables the firewall to record statistics on the IP traffic that traverses its interfaces. The  Palo Alto Networks security platform can export the statistics as NetFlow fields to a NetFlow collector. The NetFlow collector is a server you use to analyze network traffic for security, administration, accounting and troubleshooting purposes.",
+  "Documentable": "false"
+}

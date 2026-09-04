@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-237910",
+  "rule_id": "SV-237910r858954_rule",
+  "stig_id": "IBMZ-VM-000470",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The IBM z/VM TCP/IP Key database for LDAP or SSL server must be created with the proper permissions.",
+  "group_title": "SRG-OS-000067-GPOS-00035",
+  "idents": {
+    "legacy": [
+      "SV-93573",
+      "V-78867"
+    ],
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-41120r858952_chk",
+  "check_content": "Issue command openvm list /etc./gskadm/ (own)\n\nIf the file permissions are as displayed below, this is not a finding.\n\nUser ID Group Name Permissions Type Path name component\n\ngskadmin security rw- r-- --- F 'Database.kdb'\n\ngskadmin security rw- --- --- F 'Database.rdb'\n\ngskadmin security rw- r-- --- F 'Database.sth'",
+  "fixtext": "Ensure proper permissions are assigned to key databases.\n\nIssue the \"OPENVM PERMIT\" commands to assign proper permissions.",
+  "fix_id": "F-41079r858953_fix",
+  "VulnDiscussion": "If the private key is discovered, an attacker can use the key to authenticate as an authorized user and gain access to the network infrastructure.\n\nThe cornerstone of the PKI is the private key used to encrypt or digitally sign information.\n\nIf the private key is stolen, this will lead to the compromise of the authentication and non-repudiation gained through PKI because the attacker can use the private key to digitally sign documents and pretend to be the authorized user.\n\nBoth the holders of a digital certificate and the issuing authority must protect the computers, storage devices, or whatever they use to keep the private keys.",
+  "Documentable": "false"
+}

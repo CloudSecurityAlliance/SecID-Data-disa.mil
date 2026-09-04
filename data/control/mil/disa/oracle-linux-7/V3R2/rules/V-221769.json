@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221769",
+  "rule_id": "SV-221769r958754_rule",
+  "stig_id": "OL07-00-030211",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must label all off-loaded audit logs before sending them to the central log server.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "legacy": [
+      "SV-108381",
+      "V-99277"
+    ],
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-36290r602464_chk",
+  "check_content": "Verify the audisp daemon is configured to label all off-loaded audit logs:\n\n# grep \"name_format\" /etc/audisp/audispd.conf\n\nname_format = hostname\n\nIf the \"name_format\" option is not \"hostname\", \"fqd\", or \"numeric\", or the line is commented out, ask the System Administrator to indicate how the audit logs are off-loaded to a different system or storage media, and to indicate if the logs are labeled appropriately.\n\nIf there is no evidence that the system is configured to off-load audit logs to a different system or storage media, or if the configuration does not appropriately label logs before they are off-loaded, this is a finding.",
+  "fixtext": "Edit the /etc/audisp/audispd.conf file and add or update the \"name_format\" option:\n\nname_format = hostname\n\nThe audit daemon must be restarted for changes to take effect:\n\n# service auditd restart",
+  "fix_id": "F-36254r602465_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.\n\nOne method of off-loading audit logs in Oracle Linux is with the use of the audisp-remote dameon.  When audit logs are not labeled before they are sent to a central log server, the audit data will not be able to be analyzed and tied back to the correct system.\n\nSatisfies: SRG-OS-000342-GPOS-00133, SRG-OS-000479-GPOS-00224",
+  "Documentable": "false"
+}

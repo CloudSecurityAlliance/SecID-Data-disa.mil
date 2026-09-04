@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217330",
+  "rule_id": "SV-217330r961362_rule",
+  "stig_id": "JUNI-ND-000930",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured to audit the execution of privileged functions.",
+  "group_title": "SRG-APP-000343-NDM-000289",
+  "idents": {
+    "legacy": [
+      "SV-101249",
+      "V-91149"
+    ],
+    "cci": [
+      "CCI-002234"
+    ]
+  },
+  "check_id": "C-18557r296568_chk",
+  "check_content": "Review the router configuration to verify that it is compliant with this requirement. The configuration example below will log all commands entered from the command line interface as well as log all configuration changes.\n  \nsyslog {\n        file LOG_FILE {\n            interactive-commands;\n            change-log info  \n        }\n    }\n\nNote: The parameter \"any\" can be in place of configuring specific events as this will log everything. Also, a syslog server can be configured in addition to or in lieu of logging to a file as shown in the example below.\n\nsystem {\n   syslog {\n        host 10.1.58.2 {\n            any info;\n        }\n    }\n\nIf the router is not configured to log all commands entered from the command line interface as well as log all configuration changes, this is a finding.",
+  "fixtext": "Configure the router to log all commands entered from the command line interface as well as log all configuration changes as shown in the following example:\n\n[edit system]\nset syslog file LOG_FILE interactive-commands\nset syslog file LOG_FILE change-log info\n\nNote: The parameter \"any\" can be in place of configuring specific events as this will log everything. Also, a syslog server can be configured in addition to or in lieu of logging to a file as shown in the example below.\n\nset syslog host 10.1.58.2 any info",
+  "fix_id": "F-18555r296569_fix",
+  "VulnDiscussion": "Misuse of privileged functions, either intentionally or unintentionally by authorized users, or by unauthorized external entities that have compromised information system accounts, is a serious and ongoing concern and can have significant adverse impacts on organizations. Auditing the use of privileged functions is one way to detect such misuse and identify the risk from insider threats and the advanced persistent threat.",
+  "Documentable": "false"
+}

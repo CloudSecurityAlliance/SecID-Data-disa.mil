@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216218",
+  "rule_id": "SV-216218r959010_rule",
+  "stig_id": "SOL-11.1-080140",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The system must require authentication before allowing modification of the boot devices or menus. Secure the GRUB Menu (Intel).",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48001",
+      "SV-60873"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17456r373036_chk",
+  "check_content": "This check applies to X86 systems only.\n\nThis check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\n# grep source /rpool/boot/grub/grub.cfg\nsource $prefix/custom.cfg\n\nIf the output does not contain \"source $prefix/custom.cfg\" on a line of its own, this is a finding.\n\n# grep superusers /rpool/boot/grub/custom.cfg.\n# grep password_pbkdf2 /rpool/boot/grub/custom.cfg\n\nIf no superuser name and password are defined, this is a finding.",
+  "fixtext": "The root role is required.\n\nThis action applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this action applies.\n\nUpdate GRUB to use a custom configuration file.\n\n# pfedit /rpool/boot/grub/grub.cfg\nInsert the line:\nsource $prefix/custom.cfg\n\nCreate a password hash.\n\n# /usr/lib/grub2/bios/bin/grub-mkpasswd-pbkdf2\nEnter password: \nReenter password: \nYour PBKDF2 is .......\nCopy the long password hash in its entirety.\n\n# pfedit /rpool/boot/grub/custom.cfg\nInsert the lines:\nset superusers=\"[username]\"\npassword_pbkdf2 [username] [password hash]\n\nRestart the system.",
+  "fix_id": "F-17454r373037_fix",
+  "VulnDiscussion": "The flexibility that GRUB provides creates a security risk if its configuration is modified by an unauthorized user. The failsafe menu entry needs to be secured in the same environments that require securing the systems firmware to avoid unauthorized removable media boots.",
+  "Documentable": "false"
+}

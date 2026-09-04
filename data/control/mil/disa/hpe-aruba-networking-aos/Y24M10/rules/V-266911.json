@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-266911",
+  "rule_id": "SV-266911r1039754_rule",
+  "stig_id": "ARBA-ND-000214",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AOS must be configured to enforce the limit of three consecutive invalid login attempts, after which time it must block any login attempt for 15 minutes.",
+  "group_title": "SRG-APP-000065-NDM-000214",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-70835r1039752_chk",
+  "check_content": "1. Verify the AOS configuration with the following command: \nshow aaa password-policy mgmt \n \n2. Verify that \"Maximum Number of failed attempts in 3 minute window to lockout password based user\" is set to \"3 attempts\" and \"Time duration to lockout the password based user upon crossing the 'lock-out' threshold\" is set to \"15 minutes\".  \n \nIf one or both of these settings are set to any other value, this is a finding.",
+  "fixtext": "Configure AOS with the following commands: \nconfigure terminal  \naaa password-policy mgmt \npassword-lock-out 3 \npassword-lock-out-time 15 \nenable \nexit \nwrite memory",
+  "fix_id": "F-70738r1039753_fix",
+  "VulnDiscussion": "By limiting the number of failed login attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-forcing, is reduced.",
+  "Documentable": "false"
+}

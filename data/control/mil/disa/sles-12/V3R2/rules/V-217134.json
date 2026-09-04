@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217134",
+  "rule_id": "SV-217134r991587_rule",
+  "stig_id": "SLES-12-010320",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must prevent the use of dictionary words for passwords.",
+  "group_title": "SRG-OS-000480-GPOS-00225",
+  "idents": {
+    "legacy": [
+      "SV-91819",
+      "V-77123"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-18362r369558_chk",
+  "check_content": "Verify the SUSE operating system prevents the use of dictionary words for passwords.\n\nCheck that the SUSE operating system prevents the use of dictionary words for passwords with the following command:\n\n# grep pam_cracklib.so /etc/pam.d/common-password\npassword requisite pam_cracklib.so retry=3\n\nIf the command does not return anything, or the returned line is commented out, this is a finding.\n\nIf the value of \"retry\" is greater than 3, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to prevent the use of dictionary words for passwords.\n\nEdit \"/etc/pam.d/common-password\" and add the following line:\n\npassword requisite pam_cracklib.so retry=3",
+  "fix_id": "F-18360r369559_fix",
+  "VulnDiscussion": "If the SUSE operating system allows the user to select passwords based on dictionary words, this increases the chances of password compromise by increasing the opportunity for successful guesses and brute-force attacks.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259629",
+  "rule_id": "SV-259629r961161_rule",
+  "stig_id": "EX19-ED-000143",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange Sender Identification Framework must be enabled.",
+  "group_title": "SRG-APP-000261",
+  "idents": {
+    "cci": [
+      "CCI-001308"
+    ]
+  },
+  "check_id": "C-63368r942199_chk",
+  "check_content": "Note: If third-party anti-spam product is being used, the anti-spam product must be configured to meet the requirement.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-SenderIdConfig | Select-Object -Property Name, Identity, Enabled\n\nIf the value of \"Enabled\" is not set to \"True\", this is a finding.\n\nNote: By Default, the value of \"Enabled\" is set to \"True\".",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-SenderIdConfig -Enable $true",
+  "fix_id": "F-63276r942200_fix",
+  "VulnDiscussion": "Email is only as secure as the recipient. When the recipient is an email server accepting inbound messages, authenticating the sender enables the receiver to better assess message quality and to validate the sending domain as authentic. One or more authentication techniques used in combination can be effective in reducing spam, phishing, and forger attacks.\n\nThe Sender ID Framework (SIDF) receiver accesses specially formatted DNS records (SPF format) that contain the IP address of authorized sending servers for the sending domain that can be compared to data in the email message header. Receivers are able to validate the authenticity of the sending domain, helping to avoid receiving inbound messages from phishing or other spam domains.",
+  "Documentable": "false"
+}

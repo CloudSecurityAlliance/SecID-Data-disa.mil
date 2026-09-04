@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-266156",
+  "rule_id": "SV-266156r1024848_rule",
+  "stig_id": "F5BI-AP-300059",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The F5 BIG-IP appliance providing content filtering must employ rate-based attack prevention behavior analysis.",
+  "group_title": "SRG-NET-000362-ALG-000112",
+  "idents": {
+    "cci": [
+      "CCI-002385",
+      "CCI-001094"
+    ]
+  },
+  "check_id": "C-70080r1024846_chk",
+  "check_content": "If the BIG-IP appliance does not perform content filtering as part of the traffic management functions, this is not applicable.\n\nFrom the BIG-IP GUI:\n1. Security.\n2. DoS Protection.\n3. Device Protection.\n4. Expand each of the applicable families (Network, DNS, SIP) depending on the traffic being handled by the BIG-IP and verify the \"State\" is set to \"Mitigate\" for all signatures in that family.\n\nIf the BIG-IP appliance is not configured to protect against known and unknown types of DoS attacks by employing rate-based attack prevention behavior analysis, this is a finding.",
+  "fixtext": "From the BIG-IP GUI:\n1. Security.\n2. DoS Protection.\n3. Device Protection.\n4. Expand each of the applicable families (Network, DNS, SIP) one at a time depending on the traffic being handled by the BIG-IP and do the following for each:\na. Check the box at the top of the list of signatures to select all.\nb. Set \"Set State\" to \"Mitigate\".\n5. Click \"Commit Changes to System\".\n\nNote: Sites must operationally test or initially use learning mode prior to turning on all of the options in all families to prevent operational impacts, particularly in implementations with large traffic volumes.",
+  "fix_id": "F-69983r1024847_fix",
+  "VulnDiscussion": "If the network does not provide safeguards against denial-of-service (DoS) attacks, network resources will be unavailable to users.\n\nInstallation of content filtering gateways and application layer firewalls at key boundaries in the architecture mitigates the risk of DoS attacks. These attacks can be detected by matching observed communications traffic with patterns of known attacks and monitoring for anomalies in traffic volume/type.\n\nDetection components that use rate-based behavior analysis can detect attacks when signatures for the attack do not exist or are not installed. These attacks include zero-day attacks which are new attacks for which vendors have not yet developed signatures. Rate-based behavior analysis can detect sophisticated, distributed DoS (DDoS) attacks by correlating traffic information from multiple network segments or components.\n \nThis requirement applies to the communications traffic functionality of the ALG as it pertains to handling communications traffic, rather than to the ALG device itself.\n\nSatisfies: SRG-NET-000362-ALG-000112, SRG-NET-000362-ALG-000126, SRG-NET-000192-ALG-000121",
+  "Documentable": "false"
+}

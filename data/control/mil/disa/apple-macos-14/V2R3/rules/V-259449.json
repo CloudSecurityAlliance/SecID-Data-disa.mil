@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259449",
+  "rule_id": "SV-259449r958636_rule",
+  "stig_id": "APPL-14-000160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must enforce auto logout after 86400 seconds of inactivity.",
+  "group_title": "SRG-OS-000279-GPOS-00109",
+  "idents": {
+    "cci": [
+      "CCI-002361"
+    ]
+  },
+  "check_id": "C-63188r940967_chk",
+  "check_content": "Verify the macOS system is configured to enforce auto logout after 86400 seconds of inactivity with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('.GlobalPreferences')\\\n.objectForKey('com.apple.autologout.AutoLogOutDelay').js\nEOS\n\nIf the result is not \"86400\", this is a finding.",
+  "fixtext": "Configure the macOS system to enforce auto logout after 86400 seconds of inactivity by installing the \"com.apple.GlobalPreferences\" configuration profile.",
+  "fix_id": "F-63096r940968_fix",
+  "VulnDiscussion": "Auto logout must be configured to automatically terminate a user session and log out the after 86400 seconds of inactivity.\n\nNote: The maximum that macOS can be configured for autologoff is 86400 seconds.\n\n[IMPORTANT]\n====\nThe automatic logout may cause disruptions to an organization's workflow and/or loss of data. Information system security officers (ISSOs) are advised to first fully weigh the potential risks posed to their organization before opting to disable the automatic logout setting.\n====",
+  "Documentable": "false"
+}

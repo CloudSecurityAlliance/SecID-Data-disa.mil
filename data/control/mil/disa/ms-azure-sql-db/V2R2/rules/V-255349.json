@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255349",
+  "rule_id": "SV-255349r961641_rule",
+  "stig_id": "ASQL-00-012600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Database must maintain the confidentiality and integrity of information during reception.",
+  "group_title": "SRG-APP-000442-DB-000379",
+  "idents": {
+    "cci": [
+      "CCI-002422"
+    ]
+  },
+  "check_id": "C-59022r877259_chk",
+  "check_content": "Document reception protection mechanisms based on organizationally defined requirements, if this documentation does not exist this is a finding.\n\nValidate that reception protection mechanisms match documentation of organizationally defined requirements, if discrepancies exist this is a finding.\n\nRun the following PowerShell  script to check the TLS version:\n$ResourceGroupName = '<Resource Group Name>'\nGet-AzSqlServer -ResourceGroupName $ResourceGroupName | Format-Table ServerName,MinimalTlsVersion\n\nVerify that the minimum TLS version property is set to the latest available TLS version. If a less secure TLS version is set, this is a finding.",
+  "fixtext": "Implement and document protective measures against unauthorized disclosure and modification during transmission reception.\n\nhttps://docs.microsoft.com/en-us/azure/azure-sql/database/connectivity-settings\n\nhttps://docs.microsoft.com/en-us/azure/azure-sql/database/connectivity-architecture\n\nhttps://docs.microsoft.com/en-us/azure/azure-sql/database/network-access-controls-overview",
+  "fix_id": "F-58966r871172_fix",
+  "VulnDiscussion": "Information can be either unintentionally or maliciously disclosed or modified during reception, including, for example, during aggregation, at protocol transformation points, and during packing/unpacking. These unauthorized disclosures or modifications compromise the confidentiality or integrity of the information.\n\nThis requirement applies only to those applications that are either distributed or can allow access to data nonlocally. Use of this requirement will be limited to situations where the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process. \n\nWhen receiving data, Azure SQL Database, associated applications, and infrastructure must leverage protection mechanisms.",
+  "Documentable": "false"
+}

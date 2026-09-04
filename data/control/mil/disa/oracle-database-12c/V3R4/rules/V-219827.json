@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219827",
+  "rule_id": "SV-219827r961863_rule",
+  "stig_id": "O121-BP-021500",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "A minimum of two Oracle control files must be defined and configured to be stored on separate, archived disks (physical or virtual) or archived partitions on a RAID device.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "legacy": [
+      "SV-75907",
+      "V-61417"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-21538r533020_chk",
+  "check_content": "From SQL*Plus:\n\n  select name from v$controlfile;\n\nDoD guidance recommends:\n\n2a. Each control file is to be located on separate, archived physical or virtual storage devices.\n\nOR\n\n2b. Each control file is to be located on separate, archived directories within one or more RAID devices. \n\n3. The Logical Paths for each control file should differ at the highest level supported by the configuration, for example:\n\nUNIX\n/ora03/app/oracle/{SID}/control/control01.ctl\n/ora04/app/oracle/{SID}/control/control02.ctl\n\nWindows\nD:/oracle/{SID}/control/control01.ctl\nE:/oracle/{SID}/control/control02.ctl\n\nIf the minimum listed above is not met, this is a finding.\n\nConsult with the SA or DBA to determine that the mount points or partitions referenced in the file paths indicate separate physical disks or directories on RAID devices.\n\nNote: Distinct does not equal dedicated. May share directory space with other Oracle database instances if present.",
+  "fixtext": "To prevent loss of service during disk failure, multiple copies of Oracle control files must be maintained on separate disks in archived directories or on separate, archived directories within one or more RAID devices.\n\nAdding or moving a control file requires careful planning and execution.\n\nConsult and follow the instructions for creating control files in the Oracle Database Administrator's Guide, under Steps for Creating New Control Files.",
+  "fix_id": "F-21537r533021_fix",
+  "VulnDiscussion": "Oracle control files are used to store information critical to Oracle database integrity. Oracle uses these files to maintain time synchronization of database files as well as at system startup to verify the validity of system data and log files. Loss of access to the control files can affect database availability, integrity and recovery.",
+  "Documentable": "false"
+}

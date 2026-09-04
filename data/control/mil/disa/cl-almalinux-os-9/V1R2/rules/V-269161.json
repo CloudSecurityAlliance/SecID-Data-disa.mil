@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269161",
+  "rule_id": "SV-269161r1050043_rule",
+  "stig_id": "ALMA-09-009370",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 SSH daemon must not allow Generic Security Service Application Program Interface (GSSAPI) authentication.",
+  "group_title": "SRG-OS-000364-GPOS-00151",
+  "idents": {
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-73192r1047859_chk",
+  "check_content": "Verify the SSH daemon does not allow GSSAPI authentication with the following command:\n\n$ /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*gssapiauthentication'\n\ngssapiauthentication no\n\nIf the value is returned as \"yes\", the returned line is commented out, no output is returned, and the use of GSSAPI authentication has not been documented with the information system security officer (ISSO), this is a finding.\n\nIf the required value is not set, this is a finding.",
+  "fixtext": "Configure the SSH daemon to not allow GSSAPI authentication.\n\nAdd the following line to \"/etc/ssh/sshd_config\", or uncomment the line and set the value to \"no\":\n\nGSSAPIAuthentication no\n\nAlternatively, add the setting to an included file if the line \"Include /etc/ssh/sshd_config.d/*.conf\" is found at the top of the \"/etc/ssh/sshd_config\" file:\n\nGSSAPIAuthentication no\n\nRestart the SSH daemon for the settings to take effect:\n\n$ systemctl restart sshd.service",
+  "fix_id": "F-73093r1047860_fix",
+  "VulnDiscussion": "GSSAPI authentication is used to provide additional authentication mechanisms to applications. Allowing GSSAPI authentication through SSH exposes the system's GSSAPI to remote hosts, increasing the attack surface of the system.",
+  "Documentable": "false"
+}

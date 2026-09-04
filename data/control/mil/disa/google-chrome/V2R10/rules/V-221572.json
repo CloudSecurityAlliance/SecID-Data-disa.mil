@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221572",
+  "rule_id": "SV-221572r960963_rule",
+  "stig_id": "DTBC-0021",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The URL protocol schema javascript must be disabled.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "legacy": [
+      "SV-57595",
+      "V-44761"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-23287r754413_chk",
+  "check_content": "Universal method:\n1. In the omnibox (address bar) type chrome://policy.\n2. If URLBlocklist is not displayed under the Policy Name column or it is not set to javascript://* under the Policy Value column, this is a finding.\n\nWindows method:\n1. Start regedit.\n2. Navigate to HKLM\\Software\\Policies\\Google\\Chrome\\URLBlocklist.\n3. If the URLBlocklist key does not exist, or the does not contain entries 1 set to javascript://*, this is a finding.",
+  "fixtext": "Windows group policy:\n1. Open the group policy editor tool with gpedit.msc. \n2. Navigate to Policy Path: Computer Configuration\\Administrative Templates\\Google\\Google Chrome\\\nPolicy Name: Block access to a list of URLs.\n- Policy State: Enabled\n- Policy Value 1: javascript://*",
+  "fix_id": "F-23276r754414_fix",
+  "VulnDiscussion": "Each access to a URL is handled by the browser according to the URL's \"scheme\". The \"scheme\" of a URL is the section before the \":\". The term \"protocol\" is often mistakenly used for a \"scheme\". The difference is that the scheme is how the browser handles a URL and the protocol is how the browser communicates with a service.  If a scheme or its associated protocol used by a browser is insecure or obsolete, vulnerabilities can be exploited resulting in exposed data or unrestricted access to the browser's system.   The browser must be configured to disable the use of insecure and obsolete schemas (protocols).\nThis policy disables the listed protocol schemes in Google Chrome, URLs using a scheme from this list will not load and cannot be navigated to. If this policy is left not set or the list is empty all schemes will be accessible in Google Chrome.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256423",
+  "rule_id": "SV-256423r959010_rule",
+  "stig_id": "ESXI-70-000062",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Use of the dvFilter network application programming interfaces (APIs) must be restricted.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-60098r886048_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"Net.DVFilterBindIpAddress\" value and verify the value is blank or the correct IP address of a security appliance if in use.\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Net.DVFilterBindIpAddress\n\nIf the \"Net.DVFilterBindIpAddress\" is not blank and security appliances are not in use on the host, this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"Net.DVFilterBindIpAddress\" value and remove any incorrect addresses.\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Net.DVFilterBindIpAddress | Set-AdvancedSetting -Value \"\"",
+  "fix_id": "F-60041r886049_fix",
+  "VulnDiscussion": "If the organization is not using products that use the dvfilter network API, the host should not be configured to send network information to a virtual machine (VM).\n\nIf the API is enabled, an attacker might attempt to connect a virtual machine to it, potentially providing access to the network of other VMs on the host. \n\nIf using a product that makes use of this API, verify the host has been configured correctly. If not using such a product, ensure the setting is blank.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-81195",
+  "rule_id": "SV-95909r1_rule",
+  "stig_id": "WBSP-AS-000020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The WebSphere Application Server admin console session timeout must be configured.",
+  "group_title": "SRG-APP-000295-AS-000263",
+  "idents": {
+    "cci": [
+      "CCI-002361"
+    ]
+  },
+  "check_id": "C-80865r1_chk",
+  "check_content": "Review System Security Plan and system configuration documentation.\n\nAccess the Deployment Manager (DMGR) operating system.\n\nLocate the deployment.xml file. The default file location where deployment.xml is installed are provided below.  \n\nUNIX:\n/opt/IBM/WebSphere/Profiles/DefaultDmgr01/config/cells/<CELL NAME>/applications/isclite.ear/deployments/isclite/\n\nWindows:\nC:\\Program Files\\IBM\\WebSphere\\Profiles\\DefaultDmgr01\\config\\cells\\<CELL NAME>\\applications\\isclite.ear\\deployments\\isclite\\\n\nSearch the deployment.xml file for the string, \"invalidationtimeout=\"\n\nUNIX:\ngrep -i invalidationtimeout $PATH/deployment.xml\n\nWindows:\nfindstr -I invalidationtimeout= $PATH\\deployment.xml\n\nThe value is expressed in minutes and the default value is set to \"30 minutes\".  \n\nIf \"invalidationtimeout\" is not set to \"10 minutes\", this is a finding.",
+  "fixtext": "Locate the deployment.xml file. The default file locations where deployment.xml is installed are provided below.  \n\nUNIX:\n/opt/IBM/WebSphere/Profiles/DefaultDmgr01/config/cells/<CELL NAME>/applications/isclite.ear/deployments/isclite/\n\nWindows:\nC:\\Program Files\\IBM\\WebSphere\\Profiles\\DefaultDmgr01\\config\\cells\\<CELL NAME>\\applications\\isclite.ear\\deployments\\isclite\\\n\nMake a backup copy of the deployment.xml file.\n\nEdit the deployment.xml file.\n\nModify the \"invalidationtimeout=\" value and set to \"10\".\n\nRestart the DMGR and all the JVMs.",
+  "fix_id": "F-87973r1_fix",
+  "VulnDiscussion": "An attacker can take advantage of user sessions that are left open, thus bypassing the user authentication process.\n\nTo thwart the vulnerability of open and unused user sessions, the application server must be configured to close the sessions when a configured condition or trigger event is met.\n\nSession termination terminates all processes associated with a user's logical session except those processes that are specifically created by the user (i.e., session owner) to continue after the session is terminated.\n\nConditions or trigger events requiring automatic session termination can include, for example, periods of user inactivity, targeted responses to certain types of incidents, and time-of-day restrictions on information system use.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-206732",
+  "rule_id": "SV-206732r385561_rule",
+  "stig_id": "SRG-NET-000512-SDN-001040",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The SDN controller must be configured to authenticate received southbound Application Program Interface (API) management-plane messages using a FIPS-approved message authentication code algorithm.",
+  "group_title": "SRG-NET-000512",
+  "idents": {
+    "legacy": [
+      "SV-95499",
+      "V-80789"
+    ],
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-6989r363134_chk",
+  "check_content": "Review the SDN configuration, verify that it is configured to authenticate received southbound API management-plane messages using a FIPS-approved message authentication code algorithm. \n\nFIPS-approved algorithms for authentication are the cipher-based message authentication code (CMAC) and the keyed-hash message authentication code (HMAC). AES and 3DES are NIST-approved CMAC algorithms. The following are NIST-approved HMAC algorithms: SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224, and SHA-512/256. \n\nIf the SDN controller is not configured to authenticate received southbound API management-plane messages using a FIPS-approved message authentication code algorithm, this is a finding.",
+  "fixtext": "Configure the SDN controller to authenticate southbound API management-plane messages using a FIPS-approved message authentication code algorithm. \n\nFIPS-approved algorithms for authentication are the CMAC and the HMAC. AES and 3DES are NIST-approved CMAC algorithms. The following are NIST-approved HMAC algorithms: SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224, and SHA-512/256.",
+  "fix_id": "F-6989r363135_fix",
+  "VulnDiscussion": "The SDN controller can receive management-plane traffic from the SDN-enabled devices that it monitors and manages. The messages could be responses from SNMP get requests as well as SNMP notifications (i.e., traps and informs) provided to note changes in node or link state. NETCONF is also used by the SDN controller to configure SDN-enabled devices as well as to receive state and configuration information. Communication between the SDN controller and NETCONF-enabled devices is session based. A session is established for the purpose of exchanging data using remote procedure call (RPC) requests and replies. If the SDN controller were to receive messages from a rogue device using SNMP or NETCONF providing fraud state information or configuration data, the abstract view of the network topology could be altered thereby providing an attacker with the ability to force traffic to bypass security controls or be forwarded using non-optimized paths. To ensure the integrity and authenticity of these messages, it is imperative that they are authenticated prior to processing and taking any action.",
+  "Documentable": "false"
+}

@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-214531",
+  "rule_id": "SV-214531r997548_rule",
+  "stig_id": "JUSX-AG-000122",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Juniper SRX Services Gateway Firewall must protect against known types of denial-of-service (DoS) attacks by implementing signature-based screens.",
+  "group_title": "SRG-NET-000362-ALG-000126",
+  "idents": {
+    "legacy": [
+      "V-66327",
+      "SV-80817"
+    ],
+    "cci": [
+      "CCI-002385",
+      "CCI-004866"
+    ]
+  },
+  "check_id": "C-15737r297277_chk",
+  "check_content": "Run the following command to see the screen options currently configured:\n\n[edit]\nshow security screen ids-option\nshow security zone match \"screen\"\n\nIf security screens are not configured or if the security zone is not configured with screen options, this is a finding.",
+  "fixtext": "The following example commands configure security screens under a profile named untrust-screen. Screen options with configurable thresholds may be customized to minimize/prevent operational impact on traffic performance.\n\n[edit]\nset security screen ids-option <zone-name> <screen name> <option name> <value>\n\nBased on 800-53 requirements and vendor recommendations, the following signature-based screens are required, at a minimum, for use in DOD configurations.\n\nset security screen ids-option untrust-screen icmp ping-death\nset security screen ids-option untrust-screen ip bad-option\nset security screen ids-option untrust-screen ip record-route-option\nset security screen ids-option untrust-screen ip timestamp-option\nset security screen ids-option untrust-screen ip security-option\nset security screen ids-option untrust-screen ip stream-option\nset security screen ids-option untrust-screen ip spoofing\nset security screen ids-option untrust-screen ip source-route-option\nset security screen ids-option untrust-screen ip unknown-protocol\nset security screen ids-option untrust-screen ip tear-drop\nset security screen ids-option untrust-screen ip ipv6-extension-header hop-by-hop-header\njumbo-payload-option\nset security screen ids-option untrust-screen ip ipv6-extension-header hop-by-hop-header\nrouter-alert-option\nset security screen ids-option untrust-screen ip ipv6-extension-header hop-by-hop-header\nquick-start-option\nset security screen ids-option untrust-screen ip ipv6-extension-header routing-header\nset security screen ids-option untrust-screen ip ipv6-extension-header fragment-header\nset security screen ids-option untrust-screen ip ipv6-extension-header no-next-header\nset security screen ids-option untrust-screen ip ipv6-extension-header shim6-header\nset security screen ids-option untrust-screen ip ipv6-extension-header mobility-header\nset security screen ids-option untrust-screen ip ipv6-malformed-header\nset security screen ids-option untrust-screen tcp syn-fin\nset security screen ids-option untrust-screen tcp fin-no-ack\nset security screen ids-option untrust-screen tcp tcp-no-flag\nset security screen ids-option untrust-screen tcp syn-frag\nset security screen ids-option untrust-screen tcp land\n\nTo enable screen protection, the screen profile must be associated with individual security zones using the following command. Recommend assigning \"untrust-screen\" profile name to the default zone named \"untrust\".\n\n[edit]\nset security zone security-zone <ZONE NAME> screen <SCREEN PROFILE NAME>\nExample: set security zones security-zone untrust screen untrust-screen",
+  "fix_id": "F-15735r997547_fix",
+  "VulnDiscussion": "If the network does not provide safeguards against DoS attacks, network resources will be unavailable to users. Installation of content filtering gateways and application layer firewalls at key boundaries in the architecture mitigates the risk of DoS attacks. These attacks can be detected by matching observed communications traffic with patterns of known attacks.\n\nJuniper SRX Firewall DoS protections can be configured by either using a Screen or within the global flow options. Screens, also known as IDS-options, block various layer 3 and 4 attacks. Screen objects are configured with various screen-specific options and then assigned to a zone. The Juniper SRX can be configured with Screens to protect against the following signature-based DoS attacks: ICMP based attacks such as ping of death, IP based attacks such as IP spoofing and teardrop, and TCP based attacks such as TCP headers and land.",
+  "Documentable": "false"
+}

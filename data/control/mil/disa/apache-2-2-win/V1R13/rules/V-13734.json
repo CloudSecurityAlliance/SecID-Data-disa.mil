@@ -1,0 +1,18 @@
+{
+  "vuln_id": "V-13734",
+  "rule_id": "SV-33004r2_rule",
+  "stig_id": "WA000-WWA056 W22",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MultiViews directive must be disabled.",
+  "group_title": "WA000-WWA056",
+  "idents": {},
+  "check_id": "C-33671r2_chk",
+  "check_content": "Locate the Apache httpd.conf file.\n\nOpen the httpd.conf file with an editor such as Notepad, and search for all occurrences of the following directive: Options.\n\nThis check validates occurrences of the Options directive which are uncommented.\nReview all uncommented Options statements for \"-MultiViews\"and validate a preceding \"-\" to the MultiViews option exists.\n\nIf the value is found on the Options statement, and it does not have a preceding \"-\", this is a finding. \nIf the value does not exist at all, this would be a finding unless the enabled Options statement is set to \"none\".",
+  "fixtext": "Add a \"-\" to the MultiViews setting, or set the options directive to None.",
+  "fix_id": "F-29306r1_fix",
+  "VulnDiscussion": "Apache HTTPD supports content negotiation as described in the HTTP/1.1 specification. It can choose the best representation of a resource based on the browser-supplied preferences for media type, languages, character set and encoding. It also implements a couple of features to give more intelligent handling of requests from browsers that send incomplete negotiation information.\n\nContent negotiation, or more accurately content selection, is the selection of the document that best matches the clients capabilities, from one of several available documents. There are two implementations of this.\n•\tA type map (a file with the handler type-map) which explicitly lists the files containing the variants.\n•\tA Multiviews search (enabled by the Multiviews Options), where the server does an implicit filename pattern match, and choose from amongst the results.\n\nA MultiViews search is where the server does an implicit filename pattern match, and chooses from the results.\n\nFor example, if you have a file called configuration.php (or other extension) in root folder and you set up a rule in your htaccess for a virtual folder called configuration/ then you'll have a problem with your rule because the server will choose configuration.php automatically if MultiViews is enabled.\n\nAn attacker can use the MultiViews functionality to aid in finding hidden file processes on the directory and potentially gather further sensitive information.\n\nMultiViews is a per-directory option, meaning it can be set, or explicitly disabled, with an Options directive within a <Directory>, <Location> or <Files> section in httpd.conf, or (if AllowOverride is properly set) in .htaccess files. \n\nTo explicitly disable an Options functionality, the option must be listed on every uncommented Options directive with a preceding the option. The \"-\" preceding the option configures Apache to explicitly disable the option. An Options directive with \"none\" will also disable the functionality.\n\nIf the option is listed on an Options directive line without a preceding - or without anything preceding it or with a \"+\" preceding it or not configured at all, the MultiViews option is enabled and is vulnerable.",
+  "Documentable": "false",
+  "Responsibility": "Web Administrator"
+}

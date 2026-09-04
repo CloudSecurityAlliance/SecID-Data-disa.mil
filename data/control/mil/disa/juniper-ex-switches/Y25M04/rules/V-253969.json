@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253969",
+  "rule_id": "SV-253969r997519_rule",
+  "stig_id": "JUEX-L2-000220",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must not use the default VLAN for management traffic.",
+  "group_title": "SRG-NET-000512-L2S-000010",
+  "idents": {
+    "cci": [
+      "CCI-004891"
+    ]
+  },
+  "check_id": "C-57421r843938_chk",
+  "check_content": "Review the switch configuration and verify that the default VLAN is not used to access the switch for management.\n\nVerify access interfaces used for management are assigned to an appropriate VLAN as in the example below.\n[edit interfaces]\n<interface name> {\n    unit 0 {\n        family ethernet-switching {\n            interface-mode access;\n            vlan {\n                members <vlan name>;\n            }\n        }\n    }\n}\n\nIf the default VLAN is being used to access the switch, this is a finding.",
+  "fixtext": "Configure the switch for management access to use a VLAN other than the default VLAN.\n\nset interfaces <interface name> unit 0 family ethernet-switching interface-mode access\nset interfaces <interface name> unit 0 family ethernet-switching vlan members <vlan name>",
+  "fix_id": "F-57372r843939_fix",
+  "VulnDiscussion": "By default, all unassigned interfaces are placed into the default VLAN and if used for management, could unintentionally expose sensitive traffic or protected resources to unauthorized devices.",
+  "Documentable": "false"
+}

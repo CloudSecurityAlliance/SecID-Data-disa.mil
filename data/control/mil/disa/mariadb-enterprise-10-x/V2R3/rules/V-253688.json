@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253688",
+  "rule_id": "SV-253688r960960_rule",
+  "stig_id": "MADB-10-002900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Database objects (including but not limited to tables, indexes, storage, stored procedures, functions, triggers, links to software external to MariaDB, etc.) must be owned by database/MariaDB principals authorized for ownership.",
+  "group_title": "SRG-APP-000133-DB-000200",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-57140r841587_chk",
+  "check_content": "Review system documentation to identify accounts authorized to have privileges against database objects. Review account privileges on objects in the database(s).\n \nTo show the list of system privileges that the MariaDB server supports, run:\nMariaDB> SHOW PRIVILEGES;\n \nGather a list of SHOW GRANTS commands. SHOW GRANTS will list the privileges granted to the account.\n\nRun this database query to create the SHOW GRANTS script for each user: \n\nMariaDB> SELECT DISTINCT CONCAT( 'SHOW GRANTS FOR ', user,'@', host,';') AS grantQuery FROM mysql.user WHERE is_role = 'N';\n\nRun each SHOW GRANTS command for each user.\n\nMariaDB> SHOW GRANTS FOR 'user'@'host';\n\nVerify that all users have the correct privileges, if they do not, this is a finding.\n\nOnly DEFINERS of routines (functions and procedures) can change routines. To view the DEFINERS of all functions and procedures, as database administrator run the following SQL:\n \nMariaDB>  SELECT * FROM mysql.proc \\G\n \nOnly DEFINERS of triggers can change triggers. To view all triggers and their DEFINERS, as database administrator run the following SQL: \n\nMariaDB>  SELECT * FROM information_schema.triggers \\G\n \nIf any database users are found to have unauthorized privileges on database objects, this is a finding.",
+  "fixtext": "Assign ownership of authorized objects to authorized object owner accounts.",
+  "fix_id": "F-57091r841588_fix",
+  "VulnDiscussion": "Within the database, object ownership implies full privileges to the owned object, including the privilege to assign access to the owned objects to other subjects. Database functions and procedures can be coded using definers rights. This allows anyone who uses the object to perform the actions if they were the owner. If not properly managed, this can lead to privileged actions being taken by unauthorized individuals.\n\nConversely, if critical tables or other objects rely on unauthorized owner accounts, these objects may be lost when an account is removed.",
+  "Documentable": "false"
+}

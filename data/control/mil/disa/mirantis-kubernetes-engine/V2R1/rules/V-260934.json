@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-260934",
+  "rule_id": "SV-260934r966159_rule",
+  "stig_id": "CNTR-MK-001010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All containers must be restricted from acquiring additional privileges.",
+  "group_title": "SRG-APP-000243-CTR-000595",
+  "idents": {
+    "cci": [
+      "CCI-001090",
+      "CCI-002233"
+    ]
+  },
+  "check_id": "C-64663r966157_chk",
+  "check_content": "This check must be executed on all nodes in an MKE cluster to ensure all containers are restricted from acquiring additional privileges.\n\nVia CLI:\nLinux: As an MKE Admin, execute the following command using a Universal Control Plane (MKE) client bundle:\n\ndocker ps --quiet --all | xargs -L 1 docker inspect --format '{{ .Id }}: SecurityOpt={{ .HostConfig.SecurityOpt }}'\n\nThe above command returns the security options currently configured for the running containers. If the \"SecurityOpt=\" setting does not include the \"no-new-privileges\" flag, this is a finding.",
+  "fixtext": "Start the containers using the following:\n\ndocker run --rm -it --security-opt=no-new-privileges <image>\n\nA reference for the Docker run command can be found at https://docs.docker.com/engine/reference/run/.\n\nno-new-privileges command information can be found here: https://docs.mirantis.com/mke/3.7/install/plan-deployment/mcr-considerations/no-new-privileges.html.",
+  "fix_id": "F-64571r966158_fix",
+  "VulnDiscussion": "To limit the attack surface of MKE, it is important that the nonessential services are not installed and access to the host system uses the concept of least privilege.\n\nRestrict the container from acquiring additional privileges via suid or sgid bits.\n\nA process can set the no_new_priv bit in the kernel. It persists across fork, clone, and execve. The no_new_priv bit ensures that the process or its children processes do not gain any additional privileges via suid or sgid bits. This way, many dangerous operations become a lot less dangerous because there is no possibility of subverting privileged binaries.\n\nno_new_priv prevents LSMs like SELinux from transitioning to process labels that have access not allowed to the current process.",
+  "Documentable": "false"
+}

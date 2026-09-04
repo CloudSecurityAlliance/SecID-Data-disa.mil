@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-207591",
+  "rule_id": "SV-207591r879635_rule",
+  "stig_id": "BIND-9X-001510",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "A BIND 9.x server implementation must enforce approved authorizations for controlling the flow of information between authoritative name servers and specified secondary name servers based on DNSSEC policies.",
+  "group_title": "SRG-APP-000215-DNS-000003",
+  "idents": {
+    "legacy": [
+      "SV-87123",
+      "V-72499"
+    ],
+    "cci": [
+      "CCI-000366",
+      "CCI-001663"
+    ]
+  },
+  "check_id": "C-7846r283827_chk",
+  "check_content": "On an authoritative name sever, verify that each zone statement defined in the \"named.conf\" file contains an \"allow-transfer\" statement.\n\nInspect the \"named.conf\" file for the following:\n\nzone example.com {\nallow-transfer { <ip_address_list>; };\n};\n\nIf there is not an \"allow-transfer\" statement for each zone defined, or the list contains IP addresses that are not authorized for that zone, this is a finding.\n\nOn a slave name server, verify that each zone statement defined in the \"named.conf\" file contains an \"allow-transfer\" statement.\n\nInspect the \"named.conf\" file for the following:\n\nzone example.com {\nallow-transfer { none; };\n};\n\nIf there is not an \"allow-transfer\" statement, or the statement is not set to \"none\", this is a finding.",
+  "fixtext": "For an authoritative name server:\n\nConfigure each zone statement to allow transfers from authorized hosts:\n\nallow-transfer { <ip_address_list>; };\n\nRestart the BIND 9.x process.\n\nFor a secondary server:\n\nConfigure each zone to deny zone transfer requests:\n\nallow-transfer { none; };\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-7846r283828_fix",
+  "VulnDiscussion": "A mechanism to detect and prevent unauthorized communication flow must be configured or provided as part of the system design. If information flow is not enforced based on approved authorizations, the system may become compromised. Information flow control regulates where information is allowed to travel within a system and between interconnected systems. The flow of all application information must be monitored and controlled so it does not introduce any unacceptable risk to the systems or data.\n\nWithin the context of DNS, this is applicable in terms of controlling the flow of DNS information between systems, such as DNS zone transfers.\n\nAuthoritative name servers (especially primary name servers) should be configured with an allow-transfer access control sub statement designating the list of hosts from which DNS information, such as zone transfers, can be accepted. These restrictions address the denial-of-service threat and potential exploits from unrestricted dissemination of information about internal resources.\n\nZone transfer from primary name servers should be restricted to secondary name servers. The zone transfer should be completely disabled in the secondary name servers. The address match list argument for the allow-transfer sub statement should consist of IP addresses of secondary name servers and stealth secondary name servers.\n\nSatisfies: SRG-APP-000215-DNS-000003, SRG-APP-000516-DNS-000095",
+  "Documentable": "false"
+}

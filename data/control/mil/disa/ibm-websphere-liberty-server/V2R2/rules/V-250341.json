@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-250341",
+  "rule_id": "SV-250341r1015252_rule",
+  "stig_id": "IBMW-LS-000770",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Application security must be enabled on the WebSphere Liberty Server.",
+  "group_title": "SRG-APP-000315-AS-000094",
+  "idents": {
+    "cci": [
+      "CCI-000068",
+      "CCI-002314"
+    ]
+  },
+  "check_id": "C-53776r1015251_chk",
+  "check_content": "As a user with local file access to ${server.config.dir}/server.xml file, verify application security is enabled. \n\nIf the appSecurity-2.0 feature is not defined within server.xml, this is a finding.\n\n<featureManager>\n<feature>appSecurity-2.0</feature>\n</featureManager>",
+  "fixtext": "Configure the ${server.config.dir}/server.xml file and add the appSecurity-2.0 feature. \n\n<featureManager>\n<feature>appSecurity-2.0</feature>\n</featureManager>\n\nReview ${server.config.dir}/logs/messages.log\n\nValidate log entry that indicates \"Security service is ready\".",
+  "fix_id": "F-53730r862988_fix",
+  "VulnDiscussion": "Application security enables security for the applications in the environment. This type of security provides application isolation and requirements for authenticating application users. When a user enables security, both administrative and application security is enabled. \n\nApplication security is in effect only when administrative security is enabled via the security feature. If the application server is to be used for only web applications, only the servlet-3.1 feature needs to be defined. If the application server is to be used for only ejb applications, only the ejbLite-3.1 feature needs to be defined. If both web and ejb applications are to be deployed on the application server, then both the servlet-3.1 and ejbLite-3.1 features need to be defined. The check and fix assumes that the application server will have both web and ejb applications deployed.\n\nSatisfies: SRG-APP-000315-AS-000094, SRG-APP-000014-AS-000009",
+  "Documentable": "false"
+}

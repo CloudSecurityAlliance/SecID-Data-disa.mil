@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233571",
+  "rule_id": "SV-233571r961800_rule",
+  "stig_id": "CD12-00-006400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must generate audit records when privileges/permissions are modified.",
+  "group_title": "SRG-APP-000495-DB-000328",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-36765r606936_chk",
+  "check_content": "First, as the database administrator, verify pgaudit is enabled by running the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"SHOW shared_preload_libraries\"\n\nIf the output does not contain pgaudit, this is a finding.\n\nNext, verify that role is enabled:\n\n$ psql -c \"SHOW pgaudit.log\"\n\nIf the output does not contain role, this is a finding.",
+  "fixtext": "Note: The following instructions use the PGDATA and PGVER environment variables. See supplementary content APPENDIX-F for instructions on configuring PGDATA and APPENDIX-H for PGVER.\n\nUsing pgaudit PostgreSQL can be configured to audit these requests. See supplementary content APPENDIX-B for documentation on installing pgaudit.\n\nWith pgaudit installed, the following configurations can be made:\n\n$ sudo su - postgres\n$ vi ${PGDATA?}/postgresql.conf\n\nAdd the following parameters (or edit existing parameters):\n\npgaudit.log='role'\n\nNext, as the system administrator, reload the server with the new configuration:\n\n$ sudo systemctl reload postgresql-${PGVER?}",
+  "fix_id": "F-36730r606937_fix",
+  "VulnDiscussion": "Changes in the permissions, privileges, and roles granted to users and roles must be tracked. Without an audit trail, unauthorized elevation or restriction of privileges could go undetected. Elevated privileges give users access to information and functionality that they should not have; restricted privileges wrongly deny access to authorized users.\n\nIn a SQL environment, modifying permissions is typically done via the GRANT and REVOKE commands.",
+  "Documentable": "false"
+}

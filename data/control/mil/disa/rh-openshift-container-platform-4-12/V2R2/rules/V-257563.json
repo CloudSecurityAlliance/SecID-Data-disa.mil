@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257563",
+  "rule_id": "SV-257563r961563_rule",
+  "stig_id": "CNTR-OS-000770",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Vulnerability scanning applications must implement privileged access authorization to all OpenShift components, containers, and container images for selected organization-defined vulnerability scanning activities.",
+  "group_title": "SRG-APP-000414-CTR-001010",
+  "idents": {
+    "cci": [
+      "CCI-001067"
+    ]
+  },
+  "check_id": "C-61298r921630_chk",
+  "check_content": "If no vulnerability scanning tool is used, this requirement is Not Applicable.\n\nIdentify the service accounts used by the vulnerability scanning tools. If the tool runs as a container on the platform, then service account information can be found in the pod details by executing the following:\n\n(oc get pods to list pods)\noc get pod <POD_ID> -o jsonpath='{.spec.serviceAccount}{\"\\n\"}'\n\nIf no service account exists for the vulnerability scanning tool, this is a finding.\n\nView cluster role bindings to determine which role the service account is bound to by executing the following:\n\noc get clusterrolebinding -ojson | jq '.items[]|select(.subjects[]?|select(.kind == \"ServiceAccount\" and .name == \"ingress-to-route-controller\"))|{ \"crb\": .metadata.name, \"roleRef\": .roleRef, \"subjects\": .subjects}'\n\nFind the role to which the service account is bound, if the service account is not bound to a cluster role, or the role does not provide sufficient access, this is a finding.",
+  "fixtext": "If no vulnerability scanning tool is used, this requirement is Not Applicable.\n\nCreate a service if one does not already exist.\n\nChange to the appropriate namespace by executing the following:\n\noc project <namespace>\n\nCreate Service Account in the Project by executing the following:\n\noc create sa <service_account_name>\n\nVerify creation of the Service Account by executing the following:\n\noc get sa | grep  <service_account_name>\n\nBind to the appropriate cluster RBAC role by executing the following:\n\noc adm policy add-cluster-role-to-user <role_name> -z <service_account_name>\n\nFor more information, refer to the following guides:\nhttps://docs.openshift.com/container-platform/4.8/authentication/using-rbac.html\n\nhttps://docs.openshift.com/container-platform/4.8/authentication/understanding-and-creating-service-accounts.html\n\nhttps://docs.openshift.com/container-platform/4.8/authentication/using-service-accounts-in-applications.html",
+  "fix_id": "F-61222r921631_fix",
+  "VulnDiscussion": "OpenShift uses service accounts to provide applications running on or off the platform access to the API service using the enforced RBAC policies. Vulnerability scanning applications that need access to the container platform may use a service account to grant that access. That service account can then be bound to the appropriate role required. The highest level of access granted is the cluster-admin role. Any account bound to that role can access and modify anything on the platform. It is strongly recommended to limit the number of accounts bound to that role. Instead, there are other predefined cluster level roles that may support the scanning to, such as the view or edit cluster roles. Additionally, custom roles may be defined to tailor fit access as needed by the scanning tools.",
+  "Documentable": "false"
+}

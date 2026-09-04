@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233868",
+  "rule_id": "SV-233868r1082629_rule",
+  "stig_id": "IDNS-8X-400010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "For zones split between the external and internal sides of a network, the resource records (RRs) for the external hosts must be separate from the RRs for the internal hosts.",
+  "group_title": "SRG-APP-000516-DNS-000091",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-37053r1082627_chk",
+  "check_content": "DNS Views allow a single zone to have two different data sets, with the response based on a client match list.\n\n1. When DNS Views are used, the top-level configuration of DNS >> Data Management >> Zones tab will display available views.\n2. Select the desired view using the check box and click \"Edit\".\n3. Review the \"Match Clients\" configuration.\n4. Verify the \"Match Clients\" configuration properly separates the internal and external DNS views.\n \nIf DNS Views are used and the client match list is validated, this is not a finding.",
+  "fixtext": "1. Navigate to Data Management >> DNS >> Zones and review each zone. \n2. Remove any RRs listed in the internal DNS service member configuration (DNS view) that resolve for external hosts.\n3. Remove any RRs listed in the external DNS service member configuration (DNS view) that resolve to internal hosts.\n4. For hosts intended to be accessed by both internal and external clients, configure unique IP addresses in each of the internal and external DNS service members, respective to their location.\n5. The perimeter firewall, or other routing device, must be configured to perform Network Address Translation to the true IP address of the destination.",
+  "fix_id": "F-37018r1082628_fix",
+  "VulnDiscussion": "Authoritative name servers for an enterprise may be configured to receive requests from both external and internal clients. \n\nExternal clients need to receive RRs that pertain only to public services (public web server, mail server, etc.) \n\nInternal clients need to receive RRs pertaining to public services as well as internal hosts. \n\nOrganizations using dedicated internal systems and separate dedicated external systems are inherently more secure than using a single system accessed by both internal and external clients.\n\nDNS Views allow a single name server to provide different response data based on a client match list or Access Control List.",
+  "Documentable": "false"
+}

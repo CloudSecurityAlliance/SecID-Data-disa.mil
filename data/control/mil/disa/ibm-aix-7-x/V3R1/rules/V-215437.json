@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215437",
+  "rule_id": "SV-215437r991589_rule",
+  "stig_id": "AIX7-00-003201",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX operating system must be configured to authenticate using Multi Factor Authentication.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-92943",
+      "SV-103031"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16635r294762_chk",
+  "check_content": "Verify the global \"auth_type\" is configured to use PAM: \n\n# grep auth_type /etc/security/login.cfg |grep AUTH \n\nauth_type = PAM_AUTH\n\nIf \"auth_type\" is not set to \"PAM_AUTH\", this is a finding.\n\n\nVerify that the user stanza is configured to use PAM:\n\n# lssec -f /etc/security/login.cfg -susw -a auth_type\n   \nusw auth_type=PAM_AUTH\n\nIf \"auth_type\" is not set to \"PAM_AUTH\", this is a finding.",
+  "fixtext": "Run the following command to set the global and user stanza \"auth_type\":\n\n# chsec -f /etc/security/login.cfg -susw -a auth_type=PAM_AUTH",
+  "fix_id": "F-16633r294763_fix",
+  "VulnDiscussion": "To assure accountability and prevent unauthenticated access, privileged and non-privileged users must utilize multifactor authentication to prevent potential misuse and compromise of the system. \nMultifactor authentication uses two or more factors to achieve authentication.\n\nFactors include: \n1. Something you know (e.g., password/PIN);\n2. Something you have (e.g., cryptographic identification device, token); and\n3. Something you are (e.g., biometric).\n\nThe DoD CAC with DoD-approved PKI is an example of multifactor authentication.",
+  "Documentable": "false"
+}

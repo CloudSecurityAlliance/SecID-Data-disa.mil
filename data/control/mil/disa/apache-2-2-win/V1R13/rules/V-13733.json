@@ -1,0 +1,18 @@
+{
+  "vuln_id": "V-13733",
+  "rule_id": "SV-33003r1_rule",
+  "stig_id": "WA000-WWA054 W22",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Server side includes (SSIs) must run with execution capability disabled.",
+  "group_title": "WA000-WWA054",
+  "idents": {},
+  "check_id": "C-33670r1_chk",
+  "check_content": "Locate the Apache httpd.conf file.\n\nIf unable to locate the file, perform a search of the system to find the location of the file.\n\nOpen the httpd.conf file with an editor such as notepad, and search for the following uncommented directive: Options\n\nReview all uncommented Options statements for the following values: +IncludesNoExec, -IncludesNoExec, or -Includes\n\nIf these values are found on an enabled Options statement, this is not a finding. If these values do not exist at all, this would be a finding unless the enabled Options statement is set to “None”. If any enabled Options statement has \"Includes” or \"+Includes” as part of its statement, this is a finding.",
+  "fixtext": "Add one of the following to the enabled Options directive +IncludesNoExec, -IncludesNoExec, or -Includes. Remove the \"Includes\" or \"+Includes\" setting from the options statement.",
+  "fix_id": "F-29305r1_fix",
+  "VulnDiscussion": "The Options directive configures the web server features that are available in particular directories.  The IncludesNOEXEC feature controls the ability of the server to utilize SSIs while disabling the exec command, which is used to execute external scripts.  If the full includes feature is used it could allow the execution of malware leading to a system compromise.",
+  "Documentable": "false",
+  "Responsibility": "Web Administrator"
+}

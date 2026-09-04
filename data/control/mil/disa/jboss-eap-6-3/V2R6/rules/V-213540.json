@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213540",
+  "rule_id": "SV-213540r961362_rule",
+  "stig_id": "JBOS-AS-000480",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The JBoss server must be configured to log all admin activity.",
+  "group_title": "SRG-APP-000343-AS-000030",
+  "idents": {
+    "legacy": [
+      "SV-76797",
+      "V-62307"
+    ],
+    "cci": [
+      "CCI-002234"
+    ]
+  },
+  "check_id": "C-14763r296286_chk",
+  "check_content": "Log on to the OS of the JBoss server with OS permissions that allow access to JBoss.\nUsing the relevant OS commands and syntax, cd to the <JBOSS_HOME>/bin/ folder.\nRun the jboss-cli script.\nConnect to the server and authenticate.\nRun the command:\n\n/core-service=management/access=audit:read-resource(recursive=true)\n\nUnder the \"logger\" => {audit-log} section of the returned response:\nIf \"enabled\" => false, this is a finding",
+  "fixtext": "Launch the jboss-cli management interface substituting standalone or domain for <CONFIG> based upon the server installation.\n\n<JBOSS_HOME>/<CONFIG>/bin/jboss-cli\n\nconnect to the server and run the following command:\n\n/core-service=management/access=audit/logger=audit-log:write-attribute(name=enabled,value=true)",
+  "fix_id": "F-14761r296287_fix",
+  "VulnDiscussion": "In order to be able to provide a forensic history of activity, the application server must ensure users who are granted a privileged role or those who utilize a separate distinct account when accessing privileged functions or data have their actions logged.\n\nIf privileged activity is not logged, no forensic logs can be used to establish accountability for privileged actions that occur on the system.",
+  "Documentable": "false"
+}

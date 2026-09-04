@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259636",
+  "rule_id": "SV-259636r961587_rule",
+  "stig_id": "EX19-ED-000224",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Exchange Edge server must point to a trusted list of DNS servers for external and internal resolution.",
+  "group_title": "SRG-APP-000424",
+  "idents": {
+    "cci": [
+      "CCI-002466"
+    ]
+  },
+  "check_id": "C-63375r942220_chk",
+  "check_content": "Verify in the EDSP or consult with the appropriate personnel who manage DNS which servers to use for Internal and External DNS resolution. \n\nIf the server is not multi-homed, this does not apply.\n\nIn Exchange Management Shell, run the following command:\n\nGet-TransportService |Format-List *dns*\n\nIf \"ExternalDNSAdapterEnabled : True\", and no GUID exists, this is a finding.\n\nIf \"ExternalDNSAdapterEnabled : False\", and the property \"ExternalDNSServers\" is not populated with the documented trusted DNS servers for External DNS queries, this is a finding.\n\nIf \"InternalDNSAdapterEnabled : True\" and no GUID exists, this is a finding.\n\nIf \"InternalDNSAdapterEnabled : False\" and the property \"InternalDNSServers\" is not populated the documented trusted DNS servers for Internal DNS queries, this is a finding.",
+  "fixtext": "Verify in the EDSP or consult with the appropriate personnel who manage which DNS servers to use for Internal and External DNS resolution.\n\nIf a GUID for the External and Internal network adapters are applicable, then gather the values to populate the appropriate properties with the following commands:\n\nnetsh lan show interfaces\n\nThis will provide the adapters and the GUIDs for each. Identify the external and internal adapters for the Edge server.\n\nOnce gathered, run the following:\n\nSet-TransportService -Identity <name of server> -ExternalDNSAdapterEnabled $true -ExternalDNSAdapterGuid <externalAdapterGUID> -InternalDNSAdapterEnabled $true -InternalDNSAdapterGuid <InternalAdapterGuid>\n\nIf the \"ExternalDNSAdapterEnabled\" or InternalDNSAdapterEnabled are set to false, use the following to set the DNS configuration:\n\nSet-TransportService -Identity  <name of server> -InternalDNSServers @{add=\"Trusted DNS IP1\",\"Trusted DNS IP2\"}\nSet-TransportService -Identity  <name of server> -ExternalDNSServers @{add=\"Trusted DNS IP1\",\"Trusted DNS IP2\"}",
+  "fix_id": "F-63283r942221_fix",
+  "VulnDiscussion": "To mitigate the risk of possible erroneous queries that may have been coopted by bad actors, the Exchange Edge server must use DNS servers that utilize DNSSEC to resolve external hosts and internal hosts before routing messages to the appropriate destination.",
+  "Documentable": "false"
+}

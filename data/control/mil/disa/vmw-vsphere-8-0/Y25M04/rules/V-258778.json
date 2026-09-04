@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258778",
+  "rule_id": "SV-258778r959010_rule",
+  "stig_id": "ESXI-80-000223",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must not suppress warnings about unmitigated hyperthreading vulnerabilities.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62518r933393_chk",
+  "check_content": "From the vSphere Client go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"UserVars.SuppressHyperthreadWarning\" value and verify it is set to \"0\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name UserVars.SuppressHyperthreadWarning\n\nIf the \"UserVars.SuppressHyperthreadWarning\" setting is not set to \"0\", this is a finding.",
+  "fixtext": "From the vSphere Client go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"UserVars.SuppressHyperthreadWarning\" value and configure it to \"0\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name UserVars.SuppressHyperthreadWarning | Set-AdvancedSetting -Value 0",
+  "fix_id": "F-62427r933394_fix",
+  "VulnDiscussion": "The L1 Terminal Fault (L1TF) CPU vulnerabilities published in 2018 have patches and mitigations available in vSphere. However, there are performance impacts to these mitigations that require careful thought and planning from the system administrator before implementation. Until a mitigation is implemented, the UI warning about the lack of a mitigation must not be dismissed so the system administrator does not assume the vulnerability has been addressed.",
+  "Documentable": "false"
+}

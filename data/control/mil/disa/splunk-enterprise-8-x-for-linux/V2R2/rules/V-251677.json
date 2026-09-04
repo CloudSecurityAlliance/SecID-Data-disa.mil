@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251677",
+  "rule_id": "SV-251677r961863_rule",
+  "stig_id": "SPLK-CL-000290",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Analysis, viewing, and indexing functions, services, and applications used as part of Splunk Enterprise must be configured to comply with DoD-trusted path and access requirements.",
+  "group_title": "SRG-APP-000516-AU-000410",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-55115r819098_chk",
+  "check_content": "Execute a search query in Splunk using the following:\n\nindex=_internal source=*metrics.log* group=tcpin_connections | dedup hostname | table _time hostname sourceIp destPort ssl\n\nVerify that the report returns ssl = true for every item listed.\n\nNavigate to $SPLUNK_HOME/etc/system/local/web.conf and verify the enableSplunkWebSSL is set to 1.\n\nIf the report returns ssl = false for any item, and/or If enableSplunkWebSSL is not set, this is a finding.",
+  "fixtext": "Edit the following files in the installation to configure Splunk to use SSL certificates:\n\nThis configuration is performed on the machine used as an indexer, which may be a separate machine in a distributed environment.\n\n$SPLUNK_HOME/etc/system/local/inputs.conf\n\n[splunktcp-ssl:9997]\ndisabled = 0\n\n[SSL]\nserverCert = <path to the DoD approved certificate in PEM format>\nsslPassword = <password for the certificate>\n\nThis configuration is performed on the machine used as a forwarder, which is always a separate machine regardless of environment.\n\n$SPLUNK_HOME/etc/system/local/outputs.conf\n\n[tcpout:group1]\ndisabled = 0\nclientCert = <path to the DoD approved certificate in PEM format>\nsslPassword = <password for the certificate>\n\nThis configuration is performed on the machine used as a search head, which may be a separate machine in a distributed environment.\n\nEdit the following file in the installation to configure Splunk to use SSL certificates:\n\n$SPLUNK_HOME/etc/opt/system/local/web.conf\n\n[settings]\nenableSplunkWebSSL = 1\nprivKeyPath = <path to the private key generated for the DoD approved certificate>\nserverCert = <path to the DoD approved certificate in PEM format>",
+  "fix_id": "F-55069r835284_fix",
+  "VulnDiscussion": "Access to Splunk Enterprise for analysis, viewing, indexing functions, services, and applications, such as analysis tools and other vendor-provided applications, must be secured. Software used to perform additional functions, which resides on the server, must also be secured or could provide a vector for unauthorized access to the events repository.",
+  "Documentable": "false"
+}

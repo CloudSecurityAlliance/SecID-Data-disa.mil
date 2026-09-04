@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-268078",
+  "rule_id": "SV-268078r1039122_rule",
+  "stig_id": "ANIX-00-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must enable the built-in firewall.",
+  "group_title": "SRG-OS-000298-GPOS-00116",
+  "idents": {
+    "cci": [
+      "CCI-002322",
+      "CCI-000382",
+      "CCI-002314",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-72002r1039120_chk",
+  "check_content": "Verify NixOS has the network firewall enabled with the following command:\n\n$ grep firewall.enable /etc/nixos/configuration.nix\n\n networking.firewall.enable = true;\n\nIf \"networking.firewall.enable\" is not set to \"true\", is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure /etc/nixos/configuration.nix to enforce firewall rules by adding the following configuration settings:\n\n networking.firewall.enable = true;\n\nRebuild the system with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71905r1039121_fix",
+  "VulnDiscussion": "Without the ability to immediately disconnect or disable remote access, an attack or other compromise taking place would not be immediately stopped.\n\nOperating system remote access functionality must have the capability to immediately disconnect current users remotely accessing the information system and/or disable further remote access. The speed of disconnect or disablement varies based on the criticality of mission's functions and the need to eliminate immediate or future remote access to organizational information systems.\n\nThe remote access functionality (e.g., RDP) may implement features such as automatic disconnect (or user-initiated disconnect) in case of adverse information based on an indicator of compromise or attack.\n\nSatisfies: SRG-OS-000298-GPOS-00116, SRG-OS-000096-GPOS-00050, SRG-OS-000297-GPOS-00115, SRG-OS-000480-GPOS-00232",
+  "Documentable": "false"
+}

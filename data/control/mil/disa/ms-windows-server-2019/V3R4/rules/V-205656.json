@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-205656",
+  "rule_id": "SV-205656r1051064_rule",
+  "stig_id": "WN19-AC-000060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2019 minimum password age must be configured to at least one day.",
+  "group_title": "SRG-OS-000075-GPOS-00043",
+  "idents": {
+    "legacy": [
+      "SV-103557",
+      "V-93471"
+    ],
+    "cci": [
+      "CCI-004066",
+      "CCI-000198"
+    ]
+  },
+  "check_id": "C-5921r354886_chk",
+  "check_content": "Verify the effective setting in Local Group Policy Editor.\n\nRun \"gpedit.msc\".\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Account Policies >> Password Policy.\n\nIf the value for the \"Minimum password age\" is set to \"0\" days (\"Password can be changed immediately\"), this is a finding.\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas SecurityPolicy /CFG C:\\Path\\FileName.Txt\n\nIf \"MinimumPasswordAge\" equals \"0\" in the file, this is a finding.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Account Policies >> Password Policy >> \"Minimum password age\" to at least \"1\" day.",
+  "fix_id": "F-5921r354887_fix",
+  "VulnDiscussion": "Permitting passwords to be changed in immediate succession within the same day allows users to cycle passwords through their history database. This enables users to effectively negate the purpose of mandating periodic password changes.",
+  "Documentable": "false"
+}

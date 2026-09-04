@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-217336",
+  "rule_id": "SV-217336r1015748_rule",
+  "stig_id": "JUNI-ND-001060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured to prohibit installation of software without explicit privileged status.",
+  "group_title": "SRG-APP-000378-NDM-000302",
+  "idents": {
+    "legacy": [
+      "SV-101261",
+      "V-91161"
+    ],
+    "cci": [
+      "CCI-003980",
+      "CCI-001812"
+    ]
+  },
+  "check_id": "C-18563r296586_chk",
+  "check_content": "Review the router configuration to verify that it is compliant with this requirement. The configuration example below depicts a class JR_ENGINEER that is not permitted to add or change software installed on the router.\n\nlogin {\n    class JR_ENGINEER {\n        permissions all;\n        deny-commands \"request system software\";\n    }\n\nNote: The following are the options under request system software:\n  abort         -Abort software upgrade\n  add            -Add extension or upgrade package\n  delete      -Remove extension or upgrade package\n  rollback   -Roll back to previous set of packages\n  validate   -Verify package compatibility with current configuration\n\nIf the router is not configured to prohibit installation of software without explicit privileged status, this is a finding.",
+  "fixtext": "Configure one or more classes as shown in the example below whose users will not be permitted to add or change software installed on the router.\n\n[edit system]\nset login class JR_ENGINEER permissions all \nset login class JR_ENGINEER deny-commands “(request system software)”\n\nNote: The predefined classes operator and Read-only do not have permissions to install software.",
+  "fix_id": "F-18561r296587_fix",
+  "VulnDiscussion": "Allowing anyone to install software, without explicit privileges, creates the risk that untested or potentially malicious software will be installed on the system. This requirement applies to code changes and upgrades for all network devices.",
+  "Documentable": "false"
+}

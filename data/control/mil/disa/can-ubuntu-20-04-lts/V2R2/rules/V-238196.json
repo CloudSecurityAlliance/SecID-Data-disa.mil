@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-238196",
+  "rule_id": "SV-238196r958364_rule",
+  "stig_id": "UBTU-20-010000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Ubuntu operating system must provision temporary user accounts with an expiration time of 72 hours or less.",
+  "group_title": "SRG-OS-000002-GPOS-00002",
+  "idents": {
+    "cci": [
+      "CCI-000016"
+    ]
+  },
+  "check_id": "C-41406r653761_chk",
+  "check_content": "Verify that the Ubuntu operating system expires temporary user accounts within 72 hours or less. \n \nFor every existing temporary account, run the following command to obtain its account expiration information: \n \n$ sudo chage -l system_account_name | grep expires \n \nPassword expires : Aug 07, 2019 \nAccount expires : Aug 07, 2019 \n \nVerify that each of these accounts has an expiration date set within 72 hours of account creation. \n \nIf any temporary account does not expire within 72 hours of that account's creation, this is a finding.",
+  "fixtext": "If a temporary account must be created, configure the system to terminate the account after a 72-hour time period with the following command to set an expiration date on it.  \n \nSubstitute \"system_account_name\" with the account to be created. \n \n$ sudo chage -E $(date -d \"+3 days\" +%F) system_account_name",
+  "fix_id": "F-41365r653762_fix",
+  "VulnDiscussion": "If temporary user accounts remain active when no longer needed or for an excessive period, these accounts may be used to gain unauthorized access. To mitigate this risk, automated termination of all temporary accounts must be set upon account creation. \n \nTemporary accounts are established as part of normal account activation procedures when there is a need for short-term accounts without the demand for immediacy in account activation. \n \nIf temporary accounts are used, the operating system must be configured to automatically terminate these types of accounts after a DoD-defined time period of 72 hours. \n \nTo address access requirements, many operating systems may be integrated with enterprise-level authentication/access mechanisms that meet or exceed access control policy requirements.",
+  "Documentable": "false"
+}

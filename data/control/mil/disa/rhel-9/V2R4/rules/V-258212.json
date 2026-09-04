@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258212",
+  "rule_id": "SV-258212r1045421_rule",
+  "stig_id": "RHEL-09-654190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Successful/unsuccessful uses of the poweroff command in RHEL 9 must generate an audit record.",
+  "group_title": "SRG-OS-000477-GPOS-00222",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-61953r1045419_chk",
+  "check_content": "Verify that RHEL 9 is configured to audit the execution of the \"poweroff\" command with the following command:\n\n$ sudo auditctl -l | grep poweroff\n\n-a always,exit -S all -F path=/usr/sbin/poweroff -F perm=x -F auid>=1000 -F auid!=-1 -F key=privileged-poweroff\n\nIf the command does not return a line, or the line is commented out, this is a finding.",
+  "fixtext": "Configure the audit system to generate an audit event for any successful/unsuccessful uses of the \"poweroff\" command by adding or updating the following rule in the \"/etc/audit/rules.d/audit.rules\" file:\n\n-a always,exit -F path=/usr/sbin/poweroff -F perm=x -F auid>=1000 -F auid!=unset -k privileged-poweroff\n\nTo load the rules to the kernel immediately, use the following command:\n\n$ sudo augenrules --load",
+  "fix_id": "F-61877r1045420_fix",
+  "VulnDiscussion": "Misuse of the poweroff command may cause availability issues for the system.",
+  "Documentable": "false"
+}

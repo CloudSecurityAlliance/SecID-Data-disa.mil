@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253955",
+  "rule_id": "SV-253955r1082970_rule",
+  "stig_id": "JUEX-L2-000080",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to enable Root Protection on STP switch ports connecting to access layer switches.",
+  "group_title": "SRG-NET-000362-L2S-000021",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-57407r1018714_chk",
+  "check_content": "Review the switch topology as well as the switch configuration to verify that Root Protection is enabled on all interfaces connecting to access layer switches.\n\n[edit protocols]\nmstp {\n    interface <interface name> {\n        no-root-port;\n    }\n}\n\nIf Root Protection is not enabled on all interfaces connecting to access layer switches, this is a finding.",
+  "fixtext": "Configure the switch to have Root Protection enabled on all switch ports connecting to access layer switches and hosts using trunked interfaces.\n\nset protocols mstp interface <interface name> no-root-port",
+  "fix_id": "F-57358r1018715_fix",
+  "VulnDiscussion": "Spanning Tree Protocol (STP) does not provide any means for the network administrator to securely enforce the topology of the switched network. Any switch can be the root bridge in a network. However, a more optimal forwarding topology places the root bridge at a specific predetermined location. With the standard STP, any bridge in the network with a lower bridge ID takes the role of the root bridge. The administrator cannot enforce the position of the root bridge but can set the root bridge priority to zero in an effort to secure the root bridge position.\n\nThe Root Protection feature provides a way to enforce the root bridge placement in the network. If the bridge receives superior STP Bridge Protocol Data Units (BPDUs) on a Root Protection-enabled interface, Root Protection ignores the superior BPDU and places the interface into block and a root-inconsistent state. To enforce the position of the root bridge it is imperative that Root Protection is enabled on all interfaces where the root bridge should never appear.\n\nNote: Although Loop Protection can be applied to all nondesignated ports, JUEX-L2-000100 requires that Loop Protection be applied to all user-facing access switch ports. Thus, Loop Protection must only be applied to all nondesignated ports that are not also user-facing access switch ports. Loop Protection and Root Protection cannot be applied to the same port. Additionally, note that configuring BPDU Protection and Root Protection on the same interface is supported because BPDU protection includes Root Protection.",
+  "Documentable": "false"
+}

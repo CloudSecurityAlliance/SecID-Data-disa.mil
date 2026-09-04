@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253776",
+  "rule_id": "SV-253776r961860_rule",
+  "stig_id": "MADB-10-012400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must off-load audit data to a separate log management facility; this must be continuous and in near real time for systems with a network connection to the storage facility and weekly or more often for stand-alone systems.",
+  "group_title": "SRG-APP-000515-DB-000318",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-57228r841851_chk",
+  "check_content": "Check if the variable server_audit_output_type is set to syslog, and verify the operating system is using a centralized syslog utility such as rsyslogd. \n\nMariaDB> SHOW GLOBAL VARIABLES LIKE 'server_audit_output_type'; \n\nIf not, this is a finding.",
+  "fixtext": "To set up the audit logs to write to sylog:\n\nEdit the mariadb-enterprise.cnf file. Add the following under the [mariadb] section:  \n\nserver_audit_output_type = 'syslog' \n\nAfter the .cnf file is updated and saved, the mariadb database service must be restarted.",
+  "fix_id": "F-57179r841852_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity. \n\nMariaDB writes audit records to files in the file system, to other kinds of local repository, or directly to a centralized log management system. Whatever the method used, it must be compatible with off-loading the records to the centralized system.",
+  "Documentable": "false"
+}

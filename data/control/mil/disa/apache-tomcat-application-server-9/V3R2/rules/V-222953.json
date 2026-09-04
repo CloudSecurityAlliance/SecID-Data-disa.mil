@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222953",
+  "rule_id": "SV-222953r960963_rule",
+  "stig_id": "TCAT-AS-000510",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "DefaultServlet debug parameter must be disabled.",
+  "group_title": "SRG-APP-000141-AS-000095",
+  "idents": {
+    "legacy": [
+      "SV-111431",
+      "V-102489"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-24625r426303_chk",
+  "check_content": "From the Tomcat server run the following OS command:\n\nsudo cat $CATALINA_BASE/conf/web.xml |grep -i -A10 -B2 defaultservlet \n\nThe above command will include ten lines after and two lines before the occurrence of \"defaultservlet\". Some systems may require that the user increase the after number (A10) in order to determine the \"debug\" param-value. \n\nIf the \"debug\" param-value for the \"DefaultServlet\" servlet class does not = 0, this is a finding.",
+  "fixtext": "From the Tomcat server as a privileged user:\n\nEdit the $CATALINA_BASE/conf/web.xml file.\n\nExamine the <init-param> elements within the <Servletclass> element, if the \"debug\" <param-value>element is not \"0\"\" change the \"debug\" <param-value> to read \"0\".\n\nsudo systemctl restart tomcat\nsudo systemctl daemon-reload",
+  "fix_id": "F-24614r426304_fix",
+  "VulnDiscussion": "The DefaultServlet serves static resources as well as serves the directory listings (if directory listings are enabled). It is declared globally in $CATALINA_BASE/conf/web.xml and by default is configured with the \"debug\" parameter set to 0, which is disabled. Changing this to a value of 1 or higher sets the servlet to print debug level information. DefaultServlet debug setting must be set to 0 (disabled).",
+  "Documentable": "false"
+}

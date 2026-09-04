@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256399",
+  "rule_id": "SV-256399r958478_rule",
+  "stig_id": "ESXI-70-000034",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must disable the Managed Object Browser (MOB).",
+  "group_title": "SRG-OS-000095-VMM-000480",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-60074r885976_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"Config.HostAgent.plugins.solo.enableMob\" value and verify it is set to \"false\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Config.HostAgent.plugins.solo.enableMob\n\nIf the \"Config.HostAgent.plugins.solo.enableMob\" setting is not set to \"false\", this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings. Click \"Edit\".\n\nClick \"Edit\". Select the \"Config.HostAgent.plugins.solo.enableMob\" value and configure it to \"false\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Config.HostAgent.plugins.solo.enableMob | Set-AdvancedSetting -Value false",
+  "fix_id": "F-60017r918912_fix",
+  "VulnDiscussion": "The MOB provides a way to explore the object model used by the VMkernel to manage the host and enables configurations to be changed. This interface is meant to be used primarily for debugging the vSphere Software Development Kit (SDK), but because there are no access controls it could also be used as a method to obtain information about a host being targeted for unauthorized access.",
+  "Documentable": "false"
+}

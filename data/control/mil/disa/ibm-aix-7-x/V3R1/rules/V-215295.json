@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215295",
+  "rule_id": "SV-215295r1009551_rule",
+  "stig_id": "AIX7-00-002112",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX SSH daemon must be configured for IP filtering.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91679",
+      "SV-101777"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16493r1009550_chk",
+  "check_content": "Note: If the installed version of OpenSSH is 6.7 or above, this requirement is not applicable.\n\nCheck the TCP wrappers configuration files to determine if SSHD is configured to use TCP wrappers using commands: \n\n# grep sshd /etc/hosts.deny \nsshd : ALL\n\n# grep sshd /etc/hosts.allow \nsshd : 10.10.20.*\n\nIf no entries are returned, the TCP wrappers are not configured for SSHD, this is a finding.",
+  "fixtext": "Add appropriate IP restrictions for SSH to the \"/etc/hosts.deny\" and/or \"/etc/hosts.allow\" files. \n\nTCP Wrappers can be installed from the AIX Expansion Pack by installing fileset \"netsec.options.tcpwrappers\" using the following command (assume AIX Expansion Pack is mounted on /dev/cd0):\n# installp -aXYgd /dev/cd0 -e /tmp/install.log netsec.options.tcpwrappers",
+  "fix_id": "F-16491r294337_fix",
+  "VulnDiscussion": "The SSH daemon must be configured for IP filtering to provide a layered defense against connection attempts from unauthorized addresses.",
+  "Documentable": "false"
+}

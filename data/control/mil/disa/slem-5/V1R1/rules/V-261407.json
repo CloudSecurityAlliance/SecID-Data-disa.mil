@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-261407",
+  "rule_id": "SV-261407r996637_rule",
+  "stig_id": "SLEM-05-651030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Advanced Intrusion Detection Environment (AIDE) must verify the baseline SLEM 5 configuration at least weekly.",
+  "group_title": "SRG-OS-000363-GPOS-00150",
+  "idents": {
+    "cci": [
+      "CCI-001744",
+      "CCI-002696",
+      "CCI-002699"
+    ]
+  },
+  "check_id": "C-65136r996635_chk",
+  "check_content": "Verify SLEM 5 checks the baseline configuration using AIDE for unauthorized changes at least once weekly with the following command:\n\nNote: A file integrity tool other than AIDE may be used, but the tool must be executed at least once per week.\n\n     > sudo grep -R aide /etc/crontab /etc/cron.*\n     /etc/crontab: 30 04 * * * root /usr/sbin/aide\n\nIf the file integrity application does not exist, or a \"crontab\" file does not exist in \"/etc/crontab\", the \"/etc/cron.daily\" subdirectory, or \"/etc/cron.weekly\" subdirectory, this is a finding.",
+  "fixtext": "Configure SLEM 5 to check the baseline configuration for unauthorized changes at least once weekly.\n\nAdd or modify the following line in the \"/etc/cron.weekly/aide\" file:\n\n0 0 * * * /usr/sbin/aide --check | /bin/mail -s \"$HOSTNAME - Weekly AIDE integrity check run\" root@example_server_name.mil",
+  "fix_id": "F-65044r996636_fix",
+  "VulnDiscussion": "Unauthorized changes to the baseline configuration could make the system vulnerable to various attacks or allow unauthorized access to SLEM 5. Changes to SLEM 5 configurations can have unintended side effects, some of which may be relevant to security.\n\nDetecting such changes and providing an automated response can help avoid unintended, negative consequences that could ultimately affect the security state of SLEM 5. SLEM 5's information system security manager (ISSM)/information system security officer (ISSO) and system administrator (SA) must be notified via email and/or monitoring system trap when there is an unauthorized modification of a configuration item.",
+  "Documentable": "false"
+}

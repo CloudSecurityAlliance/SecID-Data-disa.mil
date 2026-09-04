@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271070",
+  "rule_id": "SV-271070r1058032_rule",
+  "stig_id": "DRAG-OT-002120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Dragos Platform must alert the information system security officer (ISSO), information system security manager (ISSM), and other individuals designated by the local organization when events are detected that indicate a compromise or potential for compromise.",
+  "group_title": "SRG-APP-000471",
+  "idents": {
+    "cci": [
+      "CCI-002664"
+    ]
+  },
+  "check_id": "C-75113r1058014_chk",
+  "check_content": "1. Check Server Configuration.\n\nIf using Syslog Server:\nVerify third-party server is used to receive communication-related notifications.\nCheck for a configured Syslog Server.\nIn the UI, navigate to Admin >> Integrations.\nClick \"LAUNCH\" in the Syslog section.\n\nIf using Email Server:\nCheck that the Email Server is configured.\nIn the UI, navigate to Admin >> Integrations.\nClick \"LAUNCH\" on the email block.\n\nIf no server is configured or the status is not \"Connected\", this is a finding. \n\nIf no recipient is configured, this is a finding.\n\n2. Check Rules:\nNavigate to Notification >> RULES Tab.\nVerify a rule exists and has the following:\nAction = \"Send (<your syslog server or email server>)\"\nCriteria = \"Notification Type Equals System\"\n          \"Notification Type Equals System Failure\" \n\nIf a rule does not exist with the correct Action and Criteria, this is a finding.",
+  "fixtext": "1. Configure Servers.\nIf using Syslog Server:\nCreate a Syslog server on a third-party device.\nThe steps may vary depending on the chosen Syslog server software. Refer to 2.3.x Dragos Platform Syslog Integration Guide in the Customer Portal for additional help.\n\nCreate a syslog server output in the Dragos UI.\nNavigate to Admin >> Integrations.\nClick \"LAUNCH\" in the Syslog section.\nClick \"ADD NEW SERVER\".\nEnter third-party server information and click \"NEXT\".\nInput Message Template.\nClick \"SAVE\".\n\nIf using Email Server:\nIn the UI, navigate to Admin >> Integrations.\nClick \"LAUNCH\" on the email block.\n\nConfigure the Email Server and Recipients:\nRefer to 2.3.x Dragos Platform Email Integration Guide in the Customer Portal for additional help.\n\n2. Creating System Rules:\nNavigate to Notification >> RULES Tab.\nClick \"NEW RULE\".\nFill in Name and Processing Order.\n\nCreate two Attributes.\nClick \"ADD ATTRIBUTE\" in the \"If ANY of the following\" block:\nType = \"Notification Type\"\nSelect Operation = \"Equals\"\nSelect Value = \"System\"\n\nClick \"ADD ATTRIBUTE\" in the \"If ANY of the following\" block:\nType = \"Notification Type\"\nSelect Operation = \"Equals\"\nSelect Value = \"System failure\"\n\nIn the \"THEN perform the following actions block:\nClick \"ADD ACTION\".\nAction = \"Send (<your syslog server or email server>)\"\n\nClick \"SAVE\".",
+  "fix_id": "F-75014r1058015_fix",
+  "VulnDiscussion": "When a security event occurs, Dragos Platform must immediately notify the appropriate support personnel so they can respond appropriately.\n\nAlerts may be generated from a variety of sources, including audit records or inputs from malicious code protection mechanisms, intrusion detection mechanisms, or prevention mechanisms.\n\nIOCs are forensic artifacts from intrusions that are identified on organizational information systems (at the host or network level). IOCs provide organizations with valuable information on objects or information systems that have been compromised. These indicators reflect the occurrence of a compromise or a potential compromise.",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-266941",
+  "rule_id": "SV-266941r1039844_rule",
+  "stig_id": "ARBA-ND-000267",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AOS must terminate all network connections associated with a device management session at the end of the session, or the session must be terminated after five minutes of inactivity except to fulfill documented and validated mission requirements.",
+  "group_title": "SRG-APP-000190-NDM-000267",
+  "idents": {
+    "cci": [
+      "CCI-001133",
+      "CCI-000879"
+    ]
+  },
+  "check_id": "C-70865r1039842_chk",
+  "check_content": "Verify the AOS configuration with the following commands: \nshow running-config | include \"loginsession timeout\" \nshow web-server profile \n \nIf the login session timeout is not set to \"5\" (minutes), this is a finding.  \n \nIf \"User session timeout <30-3600> (seconds)\" is not set to \"300\", this is a finding.",
+  "fixtext": "Configure AOS with the following commands: \nconfigure terminal \nloginsession timeout 5 \nweb-server profile \nsession-timeout 300 \nexit \nwrite memory",
+  "fix_id": "F-70768r1039843_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. Quickly terminating an idle session will also free up resources committed by the managed network element.  \n \nTerminating network connections associated with communications sessions includes, for example, deallocating associated Transmission Control Protocol/Internet Protocol (TCP/IP) address/port pairs at the operating system level or deallocating networking assignments at the application level if multiple application sessions are using a single, operating system-level network connection. This does not mean that the device terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.\n\nSatisfies: SRG-APP-000190-NDM-000267, SRG-APP-000186-NDM-000266",
+  "Documentable": "false"
+}

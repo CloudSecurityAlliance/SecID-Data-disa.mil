@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215379",
+  "rule_id": "SV-215379r958478_rule",
+  "stig_id": "AIX7-00-003074",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The pcnfsd daemon must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "SV-101485",
+      "V-91387"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16577r294588_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^pcnfsd[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"pcnfsd\" entry by running command: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'pcnfsd' -p 'udp'\n\nRestart inetd:\n# refresh -s inetd",
+  "fix_id": "F-16575r294589_fix",
+  "VulnDiscussion": "The pcnfsd service is an authentication and printing program, which uses NFS to provide file transfer services. This service is vulnerable and exploitable and permits the machine to be compromised both locally and remotely. If PC NFS clients are required within the environment, Samba is recommended as an alternative software solution. The pcnfsd daemon predates Microsoft's release of SMB specifications. This service should therefore be disabled to prevent attacks.",
+  "Documentable": "false"
+}

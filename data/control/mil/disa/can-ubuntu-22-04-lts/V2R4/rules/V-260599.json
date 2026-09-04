@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-260599",
+  "rule_id": "SV-260599r958434_rule",
+  "stig_id": "UBTU-22-653055",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must permit only authorized groups ownership of the audit log files.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164"
+    ]
+  },
+  "check_id": "C-64328r953608_chk",
+  "check_content": "Verify the group owner of newly created audit logs is \"root\" by using the following command:  \n \n     $ sudo grep -iw log_group /etc/audit/auditd.conf \n     log_group = root \n \nIf \"log_group\" is not set to \"root\", this is a finding.",
+  "fixtext": "Configure the group owner of newly created audit logs to be \"root\". \n \nAdd or modify the following lines in the \"/etc/audit/auditd.conf \" file: \n \nlog_group = root \n \nReload the configuration file of the audit service to update the group ownership of existing files: \n \n     $ sudo systemctl kill auditd -s SIGHUP",
+  "fix_id": "F-64236r953609_fix",
+  "VulnDiscussion": "Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.  \n  \nAudit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit operating system activity.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029",
+  "Documentable": "false"
+}

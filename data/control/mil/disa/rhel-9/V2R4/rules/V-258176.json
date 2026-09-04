@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-258176",
+  "rule_id": "SV-258176r1045313_rule",
+  "stig_id": "RHEL-09-654010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must audit uses of the \"execve\" system call.",
+  "group_title": "SRG-OS-000326-GPOS-00126",
+  "idents": {
+    "cci": [
+      "CCI-002233",
+      "CCI-002234"
+    ]
+  },
+  "check_id": "C-61917r1045311_chk",
+  "check_content": "Verify that RHEL 9 is configured to audit the execution of the \"execve\" system call with the following command:\n\n$ sudo auditctl -l | grep execve\n\n-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -F key=execpriv\n-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -F key=execpriv\n-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -F key=execpriv\n-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -F key=execpriv\n\nIf the command does not return all lines, or the lines are commented out, this is a finding.",
+  "fixtext": "Configure RHEL 9 to audit the execution of the \"execve\" system call.\n\nAdd or update the following file system rules to \"/etc/audit/rules.d/audit.rules\":\n\n-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -k execpriv \n-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -k execpriv\n-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -k execpriv \n-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -k execpriv \n\nTo load the rules to the kernel immediately, use the following command:\n\n$ sudo augenrules --load",
+  "fix_id": "F-61841r1045312_fix",
+  "VulnDiscussion": "Misuse of privileged functions, either intentionally or unintentionally by authorized users, or by unauthorized external entities that have compromised information system accounts, is a serious and ongoing concern and can have significant adverse impacts on organizations. Auditing the use of privileged functions is one way to detect such misuse and identify the risk from insider threats and the advanced persistent threat.\n\nSatisfies: SRG-OS-000326-GPOS-00126, SRG-OS-000327-GPOS-00127",
+  "Documentable": "false"
+}

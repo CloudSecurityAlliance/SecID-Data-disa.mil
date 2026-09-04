@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219872",
+  "rule_id": "SV-219872r961863_rule",
+  "stig_id": "O121-BP-026300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Remote database or other external access must use fully-qualified names.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "legacy": [
+      "SV-76019",
+      "V-61529"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-21583r533128_chk",
+  "check_content": "From SQL*Plus:\n\n  select value from v$parameter where name = 'global_names';\n\nIf the value returned is FALSE, this is a finding.",
+  "fixtext": "From SQL*Plus:\n\n  alter system set global_names = TRUE scope = spfile;\n\nNote: This parameter, if changed, will affect all currently defined Oracle database links.\n\nThe above SQL*Plus command will set the parameter to take effect at next system startup.",
+  "fix_id": "F-21582r533129_fix",
+  "VulnDiscussion": "The Oracle GLOBAL_NAMES parameter is used to set the requirement for database link names to be the same name as the remote database whose connection they define. By using the same name for both, ambiguity is avoided and unauthorized or unintended connections to remote databases are less likely.",
+  "Documentable": "false"
+}

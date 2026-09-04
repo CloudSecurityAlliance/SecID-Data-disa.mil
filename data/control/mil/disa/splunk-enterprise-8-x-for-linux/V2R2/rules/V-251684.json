@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-251684",
+  "rule_id": "SV-251684r1015834_rule",
+  "stig_id": "SPLK-CL-000370",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Splunk Enterprise must be configured to enforce a minimum 15-character password length.",
+  "group_title": "SRG-APP-000164-AU-002480",
+  "idents": {
+    "cci": [
+      "CCI-004066",
+      "CCI-000205"
+    ]
+  },
+  "check_id": "C-55122r819116_chk",
+  "check_content": "Examine the configuration.\n\nNavigate to the $SPLUNK_HOME/etc/system/local/ directory. View the authentication.conf file.\n \nIf the authentication.conf file does not exist, this is a finding.\n\nIf the \"minPasswordLength\" is missing or is configured to 14 or less, this is a finding.",
+  "fixtext": "If the authentication.conf file does not exist, copy the file from $SPLUNK_HOME/etc/system/default to the $SPLUNK_HOME/etc/system/local directory.\n\nModify the following lines in the authentication.conf file under the [splunk_auth]:\n\nminPasswordLength = 15 or more",
+  "fix_id": "F-55076r819117_fix",
+  "VulnDiscussion": "The shorter the password, the lower the number of possible combinations that need to be tested before the password is compromised.\n\nPassword complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. Password length is one factor of several that helps to determine strength and how long it takes to crack a password. The shorter the password, the lower the number of possible combinations that need to be tested before the password is compromised. \n\nUse of more characters in a password helps to exponentially increase the time and/or resources required to compromise the password.\n\nIn most enterprise environments, this requirement is usually mitigated by a properly configured external authentication system, like LDAP. Splunk local authentication takes precedence over other forms of authentication, and cannot be disabled. The mitigation settings in this requirement apply in the event a local account is created.",
+  "Documentable": "false"
+}

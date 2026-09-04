@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254425",
+  "rule_id": "SV-254425r958672_rule",
+  "stig_id": "WN22-DC-000410",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2022 Deny log on through Remote Desktop Services user right on domain controllers must be configured to prevent unauthenticated access.",
+  "group_title": "SRG-OS-000297-GPOS-00115",
+  "idents": {
+    "cci": [
+      "CCI-002314"
+    ]
+  },
+  "check_id": "C-57910r849089_chk",
+  "check_content": "This applies to domain controllers. A separate version applies to other systems.\n\nVerify the effective setting in Local Group Policy Editor.\n\nRun \"gpedit.msc\".\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment.\n\nIf the following accounts or groups are not defined for the \"Deny log on through Remote Desktop Services\" user right, this is a finding:\n\n- Guests Group\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas User_Rights /cfg c:\\path\\filename.txt\n\nReview the text file.\n\nIf the following SID(s) are not defined for the \"SeDenyRemoteInteractiveLogonRight\" user right, this is a finding.\n\nS-1-5-32-546 (Guests)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment >> Deny log on through Remote Desktop Services to include the following:\n\n- Guests Group",
+  "fix_id": "F-57861r849090_fix",
+  "VulnDiscussion": "Inappropriate granting of user rights can provide system, administrative, and other high-level capabilities.\n\nThe \"Deny log on through Remote Desktop Services\" user right defines the accounts that are prevented from logging on using Remote Desktop Services.\n\nThe Guests group must be assigned this right to prevent unauthenticated access.",
+  "Documentable": "false"
+}

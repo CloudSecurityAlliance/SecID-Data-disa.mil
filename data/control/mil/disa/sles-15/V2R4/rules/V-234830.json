@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-234830",
+  "rule_id": "SV-234830r1069400_rule",
+  "stig_id": "SLES-15-010320",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system for all network connections associated with SSH traffic must immediately terminate at the end of the session or after 10 minutes of inactivity.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "cci": [
+      "CCI-001133",
+      "CCI-002361"
+    ]
+  },
+  "check_id": "C-38018r1069398_chk",
+  "check_content": "Verify that all network connections associated with SSH traffic are automatically terminated at the end of the session or after 10 minutes of inactivity.\n\nCheck that the \"ClientAliveCountMax\" variable is set to a value of \"1\" or less by performing the following command:\n\n> sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*clientalivecountmax'\n\nClientAliveCountMax 1\n\nIf \"ClientAliveCountMax\" does not exist or \"ClientAliveCountMax\" is not set to a value of \"1\" in \"/etc/ssh/sshd_config\", or the line is commented out, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to automatically terminate all network connections associated with SSH traffic at the end of a session or after a 10-minute period of inactivity.\n\nModify or append the following lines in the \"/etc/ssh/sshd_config\" file:\n\nClientAliveCountMax 1\n\nFor the changes to take effect, the SSH daemon must be restarted.\n\n> sudo systemctl restart sshd.service",
+  "fix_id": "F-37981r1069399_fix",
+  "VulnDiscussion": "Automatic session termination addresses the termination of user-initiated logical sessions in contrast to the termination of network connections associated with communications sessions (i.e., network disconnect). A logical session (for local, network, and remote access) is initiated whenever a user (or process acting on behalf of a user) accesses an organizational information system. Such user sessions can be terminated (and thus terminate user access) without terminating network sessions.\n\nSession termination terminates all processes associated with a user's logical session except those processes that are specifically created by the user (i.e., session owner) to continue after the session is terminated.\n\nConditions or trigger events requiring automatic session termination can include, for example, organization-defined periods of user inactivity, targeted responses to certain types of incidents, and time-of-day restrictions on information system use.\n\nThis capability is typically reserved for specific SUSE operating system functionality where the system owner, data owner, or organization requires additional assurance.\n\nIn Linux, ClientAliveCountMax directive is used in the SSH daemon configuration file to define the number of client alive messages the SSH server will send without receiving any response from the client before terminating the session. The ClientAliveInterval (SLES-15-010280/ V-234827) sets a timeout interval in seconds after which if no data has been received from the client, the ssh daemon will send a message through the encrypted channel to request a response from the client. Together, these two settings provide a way to configure a timeout for inactive sessions.",
+  "Documentable": "false"
+}

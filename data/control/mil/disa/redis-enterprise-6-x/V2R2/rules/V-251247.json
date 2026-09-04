@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251247",
+  "rule_id": "SV-251247r961149_rule",
+  "stig_id": "RD6X-00-011500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to database files must be limited to relevant processes and to authorized, administrative users.",
+  "group_title": "SRG-APP-000243-DB-000374",
+  "idents": {
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-54682r804929_chk",
+  "check_content": "Review the permissions granted to users by the operating system/file system on the database files, database log files, and database backup files. \n\nIf any user/role who is not an authorized system administrator with a need to know or database administrator with a need to know, or a system account for running DBMS processes, is permitted to read/view any of these files, this is a finding.\n\nReview the directory contents and files and verify that the appropriate file permissions are set. Verify that the file owner and group is set to Redis Labs or a group defined per site requirements.\n\nTo check permissions of log files (Note: This may vary depending on the installation path.):\n# /var/opt/redislabs/log\n\nTo check persisted files from memory if they are being used run the following command (Note: This may vary depending on the installation path.)\n# ls -ltr /var/opt/redislabs/persist/redis/  \n\nTo check the default file permissions to verify that all authenticated users can only read and modify their own files:\n# cat/etc/login.defs|grep UMASK\n\nVerify the value is set to 077 or an appropriate organizationally defined setting.\n\nInvestigate the permissions on these files. If the permissions allow access by other, this is a finding.",
+  "fixtext": "Configure the operating system to define default permissions for all authenticated users in such a way that the user can only read and modify their own files.\n\nAdd or edit the line for the \"UMASK\" parameter in \"/etc/login.defs\" file to \"077\":\n\nUMASK 077\n\nSet the permissions of the log files (/var/opt/redislabs/log) and persisted files (/var/opt/redislabs/persist/redis/) to an appropriate organizationally defined setting.",
+  "fix_id": "F-54636r804930_fix",
+  "VulnDiscussion": "Developers and implementers can increase the assurance in security functions by employing well-defined security policy models; structured, disciplined, and rigorous hardware and software development techniques; and sound system/security engineering principles.",
+  "Documentable": "false"
+}

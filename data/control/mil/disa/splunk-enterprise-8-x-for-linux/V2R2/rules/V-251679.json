@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251679",
+  "rule_id": "SV-251679r1051115_rule",
+  "stig_id": "SPLK-CL-000320",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Splunk Enterprise must use organization-level authentication to uniquely identify and authenticate users.",
+  "group_title": "SRG-APP-000148-AU-002270",
+  "idents": {
+    "cci": [
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-55117r819101_chk",
+  "check_content": "This check is performed on the machine used as a search head or a deployment server, which may be a separate machine in a distributed environment.\n\nNavigate to the $SPLUNK_HOME/etc/system/local/ directory.\n\nView the authentication.conf file.\n\nIf the authentication.conf file does not exist, this is a finding.\n\nIn the authentication.conf file, verify minimum settings similar to the example below. If any minimum settings are not configured, this is a finding.\n\nIf using LDAP:\n\n[authentication]\nauthType = LDAP\nauthSettings = <ldap_strategy>\n\n[<ldap_strategy>]\nhost = <LDAP server>\nport = <LDAP port>\nsslEnabled = 1\n\nCheck the following file in the $SPLUNK_HOME/etc/openldap folder:\n\nldap.conf\n\nIf the file does not exist, this is a finding.\n\nCheck for the following lines. If any are missing or do not match the settings below, this is a finding.\n\nTLS_REQCERT\nTLS_CACERT <path to SSL certificate>\nTLS_PROTOCOL_MIN 3.3\nTLS_CIPHER_SUITE ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-\nSHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-\nAES128-SHA256:ECDHE-RSA-AES128-SHA256\n\nIf using SAML:\n\n[authentication]\nauthType = SAML\nauthSettings = <saml_strategy>\n[<saml_strategy>]\nentityId = <saml entity>\nidpSSOUrl = <saml URL>\nidpCertPath = <path to certificate>\n\nOpen the Splunk Web console.\n\nSelect Settings >> Access Controls >> Users. \n\nVerify that no user accounts exist with Authentication system set to Splunk except an account of last resort. They must all be set to LDAP or SAML.\n\nIf any user accounts have Authentication system set to Splunk, with the exception of one emergency account of last resort, this is a finding.",
+  "fixtext": "This configuration is performed on the machine used as a search head or a deployment server, which may be a separate machine in a distributed environment.\n\nNavigate to the $SPLUNK_HOME/etc/system/local/ directory.\n\nEdit the authentication.conf file.\n\nIf the authentication.conf file does not exist, copy the file from $SPLUNK_HOME/etc/system/default to the $SPLUNK_HOME/etc/system/local directory.\n\nConfigure minimum settings similar to the example below for using LDAP or SAML.\n\nIf using LDAP:\n\n[authentication]\nauthType = LDAP\nauthSettings = <ldap_strategy>\n\n[<ldap_strategy>]\nhost = <LDAP server>\nport = <LDAP port>\nsslEnabled = 1\n\nEdit the following file in the $SPLUNK_HOME/etc/openldap folder:\n\nldap.conf\n\nConfigure the following lines for your certificate.\n\nTLS_REQCERT\nTLS_CACERT <path to SSL certificate>\nTLS_PROTOCOL_MIN 3.3\nTLS_CIPHER_SUITE ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-\nSHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-\nAES128-SHA256:ECDHE-RSA-AES128-SHA256\n\nIf using SAML:\n\n[authentication]\nauthType = SAML\nauthSettings = <saml_strategy>\n[<saml_strategy>]\nentityId = <saml entity>\nidpSSOUrl = <saml URL>\nidpCertPath = <path to certificate>\n\nAfter configuring LDAP or SAML, open the Splunk Web console.\n\nSelect Settings >> Access Controls >> Users. \n\nCreate appropriate LDAP and SAML users and groups for the environment.\n\nDelete any user account with Authentication system set to Splunk, with the exception of one emergency account of last resort. Splunk will prevent the user from deleting an LDAP or SAML account.",
+  "fix_id": "F-55071r819102_fix",
+  "VulnDiscussion": "To assure accountability and prevent unauthenticated access, organizational users must be uniquely identified and authenticated to prevent potential misuse and compromise of the system. \n\nSharing of accounts prevents accountability and non-repudiation. Organizational users must be uniquely identified and authenticated for all accesses.",
+  "Documentable": "false"
+}

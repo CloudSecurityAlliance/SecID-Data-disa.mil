@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221238",
+  "rule_id": "SV-221238r961161_rule",
+  "stig_id": "EX16-ED-000390",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Exchange Sender Reputation filter must identify the spam block level.",
+  "group_title": "SRG-APP-000261",
+  "idents": {
+    "legacy": [
+      "SV-95267",
+      "V-80557"
+    ],
+    "cci": [
+      "CCI-001308"
+    ]
+  },
+  "check_id": "C-22953r411840_chk",
+  "check_content": "Note: If third-party anti-spam product is being used, the anti-spam product must be configured to meet the requirement.\n\nReview the Email Domain Security Plan (EDSP).\n\nDetermine the SrlBlockThreshold value. \n\nOpen the Exchange Management Shell and enter the following command:\n \nGet-SenderReputationConfig | Select Name, SrlBlockThreshold\n\nIf the value of SrlBlockThreshold is not set to \"6\", this is a finding.\n\nor\n\nIf the value of \"SrlBlockThreshold\" is set to a value other than \"6\" and has signoff and risk acceptance in the EDSP, this is not a finding.",
+  "fixtext": "Update the EDSP to reflect the SrlBlockThreshold size. \n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-SenderReputationConfig -SrlBlockThreshold 6\n\nor\n\nThe value as identified by the EDSP that has obtained a signoff with risk acceptance.",
+  "fix_id": "F-22942r411841_fix",
+  "VulnDiscussion": "By performing filtering at the perimeter, up to 90 percent of spam, malware, and other undesirable messages are eliminated from the message stream rather than admitting them into the mail server environment. Sender Reputation is antispam functionality that blocks messages according to many characteristics of the sender. Sender Reputation relies on persisted data about the sender to determine what action, if any, to take on an inbound message. This setting enables the threshold at which an email will be considered spam.",
+  "Documentable": "false"
+}

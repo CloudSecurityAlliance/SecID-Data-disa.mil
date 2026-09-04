@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219868",
+  "rule_id": "SV-219868r1018568_rule",
+  "stig_id": "O121-BP-025800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Changes to configuration options must be audited.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "legacy": [
+      "SV-76009",
+      "V-61519"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-21579r1018567_chk",
+  "check_content": "For Unified or mixed auditing, from SQL*Plus:\n\nSelect count(*) from audit_unified_enabled_policies where entity_name = 'SYS';\n\nIf the count is less than one row, this is a finding.\n\nFor Standard auditing, from SQL*Plus:\n\nSelect value from v$parameter where name = 'audit_sys_operations';\n\nIf the value returned is FALSE, this is a finding.",
+  "fixtext": "For Standard auditing, from SQL*Plus:\n\n  alter system set audit_sys_operations = TRUE scope = spfile;\n\nThe above SQL*Plus command will set the parameter to take effect at next system startup.\n\nIf Unified Auditing is used:\nTo ensure auditable events are captured:\nLink the oracle binary with uniaud_on, and then restart the database. Oracle Database Upgrade Guide describes how to enable unified auditing.\n\nFor additional information on creating audit policies, refer to the Oracle Database Security Guide\nhttp://docs.oracle.com/database/121/DBSEG/audit_config.htm#CHDGBAAC",
+  "fix_id": "F-21578r903019_fix",
+  "VulnDiscussion": "When standard auditing is in use, the AUDIT_SYS_OPERATIONS parameter is used to enable auditing of actions taken by the user SYS. The SYS user account is a shared account by definition and holds all privileges in the Oracle database. It is the account accessed by users connecting to the database with SYSDBA or SYSOPER privileges.",
+  "Documentable": "false"
+}

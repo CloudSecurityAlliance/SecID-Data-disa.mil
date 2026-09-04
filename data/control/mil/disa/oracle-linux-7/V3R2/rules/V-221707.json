@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-221707",
+  "rule_id": "SV-221707r958726_rule",
+  "stig_id": "OL07-00-020020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must prevent nonprivileged users from executing privileged functions to include disabling, circumventing, or altering implemented security safeguards/countermeasures.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "legacy": [
+      "V-99153",
+      "SV-108257"
+    ],
+    "cci": [
+      "CCI-002165",
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-36270r928535_chk",
+  "check_content": "Verify the operating system prevents nonprivileged users from executing privileged functions to include disabling, circumventing, or altering implemented security safeguards/countermeasures.\n\nObtain a list of authorized users for the system.\n\nCheck the list against the system by using the following command:\n\n     $ sudo semanage login -l | more\n\n     Login Name    SELinux User    MLS/MCS Range    Service\n\n     __default__   user_u                 s0-s0:c0.c1023        *\n     root                   unconfined_u  s0-s0:c0.c1023        *\n     system_u        system_u           s0-s0:c0.c1023        *\n     joe                     staff_u                s0-s0:c0.c1023        *\n\nAll administrators must be mapped to the \"staff_u\", or an appropriately tailored confined SELinux user as defined by the organization.\n\nAll authorized nonadministrative users must be mapped to the \"user_u\" SELinux user.\n\nIf they are not mapped in this way, this is a finding.\nIf administrator accounts are mapped to the \"sysadm_u\" SELinux user and are not documented as an operational requirement with the information system security officer (ISSO), this is a finding.\nIf administrator accounts are mapped to the \"sysadm_u\" SELinux user and are documented as an operational requirement with the ISSO, this can be downgraded to a CAT III.",
+  "fixtext": "Configure the operating system to prevent nonprivileged users from executing privileged functions to include disabling, circumventing, or altering implemented security safeguards/countermeasures.\n\nUse the following command to map a new user to the \"staff_u\" SELinux user:\n\n     $ sudo semanage login -a -s staff_u <username>\n\nUse the following command to map an existing user to the \"staff_u\" SELinux user:\n\n     $ sudo semanage login -m -s staff_u <username>\n\nUse the following command to map a new user to the \"user_u\" SELinux user:\n\n     $ sudo semanage login -a -s user_u <username>\n\nUse the following command to map an existing user to the \"user_u\" SELinux user:\n\n     $ sudo semanage login -m -s user_u <username>",
+  "fix_id": "F-36234r928536_fix",
+  "VulnDiscussion": "Preventing nonprivileged users from executing privileged functions mitigates the risk that unauthorized individuals or processes may gain unnecessary access to information or privileges.\n\nPrivileged functions include, for example, establishing accounts, performing system integrity checks, or administering cryptographic key management activities. Nonprivileged users are individuals who do not possess appropriate authorizations. Circumventing intrusion detection and prevention mechanisms or malicious code protection mechanisms are examples of privileged functions that require protection from nonprivileged users.",
+  "Documentable": "false"
+}

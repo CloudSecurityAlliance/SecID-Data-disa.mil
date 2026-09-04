@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269957",
+  "rule_id": "SV-269957r1052257_rule",
+  "stig_id": "OS10-L2S-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Dell OS10 Switch must have STP Loop Guard enabled on all nondesignated STP switch ports.",
+  "group_title": "SRG-NET-000362-L2S-000023",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-73990r1052255_chk",
+  "check_content": "Review the switch configuration to verify that STP Loop Guard is enabled on at least all nondesignated STP ports.\n\nVerify that the spanning-tree guard loop setting is enabled on each interface.\n\ninterface ethernet1/1/1\n no shutdown\n switchport mode trunk\n switchport access vlan 100\n flowcontrol receive off\n spanning-tree guard loop\n!\n\nIf STP Loop Guard is not configured globally or on nondesignated STP ports, this is a finding.",
+  "fixtext": "Configure the switch to have STP Loop Guard enabled globally, or at a minimum, on all nondesignated STP switch ports.\n\nOS10(config)# interface range ethernet 1/1/1-1/1/58\nOS10(conf-range-eth1/1/1-1/1/58)# spanning-tree guard loop",
+  "fix_id": "F-73891r1052256_fix",
+  "VulnDiscussion": "The Spanning Tree Protocol (STP) loop guard feature provides additional protection against STP loops. An STP loop is created when an STP blocking port in a redundant topology erroneously transitions to the forwarding state. In its operation, STP relies on continuous reception and transmission of Bridge Protocol Data Unit (BPDUs) based on the port role. The designated port transmits BPDUs, and the nondesignated port receives BPDUs. When one of the ports in a physically redundant topology no longer receives BPDUs, the STP conceives that the topology is loop free. Eventually, the blocking port from the alternate or backup port becomes a designated port and moves to a forwarding state. This situation creates a loop. The loop guard feature makes additional checks. If BPDUs are not received on a nondesignated port and loop guard is enabled, that port is moved into the STP loop-inconsistent blocking state.",
+  "Documentable": "false"
+}

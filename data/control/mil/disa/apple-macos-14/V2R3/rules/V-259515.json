@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259515",
+  "rule_id": "SV-259515r958726_rule",
+  "stig_id": "APPL-14-002069",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The macOS system must require administrator privileges to modify systemwide settings.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-63254r941165_chk",
+  "check_content": "Verify the macOS system is configured to require administrator privileges to modify systemwide settings with the following command:\n\nauthDBs=(\"system.preferences\" \"system.preferences.energysaver\" \"system.preferences.network\" \"system.preferences.printing\" \"system.preferences.sharing\" \"system.preferences.softwareupdate\" \"system.preferences.startupdisk\" \"system.preferences.timemachine\")\nresult=\"1\"\nfor section in ${authDBs[@]}; do\n  if [[ $(/usr/bin/security -q authorizationdb read \"$section\" | /usr/bin/xmllint -xpath 'name(//*[contains(text(), \"shared\")]/following-sibling::*[1])' -) != \"false\" ]]; then\n    result=\"0\"\n  fi\ndone\necho $result\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Configure the macOS system to require administrator privileges to modify systemwide settings with the following command:\n\nauthDBs=(\"system.preferences\" \"system.preferences.energysaver\" \"system.preferences.network\" \"system.preferences.printing\" \"system.preferences.sharing\" \"system.preferences.softwareupdate\" \"system.preferences.startupdisk\" \"system.preferences.timemachine\")\n\nfor section in ${authDBs[@]}; do\n/usr/bin/security -q authorizationdb read \"$section\" > \"/tmp/$section.plist\"\nkey_value=$(/usr/libexec/PlistBuddy -c \"Print :shared\" \"/tmp/$section.plist\" 2>&1)\nif [[ \"$key_value\" == *\"Does Not Exist\"* ]]; then\n  /usr/libexec/PlistBuddy -c \"Add :shared bool false\" \"/tmp/$section.plist\"\nelse\n  /usr/libexec/PlistBuddy -c \"Set :shared false\" \"/tmp/$section.plist\"\nfi\n  /usr/bin/security -q authorizationdb write \"$section\" < \"/tmp/$section.plist\"\ndone",
+  "fix_id": "F-63162r941166_fix",
+  "VulnDiscussion": "The system must be configured to require an administrator password in order to modify the systemwide preferences in System Settings.\n\nSome Preference Panes in System Settings contain settings that affect the entire system. Requiring a password to unlock these systemwide settings reduces the risk of a nonauthorized user modifying system configurations.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214335",
+  "rule_id": "SV-214335r1043181_rule",
+  "stig_id": "AS24-W1-000530",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Apache web server must generate unique session identifiers with definable entropy.",
+  "group_title": "SRG-APP-000224-WSR-000139",
+  "idents": {
+    "legacy": [
+      "SV-102507",
+      "V-92419"
+    ],
+    "cci": [
+      "CCI-001188"
+    ]
+  },
+  "check_id": "C-15547r277508_chk",
+  "check_content": "Review the <'INSTALLED PATH'>\\conf\\httpd.conf file.\n\nVerify the \"ssl_module\" is loaded.\n\nIf it does not exist, this is a finding.\n\nIf the \"SSLRandomSeed\" directive is missing or does not look like the following, this is a finding:\n\nSSLRandomSeed startup builtin\nSSLRandomSeed connect builtin",
+  "fixtext": "Edit the <'INSTALLED PATH'>\\conf\\httpd.conf file and load the \"ssl_module\" module.\n\nSet the \"SSLRandomSeed\" directives to the following:\n\nSSLRandomSeed startup builtin\nSSLRandomSeed connect builtin\n\nRestart the Apache service.",
+  "fix_id": "F-15545r277509_fix",
+  "VulnDiscussion": "Generating a session identifier (ID) that is not easily guessed through brute force is essential to deter several types of session attacks. By knowing the session ID, an attacker can hijack a user session that has already been user authenticated by the hosted application. The attacker does not need to guess user identifiers and passwords or have a secure token since the user session has already been authenticated.\n\nRandom and unique session IDs are the opposite of sequentially generated session IDs, which can be easily guessed by an attacker. Random session identifiers help to reduce predictability of said identifiers. The session ID must be unpredictable (random enough) to prevent guessing attacks, where an attacker is able to guess or predict the ID of a valid session through statistical analysis techniques. For this purpose, a good Pseudo Random Number Generator (PRNG) must be used.\n\nUnique session IDs address man-in-the-middle attacks, including session hijacking or insertion of false information into a session. If the attacker is unable to identify or guess the session information related to pending application traffic, they will have more difficulty in hijacking the session or otherwise manipulating valid sessions.\n\nAt least half of a session ID must be created using a definable source of entropy (PRNG).",
+  "Documentable": "false"
+}

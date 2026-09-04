@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-255119",
+  "rule_id": "SV-255119r958552_rule",
+  "stig_id": "KNOX-13-110130",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Samsung Android must be configured to enable encryption for data at rest on removable storage media or, alternately, the use of removable storage media must be disabled.",
+  "group_title": "PP-MDF-323100",
+  "idents": {
+    "cci": [
+      "CCI-001199",
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-58732r873662_chk",
+  "check_content": "Review the configuration to determine if the Samsung Android devices are either enabling data at rest protection for removable media, or are disabling their use.\n\nThis requirement is not applicable for devices that do not support removable storage media.\n\nThis validation procedure is performed on both the management tool and the Samsung Android device.\n\nOn the management tool, in the device restrictions, verify that \"Mount physical media\" is set to \"Disallow\".\n\nOn the Samsung Android device, verify that a microSD card cannot be mounted.\n\nThe device should ignore the inserted SD card and no notifications for the transfer of media files should appear, nor should any files be listed using a file browser, such as Samsung My Files.\n\nIf on the management tool \"Mount physical media\" is not set to \"Disallow\", or on the Samsung Android device a microSD card can be mounted, this is a finding.\n\nIf the deployment requires the use of micro SD cards, follow this alternative procedure:\n\nOn the management tool,  in the device restrictions, verify \"Enforce external storage encryption\" is set to \"Enable\".\n\nOn the Samsung Android device, do the following:\n1. Insert a freshly formatted microSD card.\n2. Verify that a prompt appears to encrypt the microSD card.\n3. Perform the encryption.\n4. Remove and reinsert the microSD card and verify that a notification appears stating that the mounted microSD card is encrypted.\n\nIf on the management tool \"External storage encryption\" is not set to \"Enable\", or on the Samsung Android device a microSD card can be used without first being encrypted, this is a finding",
+  "fixtext": "Configure the Samsung Android devices to enable data at rest protection for removable media, or alternatively, disable their use.\n\nThis requirement is not applicable for devices that do not support removable storage media.\n\nOn the management tool, in the device restrictions, set \"Mount physical media\" to \"Disallow\".\n\nThis disables the use of all removable storage, e.g., micro SD cards, USB thumb drives, etc.\n\nIf the deployment requires the use of micro SD cards, KPE can be used to allow its usage in a STIG-approved configuration. In this case, do not configure the policy above, and instead:\n\nOn the management tool,  in the device restrictions, set \"Enforce external storage encryption\" to \"enable\".",
+  "fix_id": "F-58676r873663_fix",
+  "VulnDiscussion": "The MOS must ensure the data being written to the mobile device's removable media is protected from unauthorized access. If data at rest is unencrypted, it is vulnerable to disclosure. Even if the operating system enforces permissions on data access, an adversary can read removable media directly, thereby circumventing operating system controls. Encrypting the data ensures confidentiality is protected even when the operating system is not running.\n\nSFR ID: FMT_SMF_EXT.1.1 #20, #47d",
+  "Documentable": "false"
+}

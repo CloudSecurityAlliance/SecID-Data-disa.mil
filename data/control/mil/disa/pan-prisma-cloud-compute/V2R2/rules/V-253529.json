@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-253529",
+  "rule_id": "SV-253529r960909_rule",
+  "stig_id": "CNTR-PC-000290",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The configuration integrity of the container platform must be ensured and runtime policies must be configured.",
+  "group_title": "SRG-APP-000101-CTR-000205",
+  "idents": {
+    "cci": [
+      "CCI-000135",
+      "CCI-000172",
+      "CCI-001764",
+      "CCI-002754",
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-56981r840423_chk",
+  "check_content": "Verify runtime policies are enabled. \n\nNavigate to Prisma Cloud Compute Console's Defend >> Runtime. \n\nSelect \"Container policy\".\n- If a rule does not exist, this is a finding. \n- If \"Enable automatic runtime learning\" is set to \"off\", this is a finding. \n- Click the three dots in the \"Actions\" column for the rule. \n- If the policy is disabled, this is a finding.\n- Click the Container runtime policy. \n- If the policy is not scoped to \"All\", this is a finding.\n\nSelect the \"App-Embedded policy\" tab.\n- If a rule does not exist, this is a finding.\n- Click the three dots in the \"Actions\" column for rule \"Default - alert on suspicious runtime behavior\". \n- If the policy is disabled, this is a finding.\n- Click the \"Default - alert on suspicious runtime behavior\" policy row. \n- If the \"Default - alert on suspicious runtime behavior\" policy is not scoped to \"All\", this is a finding.\n\nSelect the \"Host policy\" tab. \n- If a rule does not exist, this is a finding. \n- Click the three dots in the \"Actions\" column for the rule. \n- If the policy is disabled, this is a finding.\n- Click the Host runtime policy. \n- If the policy is not scoped to \"All\", this is a finding.",
+  "fixtext": "Enable runtime policies. \n\nNavigate to Prisma Cloud Compute Console's Defend >> Runtime. \n\nClick the tab to be edited.\n\nTo add policy (for Host or App-Embedded policy):\n- Click \"Add rule\". \n- Enter rule name.\n  Scope = All\n- Accept the defaults and click \"Save\".\n\nTo enable policy:\n- Click the rule's three-dot menu. \n- Set to \"Enable\".\n\nTo change scope, click the rule row:\n- Change the policy scope to \"All\".\n- Click \"Save\".\n\nTo add container policy:\n- Select the \"Container policy\" tab. \n- Set \"Enable automatic runtime learning\" to \"On\". \n\nTo create a new runtime rule:\n- Click \"Add rule\". \n- Configure the following settings:\n  Enter rule name\n  Scope = All\n\nSelect the \"Anti-malware\" tab.\nSet the following:\n- Prisma Cloud advanced threat protection = on\n- Kubernetes attacks = on\n- Suspicious queries to cloud provider APIs = on\n\nSelect the \"Process\" tab.\nSet the following:\nProcess monitoring = enabled\n\nSelect the \"Network\" tab.\nSet the following:\nIP connectivity = enabled\n\nSelect the \"File system\" tab.\nSet the following:\n- File system monitoring = enabled\n- Accept the defaults and click \"Save\".\n\nSelect the \"App-Embedded policy\" tab.\n- Click the rule's three-dot menu. Set to \"Enable\".\n- Click the rule name row.\n- Change the scope to \"All\".\n- Click \"Save\".\n\nCreate a new runtime rule:\n- Click \"add rule.\" \n- Enter rule name.\n- Scope = All\n- Accept the defaults and click \"Save\".\n\nSelect the \"Host policy\" tab.\n- Click the rule's three-dot menu. Set to \"Enable\".\n- Click the rule name row.\n- Change the scope to \"All\".\n- Click \"Save\".\n\n- Click \"Add rule\". \n- Enter rule name.\n- Scope = All\n- Select the \"Activities\" tab.\n- Set the following:\n  Host activity monitoring =\"Enabled\"\n  Docker commands = \"On\"\n  New sessions spawned by sshd = \"On\"\n  Commands run with sudo or su = \"On\"\n  Log activity from background apps = \"On\"\n  Track SSH events = \"On\"\n- Accept the defaults and click \"Save\".",
+  "fix_id": "F-56932r840424_fix",
+  "VulnDiscussion": "Prisma Cloud Compute's runtime defense is the set of features that provides both predictive and threat-based active protection for running containers.\n\nConsistent application of Prisma Cloud Compute runtime policies ensures the continual application of policies and the associated effects. Prisma Cloud Compute's configurations must be monitored for configuration drift and addressed according to organizational policy.\n\nSatisfies: SRG-APP-000101-CTR-000205, SRG-APP-000384-CTR-000915, SRG-APP-000447-CTR-001100, SRG-APP-000450-CTR-001105, SRG-APP-000507-CTR-001295, SRG-APP-000508-CTR-001300",
+  "Documentable": "false"
+}

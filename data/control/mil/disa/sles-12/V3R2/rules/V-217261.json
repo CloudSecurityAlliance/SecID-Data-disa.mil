@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-217261",
+  "rule_id": "SV-217261r958480_rule",
+  "stig_id": "SLES-12-030030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must be configured to prohibit or restrict the use of functions, ports, protocols, and/or services as defined in the Ports, Protocols, and Services Management (PPSM) Category Assignments List (CAL) and vulnerability assessments.",
+  "group_title": "SRG-OS-000096-GPOS-00050",
+  "idents": {
+    "legacy": [
+      "V-77435",
+      "SV-92131"
+    ],
+    "cci": [
+      "CCI-000382",
+      "CCI-002314",
+      "CCI-002080"
+    ]
+  },
+  "check_id": "C-18489r369939_chk",
+  "check_content": "Verify the SUSE operating system is configured to prohibit or restrict the use of functions, ports, protocols, and/or services as defined in the Ports, Protocols, and Services Management (PPSM) Category Assignments List (CAL) and vulnerability assessments.\n\nCheck that the \"SuSEfirewall2.service\" is enabled and running by running the following command:\n\n# systemctl status SuSEfirewall2.service\n* SuSEfirewall2.service - SuSEfirewall2 phase 2\nLoaded: loaded (/usr/lib/systemd/system/SuSEfirewall2.service; enabled; vendor preset: disabled)\nActive: active (exited) since Thu 2017-03-09 17:33:29 UTC; 6 days ago\nMain PID: 2533 (code=exited, status=0/SUCCESS)\nTasks: 0 (limit: 512)\nMemory: 0B\nCPU: 0\nCGroup: /system.slice/SuSEfirewall2.service\n\nIf the service is not enabled, this is a finding.\n\nIf the service is not active, this is a finding.\n\nCheck the firewall configuration for any unnecessary or prohibited functions, ports, protocols, and/or services by running the following command:\n\n# grep ^FW_ /etc/sysconfig/SuSEfirewall2\n\nAsk the System Administrator for the site or program PPSM Component Local Services Assessment (Component Local Services Assessment (CLSA). Verify the services allowed by the firewall match the PPSM CLSA. \n\nIf there are any additional ports, protocols, or services that are not included in the PPSM CLSA, this is a finding.\n\nIf there are any ports, protocols, or services that are prohibited by the PPSM CAL, this is a finding.",
+  "fixtext": "Configure the SUSE operating system is configured to prohibit or restrict the use of functions, ports, protocols, and/or services as defined in the Ports, Protocols, and Services Management (PPSM) Category Assignments List (CAL) and vulnerability assessments.\n\nAdd/modify /etc/sysconfig/SuSEfirewall2 file to comply with the Ports, Protocols, and Services Management (PPSM) Category Assignments List (CAL).\n\nEnable the \"SuSEfirewall2.service\" by running the following command:\n\n# systemctl enable SuSEfirewall2.service\n\nStart the \"SuSEfirewall2.service\" by running the following command:\n\n# systemctl start SuSEfirewall2.service",
+  "fix_id": "F-18487r369940_fix",
+  "VulnDiscussion": "To prevent unauthorized connection of devices, unauthorized transfer of information, or unauthorized tunneling (i.e., embedding of data types within data types), organizations must disable or restrict unused or unnecessary physical and logical ports/protocols on information systems.\n\nSUSE operating systems are capable of providing a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., VPN and IPS); however, doing so increases risk over limiting the services provided by any one component.\n\nTo support the requirements and principles of least functionality, the SUSE operating system must support the organizational requirements, providing only essential capabilities and limiting the use of ports, protocols, and/or services to only those required, authorized, and approved to conduct official business or address authorized quality-of-life issues.\n\nSatisfies: SRG-OS-000096-GPOS-00050, SRG-OS-000297-GPOS-00115, SRG-OS-000480-GPOS-00231, SRG-OS-000480-GPOS-00232",
+  "Documentable": "false"
+}

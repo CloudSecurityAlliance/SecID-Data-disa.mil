@@ -1,0 +1,28 @@
+{
+  "vuln_id": "V-222948",
+  "rule_id": "SV-222948r960939_rule",
+  "stig_id": "TCAT-AS-000390",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "$CATALINA_HOME/bin folder permissions must be set to 750.",
+  "group_title": "SRG-APP-000121-AS-000081",
+  "idents": {
+    "legacy": [
+      "SV-111553",
+      "V-102607"
+    ],
+    "cci": [
+      "CCI-001493",
+      "CCI-001494",
+      "CCI-001495",
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-24620r426288_chk",
+  "check_content": "Access the Tomcat server from the command line and execute the following OS command:\n\nsudo find $CATALINA_HOME/bin -follow -maxdepth 0 -type d \\( \\! -perm 750 \\) -ls\n\nIf no folders are displayed, this is not a finding.\n\nIf results indicate the $CATALINA_HOME/bin folder permissions are not set to 750, this is a finding.",
+  "fixtext": "Run the following command on the Tomcat server:\n\nsudo find $CATALINA_HOME/bin -follow -maxdepth 0 -type d -print0 | sudo xargs chmod 750 $CATALINA_HOME/bin",
+  "fix_id": "F-24609r426289_fix",
+  "VulnDiscussion": "Tomcat file permissions must be restricted. The standard configuration is to have all Tomcat files owned by root with group Tomcat. While root has read/write privileges, group only has read permissions, and world has no permissions. The exceptions are the logs, temp, and work directories that are owned by the Tomcat user rather than root. This means that even if an attacker compromises the Tomcat process, they cannot change the Tomcat configuration, deploy new web applications, or modify existing web applications. The Tomcat process runs with a umask of 0027 to maintain these permissions. Note that running Tomcat in a Docker environment can impact how file permissions and user ownership settings are applied. Due to associated Docker configuration complexities, the STIG is scoped for standalone rather than virtual Docker deployments.\n\nSatisfies: SRG-APP-000121-AS-000081, SRG-APP-000122-AS-000082, SRG-APP-000123-AS-000083, SRG-APP-000340-AS-000185",
+  "Documentable": "false"
+}

@@ -1,0 +1,18 @@
+{
+  "vuln_id": "V-26326",
+  "rule_id": "SV-33184r1_rule",
+  "stig_id": "WA00555 W22",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The web server must be configured to listen on a specific IP address and port.",
+  "group_title": "WA00555",
+  "idents": {},
+  "check_id": "C-33816r1_chk",
+  "check_content": "Locate the Apache httpd.conf file.\n\nOpen the httpd.conf file with an editor such as notepad, and search for the following uncommented directive: Listen\n\nFor any enabled Listen directives ensure they specify both an IP address and port number.\n\nIf the Listen directive is found with only an IP address, or only a port number specified, this is finding. If the IP address is all zeros (i.e. 0.0.0.0:80 or [::ffff:0.0.0.0]:80, this is a finding. If the Listen directive does not exist, this is a finding.",
+  "fixtext": "Configure the Listen directive to listen on a specific IP address and port.",
+  "fix_id": "F-29468r1_fix",
+  "VulnDiscussion": "The Apache Listen directive specifies the IP addresses and port numbers the Apache web server will listen for requests. Rather than be unrestricted to listen on all IP addresses available to the system, the specific IP address or addresses intended must be explicitly specified. Specifically a Listen directive with no IP address specified, or with an IP address of zero’s should not be used. Having multiple interfaces on web servers is fairly common, and without explicit Listen directives, the web server is likely to be listening on an inappropriate IP address / interface that was not intended for the web server. Single homed system with a single IP addressed are also required to have an explicit IP address in the Listen directive, in case additional interfaces are added to the system at a later date.",
+  "Documentable": "false",
+  "Responsibility": "Web Administrator"
+}

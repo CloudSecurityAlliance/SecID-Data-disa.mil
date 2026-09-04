@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251220",
+  "rule_id": "SV-251220r960966_rule",
+  "stig_id": "RD6X-00-008400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Redis Enterprise DBMS must be configured to prohibit or restrict the use of organization-defined functions, ports, protocols, and/or services, as defined in the PPSM CAL and vulnerability assessments.",
+  "group_title": "SRG-APP-000142-DB-000094",
+  "idents": {
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-54655r804848_chk",
+  "check_content": "To check this control, investigate the application documentation and understand what services and ports are in use within the application. Inspect the ports running on the server using the following command:\nsudo ss -tulw\n\nIf any ports or services that are not approved are present in the output of this command, this is a finding.\n\nRedis Enterprise makes use of the following ports:\n1. TCP 1968, Internal, Proxy traffic\n2. TCP 3333, 3334, 3335, 3336, 3337, 3338, 3339, 36379, 36380, Internal, Cluster traffic\n3. TCP 8001, Internal, External, Sentinel Traffic\n4. TCP 8002, 8004, Internal, System health monitoring\n5. TCP 8443, Internal, External, User Interface\n6. TCP 8444, 9080, Internal, Proxy Traffic\n7. TCP 9081, Internal, Active-Active        \n8. TCP 8070, 8071, Internal & External, Metrics Exporter\n9. TCP 9443 (Recommended), 8080 (Recommended to be removed), REST API traffic\n10. TCP 10000-19999, Internal, External, Active-Active Database traffic\n11. TCP 20000-29999, Internal\n12. UDP 53, 5353, Internal, External        DNS/mDNS traffic",
+  "fixtext": "Use firewalld commands to remove any unnecessary ports from the appropriate zone. To do this, enter the following commands as root:\n\nThis command will immediately remove a port from the configuration:\n$ firewall-cmd --zone=<zone> --remove-port=<port>/<protocol>\n\nThis command will persistently remove a port from a configuration:\n$ firewall-cmd --permanent --zone=<zone> --remove-port=<port>/<protocol>\n\nRepeat the previous commands for any port that is unauthorized for use or is not used.",
+  "fix_id": "F-54609r804849_fix",
+  "VulnDiscussion": "To prevent unauthorized connection of devices, unauthorized transfer of information, or unauthorized tunneling (i.e., embedding of data types within data types), organizations must disable or restrict unused or unnecessary physical and logical ports/protocols/services on information systems.\n\nApplications are capable of providing a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., email and web services); however, doing so increases risk over limiting the services provided by any one component. \n\nTo support the requirements and principles of least functionality, the application must support the organizational requirements providing only essential capabilities and limiting the use of ports, protocols, and/or services to only those required, authorized, and approved to conduct official business or to address authorized quality of life issues.\n\nDatabase Management Systems using ports, protocols, and services deemed unsafe are open to attack through those ports, protocols, and services. This can allow unauthorized access to the database and through the database to other components of the information system.",
+  "Documentable": "false"
+}

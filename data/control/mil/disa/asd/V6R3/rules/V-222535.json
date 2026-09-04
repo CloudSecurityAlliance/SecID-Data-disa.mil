@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-222535",
+  "rule_id": "SV-222535r1015697_rule",
+  "stig_id": "APSC-DV-001670",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The application must disable device identifiers after 35 days of inactivity unless a cryptographic certificate is used for authentication.",
+  "group_title": "SRG-APP-000163",
+  "idents": {
+    "legacy": [
+      "V-69553",
+      "SV-84175"
+    ],
+    "cci": [
+      "CCI-003627",
+      "CCI-000795"
+    ]
+  },
+  "check_id": "C-24205r985935_chk",
+  "check_content": "Review the application documentation and interview the application administrator.\n\nIf the application is not designed to authenticate devices (such as mobile phones, gateways or other smart devices), or uses DOD PKI certificates to authenticate these devices, this requirement is Not Applicable.\n\nAccess the user management interface for the application.\n\nIdentify application device IDs.\n\nIf the application utilizes approved certificates or a centralized authentication store (Active Directory or LDAP) as the authoritative source for application authentication, and the authentication store is configured to meet the requirement to disable device IDs after 35 days of inactivity, this is not a finding.\n\nAccounts such as guest and anonymous as well as roles and groups or other identities used to operate the application or to provide limited guest access are not applicable.\n\nAccess the application user management interface and review the account settings that pertain to devices.\n\nVerify the application is configured to disable device accounts that have not been active or logged into the application for the past 35 days.\n\nIf the application does not disable accounts used to authenticate devices after 35 days of inactivity, this is a finding.",
+  "fixtext": "Configure the application to disable device accounts after 35 days of inactivity or to utilize DOD PKI certificates that provide an expiration date.",
+  "fix_id": "F-24194r985936_fix",
+  "VulnDiscussion": "Device identifiers are used to identify hardware devices that interact with the application much like a user account is used to identify an application user. Examples of hardware devices include but are not limited to mobile phones, application gateways, or other types of smart hardware.\n\nThis requirement does not apply to individual application user accounts.\n\nThis requirement is not applicable to shared information system accounts, application groups, or roles (e.g., guest and anonymous accounts) that are used by the application itself in order to function. Care must be taken to not disable identifiers that are used by the application in order to function.\n\nInactive device identifiers pose a risk to systems and applications. Attackers that are able to exploit an inactive identifier can potentially obtain and maintain undetected access to the application.\n\nApplications need to track periods of device inactivity and disable the device identifier after 35 days of inactivity. This is usually accomplished by disabling the account used by the device to access the application.\n\nApplications that use cryptographic certificates for device authentication may use the expiration date assigned to the certificate to meet this requirement with the understanding that the certificate is created and managed in accordance with DOD PKI policy and can be revoked by a trusted certificate authority (CA).\n\nTo avoid having to build complex device management capabilities directly into their application, developers should leverage the underlying OS or other account management infrastructure (AD, LDAP) that is already in place within the organization and meets organizational user account management requirements.\n\nApplications are encouraged to utilize a centralized data store such as Active Directory or LDAP to offload device management requirements and ensure compliance with policy requirements.",
+  "Documentable": "false"
+}

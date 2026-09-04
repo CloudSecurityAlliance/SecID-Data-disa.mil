@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268516",
+  "rule_id": "SV-268516r1034488_rule",
+  "stig_id": "APPL-15-002090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable TouchID for unlocking the device.",
+  "group_title": "SRG-OS-000028-GPOS-00009",
+  "idents": {
+    "cci": [
+      "CCI-000056"
+    ]
+  },
+  "check_id": "C-72546r1034486_chk",
+  "check_content": "Verify the macOS system is configured to disable TouchID for unlocking the device with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.applicationaccess')\\\n.objectForKey('allowFingerprintForUnlock').js\nEOS\n\nIf the result is not \"false\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable TouchID for unlocking the device by installing the \"com.apple.applicationaccess\" configuration profile.",
+  "fix_id": "F-72447r1034487_fix",
+  "VulnDiscussion": "TouchID enables the ability to unlock a Mac system with a user's fingerprint.\n\nTouchID must be disabled for \"Unlocking your Mac\" on all macOS devices that are capable of using TouchID.\n\nThe system must remain locked until the user establishes access using an authorized identification and authentication method.\n\nNOTE: TouchID is not an approved biometric authenticator for U.S. Federal Government use as it has not been verified to meet the strength requirements outlined in NIST SP 800-63.",
+  "Documentable": "false"
+}

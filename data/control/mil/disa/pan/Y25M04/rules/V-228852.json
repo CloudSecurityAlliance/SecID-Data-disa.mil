@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-228852",
+  "rule_id": "SV-228852r559734_rule",
+  "stig_id": "PANW-AG-000073",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Palo Alto Networks security platform must deny or restrict detected prohibited mobile code.",
+  "group_title": "SRG-NET-000288-ALG-000109",
+  "idents": {
+    "legacy": [
+      "SV-77075",
+      "V-62585"
+    ],
+    "cci": [
+      "CCI-001695"
+    ]
+  },
+  "check_id": "C-31087r573789_chk",
+  "check_content": "Go to Objects >> Security Profiles >> Antivirus\n\nIf there are no Antivirus Profiles configured other than the default, this is a finding.\n\nView the configured Antivirus Profiles; for each protocol decoder (SMTP, IMAP, POP3, FTP, HTTP, SMB); if the \"Action\" is anything other than “deny” or \"reset-both\", this is a finding.\n\nGo to Policies >> Security\n\nReview each of the configured security policies in turn.\nFor any Security Policy that affects traffic between Zones (interzone), view the \"Profile\" column.\n\nIf the \"Profile\" column does not display the \"Antivirus Profile\" symbol, this is a finding.",
+  "fixtext": "To create an Antivirus Profile:\nGo to Objects >> Security Profiles >> Antivirus\n\nSelect \"Add\".\n\nIn the \"Antivirus Profile\" window, complete the required fields. \n\nComplete the \"Name\" and \"Description\" fields. \n\nIn the \"Antivirus\" tab, for all Decoders (SMTP, IMAP, POP3, FTP, HTTP, SMB protocols), set the \"Action\" to “deny\" or \"reset-both”.\n\nSelect \"OK\".\n\nUse the Profile in a Security Policy:\nGo to Policies >> Security\n\nSelect an existing policy rule or select \"Add\" to create a new one.\n\nIn the \"Actions\" tab in the \"Profile Setting\" section; in the \"Profile Type\" field, select \"Profiles\". The window will change to display the different categories of Profiles. \n\nIn the \"Actions\" tab in the \"Profile Setting\" section; in the \"Profile Type\" field, select Profiles. The window will change to display the different categories of Profiles.\n\nSelect \"OK\".\n\nCommit changes by selecting \"Commit\" in the upper-right corner of the screen.\n\nSelect \"OK\" when the confirmation dialog appears.",
+  "fix_id": "F-31064r573743_fix",
+  "VulnDiscussion": "Mobile code is defined as software modules obtained from remote systems, transferred across a network, and then downloaded and executed on a local system without explicit installation or execution by the recipient.\n\nThis applies to mobile code that may originate either internal to or external from the enclave. Mobile code is defined as software modules obtained from remote systems, transferred across a network, and then downloaded and executed on a local system without explicit installation or execution by the recipient.\n\nThe Palo Alto Networks security platform allows customized profiles to be used to perform antivirus inspection for traffic between zones. Antivirus, anti-spyware, and vulnerability protection features require a specific license. There is a default Antivirus Profile; the profile inspects all of the listed protocol decoders for viruses, and generates alerts for SMTP, IMAP, and POP3 protocols while denying for FTP, HTTP, and SMB protocols. However, these default actions cannot be edited and the values for the FTP, HTTP, and SMB protocols do not meet the requirement, so customized profiles must be used.",
+  "Documentable": "false"
+}

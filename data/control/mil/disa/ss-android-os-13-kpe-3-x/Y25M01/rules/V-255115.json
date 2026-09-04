@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-255115",
+  "rule_id": "SV-255115r1015808_rule",
+  "stig_id": "KNOX-13-110090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Samsung Android must be configured to enable a screen-lock policy that will lock the display after a period of inactivity - Disable trust agents.",
+  "group_title": "PP-MDF-323030",
+  "idents": {
+    "cci": [
+      "CCI-000765",
+      "CCI-000767"
+    ]
+  },
+  "check_id": "C-58728r867280_chk",
+  "check_content": "Review the configuration to determine if the Samsung Android devices are disabling Trust Agents.\n\nThis validation procedure is performed on both the management tool and the Samsung Android device.\n\nOn the management tool, in the device restrictions, verify that \"Trust Agents\" are set to \"Disable\".\n\nOn the Samsung Android device: \n1. Open Settings >> Security and privacy >> Other security settings >> Trust agents.\n2. Verify all listed Trust Agents are disabled and cannot be enabled. If a Trust Agent is not disabled in the list, verify for that Trust Agent, all of its listed Trustlets are disabled and cannot be enabled.\n\nIf on the management tool \"Trust Agents\" are not set to \"Disable\", or on the Samsung Android device a \"Trust Agent\" or \"Trustlet\" can be enabled, this is a finding.\n\nNote: If the management tool has been correctly configured but a Trust Agent is still enabled, configure the \"List of approved apps listed in managed Google Play\" to disable it; refer to KNOX-13-110190.\n\nException: Trust Agents may be used if the AO allows a screen lock timeout after four hours (or more) of inactivity. This may be applicable to tactical use case.",
+  "fixtext": "Configure the Samsung Android devices to disable Trust Agents.\n\nOn the management tool, in the device restrictions, set \"Trust Agents\" to \"Disable\".",
+  "fix_id": "F-58672r867281_fix",
+  "VulnDiscussion": "The screen lock timeout must be set to a value that helps protect the device from unauthorized access. Having a too-long timeout would increase the window of opportunity for adversaries who gain physical access to the mobile device through loss, theft, etc. Such devices are much more likely to be in an unlocked state when acquired by an adversary, thus granting immediate access to the data on the mobile device. The maximum timeout period of 15 minutes has been selected to balance functionality and security; shorter timeout periods may be appropriate depending on the risks posed to the mobile device.\n\nSFR ID: FMT_SMF_EXT.1.1 #2a",
+  "Documentable": "false"
+}

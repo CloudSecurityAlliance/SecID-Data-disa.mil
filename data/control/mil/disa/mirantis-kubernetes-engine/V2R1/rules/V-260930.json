@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260930",
+  "rule_id": "SV-260930r966147_rule",
+  "stig_id": "CNTR-MK-000680",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MKE must not permit users to create pods that share host process namespace.",
+  "group_title": "SRG-APP-000148-CTR-000345",
+  "idents": {
+    "cci": [
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-64659r966145_chk",
+  "check_content": "When using Kubernetes orchestration, this check is Not Applicable.\n\nWhen using Swarm orchestration, to ensure the host's process namespace is not shared, log in via CLI:\n\nExecute the following using the MKE client bundle:\n\ncontainer_ids=$(docker ps --quiet --filter=label=com.docker.ucp.version)\nfor container_id in $container_ids\ndo\n   container_name=$(docker inspect -f '{{.Name}}' $container_id | cut -c2-)\n   pid_mode=$(docker inspect -f '{{.HostConfig.PidMode}}' $container_id)\n\n   echo \"Container Name: $container_name, ID: $container_id, PidMode: $pid_mode\"\ndone\n\nIf PidMode = \"host\", this is a finding.",
+  "fixtext": "When using Kubernetes orchestration, this check is Not Applicable.\n\nUsing Swarm orchestration, review and remove nonsystem containers previously created by these users utilizing shared namespaces or with a PidMode=host using the following:\n\ndocker container rm [container]",
+  "fix_id": "F-64567r966146_fix",
+  "VulnDiscussion": "Controlling information flow between MKE components and container user services instantiated by MKE must enforce organization-defined information flow policies. Example methods for information flow control are: using labels for containers to segregate services; user permissions and roles to limit what user services are available to each user; controlling the user the services are able to execute as; and limiting inter-container network traffic and the resources containers can consume. Process ID (PID) namespaces isolate the PID number space, meaning that processes in different PID namespaces can have the same PID. This is process level isolation between containers and the host.\n\nPID namespace provides separation of processes and removes the view of the system processes, and allows process IDs to be reused including PID 1. If the host's PID namespace is shared with the container, it would allow processes within the container to view all of the processes on the host system.\n\nContainer processes cannot view the processes on the host system. In certain cases, such as system-level containers, the container must share the host's process namespace. System-level containers have a defined label and this access must be documented.\n\nBy default, all containers have the PID namespace enabled and the host's process namespace is not shared with the containers.",
+  "Documentable": "false"
+}

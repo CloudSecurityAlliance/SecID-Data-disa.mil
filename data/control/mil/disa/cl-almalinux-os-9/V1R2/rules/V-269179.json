@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269179",
+  "rule_id": "SV-269179r1050061_rule",
+  "stig_id": "ALMA-09-011350",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must disable acquiring, saving, and processing core dumps.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73210r1049267_chk",
+  "check_content": "Verify AlmaLinux OS 9 is not configured to acquire, save, or process core dumps with the following command:\n\n$ systemctl status systemd-coredump.socket\n systemd-coredump.socket\n     Loaded: masked (Reason: Unit systemd-coredump.socket is masked.)\n     Active: inactive (dead) since Mon 2024-02-26 13:31:02 UTC; 26s ago\n   Duration: 3h 13min 22.428s\n\nIf the \"systemd-coredump.socket\" is loaded and not masked and the need for core dumps is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure the system to disable the systemd-coredump.socket with the following command:\n\n$ systemctl mask --now systemd-coredump.socket\n\nCreate symlink /etc/systemd/system/systemd-coredump.socket -> /dev/null\n\nReload the daemon for this change to take effect.\n\n$ systemctl daemon-reload",
+  "fix_id": "F-73111r1047914_fix",
+  "VulnDiscussion": "A core dump includes a memory image taken at the time the operating system terminates an application. The memory image could contain sensitive data and is generally useful only for developers or system operators trying to debug problems.\n\nEnabling core dumps on production systems is not recommended; however, there may be overriding operational requirements to enable advanced debugging. Permitting temporary enablement of core dumps during such situations must be reviewed through local needs and policy.",
+  "Documentable": "false"
+}

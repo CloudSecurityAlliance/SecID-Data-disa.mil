@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222994",
+  "rule_id": "SV-222994r961596_rule",
+  "stig_id": "TCAT-AS-001430",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Certificates in the trust store must be issued/signed by an approved CA.",
+  "group_title": "SRG-APP-000427-AS-000264",
+  "idents": {
+    "legacy": [
+      "SV-111511",
+      "V-102571"
+    ],
+    "cci": [
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-24666r426426_chk",
+  "check_content": "For the systemd Ubuntu OS, check the tomcat.service file to read the content of the JAVA_OPTS environment variable setting.\n\nsudo cat /etc/systemd/system/tomcat.service |grep -i truststore\n\nEXAMPLE output:\nset JAVA_OPTS=\"-Djavax.net.ssl.trustStore=/path/to/truststore\" \"-Djavax.net.ssl.trustStorePassword=************\"\n\nIf the variable is not set, use the default location command below. If the variable is set, use the alternate location command below and include the path and truststore file. \n\n-Default location:\nkeytool -list -cacerts -v | grep -i issuer\n\n-Alternate location:\nkeytool -list -keystore <location of trust store file> -v |grep -i issuer\n\nIf there are no CA certificates issued by a Certificate Authority (CA) that is part of the DoD PKI/PKE, this is a finding.",
+  "fixtext": "Obtain and install the DoD PKI CA certificate bundles by accessing the DoD PKI office website at https://cyber.mil/pki-pke.\n\nDownload the certificate bundles and then use certificate management utilities such as keytool or openssl to import the DoD CA certificates into the trust store.",
+  "fix_id": "F-24655r426427_fix",
+  "VulnDiscussion": "Use of self-signed certificates creates a lack of integrity and invalidates the certificate based authentication trust model. Certificates used by production systems must be issued/signed by a trusted Root CA and cannot be self-signed. For systems that communicate with industry partners, the DoD ECA program supports the issuance of DoD-approved certificates to industry partners. For information on the DoD ECA program, refer to the DoD PKI office. Links to their site are available on https://public.cyber.mil.",
+  "Documentable": "false"
+}

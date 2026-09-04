@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-258740",
+  "rule_id": "SV-258740r958612_rule",
+  "stig_id": "ESXI-80-000085",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must implement Secure Boot enforcement.",
+  "group_title": "SRG-OS-000257-VMM-000910",
+  "idents": {
+    "cci": [
+      "CCI-001494",
+      "CCI-001495",
+      "CCI-002696",
+      "CCI-002699"
+    ]
+  },
+  "check_id": "C-62480r933279_chk",
+  "check_content": "If the ESXi host does not have a compatible TPM, this finding is downgraded to a CAT III.\n\nFrom an ESXi shell, run the following command:\n\n# esxcli system settings encryption get\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$esxcli.system.settings.encryption.get.invoke() | Select RequireSecureBoot\n\nExpected result:\n\nRequire Secure Boot: true\n\nIf \"Require Secure Boot\" is not enable, this is a finding.",
+  "fixtext": "This setting cannot be configured until Secure Boot is properly enabled in the servers firmware.\n\nFrom an ESXi shell, run the following commands:\n\n# esxcli system settings encryption set --require-secure-boot=true\n# /sbin/auto-backup.sh\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$arguments = $esxcli.system.settings.encryption.set.CreateArgs()\n$arguments.requiresecureboot = $true\n$esxcli.system.settings.encryption.set.Invoke($arguments)\n\nEvacuate the host and gracefully reboot for changes to take effect.",
+  "fix_id": "F-62389r933280_fix",
+  "VulnDiscussion": "Secure Boot is part of the UEFI firmware standard. With UEFI Secure Boot enabled, a host refuses to load any UEFI driver or app unless the operating system bootloader has a valid digital signature. Secure Boot for ESXi requires support from the firmware and it requires that all ESXi kernel modules, drivers, and VIBs be signed by VMware or a partner subordinate.\n\nSecure Boot is enabled in the BIOS of the ESXi physical server and supported by the hypervisor boot loader. This control flips ESXi from merely supporting Secure Boot to requiring it. Without this setting enabled, and configuration encryption, an ESXi host could be subject to offline attacks. An attacker could simply transfer the ESXi install drive to a non-Secure Boot host and boot it up without ESXi complaining.\n\nSatisfies: SRG-OS-000257-VMM-000910, SRG-OS-000258-VMM-000920, SRG-OS-000445-VMM-001780, SRG-OS-000446-VMM-001790",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217322",
+  "rule_id": "SV-217322r960993_rule",
+  "stig_id": "JUNI-ND-000530",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured to implement replay-resistant authentication mechanisms for network access to privileged accounts.",
+  "group_title": "SRG-APP-000156-NDM-000250",
+  "idents": {
+    "legacy": [
+      "SV-101229",
+      "V-91129"
+    ],
+    "cci": [
+      "CCI-001941"
+    ]
+  },
+  "check_id": "C-18549r296544_chk",
+  "check_content": "Review the router configuration to verify that SSH is configured to use FIPS-140-2 compliant HMACs as shown in the example below.\n\nsystem {\n   …\n   …\n   …\n    services {\n        ssh {\n            protocol-version v2;\n            macs [hmac-sha2-256 hmac-sha2-512];\n        }\n\nNote: An SSH configuration enables a server and client to authorize the negotiation of only those algorithms that are configured from the allowed list. If a remote party tries to negotiate using an algorithm that is not part of the allowed list, the request is rejected and the session is not established. \n\nIf the router is not configured to implement replay-resistant authentication mechanisms for network access to privileged accounts, this is a finding.",
+  "fixtext": "Configure SSH to use FIPS-140-2 compliant HMACs as shown in the example below.\n\n[edit system services]\nset ssh protocol-version v2\nset ssh macs [hmac-sha2-256 hmac-sha2-512]\n\nNote: An SSH configuration enables a server and client to authorize the negotiation of only those algorithms that are configured from the allowed list. If a user tries to negotiate using an algorithm that is not part of the allowed list, the request is rejected and the session is not established.",
+  "fix_id": "F-18547r296545_fix",
+  "VulnDiscussion": "A replay attack may enable an unauthorized user to gain access to the application. Authentication sessions between the authenticator and the application validating the user credentials must not be vulnerable to a replay attack.\n\nAn authentication process resists replay attacks if it is impractical to achieve a successful authentication by recording and replaying a previous authentication message. \n\nTechniques used to address this include protocols using nonces (e.g., numbers generated for a specific one-time use) or challenges (e.g., TLS, WS_Security). Additional techniques include time-synchronous or challenge-response one-time authenticators.",
+  "Documentable": "false"
+}

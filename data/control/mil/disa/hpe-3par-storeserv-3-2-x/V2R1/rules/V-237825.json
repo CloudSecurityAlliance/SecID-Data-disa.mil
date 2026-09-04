@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-237825",
+  "rule_id": "SV-237825r647884_rule",
+  "stig_id": "HP3P-32-001503",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The storage system must only be operated in conjunction with an LDAP server in a trusted environment if an Active Directory server is not available.",
+  "group_title": "SRG-OS-000001-GPOS-00001",
+  "idents": {
+    "legacy": [
+      "SV-85125",
+      "V-70503"
+    ],
+    "cci": [
+      "CCI-000015",
+      "CCI-000366",
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-41035r647882_chk",
+  "check_content": "Determine if the system is configured for LDAP.\n\nEnter the following command:\n\ncli% showauthparam\n\nIf the output indicates an error, this is a finding.\n\nIf the resulting output does not include group parameters \"groups-dn\", \"group-obj\", or \"group-name-attr\" then the host is configured to use Active Directory and this requirement is not applicable. \n\nIf the host is using LDAP and the following fields of the output are not configured, this is a finding.\n\nldap-server <ip address of LDAP server> \nldap-server-hn <host name of LDAP server>\n\nNext, verify that the LDAP authentication is operational by entering the following command:\n\ncli% checkpassword <username>\npassword: <Enter the password for username>\n\nIf the username and password used in \"checkpassword\" are known to be valid LDAP credentials, and the following text is NOT displayed at the end of the resulting output, this is a finding.\n\nuser <username> is authenticated and authorized\n\nNote: The \"checkpassword\" command will not display authenticated information even if LDAP is properly configured, if the username and password are not entered correctly.",
+  "fixtext": "Use this series of commands to configure LDAP.\n\ncli% setauthparam -f ldap-server        <ldap server IP address>\ncli% setauthparam -f ldap-server-hn     <fully qualified domain name of ldap server, such as ldapserver.thisdomain.com>\ncli% setauthparam -f binding            simple\ncli% setauthparam -f ldap-StartTLS      require\ncli% setauthparam -f groups-dn          ou=Groups,dc=thisdomain,dc=com\ncli% setauthparam -f user-dn-base       ou=People,dc=thisdomain,dc=com\ncli% setauthparam -f user-attr          uid\ncli% setauthparam -f group-obj          groupofuniquenames\ncli% setauthparam -f group-name-attr    cn\ncli% setauthparam -f member-attr        uniqueMember\ncli% setauthparam -f browse-map         \"*\"\ncli% setauthparam -f edit-map           <customer-assigned name of edit role> <customer-assigned name of \"edit\" group>\ncli% setauthparam -f service-map       <customer-assigned name of service role> <customer-assigned name of \"service\" group>\ncli% setauthparam -f super-map          <customer-assigned name of super role> <customer-assigned name of \"super\" group>",
+  "fix_id": "F-40994r647883_fix",
+  "VulnDiscussion": "Where strong account and password management capabilities are required, the 3PAR system is heavily dependent on its ability to use an LDAP server.\n\nSatisfies: SRG-OS-000001-GPOS-00001, SRG-OS-000104-GPOS-00051, SRG-OS-000480-GPOS-00227",
+  "Documentable": "false"
+}

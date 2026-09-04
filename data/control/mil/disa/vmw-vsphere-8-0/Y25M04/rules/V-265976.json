@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-265976",
+  "rule_id": "SV-265976r1003584_rule",
+  "stig_id": "ESXI-80-000249",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must deny shell access for the dcui account.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-69899r1003582_chk",
+  "check_content": "From an ESXi shell, run the following command:\n\n# esxcli system account list\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$esxcli.system.account.list.Invoke() | Where-Object {$_.UserID -eq 'dcui'}\n\nIf shell access is not disabled for the dcui account, this is a finding.",
+  "fixtext": "From an ESXi shell, run the following command:\n\n# esxcli system account set -i dcui -s false\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$arguments = $esxcli.system.account.set.CreateArgs()\n$arguments.id = \"dcui\"\n$arguments.shellaccess = \"false\"\n$esxcli.system.account.set.invoke($arguments)",
+  "fix_id": "F-69802r1003583_fix",
+  "VulnDiscussion": "The dcui user is used for process isolation for the DCUI itself. The account has shell access which can be deactivated to reduce attack surface.",
+  "Documentable": "false"
+}

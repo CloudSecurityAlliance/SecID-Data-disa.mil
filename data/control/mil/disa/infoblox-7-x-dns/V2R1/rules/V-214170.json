@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214170",
+  "rule_id": "SV-214170r612370_rule",
+  "stig_id": "IDNS-7X-000230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Key Signing Key (KSK) rollover interval must be configured to no less than one year.",
+  "group_title": "SRG-APP-000214-DNS-000079",
+  "idents": {
+    "legacy": [
+      "V-68535",
+      "SV-83025"
+    ],
+    "cci": [
+      "CCI-001179"
+    ]
+  },
+  "check_id": "C-15385r295776_chk",
+  "check_content": "Note: For Infoblox DNS systems on a Classified network, this requirement is Not Applicable.\n\nNavigate to Data Management >> DNS >> Grid DNS properties. \n\nToggle \"Advanced Mode\" and click on the \"DNSSEC\" tab. \n\nValidate the “Key-Signing Key Rollover Interval” is configured to a value of no less than one year.\n\nIf the “Key-Signing Key Rollover Interval” is configured to more than one year, this is a finding.",
+  "fixtext": "Navigate to Data Management >> DNS >> Grid DNS Properties.  \nToggle Advanced Mode and select the \"DNSSEC\" tab.  \n\nModify the “Key-Signing Key Rollover Interval” to a period of no less than one year.  \n\nWhen complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen.  \n\nPerform a service restart if necessary. \n\nFollow manual key rollover procedures and ensure changes are published to all applicable systems, including parent DNS systems.",
+  "fix_id": "F-15383r295777_fix",
+  "VulnDiscussion": "The DNS root key is a cryptographic public-private key pair used for DNSSEC signing of the DNS root zone records. The root zone KSK serves as the anchor for the “chain of trust” that enables DNS resolvers to validate the authenticity of any signed data in the DNS. The integrity of the DNS depends on a secure root key. \nRolling the KSK means generating a new cryptographic public and private key pair and distributing the new public component to parties who operate validating resolvers, including: Internet Service Providers; enterprise network administrators and other Domain Name System (DNS) resolver operators; DNS resolver software developers; system integrators; and hardware and software distributors who install or ship the root's \"trust anchor.\" The KSK is used to cryptographically sign the Zone Signing Key (ZSK), which is used by the Root Zone Maintainer to DNSSEC-sign the root zone of the Internet's DNS.\nMaintaining an up-to-date KSK is essential to ensuring DNSSEC-validating DNS resolvers continue to function following the rollover. Failure to have the current root zone KSK will mean that DNSSEC-validating DNS resolvers will be unable to resolve any DNS queries.\nAn attacker that has compromised a KSK can use that key for only as long as the signature interval of the RRSIG covering the DS RR in the delegating parent. \n\nTo prevent the impact of a compromised KSK, a delegating parent should also set the signature validity period for RRSIGs covering DS RRs in the range of a few days to one week. This re-signing does not require frequent rollover of the parent's ZSK, but scheduled ZSK rollover should still be performed at regular intervals.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259497",
+  "rule_id": "SV-259497r958478_rule",
+  "stig_id": "APPL-14-002036",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable Privacy Setup services during Setup Assistant.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-63236r941111_chk",
+  "check_content": "Verify the macOS system is configured to disable Privacy Setup services during Setup Assistant with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.SetupAssistant.managed')\\\n.objectForKey('SkipPrivacySetup').js\nEOS\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable Privacy Setup services during Setup Assistant by installing the \"com.apple.SetupAssistant.managed\" configuration profile.",
+  "fix_id": "F-63144r941112_fix",
+  "VulnDiscussion": "The prompt for Privacy Setup services during Setup Assistant must be disabled.\n\nOrganizations must apply organizationwide configuration settings. The macOS Privacy Setup services prompt guides new users through enabling their own specific privacy settings; this is not essential and, therefore, must be disabled to prevent against the risk of individuals electing privacy settings with the potential to override organizationwide settings.",
+  "Documentable": "false"
+}

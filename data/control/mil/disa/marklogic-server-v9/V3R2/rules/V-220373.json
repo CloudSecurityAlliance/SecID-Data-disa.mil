@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220373",
+  "rule_id": "SV-220373r961149_rule",
+  "stig_id": "ML09-00-005500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to MarkLogic Server files must be limited to relevant processes and to authorized, administrative users.",
+  "group_title": "SRG-APP-000243-DB-000374",
+  "idents": {
+    "legacy": [
+      "SV-110095",
+      "V-100991"
+    ],
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-22088r401570_chk",
+  "check_content": "If the application owner and Authorizing Official have determined that encryption of data at rest is NOT required, this is not a finding.\n\nIf full-disk encryption is being used, this is not a finding.\n\nReview system documentation to determine whether the system handles classified information. If the system does not handle classified information, the severity of this check should be downgraded to Category II.\n\nReview MarkLogic settings to determine whether controls exist to protect the confidentiality and integrity of data at rest in the database.\n\nFrom a command line at the OS level, verify User ownership, Group ownership, and permissions on the files:\n> ls -al /var/opt/MarkLogic/\n\nIf the User owner is not \"daemon\", and encryption at rest is not enabled, this is a finding.\n\nIf the Group owner is not \"daemon\", and encryption at rest is not enabled, this is a finding.\n\nIf the directory is more permissive than 750, and encryption at rest is not enabled, this is a finding.\n\nPerform the check from the MarkLogic Server Admin Interface with a user that holds administrative-level privileges.\n\n1. Click the Databases icon.\n2. Click the database to be checked.\n3. If the \"data encryption\" drop-down is set to ON, this is not a finding, and no further checks need to be performed.\n4. If the \"data encryption\" drop-down is set to OFF, continue the check.\n5. If the \"data encryption\" drop-down is set to default-cluster, continue the check with the steps below:\na. Click the Clusters icon.\nb. Click [Cluster Name].\nc. Click the Configure Tab.\nd. If the Cluster Default Encryption configuration is OFF, this is a finding.\n\nFindings Matrix\n-------------------------------------------------------\nDatabase Cfg. | Cluster Cfg | Finding\n--------------------------------------------------------\nON | *Any* | No\n*Any* | Force | No\nDefault-cluster | Default-on | No\nDefault-cluster | Default-off | Yes\nOff | Default-on | Yes\nOff | Default-off | Yes",
+  "fixtext": "Apply appropriate controls to protect the confidentiality and integrity of data at rest in the database.\n\nPerform the fix from the MarkLogic Server Admin Interface with a user that holds administrative-level privileges.\n\n1. Click the Databases icon.\n2. Click the database to be fixed.\n3. Select ON from the data encryption drop-down.\n\nOR\n\nChange owner and group of /var/opt/MarkLogic to user daemon from the command line with a privileged user:\n> chown -R daemon.daemon /var/opt/MarkLogic\n\nChange permissions of /var/opt/MarkLogic to 750 (rwx by owner only) from the command line\n> chmod 750 /var/opt/MarkLogic",
+  "fix_id": "F-22077r401571_fix",
+  "VulnDiscussion": "Applications, including DBMSs, must prevent unauthorized and unintended information transfer via shared system resources. Permitting only DBMS processes and authorized, administrative users to have access to the files where the database resides helps ensure those files are not shared inappropriately and are not open to backdoor access and manipulation.\n\nEncryption at rest protects data on media, that is, data at rest as opposed to data moving across a communications channel, otherwise known as data in motion. Increasing security risks and compliance requirements sometimes mandate the use of encryption at rest to prevent unauthorized access to data on disk.\n\nEncryption at rest can be configured to encrypt data, log files, and configuration files separately. Encryption is only applied to newly created files once encryption at rest is enabled, and does not apply to existing files without further action by the user. For existing data, a merge or re-index will trigger encryption of data, a configuration change will trigger encryption of configuration files, and log rotation will initiate log encryption.\n\nFor more information:\nSee: https://docs.marklogic.com/guide/security/encryption",
+  "Documentable": "false"
+}

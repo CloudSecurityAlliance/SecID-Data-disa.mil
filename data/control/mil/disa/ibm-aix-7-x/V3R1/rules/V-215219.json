@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215219",
+  "rule_id": "SV-215219r1009537_rule",
+  "stig_id": "AIX7-00-001122",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AIX must enforce password complexity by requiring that at least one numeric character be used.",
+  "group_title": "SRG-OS-000071-GPOS-00039",
+  "idents": {
+    "legacy": [
+      "SV-101383",
+      "V-91285"
+    ],
+    "cci": [
+      "CCI-004066",
+      "CCI-000194"
+    ]
+  },
+  "check_id": "C-16417r294108_chk",
+  "check_content": "From the command prompt, run the following command to check the system default \"mindigit\" attribute value:\n# lssec -f /etc/security/user -s default -a mindigit\ndefault mindigit=1\n\nIf the default \"mindigit\" value is not set, or its value is less than \"1\", this is a finding.\n\nFrom the command prompt, run the following command to check mindigit attribute value for all accounts:\n# lsuser -a mindigit ALL\nroot mindigit=1\nuser2 mindigit=2\n\nIf any user's \"mindigit\" value is less than \"1\", this is a finding.",
+  "fixtext": "From the command prompt, run the following command to set \"mindigit=1\" for the default stanza in \"/etc/security/user\":\n# chsec -f /etc/security/user -s default -a mindigit=1\n\nFor each user who has \"mindigit=0\" set its \"mindigit\" to \"1\" by running the following command from command prompt:\n# chsec -f /etc/security/user -s [user_name] -a mindigit=1",
+  "fix_id": "F-16415r294109_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks.\n\nPassword complexity is one factor of several that determines how long it takes to crack a password. The more complex the password, the greater the number of possible combinations that need to be tested before the password is compromised.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216064",
+  "rule_id": "SV-216064r959010_rule",
+  "stig_id": "SOL-11.1-020300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All run control scripts must have mode 0755 or less permissive.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-74257",
+      "V-59827"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17302r372574_chk",
+  "check_content": "Check run control script modes.\n\n# ls -lL /etc/rc* /etc/init.d /lib/svc/method\n\nIf any run control script has a mode more permissive than 0755, this is a finding.",
+  "fixtext": "Ensure all system startup files have mode 0755 or less permissive. Examine the rc files, and all files in the rc1.d (rc2.d, and so on) directories, and in the /etc/init.d and /lib/svc/method directories to ensure they are not world writable. If they are world writable, use the chmod command to correct the vulnerability and to research why.\n\nProcedure: \n\n# chmod go-w <startupfile>",
+  "fix_id": "F-17300r372575_fix",
+  "VulnDiscussion": "If the startup files are writable by other users, these users could modify the startup files to insert malicious commands into the startup files.",
+  "Documentable": "false"
+}

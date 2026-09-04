@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-228859",
+  "rule_id": "SV-228859r831599_rule",
+  "stig_id": "PANW-AG-000101",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Palo Alto Networks security platform being used for TLS/SSL decryption using PKI-based user authentication must only accept end entity certificates issued by DoD PKI or DoD-approved PKI Certificate Authorities (CAs) for the establishment of protected sessions.",
+  "group_title": "SRG-NET-000355-ALG-000117",
+  "idents": {
+    "legacy": [
+      "V-62599",
+      "SV-77089"
+    ],
+    "cci": [
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-31094r513872_chk",
+  "check_content": "If the Palo Alto Networks security platform is not used for TLS/SSL decryption, this is not applicable.\n\nIf the Palo Alto Networks security platform accepts non-DoD approved PKI end entity certificates, this is a finding.",
+  "fixtext": "Import the intermediate CA certificates.\n\nTo load a CA certificate on the Palo Alto Networks firewall:\nGo to Device >> Certificate Management >> Certificates\nOn the \"Device Certificate\" tab, select \"Import\".\nIn the \"Import Certificate\" window, complete the required information.\nIn the \"Certificate Name\" field, enter the name of the certificate.\nIn the \"Certificate File\" field, select \"Browse\", then browse to and select the appropriate file.\nIn the \"File Format\"  field, select \"Base64 Encoded Certificate (PEM)\".\nSelect \"OK\".\n\nCreate a Client Certificate Profile:\nGo to Device >>Certificate Management>> Certificate Profile\nSelect \"Add\".\nIn the Certificate Profile, complete the required fields.\nIn the \"Name\" field, enter the name of the Certificate Profile.\nIn the \"Username\" field, select \"Subject\".\nNote: The adjacent field will contain common-name.\nAdd all of the DoD Intermediate Certificates.\nSelect the \"Use OCSP\" check box.\nSelect the \"Block session if certificate status is unknown\" check box.\nSelect the \"Block session if certificate status cannot be retrieved within timeout\".\n\nCreate an Authentication Profile:\nGo to Device >> Authentication Profile\nSelect, \"Add\".\nIn the \"Authentication Profile\" window, complete the required fields.\nIn the \"Authentication\" field, add either \"RADIUS\" or \"LDAP\" based on the local requirements. \nIn the Server Profile filed, select the server profile for the authentication server.",
+  "fix_id": "F-31071r513873_fix",
+  "VulnDiscussion": "Non-DoD approved PKIs have not been evaluated to ensure that they have security controls and identity vetting procedures in place that are sufficient for DoD systems to rely on the identity asserted in the certificate. PKIs lacking sufficient security controls and identity vetting procedures risk being compromised and issuing certificates that enable adversaries to impersonate legitimate users.\n\nThe authoritative list of DoD-approved PKIs is published at http://iase.disa.mil/pki-pke/interoperability. DoD-approved PKI CAs may include Category I, II, and III certificates. Category I DoD-Approved External PKIs are PIV issuers. Category II DoD-Approved External PKIs are Non-Federal Agency PKIs cross certified with the Federal Bridge Certification Authority (FBCA). Category III DoD-Approved External PKIs are Foreign, Allied, or Coalition Partner PKIs.\n\nDeploying the ALG with TLS enabled will require the installation of DoD and/or DoD-Approved CA certificates in the trusted root certificate store of each proxy to be used for TLS traffic. If the Palo Alto Networks security platform is  used for TLS/SSL decryption, configure the Palo Alto Networks security platform to only accept end entity certificates issued by DoD PKI or DoD-approved PKI CAs for the establishment of protected sessions.",
+  "Documentable": "false"
+}

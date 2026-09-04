@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217265",
+  "rule_id": "SV-217265r958406_rule",
+  "stig_id": "SLES-12-030110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must log SSH connection attempts and failures to the server.",
+  "group_title": "SRG-OS-000032-GPOS-00013",
+  "idents": {
+    "legacy": [
+      "V-77443",
+      "SV-92139"
+    ],
+    "cci": [
+      "CCI-000067"
+    ]
+  },
+  "check_id": "C-18493r369951_chk",
+  "check_content": "Verify SSH is configured to verbosely log connection attempts and failed logon attempts to the SUSE operating system.\n\nCheck that the SSH daemon configuration verbosely logs connection attempts and failed logon attempts to the server with the following command:\n\n# sudo grep -i loglevel /etc/ssh/sshd_config\n\nThe output message must contain the following text:\n\nLogLevel VERBOSE\n\nIf \"LogLevel\" is not set to \"VERBOSE\" or \"INFO\", the LogLevel keyword is missing, or the line is commented out, this is a finding.",
+  "fixtext": "Configure SSH to verbosely log connection attempts and failed logon attempts to the SUSE operating system.\n\nAdd or update the following line in the \"/etc/ssh/sshd_config\" file:\n\nLogLevel VERBOSE\n\n\nThe SSH service will need to be restarted in order for the changes to take effect:\n\n# systemctl restart sshd",
+  "fix_id": "F-18491r369952_fix",
+  "VulnDiscussion": "Remote access services, such as those providing remote access to network devices and information systems, which lack automated monitoring capabilities, increase risk and make remote user access management difficult at best.\n\nRemote access is access to DoD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nAutomated monitoring of remote access sessions allows organizations to detect cyber attacks and also ensure ongoing compliance with remote access policies by auditing connection activities of remote access capabilities, such as Remote Desktop Protocol (RDP), on a variety of information system components (e.g., servers, workstations, notebook computers, smartphones, and tablets).",
+  "Documentable": "false"
+}

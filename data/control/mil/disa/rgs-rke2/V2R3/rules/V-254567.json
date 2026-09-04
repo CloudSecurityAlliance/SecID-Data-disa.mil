@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-254567",
+  "rule_id": "SV-254567r1016559_rule",
+  "stig_id": "CNTR-R2-000800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Rancher RKE2 must store only cryptographic representations of passwords.",
+  "group_title": "SRG-APP-000171-CTR-000435",
+  "idents": {
+    "cci": [
+      "CCI-004062",
+      "CCI-000196"
+    ]
+  },
+  "check_id": "C-58051r894460_chk",
+  "check_content": "On the RKE2 Control Plane, run the following commands:\n\nkubectl get pods -A\nkubectl get jobs -A\nkubectl get cronjobs -A\n\nThis will output all running pods, jobs, and cronjobs. \n\nEvaluate each of the above commands using the respective commands below:\n\nkubectl get pod -n <namespace> <pod> -o yaml\nkubectl get job -n <namespace> <job> -o yaml\nkubectl get cronjob -n <namespace> <cronjob> -o yaml\n\nIf any contain sensitive values as environment variables, this is a finding.",
+  "fixtext": "Any secrets stored as environment variables must be moved to the secret files with the proper protections and enforcements or placed within a password vault.",
+  "fix_id": "F-58000r859270_fix",
+  "VulnDiscussion": "Secrets, such as passwords, keys, tokens, and certificates should not be stored as environment variables. These environment variables are accessible inside RKE2 by the \"Get Pod\" API call, and by any system, such as CI/CD pipeline, which has access to the definition file of the container. Secrets must be mounted from files or stored within password vaults.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-66079",
+  "rule_id": "SV-80569r1_rule",
+  "stig_id": "HFFS-L2-000021",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HP FlexFabric Switch must enable Device Link Detection Protocol (DLDP) to protect against one-way connections.",
+  "group_title": "SRG-NET-000512-L2S-000004",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-66723r1_chk",
+  "check_content": "If any of the switch ports have fiber optic interconnections with neighbors, review the HP FlexFabric Switch configuration to verify that DLDP is enabled globally or on a per interface basis.\n\nIf the HP FlexFabric Switch has fiber optic interconnections with neighbors and DLDP is not enabled, this is a finding.\n\n<HP> display dldp\nDLDP global status : disable\nDLDP interval : 5s\nDLDP work-mode : enhance\nDLDP authentication-mode : none\nDLDP unidirectional-shutdown : auto\nDLDP delaydown-timer : 1s\nThe number of enabled ports is 2.\n[HP-Interface Ethernet1/1]\nDLDP port state : advertisement\nDLDP link state : up\nThe neighbor number of the port is 0.\n[HP-Interface Ethernet1/2]\nDLDP port state : advertisement\nDLDP link state : up\nThe neighbor number of the port is 0.",
+  "fixtext": "Configure the HP FlexFabric Switch to enable Device Link Detection Protocol (DLDP) to protect against one-way connections.\n\n[HP]dldp global enable\n\n[HP-Ten-GigabitEthernet1/0/47]dldp enable",
+  "fix_id": "F-72155r1_fix",
+  "VulnDiscussion": "In topologies where fiber optic interconnections are used, physical misconnections can occur that allow a link to appear to be up when there is a mismatched set of transmit/receive pairs. When such a physical misconfiguration occurs, protocols such as STP can cause network instability. Device Link Detection Protocol (DLDP) is a layer 2 protocol that can detect these physical misconfigurations by verifying that traffic is flowing bidirectionally between neighbors. Ports with DLDP enabled periodically transmit packets to neighbor devices. If the packets are not echoed back within a specific time frame, the link is flagged as unidirectional and the interface is shut down.",
+  "Documentable": "false"
+}

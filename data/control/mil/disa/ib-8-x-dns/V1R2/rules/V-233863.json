@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233863",
+  "rule_id": "SV-233863r1082996_rule",
+  "stig_id": "IDNS-8X-400005",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Infoblox DNS service member must be configured so that each DNS service member record in a zone file points to an active DNS service member authoritative for the domain specified in that record.",
+  "group_title": "SRG-APP-000516-DNS-000085",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-37048r1082613_chk",
+  "check_content": "Verify that NS resource records in all active zones point to an operational DNS service member.\n\n1. Navigate to Data Management >> DNS >> Zones.\n2. Select the zone to review.  \n3. Select the \"Name Servers\" tab.  \n4. If the option \"Use this Name Server Group\" is active, note the group name used. Click \"Cancel\" and select the \"DNS Name Server Groups\" tab to review the DNS Name Server group.  \n5. Examine each NS record and DNS service member configuration.\n6. Verify the IP address for each NS record points to an operational DNS service member.\n7. Click \"Cancel\" to exit the \"Properties\" screen.\n\nIf a DNS service member resource record points to an IP that is not an operational DNS service member, this is a finding.",
+  "fixtext": "1. Navigate to Data Management >> DNS >> Zones. \n2. Select and edit the zones containing incorrect NS record configurations.  \n3. Select the \"Name Servers\" tab.  \n4. If the option \"Use this DNS Name Server Group\" is active, note the group name used. Click \"Cancel\" and select the \"DNS Name Server Groups\" tab to edit the DNS Name Server group.  \n5. Remove or update any incorrect NS records or DNS service member configuration. \n6. If the option \"Use this set of name servers\" is active, remove or update any incorrect NS records or DNS service member configuration. \n7. When complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen. \n8. Perform a service restart if necessary.",
+  "fix_id": "F-37013r1082614_fix",
+  "VulnDiscussion": "Poorly constructed NS records pose a security risk because they create conditions under which an adversary might be able to provide the missing authoritative name services that are improperly specified in the zone file. The adversary could issue bogus responses to queries that clients would accept because they learned of the adversary's name server from a valid authoritative name server, one that need not be compromised for this attack to be successful.\n\nThe list of slave servers must remain current within 72 hours of any changes to the zone architecture that would affect the list of slaves. If a slave server has been retired or is not operational but remains on the list, an adversary might have a greater opportunity to impersonate that slave without detection, rather than if the slave were actually online. For example, the adversary may be able to spoof the retired slave's IP address without an IP address conflict, which would not be likely to occur if the true slave were active.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270505",
+  "rule_id": "SV-270505r1064793_rule",
+  "stig_id": "O19C-00-005600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Oracle Database must include organization-defined additional, more detailed information in the audit records for audit events identified by type, location, or subject.",
+  "group_title": "SRG-APP-000101-DB-000044",
+  "idents": {
+    "cci": [
+      "CCI-000135"
+    ]
+  },
+  "check_id": "C-74538r1064791_chk",
+  "check_content": "Review the system documentation to identify what additional site-specific information not covered by the default audit options, the organization has determined to be necessary. If there are none, this is not a finding.\n\nIf any additional information is defined, compare those auditable events that are not covered by unified auditing with the existing Fine-Grained Auditing (FGA) specifications returned by the following query:\n\nSELECT * FROM SYS.UNIFIED_AUDIT_TRAIL WHERE AUDIT_TYPE = 'FineGrainedAudit';\n\nIf any such auditable event is not covered by the existing FGA specifications, this is a finding.",
+  "fixtext": "If the site-specific audit requirements are not covered by the default audit options, deploy and configure FGA. For details, refer to Oracle documentation, at the location below.\n\nFor more information on the configuration of fine-grained auditing, refer to the following documents:\nhttps://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/configuring-audit-policies.html#GUID-88DA3AF8-5F6A-4C6E-80EE-F65071E5BF46.",
+  "fix_id": "F-74439r1064792_fix",
+  "VulnDiscussion": "Information system auditing capability is critical for accurate forensic analysis. Audit record content that may be necessary to satisfy the requirement of this control includes timestamps, source and destination addresses, user/process identifiers, event descriptions, success/fail indications, file names involved, and access control or flow control rules invoked.\n\nIn addition, the application must have the capability to include organization-defined additional, more detailed information in the audit records for audit events. These events may be identified by type, location, or subject.\n\nAn example of detailed information the organization may require in audit records is full-text recording of privileged commands or the individual identities of shared account users.\n\nSome organizations may determine that more detailed information is required for specific database event types. If this information is not available, it could negatively impact forensic investigations into user actions or other malicious events.",
+  "Documentable": "false"
+}

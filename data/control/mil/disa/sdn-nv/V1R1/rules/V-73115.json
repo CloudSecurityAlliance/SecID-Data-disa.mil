@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-73115",
+  "rule_id": "SV-87767r1_rule",
+  "stig_id": "NET-SDN-025",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "A secondary IP address must be specified for the virtual tunnel endpoint (VTEP) loopback interface when Virtual Extensible Local Area Network (VXLAN) enabled switches are deployed as a multi-chassis configuration.",
+  "group_title": "NET-SDN-025",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73249r1_chk",
+  "check_content": "Review the VXLAN topology to determine if any hypervisor hosts are dual-homed to two VXLAN-enabled switches deployed as multi-chassis configuration (e.g., vPC domain, MLAG, MCLAG, etc.) to function as a single VTEP. \n\nFor VXLAN-enabled switches deployed as a multi-chassis configuration, review the configuration to verify that a secondary IP address has been defined for the VTEP loopback interface. \n\nIf a secondary IP address has not been configured for the VTEP, this is a finding.",
+  "fixtext": "Configure a secondary IP address for all VTEP loopback interfaces for VXLAN-enabled switches deployed as a multi-chassis configuration to function as a single VTEP for dual-homed attached hypervisor hosts.",
+  "fix_id": "F-79561r1_fix",
+  "VulnDiscussion": "A multi-chassis configuration (i.e., vPC domain, MLAG, MCLAG, etc.) can be used to attach a hypervisor host to a pair of VXLAN-enabled switches. For example, a vPC consists of two vPC peer switches connected by a vPC peer link. A vPC domain is formed by the two switches; one switch is primary and the other is secondary. A switch can only be part of one vPC domain, and only two switches can make up a vPC domain.\n\nA vPC allows links that are physically connected to two different switches to appear as a single port channel to a third device, which can be another switch or a server that supports Link Aggregation Control Protocol (LACP) as defined in IEEE 802.1AX, 802.1aq, and 802.3ad. With vPC deployment, the loopback interface that is acting as the source-interface for the VTEP will use the secondary IP address to function as the anycast IP address if the hypervisor host is dual-attached through the vPC. When a host is single-attached (orphan port), the VXLAN-encapsulated traffic will be sent using the loopback’s primary address.",
+  "Documentable": "false"
+}

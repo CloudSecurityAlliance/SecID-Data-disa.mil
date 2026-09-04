@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-258737",
+  "rule_id": "SV-258737r1015919_rule",
+  "stig_id": "ESXI-80-000049",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The ESXi host must uniquely identify and must authenticate organizational users by using Active Directory.",
+  "group_title": "SRG-OS-000104-VMM-000500",
+  "idents": {
+    "cci": [
+      "CCI-000764",
+      "CCI-004045",
+      "CCI-001682",
+      "CCI-001941",
+      "CCI-000770",
+      "CCI-001942"
+    ]
+  },
+  "check_id": "C-62477r933270_chk",
+  "check_content": "For systems that do not use Active Directory and have no local user accounts other than root and/or service accounts, this is not applicable.\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Authentication Services.\n\nVerify the \"Directory Services Type\" is set to \"Active Directory\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-VMHostAuthentication\n\nFor systems that do not use Active Directory and do have local user accounts, other than root and/or service accounts, this is a finding.\n\nIf the \"Directory Services Type\" is not set to \"Active Directory\", this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Authentication Services.\n\nClick \"Join Domain...\" and enter the AD domain to join.\n\nSelect the \"Using credentials\" radio button and enter the credentials of an account with permissions to join machines to AD (use UPN naming \"user@domain\"). Click \"OK\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-VMHostAuthentication | Set-VMHostAuthentication -JoinDomain -Domain \"domain name\" -User \"username\" -Password \"password\"\n\nIf any local user accounts are present besides root and service accounts, delete them by going to Host UI >> Manage >> Security & Users >> Users.",
+  "fix_id": "F-62386r933271_fix",
+  "VulnDiscussion": "Join ESXi hosts to an Active Directory domain to eliminate the need to create and maintain multiple local user accounts. Using Active Directory for user authentication simplifies the ESXi host configuration, ensures password complexity and reuse policies are enforced, and reduces the risk of security breaches and unauthorized access.\n\nNote: If the Active Directory group \"ESX Admins\" (default) exists, all users and groups assigned as members to this group will have full administrative access to all ESXi hosts in the domain.\n\nSatisfies: SRG-OS-000104-VMM-000500, SRG-OS-000109-VMM-000550, SRG-OS-000112-VMM-000560, SRG-OS-000113-VMM-000570, SRG-OS-000123-VMM-000620",
+  "Documentable": "false"
+}

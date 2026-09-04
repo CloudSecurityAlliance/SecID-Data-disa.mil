@@ -1,0 +1,29 @@
+{
+  "vuln_id": "V-255951",
+  "rule_id": "SV-255951r960777_rule",
+  "stig_id": "ARST-ND-000150",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Arista network device must be configured to audit all administrator activity.",
+  "group_title": "SRG-APP-000026-NDM-000208",
+  "idents": {
+    "cci": [
+      "CCI-000018",
+      "CCI-000135",
+      "CCI-000166",
+      "CCI-000172",
+      "CCI-001403",
+      "CCI-001404",
+      "CCI-001405",
+      "CCI-002130",
+      "CCI-002234"
+    ]
+  },
+  "check_id": "C-59627r882193_chk",
+  "check_content": "Verify the Arista network device is configured to audit all administrator activity.\n\nVerify the AAA logging settings in the configuration file with the following example:\n\nswitch#show running-config | section aaa\n\naaa authentication policy on-success log\naaa authentication policy on-failure log\naaa accounting exec default start-stop group radius logging\naaa accounting system default start-stop group radius logging\naaa accounting commands all default start-stop logging group radius\n\nIf the Arista network device is not configured to audit all administrator activity, this is a finding.",
+  "fixtext": "Configure the Arista network device to audit all administrator activity.\n\nConfigure the AAA settings to capture administrator activity events.\n\nswitch(config)#aaa authentication policy on-success log\nswitch(config)#aaa authentication policy on-failure log\nswitch(config)#aaa accounting exec default start-stop group radius logging\nswitch(config)#aaa accounting system default start-stop group radius logging\nswitch(config)#aaa accounting commands all default start-stop logging group radius",
+  "fix_id": "F-59570r882194_fix",
+  "VulnDiscussion": "This requirement supports non-repudiation of actions taken by an administrator and is required in order to maintain the integrity of the configuration management process. All configuration changes to the network device are logged, and administrators authenticate with two-factor authentication before gaining administrative access. Together, these processes will ensure the administrators can be held accountable for the configuration changes they implement.\n\nSatisfies: SRG-APP-000026-NDM-000208, SRG-APP-000027-NDM-000209, SRG-APP-000028-NDM-000210, SRG-APP-000029-NDM-000211, SRG-APP-000080-NDM-000220, SRG-APP-000091-NDM-000223, SRG-APP-000101-NDM-000231, SRG-APP-000319-NDM-000283, SRG-APP-000343-NDM-000289, SRG-APP-000495-NDM-000318, SRG-APP-000499-NDM-000319, SRG-APP-000503-NDM-000320, SRG-APP-000504-NDM-000321, SRG-APP-000506-NDM-000323",
+  "Documentable": "false"
+}

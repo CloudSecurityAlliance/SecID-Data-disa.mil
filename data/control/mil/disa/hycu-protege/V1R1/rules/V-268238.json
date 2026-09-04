@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268238",
+  "rule_id": "SV-268238r1038665_rule",
+  "stig_id": "HYCU-ND-000220",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must generate audit records when successful/unsuccessful attempts to access privileges occur.",
+  "group_title": "SRG-APP-000091-NDM-000223",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-72259r1038663_chk",
+  "check_content": "HYCU Web UI user access accounts cannot be edited, only removed and readded from/to user groups in the Web UI Self-Service menu.\n\nAfter adding a user to a group, log in to the HYCU Web UI, navigate into Events context, and search for message of category \"USER_GROUP\" and text \"Successfully added user to group\". If the message is not in Events, this is a finding.\n\nLog in to the VM console and run the following command:\nchkconfig auditd \n\nIf the Audit Service is not in a running state, this is a finding. \n\nCheck the contents of the \"/var/log/audit/audit.log\" file. Verify the operating system generates audit records when successful/unsuccessful attempts to access privileges occur. \n\nIf the audit log is not configured or does not have required contents, this is a finding.",
+  "fixtext": "Configure the operating system to generate audit records when successful/unsuccessful attempts to access privileges occur.\n\nLog in to the HYCU VM console and run the following command:\nchkconfig auditd on\n\nLog in to the HYCU VM console and load the STIG audit rules by using the following commands:\n\n1. sudo cp /usr/share/audit/sample-rules/10-base-config.rules /usr/share/audit/sample-rules/30-stig.rules /usr/share/audit/sample-rules/31-privileged.rules /usr/share/audit/sample-rules/99-finalize.rules /etc/audit/rules.d/\n\n2. sudo augenrules --load",
+  "fix_id": "F-72162r1038664_fix",
+  "VulnDiscussion": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).",
+  "Documentable": "false"
+}

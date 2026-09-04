@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269455",
+  "rule_id": "SV-269455r1050338_rule",
+  "stig_id": "ALMA-09-045230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must enable the SELinux targeted policy.",
+  "group_title": "SRG-OS-000445-GPOS-00199",
+  "idents": {
+    "cci": [
+      "CCI-002696"
+    ]
+  },
+  "check_id": "C-73486r1049739_chk",
+  "check_content": "Verify the SELinux on AlmaLinux OS 9 is using the targeted policy with the following command:\n\n$ sestatus | grep policy\n\nLoaded policy name:             targeted\n\nIf the loaded policy name is not \"targeted\", this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to use the targeted SELINUX policy.\n\nEdit the file \"/etc/selinux/config\" and add or modify the following line:\n\n SELINUXTYPE=targeted \n\nA reboot is required for the changes to take effect.",
+  "fix_id": "F-73387r1049740_fix",
+  "VulnDiscussion": "Setting the SELinux policy to \"targeted\" or a more specialized policy ensures the system will confine processes that are likely to be targeted for exploitation, such as network or system services.\n\nNote: During the development or debugging of SELinux modules, it is common to temporarily place nonproduction systems in \"permissive\" mode. In such temporary cases, SELinux policies should be developed, and once work is completed, the system should be reconfigured to \"targeted\".",
+  "Documentable": "false"
+}

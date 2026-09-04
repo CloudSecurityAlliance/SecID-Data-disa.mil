@@ -1,0 +1,29 @@
+{
+  "vuln_id": "V-260908",
+  "rule_id": "SV-260908r966081_rule",
+  "stig_id": "CNTR-MK-000870",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "FIPS mode must be enabled.",
+  "group_title": "SRG-APP-000172-CTR-000440",
+  "idents": {
+    "cci": [
+      "CCI-000197",
+      "CCI-001184",
+      "CCI-002890",
+      "CCI-003123",
+      "CCI-002418",
+      "CCI-002420",
+      "CCI-002422",
+      "CCI-002450",
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-64637r966079_chk",
+  "check_content": "On the MKE controller, verify FIPS mode is enabled.\n\nExecute the following command through the CLI:\n\ndocker info\n\nThe \"Security Options\" section in the response must show a \"fips\" label, indicating that, when configured, the remotely accessible MKE UI uses FIPS-validated digital signatures in conjunction with an approved hash function to protect the integrity of remote access sessions.\n\nIf the \"fips\" label is not shown in the \"Security Options\" section, then this is a finding.",
+  "fixtext": "If the operating system has FIPS enabled, FIPS mode is enabled by default in MCR. The preferred method is to ensure FIPS mode is set on the operating system prior to installation.\n\nIf a change is required on a deployed system, create the directory if it does not exist by executing the following: \n\nmkdir -p /etc/systemd/system/docker.service.d/\n\nCreate a file called /etc/systemd/system/docker.service.d/fips-module.conf and add the following:\n\n[Service]\nEnvironment=\"DOCKER_FIPS=1\"\n\nReload the Docker configuration to systemd by executing the following: \n\nsudo systemctl daemon-reload\n\nRestart the Docker service by executing the following:\n\nsudo systemctl restart docker",
+  "fix_id": "F-64545r966080_fix",
+  "VulnDiscussion": "During any user authentication, MKE must use FIPS-validated SHA-2 or later protocol to protect the integrity of the password authentication process.\n\nFIPS mode enforces the use of cryptographic algorithms and modules. This ensures a higher level of cryptographic security, reducing the risk of vulnerabilities related to cryptographic functions. FIPS-compliant cryptographic modules are designed to provide strong protection for sensitive data. Enabling FIPS mode helps safeguard cryptographic operations, securing data both at rest and in transit within containerized applications.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269182",
+  "rule_id": "SV-269182r1050064_rule",
+  "stig_id": "ALMA-09-011680",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must disable the kernel.core_pattern.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73213r1049273_chk",
+  "check_content": "Verify AlmaLinux OS 9 disables storing core dumps with the following commands:\n\n$ sysctl kernel.core_pattern\n\nkernel.core_pattern = |/bin/false\n\nIf the returned line does not have a value of \"|/bin/false\", or a line is not returned and the need for core dumps is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.\n\nCheck that the configuration files are present to disable core dump storage.\n\n$ /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' | grep -F kernel.core_pattern | tail -1\n\nkernel.core_pattern = |/bin/false\n\nIf \"kernel.core_pattern\" is not set to \"|/bin/false\" and is not documented with the ISSO as an operational requirement, or is missing, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to disable storing core dumps.\n\nCreate a numbered *.conf file in /etc/sysctl.d/ with the following content:\n\nkernel.core_pattern = |/bin/false\n\nThe system configuration files need to be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sysctl –system",
+  "fix_id": "F-73114r1049274_fix",
+  "VulnDiscussion": "A core dump includes a memory image taken at the time the operating system terminates an application. The memory image could contain sensitive data and is generally useful only for developers trying to debug problems.",
+  "Documentable": "false"
+}

@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-269441",
+  "rule_id": "SV-269441r1050324_rule",
+  "stig_id": "ALMA-09-043250",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 wireless network adapters must be disabled.",
+  "group_title": "SRG-OS-000481-GPOS-00481",
+  "idents": {
+    "cci": [
+      "CCI-002418",
+      "CCI-001444",
+      "CCI-001443"
+    ]
+  },
+  "check_id": "C-73472r1048699_chk",
+  "check_content": "Note: If the system does not have physical wireless network radios, this requirement is Not Applicable.\n\nVerify there are no wireless interfaces configured on the system with the following commands:\n\n$ nmcli radio all\n\nWIFI-HW  WIFI     WWAN-HW  WWAN\nenabled  enabled  missing  disabled\n\n$ nmcli device status\n\nDEVICE          TYPE      STATE                   CONNECTION\nwlp2s0          wifi      connected               cafe\nlo              loopback  connected (externally)  lo\np2p-dev-wlp2s0  wifi-p2p  disconnected            --\nenp3s0f2        ethernet  unavailable             --\n\nIf a wireless interface is configured and has not been documented and approved by the information system security officer (ISSO), this is a finding.",
+  "fixtext": "Configure the system to disable all wireless network interfaces with the following command:\n\n$ nmcli radio all off",
+  "fix_id": "F-73373r1048700_fix",
+  "VulnDiscussion": "This requirement applies to wireless peripheral technologies (e.g., wireless mice, keyboards, displays, etc.) used with AlmaLinux OS 9 systems.\n\nWireless peripherals (e.g., Wi-Fi/Bluetooth/IR keyboards, mice and pointing devices, and near field communications [NFC]) present a unique challenge by creating an open, unsecured port on a computer.\n\nWireless peripherals must meet DOD requirements for wireless data transmission and be approved for use by the authorizing official (AO). Even though some wireless peripherals, such as mice and pointing devices, do not ordinarily carry information that need to be protected, modification of communications with these wireless peripherals may be used to compromise the AlmaLinux OS 9 operating system.\n\nSatisfies: SRG-OS-000481-GPOS-00481, SRG-OS-000299-GPOS-00117, SRG-OS-000300-GPOS-00118",
+  "Documentable": "false"
+}

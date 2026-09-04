@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-268139",
+  "rule_id": "SV-268139r1039607_rule",
+  "stig_id": "ANIX-00-000930",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must enable USBguard.",
+  "group_title": "SRG-OS-000114-GPOS-00059",
+  "idents": {
+    "cci": [
+      "CCI-000778",
+      "CCI-001958",
+      "CCI-003959"
+    ]
+  },
+  "check_id": "C-72063r1039303_chk",
+  "check_content": "Verify NixOS had enabled the use of the USBGuard with the following command:\n\n$ systemctl status usbguard\n\n usbguard.service - USBGuard daemon\nLoaded: loaded (/etc/systemd/system/usbguard.service; enabled; present: enabled)\nActive: active (running) since Sat 2022-06-04 02:51:43 UTC; 13min ago\n\nIf the usbguard.service is not \"active\" and \"running\", this is a finding.",
+  "fixtext": "Configure NixOS to enable USBGuard and generate a USBGuard ruleset.\n\nEdit /etc/nixos/configuration.nix and add the following:\n\n services.usbguard.enable = true;\n\nRebuild the system configuration by running the following command:\n\n$ sudo nixos-rebuild switch\n\nThen, as root, generate a usbguard configuration. Using the \"usbguard\" command, use \"usbguard list-devices\" to list connected USB devices, \"usbguard block-device\" to block a device, and \"usbguard allow-device\" to allow a device. Note that the default behavior is to block devices.\n\nWhen all connected USB devices have been permitted, generate a ruleset by running the following command as root:\n\n# usbguard generate-policy\n\nThen, edit /etc/nixos/configuration.nix to add the policy:\n\n services.usbguard.rules = ''\n  allow id 1d6b:0001 serial \"0000:00:01.2\" name \"UHCI Host Controller\" hash \"FRDEjz7OhdJbNjmJ8zityiNX/LuO+ovKC07I0bOFjao=\" parent-hash \"9+Zsfvo9IR/AEQ/Fn4mzdoPGk0rqpjku6uErfS09K4c=\" with-interface 09:00:00 with-connect-type \"\"\n\n  allow id 0627:0001 serial \"28754-0000:00:01.2-1\" name \"QEMU USB Tablet\" hash \"5TyVK8wyL5GmiIbZV2Sf/ehIRMCP83miy4kOzG6O+2M=\" parent-hash \"FRDEjz7OhdJbNjmJ8zityiNX/LuO+ovKC07I0bOFjao=\" with-interface 03:00:00 with-connect-type \"unknown\"\n '';\n\nNote: This ruleset is only an example; generate a policy using the process described above.\n\nRebuild the system configuration by running the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71966r1039607_fix",
+  "VulnDiscussion": "Without identifying devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity.\n\nPeripherals include, but are not limited to, such devices as flash drives, external storage, and printers.\n\nSatisfies: SRG-OS-000114-GPOS-00059, SRG-OS-000378-GPOS-00163, SRG-OS-000690-GPOS-00140",
+  "Documentable": "false"
+}

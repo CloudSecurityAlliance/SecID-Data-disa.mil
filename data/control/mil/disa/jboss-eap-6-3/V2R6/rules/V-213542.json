@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213542",
+  "rule_id": "SV-213542r961461_rule",
+  "stig_id": "JBOS-AS-000545",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Production JBoss servers must not allow automatic application deployment.",
+  "group_title": "SRG-APP-000380-AS-000088",
+  "idents": {
+    "legacy": [
+      "SV-76801",
+      "V-62311"
+    ],
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-14765r296292_chk",
+  "check_content": "Log on to the OS of the JBoss server with OS permissions that allow access to JBoss.\nUsing the relevant OS commands and syntax, cd to the <JBOSS_HOME>/bin/ folder.\nRun the jboss-cli script.\nConnect to the server and authenticate.\nRun the command:\n\nls /subsystem=deployment-scanner/scanner=default\n\nIf \"scan-enabled\"=true, this is a finding.",
+  "fixtext": "Determine the JBoss server configuration as being either standalone or domain.\n\nLaunch the relevant jboss-cli management interface substituting standalone or domain for <CONFIG>\n\n<JBOSS_HOME>/<CONFIG>/bin/jboss-cli\n\nconnect to the server and run the command:\n\n/subsystem=deployment-scanner/scanner=default:write-attribute(name=scan-enabled,value=false)",
+  "fix_id": "F-14763r296293_fix",
+  "VulnDiscussion": "When dealing with access restrictions pertaining to change control, it should be noted that any changes to the software and/or application server configuration can potentially have significant effects on the overall security of the system.\n\nAccess restrictions for changes also include application software libraries.\n\nIf the application server provides automatic code deployment capability, (where updates to applications hosted on the application server are automatically performed, usually by the developers' IDE tool), it must also provide a capability to restrict the use of automatic application deployment. Automatic code deployments are allowable in a development environment, but not in production.",
+  "Documentable": "false"
+}

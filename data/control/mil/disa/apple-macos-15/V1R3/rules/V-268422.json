@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268422",
+  "rule_id": "SV-268422r1034206_rule",
+  "stig_id": "APPL-15-000003",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must enforce session lock no more than five seconds after screen saver is started.",
+  "group_title": "SRG-OS-000028-GPOS-00009",
+  "idents": {
+    "cci": [
+      "CCI-000056"
+    ]
+  },
+  "check_id": "C-72452r1034204_chk",
+  "check_content": "Verify the macOS system is configured to initiate a session lock within five seconds of the screen saver starting with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\nfunction run() {\n  let delay = ObjC.unwrap($.NSUserDefaults.alloc.initWithSuiteName('com.apple.screensaver')\\\n.objectForKey('askForPasswordDelay'))\n  if ( delay <= 5 ) {\n    return(\"true\")\n  } else {\n    return(\"false\")\n  }\n}\nEOS\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to initiate a session lock within five seconds of the screen saver starting by installing the \"com.apple.screensaver\" configuration profile.",
+  "fix_id": "F-72353r1034205_fix",
+  "VulnDiscussion": "A screen saver must be enabled and the system must be configured to require a password to unlock once the screen saver has been on for a maximum of five seconds.\n\nAn unattended system with an excessive grace period is vulnerable to a malicious user.",
+  "Documentable": "false"
+}

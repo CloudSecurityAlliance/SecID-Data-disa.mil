@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242392",
+  "rule_id": "SV-242392r1069461_rule",
+  "stig_id": "CNTR-K8-000380",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Kubernetes kubelet must enable explicit authorization.",
+  "group_title": "SRG-APP-000033-CTR-000095",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-45667r1069459_chk",
+  "check_content": "Run the following command on each Worker Node:\nps -ef | grep kubelet\nVerify that the --authorization-mode exists and is set to \"Webhook\".\n\nIf the --authorization-mode argument is not set to \"Webhook\" or doesn't exist, this is a finding.",
+  "fixtext": "Edit the Kubernetes Kubelet service file in the --config directory on the Kubernetes Worker Node:\n\nSet the value of \"--authorization-mode\" to \"Webhook\" in KUBELET_SYSTEM_PODS_ARGS variable.\n\nRestart the kubelet service using the following command:\n\nsystemctl daemon-reload && systemctl restart kubelet",
+  "fix_id": "F-45625r1069460_fix",
+  "VulnDiscussion": "Kubelet is the primary agent on each node. The API server communicates with each kubelet to perform tasks such as starting/stopping pods. By default, kubelets allow all authenticated requests, even anonymous ones, without requiring any authorization checks from the API server. This default behavior bypasses any authorization controls put in place to limit what users may perform within the Kubernetes cluster. To change this behavior, the default setting of AlwaysAllow for the authorization mode must be set to \"Webhook\".",
+  "Documentable": "false"
+}

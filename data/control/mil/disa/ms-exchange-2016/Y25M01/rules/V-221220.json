@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221220",
+  "rule_id": "SV-221220r961155_rule",
+  "stig_id": "EX16-ED-000190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange Outbound Connection Timeout must be 10 minutes or less.",
+  "group_title": "SRG-APP-000247",
+  "idents": {
+    "legacy": [
+      "SV-95231",
+      "V-80521"
+    ],
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-22935r411786_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP).\n\nDetermine the Connection Timeout value.  \n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-SendConnector | Select Name, Identity, ConnectionInactivityTimeOut \n\nFor each send connector, if the value of \"ConnectionInactivityTimeOut\" is not set to \"00:10:00\", this is a finding.\n\nor\n\nIf \"ConnectionInactivityTimeOut\" is set to other than \"00:10:00\" and has signoff and risk acceptance in the EDSP, this is not a finding.",
+  "fixtext": "Update the EDSP to reflect the Connection Timeout value.\n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-SendConnector -Identity <'IdentityName'> -ConnectionInactivityTimeOut 00:10:00\n\nNote: The <IdentityName> value must be in single quotes.\n\nor\n\nThe value as identified by the EDSP that has obtained a signoff with risk acceptance.\n\nRepeat the procedure for each send connector.",
+  "fix_id": "F-22924r411787_fix",
+  "VulnDiscussion": "Email system availability depends in part on best practice strategies for setting tuning configurations. This configuration controls the number of idle minutes before the connection is dropped. It works in conjunction with the Maximum Outbound Connections Count setting.\n\nConnections, once established, may incur delays in message transfer. The default of 10 minutes is a reasonable window in which to resume activities without maintaining idle connections for excessive intervals. If the timeout period is too long, idle connections may be maintained for unnecessarily long time periods, preventing new connections from being established. Sluggish connectivity increases the risk of lost data. A value of 10 or less is optimal.",
+  "Documentable": "false"
+}

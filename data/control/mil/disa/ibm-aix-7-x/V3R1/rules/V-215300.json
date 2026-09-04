@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215300",
+  "rule_id": "SV-215300r991589_rule",
+  "stig_id": "AIX7-00-002117",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must turn off X11 forwarding for the SSH daemon.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91731",
+      "SV-101829"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16498r294351_chk",
+  "check_content": "If X11 forwarding has been authorized for use, this is Not Applicable.\n\nCheck the SSH daemon configuration for the \"X11Forwarding\" directive using command: \n\n# grep -i X11Forwarding /etc/ssh/sshd_config | grep -v '^#' \nX11Forwarding no\n\nIf the setting is not present or the setting is \"yes\", this is a finding.",
+  "fixtext": "Edit the \"/etc/sshd/sshd_config\" file to add the following line and save the change:\nX11Forwarding no\n\nRestart the SSH daemon:\n# stopsrc -s sshd\n# startsrc -s sshd",
+  "fix_id": "F-16496r294352_fix",
+  "VulnDiscussion": "X11 forwarding over SSH allows for the secure remote execution of X11-based applications. This feature can increase the attack surface of an SSH connection and should not be enabled unless needed.",
+  "Documentable": "false"
+}

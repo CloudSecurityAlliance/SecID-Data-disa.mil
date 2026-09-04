@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-268146",
+  "rule_id": "SV-268146r1039326_rule",
+  "stig_id": "ANIX-00-001250",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "NixOS must protect wireless access to and from the system using encryption.",
+  "group_title": "SRG-OS-000299-GPOS-00117",
+  "idents": {
+    "cci": [
+      "CCI-001444",
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-72070r1039324_chk",
+  "check_content": "Verify NixOS disables wireless adapters by running the following command: \n\n$ grep -R networking.wireless /etc/nixos/\n\n /etc/nixos/configuratino.nix:networking.wireless.enable = false;\n\nIf \" networking.wireless.enable\", does not equal false, is missing, or is commented out, this is a finding.",
+  "fixtext": "Configure /etc/nixos/configuration.nix to disable wireless interfaces by adding the following configuration settings:\n\n networking.wireless.enable = false;\n\nRebuild the system with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71973r1039325_fix",
+  "VulnDiscussion": "Allowing devices and users to connect to or from the system without first authenticating them allows untrusted access and can lead to a compromise or attack. Since wireless communications can be intercepted, it is necessary to use encryption to protect the confidentiality of information in transit.\n\nWireless technologies include, for example, microwave, packet radio (UHF/VHF), 802.11x, and Bluetooth. Wireless networks use authentication protocols (e.g., EAP/TLS, PEAP), which provide credential protection and mutual authentication.\n\nThis requirement applies to those operating systems that control wireless devices.\n\nSatisfies: SRG-OS-000299-GPOS-00117, SRG-OS-000481-GPOS-00481",
+  "Documentable": "false"
+}

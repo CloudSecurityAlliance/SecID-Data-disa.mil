@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259579",
+  "rule_id": "SV-259579r960801_rule",
+  "stig_id": "EX19-ED-000017",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange must have accepted domains configured.",
+  "group_title": "SRG-APP-000038",
+  "idents": {
+    "cci": [
+      "CCI-001368"
+    ]
+  },
+  "check_id": "C-63318r942049_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP).\n\nDetermine the Accepted Domain values. \n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-AcceptedDomain | Select-Object -Property Name, DomainName, Identity, Default\n\nIf the value of \"Default\" is not set to \"True\", this is a finding.\n\nor\n\nIf the \"Default\" value for \"AcceptedDomains\" is set to another value other than \"True\" and has signoff and risk acceptance in the EDSP, this is not a finding.",
+  "fixtext": "Update the EDSP.\n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-AcceptedDomain -Identity <'IdentityName'> -MakeDefault $true\n\nNote: The <IdentityName> value must be in quotes.",
+  "fix_id": "F-63226r942050_fix",
+  "VulnDiscussion": "Exchange may be configured to accept email for multiple domain names. This setting identifies the domains for which the server will accept mail. This check verifies the email server is not accepting email for unauthorized domains.",
+  "Documentable": "false"
+}

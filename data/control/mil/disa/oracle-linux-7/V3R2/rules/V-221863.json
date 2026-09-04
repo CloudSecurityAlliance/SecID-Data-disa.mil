@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221863",
+  "rule_id": "SV-221863r991589_rule",
+  "stig_id": "OL07-00-040460",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that the SSH daemon uses privilege separation.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-99465",
+      "SV-108569"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23578r419661_chk",
+  "check_content": "Verify the SSH daemon performs privilege separation.\n\nCheck that the SSH daemon performs privilege separation with the following command:\n\n# grep -i usepriv /etc/ssh/sshd_config\n\nUsePrivilegeSeparation sandbox\n\nIf the \"UsePrivilegeSeparation\" keyword is set to \"no\", is missing, or the returned line is commented out, this is a finding.",
+  "fixtext": "Uncomment the \"UsePrivilegeSeparation\" keyword in \"/etc/ssh/sshd_config\" (this file may be named differently or be in a different location if using a version of SSH that is provided by a third-party vendor) and set the value to \"sandbox\" or \"yes\":\n\nUsePrivilegeSeparation sandbox\n\nThe SSH service must be restarted for changes to take effect.",
+  "fix_id": "F-23567r419662_fix",
+  "VulnDiscussion": "SSH daemon privilege separation causes the SSH process to drop root privileges when not needed, which would decrease the impact of software vulnerabilities in the unprivileged section.",
+  "Documentable": "false"
+}

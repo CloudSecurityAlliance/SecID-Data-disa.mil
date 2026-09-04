@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256437",
+  "rule_id": "SV-256437r959010_rule",
+  "stig_id": "ESXI-70-000085",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must enable strict x509 verification for SSL syslog endpoints.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-60112r918920_chk",
+  "check_content": "If SSL is not used for the syslog target, this is not applicable.\n\nFrom an ESXi shell, run the following command:\n\n# esxcli system syslog config get|grep 509\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$esxcli.system.syslog.config.get.invoke()|Select StrictX509Compliance\n\nExpected result:\n\nStrict X509Compliance: true\n\nIf the output does not match the expected result, this is a finding.",
+  "fixtext": "From an ESXi shell, run the following commands:\n\n# esxcli system syslog config set --x509-strict=\"true\"\n# esxcli system syslog reload\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$arguments = $esxcli.system.syslog.config.set.CreateArgs()\n$arguments.x509strict = $true\n$esxcli.system.syslog.config.set.Invoke($arguments)\n$esxcli.system.syslog.reload.Invoke()",
+  "fix_id": "F-60055r886091_fix",
+  "VulnDiscussion": "When sending syslog data to a remote host via SSL, the ESXi host is presented with the endpoint's SSL server certificate. In addition to trust verification, configured elsewhere, this \"x509-strict\" option performs additional validity checks on CA root certificates during verification.\n\nThese checks are generally not performed (CA roots are inherently trusted) and might cause incompatibilities with existing, misconfigured CA roots. The NIAP requirements in the Virtualization Protection Profile and Server Virtualization Extended Package, however, require even CA roots to pass validations.",
+  "Documentable": "false"
+}

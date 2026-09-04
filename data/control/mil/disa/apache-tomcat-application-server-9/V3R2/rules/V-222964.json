@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-222964",
+  "rule_id": "SV-222964r1016511_rule",
+  "stig_id": "TCAT-AS-000630",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "TLS must be enabled on JMX.",
+  "group_title": "SRG-APP-000153-AS-000104",
+  "idents": {
+    "legacy": [
+      "V-102511",
+      "SV-111565"
+    ],
+    "cci": [
+      "CCI-004045",
+      "CCI-000770"
+    ]
+  },
+  "check_id": "C-24636r1016510_chk",
+  "check_content": "JMX management is configured via the Tomcat CATALINA_OPTS environment variable setting maintained in the /etc/systemd/system/tomcat.service file for Ubuntu systemd UNIX. For other flavors of Linux, this location may vary.\n\nAs a privileged user from the Tomcat server, run the following command:\n\ngrep -i jmxremote /etc/systemd/system/tomcat.service \n\nReview the output. If there are no results displayed, or jmxremote management extensions are not used, this requirement is Not Applicable.\n\nIf the JMXremote setting is configured and jmxremote.ssl=\"false\", this is a finding.\n\nEXAMPLE: \n-Dcom.sun.management.jmxremote\n-Dcom.sun.management.jmxremote.authenticate=false\n-Dcom.sun.management.jmxremote.ssl=false",
+  "fixtext": "If using JMX for management of the Tomcat server, start the Tomcat server by adding the following command line flags to the systemd startup scripts in /etc/systemd/system/tomcat.service.\n\nEnvironment='CATALINA_OPTS -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.ssl=true'\n\nsudo systemctl start tomcat\nsudo systemctl daemon-reload",
+  "fix_id": "F-24625r426337_fix",
+  "VulnDiscussion": "Java Management Extensions (JMX) provides the means for enterprises to remotely manage the Java VM and can be used in place of the local manager application that comes with Tomcat. \n\nJMX management is configured via the Tomcat CATALINA_OPTS setting maintained in the /etc/systemd/system/tomcat.service file for Ubuntu systemd Unix. For Linux OS flavors other than Ubuntu, use the relevant OS commands.\n\nManagement tasks such as monitoring and control of applications is accomplished via the jmxremote servlet. If authentication is disabled, an attacker only needs to know the port number in order to manage and control hosted Java applications.",
+  "Documentable": "false"
+}

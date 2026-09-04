@@ -1,0 +1,29 @@
+{
+  "vuln_id": "V-259545",
+  "rule_id": "SV-259545r1009598_rule",
+  "stig_id": "APPL-14-003020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must enforce smart card authentication.",
+  "group_title": "SRG-OS-000067-GPOS-00035",
+  "idents": {
+    "cci": [
+      "CCI-000186",
+      "CCI-000765",
+      "CCI-000766",
+      "CCI-001941",
+      "CCI-004046",
+      "CCI-001953",
+      "CCI-000767",
+      "CCI-000768",
+      "CCI-001948"
+    ]
+  },
+  "check_id": "C-63284r941255_chk",
+  "check_content": "Verify the macOS system is configured to enforce multifactor authentication with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.security.smartcard')\\\n.objectForKey('enforceSmartCard').js\nEOS\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to enforce multifactor authentication by installing the \"com.apple.security.smartcard\" configuration profile.\n\nNote: To ensure continued access to the operating system, consult the supplemental guidance provided with the STIG before applying the configuration profile.",
+  "fix_id": "F-63192r941256_fix",
+  "VulnDiscussion": "Smart card authentication must be enforced.\n\nThe use of smart card credentials facilitates standardization and reduces the risk of unauthorized access.\n\nWhen enforceSmartCard is set to \"true\", the smart card must be used for logon, authorization, and unlocking the screen saver.\n\nCAUTION: enforceSmartCard will apply to the whole system. No users will be able to log on with their password unless the profile is removed or a user is exempt from smart card enforcement.\n\nNote: enforceSmartcard requires allowSmartcard to be set to true in order to work.\n\nSatisfies: SRG-OS-000067-GPOS-00035,SRG-OS-000105-GPOS-00052,SRG-OS-000106-GPOS-00053,SRG-OS-000107-GPOS-00054,SRG-OS-000108-GPOS-00055,SRG-OS-000112-GPOS-00057,SRG-OS-000375-GPOS-00160,SRG-OS-000376-GPOS-00161",
+  "Documentable": "false"
+}

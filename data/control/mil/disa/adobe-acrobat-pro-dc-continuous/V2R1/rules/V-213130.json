@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213130",
+  "rule_id": "SV-213130r766544_rule",
+  "stig_id": "AADC-CN-001280",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Adobe Acrobat Pro DC Continuous Default Handler changes must be disabled.",
+  "group_title": "SRG-APP-000133",
+  "idents": {
+    "legacy": [
+      "SV-94091",
+      "V-79385"
+    ],
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-14367r766542_chk",
+  "check_content": "Verify the following registry configuration:\n\nUsing the Registry Editor, navigate to the following: HKEY_LOCAL_MACHINE\\Software\\Policies\\Adobe\\Adobe Acrobat\\DC\\FeatureLockDown\n\nValue Name: bDisablePDFHandlerSwitching\nType: REG_DWORD\nValue: 1\n\nIf the value for bDisablePDFHandlerSwitching is not set to “1” and Type is not configured to REG_DWORD or does not exist, this is a finding.\n\nGUI path: Edit > Preferences > General > Verify the 'Select As Default PDF Handler' option is greyed out (locked).  If the option is not greyed out, this is a finding.\n\nAdmin Template path: Computer Configuration > Administrative Template > Adobe Acrobat Pro DC Continuous > Preferences > General > 'Disable PDF handler switching' must be set to 'Enabled'.",
+  "fixtext": "Configure the following registry value:\n\nRegistry Hive:\nHKEY_LOCAL_MACHINE\nRegistry Path:\n\\Software\\Policies\\Adobe\\Adobe Acrobat\\DC\\FeatureLockDown\n\nValue Name: bDisablePDFHandlerSwitching\nType: REG_DWORD\nValue: 1\n\nConfigure the policy value for Computer Configuration > Administrative Template > Adobe Acrobat Pro DC Continuous > Preferences > General > 'Disable PDF handler switching' to 'Enabled'.",
+  "fix_id": "F-14365r766543_fix",
+  "VulnDiscussion": "Acrobat Pro allows users to change the version of Acrobat Pro that is used to read PDF files. This is a risk if multiple versions of Acrobat are installed on the system and the other version has dissimilar security configurations or known vulnerabilities. When the Default PDF Handler is disabled, the end users will not be able to change the default PDF viewer.",
+  "Documentable": "false"
+}

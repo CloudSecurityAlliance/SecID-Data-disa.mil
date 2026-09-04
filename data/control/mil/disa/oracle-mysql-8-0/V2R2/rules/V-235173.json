@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235173",
+  "rule_id": "SV-235173r961392_rule",
+  "stig_id": "MYS8-00-009600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must allocate audit record storage capacity in accordance with organization-defined audit record storage requirements.",
+  "group_title": "SRG-APP-000357-DB-000316",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-38392r623639_chk",
+  "check_content": "Check the server documentation for the SQL Audit file size configurations. Locate the Audit file path and drive. \n\nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables\nWHERE VARIABLE_NAME = 'audit_log_file'\n OR VARIABLE_NAME= 'datadir'\n OR VARIABLE_NAME = 'audit_log_rotate_on_size';\n\nIf the value of audit_log_file contains a path, for example:\n/var/log/mysql/audit.log\nThis is the location of the audit log, and the location to assess the storage capacity.\n\nIf the value of audit_log_file is the filename alone, for example:\naudit.log\nThe audit logs are located in the path returned by datadir.\n\nCalculate the space needed based on the audit file size and number of audit files to be stored simultaneously. \n\nNote that MySQL does not delete log files; that requires third-party tools or custom scripts.\n\nIf the calculated product of the \"audit_log_rotate_on_size\" times the number of audit files allowed will exceed the size of the storage location, this is a finding.",
+  "fixtext": "Review the MySQL Audit file location, ensure the destination has enough space available to accommodate the maximum total size of all files that could be written. \n\nUse a script or third-party tool to manage the maximum number of audit log files that are to be stored, staying within the number of logs the system was sized to support. \n\nUse compression and JSON format to reduce file growth.\n\nUpdate the location for audit_log_file in the MySQL configuration file, for example:\n[mysqld]\naudit-log-file=/var/log/mysql/audit.log\naudit-log-format=JSON\naudit-log-compression=GZIP",
+  "fix_id": "F-38355r623640_fix",
+  "VulnDiscussion": "To ensure sufficient storage capacity for the audit logs, the Database Management System (DBMS) must be able to allocate audit record storage capacity. Although another requirement (SRG-APP-000515-DB-000318) mandates that audit data be off-loaded to a centralized log management system, it remains necessary to provide space on the database server to serve as a buffer against outages and capacity limits of the off-loading mechanism.\n\nThe task of allocating audit record storage capacity is usually performed during initial installation of the DBMS and is closely associated with the DBA and system administrator roles. The DBA or system administrator will usually coordinate the allocation of physical drive space with the application owner/installer and the application will prompt the installer to provide the capacity information, the physical location of the disk, or both.\n\nIn determining the capacity requirements, consider such factors as: total number of users; expected number of concurrent users during busy periods; number and type of events being monitored; types and amounts of data being captured; the frequency/speed with which audit records are off-loaded to the central log management system; and any limitations that exist on the DBMS's ability to reuse the space formerly occupied by off-loaded records.",
+  "Documentable": "false"
+}

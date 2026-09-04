@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207553",
+  "rule_id": "SV-207553r879651_rule",
+  "stig_id": "BIND-9X-001054",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "A BIND 9.x server implementation must manage excess capacity, bandwidth, or other redundancy to limit the effects of information flooding types of Denial of Service (DoS) attacks.",
+  "group_title": "SRG-APP-000247-DNS-000036",
+  "idents": {
+    "legacy": [
+      "SV-87029",
+      "V-72405"
+    ],
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-7808r283713_chk",
+  "check_content": "If this is a recursive name server, this is not applicable.\n\nNote: A recursive name server should NOT be configured as an authoritative name server for any zone.\n\nVerify that the BIND 9.x server is configured to prohibit recursion on authoritative name servers.\n\nInspect the \"named.conf\" file for the following:\n\noptions {\nrecursion no;\nallow-query {none;};\n};\n\nIf the \"recursion\" sub statement is missing, or set to \"yes\", this is a finding.\n\nIf the \"allow-query\" sub statement under the \"options statement\" is not set to \"none\", this is a finding.\n\nVerify that an \"allow-query\" sub statement under each zone statement is configured to authorized hosts:\n\nzone \"example.com\" {\ntype master;\nfile \"db.example.com\";\nallow-query { (address_match_list | <ip_address>) };\n};\n\nIf the \"allow-query\" sub statement under each zone statement is not restricted to authorized hosts, this is a finding.",
+  "fixtext": "Configure the authoritative name server to prohibit recursion.\n\nEdit the \"named.conf\" file and add the following sub statements to the options statement:\n\nrecursion no;\nallow-query { none };\n\nConfigure each zone to limit queries to authorized hosts:\n\nEdit the \"named.conf\" file and add the following sub statement to each zone definition:\n\nallow-query { address_match_list; };\n\nRestart the BIND 9.x process",
+  "fix_id": "F-7808r283714_fix",
+  "VulnDiscussion": "A DoS is a condition when a resource is not available for legitimate users. When this occurs, the organization either cannot accomplish its mission or must operate at degraded capacity. \n\nA denial of service (DoS) attack against the DNS infrastructure has the potential to cause a DoS to all network users. As the DNS is a distributed backbone service of the Internet, various forms of amplification attacks resulting in DoS, while utilizing the DNS, are still prevalent on the Internet today. Some potential DoS flooding attacks against the DNS include malformed packet flood, spoofed source addresses, and distributed DoS. Without the DNS, users and systems would not have the ability to perform simple name to IP resolution. \n\nConfiguring the DNS implementation to defend against cache poisoning, employing increased capacity and bandwidth, building redundancy into the DNS architecture, utilizing DNSSEC, limiting and securing recursive services, DNS black holes, etc., may reduce the susceptibility to some flooding types of DoS attacks.",
+  "Documentable": "false"
+}

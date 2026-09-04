@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268028",
+  "rule_id": "SV-268028r1031208_rule",
+  "stig_id": "AIOS-18-010700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Apple iOS/iPadOS 18 must implement the management setting: encrypt backups/Encrypt local backup.",
+  "group_title": "PP-MDF-993300",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-71952r1030835_chk",
+  "check_content": "Review configuration settings to confirm \"Force encrypted backups\" is enabled.\n\nThis check procedure is performed on both the Apple iOS/iPadOS management tool and the iPhone and iPad.\n\nNote: If an organization has multiple configuration profiles, the check procedure must be performed on the relevant configuration profiles applicable to the scope of the review. \n\nIn the Apple iOS/iPadOS management tool, verify \"Encrypt local backup\" is checked.\n\nAlternatively, verify the text \"<key>forceEncryptedBackup</key><true/>\" appears in the configuration profile (.mobileconfig file).\n\nOn the iPhone and iPad:\n1. Open the Settings app.\n2. Tap \"General\".\n3. Tap \"VPN & Device Management\".\n4. Tap the Configuration Profile from the Apple iOS/iPadOS management tool containing the restrictions policy.\n5. Tap \"Restrictions\".\n6. Verify \"Encrypt backups enforced\" is listed.\n\nIf \"Encrypt local backup\" is unchecked in the Apple iOS/iPadOS management tool, \"<key>forceEncryptedBackup</key><false/>\" appears in the configuration profile, or the restrictions policy on the iPhone and iPad does not list \"Encrypt backups enforced\", this is a finding.",
+  "fixtext": "Install a configuration profile to force encrypted backups to iCloud.",
+  "fix_id": "F-71855r1030836_fix",
+  "VulnDiscussion": "If iCloud backups are not encrypted, this could lead to the unauthorized disclosure of DOD sensitive information if non-DOD personnel are able to access that machine. Forcing the backup to be encrypted greatly mitigates the risk of compromising sensitive data. Work data iCloud backup and USB connections to computers are not authorized, but this control provides defense-in-depth for cases in which a user violates policy either intentionally or inadvertently.\n\nSFRID: FMT_SMF.1.1 #47",
+  "Documentable": "false"
+}

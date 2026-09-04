@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234200",
+  "rule_id": "SV-234200r879597_rule",
+  "stig_id": "FGFW-ND-000205",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate device must implement replay-resistant authentication mechanisms for network access to privileged accounts.",
+  "group_title": "SRG-APP-000156-NDM-000250",
+  "idents": {
+    "cci": [
+      "CCI-001941"
+    ]
+  },
+  "check_id": "C-37385r611787_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # show full-configuration system global | grep -i 'tls\\|ssh-v'\nThe output should be:  \n           # set admin-https-ssl-versions tlsv1-2 tlsv1-3\n           # set admin-ssh-v1 disable\n           # set ssl-min-proto-version TLSv1-2          \n      #end\n\nIf admin-https-ssl-versions is not set to tlsv1-2 tlsv1-3 or admin-ssh-v1 is enable, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config system global\n          # set admin-https-ssl-versions tlsv1-2 tlsv1-3\n          # set admin-ssh-v1 disable\n     # end",
+  "fix_id": "F-37350r611788_fix",
+  "VulnDiscussion": "A replay attack may enable an unauthorized user to gain access to the application. Authentication sessions between the authenticator and the application validating the user credentials must not be vulnerable to a replay attack.\n\nAn authentication process resists replay attacks if it is impractical to achieve a successful authentication by recording and replaying a previous authentication message.\n\nTechniques used to address this include protocols using nonces (e.g., numbers generated for a specific one-time use) or challenges (e.g., TLS, WS_Security). Additional techniques include time-synchronous or challenge-response one-time authenticators.",
+  "Documentable": "false"
+}

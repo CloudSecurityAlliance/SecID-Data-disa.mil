@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222620",
+  "rule_id": "SV-222620r961863_rule",
+  "stig_id": "APSC-DV-002890",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Application web servers must be on a separate network segment from the application and database servers if it is a tiered application operating in the DoD DMZ.",
+  "group_title": "SRG-APP-000516",
+  "idents": {
+    "legacy": [
+      "SV-84915",
+      "V-70293"
+    ],
+    "cci": [
+      "CCI-002225"
+    ]
+  },
+  "check_id": "C-24290r493768_chk",
+  "check_content": "Review the application documentation.\n\nReview the application data protection requirements and identify if all data types hosted on server are identical.\n\nReview the network diagram and identify web servers/web services, web application servers, and database servers.\n\nIf the application is not hosted in the DoD DMZ, this requirement is not applicable.\n\nVerify the application web servers are separated from the application and database servers if the application is a tiered design as per DoD DMZ STIG requirements.\n\nIf the application is tiered and the network infrastructure hosting the application is not configured to provide separation and security access controls between the tiered layers in accordance with DoD DMZ requirements, this is a finding.",
+  "fixtext": "Separate web server from other application tiers and place it on a separate network segment apart from the application and database servers in accordance with DoD DMZ data access controls requirements.",
+  "fix_id": "F-24279r493769_fix",
+  "VulnDiscussion": "A tiered application usually consists of 3 tiers, the web layer (presentation tier), the application layer (application logic tier), and the database layer (data storage tier).\n\nUsing one system for hosting all 3 tiers introduces risk that if one tier is compromised, there are no additional protection layers available to defend the other tiers.\nSecurity controls must be in place in order to provide different levels and types of defenses for each type of server based upon data protection requirements identified by policy or data owner.\n\nDoD DMZ policy specifies that logical separation is allowed but when hosting different data types on the same server, physical separation is required.\n\n1) Unrestricted web servers and Restricted web servers must be on separate virtual or physical servers from Private web servers, application servers, or database servers.\n2) Unrestricted web servers and Restricted web servers can either be on separate physical servers from each other, or they can be on separate virtual servers.\n3) If application and database servers have been separated by service type into Unrestricted, Restricted, and Private servers (permitted but not required in Increment 1 Phase 1), they must be on separate virtual or physical servers from each other by server type (Application or Database) and by service type (Unrestricted, Restricted, or Private).\n\nReference the DoD DMZ STIG for details on data types and separation requirements.\n\nSecurity controls include firewalls or other forms of access controls that restrict the ability to traverse the network from one system to the other.\n\nSeparation can be performed either physically or logically based upon data protection and application protection design requirements.\n\nPhysically separate networks require distinct physical network devices for connections (e.g., two separate switches or two separate routers).\n\nPhysically separate machines utilize a non-virtual OS.\n\nLogically separate networks are usually implemented via a VLAN.\n\nLogically separate systems are implemented with virtual machines or other system emulation.\n\nSecurity controls are firewall rules or ACLs that provide access restrictions on network traffic and limit communications between systems to only application and application/system support traffic.\n\nFor complete explanation of DoD DMZ requirements, reference DoD DMZ requirements.",
+  "Documentable": "false"
+}

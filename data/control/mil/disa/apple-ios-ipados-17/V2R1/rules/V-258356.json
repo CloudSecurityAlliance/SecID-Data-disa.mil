@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-258356",
+  "rule_id": "SV-258356r959010_rule",
+  "stig_id": "AIOS-17-012200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Apple iOS/iPadOS 17 must implement the management setting: enable USB Restricted Mode.",
+  "group_title": "PP-MDF-993300",
+  "idents": {
+    "cci": [
+      "CCI-000097",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62097r927749_chk",
+  "check_content": "This is a supervised-only control. If the iPhone or iPad being reviewed is not supervised by the MDM, this control is automatically a finding.\n\nIf the iPhone or iPad being reviewed is supervised by the MDM, review configuration settings to confirm \"Allow USB Restricted Mode\" is enabled.\n\nThis check procedure is performed on both the device management tool and the iPhone and iPad device. \n\nNote: If an organization has multiple configuration profiles, the check procedure must be performed on the relevant configuration profiles applicable to the scope of the review. \n\nIn the iOS management tool, verify \"Allow USB Restricted Mode\" is checked (set to \"True\").\n\nOn the iPhone/iPad device:\n1. Open the Settings app.\n2. Tap \"General\".\n3. Tap \"VPN & Device Management\".\n4. Tap the Configuration Profile from the iOS management tool containing the restrictions policy.\n5. Tap \"Restrictions\".\n6. Verify there is no listing for \"USB Accessories while locked allowed\".\n\nIf \"Allow USB Restricted Mode\" is not enabled in the management tool and there is a restriction listed in the profile on the Apple device, this is a finding.\n\nNote: The default configuration setting for \"allow USB Restricted Mode\" is \"True\" in most MDM products. This is the required setting. When set correctly, nothing will be listed in the Restrictions profile, and the user will be able to toggle USB accessories on/off.\n\nNote: \"Allow USB Restricted Mode\" may be called \"Allow USB accessories while device is locked\" in some MDM consoles. The required logic is to disable USB accessory connections when the device is locked.",
+  "fixtext": "Install a configuration profile to configure \"Allow USB Restricted Mode\" to \"True\" in the management tool. This a supervised-only control.\n\nNote: The default configuration setting for \"allow USB Restricted Mode\" is \"True\" in most MDM products. This is the required setting. When set correctly, nothing will be listed in the Restrictions profile, and the user will be able to toggle USB accessories on/off.\n\nNote: This control is called \"Allow USB accessories while device is locked\" in Apple Configurator, and the control logic is opposite to what is listed here. Ensure the MDM policy rule is set correctly (to disable USB accessory connections when the device is locked).",
+  "fix_id": "F-62021r927750_fix",
+  "VulnDiscussion": "The USB lightning port on an iOS device can be used to access data on the device. The required settings ensure the Apple device password is entered before a previously trusted USB accessory can connect to the device.\n\nSFR ID: FMT_SMF_EXT.1.1 #47",
+  "Documentable": "false"
+}

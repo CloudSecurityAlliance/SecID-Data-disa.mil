@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234216",
+  "rule_id": "SV-234216r879642_rule",
+  "stig_id": "FGFW-ND-000285",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The FortiGate device must only allow authorized administrators to view or change the device configuration, system files, and other files stored either in the device or on removable media (such as a flash drive).",
+  "group_title": "SRG-APP-000231-NDM-000271",
+  "idents": {
+    "cci": [
+      "CCI-001199"
+    ]
+  },
+  "check_id": "C-37401r611835_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click System.\n2. Click Administrators.\n3. Click each administrator and hover over the profile that is assigned to the role.\n4. Click Edit.\n5. Verify that the permission on System is set to READ or Read/Write.\n\nIf any unauthorized administrator has Read/Write access to System, this is a finding.\n\nor \n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command for all low privileged admin users:\n\n     # show system admin  {ADMIN NAME}  | grep -i accprofile\nThe output should be:  \n           set accprofile {PROFILE NAME}\n\nUse the profile name from the output result of above command. \n     # show system accprofile {PROFILE NAME} | grep -i sysgrp\nThe output should be:  \n          set sysgrp none\n          \nIf any low privileged admin user has sysgrp parameter set to values other than NONE, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. First edit the admin profile by running the following command:\n\n     # config system accprofile \n           # edit {PROFILE NAME}\n                 # set sysgrp read-write\n          # next\n     # end\nThen, assign appropriate admin profiles to the administrator account. \n     # config system admin  \n          # edit {ADMIN NAME}\n          # set accprofile  {PROFILE NAME}\n          # next\n     # end\n\nThis profile should only be assigned to administrators authorized to change system configurations.",
+  "fix_id": "F-37366r611836_fix",
+  "VulnDiscussion": "This requirement is intended to address the confidentiality and integrity of system information at rest (e.g., network device rule sets) when it is located on a storage device within the network device or as a component of the network device. This protection is required to prevent unauthorized alteration, corruption, or disclosure of information when not stored directly on the network device.\n\nFiles on the network device or on removable media used by the device must have their permissions set to allow read or write access to those accounts that are specifically authorized to access or change them. Note that different administrative accounts or roles will have varying levels of access.\n\nFile permissions must be set so that only authorized administrators can read or change their contents. Whenever files are written to removable media and the media removed from the device, the media must be handled appropriately for the classification and sensitivity of the data stored on the device.",
+  "Documentable": "false"
+}

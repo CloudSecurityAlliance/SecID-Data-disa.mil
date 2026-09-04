@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253814",
+  "rule_id": "SV-253814r997251_rule",
+  "stig_id": "TANS-CN-000001",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Tanium application must retain the session lock until the user reestablishes access using established identification and authentication procedures.",
+  "group_title": "SRG-APP-000002",
+  "idents": {
+    "cci": [
+      "CCI-000060"
+    ]
+  },
+  "check_id": "C-57266r842468_chk",
+  "check_content": "1. Access the Tanium Server.\n \n2. Log on to the server with an account that has administrative privileges.\n \n3. Run regedit as Administrator.\n \n4. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> Wow6432Node >> Tanium >> Tanium Server.\n \n5. Validate the value for REG_DWORD \"ForceSOAPSSLClientCert\" is set to \"1\".\n \n6. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> Wow6432Node >> Tanium >> Tanium Server.\n \n7. Validate the following keys exist and are configured:\n\nREG_SZ \"ClientCertificateAuthField\"\nFor example: \nX509v3 Subject Alternative Name.\n \nREG_SZ \"ClientCertificateAuthRegex\"\nFor example-DoD:\n.+?Name:\\s*?(\\S+@[._a-zA-Z0-9]+).*\nNote: This regex may vary. \n \nREG_SZ \"ClientCertificateAuth\"\nFor example:\nC:\\Program Files\\Tanium\\Tanium Server\\dod.pem\n \nIf the value for REG_DWORD \"ForceSOAPSSLClientCert\" is not set to \"1\" and the remaining registry values are not configured, this is a finding.",
+  "fixtext": "Use the vendor documentation titled \"Smart card authentication\" to implement correct configuration settings for this requirement. \n\nVendor documentation can be downloaded from https://docs.tanium.com/platform_deployment_reference/platform_deployment_reference/smart_card_authentication.html?Highlight=cac.\n \n1. Access the Tanium Server.\n \n2. Log on to the server with an account that has administrative privileges.\n \n3. Run regedit as Administrator.\n \n4. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> Wow6432Node >> Tanium >> Tanium Server.\n \n5. Validate the value for REG_DWORD \"ForceSOAPSSLClientCert\" is set to \"1\".\n \n6. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> Wow6432Node >> Tanium >> Tanium Server.\n \n7. Configure the following keys:\n \nREG_SZ \"ClientCertificateAuthField\"\nFor example: \nX509v3 Subject Alternative Name.\n \nREG_SZ \"ClientCertificateAuthRegex\"\nFor example-DoD:\n.+?Name:\\s*?(\\S+@[._a-zA-Z0-9]+).*\nNote: This regex may vary. \n \nREG_SZ \"ClientCertificateAuth\"\nFor example:\nC:\\Program Files\\Tanium\\Tanium Server\\dod.pem",
+  "fix_id": "F-57217r842469_fix",
+  "VulnDiscussion": "Unattended systems are susceptible to unauthorized use and should be locked when unattended. This protects critical and sensitive data from exposure to unauthorized personnel with physical access to the system.",
+  "Documentable": "false"
+}

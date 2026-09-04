@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221891",
+  "rule_id": "SV-221891r991589_rule",
+  "stig_id": "OL07-00-040800",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "SNMP community strings on the Oracle Linux operating system must be changed from the default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-99521",
+      "SV-108625"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23606r419745_chk",
+  "check_content": "Verify that a system using SNMP is not using default community strings.\n\nCheck to see if the \"/etc/snmp/snmpd.conf\" file exists with the following command:\n\n# ls -al /etc/snmp/snmpd.conf\n-rw------- 1 root root 52640 Mar 12 11:08 snmpd.conf\n\nIf the file does not exist, this is Not Applicable.\n\nIf the file does exist, check for the default community strings with the following commands:\n\n# grep public /etc/snmp/snmpd.conf\n# grep private /etc/snmp/snmpd.conf\n\nIf either of these commands returns any output, this is a finding.",
+  "fixtext": "If the \"/etc/snmp/snmpd.conf\" file exists, modify any lines that contain a community string value of \"public\" or \"private\" to another string value.",
+  "fix_id": "F-23595r419746_fix",
+  "VulnDiscussion": "Whether active or not, default Simple Network Management Protocol (SNMP) community strings must be changed to maintain security. If the service is running with the default authenticators, anyone can gather data about the system and the network and use the information to potentially compromise the integrity of the system or network(s). It is highly recommended that SNMP version 3 user authentication and message encryption be used in place of the version 2 community strings.",
+  "Documentable": "false"
+}

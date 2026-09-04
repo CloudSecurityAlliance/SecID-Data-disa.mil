@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235139",
+  "rule_id": "SV-235139r961029_rule",
+  "stig_id": "MYS8-00-005200",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "If passwords are used for authentication, the MySQL Database Server 8.0 must transmit only encrypted representations of passwords.",
+  "group_title": "SRG-APP-000172-DB-000075",
+  "idents": {
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-38358r623537_chk",
+  "check_content": "Review configuration settings for encrypting passwords in transit across the network. If passwords are not encrypted, this is a finding. \n\nIf it is determined that passwords are passed unencrypted at any point along the transmission path between the source and destination, this is a finding.\n\nTo check, run the following SQL:\nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables\nWHERE VARIABLE_NAME IN ('require_secure_transport') ;\nIf the require_secure_transport VARIABLE_VALUE is not  'ON' (1), this is a finding.\n\n If 1 (On), then only SSL connections are permitted; next examine the certificate used.\n\nRun the following command to determine the certificate in use along with other details:\nselect @@ssl_ca, @@ssl_capath, @@ssl_cert, @@ssl_cipher, @@ssl_crl, @@ssl_crlpath, @@ssl_fips_mode, @@ssl_key;\n\nIf the certificate is not a DoD certificate, or if no certificate is listed, this is a finding.",
+  "fixtext": "Configure encryption for transmission of passwords across the network. If the database does not provide encryption for logon events natively, employ encryption at the OS or network level.\n\nEnsure passwords remain encrypted from source to destination.\n\nconnect to MySQL as admin (root)\nmysql> set persist require_secure_transport=ON;\n\nSet system variables on the server side specify  DoD approved certificate and key files the server uses when permitting clients to establish encrypted connections:\n\nssl_ca: The path name of the Certificate Authority (CA) certificate file. (ssl_capath is similar but specifies the path name of a directory of CA certificate files.)\n\nssl_cert: The path name of the server public key certificate file. This certificate can be sent to the client and authenticated against the CA certificate that it has.\n\nssl_key: The path name of the server private key file.\n\nFor example, to enable the server for encrypted connections with certificates, start it with these lines in the my.cnf file, changing the file names as necessary:\n\n[mysqld]\nssl_ca=ca.pem\nssl_cert=server-cert.pem\nssl_key=server-key.pem",
+  "fix_id": "F-38321r623538_fix",
+  "VulnDiscussion": "The DoD standard for authentication is DoD-approved PKI certificates.\n\nAuthentication based on User ID and Password may be used only when it is not possible to employ a PKI certificate, and requires Authorizing Official (AO) approval.\n\nIn such cases, passwords need to be protected at all times, and encryption is the standard method for protecting passwords during transmission.\n\nDatabase Management System (DBMS) passwords sent in clear text format across the network are vulnerable to discovery by unauthorized users. Disclosure of passwords may easily lead to unauthorized access to the database.",
+  "Documentable": "false"
+}

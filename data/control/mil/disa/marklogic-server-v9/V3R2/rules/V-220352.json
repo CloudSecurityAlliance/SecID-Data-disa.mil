@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220352",
+  "rule_id": "SV-220352r960939_rule",
+  "stig_id": "ML09-00-002200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MarkLogic Server must protect its audit features from unauthorized access.",
+  "group_title": "SRG-APP-000121-DB-000202",
+  "idents": {
+    "legacy": [
+      "SV-110051",
+      "V-100947"
+    ],
+    "cci": [
+      "CCI-001493"
+    ]
+  },
+  "check_id": "C-22067r401507_chk",
+  "check_content": "Review access permissions to tools used to view or modify audit log data. Since MarkLogic Audit logs are stored in plain text files, this includes text editors provided by the OS.\n\nAlternatively, enable Encryption-at-Rest for the logs. This would ensure only individuals/systems with a valid encryption key may access the data within logs and audit files.\n\nIf appropriate permissions and access controls are not applied to prevent unauthorized modification of these tools, and Encryption-at-Rest is not enabled for logs, this is a finding.\n\nPerform the check from the MarkLogic Admin Interface with a user that holds administrative-level privileges.\n1. Click the Clusters icon on the left tree menu.\n2. Click the Keystore tab.\n3. If \"logs encryption\" is set to \"off\", this is a finding.",
+  "fixtext": "Add or modify access controls and permissions for tools used to view or modify audit log data, including OS text editors. Since MarkLogic Audit logs are stored in plain text files, this includes text editors provided by the OS. Tools must be accessible by authorized personnel only.\n\nAlternatively, Encryption-at-Rest for system logs may be enabled to prevent unauthorized disclosure of contained information. \n\nPerform the fix from the MarkLogic Admin Interface with a user that holds administrative-level privileges.\n1. Click the Clusters icon on the left tree menu.\n2. Click the Keystore tab.\n3. Change \"logs encryption\" setting to \"on\".",
+  "fix_id": "F-22056r401508_fix",
+  "VulnDiscussion": "Protecting audit data also includes identifying and protecting the tools used to view and manipulate log data. \n\nDepending upon the log format and application, system and application log tools may provide the only means to manipulate and manage application and system log data. Access to audit tools must be controlled and protected from unauthorized access. \n\nApplications providing tools to interface with audit data will leverage user permissions and roles identifying the user accessing the tools and the corresponding rights the user enjoys in order make access decisions regarding the access to audit tools.\n\nAudit tools include, but are not limited to, OS-provided audit tools, vendor-provided audit tools, and open source audit tools needed to successfully view and manipulate audit information system activity and records. \n\nIf an attacker were to gain access to audit tools, he could analyze audit logs for system weaknesses or weaknesses in the auditing itself. An attacker could also manipulate logs to hide evidence of malicious activity.\n\nWhen auditing is enabled, MarkLogic Server writes audit events to the AuditLog.txt file. Each host in a cluster maintains its own audit log files. Some actions might trigger multiple audit events, and those events might be logged over multiple hosts, as events are audited on the host in which the event occurs. For more information about the audit events, see Auditable Events. Note the following about the audit event log files:\n- Writes messages to AuditLog.txt file for various events.\n- Each event has a timestamp, event type, user, role, and other information relevant to the event (for example, document URI for document-read event). For an example of log entries, see Sample Audit Logs.\n- How often to rotate the audit files (similar to the log files, as described in Log Files) can be configured.\n- Audit log files are stored in the same directory as the Access log files (port_AccessLog.txt) and the Error log files (ErrorLog.txt), which is in the <marklogic-data-dir>/Logs directory. These files are private to the host in which the audit event occurred.\n- View the current or any archived file log at any time using standard text file viewing tools. Additionally, the log files can be accessed from the Log tab on the main page of the Admin Interface.",
+  "Documentable": "false"
+}

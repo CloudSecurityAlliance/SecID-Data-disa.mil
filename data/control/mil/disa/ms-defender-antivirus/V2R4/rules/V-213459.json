@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213459",
+  "rule_id": "SV-213459r823087_rule",
+  "stig_id": "WNDF-AV-000035",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Microsoft Defender AV must be configured to block Office applications from injecting into other processes.",
+  "group_title": "SRG-APP-000210",
+  "idents": {
+    "legacy": [
+      "SV-92667",
+      "V-77971"
+    ],
+    "cci": [
+      "CCI-001170"
+    ]
+  },
+  "check_id": "C-14684r820224_chk",
+  "check_content": "This setting is applicable starting with v1709 of Windows 10. It is NA for prior versions.\n\nVerify the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Microsoft Defender Exploit Guard >> Attack Surface Reduction >> \"Configure Attack Surface Reduction rules\" is set to \"Enabled”.  Click \"Show...\". Verify the rule ID in the Value name column and the desired state in the Value column is set as follows:\nValue name: 75668C1F-73B5-4CF0-BB93-3ECF5CB7CC84\nValue:  1\n\nProcedure: Use the Windows Registry Editor to navigate to the following key: \nHKLM\\Software\\Policies\\Microsoft\\Windows Defender\\Windows Defender Exploit Guard\\ASR\\Rules\n\nCriteria: If the value \"75668C1F-73B5-4CF0-BB93-3ECF5CB7CC84\" is REG_SZ = 1, this is not a finding.",
+  "fixtext": "Set the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Windows Defender Exploit Guard >> Attack Surface Reduction >> \"Configure Attack Surface Reduction rules\" to \"Enabled\".\n\nClick \"Show...\". Set the Value name to \"75668C1F-73B5-4CF0-BB93-3ECF5CB7CC84\" and the Value to \"1\".",
+  "fix_id": "F-14682r823086_fix",
+  "VulnDiscussion": "Office apps, such as Word, Excel, or PowerPoint, will not be able to inject code into other processes. This is typically used by malware to run malicious code in an attempt to hide the activity from antivirus scanning engines.",
+  "Documentable": "false"
+}

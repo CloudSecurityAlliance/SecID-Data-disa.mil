@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-261418",
+  "rule_id": "SV-261418r996665_rule",
+  "stig_id": "SLEM-05-653050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must protect audit rules from unauthorized modification.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164"
+    ]
+  },
+  "check_id": "C-65147r996663_chk",
+  "check_content": "Verify that SLEM 5 protects audit rules from unauthorized modification with the following command:\n\n     > grep -i audit /etc/permissions.local\n     /var/log/audit root:root 600\n     /var/log/audit/audit.log root:root 600\n     /etc/audit/audit.rules root:root 640\n     /etc/audit/rules.d/audit.rules root:root 640\n\nIf the command does not return any output or all four lines as shown, this is a finding.\n\nCheck that all of the audit information files and folders have the correct permissions with the following command:\n\n     > sudo chkstat /etc/permissions.local\n\nIf the command returns any output, this is a finding.",
+  "fixtext": "Configure SLEM 5 to protect audit rules from unauthorized modification.\n\nAdd or modify the following lines in \"/etc/permissions.local\":\n\n/var/log/audit root:root 600\n/var/log/audit/audit.log root:root 600\n/etc/audit/audit.rules root:root 640\n/etc/audit/rules.d/audit.rules root:root 640\n\nSet the correct permissions with the following command:\n\n     > sudo chkstat --set /etc/permissions.local",
+  "fix_id": "F-65055r996664_fix",
+  "VulnDiscussion": "Without the capability to restrict which roles and individuals can select which events are audited, unauthorized personnel may be able to prevent the auditing of critical events. Misconfigured audits may degrade the system's performance by overwhelming the audit log. Misconfigured audits may also make it more difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.",
+  "Documentable": "false"
+}

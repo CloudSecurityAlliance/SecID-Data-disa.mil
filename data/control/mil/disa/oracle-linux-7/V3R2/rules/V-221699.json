@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221699",
+  "rule_id": "SV-221699r958472_rule",
+  "stig_id": "OL07-00-010481",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must require authentication upon booting into single-user and maintenance modes.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "legacy": [
+      "V-99137",
+      "SV-108241"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-23414r419169_chk",
+  "check_content": "Verify the operating system must require authentication upon booting into single-user and maintenance modes.\n\nCheck that the operating system requires authentication upon booting into single-user mode with the following command:\n\n# grep -i execstart /usr/lib/systemd/system/rescue.service | grep -i sulogin\n\nExecStart=-/bin/sh -c \"/usr/sbin/sulogin; /usr/bin/systemctl --fail --no-block default\"\n\nIf \"ExecStart\" does not have \"/usr/sbin/sulogin\" as an option, this is a finding.",
+  "fixtext": "Configure the operating system to require authentication upon booting into single-user and maintenance modes.\n\nAdd or modify the \"ExecStart\" line in \"/usr/lib/systemd/system/rescue.service\" to include \"/usr/sbin/sulogin\":\n\nExecStart=-/bin/sh -c \"/usr/sbin/sulogin; /usr/bin/systemctl --fail --no-block default\"",
+  "fix_id": "F-23403r419170_fix",
+  "VulnDiscussion": "If the system does not require valid root authentication before it boots into single-user or maintenance mode, anyone who invokes single-user or maintenance mode is granted privileged access to all files on the system.",
+  "Documentable": "false"
+}

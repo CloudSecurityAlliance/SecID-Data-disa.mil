@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-260911",
+  "rule_id": "SV-260911r1015770_rule",
+  "stig_id": "CNTR-MK-000130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Swarm Secrets or Kubernetes Secrets must be used.",
+  "group_title": "SRG-APP-000033-CTR-000100",
+  "idents": {
+    "cci": [
+      "CCI-000213",
+      "CCI-001499",
+      "CCI-004062",
+      "CCI-002450",
+      "CCI-002476",
+      "CCI-000196"
+    ]
+  },
+  "check_id": "C-64640r966088_chk",
+  "check_content": "Review the System Security Plan (SSP) and identify applications that leverage configuration files and/or small amounts of user-generated data, and ensure the data is stored in Docker Secrets or Kubernetes Secrets.\n\nWhen using Swarm orchestration, log in to the MKE web UI and navigate to Swarm >> Secrets and view the configured secrets.\n\nIf items identified for secure storage are not included in the secrets, this is a finding.\n\nWhen using Kubernetes orchestration, log on to the MKE Controller node then run the following command:\n\nkubectl get all -o jsonpath='{range .items[?(@..secretKeyRef)]} {.kind} {.metadata.name} {\"\\n\"}{end}' -A\n\nOr, using API, configure the $AUTH variable to contain the token for the SCIM API endpoint:\n\ncurl -k 'Accept: application/json' -H \"Authorization: Bearer $AUTH\" -s \"https://$MKE_ADDRESS/api/MKE/config/kubernetes\" | jq '.KMSEnabled' true\n\nIf any of the values returned reference environment variables, this is a finding.",
+  "fixtext": "To create secrets when using Swarm Orchestration, log in to the MKE UI. Navigate to Swarm >> Secrets, and then click \"Create\".\n\nProvide a name for the secret and enter the data into the \"Content\" field.\n\nAdd a label to allow for RBAC features to be used for access to secret.\n\nClick \"Save\".\n\nTo create secrets when using Kubernetes orchestration, run the following command on the MKE Controller node:\n\nConfigure the $AUTH variable to contain the token for the SCIM API endpoint.\n\ncurl -X PUT -H 'Accept: application/json' -H \"Authorization: Bearer $AUTH\" -d '{\"KMSEnabled\":true,\"KMSName\"\":\"<kms_name>\",\"KMSEndpoint\":\"/var/kms\"}' \"https://$MKE_ADDRESS/api/MKE/config/kubernetes\"",
+  "fix_id": "F-64548r966089_fix",
+  "VulnDiscussion": "Swarm Secrets in Docker Swarm and Kubernetes Secrets both provide mechanisms for encrypting sensitive data at rest. This adds an additional layer of security, ensuring that even if unauthorized access occurs, the stored secrets remain encrypted.\n\nMKE keystore must implement encryption to prevent unauthorized disclosure of information at rest within MKE. By leveraging Docker Secrets or Kubernetes secrets to store configuration files and small amounts of user-generated data (up to 500 kb in size), the data is encrypted at rest by the Engine's FIPS-validated cryptography.",
+  "Documentable": "false"
+}

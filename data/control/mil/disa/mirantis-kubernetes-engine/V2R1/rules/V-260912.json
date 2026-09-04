@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260912",
+  "rule_id": "SV-260912r966093_rule",
+  "stig_id": "CNTR-MK-000140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MKE must have Grants created to control authorization to cluster resources.",
+  "group_title": "SRG-APP-000038-CTR-000105",
+  "idents": {
+    "cci": [
+      "CCI-001368"
+    ]
+  },
+  "check_id": "C-64641r966091_chk",
+  "check_content": "Verify the applied RBAC policies set in MKE are configured per the requirements set forth by the System Security Plan (SSP).\n\nLog in to the MKE web UI as an MKE Admin and navigate to Access Control >> Grants.\n\nWhen using Kubernetes orchestration, select the \"Kubernetes\" tab and verify that cluster role bindings are configured per the requirements set forth by the SSP.\n\nWhen using Swarm orchestration, select the \"Swarm\" tabs. Verify that all grants are configured per the requirements set forth by the SSP.\n\nIf the grants are not configured per the requirements set forth by the SSP, then this is a finding.",
+  "fixtext": "Create Role Bindings/Grants by logging in to the MKE web UI as an MKE Admin. Navigate to Access Control >> Grants.\n\nUsing Kubernetes orchestration:\n- Select the \"Kubernetes\" tab and click \"Create Role Binding\".\n- Add Users, Organizations or Service Accounts as needed and click \"Next\".\n- Under \"Resource Set\", enable \"Apply Role Binding to all namespaces\", and then click \"Next\".\n- Under \"Role\" select a cluster role.\n- Click \"Create\".\n\nUsing Swarm orchestration:\n- Select the \"Swarm\" tab and click \"Create Grant\".\n- Add Users, Organizations, or Service Accounts as needed and click \"Next\".\n- Under \"Resource Set\", click \"View Children\" until the required Swarm collection displays, and then click \"Next\".\n- Under \"Role\" select a cluster role.\n- Click \"Create\".",
+  "fix_id": "F-64549r966092_fix",
+  "VulnDiscussion": "MKE uses Role-Based Access Controls (RBAC) to enforce approved authorizations for logical access to information and system resources in accordance with applicable access control policies.\n\nUsing an IDP (per this STIG) still requires configure mapping. Refer to the following for more information: https://docs.mirantis.com/mke/3.7/ops/authorize-rolebased-access/rbac-tutorials/access-control-standard.html#access-control-standard.",
+  "Documentable": "false"
+}

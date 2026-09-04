@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233516",
+  "rule_id": "SV-233516r961167_rule",
+  "stig_id": "CD12-00-000600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must provide non-privileged users with error messages that provide information necessary for corrective actions without revealing information that could be exploited by adversaries.",
+  "group_title": "SRG-APP-000266-DB-000162",
+  "idents": {
+    "cci": [
+      "CCI-001312"
+    ]
+  },
+  "check_id": "C-36710r606771_chk",
+  "check_content": "As the database administrator, run the following SQL:\n\nSELECT current_setting('client_min_messages');\n\nIf client_min_messages is not set to error, this is a finding.",
+  "fixtext": "Note: The following instructions use the PGDATA and PGVER environment variables. See supplementary content APPENDIX-F for instructions on configuring PGDATA and APPENDIX-H for PGVER.\n\nAs the database administrator, edit \"postgresql.conf\": \n\n$ sudo su - postgres \n$ vi $PGDATA/postgresql.conf \n\nChange the client_min_messages parameter to be \"error\": \n\nclient_min_messages = error \n\nReload the server with the new configuration (this just reloads settings currently in memory; it will not cause an interruption): \n\n$ sudo systemctl reload postgresql-${PGVER?}",
+  "fix_id": "F-36675r606772_fix",
+  "VulnDiscussion": "Any PostgreSQL or associated application providing too much information in error messages on the screen or printout risks compromising the data and security of the system. The structure and content of error messages need to be carefully considered by the organization and development team.\n\nDatabases can inadvertently provide a wealth of information to an attacker through improperly handled error messages. In addition to sensitive business or personal information, database errors can provide host names, IP addresses, user names, and other system information not required for troubleshooting but very useful to someone targeting the system.\n\nCarefully consider the structure/content of error messages. The extent to which information systems are able to identify and handle error conditions is guided by organizational policy and operational requirements. Information that could be exploited by adversaries includes, for example, logon attempts with passwords entered by mistake as the username, mission/business information that can be derived from (if not stated explicitly by) information recorded, and personal information, such as account numbers, social security numbers, and credit card numbers.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251680",
+  "rule_id": "SV-251680r960993_rule",
+  "stig_id": "SPLK-CL-000330",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Splunk Enterprise must use HTTPS/SSL for access to the user interface.",
+  "group_title": "SRG-APP-000156-AU-002380",
+  "idents": {
+    "cci": [
+      "CCI-001941"
+    ]
+  },
+  "check_id": "C-55118r819104_chk",
+  "check_content": "This check is performed on the machine used as a search head or a deployment server, which may be a separate machine in a distributed environment.\n\nCheck the following file in the installation to verify Splunk is set to use SSL and certificates:\n\n$SPLUNK_HOME/etc/system/local/web.conf\n\n[settings]\nenableSplunkWebSSL = 1\nprivKeyPath = <path to the private key generated for the DoD approved certificate>\nserverCert = <path to the DoD approved certificate in PEM format>\n\nIf the settings are not configured to use SSL and certificates, this is a finding.",
+  "fixtext": "This configuration is performed on the machine used as a search head or a deployment server, which may be a separate machine in a distributed environment.\n\nEdit the following file in the installation to configure Splunk to use SSL certificates:\n\n$SPLUNK_HOME/etc/system/local/web.conf\n\n[settings]\nenableSplunkWebSSL = 1\nprivKeyPath = <path to the private key generated for the DoD approved certificate>\nserverCert = <path to the DoD approved certificate in PEM format>",
+  "fix_id": "F-55072r819105_fix",
+  "VulnDiscussion": "A replay attack may enable an unauthorized user to gain access to the application. Authentication sessions between the authenticator and the application validating the user credentials must not be vulnerable to a replay attack.\n\nAnti-replay is a cryptographically based mechanism; thus, it must use FIPS-approved algorithms. An authentication process resists replay attacks if it is impractical to achieve a successful authentication by recording and replaying a previous authentication message. Note that the anti-replay service is implicit when data contains monotonically increasing sequence numbers and data integrity is assured. Use of DoD PKI is inherently compliant with this requirement for user and device access. Use of Transport Layer Security (TLS), including application protocols, such as HTTPS and DNSSEC, that use TLS/SSL as the underlying security protocol is also complaint.\n\nConfigure the information system to use the hash message authentication code (HMAC) algorithm for authentication services to Kerberos, SSH, web management tool, and any other access method.",
+  "Documentable": "false"
+}

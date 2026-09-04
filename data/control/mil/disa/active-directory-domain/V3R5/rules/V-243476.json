@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-243476",
+  "rule_id": "SV-243476r1026173_rule",
+  "stig_id": "AD.0016",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All accounts, privileged and unprivileged, that require smart cards must have the underlying NT hash rotated at least every 60 days.",
+  "group_title": "SRG-OS-000076",
+  "idents": {
+    "legacy": [
+      "V-72821",
+      "SV-87467"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-46751r1026171_chk",
+  "check_content": "Windows Server 2016 with a domain functional level of Windows Server 2016:\n\nOpen \"Active Directory Administrative Center\".\n\nRight-click on the domain name and select \"Properties\".\n\nIf the \"Domain functional level:\" is not \"Windows Server 2016\", another method must be used to reset the NT hashes. See below for other options.\n\nIf the \"Domain functional level:\" is \"Windows Server 2016\" and \"Enable rolling of expiring NTLM secrets during sign on, for users who are required to use Microsoft Passport or smart card for interactive sign on\" is not checked, this is a finding.\n\nActive Directory domains with a domain functional level below Windows Server 2016:\n\nVerify the organization rotates the NT hash for smart card-enforced accounts every 60 days.  \n\nThis can be accomplished with the use of scripts.  \n\nDOD PKI-PKE has provided a script under PKI and PKE Tools at https://cyber.mil/pki-pke/tools-configuration-files/. Refer to the User Guide for additional information.\n\nNSA has also provided a PowerShell script with Pass-the-Hash guidance at https://github.com/nsacyber/Pass-the-Hash-Guidance. Running the \"Invoke-SmartcardHashRefresh\" cmdlet in the \"PtHTools\" module will trigger a change of the underlying NT hash. Refer to the site for additional information.\n\nManually rolling the NT hash requires disabling and reenabling the \"Smart Card required for interactive logon\" option for each smart card-enforced account, which is not practical for large groups of users.\n\nIf NT hashes for smart card-enforced accounts are not rotated every 60 days, this is a finding.",
+  "fixtext": "Windows Server 2016 with domain functional levels of Windows Server 2016:\n\nOpen \"Active Directory Administrative Center\".\n\nRight-click on the domain name and select \"Properties\".\n\nSelect \"Enable rolling of expiring NTLM secrets during sign on, for users who are required to use Microsoft Passport or smart card for interactive sign on\".\n\nActive Directory domains not at a Windows Server 2016 domain functional level:\n\nRotate the NT hash for smart card-enforced accounts every 60 days.\n\nThis can be accomplished with the use of scripts.\n\nDOD PKI-PKE has provided a script under PKI and PKE Tools at https://cyber.mil/pki-pke/tools-configuration-files/. Refer to the User Guide for additional information.\n\nNSA has also provided a PowerShell script with Pass-the-Hash guidance at https://github.com/nsacyber/Pass-the-Hash-Guidance. Running the \"Invoke-SmartcardHashRefresh\" cmdlet in the \"PtHTools\" module will trigger a change of the underlying NT hash. Refer to the site for additional information.\n\nManually rolling the NT hash requires disabling and reenabling the \"Smart Card required for interactive logon\" option for each smart card-enforced account, which is not practical for large groups of users.",
+  "fix_id": "F-46708r1026172_fix",
+  "VulnDiscussion": "When a smart card is required for a domain account, a long password, unknown to the user, is generated. This password and associated NT hash are not changed as are accounts with passwords controlled by the maximum password age. Disabling and reenabling the \"Smart card is required for interactive logon\" (SCRIL) replaces the NT hash of the account with a newly randomized hash. Otherwise, the existing NT hash could be reused for Pass-the-Hash in the future.\n\nWindows Server 2016 includes a built-in feature for SCRIL hash rolling that will automatically reset NT hashes in accordance with the existing maximum password age policy. This requires the domain functional level to be Windows Server 2016.\n\nIn Active Directory with a domain functional level below Windows Server 2016, scripts can be used to reset the NT hashes of all domain accounts. Associated documentation should be reviewed for potential issues.",
+  "Documentable": "false"
+}

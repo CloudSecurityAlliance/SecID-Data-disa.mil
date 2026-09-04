@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219840",
+  "rule_id": "SV-219840r961863_rule",
+  "stig_id": "O121-BP-022900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Oracle application administration roles must be disabled if not required and authorized.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "legacy": [
+      "SV-75935",
+      "V-61445"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-21551r533059_chk",
+  "check_content": "Run the SQL query:\n\n  select grantee, granted_role from dba_role_privs\n  where default_role='YES'\n  and granted_role in\n  (select grantee from dba_sys_privs where upper(privilege) like '%USER%')  \n  and grantee not in\n  (<list of non-applicable accounts>)\n  and grantee not in (select distinct owner from dba_tables)\n  and grantee not in\n  (select distinct username from dba_users where upper(account_status) like\n   '%LOCKED%');\n\n(With respect to the list of special accounts that are excluded from this requirement, it is expected that the DBA will maintain the list to suit local circumstances, adding special accounts as necessary and removing any that are not supposed to be in use in the Oracle deployment that is under review.)\n\nReview the list of accounts reported for this check and ensures that they are authorized application administration roles.\n\nIf any are not authorized application administration roles, this is a finding.",
+  "fixtext": "For each role assignment returned, issue:\n\nFrom SQL*Plus:\n\n  alter user [username] default role all except [role];\n\nIf the user has more than one application administration role assigned, then remove assigned roles from default assignment and assign individually the appropriate default roles.",
+  "fix_id": "F-21550r533060_fix",
+  "VulnDiscussion": "Application administration roles, which are assigned system or elevated application object privileges, must be protected from default activation. Application administration roles are determined by system privilege assignment (create / alter / drop user) and application user role ADMIN OPTION privileges.",
+  "Documentable": "false"
+}

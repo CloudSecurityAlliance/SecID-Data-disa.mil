@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-268256",
+  "rule_id": "SV-268256r1038708_rule",
+  "stig_id": "HYCU-ND-000460",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must protect audit tools from unauthorized access, modification, and deletion.",
+  "group_title": "SRG-APP-000121-NDM-000238",
+  "idents": {
+    "cci": [
+      "CCI-001493",
+      "CCI-001494",
+      "CCI-001495"
+    ]
+  },
+  "check_id": "C-72277r1038707_chk",
+  "check_content": "Verify the operating system audit tools and config files have proper permissions and ownership.\n\nLog in to the HYCU console and list the full permissions and ownership of the audit folder with the following command:\nsudo ls  -al /etc/audit\n\nFolder and files must be owned by root and the following permissions must be set: \ndrwxr-x---.   4 root root  126 Mar 15 10:16 .\ndrwxr-xr-x. 106 root root 8192 May  6 13:58 ..\n-rw-r-----.   1 root root  751 Apr 24  2020 audisp-remote.conf\n-rw-r-----.   1 root root  856 Apr 24  2020 auditd.conf\n-rw-r-----.   1 root root  107 Feb  3 13:18 audit.rules\n-rw-r-----.   1 root root  127 Apr 24  2020 audit-stop.rules\ndrwxr-x---.   2 root root   67 Mar 15 10:16 plugins.d\ndrwxr-x---.   2 root root   25 Feb  3 13:13 rules.d\n\nAudit files must be mode 0640 or less permissive. If any are more permissive, this is a finding.\n\nThe owner and group owner of all audit files must both be \"root\". If any other owner or group owner is listed, this is a finding.",
+  "fixtext": "Change the mode of the audit log files with the following command:\n# chmod 0640 [audit_file]\n\nChange the owner and group owner of the audit files with the following command:\n# chown root:root [audit_file]",
+  "fix_id": "F-72180r1038467_fix",
+  "VulnDiscussion": "Protecting audit data also includes identifying and protecting the tools used to view and manipulate log data. Therefore, protecting audit tools is necessary to prevent unauthorized operation on audit data.\n\nNetwork devices providing tools to interface with audit data will leverage user permissions and roles identifying the user accessing the tools and the corresponding rights the user enjoys to make access decisions regarding the access to audit tools.\n\nAudit tools include, but are not limited to, vendor-provided and open source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.\n\nSatisfies: SRG-APP-000121-NDM-000238, SRG-APP-000122-NDM-000239, SRG-APP-000123-NDM-000240",
+  "Documentable": "false"
+}

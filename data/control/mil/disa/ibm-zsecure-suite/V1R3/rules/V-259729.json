@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259729",
+  "rule_id": "SV-259729r960960_rule",
+  "stig_id": "ZSEC-00-000060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to IBM Security zSecure STC data sets must be properly restricted and logged.",
+  "group_title": "SRG-APP-000133-MFP-000193",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-63468r943250_chk",
+  "check_content": "Verify that access to the zSecure STC data sets is properly restricted.\n\nIf the following guidance is true, this is not a finding.\n\n- The RACF profiles protecting zSecure STC data sets do not allow general access by means of UACC, ID(*), WARNING, or global access.\n- READ and higher access to zAlert CKFREEZE data sets is restricted to trusted STC users and systems programmers.\n- READ access to Access Monitor output data sets is restricted to auditors, decentralized security administrators, security administrators, automated operation STCs/batch jobs, batch jobs performing ESM maintenance, trusted STC users, and systems programmers.\n- UPDATE access to Access Monitor output data sets is restricted to automated operation STCs/batch jobs, batch jobs performing ESM maintenance, trusted STC users, and systems programmers.\n- CONTROL and higher access to Access Monitor output data sets is restricted to trusted STC users and systems programmers.\n- All failures and successful UPDATE and higher access to zSecure STC data sets is logged.\n\nDASD-only CKXLOG log stream resources in the LOGSTRM class:\n- READ is restricted to security administrators, auditors, batch jobs performing ESM maintenance\n- ALTER restricted to CKXLOG task, system programmers, and batch jobs performing ESM maintenance\n* For Coupling-Facility CKXLOG log streams, the above applies in addition to checking the IXLSTR.model_structure_name profiles in the FACILITY class:\n- UPDATE and higher trusted STC users, and systems programmers.",
+  "fixtext": "Ensure that READ and higher access to zSecure STC data sets is restricted to authorized users, and all failures and successful UPDATE and higher access is logged. \nAppropriate access can be permitted to auditors, decentralized security administrators, security administrators, automated operation STCs/batch jobs, batch jobs performing ESM maintenance, trusted STC users and systems programmers. \n\nThe following commands are provided as a sample for implementing zSecure STC data set controls: \n\nad 'hlq.zsec.alert.ckfreeze' uacc(none) owner(zSecure owner) -\naudit(success(update) failures(read))\npe 'hlq.zsec.alert.ckfreeze' id(SYSPAUDT, TSTCAUDT) access(READ) \nad 'hlq.zsec.access.monitor.dsn' uacc(none) owner(zSecure owner) -\naudit(success(UPDATE) failures(READ))\npe 'hlq.zsec.access.monitor.dsn' id(AUDTAUDT, SECAAUDT, SECDAUDT, SECBAUDT) access(READ) \npe 'hlq.zsec.access.monitor.dsn' id(SECBAUDT, \naccess(UPDATE)\npe 'hlq.zsec.access.monitor.dsn' id(SYSPAUDT, TSTCAUDT) access(ALTER) \nrdef logstrm LSName uacc(none) owner(zSecure owner) - audit(success(UPDATE) failures(read))\npe LSName class(logstrm) id(AUDTAUDT, SECAAUDT, SECDAUDT) access(READ) \npe LSName class(logstrm) id(CKXLOG, SECBAUDT, AUTOAUDT, SYSPAUDT) access(ALTER) \nrdef facility IXLSTR. <modelstrname> uacc(none) owner(zSecure owner) - audit(success(UPDATE) failures(READ))\npe IXLSTR.<modelstrname> class(facility) id(SYSPAUDT, TSTCAUDT) access(ALTER)",
+  "fix_id": "F-63375r943220_fix",
+  "VulnDiscussion": "IBM Security zSecure STC have the ability to use privileged functions and/or have access to sensitive data. Failure to properly restrict access to these zSecure STC data sets could result in violating the integrity of the base product, which could compromise the operating system or sensitive data.",
+  "Documentable": "false"
+}

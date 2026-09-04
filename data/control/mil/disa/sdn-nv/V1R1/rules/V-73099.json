@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-73099",
+  "rule_id": "SV-87751r1_rule",
+  "stig_id": "NET-SDN-014",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Physical devices hosting an SDN controller must be connected to two switches for high-availability.",
+  "group_title": "NET-SDN-014",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73233r1_chk",
+  "check_content": "Review the network topology as well as the physical connection between the physical device hosting an SDN controller and the switches. \n\nThe device must have NIC teaming enabled and must be dual homed, with each upstream link connected to a different switch. \n\nIf the physical device hosting an SDN controller is not connected to two switches using NIC teaming, this is a finding.",
+  "fixtext": "Enable NIC teaming on the device hosting an SDN controller in either Link Aggregation Control Protocol (LACP) or switch-independent mode. \n\nConnect each interface to a different access switch.",
+  "fix_id": "F-79545r1_fix",
+  "VulnDiscussion": "SDN relies heavily on control messages between a controller and the forwarding devices for network convergence. The controller uses node and link state discovery information to calculate and determine optimum pathing within the SDN network infrastructure based on application, business, and security policies. Operating in the proactive flow instantiation mode, the SDN controller populates forwarding tables to the SDN-aware forwarding devices. At times, the SDN controller must function in reactive flow instantiation mode; that is, when a forwarding device receives a packet for a flow not found in its forwarding table, it must send it to the controller to receive forwarding instructions.\n\nWith total dependence on the SDN controller for determining forwarding decisions and path optimization within the SDN infrastructure for both proactive and reactive flow modes of operation, having a single point of failure is not acceptable. Hence, it is imperative that all physical devices hosting an SDN controller are connected to two switches using NIC teaming to guarantee network high availability.",
+  "Documentable": "false"
+}

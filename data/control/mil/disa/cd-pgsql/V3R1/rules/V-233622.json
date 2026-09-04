@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233622",
+  "rule_id": "SV-233622r961839_rule",
+  "stig_id": "CD12-00-012700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must generate audit records for all direct access to the database(s).",
+  "group_title": "SRG-APP-000508-DB-000358",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-36816r607089_chk",
+  "check_content": "As the database administrator, verify pgaudit is enabled by running the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"SHOW shared_preload_libraries\"\n\nIf the output does not contain \"pgaudit\", this is a finding.\n\nVerify that connections and disconnections are being logged by running the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"SHOW log_connections\"\n$ psql -c \"SHOW log_disconnections\"\n\nIf the output does not contain \"on\", this is a finding.",
+  "fixtext": "Note: The following instructions use the PGDATA and PGVER environment variables. See supplementary content APPENDIX-F for instructions on configuring PGDATA and APPENDIX-H for PGVER.\n\nTo ensure logging is enabled, review supplementary content APPENDIX-C for instructions on enabling logging.\n\nUsing pgaudit, PostgreSQL can be configured to audit these requests. See supplementary content APPENDIX-B for documentation on installing pgaudit.\n\nWith pgaudit installed, the following configurations should be made:\n\n$ sudo su - postgres\n$ vi ${PGDATA?}/postgresql.conf\n\nAdd the following parameters (or edit existing parameters):\n\npgaudit.log='ddl, role, read, write'\nlog_connections='on'\nlog_disconnections='on'\n\nNow, as the system administrator, reload the server with the new configuration:\n\n$ sudo systemctl reload postgresql-${PGVER?}",
+  "fix_id": "F-36781r607090_fix",
+  "VulnDiscussion": "In this context, direct access is any query, command, or call to the DBMS that comes from any source other than the application(s) that it supports. Examples would be the command line or a database management utility program. The intent is to capture all activity from administrative and non-standard sources.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221218",
+  "rule_id": "SV-221218r1043178_rule",
+  "stig_id": "EX16-ED-000170",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange internal Send connectors must use domain security (mutual authentication Transport Layer Security).",
+  "group_title": "SRG-APP-000219",
+  "idents": {
+    "legacy": [
+      "SV-95227",
+      "V-80517"
+    ],
+    "cci": [
+      "CCI-001184"
+    ]
+  },
+  "check_id": "C-22933r811172_chk",
+  "check_content": "Open the Exchange Management Shell and enter the following command:\n\nGet-SendConnector | Select Name, Identity, DomainSecureEnabled, DNSRoutingEnabled, RequireTLS, TlsAuthLevel \n\nFor each send connector: \n\nIf the send connector does not use a smarthost and the value of \"DomainSecureEnabled\" is not set to \"True\", this is a finding.\n\nIf the send connector does use a smarthost, \"DomainSecureEnabled\" will be set to \"False\".  \n\nIf the send connector does use a smarthost \"DNSRoutingEnabled\",  \"RequireTLS\", and \"TlsAuthLevel\" must be set.\n\nIf the send connector using a smart host has a value for “DNSRoutingEnabled” that is not set to “False”, this is a finding.\n\nIf the send connector using a smarthost has a value for “RequireTLS” that is not set to “True”, this is a finding.\n\nIf the send connector using a smarthost has a value for “TlsAuthLevel” that is not set to “DomainValidation”, this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-SendConnector <'IdentityName'> -DomainSecureEnabled $true\n\nNote: The <IdentityName> value must be in single quotes.\n\nRepeat the procedures for each send connector.\n\nThe following commands can be executed if smarthosts are used:\n\nSet-SendConnector <'IdentityName'> -RequireTLS $true -DNSRoutingEnabled $False -TlsAuthLevel $DomainValidation",
+  "fix_id": "F-22922r811173_fix",
+  "VulnDiscussion": "The Simple Mail Transfer Protocol (SMTP) connector is used by Exchange to send and receive messages from server to server. Several controls work together to provide security between internal servers. This setting controls the authentication method used for communications between servers. With this feature enabled, only servers capable of supporting domain authentication will be able to send and receive mail within the domain.\n\nThe use of secure communication prevents eavesdroppers from reading or modifying communications between mail clients and servers. While sensitive message bodies should be encrypted by the sender at the client, requiring a secure connection from server to server adds protection by encrypting the sender and recipient information that cannot be encrypted by the sender.  \n\nIndividually, channel security and encryption can be compromised by attackers. Used together, email becomes a more difficult target, and security is heightened. Failure to enable this feature gives eavesdroppers an opportunity to read or modify messages between servers.",
+  "Documentable": "false"
+}

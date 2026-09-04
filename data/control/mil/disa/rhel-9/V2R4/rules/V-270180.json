@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270180",
+  "rule_id": "SV-270180r1045182_rule",
+  "stig_id": "RHEL-09-433016",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RHEL 9 fapolicy module must be configured to employ a deny-all, permit-by-exception policy to allow the execution of authorized software programs.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-74213r1045180_chk",
+  "check_content": "Verify the RHEL 9 \"fapolicyd\" employs a deny-all, permit-by-exception policy.\n\nCheck that \"fapolicyd\" is in enforcement mode with the following command:\n\n$ sudo grep permissive /etc/fapolicyd/fapolicyd.conf\n\npermissive = 0\n\nCheck that \"fapolicyd\" employs a deny-all policy on system mounts with the following commands:\n\n$ sudo tail /etc/fapolicyd/compiled.rules\n\nallow exe=/usr/bin/python3.7 : ftype=text/x-python\ndeny_audit perm=any pattern=ld_so : all\ndeny perm=any all : all\n\nIf \"fapolicyd\" is not running in enforcement mode with a deny-all, permit-by-exception policy, this is a finding.",
+  "fixtext": "Configure RHEL 9 to employ a deny-all, permit-by-exception application allow listing policy with \"fapolicyd\".\n\nWith the \"fapolicyd\" installed and enabled, configure the daemon to function in permissive mode until the allow list is built correctly to avoid system lockout. Do this by editing the \"/etc/fapolicyd/fapolicyd.conf\" file with the following line:\n\npermissive = 1\n\nBuild the allow list in a file within the \"/etc/fapolicyd/rules.d\" directory, ensuring the last rule is \"deny perm=any all : all\".\n\nOnce it is determined the allow list is built correctly, set the \"fapolicyd\" to enforcing mode by editing the \"permissive\" line in the /etc/fapolicyd/fapolicyd.conf file.\n\npermissive = 0",
+  "fix_id": "F-74114r1045181_fix",
+  "VulnDiscussion": "The organization must identify authorized software programs and permit execution of authorized software. The process used to identify software programs that are authorized to execute on organizational information systems is commonly referred to as allow listing.\n\nUsing an allow list provides a configuration management method for allowing the execution of only authorized software. Using only authorized software decreases risk by limiting the number of potential vulnerabilities. Verification of allow listed software occurs prior to execution or at system startup.\n\nUser home directories/folders may contain information of a sensitive nature. Nonprivileged users should coordinate any sharing of information with an SA through shared resources.\n\nRHEL 9 ships with many optional packages. One such package is a file access policy daemon called \"fapolicyd\". \"fapolicyd\" is a userspace daemon that determines access rights to files based on attributes of the process and file. It can be used to either block list or allow list processes or file access.\n\nProceed with caution with enforcing the use of this daemon. Improper configuration may render the system nonfunctional. The \"fapolicyd\" API is not namespace aware and can cause issues when launching or running containers.\n\nSatisfies: SRG-OS-000368-GPOS-00154, SRG-OS-000370-GPOS-00155, SRG-OS-000480-GPOS-00232",
+  "Documentable": "false"
+}

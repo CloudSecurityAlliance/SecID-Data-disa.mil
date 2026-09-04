@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216359",
+  "rule_id": "SV-216359r959010_rule",
+  "stig_id": "SOL-11.1-040410",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The system must not allow autologin capabilities from the GNOME desktop.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48121",
+      "SV-60993"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17595r371165_chk",
+  "check_content": "Determine if autologin is enabled for the GNOME desktop.\n\n# egrep \"auth|account\" /etc/pam.d/gdm-autologin | grep -vc ^#\n\nIf the command returns other than \"0\", this is a finding.",
+  "fixtext": "The root role is required.\n\nModify the /etc/pam.d/gdm-autologin file.\n\n# pfedit /etc/pam.d/gdm-autologin\n\nLocate the lines:\n\nauth required pam_unix_cred.so.1\nauth sufficient pam_allow.so.1\naccount sufficient pam_allow.so.1\n\nChange the lines to read:\n\n#auth required pam_unix_cred.so.1\n#auth sufficient pam_allow.so.1\n#account sufficient pam_allow.so.1",
+  "fix_id": "F-17593r371166_fix",
+  "VulnDiscussion": "As automatic logins are a known security risk for other than \"kiosk\" types of systems, GNOME automatic login should be disabled in pam.conf.",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-234194",
+  "rule_id": "SV-234194r879887_rule",
+  "stig_id": "FGFW-ND-000175",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate device must generate log records for a locally developed list of auditable events.",
+  "group_title": "SRG-APP-000516-NDM-000334",
+  "idents": {
+    "cci": [
+      "CCI-000169",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-37379r611769_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # show full-configuration log setting\n\nCompare the output to the locally developed list to ensure enabled events match the local list.\n         \n3. Run the following command:\n     # show full-configuration log eventfilter\n\nCompare the output to the locally developed list to ensure enabled events match the local list.\n        \nIf the FortiGate device does not generate log records for a locally developed list of auditable events, this is a finding.",
+  "fixtext": "Obtain local audit list and enable event logging to match requirements within the list.\nLog in to the FortiGate GUI with Super-Admin privilege.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command and set to enable any events that match a requirement in the local policy:\n     # config log setting\n     #    set resolve-ip {enable | disable}\n     #    set resolve-port {enable | disable}\n     #    set log-user-in-upper {enable | disable}\n     #    set fwpolicy-implicit-log {enable | disable}\n     #    set fwpolicy6-implicit-log {enable | disable}\n     #    set log-invalid-packet {enable | disable}\n     #    set local-in-allow {enable | disable}\n     #    set local-in-deny-unicast {enable | disable}\n     #    set local-in-deny-broadcast {enable | disable}\n     #    set local-out {enable | disable}\n     #    set daemon-log {enable | disable}\n     #    set neighbor-event {enable | disable}\n     #    set brief-traffic-format {enable | disable}\n     #    set user-anonymize {enable | disable}\n     #    set expolicy-implicit-log {enable | disable}\n     #    set log-policy-comment {enable | disable}\n     #    set log-policy-name {enable | disable}\n     #    end\n     # config log eventfilter\n     #    set event {enable | disable}\n     #    set system {enable | disable}\n     #    set vpn {enable | disable}\n     #    set user {enable | disable}\n     #    set router {enable | disable}\n     #    set wireless-activity {enable | disable}\n     #    set wan-opt {enable | disable}\n     #    set endpoint {enable | disable}\n     #    set ha {enable | disable}\n     #    set compliance-check {enable | disable}\n     #    set security-rating {enable | disable}\n     #    set fortiextender {enable | disable}\n     #    set connector {enable | disable}\n     #    end",
+  "fix_id": "F-37344r611770_fix",
+  "VulnDiscussion": "Auditing and logging are key components of any security architecture. Logging the actions of specific events provides a means to investigate an attack; to recognize resource utilization or capacity thresholds; or to identify an improperly configured network device. If auditing is not comprehensive, it will not be useful for intrusion monitoring, security investigations, and forensic analysis.",
+  "Documentable": "false"
+}

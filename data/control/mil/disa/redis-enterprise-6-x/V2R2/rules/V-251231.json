@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251231",
+  "rule_id": "SV-251231r962034_rule",
+  "stig_id": "RD6X-00-009700",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Redis Enterprise DBMS must use NSA-approved cryptography to protect classified information in accordance with the data owners requirements.",
+  "group_title": "SRG-APP-000416-DB-000380",
+  "idents": {
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-54666r804881_chk",
+  "check_content": "Determine if the organization requires encryption. If Redis is deployed in an unclassified environment, this is not applicable.\n\nDetermine if FIPS mode is enabled with the following command:\n# sudo fipscheck\n\nusage: fipscheck [-s <hmac-suffix>] <paths-to-files>\nfips mode is on\n\nIf FIPS mode is \"on\", determine if the kernel command line is configured to use FIPS mode with the following command:\n# sudo grep fips /boot/grub2/grub.cfg\n\n/vmlinuz-3.8.0-0.40.el7.x86_64 root=/dev/mapper/rhel-root ro rd.md=0 rd.dm=0 rd.lvm.lv=rhel/swap crashkernel=auto rd.luks=0 vconsole.keymap=us rd.lvm.lv=rhel/root rhgb fips=1 quiet\n\nIf the kernel command line is configured to use FIPS mode, determine if the system is in FIPS mode with the following command:\n# sudo cat /proc/sys/crypto/fips_enabled\n1\n\nIf FIPS mode is not \"on\", the kernel command line does not have a FIPS entry, or the system has a value of \"0\" for \"fips_enabled\" in \"/proc/sys/crypto\", this is a finding.",
+  "fixtext": "Configure the operating system to implement DoD-approved encryption by following the steps below:\n\nTo enable strict FIPS compliance, the fips=1 kernel option needs to be added to the kernel command line during system installation so key generation is done with FIPS-approved algorithms and continuous monitoring tests in place.\n\nEnable FIPS mode with the following command:\n# sudo fips-mode-setup --enable\n\nModify the kernel command line of the current kernel in the \"grub.cfg\" file by adding the following option to the GRUB_CMDLINE_LINUX key in the \"/etc/default/grub\" file and then rebuild the \"grub.cfg\" file:\nfips=1\n\nChanges to \"/etc/default/grub\" require rebuilding the \"grub.cfg\" file as follows:\n\nOn BIOS-based machines, use the following command:\n# sudo grub2-mkconfig -o /boot/grub2/grub.cfg\n\nOn UEFI-based machines, use the following command:\n# sudo grub2-mkconfig -o /boot/efi/EFI/redhat/grub.cfg\n\nIf /boot or /boot/efi reside on separate partitions, the kernel parameter \"boot=<partition of /boot or /boot/efi>\" must be added to the kernel command line. Identify a partition by running the df /boot or df /boot/efi command:\n# sudo df /boot\n\nFilesystem 1K-blocks Used Available Use% Mounted on\n/dev/sda1 495844 53780 416464 12% /boot\n\nTo ensure the \"boot=\" configuration option will work even if device naming changes occur between boots, identify the universally unique identifier (UUID) of the partition with the following command:\n# sudo blkid /dev/sda1\n/dev/sda1: UUID=\"05c000f1-a213-759e-c7a2-f11b7424c797\" TYPE=\"ext4\"\n\nFor the example above, append the following string to the kernel command line:\nboot=UUID=05c000f1-a213-759e-c7a2-f11b7424c797\n\nReboot the system for the changes to take effect.",
+  "fix_id": "F-54620r804882_fix",
+  "VulnDiscussion": "Use of weak or untested encryption algorithms undermines the purposes of utilizing encryption to protect data. The application must implement cryptographic modules adhering to the higher standards approved by the federal government since this provides assurance they have been tested and validated.\n\nIt is the responsibility of the data owner to assess the cryptography requirements in light of applicable federal laws, Executive Orders, directives, policies, regulations, and standards.\n\nNSA-approved cryptography for classified networks is hardware based. This requirement addresses the compatibility of a DBMS with the encryption devices.\n\nRedis Enterprise does not encrypt data at rest. Redis Enterprise encryption of data at rest is handled by the underlying Linux OS.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260933",
+  "rule_id": "SV-260933r966156_rule",
+  "stig_id": "CNTR-MK-000990",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MKE must enable kernel protection.",
+  "group_title": "SRG-APP-000233-CTR-000585",
+  "idents": {
+    "cci": [
+      "CCI-001084"
+    ]
+  },
+  "check_id": "C-64662r966154_chk",
+  "check_content": "Verify kernel protection. \n\nWhen using Kubernetes orchestration, change to the /etc/sysconfig/ directory on the Kubernetes Control Plane using the command:\n\ngrep -i protect-kernel-defaults kubelet\n\nIf the setting \"protect-kernel-defaults\" is set to false or not set in the Kubernetes Kubelet, this is a finding.\n\nWhen using Swarm orchestration:\n\nLinux: Execute the following command as a trusted user on the host operating system:\n\ndocker ps --quiet --all | xargs docker inspect --format '{{ .Name }}: CapAdd={{ .HostConfig.CapAdd }} CapDrop={{ .HostConfig.CapDrop }}'\n\nThe command will output all Linux Kernel Capabilities.\n\nIf Linux Kernel Capabilities exceed what is defined in the System Security Plan (SSP), this is a finding.",
+  "fixtext": "When using Kubernetes orchestration, edit the Kubernetes Kubelet file in the /etc/sysconfig directory on the Kubernetes Control Plane. Set the argument \"--protect-kernel-defaults\" to \"true\".\n\nReset Kubelet service using the following command:\n\nservice kubelet restart\n\nWhen using Swarm orchestration, review and remove nonsystem containers previously created by these users that allowed capabilities to be added or must be removed using:\n\ndocker container rm [container]",
+  "fix_id": "F-64570r966155_fix",
+  "VulnDiscussion": "System kernel is responsible for memory, disk, and task management. The kernel provides a gateway between the system hardware and software. Kubernetes requires kernel access to allocate resources to the Control Plane. Threat actors that penetrate the system kernel can inject malicious code or hijack the Kubernetes architecture. It is vital to implement protections through Kubernetes components to reduce the attack surface.",
+  "Documentable": "false"
+}

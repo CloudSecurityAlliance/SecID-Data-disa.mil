@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-259456",
+  "rule_id": "SV-259456r958434_rule",
+  "stig_id": "APPL-14-001012",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must configure audit log files to be owned by root.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164",
+      "CCI-001493",
+      "CCI-001494",
+      "CCI-001495"
+    ]
+  },
+  "check_id": "C-63195r940988_chk",
+  "check_content": "Verify the macOS system is configured with audit log files owned by root with the following command:\n\n/bin/ls -n $(/usr/bin/grep '^dir' /etc/security/audit_control | /usr/bin/awk -F: '{print $2}') | /usr/bin/awk '{s+=$3} END {print s}'\n\nIf the result is not \"0\", this is a finding.",
+  "fixtext": "Configure the macOS system with audit log files owned by root with the following command:\n\n/usr/sbin/chown -R root /var/audit/*",
+  "fix_id": "F-63103r940989_fix",
+  "VulnDiscussion": "Audit log files must be owned by root.\n\nThe audit service must be configured to create log files with the correct ownership to prevent normal users from reading audit logs.\n\nAudit logs contain sensitive data about the system and users. If log files are set to only be readable and writable by system administrators, the risk is mitigated.\n\nSatisfies: SRG-OS-000057-GPOS-00027,SRG-OS-000058-GPOS-00028,SRG-OS-000059-GPOS-00029,SRG-OS-000256-GPOS-00097,SRG-OS-000257-GPOS-00098,SRG-OS-000258-GPOS-00099",
+  "Documentable": "false"
+}

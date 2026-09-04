@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216443",
+  "rule_id": "SV-216443r959010_rule",
+  "stig_id": "SOL-11.1-080020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The system must implement non-executable program stacks.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-60897",
+      "V-48025"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17679r793027_chk",
+  "check_content": "Determine the OS version you are currently securing.\n\n# uname –v\n\nIf the OS version is 11.3 or newer, this check applies to all zones and relies on the \"sxadm\" command. Determine if the system implements non-executable program stacks.\n\n# sxadm status -p nxstack | cut -d: -f2\nenabled.all\n\nIf the command output is not \"enabled.all\", this is a finding.\n\nFor Solaris 11, 11.1, and 11.2, this check applies to the global zone only and the \"/etc/system\" file is inspected. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", determine if the system implements non-executable program stacks. \n\n# grep noexec_user_stack /etc/system\n\nIf the noexec_user_stack is not set to 1, this is a finding.",
+  "fixtext": "The root role is required.\n\nDetermine the OS version you are currently securing.\n\n# uname –v\n\nIf the OS version is 11.3 or newer, enable non-executable program stacks using the \"sxadm\" command.\n\n# pfexec sxadm enable nxstack\n\nFor Solaris 11, 11.1, and 11.2, this action applies to the global zone only and the \"/etc/system\" file is updated. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", modify the \"/etc/system\" file.\n\n# pfedit /etc/system \n\nadd the line:\n\nset noexec_user_stack=1\n\nSolaris 11, 11.1, and 11.2 systems will need to be restarted for the setting to take effect.",
+  "fix_id": "F-17677r371418_fix",
+  "VulnDiscussion": "A common type of exploit is the stack buffer overflow. An application receives, from an attacker, more data than it is prepared for and stores this information on its stack, writing beyond the space reserved for it. This can be designed to cause execution of the data written on the stack. One mechanism to mitigate this vulnerability is for the system to not allow the execution of instructions in sections of memory identified as part of the stack.",
+  "Documentable": "false"
+}

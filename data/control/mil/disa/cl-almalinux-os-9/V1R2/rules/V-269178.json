@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269178",
+  "rule_id": "SV-269178r1050060_rule",
+  "stig_id": "ALMA-09-011240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must disable core dumps for all users.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73209r1049265_chk",
+  "check_content": "Verify AlmaLinux OS 9 disables core dumps for all users by issuing the following command:\n\n$ grep -s core /etc/security/limits.conf /etc/security/limits.d/*.conf\n\n/etc/security/limits.conf:#        - core - limits the core file size (KB)\n/etc/security/limits.conf:#*               soft    core            0\n\nThis can be set as a global domain (with the * wildcard) but may be set differently for multiple domains.\n\nIf the \"core\" item is missing, commented out, or the value is anything other than \"0\" and the need for core dumps is not documented with the information system security officer (ISSO) as an operational requirement for all domains that have the \"core\" item assigned, this is a finding.",
+  "fixtext": "Configure the operating system to disable core dumps for all users.\n\nCreate a *.conf file in /etc/security/limits.d/ with the following content:\n\n* hard core 0",
+  "fix_id": "F-73110r1047911_fix",
+  "VulnDiscussion": "A core dump includes a memory image taken at the time the operating system terminates an application. The memory image could contain sensitive data and is generally useful only for developers or system operators trying to debug problems.\n\nEnabling core dumps on production systems is not recommended; however, there may be overriding operational requirements to enable advanced debugging. Permitting temporary enablement of core dumps during such situations must be reviewed through local needs and policy.",
+  "Documentable": "false"
+}

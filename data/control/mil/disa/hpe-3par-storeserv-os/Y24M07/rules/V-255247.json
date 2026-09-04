@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-255247",
+  "rule_id": "SV-255247r970703_rule",
+  "stig_id": "SSMC-OS-020010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SSMC must terminate all network connections associated with a communications session at the end of the session, or as follows: for in-band management sessions (privileged sessions), the session must be terminated after 10 minutes of inactivity.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "cci": [
+      "CCI-001133",
+      "CCI-002361"
+    ]
+  },
+  "check_id": "C-58860r869889_chk",
+  "check_content": "Verify that SSMC web server is configured to close inactive sessions after 10 minutes by doing the following:\n\n1. Log on to the SSMC appliance as ssmcadmin. Press \"X\" to escape to general bash shell.\n\n2. Execute the command:\n\n$ grep ^server.session.timeout /opt/hpe/ssmc/ssmcbase/resources/ssmc.properties\n\nserver.session.timeout=10\n\nIf the value is not set to 10 minutes, this is a finding.",
+  "fixtext": "Configure SSMC web server to close inactive sessions after 10 minutes by doing the following:\n\n1. Log on to the SSMC appliance as ssmcadmin. Press \"X\" to escape to general bash shell.\n\n2. Use vi to edit /opt/hpe/ssmc/ssmcbase/resources/ssmc.properties file.\n\n3. Uncomment and update server.session.timeout property to 10 minutes (default is 15). Save and exit.\n\n4. Type \"config_appliance\" to return to TUI. Restart (stop and start) SSMC services using TUI menu option 2.",
+  "fix_id": "F-58804r869890_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle session will also free up resources committed by the managed network element. \n\nTerminating network connections associated with communications sessions includes, for example, deallocating associated TCP/IP address/port pairs at the operating system level, and deallocating networking assignments at the application level if multiple application sessions are using a single operating system-level network connection. This does not mean that the operating system terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.\n\nSatisfies: SRG-OS-000163-GPOS-00072, SRG-OS-000279-GPOS-00109",
+  "Documentable": "false"
+}

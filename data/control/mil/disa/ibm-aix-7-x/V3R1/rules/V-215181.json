@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215181",
+  "rule_id": "SV-215181r958362_rule",
+  "stig_id": "AIX7-00-001015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The shipped /etc/security/mkuser.sys file on AIX must not be customized directly.",
+  "group_title": "SRG-OS-000001-GPOS-00001",
+  "idents": {
+    "legacy": [
+      "SV-101311",
+      "V-91211"
+    ],
+    "cci": [
+      "CCI-000015"
+    ]
+  },
+  "check_id": "C-16379r293994_chk",
+  "check_content": "Use the \"cat\" command to show the content of \"/etc/security/mkuser.sys\" script:\n# cat /etc/security/mkuser.sys\n\nThe cat command should display the following:\n#   This file is no longer user customizable.  To have a customized mkuser.sys script\n#   create a file /etc/security/mkuser.sys.custom and the /etc/security/mkuser.sys\n#   will run this script instead of the original mkuser.sys script.\n\nexport PATH=/usr/bin:/usr/sbin:$PATH\n\n#\n# Check the number of arguments first\n#\nif [ $# -ne 4 ] \nthen\n exit 1\nfi\n\n#\n# If a customer mkuser.sys.custom script exists\n# then execute it instead and exit passing all arguments\n# and returning the return code from mkuser.sys.custom\n#\nif [ -x /etc/security/mkuser.sys.custom ]\nthen\n /etc/security/mkuser.sys.custom $*\n exit $?\nfi\n\n#\n# Create the named directory if it does not already exist\n# and set the file ownership and permission\n#\nif [ ! -d $1 ]\nthen\n last=$1\n \n while [ 1 ]\n do\n  dir=`dirname $last`\n  \n  if [ -d $last ]\n  then\n   break\n  elif [ -d $dir ]\n  then\n   mkdir -p $1\n   chown -R bin:bin $last\n   chmod -R 755 $last\n   break\n  else\n   last=$dir\n  fi\n done\n \n chgrp \"$3\" $1\n chown $2 $1\nfi\n\n#\n# Copy the user's default .profile if it does not already\n# exist and change the file ownership, etc.\n#\nif [ `basename $4` != \"csh\" ] && [ ! -f $1/.profile ]\nthen\n cp /etc/security/.profile $1/.profile\n chmod u+rwx,go-w $1/.profile\n chgrp \"$3\" $1/.profile\n chown $2 $1/.profile\n\nelse\n   if [ `basename $4` = \"csh\" ] && [ ! -f $1/.login ] \n   then\n echo \"#!/bin/csh\" > \"$1\"/.login\n echo \"set path = ( /usr/bin /etc /usr/sbin /usr/ucb \\$HOME/bin /usr/bin/X11 /sbin . )\" >> \"$1\"/.login\n echo \"setenv MAIL \\\"/var/spool/mail/\\$LOGNAME\\\"\" >> \"$1\"/.login\n echo \"setenv MAILMSG \\\"[YOU HAVE NEW MAIL]\\\"\" >> \"$1\"/.login\n echo \"if ( -f \\\"\\$MAIL\\\" && ! -z \\\"\\$MAIL\\\") then\" >> \"$1\"/.login\n        echo \" echo \\\"\\$MAILMSG\\\"\" >> \"$1\"/.login\n echo \"endif\" >> \"$1\"/.login\n chmod u+rwx,go-w $1/.login\n chgrp \"$3\" $1/.login\n chown $2 $1/.login\n   fi\nfi\n\nIf the \"cat\" command shows the script as different than the content listed above, this is a finding.",
+  "fixtext": "Edit the script /etc/security/mkuser.sys to contain the following:\n#   This file is no longer user customizable.  To have a customized mkuser.sys script\n#   create a file /etc/security/mkuser.sys.custom and the /etc/security/mkuser.sys\n#   will run this script instead of the original mkuser.sys script.\n\nexport PATH=/usr/bin:/usr/sbin:$PATH\n\n#\n# Check the number of arguments first\n#\nif [ $# -ne 4 ] \nthen\n exit 1\nfi\n\n#\n# If a customer mkuser.sys.custom script exists\n# then execute it instead and exit passing all arguments\n# and returning the return code from mkuser.sys.custom\n#\nif [ -x /etc/security/mkuser.sys.custom ]\nthen\n /etc/security/mkuser.sys.custom $*\n exit $?\nfi\n\n#\n# Create the named directory if it does not already exist\n# and set the file ownership and permission\n#\nif [ ! -d $1 ]\nthen\n last=$1\n \n while [ 1 ]\n do\n  dir=`dirname $last`\n  \n  if [ -d $last ]\n  then\n   break\n  elif [ -d $dir ]\n  then\n   mkdir -p $1\n   chown -R bin:bin $last\n   chmod -R 755 $last\n   break\n  else\n   last=$dir\n  fi\n done\n \n chgrp \"$3\" $1\n chown $2 $1\nfi\n\n#\n# Copy the user's default .profile if it does not already\n# exist and change the file ownership, etc.\n#\nif [ `basename $4` != \"csh\" ] && [ ! -f $1/.profile ]\nthen\n cp /etc/security/.profile $1/.profile\n chmod u+rwx,go-w $1/.profile\n chgrp \"$3\" $1/.profile\n chown $2 $1/.profile\n\nelse\n   if [ `basename $4` = \"csh\" ] && [ ! -f $1/.login ] \n   then\n echo \"#!/bin/csh\" > \"$1\"/.login\n echo \"set path = ( /usr/bin /etc /usr/sbin /usr/ucb \\$HOME/bin /usr/bin/X11 /sbin . )\" >> \"$1\"/.login\n echo \"setenv MAIL \\\"/var/spool/mail/\\$LOGNAME\\\"\" >> \"$1\"/.login\n echo \"setenv MAILMSG \\\"[YOU HAVE NEW MAIL]\\\"\" >> \"$1\"/.login\n echo \"if ( -f \\\"\\$MAIL\\\" && ! -z \\\"\\$MAIL\\\") then\" >> \"$1\"/.login\n        echo \" echo \\\"\\$MAILMSG\\\"\" >> \"$1\"/.login\n echo \"endif\" >> \"$1\"/.login\n chmod u+rwx,go-w $1/.login\n chgrp \"$3\" $1/.login\n chown $2 $1/.login\n   fi\nfi",
+  "fix_id": "F-16377r293995_fix",
+  "VulnDiscussion": "The \"/etc/security/mkuser.sys\" script customizes the new user account when a new user is created, or a user is logging into the system without a home directory. An improper \"/etc/security/mkuser.sys\" script increases the risk that non-privileged users may obtain elevated privileges.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221761",
+  "rule_id": "SV-221761r991589_rule",
+  "stig_id": "OL07-00-021620",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must use a file integrity tool that is configured to use FIPS 140-2 approved cryptographic hashes for validating file contents and directories.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-99261",
+      "SV-108365"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-36285r880698_chk",
+  "check_content": "Verify the file integrity tool is configured to use FIPS 140-2-approved cryptographic hashes for validating file contents and directories.\n\nNote: AIDE is highly configurable at install time. These commands assume the \"aide.conf\" file is under the \"/etc\" directory. \n\nUse the following command to determine if the file is in another location:\n\n     # find / -name aide.conf\n\nCheck the \"aide.conf\" file to determine if the \"sha512\" rule has been added to the rule list being applied to the files and directories selection lists. Exclude any log files, or files expected to change frequently, to reduce unnecessary notifications.\n\nAn example rule that includes the \"sha512\" rule follows:\n \n     All=p+i+n+u+g+s+m+S+sha512+acl+xattrs+selinux\n     /bin All # apply the custom rule to the files in bin \n     /sbin All # apply the same custom rule to the files in sbin \n\nIf the \"sha512\" rule is not being used on all uncommented selection lines in the \"/etc/aide.conf\" file, or another file integrity tool is not using FIPS 140-2-approved cryptographic hashes for validating file contents and directories, this is a finding.",
+  "fixtext": "Configure the file integrity tool to use FIPS 140-2 cryptographic hashes for validating file and directory contents. \n\nIf AIDE is installed, ensure the \"sha512\" rule is present on all uncommented file and directory selection lists. Exclude any log files, or files expected to change frequently, to reduce unnecessary notifications.",
+  "fix_id": "F-36249r792799_fix",
+  "VulnDiscussion": "File integrity tools use cryptographic hashes for verifying file contents and directories have not been altered. These hashes must be FIPS 140-2 approved cryptographic hashes.\nThe Oracle Linux operating system installation media ships with an optional file integrity tool called Advanced Intrusion Detection Environment (AIDE). AIDE is highly configurable at install time. This requirement assumes the \"aide.conf\" file is under the \"/etc\" directory.",
+  "Documentable": "false"
+}

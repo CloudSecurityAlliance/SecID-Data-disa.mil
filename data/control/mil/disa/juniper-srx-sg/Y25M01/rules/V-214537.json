@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214537",
+  "rule_id": "SV-214537r1018647_rule",
+  "stig_id": "JUSX-AG-000144",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Juniper SRX Services Gateway Firewall must continuously monitor all inbound communications traffic for unusual/unauthorized activities or conditions.",
+  "group_title": "SRG-NET-000390-ALG-000139",
+  "idents": {
+    "legacy": [
+      "SV-80829",
+      "V-66339"
+    ],
+    "cci": [
+      "CCI-002661"
+    ]
+  },
+  "check_id": "C-15743r1018646_chk",
+  "check_content": "For each inbound zone, verify a firewall screen or security policy is configured.\n\n[edit]\nshow security zone\nshow security policies\n\nIf communications traffic for each inbound zone is not configured with a firewall screen and/or security policy, this is a finding.",
+  "fixtext": "Configure a security policy or screen to each inbound zone to implement continuous monitoring. The following commands configure a security zone called “untrust” that can be used to apply security policy for inbound interfaces that are connected to untrusted networks. This example assumes that interfaces ge-0/0/1 and ge-0/0/2 are connected to untrusted and trusted network segments.\n\nApply policy or screen to a zone example:\n\nset security zones security-zone untrust interfaces ge-0/0/1.0\nset security zones security-zone trust interfaces ge-0/0/2.0\nset security zones security-zone untrust screen untrust-screen\nset security policies from-zone untrust to-zone trust policy default-deny match destination-address any\nset security policies from-zone untrust to-zone trust policy default-deny then deny",
+  "fix_id": "F-15741r297296_fix",
+  "VulnDiscussion": "If inbound communications traffic is not continuously monitored, hostile activity may not be detected and prevented. Output from application and traffic monitoring serves as input to continuous monitoring and incident response programs.\n\nThe Juniper SRX is a highly scalable system which, by default, provides stateful or stateless continuous monitoring when placed in the architecture at either the perimeter or internal boundaries. \n\nUnusual/unauthorized activities or conditions may include unusual use of unusual protocols or ports and attempted communications from trusted zones to external addresses. \n\nInterfaces with identical security requirements can be grouped together into a single security zone. By default, once a security policy is applied to a zone, the Juniper SRX continuously monitors the associated zone for unusual/unauthorized activities or conditions based on the firewall filter or screen associated with that zone.",
+  "Documentable": "false"
+}

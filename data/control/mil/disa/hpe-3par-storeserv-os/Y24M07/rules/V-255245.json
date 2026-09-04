@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255245",
+  "rule_id": "SV-255245r958448_rule",
+  "stig_id": "SSMC-OS-010300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "For PKI-based authentication, SSMC must validate certificates by constructing a certification path (which includes status information) to an accepted trust anchor.",
+  "group_title": "SRG-OS-000066-GPOS-00034",
+  "idents": {
+    "cci": [
+      "CCI-000185"
+    ]
+  },
+  "check_id": "C-58858r869883_chk",
+  "check_content": "Check that the remote syslog connection is configured to use \"x509/certvalid\" or \"x509/name\" as authentication mode:\n\n$ sudo /ssmc/bin/config_security.sh -o remote_syslog_appliance -a status | grep ssmc.rsyslog.server.authMode\n\nExpected:\nssmc.rsyslog.server.authMode=x509/name\nOR\nssmc.rsyslog.server.authMode=x509/certvalid\n\nIf the output does not match either of the expected strings, it is a finding.",
+  "fixtext": "Configure SSMC to perform PKI-based authentication for remote syslog connectivity with \"x509/certvalid\" or \"x509/name\" setting for auth mode:\n\n1. Log on to SSMC appliance as ssmcadmin. Press \"X\" to escape to general bash shell.\n\n2. Use vi to edit and configure /ssmc/conf/security_config.properties file with values necessary to connect with a remote syslog server. \nssmc.rsyslog.server.host=<rsyslog_server>\nssmc.rsyslog.server.port=<rsyslog_port>\nssmc.rsyslog.server.protocol=tcp\nssmc.rsyslog.server.tls-enabled=1\nssmc.rsyslog.cert.caroot=<ca_root_cert_pem>\nssmc.rsyslog.cert.clientcert=<ssmc_client_cert_pem>\nssmc.rsyslog.cert.clientkey=<ssmc_client_key_pem>\nssmc.rsyslog.server.authMode=< x509/name | x509/certvalid >\nssmc.rsyslog.server.permittedPeers=<cn_of_rsyslog_server>\nssmc.rsyslog.server.device=<ens160|ens192|eth0|eth1>\nssmc.rsyslog.queue.maxdiskspace=6\n\nSave and exit.\n\n3. Execute the following to activate connection to remote syslog server:\n$ sudo /ssmc/bin/config_security.sh -o remote_syslog_server -a set -f",
+  "fix_id": "F-58802r869884_fix",
+  "VulnDiscussion": "Without path validation, an informed trust decision by the relying party cannot be made when presented with any certificate not already explicitly trusted.\n\nA trust anchor is an authoritative entity represented via a public key and associated data. It is used in the context of public key infrastructures, X.509 digital certificates, and DNSSEC.\n\nWhen there is a chain of trust, usually the top entity to be trusted becomes the trust anchor; it can be, for example, a Certification Authority (CA). A certification path starts with the subject certificate and proceeds through a number of intermediate certificates up to a trusted root certificate, typically issued by a trusted CA.\n\nThis requirement verifies that a certification path to an accepted trust anchor is used for certificate validation and that the path includes status information. Path validation is necessary for a relying party to make an informed trust decision when presented with any certificate not already explicitly trusted. Status information for certification paths includes certificate revocation lists or online certificate status protocol responses. Validation of the certificate status information is out of scope for this requirement.",
+  "Documentable": "false"
+}

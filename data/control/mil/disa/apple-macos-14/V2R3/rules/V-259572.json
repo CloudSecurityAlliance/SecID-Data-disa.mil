@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-259572",
+  "rule_id": "SV-259572r986236_rule",
+  "stig_id": "APPL-14-005090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must authorize USB devices before allowing connection.",
+  "group_title": "SRG-OS-000378-GPOS-00163",
+  "idents": {
+    "cci": [
+      "CCI-001958",
+      "CCI-003959"
+    ]
+  },
+  "check_id": "C-63311r941336_chk",
+  "check_content": "Verify the macOS system is configured to authorize USB devices before allowing connection with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n  function run() {\n    let pref1 = ObjC.unwrap($.NSUserDefaults.alloc.initWithSuiteName('com.apple.applicationaccess')\\\n  .objectForKey('allowUSBRestrictedMode'))\n    if ( pref1 == false ) {\n      return(\"false\")\n    } else {\n      return(\"true\")\n    }\n  }\nEOS\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to authorize USB devices before allowing connection by installing the \"com.apple.applicationaccess\" configuration profile.",
+  "fix_id": "F-63219r941337_fix",
+  "VulnDiscussion": "USB devices connected to a Mac must be authorized.\n\n[IMPORTANT]\n====\nThis feature is removed if a smart card is paired or smart card attribute mapping is configured.\n====",
+  "Documentable": "false"
+}

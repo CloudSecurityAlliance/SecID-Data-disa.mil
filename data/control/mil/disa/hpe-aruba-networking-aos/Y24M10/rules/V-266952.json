@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-266952",
+  "rule_id": "SV-266952r1039877_rule",
+  "stig_id": "ARBA-ND-000295",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AOS must generate an immediate real-time alert of all audit failure events requiring real-time alerts.",
+  "group_title": "SRG-APP-000360-NDM-000295",
+  "idents": {
+    "cci": [
+      "CCI-001858"
+    ]
+  },
+  "check_id": "C-70876r1039875_chk",
+  "check_content": "Verify the AOS configuration with the following commands: \nshow snmp trap-hosts \nshow snmp trap-list | include wlsxProcessDied \nshow snmp trap-list | include wlsxProcessRestart \n \nIf a SNMP server is not configured and both process traps are not enabled, this is a finding.",
+  "fixtext": "Configure AOS with the following commands: \nconfigure terminal \nsnmp-server host <IPv4 or IPv6 address> version <SNMP version> snmp-server host <IPv4 or IPv6 address> version <SNMP version> <SNMPv3 username> engine-id <SNMP engine ID> \nsnmp-server trap wlsxProcessDied \nsnmp-server trap wlsxProcessRestart \nwrite memory",
+  "fix_id": "F-70779r1039876_fix",
+  "VulnDiscussion": "It is critical for the appropriate personnel to be aware if a system is at risk of failing to process audit logs as required. Without a real-time alert, security personnel may be unaware of an impending failure of the audit capability, and system operation may be adversely affected.",
+  "Documentable": "false"
+}

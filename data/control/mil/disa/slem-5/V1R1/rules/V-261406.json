@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261406",
+  "rule_id": "SV-261406r996634_rule",
+  "stig_id": "SLEM-05-651025",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 file integrity tool must be configured to protect the integrity of the audit tools.",
+  "group_title": "SRG-OS-000278-GPOS-00108",
+  "idents": {
+    "cci": [
+      "CCI-001496"
+    ]
+  },
+  "check_id": "C-65135r996632_chk",
+  "check_content": "Verify that SLEM 5 file integrity tool is configured to protect the integrity of the audit tools.\n\nCheck that AIDE is properly configured to protect the integrity of the audit tools by running the following command:\n\n     > sudo grep /usr/sbin/au /etc/aide.conf\n     /usr/sbin/auditctl p+i+n+u+g+s+b+acl+selinux+xattrs+sha512\n     /usr/sbin/auditd p+i+n+u+g+s+b+acl+selinux+xattrs+sha512\n     /usr/sbin/ausearch p+i+n+u+g+s+b+acl+selinux+xattrs+sha512\n     /usr/sbin/aureport p+i+n+u+g+s+b+acl+selinux+xattrs+sha512\n     /usr/sbin/autrace p+i+n+u+g+s+b+acl+selinux+xattrs+sha512\n     /usr/sbin/audispd p+i+n+u+g+s+b+acl+selinux+xattrs+sha512\n     /usr/sbin/augenrules p+i+n+u+g+s+b+acl+selinux+xattrs+sha512\n\nIf any of the seven lines do not appear as shown, are commented out, or are missing, this is a finding.",
+  "fixtext": "Configure SLEM 5 file integrity tool to protect the integrity of the audit tools.\n\nAdd or modify the following lines in the \"/etc/aide.conf\" file:\n\n# audit tools\n/usr/sbin/auditctl p+i+n+u+g+s+b+acl+selinux+xattrs+sha512\n/usr/sbin/auditd p+i+n+u+g+s+b+acl+selinux+xattrs+sha512\n/usr/sbin/ausearch p+i+n+u+g+s+b+acl+selinux+xattrs+sha512\n/usr/sbin/aureport p+i+n+u+g+s+b+acl+selinux+xattrs+sha512\n/usr/sbin/autrace p+i+n+u+g+s+b+acl+selinux+xattrs+sha512\n/usr/sbin/audispd p+i+n+u+g+s+b+acl+selinux+xattrs+sha512\n/usr/sbin/augenrules p+i+n+u+g+s+b+acl+selinux+xattrs+sha512",
+  "fix_id": "F-65043r996633_fix",
+  "VulnDiscussion": "Protecting the integrity of the tools used for auditing purposes is a critical step toward ensuring the integrity of audit information. Audit information includes all information (e.g., audit records, audit settings, and audit reports) needed to successfully audit information system activity.\n\nAudit tools include but are not limited to vendor-provided and open-source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.\n\nIt is not uncommon for attackers to replace the audit tools or inject code into the existing tools to provide the capability to hide or erase system activity from the audit logs.\n\nTo address this risk, audit tools must be cryptographically signed to provide the capability to identify when the audit tools have been modified, manipulated, or replaced. An example is a checksum hash of the file or files.",
+  "Documentable": "false"
+}

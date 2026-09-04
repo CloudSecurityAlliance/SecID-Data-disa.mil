@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268227",
+  "rule_id": "SV-268227r1038750_rule",
+  "stig_id": "HYCU-ND-000090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must be configured to enforce the limit of three consecutive invalid login attempts, after which time it must block any login attempt for 15 minutes.",
+  "group_title": "SRG-APP-000065-NDM-000214",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-72248r1038639_chk",
+  "check_content": "Log in to the HYCU VM console and go to the \"/etc/pam.d/\" folder. Verify that \"password-auth\" and \"system-auth\" contain the following three lines, and the values for deny and unlock_time are as shown.\n\nCommands:\nsudo grep pam_faillock.so /etc/pam.d/password-auth\nsudo grep pam_faillock.so /etc/pam.d/system-auth\n\nBoth should displays the following three lines:\nauth        required                                     pam_faillock.so preauth silent audit deny=3 even_deny_root fail_interval=60 unlock_time=900\nauth        required                                     pam_faillock.so authfail audit unlock_time=900\naccount     required                                     pam_faillock.so\n\nIf the required content is not present, this is a finding.",
+  "fixtext": "Log in to the server virtual console and navigate to the \"/etc/pam.d/\" folder.\n\nMove the current configuration and make new copies to be edited by executing the following commands:\n\nsudo cp password-auth password-auth-as\n\nsudo cp system-auth system-auth-as\n\nEdit the files \"password-auth\" and \"system-auth\".\n\nAdd the lines:\nauth        required                                     pam_faillock.so preauth silent audit deny=3 even_deny_root fail_interval=60 unlock_time=900\nafter line \nauth        required                                     pam_env.so\n\nAdd:\nauth        required                                     pam_faillock.so authfail audit unlock_time=900\nafter\nauth        sufficient                                   pam_unix.so nullok\n\nAdd:\naccount     required                                     pam_faillock.so\nbefore \naccount     required                                     pam_unix.so\n\nThe files \"system-auth\" and \"password-auth\" are identical, so the procedure can be done on one of the files and copied to the second one.\n\nRestart sssd service:\nsudo systemctl restart sssd.service",
+  "fix_id": "F-72151r1038749_fix",
+  "VulnDiscussion": "By limiting the number of failed login attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-forcing, is reduced.",
+  "Documentable": "false"
+}

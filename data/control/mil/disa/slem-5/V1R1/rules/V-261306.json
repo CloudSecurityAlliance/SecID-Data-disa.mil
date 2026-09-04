@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261306",
+  "rule_id": "SV-261306r996389_rule",
+  "stig_id": "SLEM-05-232105",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All SLEM 5 world-writable directories must be group-owned by root, sys, bin, or an application group.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65035r996388_chk",
+  "check_content": "Verify all SLEM 5 world-writable directories are group-owned by root, sys, bin, or an application group with the following command:\n\n     > sudo find / -perm -002 -type d -exec ls -lLd {} \\;\n     drwxrwxrwt. 2 root root 40 Aug 26 13:7 /dev/mqueue\n     drwxrwxrwt. 2 root root 220 Aug 26 13:23 /dev/shm\n     drwxrwxrwt. 14 root root 4096 Aug 26 13:29 /tmp\n\nIf any world-writable directories are not owned by root, sys, bin, or an application group associated with the directory, this is a finding.",
+  "fixtext": "Change the group of SLEM 5 world-writable directories to root with the following command:\n\n     > sudo chgrp root <directory>",
+  "fix_id": "F-64943r995784_fix",
+  "VulnDiscussion": "If a world-writable directory has the sticky bit set and is not group-owned by a privileged Group Identifier (GID), unauthorized users may be able to modify files created by others.\n\nThe only authorized public directories are those temporary directories supplied with the system or those designed to be temporary file repositories. The setting is normally reserved for directories used by the system and by users for temporary file storage, (e.g., /tmp), and for directories requiring global read/write access.",
+  "Documentable": "false"
+}

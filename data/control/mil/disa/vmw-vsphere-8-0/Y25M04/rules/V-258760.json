@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258760",
+  "rule_id": "SV-258760r959010_rule",
+  "stig_id": "ESXI-80-000201",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host lockdown mode exception users list must be verified.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62500r933339_chk",
+  "check_content": "For environments that do not use vCenter server to manage ESXi, this is not applicable.\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Security Profile.\n\nUnder \"Lockdown Mode\", review the Exception Users list.\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following script:\n\n$vmhost = Get-VMHost | Get-View\n$lockdown = Get-View $vmhost.ConfigManager.HostAccessManager\n$lockdown.QueryLockdownExceptions()\n\nIf the Exception Users list contains accounts that do not require special permissions, this is a finding.\n\nNote: The Exception Users list is empty by default and should remain that way except under site-specific circumstances.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Security Profile.\n\nUnder \"Lockdown Mode\", click \"Edit\" and remove unnecessary users from the Exception Users list.",
+  "fix_id": "F-62409r933340_fix",
+  "VulnDiscussion": "While a host is in lockdown mode (strict or normal), only users on the \"Exception Users\" list are allowed access. These users do not lose their permissions when the host enters lockdown mode. \n\nThe organization may want to add service accounts such as a backup agent to the Exception Users list. Verify the list of users exempted from losing permissions is legitimate and as needed per the environment. Adding unnecessary users to the exception list defeats the purpose of lockdown mode.",
+  "Documentable": "false"
+}

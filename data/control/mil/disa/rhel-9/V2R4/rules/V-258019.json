@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-258019",
+  "rule_id": "SV-258019r1045092_rule",
+  "stig_id": "RHEL-09-271045",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must be able to initiate directly a session lock for all connection types using smart card when the smart card is removed.",
+  "group_title": "SRG-OS-000028-GPOS-00009",
+  "idents": {
+    "cci": [
+      "CCI-000056",
+      "CCI-000057",
+      "CCI-000058"
+    ]
+  },
+  "check_id": "C-61760r1045091_chk",
+  "check_content": "Note: This requirement assumes the use of the RHEL 9 default graphical user interface, the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\nVerify RHEL 9 enables a user's session lock until that user reestablishes access using established identification and authentication procedures with the following command:\n\n$ gsettings get org.gnome.settings-daemon.peripherals.smartcard removal-action\n \n'lock-screen'\n \nIf the result is not 'lock-screen', this is a finding.",
+  "fixtext": "Configure RHEL 9 to enable a user's session lock until that user re-establishes access using established identification and authentication procedures.\n\nSelect or create an authselect profile and incorporate the \"with-smartcard-lock-on-removal\" feature with the following example:\n\n$ sudo authselect select sssd with-smartcard with-smartcard-lock-on-removal\n\nAlternatively, the dconf settings can be edited in the /etc/dconf/db/* location.\n\nAdd or update the [org/gnome/settings-daemon/peripherals/smartcard] section of the /etc/dconf/db/local.d/00-security-settings\" database file and add or update the following lines:\n\n[org/gnome/settings-daemon/peripherals/smartcard]\nremoval-action='lock-screen'\n\nThen update the dconf system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-61684r926043_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.\n\nThe session lock is implemented at the point where session activity can be determined. Rather than be forced to wait for a period of time to expire before the user session can be locked, RHEL 9 needs to provide users with the ability to manually invoke a session lock so users can secure their session if it is necessary to temporarily vacate the immediate physical vicinity.\n\nSatisfies: SRG-OS-000028-GPOS-00009, SRG-OS-000030-GPOS-00011",
+  "Documentable": "false"
+}

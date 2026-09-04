@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268447",
+  "rule_id": "SV-268447r1034805_rule",
+  "stig_id": "APPL-15-000140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must set SSH Active Server Alive Maximum to 0.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-72477r1034279_chk",
+  "check_content": "Verify the macOS system is configured to set SSH Active Server Alive Maximum to 0 with the following command:\n\nret=\"pass\"\nfor u in $(/usr/bin/dscl . -list /Users UniqueID | /usr/bin/awk '$2 > 500 {print $1}'); do\n  sshCheck=$(/usr/bin/sudo -u $u /usr/bin/ssh -G . | /usr/bin/grep -c \"^serveralivecountmax 0\")\n  if [[ \"$sshCheck\" == \"0\" ]]; then\n    ret=\"fail\"\n    break\n  fi\ndone\n/bin/echo $ret\n\nIf the result is not \"pass\", this is a finding.",
+  "fixtext": "Configure the macOS system to set SSH Active Server Alive Maximum to 0 with the following command:\n\ninclude_dir=$(/usr/bin/awk '/^Include/ {print $2}' /etc/ssh/ssh_config | /usr/bin/tr -d '*')\n  \n  ssh_config=(\"ServerAliveCountMax 0\")\n  \n  ssh_setting=$(echo $ssh_config | /usr/bin/cut -d \" \" -f1)\n  /usr/bin/grep -qEi \"^$ssh_setting\" \"${include_dir}01-mscp-ssh.conf\" && /usr/bin/sed -i \"\" \"s/^$ssh_setting.*/${ssh_config}/\" \"${include_dir}01-mscp-ssh.conf\" || echo \"$ssh_config\" >> \"${include_dir}01-mscp-ssh.conf\"\n  for u in $(/usr/bin/dscl . list /users shell | /usr/bin/egrep -v '(^_)|(root)|(/usr/bin/false)' | /usr/bin/awk '{print $1}'); do\n    config=$(/usr/bin/sudo -u $u /usr/bin/ssh -Gv . 2>&1)\n    configfiles=$(echo \"$config\" | /usr/bin/awk '/Reading configuration data/ {print $NF}'| /usr/bin/tr -d '\\r')\n    configarray=( ${(f)configfiles} )\n    if ! echo $config | /usr/bin/grep -q -i \"$ssh_config\" ; then\n      for c in $configarray; do\n        if [[ \"$c\" == \"/etc/ssh/crypto.conf\" ]]; then\n          continue\n        fi\n        \n        /usr/bin/sudo -u $u /usr/bin/grep -qEi \"^$ssh_setting\" \"$c\" && /usr/bin/sed -i \"\" \"s/^$ssh_setting.*/${ssh_config}/I\" \"$c\"\n        if [[ \"$c\" =~ \".ssh/config\" ]]; then\n          if /usr/bin/grep -qEi \"$ssh_setting\" \"$c\" 2> /dev/null; then\n            old_file=$(cat ~$u/.ssh/config)\n            echo \"$ssh_config\" > ~$u/.ssh/config\n            echo \"$old_file\" >> ~$u/.ssh/config\n          fi\n        fi\n      done\n    fi\n  done",
+  "fix_id": "F-72378r1034804_fix",
+  "VulnDiscussion": "SSH must be configured with an Active Server Alive Maximum Count set to 0. Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. Quickly terminating an idle session or an incomplete login attempt will also free up resources committed by the managed network element.\n\nNOTE: /etc/ssh/ssh_config will be automatically modified to its original state following any update or major upgrade to the operating system.",
+  "Documentable": "false"
+}

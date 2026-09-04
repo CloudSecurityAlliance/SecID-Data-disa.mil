@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213499",
+  "rule_id": "SV-213499r960792_rule",
+  "stig_id": "JBOS-AS-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Users in JBoss Management Security Realms must be in the appropriate role.",
+  "group_title": "SRG-APP-000033-AS-000024",
+  "idents": {
+    "legacy": [
+      "SV-76709",
+      "V-62219"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-14722r296163_chk",
+  "check_content": "Review the mgmt-users.properties file.   Also review the <management /> section in the standalone.xml or domain.xml configuration files.  The relevant xml file will depend on if the JBoss server is configured in standalone or domain mode.\n\nEnsure all users listed in these files are approved for management access to the JBoss server and are in the appropriate role.\n\nFor domain configurations:\n<JBOSS_HOME>/domain/configuration/mgmt-users.properties.  \n<JBOSS_HOME>/domain/configuration/domain.xml\n\nFor standalone configurations:\n<JBOSS_HOME>/standalone/configuration/mgmt-users.properties.\n<JBOSS_HOME>/standalone/configuration/standalone.xml\n\nIf the users listed are not in the appropriate role, this is a finding.",
+  "fixtext": "Document approved management users and their roles.  Configure the application server to use RBAC and ensure users are placed into the appropriate roles.",
+  "fix_id": "F-14720r296164_fix",
+  "VulnDiscussion": "Security realms are a series of mappings between users and passwords and users and roles.  There are 2 JBoss security realms provided by default; they are \"management realm\" and \"application realm\".\n\nManagement realm stores authentication information for the management API, which provides functionality for the web-based management console and the management command line interface (CLI).\n\nmgmt-groups.properties stores user to group mapping for the ManagementRealm but only when role-based access controls  (RBAC) is enabled.\n\nIf management users are not in the appropriate role, unauthorized access to JBoss resources can occur.",
+  "Documentable": "false"
+}

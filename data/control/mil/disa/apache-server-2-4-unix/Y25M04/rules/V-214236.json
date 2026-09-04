@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-214236",
+  "rule_id": "SV-214236r960933_rule",
+  "stig_id": "AS24-U1-000190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The log information from the Apache web server must be protected from unauthorized modification or deletion.",
+  "group_title": "SRG-APP-000119-WSR-000069",
+  "idents": {
+    "legacy": [
+      "SV-102719",
+      "V-92631"
+    ],
+    "cci": [
+      "CCI-000163",
+      "CCI-000164"
+    ]
+  },
+  "check_id": "C-15450r276968_chk",
+  "check_content": "Verify the log information from the web server must be protected from unauthorized modification.\n\nReview the web server documentation and deployed configuration settings to determine if the web server logging features protect log information from unauthorized modification.\n \nReview file system settings to verify the log files have secure file permissions. Run the following command:\n \nls -l <'INSTALL PATH'>/logs\n \nIf the web server log files present are owned by anyone other than an administrative service account this is a finding.",
+  "fixtext": "Determine the location of the \"ErrorLog\" directory in the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nOpen the \"httpd.conf\" file.\n\nLook for the \"ErrorLog\" directive.\n\nEnsure the permissions and ownership of all files in the Apache log directory are correct by executing the following commands as an administrative service account:\n \n# chown <'service account'> <'ErrorLog directive PATH'>/*",
+  "fix_id": "F-15448r881418_fix",
+  "VulnDiscussion": "Log data is essential in the investigation of events. If log data were to become compromised, competent forensic analysis and discovery of the true source of potentially malicious system activity would be difficult, if not impossible, to achieve. In addition, access to log records provides information an attacker could potentially use to their advantage since each event record might contain communication ports, protocols, services, trust relationships, user names, etc.\n\nThe web server must protect the log data from unauthorized read, write, copy, etc. This can be done by the web server if the web server is also doing the logging function. The web server may also use an external log system. In either case, the logs must be protected from access by non-privileged users.\n\nSatisfies: SRG-APP-000119-WSR-000069, SRG-APP-000120-WSR-000070",
+  "Documentable": "false"
+}

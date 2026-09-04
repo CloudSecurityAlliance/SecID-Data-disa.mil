@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214165",
+  "rule_id": "SV-214165r612370_rule",
+  "stig_id": "IDNS-7X-000180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Only the private key corresponding to the ZSK alone must be kept on the name server that does support dynamic updates.",
+  "group_title": "SRG-APP-000176-DNS-000094",
+  "idents": {
+    "legacy": [
+      "V-68525",
+      "SV-83015"
+    ],
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-15380r295761_chk",
+  "check_content": "Note: For Infoblox DNS systems on a Classified network, this requirement is Not Applicable.\n\nBy default ZSK private keys are stored encrypted within the Infoblox database on the Grid Master. The Grid Master will by default enable the DNS service when DNSSEC is enabled for internal processing. No clients should be permitted to utilize the Grid Master DNS service. \n\nRefer to the Infoblox STIG Overview document for additional information on HSM usage.\n\nNavigate to Data Management >> DNS >> Zones.\n\nReview each zone by selecting the zone and clicking \"Edit\", and selecting the \"Name Servers\" tab.\n\nIf the Grid Master is a listed name server and not marked \"Stealth\", this is a finding.\n\nWhen complete, click \"Cancel\" to exit the \"Properties\" screen.",
+  "fixtext": "Navigate to Data Management >> DNS >> Zones.\n\nSelecting the zone and click \"Edit\", then select the \"Name Servers\" tab.\nMark the Grid Master as \"Stealth\". If no other name servers are listed, one must be added before the configuration can be valid.\nWhen complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen.\n\nPerform a service restart if necessary.",
+  "fix_id": "F-15378r295762_fix",
+  "VulnDiscussion": "Infoblox systems when deployed in a Grid configuration store DNSSEC keys on the designated Grid Master system. As the central point of administration, the Grid Master should be configured for administration of the DNS, DHCP, and IP Address Management (IPAM) system. No clients should be configured to utilize the Grid Master or backup Candidate systems for protocol transactions.\n\nAn alternative solution is through deployment of a Hardware Security Module (HSM), which provides hardware encrypted storage of key data.",
+  "Documentable": "false"
+}

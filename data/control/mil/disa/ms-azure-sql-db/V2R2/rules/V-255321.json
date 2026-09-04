@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255321",
+  "rule_id": "SV-255321r1018558_rule",
+  "stig_id": "ASQL-00-003300",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Azure SQL Database must implement cryptographic mechanisms to prevent unauthorized modification of organization-defined information at rest (to include, at a minimum, PII and classified information) on organization-defined information system components.",
+  "group_title": "SRG-APP-000428-DB-000386",
+  "idents": {
+    "cci": [
+      "CCI-002475"
+    ]
+  },
+  "check_id": "C-58994r871087_chk",
+  "check_content": "Review the system documentation to determine whether the organization has defined the information at rest that is to be protected from modification, which must include, at a minimum, PII and classified information. \n\nIf no information is identified as requiring such protection, this is not a finding. \n\nReview the configuration of the Azure SQL Database to ensure data at rest protections are implemented. \n\nIf any of the information defined as requiring cryptographic protection from modification is not encrypted in a manner that provides the required level of protection, this is a finding. \n\nRetrieve Transparent Data Encryption status: \n\n$LogicalServerName = \"myServer\" \n$RGname = \"myRG\" \n$DBName = \"myDatabase\" \nGet-AzSqlDatabaseTransparentDataEncryption -ServerName $LogicalServerName -ResourceGroupName $RGname -DatabaseName $DBname \n\nValidate that Azure SQL Database Transparent Data Encryption (TDE) is enabled. If TDE is disabled, this is a finding.",
+  "fixtext": "If Azure SQL Database Transparent Data Encryption is disabled, use the Set-AzSqlDatabaseTransparentDataEncryption command to enable. \n\n$LogicalServerName = \"myServer\" \n$RGname = \"myRG\" \n$DBname = \"myDatabase\" \n$TDEstate = \"Enabled\" \n\nSet-AzSqlDatabaseTransparentDataEncryption -ResourceGroupName $RGname -ServerName $LogicalServerName -DatabaseName $DBname -State $TDEstate",
+  "fix_id": "F-58938r871088_fix",
+  "VulnDiscussion": "Azure SQL Databases handling data requiring \"data at rest\" protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest.\n\nSelection of a cryptographic mechanism is based on the need to protect the integrity of organizational information. The strength of the mechanism is commensurate with the security category and/or classification of the information. \n\nThe decision whether and what to encrypt rests with the data owner and is also influenced by the physical measures taken to secure the equipment and media on which the information resides.",
+  "Documentable": "false"
+}

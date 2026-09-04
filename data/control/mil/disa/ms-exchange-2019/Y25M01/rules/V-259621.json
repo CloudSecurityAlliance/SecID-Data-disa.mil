@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259621",
+  "rule_id": "SV-259621r961161_rule",
+  "stig_id": "EX19-ED-000135",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Exchange tarpitting interval must be set.",
+  "group_title": "SRG-APP-000261",
+  "idents": {
+    "cci": [
+      "CCI-001308"
+    ]
+  },
+  "check_id": "C-63360r942175_chk",
+  "check_content": "Open the Exchange Management Shell and enter the following command:\n\nGet-ReceiveConnector | Select Name, Identity, TarpitInterval\n\nFor each Receive connector, if the value of \"TarpitInterval\" is not set to \"00:00:05\" or greater, this is a finding.\n\nNote: The default value for \"TarpitInterval\" is \"00:00:05\".",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-ReceiveConnector -Identity <'IdentityName'> -TarpitInterval '00:00:05'\n\nNote: The <IdentityName> value and the Interval must be in quotes.\n\nRepeat the procedures for each Receive connector.",
+  "fix_id": "F-63268r942176_fix",
+  "VulnDiscussion": "Tarpitting is the practice of artificially delaying server responses for specific Simple Mail Transfer Protocol (SMTP) communication patterns that indicate high volumes of spam or other unwelcome messages. The intent of tarpitting is to slow down the communication process for spam batches to reduce the cost effectiveness of sending spam and thwart directory harvest attacks.\n\nA directory harvest attack is an attempt to collect valid email addresses from a particular organization so the email addresses can be added to a spam database. A program can be written to collect email addresses that return a \"Recipient OK\" SMTP response and discard all email addresses that return a \"User unknown\" SMTP response.\n\nTarpitting makes directory harvest attacks too costly to automate efficiently.",
+  "Documentable": "false"
+}

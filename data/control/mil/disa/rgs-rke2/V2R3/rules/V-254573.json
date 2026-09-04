@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254573",
+  "rule_id": "SV-254573r1050650_rule",
+  "stig_id": "CNTR-R2-001500",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Rancher RKE2 keystore must implement encryption to prevent unauthorized disclosure of information at rest within Rancher RKE2.",
+  "group_title": "SRG-APP-000429-CTR-001060",
+  "idents": {
+    "cci": [
+      "CCI-002476"
+    ]
+  },
+  "check_id": "C-58057r1016543_chk",
+  "check_content": "This is Not Applicable for RKE2 versions 1.20 and greater.\n\nReview the encryption configuration file.\n\nAs root or with root permissions, run the following command:\nview /var/lib/rancher/rke2/server/cred/encryption-config.json\n\nEnsure the RKE2 configuration file on all RKE2 servers, located at /etc/rancher/rke2/config.yaml, does NOT contain:\n\nsecrets-encryption: false\n\nIf secrets encryption is turned off, this is a finding.",
+  "fixtext": "This is Not Applicable for RKE2 versions 1.20 and greater.\n\nEnable secrets encryption.\n\nEdit the RKE2 configuration file on all RKE2 servers, located at /etc/rancher/rke2/config.yaml, so that it contains:\n\nsecrets-encryption: true",
+  "fix_id": "F-58006r1016544_fix",
+  "VulnDiscussion": "Encrypting secrets at rest in etcd.\n\nBy default, RKE2 will create an encryption key and configuration file and pass these to the Kubernetes API server. The result is that RKE2 automatically encrypts Kubernetes Secret objects when writing them to etcd.",
+  "Documentable": "false"
+}

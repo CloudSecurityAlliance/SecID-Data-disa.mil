@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261291",
+  "rule_id": "SV-261291r996352_rule",
+  "stig_id": "SLEM-05-232030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All SLEM 5 local interactive user home directories must have mode 750 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65020r996351_chk",
+  "check_content": "Note: This may miss interactive users that have been assigned a privileged User Identifier (UID). Evidence of interactive use may be obtained from a number of log files containing system logon information.\n\nVerify the assigned home directory of all SLEM 5 local interactive users has a mode of \"750\" or less permissive with the following command:\n\n     > ls -ld $(awk -F: '($3>=1000)&&($7 !~ /nologin/){print $6}' /etc/passwd)\n     -rwxr-x--- 1 smithj users 18 Mar 5 17:6 /home/smithj\n\nIf home directories referenced in \"/etc/passwd\" do not have a mode of \"750\" or less permissive, this is a finding.",
+  "fixtext": "Change the mode of SLEM 5 local interactive user's home directories to \"750\". To change the mode of a local interactive user's home directory, use the following command:\n\nNote: The example will be for the user \"smithj\".\n\n     > sudo chmod 750 /home/smithj",
+  "fix_id": "F-64928r995739_fix",
+  "VulnDiscussion": "Excessive permissions on local interactive user home directories may allow unauthorized access to user files by other users.",
+  "Documentable": "false"
+}

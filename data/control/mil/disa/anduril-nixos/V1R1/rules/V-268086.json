@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268086",
+  "rule_id": "SV-268086r1039559_rule",
+  "stig_id": "ANIX-00-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must initiate a session lock after a 10-minute period of inactivity for graphical user login.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-72010r1039557_chk",
+  "check_content": "Verify NixOS initiates a session lock after a 10-minute period of inactivity for graphical user login with the following command: \n\n$ sudo gsettings get org.gnome.desktop.session idle-delay\n\nuint32 600\n\nIf \"idle-delay\" is set to \"0\" or a value greater than \"600\", this is a finding.",
+  "fixtext": "Configure NixOS to initiate a session lock after a 10-minute period of inactivity for graphical user login.\n\nAdd the following Nix code to the NixOS Configuration, usually located in /etc/nixos/configuration.nix:\n\nprograms.dconf.profiles.user.databases = with lib.gvariant; [\n     {\n          settings.\"org/gnome/desktop/session\".idle-delay = mkUint32 600;\n          locks = [ \"org/gnome/desktop/session/idle-delay\" ];\n     }\n];\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71913r1039558_fix",
+  "VulnDiscussion": "A session time-out lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not log out because of the temporary nature of the absence. Rather than relying on the user to manually lock their operating system session prior to vacating the vicinity, operating systems need to be able to identify when a user's session has idled and take action to initiate the session lock.\n\nThe session lock is implemented at the point where session activity can be determined and/or controlled.",
+  "Documentable": "false"
+}

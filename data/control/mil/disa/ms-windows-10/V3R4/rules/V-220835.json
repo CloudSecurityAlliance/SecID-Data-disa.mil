@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220835",
+  "rule_id": "SV-220835r991589_rule",
+  "stig_id": "WN10-CC-000206",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Windows Update must not obtain updates from other PCs on the internet.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-80171",
+      "V-65681"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-22550r857195_chk",
+  "check_content": "If the following registry value does not exist or is not configured as specified, this is a finding.\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\DeliveryOptimization\\\n\nValue Name: DODownloadMode\n\nValue Type: REG_DWORD\nValue: 0x00000000 (0) - No peering (HTTP Only)\n0x00000001 (1) - Peers on same NAT only (LAN)\n0x00000002 (2) - Local Network / Private group peering (Group)\n0x00000063 (99) - Simple download mode, no peering (Simple)\n0x00000064 (100) - Bypass mode, Delivery Optimization not used (Bypass)\n\nA value of 0x00000003 (3), Internet, is a finding.\n\nv1507 LTSB:\nDomain joined systems:\nVerify the registry value above.\nIf the value is not 0x00000000 (0) or 0x00000001 (1), this is a finding.\n\nStandalone or nondomain-joined systems (configured in Settings):\nIf the following registry value does not exist or is not configured as specified, this is a finding:\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\DeliveryOptimization\\Config\\\n\nValue Name: DODownloadMode\n\nValue Type: REG_DWORD\nValue: 0x00000000 (0) - Off\n0x00000001 (1) - LAN",
+  "fixtext": "Configure the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Delivery Optimization >> \"Download Mode\" to \"Enabled\" with any option except \"Internet\" selected.\n\nAcceptable selections include:\nBypass (100)\nGroup (2)\nHTTP only (0)\nLAN (1)\nSimple (99)\n\nv1507 (LTSB) does not include this group policy setting locally. For domain-joined systems, configure through domain group policy as \"HTTP only (0)\" or \"Lan (1)\". \n\nFor standalone or nondomain-joined systems, configure using Settings >> Update & Security >> Windows Update >> Advanced Options >> \"Choose how updates are delivered\" with either \"Off\" or \"PCs on my local network\" selected.",
+  "fix_id": "F-22539r857196_fix",
+  "VulnDiscussion": "Windows 10 allows Windows Update to obtain updates from additional sources instead of Microsoft. In addition to Microsoft, updates can be obtained from and sent to PCs on the local network as well as on the internet. This is part of the Windows Update trusted process; however, to minimize outside exposure, obtaining updates from or sending to systems on the internet must be prevented.",
+  "Documentable": "false"
+}

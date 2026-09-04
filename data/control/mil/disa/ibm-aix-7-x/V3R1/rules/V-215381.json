@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215381",
+  "rule_id": "SV-215381r958478_rule",
+  "stig_id": "AIX7-00-003076",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The rusersd daemon must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "V-91391",
+      "SV-101489"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16579r294594_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^rusersd[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"rusersd\" entry by running command: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'rusersd' -p 'udp'\n\nRestart inetd:\n# refresh -s inetd",
+  "fix_id": "F-16577r294595_fix",
+  "VulnDiscussion": "The rusersd service runs as root and provides a list of current users active on a system. An attacker may use this service to learn valid account names on the system. This is not an essential service and should be disabled.",
+  "Documentable": "false"
+}

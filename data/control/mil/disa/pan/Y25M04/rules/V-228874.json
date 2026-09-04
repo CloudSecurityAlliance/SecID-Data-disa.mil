@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-228874",
+  "rule_id": "SV-228874r971533_rule",
+  "stig_id": "PANW-AG-000122",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Palo Alto Networks security platform must generate an alert to, at a minimum, the ISSO and ISSM when new active propagation of malware infecting DoD systems or malicious code adversely affecting the operations and/or security of DoD systems is detected.",
+  "group_title": "SRG-NET-000392-ALG-000149",
+  "idents": {
+    "legacy": [
+      "V-62629",
+      "SV-77119"
+    ],
+    "cci": [
+      "CCI-002664"
+    ]
+  },
+  "check_id": "C-31109r513917_chk",
+  "check_content": "Ask the Administrator how the ISSO and ISSM are receiving alerts (E-mail, SNMP Trap, or Syslog).\n\nView the configured Server Profile, if there is no Server Profile for the method explained, this is a finding.\n\nView the Log Forwarding Profiles:\nGo to Objects >> Log Forwarding\nDetermine which Server Profile is associated with each Log Forwarding Profile.\nView the Security Policies that are used to filter traffic between zones or subnets.\n\nIf the \"Profile\" column does not display the \"Antivirus Profile\" symbol, this is a finding.\n\nIf the \"Options\" column does not display the \"Log Forwarding Profile\" symbol, this is a finding.",
+  "fixtext": "Configure a Server Profile for use with Log Forwarding Profile(s);  if email is used, the ISSO and ISSM must be recipients.\n   \nConfigure a Log Forwarding Profile:\nGo to Objects >> Log Forwarding\nGo to Objects >> Security Profiles >> Antivirus\nSelect \"Add\" to create a new Antivirus Profile or select the name of the profile to edit it.\n\nUse the Antivirus Profile in a Security Policy:\nGo to Policies >> Security\nSelect an existing policy rule or select \"Add\" to create a new one.\nIn the \"Actions\" tab in the \"Profile Setting\" section; in the \"Profile Type\" field, select \"Profiles\".  The window will change to display the different categories of Profiles.  \nIn the \"Actions\" tab in the \"Profile Setting\" section; in the \"Antivirus\" field, select the configured Antivirus Profile.\nSelect \"OK\".\n\nIn the \"Actions\" tab in the \"Log Setting\" section, select \"Log At Session End\".  \nIn the \"Actions\" tab in the \"Log Setting\" section; in the \"Log Forwarding\" field, select the log forwarding profile from drop-down list.\nSelect \"OK\".\n\nCommit changes by selecting \"Commit\" in the upper-right corner of the screen.\nSelect \"OK\" when the confirmation dialog appears.",
+  "fix_id": "F-31086r513918_fix",
+  "VulnDiscussion": "Without an alert, security personnel may be unaware of major detection incidents that require immediate action, and this delay may result in the loss or compromise of information.\n\nThe device generates an alert that notifies designated personnel of the Indicators of Compromise (IOCs) that require real-time alerts. These messages should include a severity level indicator or code as an indicator of the criticality of the incident. These indicators reflect the occurrence of a compromise or a potential compromise.\nSince these incidents require immediate action, these messages are assigned a critical or level 1 priority/severity, depending on the system's priority schema.\n\nCJCSM 6510.01B, \"Cyber Incident Handling Program\", lists nine Cyber Incident and Reportable Event Categories. DoD has determined that categories identified by CJCSM 6510.01B Major Indicators (category 1, 2, 4, or 7 detection events) will require an alert when an event is detected.\n\nAlerts may be transmitted, for example, telephonically, by electronic mail messages, or by text messaging. The Palo Alto Networks security platform must either send the alert to a management console that is actively monitored by authorized personnel or use a messaging capability to send the alert directly to designated personnel.",
+  "Documentable": "false"
+}

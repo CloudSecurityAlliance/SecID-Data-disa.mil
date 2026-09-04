@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-259559",
+  "rule_id": "SV-259559r1050789_rule",
+  "stig_id": "APPL-14-004060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must configure sudoers timestamp type.",
+  "group_title": "SRG-OS-000373-GPOS-00156",
+  "idents": {
+    "cci": [
+      "CCI-004895",
+      "CCI-002038"
+    ]
+  },
+  "check_id": "C-63298r941297_chk",
+  "check_content": "Verify the macOS system is configured with sudoers timestamp type with the following command:\n\n/usr/bin/sudo /usr/bin/sudo -V | /usr/bin/awk -F\": \" '/Type of authentication timestamp record/{print $2}'\n\nIf the result is not \"tty\", this is a finding.",
+  "fixtext": "Configure the macOS system with sudoers timestamp type with the following command:\n\n/usr/bin/find /etc/sudoers* -type f -exec sed -i '' '/timestamp_type/d; /!tty_tickets/d' '{}' \\;",
+  "fix_id": "F-63206r941298_fix",
+  "VulnDiscussion": "The file /etc/sudoers must be configured to not include a timestamp_type of global or ppid and be configured for timestamp record types of tty.\n\nThis rule ensures that the \"sudo\" command will prompt for the administrator's password at least once in each newly opened terminal window. This prevents a malicious user from taking advantage of an unlocked computer or an abandoned logon session by bypassing the normal password prompt requirement.\n\nSatisfies: SRG-OS-000373-GPOS-00156,SRG-OS-000373-GPOS-00157",
+  "Documentable": "false"
+}

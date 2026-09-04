@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220271",
+  "rule_id": "SV-220271r960894_rule",
+  "stig_id": "O121-C2-007500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DBMS must produce audit records containing sufficient information to establish when (date and time) the events occurred.",
+  "group_title": "SRG-APP-000096-DB-000040",
+  "idents": {
+    "legacy": [
+      "SV-76121",
+      "V-61631"
+    ],
+    "cci": [
+      "CCI-000131"
+    ]
+  },
+  "check_id": "C-21986r836891_chk",
+  "check_content": "Verify, using vendor and system documentation if necessary, that the DBMS is configured to use Oracle's auditing features, or that a third-party product or custom code is deployed and configured to satisfy this requirement.\n\nIf a third-party product or custom code is used, compare its current configuration with the audit requirements. If any of the requirements is not covered by the configuration, this is a finding.\n\nThe remainder of this Check is applicable specifically where Oracle auditing is in use.\n\nIf Standard Auditing is used:\nTo see if Oracle is configured to capture audit data, enter the following SQL*Plus command:\n\nSHOW PARAMETER AUDIT_TRAIL\n\nor the following SQL query:\n\nSELECT * FROM SYS.V$PARAMETER WHERE NAME = 'audit_trail';\n\nIf Oracle returns the value 'NONE', this is a finding.\n\nTo confirm that Oracle audit is capturing sufficient information to establish when events occurred, perform a successful auditable action and an auditable action that results in an SQL error, and then view the results in the SYS.UNIFIED_AUDIT_TRAIL view.\n\nIf no timestamp, or the wrong value, is returned for the auditable actions just performed, this is a finding.\n\nIf Unified Auditing is used:\nTo see if Oracle is configured to capture audit data, enter the following SQL*Plus command:\n\nSELECT * FROM V$OPTION WHERE PARAMETER = 'Unified Auditing';\n\nIf Oracle returns a value something other than \"TRUE\", this is a finding. \n\nTo confirm that Oracle audit is capturing sufficient information to establish when events occurred, perform a successful auditable action and an auditable action that results in an SQL error, and then view the results in the SYS.AUD$ table or the audit file, whichever is in use.\n\nIf no timestamp, or the wrong value, is returned for the auditable actions just performed, this is a finding.",
+  "fixtext": "Configure the DBMS's auditing to audit standard and organization-defined auditable events, the audit record to include the date and time of any user/subject or process associated with the event. If preferred, use a third-party or custom tool.\n\nIf using a third-party product, proceed in accordance with the product documentation. If using Oracle's capabilities, proceed as follows.\n\nTo ensure auditable events are captured:\nLink the oracle binary with uniaud_on, and then restart the database.\nOracle Database Upgrade Guide describes how to enable unified auditing.\n\nFor more information on the configuration of auditing, refer to the following documents:\n\"Auditing Database Activity\" in the Oracle Database 2 Day + Security Guide:\nhttp://docs.oracle.com/database/121/TDPSG/tdpsg_auditing.htm#TDPSG50000\n\"Monitoring Database Activity with Auditing\" in the Oracle Database Security Guide:\nhttp://docs.oracle.com/database/121/DBSEG/part_6.htm#CCHEHCGI\n\"DBMS_AUDIT_MGMT\" in the Oracle Database PL/SQL Packages and Types Reference:\nhttp://docs.oracle.com/database/121/ARPLS/d_audit_mgmt.htm#ARPLS241\nOracle Database Upgrade Guide:\nhttp://docs.oracle.com/database/121/UPGRD",
+  "fix_id": "F-21978r391945_fix",
+  "VulnDiscussion": "Information system auditing capability is critical for accurate forensic analysis. Audit record content that may be necessary to satisfy the requirement of this control includes:  timestamps, source and destination addresses, user/process identifiers, event descriptions, success/fail indications, file names involved, and access control or flow control rules invoked.\n\nDatabase software is capable of a range of actions on data stored within the database. It's important, for accurate forensic analysis, to know exactly when specific actions were performed. This requires the date and time an audit record is referring to. If date and time information is not recorded and stored with the audit record, the record itself is of very limited use.",
+  "Documentable": "false"
+}

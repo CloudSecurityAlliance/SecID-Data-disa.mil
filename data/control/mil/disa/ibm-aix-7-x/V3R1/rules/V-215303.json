@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215303",
+  "rule_id": "SV-215303r991591_rule",
+  "stig_id": "AIX7-00-002121",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX SSH daemon must be configured to disable user .rhosts files.",
+  "group_title": "SRG-OS-000480-GPOS-00229",
+  "idents": {
+    "legacy": [
+      "SV-101843",
+      "V-91745"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16501r294360_chk",
+  "check_content": "Check the SSH daemon configuration for allowed \".rhosts\" using command: \n\n# grep -i IgnoreRhosts /etc/ssh/sshd_config | grep -v '^#' \nIgnoreRhosts yes\n\nIf no lines are returned, or the returned \"IgnoreRhosts\" directive is not set to \"yes\", this is a finding.",
+  "fixtext": "Edit \"/etc/ssh/sshd_config\" and add or update the \"IgnoreRhosts \" line as:\nIgnoreRhosts  yes\n\nSave the change and restart ssh daemon:\n# stopsrc -s sshd\n# startsrc -s sshd",
+  "fix_id": "F-16499r294361_fix",
+  "VulnDiscussion": "Trust .rhost file means a compromise on one host can allow an attacker to move trivially to other hosts.",
+  "Documentable": "false"
+}

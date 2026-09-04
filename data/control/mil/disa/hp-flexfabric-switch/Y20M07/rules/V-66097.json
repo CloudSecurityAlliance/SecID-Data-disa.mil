@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-66097",
+  "rule_id": "SV-80587r1_rule",
+  "stig_id": "HFFS-L2-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HP FlexFabric Switch must not have any access switch ports assigned to the native VLAN.",
+  "group_title": "SRG-NET-000512-L2S-000013",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-66743r1_chk",
+  "check_content": "Verify all access switch ports are not part of the native VLAN (VLAN 1).\n\nIf any access switch port is assigned to the native VLAN (VLAN 1), this is a finding.\n\n<HP>display interface GigabitEthernet brief\n\nBrief information on interface(s) under bridge mode:\nLink: ADM - administratively down; Stby - standby\nSpeed or Duplex: (a)/A - auto; H - half; F - full\nType: A - access; T - trunk; H - hybrid\nInterface            Link Speed   Duplex Type PVID Description\nGE1/0/1              UP      1G(a)      F(a)        A    1\nGE1/0/2              UP      1G(a)      F(a)        A    100\nGE1/0/3              UP      10M(a)   F(a)        A    100\nXGE1/0/1           UP      10G(a)    F(a)        A    200\nXGE1/0/2           UP      10G(a)    F(a)        A    200\n\nIf any access switch port are configured for the native vlan.  This is a finding.",
+  "fixtext": "Remove the native vlan of the trunk ports.\n\n[HP-GigabitEthernet1/0/1] undo port trunk permit vlan 1",
+  "fix_id": "F-72173r1_fix",
+  "VulnDiscussion": "Double encapsulation can be initiated by an attacker who has access to a switch port belonging to the native VLAN of the trunk port. Knowing the victim’s MAC address and with the victim attached to a different switch belonging to the same trunk group, thereby requiring the trunk link and frame tagging, the malicious user can begin the attack by sending frames with two sets of tags. The outer tag that will have the attacker’s VLAN ID (probably the well-known and omnipresent default VLAN) is stripped off by the switch, and the inner tag that will have the victim’s VLAN ID is used by the switch as the next hop and sent out the trunk port.",
+  "Documentable": "false"
+}

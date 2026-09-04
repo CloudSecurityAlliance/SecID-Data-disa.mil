@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217167",
+  "rule_id": "SV-217167r958828_rule",
+  "stig_id": "SLES-12-010680",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must configure the Linux Pluggable Authentication Modules (PAM) to prohibit the use of cached offline authentications after one day.",
+  "group_title": "SRG-OS-000383-GPOS-00166",
+  "idents": {
+    "legacy": [
+      "V-77185",
+      "SV-91881"
+    ],
+    "cci": [
+      "CCI-002007"
+    ]
+  },
+  "check_id": "C-18395r369657_chk",
+  "check_content": "If SSSD is not being used on the operating system, this is Not Applicable.\n\nVerify that the SUSE operating system Pluggable Authentication Modules (PAM) prohibits the use of cached off line authentications after one day.\n\nCheck that cached off line authentications cannot be used after one day with the following command:\n\n# sudo grep \"offline_credentials_expiration\" /etc/sssd/sssd.conf\n\noffline_credentials_expiration = 1\n\nIf \"offline_credentials_expiration\" is not set to a value of \"1\", this is a finding.",
+  "fixtext": "Configure the SUSE operating system PAM to prohibit the use of cached authentications after one day. \n\nAdd or change the following line in \"/etc/sssd/sssd.conf\" just below the line \"[pam]\":\n\noffline_credentials_expiration = 1",
+  "fix_id": "F-18393r369658_fix",
+  "VulnDiscussion": "If cached authentication information is out of date, the validity of the authentication information may be questionable.",
+  "Documentable": "false"
+}

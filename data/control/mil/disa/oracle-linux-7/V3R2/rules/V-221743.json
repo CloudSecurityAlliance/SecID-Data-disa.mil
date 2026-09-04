@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221743",
+  "rule_id": "SV-221743r991589_rule",
+  "stig_id": "OL07-00-021020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must prevent files with the setuid and setgid bit set from being executed on file systems that are being imported via Network File System (NFS).",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-108329",
+      "V-99225"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23458r419301_chk",
+  "check_content": "Verify file systems being NFS imported are configured with the \"nosuid\" option.\n\nFind the file system(s) that contain the directories being exported with the following command:\n\n# more /etc/fstab | grep nfs\n\nUUID=e06097bb-cfcd-437b-9e4d-a691f5662a7d /store nfs rw,nosuid 0 0\n\nIf a file system found in \"/etc/fstab\" refers to NFS and it does not have the \"nosuid\" option set, this is a finding.\n\nVerify the NFS is mounted with the \"nosuid\" option:\n\n# mount | grep nfs | grep nosuid\nIf no results are returned, this is a finding.",
+  "fixtext": "Configure the \"/etc/fstab\" to use the \"nosuid\" option on file systems that are being imported via NFS.",
+  "fix_id": "F-23447r419302_fix",
+  "VulnDiscussion": "The \"nosuid\" mount option causes the system not to execute \"setuid\" and \"setgid\" files with owner privileges. This option must be used for mounting any file system not containing approved \"setuid\" and \"setguid\" files. Executing files from untrusted file systems increases the opportunity for unprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

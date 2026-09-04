@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-251587",
+  "rule_id": "SV-251587r960792_rule",
+  "stig_id": "IDMS-DB-000070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All installation-delivered IDMS DEVELOPER-level tasks must be properly secured.",
+  "group_title": "SRG-APP-000033-DB-000084",
+  "idents": {
+    "cci": [
+      "CCI-000213",
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-55022r808350_chk",
+  "check_content": "Examine load module RHDCSRTT by executing CA IDMS utility IDMSSRTD, or by issuing command \"DCMT DISPLAY SRTT\" while signed onto the CV and reviewing the output. \n\nNote: This requires PTFs SO07995 and SO09476.\n\nValidate the following suggested developer-level tasks are secured in the SRTT (included, for example, in the roles of DCADMIN, DBADMIN level security).\n\nNote: USER, DEVELOPER, DBADMIN, and DCADMIN are suggested categories only.                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               \nADSA\nADSAT\nADSC \nADSCT\nADSK  \nADSL    \nDEBUG   \nIDDML\nIDDM   \nIDDT    \nLOOK    \nMAPB    \nMAPBT   \nMAPC    \nMAPCT   \nPMAM    \nPMIM    \nQUED    \nSCHEMA  \nSCHEMAT \nSHOWMAP \n\nIf \"TASK\" is not found as the resource type in any of the entries, this is a finding. \n\nIf \"TASK\" is secured internally, this is a finding. \n\nIf \"TASK\" is secured externally in the SRTT, review the SRTT entries to ensure that the above tasks are secured and review ESM for external class and external name format to make sure the appropriate authorizations have been defined. If they have not, this is a finding.",
+  "fixtext": "The SRTT module must be coded to enable task-level security. When using an external security manager (ESM), this could be done in the following manner:\n \n#SECRTT TYPE=ENTRY,                         X\n RESTYPE=TASK,                                    X\n SECBY=EXTERNAL ,                               X\n EXTNAME=(RESTYPE,RESNAME),        X\n EXTCLS='CA@IDMS'\n\nor to give access specifically to one or more tasks (in this case, to ADSA):\n\n#SECRTT TYPE=ENTRY, RESTYPE=TASK,                             X\n  SECBY=OFF,                                                                        X               \n  EXTNAME=(RESTYPE,RESNAME),EXTCLS='CA@IDMS'\n\nwith an OCCUR statement for each task:\n\n#SECRTT TYPE=OCCUR,RESTYPE=TASK,                               X\n SECBY=EXTERNAL,                                                                 X \n RESNAME='ADSA'                                                                           \n\nUsing the above examples, the ESM must be configured to grant access for resource name \"TASK.task-name\" to security group (or role) DEVELOPER, for security class \"CA@IDMS\", where \"task-name\" is one of the developer-level tasks listed. \n\nThis grant must be repeated for each Task in the list. These rules should then be given to the appropriate users. For instance, in Top Secret:\nTSS PER(user_id) CA@IDMS(TASK.ADSA)  \n\nIn ACF2:\n$KEY(TASK.ADSA) TYPE(CA@IDMS) \n UID(user_id) ALLOW\n\nIn RACF:\nPERMIT TASK.ADSA CLASS(CA@IDMS) ID(user_id) ACCESS(READ)\n\nAfter making the above changes, assemble and link RHDCSRTT to create a new SRTT. To implement the new SRTT, either recycle any CVs that use the SRTT or issue these commands:       \n \nDCMT VARY NUCLEUS MODULE RHDCSRTT NEW COPY \nDCMT VARY NUCLEUS RELOAD",
+  "fix_id": "F-54976r808351_fix",
+  "VulnDiscussion": "Developer-level tasks that are not secured may allow anyone who signs on to IDMS to use them to access and manipulate various resources within the DBMS.\n\nSatisfies: SRG-APP-000033-DB-000084, SRG-APP-000211-DB-000122",
+  "Documentable": "false"
+}

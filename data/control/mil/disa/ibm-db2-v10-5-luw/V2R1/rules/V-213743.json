@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213743",
+  "rule_id": "SV-213743r879867_rule",
+  "stig_id": "DB2X-00-010400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DB2 must generate audit records when security objects are modified.",
+  "group_title": "SRG-APP-000496-DB-000334",
+  "idents": {
+    "legacy": [
+      "SV-89303",
+      "V-74629"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-14964r295278_chk",
+  "check_content": "If there are no locally defined security objects this is not applicable (NA).\n\nIf there are locally defined security objects get a list of those objects from ISSO/DBA.\n\nIf there are only tables in the list then a minimum audit set of OBJMAINT and SECMAINT categories on the locally defined security tables or database is required.\n\nIf there are objects like packages and procedures in the list of locally defined security objects then a minimum audit set of OBJMAINT and SECMAINT categories on the database is required.\n\nRun the following SQL statement to ensure that an audit policy is defined in the database:\nDB2> SELECT AUDITPOLICYNAME, OBJECTSCHEMA, OBJECTNAME, OBJECTTYPE \n           FROM SYSCAT.AUDITUSE \n           WHERE OBJECTTYPE IN ('T',' ')\n\nIf no rows are returned, this is a finding. \n\nIf a row with OBJECTTYPE of ' ' (Database; value is a blank) exists in the output, it is a database level policy. \n\nIf a row with OBJECTTYPE of 'T' exists in the output, it is a table level policy. \n\nFor each audit policy returned in the statement above, run the following SQL statement to confirm that the OBJMAINT and SECMAINT categories are part of that policy: \nDB2> SELECT AUDITPOLICYNAME, SECMAINTSTATUS, OBJMAINTSTATUS, ERRORTYPE AS ERRORTYPE \n           FROM SYSCAT.AUDITPOLICIES\n\nIf the database audit policy has the values for the SECMAINTSTATUS and OBJMAINTSTATUS columns set to 'S' (Success) or 'B' (Both) and the value in the ERRORTYPE column set to 'A' (Audit), this is not a finding. \n\nIf there are objects in addition to tables in the list of locally defined security objects and if the database policy does not exist or does not cover SECMAINTSTATUS or OBJMAINTSTATUS, this is a finding. \n\nIf there are only tables in the list and if the database policy does not exist or does not cover SECMAINTSTATUS or OBJMAINTSTATUS then check if the appropriate policies are defined for all the required locally defined security tables. \n\nIf all the required locally defined security tables' audit policies do not have the values for the SECMAINTSTATUS and OBJMAINTSTATUS columns set to 'S' (Success) or 'B' (Both) or if the value in the ERRORTYPE column is not set to 'A' (Audit), this is a finding.",
+  "fixtext": "Run the following command to define an audit policy with the needed subset using the CREATE AUDIT POLICY SQL statement:\nDB2> CREATE AUDIT POLICY <execdb> CATEGORIES OBJMAINT STATUS SUCCESS, SECMAINT STATUS SUCCESS ERROR TYPE AUDIT\n             or\n           CREATE AUDIT POLICY <execdb> CATEGORIES OBJMAINT STATUS SUCCESS, SECMAINT STATUS BOTH ERROR TYPE AUDIT\n\nTo modify an existing audit policy, replace \"CREATE\" with \"ALTER\" in the preceding statement. Only the categories explicitly named in the statement will be affected.  In this case, the changes take effect immediately.\n\nIf CREATE was used above, run the following command to apply the correct policy to local security tables or database level:\nDB2> AUDIT TABLE <table name> USING POLICY EXECDB",
+  "fix_id": "F-14962r295279_fix",
+  "VulnDiscussion": "Changes in the database objects (tables, views, procedures, functions) that record and control permissions, privileges, and roles granted to users and roles must be tracked. Without an audit trail, unauthorized changes to the security subsystem could go undetected. The database could be severely compromised or rendered inoperative.",
+  "Documentable": "false"
+}

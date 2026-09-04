@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213715",
+  "rule_id": "SV-213715r879673_rule",
+  "stig_id": "DB2X-00-006400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DB2 must automatically terminate a user session after organization-defined conditions or trigger events requiring session disconnect.",
+  "group_title": "SRG-APP-000295-DB-000305",
+  "idents": {
+    "legacy": [
+      "SV-89193",
+      "V-74519"
+    ],
+    "cci": [
+      "CCI-002361"
+    ]
+  },
+  "check_id": "C-14936r295194_chk",
+  "check_content": "Run the following query to check the existing thresholds defined in database: \nDB2> SELECT thresholdname, thresholdpredicate, maxvalue, execution \n           FROM syscat.thresholds\n\nIf there are no thresholds defined in the required categories this is a finding. \n\nReview the defined thresholds, if the thresholds are not defined per the organization policies, this is a finding. \n\nNote: Select the following link for the knowledgebase on syscat.thresholds: \n\nhttp://www.ibm.com/support/knowledgecenter/SSEPGG_10.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0050565.html?cp=SSEPGG_10.5.0%2F2-12-8-111",
+  "fixtext": "Run the CREATE THRESHOLD statement to create the thresholds per organization policies. \n\nThe following command is an example for creating a threshold to terminate any sessions which have been inactive for more than 5 hours: \nDB2>  CREATE THRESHOLD MONIDLETIME FOR DATABASE ACTIVITIES ENFORCEMENT DATABASE \n     WHEN CONNECTIONIDLETIME > 300 MINUTE STOP EXECUTION \n\nNote: Select the following link for the knowledgebase information on create threshold: \n\nhttp://www.ibm.com/support/knowledgecenter/SSEPGG_10.5.0/com.ibm.db2.luw.sql.ref.doc/doc/r0050563.html?lang=en",
+  "fix_id": "F-14934r295195_fix",
+  "VulnDiscussion": "This addresses the termination of user-initiated logical sessions in contrast to the termination of network connections that are associated with communications sessions (i.e., network disconnect). A logical session (for local, network, and remote access) is initiated whenever a user (or process acting on behalf of a user) accesses an organizational information system. Such user sessions can be terminated (and thus terminate user access) without terminating network sessions. \n\nSession termination ends all processes associated with a user's logical session except those batch processes/jobs that are specifically created by the user (i.e., session owner) to continue after the session is terminated. \n\nConditions or trigger events requiring automatic session termination can include, for example, organization-defined periods of user inactivity, targeted responses to certain types of incidents, and time-of-day restrictions on information system use.\n\nThis capability is typically reserved for specific cases where the system owner, data owner, or organization requires additional assurance.",
+  "Documentable": "false"
+}

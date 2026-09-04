@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255354",
+  "rule_id": "SV-255354r961800_rule",
+  "stig_id": "ASQL-00-013300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL DB must generate audit records when privileges/permissions are added.",
+  "group_title": "SRG-APP-000495-DB-000326",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-59027r871186_chk",
+  "check_content": "Review Azure SQL Database configuration to verify that audit records are produced when privileges/permissions are added.\n\nTo determine if an audit is configured, execute the following script. \nRun this TSQL command to determine if SQL Auditing AuditActionGroups are configured:\n  SELECT DISTINCT sd.audit_action_name \n  FROM sys.database_audit_specification_details sd\n  JOIN sys.database_audit_specifications s \n  ON s.database_specification_id = sd.database_specification_id\n  WHERE (name = 'SqlDbAuditing_ServerAuditSpec' /*Server Audit*/\n      OR name = 'SqlDbAuditing_AuditSpec') /*Database Audit*/\n  AND s.is_state_enabled = 1\n  ORDER BY sd.audit_action_name\n\nIf no values exist for AuditActionGroup, this is a finding. \n\nVerify the following AuditActionGroup(s) are configured:\nDATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP \nDATABASE_OBJECT_PERMISSION_CHANGE_GROUP \nDATABASE_OWNERSHIP_CHANGE_GROUP \nDATABASE_PERMISSION_CHANGE_GROUP \nDATABASE_ROLE_MEMBER_CHANGE_GROUP \nSCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP \n\nIf any listed AuditActionGroups do not exist in the configuration, this is a finding.",
+  "fixtext": "Deploy an Azure SQL Database audit.\n\nRefer to the supplemental file \"AzureSQLDatabaseAudit.txt\" PowerShell script.\n\nReference: \nhttps://docs.microsoft.com/en-us/powershell/module/az.sql/set-azsqlserveraudit\">https://docs.microsoft.com/en-us/powershell/module/az.sql/set-azsqlserveraudit",
+  "fix_id": "F-58971r871187_fix",
+  "VulnDiscussion": "Changes in the permissions, privileges, and roles granted to users and roles must be tracked. Without an audit trail, unauthorized elevation or restriction of privileges could go undetected. Elevated privileges give users access to information and functionality that they should not have; restricted privileges wrongly deny access to authorized users. \n\nIn an Azure SQL Database environment, adding permissions is typically done via the GRANT command, or, in the negative, the DENY command.",
+  "Documentable": "false"
+}

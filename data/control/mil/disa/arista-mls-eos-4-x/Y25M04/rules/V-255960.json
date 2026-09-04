@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-255960",
+  "rule_id": "SV-255960r961554_rule",
+  "stig_id": "ARST-ND-000690",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Arista network devices must use FIPS-validated Keyed-Hash Message Authentication Code (HMAC) to protect the integrity of remote maintenance sessions.",
+  "group_title": "SRG-APP-000411-NDM-000330",
+  "idents": {
+    "cci": [
+      "CCI-001941",
+      "CCI-002890"
+    ]
+  },
+  "check_id": "C-59636r882220_chk",
+  "check_content": "Determine if the Arista network device is configured to use FIPS-validated HMAC to protect the integrity of remote maintenance sessions.\n\nNOTE: Although allowed by SP800-131Ar2 for some applications, SHA-1 is considered a compromised hashing standard and is being phased out of use by industry and government standards. Unless required for legacy use, DOD systems should not be configured to use SHA-1 for integrity of remote access sessions.\n\nVerify the HMAC settings for SSH using the following command:\n\nswitch#sh run | section management ssh\n\nmac hmac-sha2-256 hmac-sha2-512\n\nIf the Arista network device does not implement replay-resistant authentication mechanisms for network access to privileged accounts, this is a finding.",
+  "fixtext": "Configure the Arista network device to use FIPS-validated HMAC to protect the integrity of remote maintenance sessions.\n\nswitch(config)#management ssh\nswitch(config-mgmt-ssh)#mac hmac-sha2-256 hmac-sha2-512\nswitch(config-mgmt-ssh)#exit",
+  "fix_id": "F-59579r882221_fix",
+  "VulnDiscussion": "Unapproved mechanisms used for authentication to the cryptographic module are not verified and therefore cannot be relied upon to provide confidentiality or integrity, and DOD data may be compromised.\n\nNonlocal maintenance and diagnostic activities are those activities conducted by individuals communicating through a network, either an external network (e.g., the internet) or an internal network. \n\nCurrently, HMAC is the only FIPS-approved algorithm for generating and verifying message/data authentication codes in accordance with FIPS 198-1. Products that are FIPS 140-2 validated will have an HMAC that meets specification; however, the option must be configured for use as the only message authentication code used for authentication to cryptographic modules.\n\nSeparate requirements for configuring applications and protocols used by each application (e.g., SNMPv3, SSHv2, NTP, HTTPS, and other protocols and applications that require server/client authentication) are required to implement this requirement. Where SSH is used, the SSHv2 protocol suite is required because it includes Layer 7 protocols such as SCP and SFTP, which can be used for secure file transfers.\n\nSatisfies: SRG-APP-000411-NDM-000330, SRG-APP-000156-NDM-000250",
+  "Documentable": "false"
+}

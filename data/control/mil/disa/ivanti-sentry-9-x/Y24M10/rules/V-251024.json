@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251024",
+  "rule_id": "SV-251024r1028190_rule",
+  "stig_id": "MOIS-AL-000390",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Sentry providing mobile device authentication intermediary services must restrict mobile device authentication traffic to specific authentication server(s).",
+  "group_title": "SRG-NET-000138-ALG-000089",
+  "idents": {
+    "cci": [
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-54459r802292_chk",
+  "check_content": "If the Sentry does not provide user authentication intermediary services, this is not applicable. \n\nVerify the Sentry is configured with a preestablished trust relationship and mechanisms with appropriate authorities that validate each user access authorization and privileges.\n\nIf Sentry provides user authentication intermediary services for ActiveSync, verify them as follows:\n1. In the MobileIron Core Admin Portal, go to Services >> Sentry.\n2. Click the \"Edit\" icon next to Sentry, which opens the \"Edit Standalone Sentry\" dialog. \n3. Determine if the fields in the form are configured for ActiveSync.\n4. Look under \"ActiveSync Server(s)\".\n5. Verify only the ActiveSync Servers' end users are on this list.\n\nIf ActiveSync Servers' end users are not the only entities on this list, this is a finding.\n\nIf Sentry provides user authentication intermediary services for AppTunnel, verify only the Servers that users should be authenticating to are specified in the Services list.\n\n1. In the MobileIron Core Admin Portal, go to Services >> Sentry.\n2. Select the \"Edit\" icon for an existing Standalone Sentry entry.\n3. Review the Approved AppTunnel Services and verify only the Servers that users should be authenticating to are specified in the services list.\n\nIf end users are able to access AppTunnel services they should not be accessing, this is a finding.",
+  "fixtext": "If user authentication intermediary services are provided, configure the Sentry to use a specific authentication server(s).\n\nFor ActiveSync services:\n1. In the MobileIron Core Admin Portal, go to Services >> Sentry.\n2. Select Add New >> Standalone Sentry or click the \"Edit\" icon for an existing Standalone Sentry entry.\n3. Complete the fields in the form for ActiveSync Configuration.\n4. Configure approved ActiveSync servers.\n5. Click \"Save\".\n\nFor AppTunnel services: \n1. In the MobileIron Core Admin Portal, go to Services >> Sentry.\n2. Select Add New >> Standalone Sentry or click the \"Edit\" icon for an existing Standalone Sentry entry.\n3. Complete the fields in the form for AppTunnel Configuration.\n4. Configure approved AppTunnel services.\n5. Click \"Save\".",
+  "fix_id": "F-54413r802293_fix",
+  "VulnDiscussion": "User authentication can be used as part of the policy filtering rule sets. Some URLs or network resources can be restricted to authenticated users only. Users are prompted by the application or browser for credentials. Authentication service may be provided by the ALG as an intermediary for the application; however, the authentication credential must be stored in the site's directory services server.\n\nThis requirement only applies to components where this is specific to the function of the device or has the concept of an organizational user (e.g., proxy capability). This does not apply to authentication for the purpose of configuring the device itself (i.e., device management).",
+  "Documentable": "false"
+}

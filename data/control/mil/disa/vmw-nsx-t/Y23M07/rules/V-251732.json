@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251732",
+  "rule_id": "SV-251732r856684_rule",
+  "stig_id": "TDFW-3X-000036",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The NSX-T Distributed Firewall must configure SpoofGuard to block outbound IP packets that contain illegitimate packet attributes.",
+  "group_title": "SRG-NET-000392-FW-000042",
+  "idents": {
+    "cci": [
+      "CCI-002664"
+    ]
+  },
+  "check_id": "C-55169r810048_chk",
+  "check_content": "From the NSX-T Manager web interface, go to Networking >> Segments, and for each Segment, view Segment Profiles >> SpoofGuard.\n\nIf a Segment is not configured with a SpoofGuard profile that has Port Binding enabled, this is a finding.",
+  "fixtext": "To create a segment profile with SpoofGuard enabled, do the following:\n\nFrom the NSX-T Manager web interface, go to Networking >> Segments >> Segment Profiles >> Add Segment Profile >> SpoofGuard.\n\nEnter a profile name and enable port bindings, then click \"Save\".\n\nTo update a Segments SpoofGuard profile, do the following:\n\nFrom the NSX-T Manager web interface, go to the Networking >> Segments, and click \"Edit\" from the drop-down menu next to the target Segment.\n\nExpand \"Segment Profiles\" then choose the new SpoofGuard profile from the drop-down list, and then click \"Save\".",
+  "fix_id": "F-55123r810049_fix",
+  "VulnDiscussion": "SpoofGuard helps prevent a form of malicious attack called \"web spoofing\" or \"phishing.\" A SpoofGuard policy blocks traffic determined to be spoofed.\n\nSpoofGuard is a tool that is designed to prevent virtual machines in your environment from sending traffic with an IP address from which it is not authorized to send traffic. In the instance that a virtual machine's IP address does not match the IP address on the corresponding logical port and segment address binding in SpoofGuard, the virtual machine's vNIC is prevented from accessing the network entirely. SpoofGuard can be configured at the port or segment level. There are several reasons SpoofGuard might be used in your environment, but for the distributed firewall it will guarantee that rules will not be inadvertently (or deliberately) bypassed. For DFW rules created utilizing IP sets as sources or destinations, the possibility always exists that a virtual machine could have its IP address forged in the packet header, thereby bypassing the rules in question.",
+  "Documentable": "false"
+}

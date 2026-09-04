@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222986",
+  "rule_id": "SV-222986r961461_rule",
+  "stig_id": "TCAT-AS-001200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "$CATALINA_HOME folder must be owned by the root user, group tomcat.",
+  "group_title": "SRG-APP-000380-AS-000088",
+  "idents": {
+    "legacy": [
+      "SV-111495",
+      "V-102555"
+    ],
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-24658r426402_chk",
+  "check_content": "Access the Tomcat server from the command line and execute the following OS command:\n\nsudo find $CATALINA_HOME -follow -maxdepth 0 \\(  ! -user root -o ! -group tomcat \\) -ls\n\nIf no folders are displayed, this is not a finding.\n\nIf results indicate the $CATALINA_HOME folder ownership and group membership is not set to root:tomcat, this is a finding.",
+  "fixtext": "Run the following commands on the Tomcat server:\n\nsudo find $CATALINA_HOME -maxdepth 0 \\( ! -user root \\) | sudo xargs chown root\n\nsudo find $CATALINA_HOME -maxdepth 0 \\( ! -group tomcat \\) | sudo xargs chgrp tomcat",
+  "fix_id": "F-24647r426403_fix",
+  "VulnDiscussion": "Tomcat file permissions must be restricted. The standard configuration is to have the folder where Tomcat is installed owned by the root user with the group set to tomcat. The $CATALINA_HOME environment variable should be set to the location of the root directory of the \"binary\" distribution of Tomcat.",
+  "Documentable": "false"
+}

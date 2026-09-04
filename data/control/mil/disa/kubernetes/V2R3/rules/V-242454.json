@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242454",
+  "rule_id": "SV-242454r961863_rule",
+  "stig_id": "CNTR-K8-003210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes kubeadm.conf must be owned by root.",
+  "group_title": "SRG-APP-000516-CTR-001325",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-45729r754817_chk",
+  "check_content": "Review the Kubeadm.conf file :\n\nGet the path for Kubeadm.conf by running: \nsytstemctl status kubelet\n\nNote the configuration file installed by the kubeadm is written to \n(Default Location: /etc/systemd/system/kubelet.service.d/10-kubeadm.conf)\nstat -c %U:%G <kubeadm.conf path> | grep -v root:root\n\nIf the command returns any non root:root file permissions, this is a finding.",
+  "fixtext": "Change the ownership of the kubeadm.conf to root: root by executing the command:\n\nchown root:root <kubeadm.conf path>",
+  "fix_id": "F-45687r754818_fix",
+  "VulnDiscussion": "The Kubernetes kubeeadm.conf contains sensitive information regarding the cluster nodes configuration. If this file can be modified, the Kubernetes Platform Plane would be degraded or compromised for malicious intent. Many of the security settings within the document are implemented through this file.",
+  "Documentable": "false"
+}

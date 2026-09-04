@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221229",
+  "rule_id": "SV-221229r961155_rule",
+  "stig_id": "EX16-ED-000300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange Receive connectors must control the number of recipients per message.",
+  "group_title": "SRG-APP-000247",
+  "idents": {
+    "legacy": [
+      "SV-95249",
+      "V-80539"
+    ],
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-22944r411813_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP).\n\nDetermine the Maximum Recipients per Message value.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-ReceiveConnector | Select Name, Identity, MaxRecipientsPerMessage\n\nFor each receive connector, if the value of \"MaxRecipientsPerMessage\" is not set to \"5000\", this is a finding.\n\nor\n\nIf the value of \"MaxRecipientsPerMessage\" is set to a value other than \"5000\" and has signoff and risk acceptance in the EDSP, this is not a finding.",
+  "fixtext": "Update the EDSP to reflect the Maximum Recipients per Message value.\n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-ReceiveConnector -Identity <'IdentityName'> -MaxRecipientsPerMessage 5000 \n\nNote: The <IdentityName> value must be in single quotes.\n\nor \n\nThe value as identified by the EDSP that has obtained a signoff with risk acceptance.\n\nRepeat the procedure for each receive connector.",
+  "fix_id": "F-22933r411814_fix",
+  "VulnDiscussion": "Email system availability depends in part on best practice strategies for setting tuning configurations. \n\nThis configuration controls the maximum number of recipients who will receive a copy of a message at one time. This tunable value is related to throughput capacity and can enable the ability to optimize message delivery. \n\nNote: There are two types of default Receive connecters:\n\n\"Client Servername\" accepts SMTP connections from all non-MAPI clients, such as POP and IMAP. As POP and IMAP are not authorized for use in DoD, these should not be present. Their default value for MaxRecipientsPerMessage is 200. IMAP Secure is not restricted and may be configured.\n\n\n\"Default Servername\" accepts connections from other mailbox servers and any Edge Transport servers. Their default value for MaxRecipientsPerMessage is 5000.",
+  "Documentable": "false"
+}

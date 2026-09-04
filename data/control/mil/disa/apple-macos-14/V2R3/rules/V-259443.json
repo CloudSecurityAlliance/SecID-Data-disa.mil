@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-259443",
+  "rule_id": "SV-259443r1009579_rule",
+  "stig_id": "APPL-14-000090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable logon to other user's active and locked sessions.",
+  "group_title": "SRG-OS-000104-GPOS-00051",
+  "idents": {
+    "cci": [
+      "CCI-000764",
+      "CCI-004045",
+      "CCI-000770"
+    ]
+  },
+  "check_id": "C-63182r986247_chk",
+  "check_content": "Verify the macOS system is configured to disable login to other user's active and locked sessions with the following command:\n\n/usr/bin/security authorizationdb read system.login.screensaver 2>&1 | /usr/bin/grep -c '<string>authenticate-session-owner</string>'\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable login to other user's active and locked sessions with the following command:\n\n/usr/bin/security authorizationdb write system.login.screensaver \"authenticate-session-owner\"",
+  "fix_id": "F-63090r986248_fix",
+  "VulnDiscussion": "The ability to log in to another user's active or locked session must be disabled.\n\nmacOS has a privilege that can be granted to any user that will allow that user to unlock active user's sessions. Disabling the admins and/or user's ability to log into another user's active and locked session prevents unauthorized persons from viewing potentially sensitive and/or personal information.\n\nNote: Configuring this setting will disable TouchID from unlocking the screensaver.",
+  "Documentable": "false"
+}

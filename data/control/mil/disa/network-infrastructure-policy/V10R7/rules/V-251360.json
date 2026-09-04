@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-251360",
+  "rule_id": "SV-251360r808530_rule",
+  "stig_id": "NET0185",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Network Address Translation (NAT) and private IP address space must not be deployed within the SIPRNet enclave.",
+  "group_title": "NET0185",
+  "idents": {
+    "legacy": [
+      "V-31637",
+      "SV-41924"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-54795r808529_chk",
+  "check_content": "Review network diagrams, enterprise sensor reports, and network scans submitted to the Connection Approval Office. Determine that only global IP addresses assigned by the NIC are in use within the organization's SIPRNet enclave.\n\nNOTE: This requirement also applies to IPv6 ULA addresses. The IPv6 ULA is unauthorized on SIPR without approval.\n\nDetermine whether NAT and unauthorized IP address space is in use in the organization's SIPRNet enclave.\n\nExceptions to this requirement are listed below:\n1. Closed classified networks logically transiting SIPRNet for enclave-to-enclave VPN transport only.\n2. Out-of-Band management networks, where the NATd nodes do not access SIPRNet base enterprise services.\n3. Thin client deployments where the hosting thin client server serves as the SIPRNet access point for its thin clients and that the organization maintains detailed thin client service usage audit logs.\n4. Valid operational mission need or implementation constraints.\n\nAll exceptions must have approval by the SIPRNet DISN accreditation official, DISA AO.\n\nIf NAT and unauthorized IP address space is in use on the organization's SIPRNet infrastructure, this is a finding.",
+  "fixtext": "Remove the NAT configurations and private address space from the organization's SIPRNet enclave.  Configure the SIPRNet enclave with SSC authorized .smil.mil or .sgov.gov addresses. If NAT or private address space is required, as per one of the stated exceptions or for valid mission requirements, then submit a detailed approval request to use private addressing through the DSAWG Secretariat to the DISN accreditation official, DISA AO.",
+  "fix_id": "F-54748r806034_fix",
+  "VulnDiscussion": "The DoD has an enterprise level security-focused configuration management (SecCM) requirement to support end-to-end monitoring of SIPRNet, as a National Security System (NSS). The use of NAT and private IP address space inhibits the view of specialized DISN enterprise tools in tracking client level enclave to enclave traffic, monitoring client use of enterprise level application services, and detecting anomalies and potential malicious attacks in SIPRNet client application traffic flows. Enclave nodes that communicate outside the organization's enclave to other SIPRNet enclaves or enterprise services cannot use NATd private addresses via an enclave proxy without the permission of the SIPRNet DISN Authorizing Official, the DISA AO.",
+  "Documentable": "false"
+}

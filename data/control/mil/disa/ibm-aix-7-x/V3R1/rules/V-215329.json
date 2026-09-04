@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215329",
+  "rule_id": "SV-215329r991589_rule",
+  "stig_id": "AIX7-00-003016",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX ldd command must be disabled.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91619",
+      "SV-101717"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16527r294438_chk",
+  "check_content": "Consult vendor documentation concerning the \"ldd\" command. \n\nIf the command provides protection from the execution of untrusted executables, this is not a finding. \n\nDetermine the location of the system's \"ldd\" command:\n# find / -name ldd \n\nIf no file exists, this is not a finding. \n\nCheck the permissions of the found \"ldd\" file: \n\n# ls -lL <path to ldd> \n----------    1 bin      bin            6289 Feb 28 2017  /usr/bin/ldd\n\nIf the file mode of the file is more permissive than \"0000\", this is a finding",
+  "fixtext": "Disable the \"ldd\" command by removing its permissions using command:\n# chmod 0000 <path to ldd>",
+  "fix_id": "F-16525r294439_fix",
+  "VulnDiscussion": "The ldd command provides a list of dependent libraries needed by a given binary, which is useful for troubleshooting software. Instead of parsing the binary file, some ldd implementations invoke the program with a special environment variable set, which causes the system dynamic linker to display the list of libraries. Specially crafted binaries can specify an alternate dynamic linker which may cause a program to be executed instead of examined. If the program is from an untrusted source, such as in a user home directory, or a file suspected of involvement in a system compromise, unauthorized software may be executed with the rights of the user running ldd.",
+  "Documentable": "false"
+}

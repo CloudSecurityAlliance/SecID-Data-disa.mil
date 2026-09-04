@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235186",
+  "rule_id": "SV-235186r961638_rule",
+  "stig_id": "MYS8-00-011300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must maintain the confidentiality and integrity of information during preparation for transmission.",
+  "group_title": "SRG-APP-000441-DB-000378",
+  "idents": {
+    "cci": [
+      "CCI-002420"
+    ]
+  },
+  "check_id": "C-38405r623678_chk",
+  "check_content": "If the data owner does not have a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process, this is not a finding.\n\nRun the following:\nselect @@require_secure_transport;\n\nThe value should be 1 (ON) versus 0 (OFF), if the value is 0 (OFF), this is a finding.",
+  "fixtext": "Turn on require_secure_transport. In this mode the server permits only TCP/IP connections encrypted using TLS/SSL, or connections that use a socket file (on UNIX) or shared memory (on Windows). \n\nThe server rejects nonsecure connection attempts, which fail with an ER_SECURE_TRANSPORT_REQUIRED error.\n\nset persist require_secure_transport=ON;",
+  "fix_id": "F-38368r623679_fix",
+  "VulnDiscussion": "Information can be either unintentionally or maliciously disclosed or modified during preparation for transmission, including, for example, during aggregation, at protocol transformation points, and during packing/unpacking. These unauthorized disclosures or modifications compromise the confidentiality or integrity of the information.\n\nUse of this requirement will be limited to situations where the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process. \n\nWhen transmitting data, the DBMS, associated applications, and infrastructure must leverage transmission protection mechanisms.",
+  "Documentable": "false"
+}

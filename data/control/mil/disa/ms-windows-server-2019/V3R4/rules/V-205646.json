@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-205646",
+  "rule_id": "SV-205646r958448_rule",
+  "stig_id": "WN19-DC-000290",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Windows Server 2019 domain Controller PKI certificates must be issued by the DoD PKI or an approved External Certificate Authority (ECA).",
+  "group_title": "SRG-OS-000066-GPOS-00034",
+  "idents": {
+    "legacy": [
+      "SV-103569",
+      "V-93483"
+    ],
+    "cci": [
+      "CCI-000185"
+    ]
+  },
+  "check_id": "C-5911r354856_chk",
+  "check_content": "This applies to domain controllers. It is NA for other systems.\n\nRun \"MMC\".\n\nSelect \"Add/Remove Snap-in\" from the \"File\" menu.\n\nSelect \"Certificates\" in the left pane and click the \"Add >\" button.\n\nSelect \"Computer Account\" and click \"Next\".\n\nSelect the appropriate option for \"Select the computer you want this snap-in to manage\" and click \"Finish\".\n\nClick \"OK\".\n\nSelect and expand the Certificates (Local Computer) entry in the left pane.\n\nSelect and expand the Personal entry in the left pane.\n\nSelect the Certificates entry in the left pane.\n\nIn the right pane, examine the \"Issued By\" field for the certificate to determine the issuing CA.\n\nIf the \"Issued By\" field of the PKI certificate being used by the domain controller does not indicate the issuing CA is part of the DoD PKI or an approved ECA, this is a finding.\n\nIf the certificates in use are issued by a CA authorized by the Component's CIO, this is a CAT II finding.\n\nThere are multiple sources from which lists of valid DoD CAs and approved ECAs can be obtained: \n\nThe Global Directory Service (GDS) website provides an online source. The address for this site is https://crl.gds.disa.mil.\n\nDoD Public Key Enablement (PKE) Engineering Support maintains the InstallRoot utility to manage DoD supported root certificates on Windows computers, which includes a list of authorized CAs. The utility package can be downloaded from the PKI and PKE Tools page on IASE:\n\nhttp://iase.disa.mil/pki-pke/function_pages/tools.html",
+  "fixtext": "Obtain a server certificate for the domain controller issued by the DoD PKI or an approved ECA.",
+  "fix_id": "F-5911r354857_fix",
+  "VulnDiscussion": "A PKI implementation depends on the practices established by the Certificate Authority (CA) to ensure the implementation is secure. Without proper practices, the certificates issued by a CA have limited value in authentication functions. The use of multiple CAs from separate PKI implementations results in interoperability issues. If servers and clients do not have a common set of root CA certificates, they are not able to authenticate each other.",
+  "Documentable": "false"
+}

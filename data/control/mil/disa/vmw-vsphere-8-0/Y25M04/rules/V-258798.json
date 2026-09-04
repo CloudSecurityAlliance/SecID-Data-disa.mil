@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258798",
+  "rule_id": "SV-258798r959010_rule",
+  "stig_id": "ESXI-80-000244",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must enforce the exclusive running of executables from approved VIBs.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62538r933453_chk",
+  "check_content": "If the ESXi host does not have a compatible TPM, this finding is downgraded to a CAT III.\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"VMkernel.Boot.execInstalledOnly\" value and verify that it is \"true\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name VMkernel.Boot.execInstalledOnly\n\nIf the \"VMkernel.Boot.execInstalledOnly\" setting is not \"true\", this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"VMkernel.Boot.execInstalledOnly\" value and configure it to \"true\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name VMkernel.Boot.execInstalledOnly | Set-AdvancedSetting -Value True",
+  "fix_id": "F-62447r933454_fix",
+  "VulnDiscussion": "The \"execInstalledOnly\" advanced ESXi boot option, when set to TRUE, guarantees that the VMkernel executes only those binaries that have been packaged as part of a signed VIB. While this option is effective on its own, it can be further enhanced by telling the Secure Boot to check with the TPM to make sure that the boot process does not proceed unless this setting is enabled. This further protects against malicious offline changes to ESXi configuration to disable the \"execInstalledOnly\" option.",
+  "Documentable": "false"
+}

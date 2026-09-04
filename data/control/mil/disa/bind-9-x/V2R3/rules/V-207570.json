@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207570",
+  "rule_id": "SV-207570r879642_rule",
+  "stig_id": "BIND-9X-001132",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Permissions assigned to the DNSSEC keys used with the BIND 9.x implementation must enforce read-only access to the key owner and deny access to all other users.",
+  "group_title": "SRG-APP-000231-DNS-000033",
+  "idents": {
+    "legacy": [
+      "SV-87075",
+      "V-72451"
+    ],
+    "cci": [
+      "CCI-001199"
+    ]
+  },
+  "check_id": "C-7825r283764_chk",
+  "check_content": "If the server is in a classified network, this is Not Applicable.\n\nVerify permissions assigned to the DNSSEC keys enforce read-only access to the key owner and deny access to group or system users:\n\nWith the assistance of the DNS Administrator, determine the location of the DNSSEC keys used by the BIND 9.x implementation:\n\n# ls –al <DNSSEC_Key_Location>\n-r--------. 1 named named 76 May 10 20:35 DNSSEC-example.key\n\nIf the key files are more permissive than 400, this is a finding.",
+  "fixtext": "Change the permissions of the DNSSEC key files:\n\n# chmod 400 <DNSSEC_key_file>",
+  "fix_id": "F-7825r283765_fix",
+  "VulnDiscussion": "Information at rest refers to the state of information when it is located on a secondary storage device within an organizational information system. Mobile devices, laptops, desktops, and storage devices can be either lost or stolen, and the contents of their data storage (e.g., hard drives and non-volatile memory) can be read, copied, or altered. Applications and application users generate information throughout the course of their application use.\n\nThe DNS server must protect the confidentiality and integrity of the DNSSEC keys and must protect the integrity of DNS information. There is no need to protect the confidentiality of DNS information because it is accessible by all devices that can contact the server.",
+  "Documentable": "false"
+}

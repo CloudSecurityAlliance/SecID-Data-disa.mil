@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257505",
+  "rule_id": "SV-257505r960759_rule",
+  "stig_id": "CNTR-OS-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must use TLS 1.2 or greater for secure container image transport from trusted sources.",
+  "group_title": "SRG-APP-000014-CTR-000035",
+  "idents": {
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-61240r921456_chk",
+  "check_content": "Verify that no insecure registries are configured by executing the following:\n\noc get image.config.openshift.io/cluster -ojsonpath='{.spec.allowedRegistriesForImport}' | jq -r '.[] | select(.insecure == true)'\n\nIf the above query finds any registries, this is a finding. Empty output is not a finding.\n\nVerify that no insecure registries are configured by executing the following:\n\noc get image.config.openshift.io/cluster -ojsonpath='{.spec.registrySources.insecureRegistries}'  \n\nIf the above query returns anything, then this is a finding. Empty output is not a finding.",
+  "fixtext": "Remove insecure registries from the cluster's image registry configuration by executing the following:\n\noc edit image.config.openshift.io/cluster\n\nEdit or remove any registries where insecure is set to true or are listed under insecureRegistries.\n\nRefer to https://docs.openshift.com/container-platform/4.8/openshift_images/image-configuration.html for more details on configuring registries in OpenShift.",
+  "fix_id": "F-61164r921457_fix",
+  "VulnDiscussion": "The authenticity and integrity of the container image during the container image lifecycle is part of the overall security posture of the container platform. This begins with the container image creation and pull of a base image from a trusted source for child container image creation and the instantiation of the new image into a running service.\n\nIf an insecure protocol is used during transmission of container images at any step of the lifecycle, a bad actor may inject nefarious code into the container image. The container image, when instantiated, then becomes a security risk to the container platform, the host server, and other containers within the container platform. To thwart the injection of code during transmission, a secure protocol (TLS 1.2 or newer) must be used. Further guidance on secure transport protocols can be found in NIST SP 800-52.",
+  "Documentable": "false"
+}

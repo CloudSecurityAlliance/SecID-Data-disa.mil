@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-252881",
+  "rule_id": "SV-252881r960963_rule",
+  "stig_id": "FFOX-00-000017",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Firefox must be configured to not delete data upon shutdown.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-56337r820755_chk",
+  "check_content": "Type \"about:policies\" in the browser address bar. \n\nIf \"SanitizeOnShutdown\" is not displayed under Policy Name or the Policy Value does not have {\"Cache\":false,\"Cookies\":false,\"Downloads\":false,\"FormData\":false,\"Sessions\":false,\"History\":false,\"OfflineApps\":false,\"SiteSettings\":false,\"Locked\":true}, this is a finding.",
+  "fixtext": "Windows group policy:\n1. Open the group policy editor tool with \"gpedit.msc\".\n2. Navigate to Policy Path: Computer Configuration\\Administrative Templates\\Mozilla\\Firefox\\Clear data when browser is closed\nPolicy Name: Cache, Cookies, Download History, Form & Search History, Browsing History, Active Logins, Site Preferences, Offline Website Data\nPolicy State: Disabled\nPolicy Name: Locked\nPolicy State: Enabled\n\nmacOS \"plist\" file:\nAdd the following:\n<key>SanitizeOnShutdown</key>\n<dict>\n  <key>Cache</key>\n  <false/>\n  <key>Cookies</key>\n  <false/>\n  <key>Downloads</key>\n  <false/>\n  <key>FormData</key>\n  <false/>\n  <key>History</key>\n  <false/>\n  <key>Sessions</key>\n  <false/>\n  <key>SiteSettings</key>\n  <false/>\n  <key>OfflineApps</key>\n  <false/>\n  <key>Locked</key>\n  <true/>\n</dict>\n\nLinux \"policies.json\" file:\nAdd the following in the policies section:\n\"SanitizeOnShutdown\": {\n  \"Cache\": false,\n  \"Cookies\": false,\n  \"Downloads\": false,\n  \"FormData\": false,\n  \"History\": false,\n  \"Sessions\": false,\n  \"SiteSettings\": false,\n  \"OfflineApps\": false,\n  \"Locked\": true \n}",
+  "fix_id": "F-56287r820756_fix",
+  "VulnDiscussion": "For diagnostic purposes, data must remain behind when the browser is closed. This is required to meet non-repudiation controls.",
+  "Documentable": "false"
+}

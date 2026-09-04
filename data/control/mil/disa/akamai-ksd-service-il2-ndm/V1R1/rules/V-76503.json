@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-76503",
+  "rule_id": "SV-91199r1_rule",
+  "stig_id": "AKSD-DM-000118",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Akamai Luna Portal must employ Single Sign On (SSO) with Security Assertion Markup Language (SAML) integration to verify authentication settings.",
+  "group_title": "SRG-APP-000516-NDM-000338",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-000372"
+    ]
+  },
+  "check_id": "C-76163r1_chk",
+  "check_content": "Verify that the Luna portal is configured to use single sign-on (SSO) with SAML.\n\n1. Log in to the Akamai Luna Portal (Caution-https://control.akamai.com).\n2. Click \"Configure\" >> \"Manage SSO with SAML\"\n3. Verify the identity Provider's current SSO settings are configured properly.\n\nIf SSO with SAML is not configured, then this is a finding.",
+  "fixtext": "Configure the Luna portal to use single sign-on with SAML.\n\n1. Log in to the Akamai Luna Portal (Caution-https://control.akamai.com).\n2. Click \"Configure\" >> \"Manage SSO with SAML\"\n3. Configure the identity Provider's SSO settings as follows:\n  a. The strings in some fields—such as the local user attribute name (“userid”) and the last part of the service provider endpoint address (“.luna-sp.com”)—are pre-specified by Luna  Control Center. Using the information about your identity provider (IDP). Fill in the first three fields:\n   - Service Provider End-point\n   - Entity ID\n   - Single Sign-On URL\n  b. The next field, \"Single Logout URL\", is optional. If your SAML metadata includes this information and you wish to configure for a Single Logout, you may enter it here.\n  c. Enter an email address that should receive notifications from Luna Control Center.\n  d. Enter thex509c Certificate key.\n  e. The next field, Alternate x509c Certificate Key, is optional. If you have an alternate x509c Certificate key, you may enter it here. Having a second key can be convenient if your current key is nearing expiration and your IDP supports key rotation.\n  f. When the required information has been entered, click \"Save\" or click \"Save & Activate\".\n   - Click Save if you want to keep a draft of your configuration without activating it yet. In the Manage Single Sign-On with SAML application’s main panel, “Inactive” then appears in the Status column of the new configuration. This means it has been saved but is not yet activated.\n   - You may repeat all steps to this point, to create as many additional inactive SSO configurations as desired. They’ll all be listed and accessible from the main panel. (A filter is provided for convenience when dealing with long lists.)\n   - When you want to activate one of your saved but inactive configurations, simply select \"Activate\" from its gear icon. This action results in a progression of status messages—which may take up to 48 hours—starting with \"Pending activation\" then \"Pending activation (DNS)\" and finally \"Active.\"\n   - Click \"Save & Activate\" if you want to immediately request activation of the new configuration. In the \"Manage Single Sign-On with SAML\" application’s main panel, \"Pending activation\" then appears in the \"Status\" column of the new configuration, indicating that it has been saved and is awaiting activation.\n   - This action results in a progression of status messages, starting with \"Pending activation (DNS)\" and ending with \"Active.\"\n   - You may repeat all steps to this point, to create as many additional active configurations as desired.",
+  "fix_id": "F-83181r1_fix",
+  "VulnDiscussion": "The use of authentication servers or other centralized management servers for providing centralized authentication services is required for network device management. Maintaining local administrator accounts for daily usage on each network device without centralized management is not scalable or feasible. Without centralized management, it is likely that credentials for some network devices will be forgotten, leading to delays in administration, which itself leads to delays in remediating production problems and in addressing compromises in a timely fashion.",
+  "Documentable": "false"
+}

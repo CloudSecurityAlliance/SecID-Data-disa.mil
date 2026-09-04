@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-65313",
+  "rule_id": "SV-79803r1_rule",
+  "stig_id": "WSDP-AG-000139",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DataPower Gateway providing encryption intermediary services must use NIST FIPS-validated cryptography to implement encryption services.",
+  "group_title": "SRG-NET-000510-ALG-000111",
+  "idents": {
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-65941r2_chk",
+  "check_content": "From the web interface for DataPower device management, verify that the DataPower Gateway Cryptographic Mode is Set to FIPS 140-2 Level 1 (Status >> Crypto >> Cryptographic Mode Status).\n\nIf this mode is not enabled, this is a finding.\n\nThis mode bans the algorithms that are not allowed in FIPS 140-2 Level 1. The banned algorithms include Blowfish, CAST, DES, MD2, MD4, MD5, RC2, RC4, and RIPEMD. This mode also bans RSA keys less than 1024 bits and disables the cryptographic hardware that is not FIPS validated.",
+  "fixtext": "From the DataPower command line, enter \"use-fips on\" to configure the network device to generate unique session identifiers using a FIPS 140-2 approved random number generator. From the web interface, use \"Set Cryptographic Mode\" (Administration >> Miscellaneous >> Crypto Tools, Set Cryptographic Mode tab) to set the appliance to \"FIPS 140-2 Level 1\" mode.\n\nThe privileged use will add a Decrypt action to the appropriate processing policy in the application domain (non-default domain). This action will check that only NIST SP800-131a approved encryption algorithms will be used.\n\nThis will achieve NIST SP800-131a compliance.",
+  "fix_id": "F-71253r1_fix",
+  "VulnDiscussion": "Use of weak or untested encryption algorithms undermines the purposes of utilizing encryption to protect data. The network element must implement cryptographic modules adhering to the higher standards approved by the federal government since this provides assurance they have been tested and validated.\n\nThis requirement applies only to ALGs that provide encryption intermediary services (e.g., HTTPS, TLS, or DNSSEC).",
+  "Documentable": "false"
+}

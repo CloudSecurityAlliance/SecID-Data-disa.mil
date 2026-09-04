@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261472",
+  "rule_id": "SV-261472r996822_rule",
+  "stig_id": "SLEM-05-654245",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must not disable syscall auditing.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65201r996821_chk",
+  "check_content": "Verify syscall auditing has not been disabled with the following command:\n\n     > sudo auditctl -l | grep -i \"a task,never\"\n\nIf any results are returned, this is a finding.\n\nVerify the default rule \"-a task,never\" is not statically defined :\n\n     > grep -rv \"^#\" /etc/audit/rules.d/ | grep -i \"a task,never\"\n\nIf any results are returned, this is a finding.",
+  "fixtext": "Remove the \"-a task,never\" rule from the /etc/audit/rules.d/audit.rules file.\n\nThe audit daemon must be restarted for the changes to take effect.\n\n     > sudo systemctl restart auditd.service",
+  "fix_id": "F-65109r996282_fix",
+  "VulnDiscussion": "By default, SLEM 5 includes the \"-a task,never\" audit rule as a default. This rule suppresses syscall auditing for all tasks started with this rule in effect. Because the audit daemon processes the \"audit.rules\" file from the top down, this rule supersedes all other defined syscall rules; therefore no syscall auditing can take place on the operating system.",
+  "Documentable": "false"
+}

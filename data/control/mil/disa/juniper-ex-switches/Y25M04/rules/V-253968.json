@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253968",
+  "rule_id": "SV-253968r843937_rule",
+  "stig_id": "JUEX-L2-000210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to prune the default VLAN from all trunked interfaces that do not require it.",
+  "group_title": "SRG-NET-000512-L2S-000009",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-57420r843935_chk",
+  "check_content": "Review the switch configuration and verify that the default VLAN is pruned from trunk links that do not require it.\n\n[edit interfaces]\n<interface name> {\n    unit 0 {\n        family ethernet-switching {\n            interface-mode trunk;\n            vlan {\n                members [ vlan_name ... vlan_name ];\n            }\n        }\n    }\n}\n\nIf the default VLAN is not pruned from trunk links that should not be transporting frames for that VLAN, this is a finding.",
+  "fixtext": "Remove unnecessary VLANs from trunked interfaces.\n\ndelete interfaces <trunked interface name> unit 0 family ethernet-switching vlan members <default | other unnecessary VLAN name>",
+  "fix_id": "F-57371r843936_fix",
+  "VulnDiscussion": "All unassigned interfaces are placed into the default VLAN and devices connected to enabled, but unassigned interfaces can communicate within that VLAN. Although the default VLAN is not automatically assigned to any trunked interface, if the default VLAN must be trunked or a misconfigured trunk unintentionally includes the default VLAN, unauthorized devices connected to enabled but unassigned access interfaces could gain network connectivity beyond the local switch.",
+  "Documentable": "false"
+}

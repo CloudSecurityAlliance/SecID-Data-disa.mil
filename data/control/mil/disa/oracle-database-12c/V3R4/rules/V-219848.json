@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219848",
+  "rule_id": "SV-219848r961863_rule",
+  "stig_id": "O121-BP-023700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Application owner accounts must have a dedicated application tablespace.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "legacy": [
+      "SV-75951",
+      "V-61461"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-21559r533080_chk",
+  "check_content": "Run the SQL query:\n\nselect distinct owner, tablespace_name\nfrom dba_SEGMENTS \nwhere owner not in\n(<list of non-applicable accounts>)\norder by tablespace_name;\n\n(With respect to the list of special accounts that are excluded from this requirement, it is expected that the DBA will maintain the list to suit local circumstances, adding special accounts as necessary and removing any that are not supposed to be in use in the Oracle deployment that is under review.)\n\nReview the list of returned table owners with the tablespace used.\n\nIf any of the owners listed are not default Oracle accounts and use the SYSTEM or any other tablespace not dedicated for the application’s use, this is a finding.\n\nLook for multiple applications that may share a tablespace.\n\nIf no records were returned, ask the DBA if any applications use this database.\n\nIf no applications use the database, this is not a finding.\n\nIf there are applications that do use the database or if the application uses the SYS or other default account and SYSTEM tablespace to store its objects, this is a finding.",
+  "fixtext": "Create and assign dedicated tablespaces for the storage of data by each application using the CREATE TABLESPACE command.",
+  "fix_id": "F-21558r533081_fix",
+  "VulnDiscussion": "Separation of tablespaces by application helps to protect the application from resource contention and unauthorized access that could result from storage space reuses or host system access controls. Application data must be stored separately from system and custom user-defined objects to facilitate administration and management of its data storage. The SYSTEM tablespace must never be used for application data storage in order to prevent resource contention and performance degradation.",
+  "Documentable": "false"
+}

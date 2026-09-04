@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268249",
+  "rule_id": "SV-268249r1038778_rule",
+  "stig_id": "HYCU-ND-000370",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must automatically audit account enabling actions.",
+  "group_title": "SRG-APP-000319-NDM-000283",
+  "idents": {
+    "cci": [
+      "CCI-002130"
+    ]
+  },
+  "check_id": "C-72270r1038688_chk",
+  "check_content": "Log in to the VM console and run the following command:\nchkconfig auditd \n\nIf the Audit Service is not in a running state, this is a finding. \n\nCheck the contents of the \"/var/log/audit/audit.log\" file.\n \nIf the audit log does not have the required contents, this is a finding.",
+  "fixtext": "Audit logging is enabled by default within the HYCU VM console. If an administrator disabled it, reenable it by logging in to the HYCU VM console and running the following command:\nchkconfig auditd on\n\nUse the following command to review the logs:\ncat /var/log/secure | less  \n\nUse the \"/\" character to search the log or timeframe for any undesired/unapproved changes.\n\nLog in to the HYCU VM console and load the STIG audit rules by using the following commands: \n\n1. sudo cp /usr/share/audit/sample-rules/10-base-config.rules /usr/share/audit/sample-rules/30-stig.rules /usr/share/audit/sample-rules/31-privileged.rules /usr/share/audit/sample-rules/99-finalize.rules /etc/audit/rules.d/\n\n2. sudo augenrules --load",
+  "fix_id": "F-72173r1038689_fix",
+  "VulnDiscussion": "It is essential for security personnel to know what is being done, what was attempted, where it was done, when it was done, and by whom it was done to compile an accurate risk assessment. Associating event types with detected events in the application and audit logs provides a means of investigating an attack; recognizing resource usage or capacity thresholds; or identifying an improperly configured network device. Without this capability, it would be difficult to establish, correlate, and investigate the events leading up to an outage or attack. If auditing is enabled late in the startup process, the actions of some start-up processes may not be audited. Some audit systems also maintain state information only available if auditing is enabled before a given process is created.",
+  "Documentable": "false"
+}

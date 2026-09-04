@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260939",
+  "rule_id": "SV-260939r966174_rule",
+  "stig_id": "CNTR-MK-001200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MKE users must not have permissions to create containers or pods that share the host user namespace.",
+  "group_title": "SRG-APP-000342-CTR-000775",
+  "idents": {
+    "cci": [
+      "CCI-002233"
+    ]
+  },
+  "check_id": "C-64668r966172_chk",
+  "check_content": "When using Kubernetes orchestration, this check is Not Applicable.\n\nWhen using Swarm orchestration, ensure that the PIDs cgroup limit is used.\n\nLog in to the CLI as an MKE Admin and execute the following command using a Universal Control Plane (MKE) client bundle:\n\ndocker ps --quiet --all | xargs docker inspect --format '{{ .Id }}: UsernsMode={{ .HostConfig.UsernsMode }}'\n\nEnsure it does not return any value for UsernsMode. If it returns a value of \"host\", that means the host user namespace is shared with the containers, and this is a finding.",
+  "fixtext": "When using Kubernetes orchestration, this check is Not Applicable.\n \nWhen using Swarm orchestration, review and remove nonsystem containers previously created by these users without the runAsGroup using:\n\ndocker container rm [container]",
+  "fix_id": "F-64576r966173_fix",
+  "VulnDiscussion": "To limit the attack surface of MKE, it is important that the nonessential services are not installed and access to the host system uses the concept of least privilege.\n\nUser namespaces ensure that a root process inside the container will be mapped to a nonroot process outside the container. Sharing the user namespaces of the host with the container thus does not isolate users on the host with users on the containers.\n\nBy default, the host user namespace is shared with the containers until user namespace support is enabled.",
+  "Documentable": "false"
+}

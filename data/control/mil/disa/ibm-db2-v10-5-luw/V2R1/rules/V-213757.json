@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213757",
+  "rule_id": "SV-213757r879876_rule",
+  "stig_id": "DB2X-00-011800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DB2 must generate audit records showing starting and ending time for user access to the database(s).",
+  "group_title": "SRG-APP-000505-DB-000352",
+  "idents": {
+    "legacy": [
+      "SV-89259",
+      "V-74585"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-14978r295320_chk",
+  "check_content": "Run the following SQL statement to ensure that an audit policy is defined upon the database: \nDB2> SELECT AUDITPOLICYNAME, AUDITPOLICYID \n           FROM SYSCAT.AUDITUSE \n           WHERE OBJECTTYPE IN (' ')\n\nIf no rows are returned, this is a finding. \n\nUsing the AUDITPOLICYID from above query find the details of audit policy. \nDB2> SELECT AUDITPOLICYNAME, CONTEXTSTATUS, ERRORTYPE AS ERRORTYPE \n           FROM SYSCAT.AUDITPOLICIES \n           WHERE AUDITPOLICYID = <audit policy ID>\n\nIf the value for CONTEXTSTATUS is not 'B' (Both) or ERRORTYPE is not 'A' (Audit), this is a finding.",
+  "fixtext": "Run the following command to define an audit policy with the needed subset using the CREATE AUDIT POLICY SQL statement: \nDB2> CREATE AUDIT POLICY <DB audit policy name>\n           CATEGORIES CONTEXT STATUS BOTH \n           ERROR TYPE AUDIT\n\nTo modify an existing audit policy, replace \"CREATE\" with \"ALTER\" in the preceding statement. Only the categories explicitly named in the statement will be affected.  In this case, the changes take effect immediately.\n\nIf CREATE was used above, run the following command to apply the policy created above to the database: \nDB2> AUDIT DATABASE USING POLICY <DB audit policy name>",
+  "fix_id": "F-14976r295321_fix",
+  "VulnDiscussion": "For completeness of forensic analysis, it is necessary to know how long a user's (or other principal's) connection to the DBMS lasts. This can be achieved by recording disconnections, in addition to logons/connections, in the audit logs. \n\nDisconnection may be initiated by the user or forced by the system (as in a timeout) or result from a system or network failure. To the greatest extent possible, all disconnections must be logged.",
+  "Documentable": "false"
+}

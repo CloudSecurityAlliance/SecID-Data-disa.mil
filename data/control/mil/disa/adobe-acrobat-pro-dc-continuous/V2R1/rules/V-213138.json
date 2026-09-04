@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213138",
+  "rule_id": "SV-213138r766568_rule",
+  "stig_id": "AADC-CN-001320",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Adobe Acrobat Pro DC Continuous Periodic downloading of Adobe certificates must be disabled.",
+  "group_title": "SRG-APP-000427",
+  "idents": {
+    "legacy": [
+      "SV-94107",
+      "V-79401"
+    ],
+    "cci": [
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-14375r766566_chk",
+  "check_content": "Verify the following registry configuration:\n\nUsing the Registry Editor, navigate to the following: HKEY_CURRENT_USER\\Software\\Adobe\\Adobe Acrobat\\DC\\Security\\cDigSig\\cAdobeDownload\n\nValue Name: bLoadSettingsFromURL\nType: REG_DWORD\nValue: 0\n\nIf the value for bLoadSettingsFromURL is not set to “0” and Type is not configured to REG_DWORD or does not exist, this is a finding.\n\nGUI path: Edit > Preferences > Trust Manager > In the 'Automatic Adobe Approved Trust List (AATL) Updates' section > verify the 'Load trusted certificates from an Adobe AATL server' is not checked.  If the box is checked, this is a finding.\n\nAdmin Template path: User Configuration > Administrative Templates > Adobe Acrobat Pro DC Continuous > Preferences > Trust Manager > 'Load trusted certificates from an Adobe AATL server' must be set to 'Disabled'.",
+  "fixtext": "Configure the following registry value:\n\nRegistry Hive:\nHKEY_CURRENT_USER\nRegistry Path:\n\\Software\\Adobe\\Adobe Acrobat\\DC\\Security\\cDigSig\\cAdobeDownload\n\nValue Name: bLoadSettingsFromURL\nType: REG_DWORD\nValue: 0\n\nConfigure the policy value for User Configuration > Administrative Templates > Adobe Acrobat Pro DC Continuous > Preferences > Trust Manager > 'Load trusted certificates from an Adobe AATL server' to 'Disabled'.",
+  "fix_id": "F-14373r766567_fix",
+  "VulnDiscussion": "By default, the user can update Adobe certificates from an Adobe server through the GUI. When updating Adobe certificates is disabled, it prevents the automatic download and installation of certificates and disables and locks the end user's ability to download those certificates.",
+  "Documentable": "false"
+}

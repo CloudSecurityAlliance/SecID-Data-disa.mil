@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219865",
+  "rule_id": "SV-219865r961863_rule",
+  "stig_id": "O121-BP-025400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to DBMS software files and directories must not be granted to unauthorized users.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "legacy": [
+      "SV-76001",
+      "V-61511"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-21576r533114_chk",
+  "check_content": "For UNIX Systems:\n\nlog on using the Oracle software owner account and enter the command:\n\n  umask\n\nIf the value returned is 022 or more restrictive, this is not a finding.\n\nIf the value returned is less restrictive than 022, this is a finding.\n\nThe first number sets the mask for user/owner file permissions. The second number sets the mask for group file permissions. The third number sets file permission mask for other users. The list below shows the available settings:\n\n0 = read/write/execute\n1 = read/write\n2 = read/execute\n3 = read\n4 = write/execute\n5 = write\n6 = execute\n7 = no permissions\n\nSetting the umask to 022 effectively sets files for user/owner to read/write, group to read and other to read. Directories are set for user/owner to read/write/execute, group to read/execute and other to read/execute.\n\nFor Windows Systems:\nReview the permissions that control access to the Oracle installation software directories (e.g. \\Program Files\\Oracle\\).\n\nDBA accounts, the DBMS process account, the DBMS software installation/maintenance account, SA accounts if access by them is required for some operational level of support such as backups, and the host system itself require access.\n\nCompare the access control employed with that documented in the System Security Plan.\n\nIf access controls do not match the documented requirement, this is a finding.\n\nIf access controls appear excessive without justification, this is a finding.",
+  "fixtext": "For UNIX Systems:\n\nSet the umask of the Oracle software owner account to 022. Determine the shell being used for the Oracle software owner account:\n\n  env | grep -i shell\n\nStartup files for each shell are as follows (located in users $HOME directory):\n\n  C-Shell (CSH) = .cshrc\n  Bourne Shell (SH) = .profile\n  Korn Shell (KSH) = .kshrc\n  TC Shell (TCS) = .tcshrc\n  BASH Shell = .bash_profile or .bashrc\n\nEdit the shell startup file for the account and add or modify the line:\n\n  umask 022\n\nLog off and logon, then enter the umask command to confirm the setting.\n\nNote: To effect this change for all Oracle processes, a reboot of the DBMS server may be required.\n\nFor Windows Systems:\nRestrict access to the DBMS software libraries to the fewest accounts that clearly require access based on job function.\n\nDocument authorized access controls and justify any access grants that do not fall under DBA, DBMS process, ownership, or SA accounts.",
+  "fix_id": "F-21575r533115_fix",
+  "VulnDiscussion": "The DBMS software libraries contain the executables used by the DBMS to operate. Unauthorized access to the libraries can result in malicious alteration or planting of operational executables. This may in turn jeopardize data stored in the DBMS and/or operation of the host system.",
+  "Documentable": "false"
+}

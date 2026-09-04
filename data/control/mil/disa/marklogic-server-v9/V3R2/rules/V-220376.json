@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220376",
+  "rule_id": "SV-220376r961275_rule",
+  "stig_id": "ML09-00-006500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MarkLogic Server must associate organization-defined types of security labels having organization-defined security label values with information in transmission.",
+  "group_title": "SRG-APP-000314-DB-000310",
+  "idents": {
+    "legacy": [
+      "SV-110101",
+      "V-100997"
+    ],
+    "cci": [
+      "CCI-002264"
+    ]
+  },
+  "check_id": "C-22091r855479_chk",
+  "check_content": "MarkLogic supports role-based access control for all entities/documents maintained within the database. User roles and applied document permissions determine access.\n\nFor example, if a document has read permission for role1 and read permission for role2, a user who possesses either role1 or role2 can read that document. Permissions in this example are evaluated using \"OR\" semantics.\n\nAdding a Compartment to a role ensures access controls are evaluated using \"AND\" semantics when determining user access to a given resource. This security level is applied to the entire document/resource.\n\n1. Verify applicable roles are configured with the necessary access Compartments for the specified role.\n2. Verify all documents inserted into the MarkLogic database have the applicable permission (Compartment) applied.\n\nIf applicable roles do not have Compartments defined, this is a finding.\n\nIf documents inserted into the database do not have the applicable document permissions (Compartments) applied, this is a finding.\n\nAdditionally, MarkLogic can enforce Element-Level Security and Element Redaction ensuring users can only access specific elements of information they are permitted to access. Data a user is not permitted to see may be redacted or excluded all together.\n\nElement-Level Security also ensures document searches do not return results where the search value is within an Element to which the user does not have access. This security level is applied to specified elements within a given document.\n\nWhen/where applicable:\n1. Navigate to the MarkLogic Admin page >> Security >> Protected Paths.\n2. Verify the applicable elements requiring additional protections are defined using an XQuery path expression (applicable for both XML and JSON document types).\n3. Verify the applicable role(s) are added against the specified path expression.\n\nIf specific document elements require additional protections and no Protected Paths or Protect Path roles are defined, this is a finding.",
+  "fixtext": "See specific MarkLogic documentation regarding Compartment level security for necessary steps.\n\nApplying Document Compartment Security:\n1. Navigate to the MarkLogic Admin page >> Security >> Roles.\n2. Create a new role and assign applicable roles/permissions.\n3. Provide a Compartment name to the role.\n4. Ensure all data ingestion mechanisms (i.e., document insertion code/logic) apply the necessary applicable security permissions.\n\nApplying Element-Level Security:\n1. Navigate to the MarkLogic Admin page >> Security >> Protected Paths.\n2. Create a Protected Path by specifying an XQuery path expression identifying the element requiring specific protections.\n3. Add one or more applicable roles and specify their capability then save the configuration.\n4. Repeat step 3 for each element requiring additional protections.",
+  "fix_id": "F-22080r401580_fix",
+  "VulnDiscussion": "Without the association of security labels to information, there is no basis for the DBMS to make security-related access-control decisions.\n\nSecurity labels are abstractions representing the basic properties or characteristics of an entity (e.g., subjects and objects) with respect to safeguarding information. \n\nThese labels are typically associated with internal data structures (e.g., tables, rows) within the database and are used to enable the implementation of access control and flow control policies; reflect special dissemination, handling, or distribution instructions; or support other aspects of the information security policy. \n\nOne example includes marking data as classified or FOUO. These security labels may be assigned manually or during data processing, and it is imperative these assignments are maintained while the data is in storage. If the security labels are lost when the data is stored, there is the risk of a data compromise.\n\nThe mechanism used to support security labeling may be a feature of the DBMS product, a third-party product, or custom application code.",
+  "Documentable": "false"
+}

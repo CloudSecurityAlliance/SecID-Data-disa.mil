@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269147",
+  "rule_id": "SV-269147r1050029_rule",
+  "stig_id": "ALMA-09-007500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must automatically lock an account when three unsuccessful logon attempts occur.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-73178r1049200_chk",
+  "check_content": "Verify AlmaLinux OS 9 is configured to lock an account after three unsuccessful logon attempts with the command:\n\n$ grep deny /etc/security/faillock.conf\n\ndeny = 3\n\nIf the \"deny\" option is not set to 3 or less (but not 0), is missing or commented out, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to lock an account when three unsuccessful logon attempts occur using pam_faillock.\n\nFirst, enable the feature using the following command:\n\n$ authselect enable-feature with-faillock\n\nThen, add or update the following line in the \"/etc/security/faillock.conf\" file:\n\ndeny = 3",
+  "fix_id": "F-73079r1049201_fix",
+  "VulnDiscussion": "By limiting the number of failed logon attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-force attacks, is reduced. Limits are imposed by locking the account.",
+  "Documentable": "false"
+}

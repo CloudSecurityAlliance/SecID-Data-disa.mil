@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221723",
+  "rule_id": "SV-221723r991589_rule",
+  "stig_id": "OL07-00-020310",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that the root account must be the only account having unrestricted access to the system.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-99185",
+      "SV-108289"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23438r419241_chk",
+  "check_content": "Check the system for duplicate UID \"0\" assignments with the following command:\n\n# awk -F: '$3 == 0 {print $1}' /etc/passwd\n\nIf any accounts other than root have a UID of \"0\", this is a finding.",
+  "fixtext": "Change the UID of any account on the system, other than root, that has a UID of \"0\". \n\nIf the account is associated with system commands or applications, the UID should be changed to one greater than \"0\" but less than \"1000\". Otherwise, assign a UID of greater than \"1000\" that has not already been assigned.",
+  "fix_id": "F-23427r419242_fix",
+  "VulnDiscussion": "If an account other than root also has a User Identifier (UID) of \"0\", it has root authority, giving that account unrestricted access to the entire operating system. Multiple accounts with a UID of \"0\" afford an opportunity for potential intruders to guess a password for a privileged account.",
+  "Documentable": "false"
+}

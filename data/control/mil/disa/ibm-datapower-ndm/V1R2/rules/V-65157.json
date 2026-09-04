@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-65157",
+  "rule_id": "SV-79647r1_rule",
+  "stig_id": "WSDP-NM-000105",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DataPower Gateway must implement organization-defined automated security responses if baseline configurations are changed in an unauthorized manner.",
+  "group_title": "SRG-APP-000379-NDM-000303",
+  "idents": {
+    "cci": [
+      "CCI-001744"
+    ]
+  },
+  "check_id": "C-65785r1_chk",
+  "check_content": "This requirement may be verified by executing each configuration item modification event that requires tracking and then examining the audit log (the most recent entry will be at the bottom of the log).\n\nUsing the DataPower Gateway web interface, the audit log event code for each configuration item modification event shown in the audit log must be confirmed to exist in the list of Trap Event Subscriptions in the SNMP notification settings: Administration >> Access >> SNMP Settings, Trap Event Subscriptions tab.\n\nIf the code is not present, this is a finding.",
+  "fixtext": "Configure the DataPower Gateway to use an SNMP trap to send the log failure event to a properly configured SNMP server.\n\nIn the DataPower web interface, navigate to Administration >> Access >> SNMP Settings. Configure \"Trap Event Subscriptions\" to include Event Subscriptions that indicate unauthorized configuration changes. Configure \"Trap and Notification Targets\" to include an approved SNMP server that generates alerts that will be forwarded to organizational personnel when a modification to a configuration item has occurred.",
+  "fix_id": "F-71097r1_fix",
+  "VulnDiscussion": "Unauthorized changes to the baseline configuration could make the device vulnerable to various attacks or allow unauthorized access to the device. Changes to device configurations can have unintended side effects, some of which may be relevant to security. \n\nDetecting such changes and providing an automated response can help avoid unintended, negative consequences that could ultimately affect the security state of the device. Examples of security responses include, but are not limited to the following: halting application processing; halting selected functions; or issuing alerts/notifications to organizational personnel when there is an unauthorized modification of a configuration item. The appropriate automated security response may vary depending on the nature of the baseline configuration change, the role of the network device, the availability of organizational personnel to respond to alerts, etc.",
+  "Documentable": "false"
+}

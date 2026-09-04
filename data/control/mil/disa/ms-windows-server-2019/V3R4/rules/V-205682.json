@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-205682",
+  "rule_id": "SV-205682r958478_rule",
+  "stig_id": "WN19-00-000380",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2019 must not have the Server Message Block (SMB) v1 protocol installed.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "V-93391",
+      "SV-103477"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-5947r819710_chk",
+  "check_content": "Different methods are available to disable SMBv1 on Windows Server 2019. This is the preferred method; however, if WN19-00-000390 and WN19-00-000400 are configured, this is NA.\n\nOpen \"Windows PowerShell\" with elevated privileges (run as administrator).\n\nEnter \"Get-WindowsFeature -Name FS-SMB1\".\n\nIf \"Installed State\" is \"Installed\", this is a finding.\n\nAn Installed State of \"Available\" or \"Removed\" is not a finding.",
+  "fixtext": "Uninstall the SMBv1 protocol.\n\nOpen \"Windows PowerShell\" with elevated privileges (run as administrator).\n\nEnter \"Uninstall-WindowsFeature -Name FS-SMB1 -Restart\".\n(Omit the Restart parameter if an immediate restart of the system cannot be done.)\n\nAlternately:\n\nStart \"Server Manager\".\n\nSelect the server with the feature.\n\nScroll down to \"ROLES AND FEATURES\" in the right pane.\n\nSelect \"Remove Roles and Features\" from the drop-down \"TASKS\" list.\n\nSelect the appropriate server on the \"Server Selection\" page and click \"Next\".\n\nDeselect \"SMB 1.0/CIFS File Sharing Support\" on the \"Features\" page.\n\nClick \"Next\" and \"Remove\" as prompted.",
+  "fix_id": "F-5947r354965_fix",
+  "VulnDiscussion": "SMBv1 is a legacy protocol that uses the MD5 algorithm as part of SMB. MD5 is known to be vulnerable to a number of attacks such as collision and preimage attacks and is not FIPS compliant.",
+  "Documentable": "false"
+}

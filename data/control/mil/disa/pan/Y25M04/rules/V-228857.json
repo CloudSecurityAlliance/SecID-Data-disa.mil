@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-228857",
+  "rule_id": "SV-228857r831597_rule",
+  "stig_id": "PANW-AG-000081",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "To protect against data mining, the Palo Alto Networks security platform must detect and prevent code injection attacks launched against application objects including, at a minimum, application URLs and application code.",
+  "group_title": "SRG-NET-000318-ALG-000151",
+  "idents": {
+    "legacy": [
+      "V-62595",
+      "SV-77085"
+    ],
+    "cci": [
+      "CCI-002346"
+    ]
+  },
+  "check_id": "C-31092r513866_chk",
+  "check_content": "Go to  Objects >> Security Profiles >> Vulnerability Protection\nIf there are no Vulnerability Protection Profiles configured, this is a finding.\n\nAsk the Administrator which Vulnerability Protection Profile is used to protect application assets by blocking and alerting on attacks.\nView the configured Vulnerability Protection Profile; check the \"Severity\" and \"Action\" columns.\nIf the Vulnerability Protection Profile used for database protection does not block all critical, high, and medium threats, this is a finding.\n\nIf the Vulnerability Protection Profile used for database protection does not alert on low and informational threats, this is a finding.\n\nAsk the Administrator which Security Policy is used to protect application assets:\nGo to Policies >> Security\nView the configured Security Policy; view the \"Profile\" column.\nIf the \"Profile\" column does not display the \"Vulnerability Protection Profile\" symbol, this is a finding.\n\nMoving the cursor over the symbol will list the exact Vulnerability Protection Profiles applied.\n\nIf the specific Vulnerability Protection Profile is not listed, this is a finding.",
+  "fixtext": "Create and apply a Vulnerability Protection Profile to protect application assets by blocking and alerting on attacks. This profile has two rules; the first blocks critical, high, and medium threats, and the second alerts on low and informational threats.\nGo to Objects >> Security Profiles >> Vulnerability Protection\nSelect \"Add\".\nIn the \"Vulnerability Protection Profile\" window, complete the required fields.\nIn the \"Name\" field, enter the name of the Vulnerability Protection Profile.\nIn the \"Description\" field, enter the description of the Vulnerability Protection Profile.\nIn the \"Rules\" tab, select \"Add\".\nIn the \"Vulnerability Protection Rule\" window, \nIn the \"Rule Name\" field, enter the Rule name,\nIn the \"Threat Name\" field, select \"any\",\nIn the \"Action\" field, select \"block\".\nIn the \"Host type\" field, select \"server\".\nSelect the check boxes above the \"CVE\" and \"Vendor ID\" boxes. \nIn the \"Severity\" section, select the \"critical\", \"high\", and \"medium\" check boxes.\nSelect \"OK\".\nIn the \"Vulnerability Protection Profile\" window, select the configured rule, then select \"OK\".\nAdd a second rule that  alerts on low and informational threats.\nApply the Vulnerability Protection Profile to the Security Policy Rules permitting traffic to the applications.\nGo to Policies >> Security\nSelect an existing policy rule or select \"Add\" to create a new one.\nIn the \"Actions\" tab in the \"Profile Setting\" section; in the \"Profile Type\" field, select \"Profiles\".  The window will change to display the different categories of Profiles.  \nIn the \"Actions\" tab in the \"Profile Setting\" section; in the \"Vulnerability Protection\" field, select the configured Vulnerability Protection Profile.\nSelect \"OK\".\nCommit changes by selecting \"Commit\" in the upper-right corner of the screen.\nSelect \"OK\" when the confirmation dialog appears.",
+  "fix_id": "F-31069r513867_fix",
+  "VulnDiscussion": "Data mining is the analysis of large quantities of data to discover patterns and is used in intelligence gathering. Failure to prevent attacks launched against organizational information from unauthorized data mining may result in the compromise of information.\n\nInjection attacks allow an attacker to inject code into a program or query or inject malware onto a computer to execute remote commands that can read or modify a database or change data on a website. These attacks include buffer overrun, XML, JavaScript, and HTML injections.\n\nMost current applications are deployed as a multi-tier architecture. The multi-tier model uses separate server machines to provide the different functions of presentation, business logic, and database.  The multi-tier architecture provides added security because a compromised web server does not provide direct access to the application itself or to the database.",
+  "Documentable": "false"
+}

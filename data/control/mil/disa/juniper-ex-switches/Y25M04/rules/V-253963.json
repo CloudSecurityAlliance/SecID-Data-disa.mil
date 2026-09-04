@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253963",
+  "rule_id": "SV-253963r843922_rule",
+  "stig_id": "JUEX-L2-000160",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to enable IGMP or MLD Snooping on all VLANs.",
+  "group_title": "SRG-NET-000512-L2S-000002",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-57415r843920_chk",
+  "check_content": "Review the switch configuration to verify that IGMP or MLD snooping has been configured for IPv4 and IPv6 multicast traffic respectively.\n\nVerify IGMP and MLD is globally configured for all VLANs:\n[edit protocols]\nigmp-snooping {\n    vlan all {\n        immediate-leave;\n        interface <multicast router interface name>.<logical unit> {\n            multicast-router-interface;\n        }\n    }\n}\nmld-snooping {\n    vlan all {\n        immediate-leave;\n        interface <multicast router interface name>.<logical unit> {\n            multicast-router-interface;\n        }\n    }\n}\n\nFor VLAN-specific values, verify IGMP and MLD snooping is configured for each VLAN:\n[edit protocols]\nigmp-snooping {\n    vlan vlan-name {\n        immediate-leave;\n        interface <multicast router interface name>.<logical unit> {\n            multicast-router-interface;\n        }\n        interface <host interface name>.<logical unit> {\n            host-only-interface;\n        }\n    }\n}\nmld-snooping {\n    vlan vlan-name {\n        immediate-leave;                \n        interface <multicast router interface name>.<logical unit> {\n            multicast-router-interface;\n        }\n        interface <host interface name>.<logical unit> {\n            host-only-interface;\n        }\n    }\n}\n\nIf the switch is not configured to implement IGMP or MLD snooping for each VLAN, this is a finding.",
+  "fixtext": "Configure IGMP or MLD snooping for IPv4 and IPv6 multicast traffic respectively for each VLAN.\n\nGlobal:\nset protocols igmp-snooping vlan all immediate-leave\nset protocols igmp-snooping vlan all interface <multicast router interface name>.<logical unit> multicast-router-interface\nset protocols mld-snooping vlan all immediate-leave\nset protocols mld-snooping vlan all interface <multicast router interface name>.<logical unit> multicast-router-interface\n\nPer VLAN:\nset protocols igmp-snooping vlan vlan-name immediate-leave\nset protocols igmp-snooping vlan vlan-name interface <multicast router interface name>.<logical unit> multicast-router-interface\nset protocols igmp-snooping vlan vlan-name interface <host interface name>.<logical unit> host-only-interface\nset protocols mld-snooping vlan vlan-name immediate-leave\nset protocols mld-snooping vlan vlan-name interface <multicast router interface name>.<logical unit> multicast-router-interface\nset protocols mld-snooping vlan vlan-name interface <host interface name>.<logical unit> host-only-interface",
+  "fix_id": "F-57366r843921_fix",
+  "VulnDiscussion": "IGMP and MLD snooping provides a way to constrain multicast traffic at layer 2. By monitoring the IGMP or MLD membership reports sent by hosts within a VLAN, the snooping application can set up layer 2 multicast forwarding tables to deliver specific multicast traffic only to interfaces connected to hosts interested in receiving the traffic, thereby significantly reducing the volume of multicast traffic that would otherwise flood the VLAN.",
+  "Documentable": "false"
+}

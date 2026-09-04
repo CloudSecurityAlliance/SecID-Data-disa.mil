@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-254616",
+  "rule_id": "SV-254616r959010_rule",
+  "stig_id": "AIOS-16-011400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Apple iOS/iPadOS 16 must implement the management setting: not allow messages in an ActiveSync Exchange account to be forwarded or moved to other accounts in the Apple iOS/iPadOS 16 Mail app.",
+  "group_title": "PP-MDF-990000",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-000370",
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-58227r862102_chk",
+  "check_content": "Review configuration settings to confirm \"Allow messages to be moved\" is disabled.\n\nThis check procedure is performed on both the Apple iOS/iPadOS management tool and the iPhone and iPad.\n\nNote: If an organization has multiple configuration profiles, the check procedure must be performed on the relevant configuration profiles applicable to the scope of the review. \n\nIn the Apple iOS/iPadOS management tool, verify \"Allow messages to be moved\" is unchecked under the Exchange payload.\n\nAlternatively, verify the text \"<key>PreventMove</key><true/>\" appears in the configuration profile (.mobileconfig file).\n\nOn the iPhone and iPad:\n1. Open the Settings app.\n2. Tap \"General\".\n3. Tap \"Profiles & Device Management\" or \"Profiles\".\n4. Tap the Configuration Profile from the Apple iOS/iPadOS management tool containing the Exchange policy.\n5. Tap \"Accounts\".\n6. Tap the \"name of the Exchange account\".\n7. Verify \"Prevent Move\" is set to \"Yes\".\n\nIf \"Allow messages to be moved\" is checked in the Apple iOS/iPadOS management tool, \"<key>PreventMove</key><false/>\" appears in the configuration profile, or the Exchange policy on the iPhone and iPad has \"Prevent Move\" set to \"No\", this is a finding.",
+  "fixtext": "Install a configuration profile to prevent Exchange messages from being moved or forwarded between email accounts.",
+  "fix_id": "F-58173r862103_fix",
+  "VulnDiscussion": "The Apple iOS/iPadOS Mail app can be configured to support multiple email accounts concurrently. These email accounts are likely to involve content of varying degrees of sensitivity (e.g., both personal and enterprise messages). To prevent the unauthorized and undetected forwarding or moving of messages from one account to another, Mail ActiveSync Exchange accounts can be configured to block such behavior. While users may still send a message from the Exchange account to another account, these transactions must involve an Exchange server, enabling audit records of the transaction, filtering of mail content, and subsequent forensic analysis.\n\nSFR ID: FMT_SMF_EXT.1.1 #47",
+  "Documentable": "false"
+}

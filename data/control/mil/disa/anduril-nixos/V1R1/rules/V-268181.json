@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268181",
+  "rule_id": "SV-268181r1039431_rule",
+  "stig_id": "ANIX-00-002180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must define default permissions for all authenticated users in such a way that the user can only read and modify their own files.",
+  "group_title": "SRG-OS-000480-GPOS-00228",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-72105r1039429_chk",
+  "check_content": "Verify the NixOS operating system to change default file permissions so users may only modify their own files.\n\nEnsure the following settings are present in the /etc/nixos/configuration.nix file:\n\n  { config, pkgs, lib, ... }:\n\n  environment.etc = {\n    \"\"login.defs\"\".source = lib.mkForce (pkgs.writeText \"\"login.defs\"\"\n    ''\n      DEFAULT_HOME yes\n\n      SYS_UID_MIN  400\n      SYS_UID_MAX  999\n      UID_MIN      1000\n      UID_MAX      29999\n\n      SYS_GID_MIN  400\n      SYS_GID_MAX  999\n      GID_MIN      1000\n      GID_MAX      29999\n\n      TTYGROUP     tty\n      TTYPERM      0620\n\n      # Ensure privacy for newly created home directories.\n      UMASK        077\n\n      # Uncomment this and install chfn SUID to allow nonroot\n      # users to change their account GECOS information.\n      # This should be made configurable.\n      #CHFN_RESTRICT frwh\n\n    '';\n  };\n\nIf the above configurations are not present in the configuration.nix file, this is a finding.",
+  "fixtext": "Configure the NixOS operating system to change default file permissions so users may only modify their own files.\n\nAdd the following Nix code to the NixOS Configuration usually located in /etc/nixos/configuration.nix:\n\n  { config, pkgs, lib, ... }:\n\n  environment.etc = {\n    \"\"login.defs\"\".source = lib.mkForce (pkgs.writeText \"\"login.defs\"\"\n    ''\n      DEFAULT_HOME yes\n\n      SYS_UID_MIN  400\n      SYS_UID_MAX  999\n      UID_MIN      1000\n      UID_MAX      29999\n\n      SYS_GID_MIN  400\n      SYS_GID_MAX  999\n      GID_MIN      1000\n      GID_MAX      29999\n\n      TTYGROUP     tty\n      TTYPERM      0620\n\n      # Ensure privacy for newly created home directories.\n      UMASK        077\n\n      # Uncomment this and install chfn SUID to allow nonroot\n      # users to change their account GECOS information.\n      # This should be made configurable.\n      #CHFN_RESTRICT frwh\n\n    '';\n  };\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-72008r1039430_fix",
+  "VulnDiscussion": "Setting the most restrictive default permissions ensures that when new accounts are created they do not have unnecessary access.",
+  "Documentable": "false"
+}

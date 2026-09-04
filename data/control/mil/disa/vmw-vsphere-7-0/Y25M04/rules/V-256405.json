@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-256405",
+  "rule_id": "SV-256405r970703_rule",
+  "stig_id": "ESXI-70-000041",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must set a timeout to automatically disable idle shell sessions after two minutes.",
+  "group_title": "SRG-OS-000163-VMM-000700",
+  "idents": {
+    "cci": [
+      "CCI-001133",
+      "CCI-002361"
+    ]
+  },
+  "check_id": "C-60080r885994_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"UserVars.ESXiShellInteractiveTimeOut\" value and verify it is set to \"120\" (two minutes).\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name UserVars.ESXiShellInteractiveTimeOut\n\nIf the \"UserVars.ESXiShellInteractiveTimeOut\" setting is not set to \"120\", this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"UserVars.ESXiShellInteractiveTimeOut\" value and configure it to \"120\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name UserVars.ESXiShellInteractiveTimeOut | Set-AdvancedSetting -Value 120",
+  "fix_id": "F-60023r885995_fix",
+  "VulnDiscussion": "If a user forgets to log out of their local or remote ESXi Shell session, the idle connection will remain open indefinitely and increase the likelihood of inappropriate host access via session hijacking. The \"ESXiShellInteractiveTimeOut\" allows the automatic termination of idle shell sessions.\n\nSatisfies: SRG-OS-000163-VMM-000700, SRG-OS-000279-VMM-001010",
+  "Documentable": "false"
+}

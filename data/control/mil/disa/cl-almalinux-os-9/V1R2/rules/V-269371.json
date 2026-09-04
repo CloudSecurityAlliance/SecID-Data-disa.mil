@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269371",
+  "rule_id": "SV-269371r1050254_rule",
+  "stig_id": "ALMA-09-033680",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must implement certificate status checking for multifactor authentication.",
+  "group_title": "SRG-OS-000375-GPOS-00160",
+  "idents": {
+    "cci": [
+      "CCI-004046"
+    ]
+  },
+  "check_id": "C-73402r1048489_chk",
+  "check_content": "Note: If the system administrator (SA) demonstrates the use of an approved alternate multifactor authentication method, this requirement is Not Applicable.\n\nVerify the operating system implements Online Certificate Status Protocol (OCSP) and is using the proper digest value on the system with the following command:\n\n$ grep certificate_verification /etc/sssd/sssd.conf /etc/sssd/conf.d/*.conf \n\n/etc/sssd/conf.d/certificate_verification.conf:certificate_verification = ocsp_dgst=sha512\n\nIf the certificate_verification line is missing from the [sssd] section, or is missing \"ocsp_dgst=sha512\", ask the administrator to indicate what type of multifactor authentication is being used and how the system implements certificate status checking. If there is no evidence of certificate status checking being used, this is a finding.",
+  "fixtext": "Edit the file \"/etc/sssd/sssd.conf\" or a \"*.conf\" file within the \"/etc/sssd/conf.d/\" directory and add or edit the following line within the [sssd] section:\n\ncertificate_verification = ocsp_dgst=sha512",
+  "fix_id": "F-73303r1048490_fix",
+  "VulnDiscussion": "Using an authentication device, such as a DOD Common Access Card (CAC) or token that is separate from the information system, ensures that even if the information system is compromised, credentials stored on the authentication device will not be affected.\n\nMultifactor solutions that require devices separate from information systems gaining access include, for example, hardware tokens providing time-based or challenge-response authenticators and smart cards such as the U.S. Government Personal Identity Verification (PIV) card and the DOD CAC.\n\nAlmaLinux OS 9 includes multiple options for configuring certificate status checking, but for this requirement focuses on the System Security Services Daemon (SSSD). By default, SSSD performs Online Certificate Status Protocol (OCSP) checking and certificate verification using a sha256 digest function.",
+  "Documentable": "false"
+}

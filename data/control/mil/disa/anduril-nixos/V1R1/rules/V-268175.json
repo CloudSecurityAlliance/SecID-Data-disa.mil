@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268175",
+  "rule_id": "SV-268175r1039413_rule",
+  "stig_id": "ANIX-00-001940",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must employ approved cryptographic hashing algorithms for all stored passwords.",
+  "group_title": "SRG-OS-000120-GPOS-00061",
+  "idents": {
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-72099r1039411_chk",
+  "check_content": "Verify NixOS uses employs approved cryptographic hashing algorithms for all stored passwords with the following command:\n\n(Change <unique-username> to the desired user to verify.)\n\n$ sudo cat /etc/shadow | grep \"<unique-username>\" | cut -d'$' -f2\n\nIf the command does not return 6 for SHA512, this is a finding.",
+  "fixtext": "Lock all interactive user accounts not using SHA-512 hashing until the passwords can be regenerated with SHA-512.",
+  "fix_id": "F-72002r1039412_fix",
+  "VulnDiscussion": "Unapproved mechanisms that are used for authentication to the cryptographic module are not verified and therefore cannot be relied upon to provide confidentiality or integrity, and DOD data may be compromised.\n\nOperating systems using encryption are required to use FIPS-compliant mechanisms for authenticating to cryptographic modules. \n\nFIPS 140-3 is the current standard for validating that mechanisms used to access cryptographic modules use authentication that meets DOD requirements. This allows for Security Levels 1, 2, 3, or 4 for use on a general purpose computing system.",
+  "Documentable": "false"
+}

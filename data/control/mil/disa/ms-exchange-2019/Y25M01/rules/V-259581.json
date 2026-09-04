@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259581",
+  "rule_id": "SV-259581r960879_rule",
+  "stig_id": "EX19-ED-000026",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Exchange email diagnostic log level must be set to the lowest level.",
+  "group_title": "SRG-APP-000089",
+  "idents": {
+    "cci": [
+      "CCI-000169"
+    ]
+  },
+  "check_id": "C-63320r942055_chk",
+  "check_content": "Open the Exchange Management Shell and enter the following command:\n\nGet-EventLogLevel\n\nIf any \"EventLogLevel\" values returned are not set to \"Lowest\", this is a finding.\n\nNote: The default installation of Exchange has all Event Levels set to Lowest with exception of the following:\n\nMSExchange ADAccess\\Topology - Low\nMSExchangeADAccess\\Validation - Low\nMSExchange BackEndRehydration\\Configuration - Low\nMSExchange BackEndRehydration\\Server - 2\nMSExchange OAuth\\Configuration - Low\nMSExchange OAuth\\Server - 2\nMSExchange RBAC\\RBAC - Low\nMSExchangeADTopology\\Topology - Low\n\nAll of these must be set to Lowest.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-EventLogLevel -Identity <'IdentityName\\EventlogName'> -Level Lowest\n\nNote: The <IdentityName\\EventlogName> value must be in quotes.",
+  "fix_id": "F-63228r942056_fix",
+  "VulnDiscussion": "Log files help establish a history of activities and can be useful in detecting attack attempts or determining tuning adjustments to improve availability. Diagnostic logging, however, characteristically produces large volumes of data and requires care in managing the logs to prevent risk of disk capacity denial of service conditions. \n\nExchange diagnostic logging is broken up into 29 main \"services\", each of which has anywhere from two to 26 \"categories\" of events to be monitored. Moreover, each category may be set to one of four levels of logging: Lowest, Low, CAT II, and High, depending on how much detail one desires. The higher the level of detail, the more disk space required to store the audit material.\n\nDiagnostic logging is intended to help administrators debug problems with their systems, not as a general-purpose auditing tool. Because the diagnostic logs collect a great deal of information, the log files may grow large very quickly. Diagnostic log levels may be raised for limited periods of time when attempting to debug relevant pieces of Exchange functionality. Once debugging has finished, diagnostic log levels should be reduced again.",
+  "Documentable": "false"
+}

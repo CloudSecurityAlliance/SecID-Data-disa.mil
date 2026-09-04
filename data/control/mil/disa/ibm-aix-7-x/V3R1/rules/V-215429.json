@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215429",
+  "rule_id": "SV-215429r991589_rule",
+  "stig_id": "AIX7-00-003134",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must not process ICMP timestamp requests.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91719",
+      "SV-101817"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16627r294738_chk",
+  "check_content": "From the command prompt, run the following command to check if \"ipsec_v4\" and \"ipsec_v6\" devices are active:\n# lsdev -Cc ipsec\n\nThe above command should yield the following output:\nipsec_v4 Available  IP Version 4 Security Extension\nipsec_v6 Available  IP Version 6 Security Extension\n\nIf \"ipsec_v4\" or \"ipsec_v6\" is not displayed, or it is not in \"Available\" state, this is a finding.\n\nDetermine if the system is configured to respond to ICMP Timestamp requests using the following command: \n# lsfilt\n\nBeginning of IPv4 filter rules.\nRule 1:\nRule action         : permit\nSource Address      : 0.0.0.0\nSource Mask         : 0.0.0.0\nDestination Address : 0.0.0.0\nDestination Mask    : 0.0.0.0\nSource Routing      : no\nProtocol            : udp\nSource Port         : eq  4001\nDestination Port    : eq  4001\nScope               : both\nDirection           : both\nLogging control     : no\nFragment control    : all packets\nTunnel ID number    : 0\nInterface           : all\nAuto-Generated      : yes\nExpiration Time     : 0\nDescription         : Default Rule\n\nRule 2:\n*** Dynamic filter placement rule for IKE tunnels ***\nLogging control     : no\n\nRule 3:\nRule action         : deny\nSource Address      : 0.0.0.0\nSource Mask         : 0.0.0.0\nDestination Address : 0.0.0.0\nDestination Mask    : 0.0.0.0\nSource Routing      : yes\nProtocol            : icmp\nICMP type           : any 0\nICMP code           : eq  13\nScope               : both\nDirection           : inbound\nLogging control     : no\nFragment control    : all packets\nTunnel ID number    : 0\nInterface           : all\nAuto-Generated      : no\nExpiration Time     : 0\nDescription         : \n\nRule 4:\nRule action         : deny\nSource Address      : 0.0.0.0\nSource Mask         : 0.0.0.0\nDestination Address : 0.0.0.0\nDestination Mask    : 0.0.0.0\nSource Routing      : yes\nProtocol            : icmp\nICMP type           : eq  14\nICMP code           : any 0\nScope               : both\nDirection           : outbound\nLogging control     : no\nFragment control    : all packets\nTunnel ID number    : 0\nInterface           : all\nAuto-Generated      : no\nExpiration Time     : 0\nDescription         : \n\nRule 0:\nRule action         : permit\nSource Address      : 0.0.0.0\nSource Mask         : 0.0.0.0\nDestination Address : 0.0.0.0\nDestination Mask    : 0.0.0.0\nSource Routing      : yes\nProtocol            : all\nSource Port         : any 0\nDestination Port    : any 0\nScope               : both\nDirection           : both\nLogging control     : no\nFragment control    : all packets\nTunnel ID number    : 0\nInterface           : all\nAuto-Generated      : no\nExpiration Time     : 0\nDescription         : Default Rule\n\nEnd of IPv4 filter rules.\n\nIf there is no rule blocking ICMP packet type of \"13\" and ICMP packet type of \"14\" (rule #3 and rule #4 above), this is a finding.",
+  "fixtext": "From the command prompt, run the following commands to create and activate \"ipsec_v4\" and \"ipsec_v6\" devices:\n# mkdev -l ipsec -t 4\n# mkdev -l ipsec -t 6\n\nRun the following commands to create 2 IPsec rules to block the ICMP timestamp request and reply:\n# genfilt -v 4 -a D -s 0 -m 0 -d 0 -M 0 -c icmp -O eq -P 13 -r B -w I -i all\n# genfilt -v 4 -a D -s 0 -m 0 -d 0 -M 0 -c icmp -o eq -p 14 -r B -w O -i all\n\nFrom the command prompt, run the following command to activate all the filter rules in the rule database:\n# mkfilt -u",
+  "fix_id": "F-16625r294739_fix",
+  "VulnDiscussion": "The processing of Internet Control Message Protocol (ICMP) timestamp requests increases the attack surface of the system.",
+  "Documentable": "false"
+}

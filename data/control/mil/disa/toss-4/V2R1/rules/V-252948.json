@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-252948",
+  "rule_id": "SV-252948r986582_rule",
+  "stig_id": "TOSS-04-020020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must retain a user's session lock until that user reestablishes access using established identification and authentication procedures.",
+  "group_title": "SRG-OS-000028-GPOS-00009",
+  "idents": {
+    "cci": [
+      "CCI-000056",
+      "CCI-000057",
+      "CCI-000060"
+    ]
+  },
+  "check_id": "C-56401r824166_chk",
+  "check_content": "Verify TOSS retains a user's session lock until that user reestablishes access using established identification and authentication procedures with the following command:\n\nNote: This requirement assumes the use of the TOSS default graphical user interface, Gnome Shell. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\n$ sudo gsettings get org.gnome.desktop.screensaver lock-enabled\ntrue\n\nIf the setting is \"false\", this is a finding.",
+  "fixtext": "Configure TOSS to retain a user's session lock until that user reestablishes access using established identification and authentication procedures.\n\nCreate a database to contain the system-wide screensaver settings (if it does not already exist) with the following example:\n\n$ sudo vi /etc/dconf/db/local.d/00-screensaver\n\nEdit the \"[org/gnome/desktop/screensaver]\" section of the database file and add or update the following lines:\n\n# Set this to true to lock the screen when the screensaver activates\nlock-enabled=true\n\nUpdate the system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-56351r824167_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.\n\nThe session lock is implemented at the point where session activity can be determined.\n\nRegardless of where the session lock is determined and implemented, once invoked, the session lock shall remain in place until the user re-authenticates. No other activity aside from re-authentication shall unlock the system.\n\nSatisfies: SRG-OS-000028-GPOS-00009, SRG-OS-000030-GPOS-00011, SRG-OS-000031-GPOS-00012",
+  "Documentable": "false"
+}

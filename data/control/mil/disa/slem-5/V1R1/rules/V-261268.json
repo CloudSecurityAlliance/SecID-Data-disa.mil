@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261268",
+  "rule_id": "SV-261268r996298_rule",
+  "stig_id": "SLEM-05-212015",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "SLEM 5 with Unified Extensible Firmware Interface (UEFI) implemented must require authentication upon booting into single-user mode and maintenance.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-64997r996296_chk",
+  "check_content": "Note: If the system does not use UEFI, this requirement is not applicable.\n\nVerify that SLEM 5 has set an encrypted root password with the following command:\n\n     > sudo cat /boot/efi/EFI/BOOT/grub.cfg | grep -i password \n     password_pbkdf2 root grub.pbkdf2.sha512.10000.03255F190F0E2F7B4F0D1C3216012309162F022A7A636771\n\nIf the root password entry does not begin with \"password_pbkdf2\", this is a finding.",
+  "fixtext": "Note: If the system does not use UEFI, this requirement is not applicable.\n\nConfigure SLEM 5 to encrypt the boot password.\n\nGenerate an encrypted GRUB bootloader password for root with the following command:\n\n     > grub2-mkpasswd-pbkdf2\n     Enter Password:\n     Reenter Password:\n     PBKDF2 hash of your password is grub.pbkdf2.sha512.10000.03255F190F0E2F7B4F0D1C3216012309162F022A7A636771\n\nUsing the hash from the output, modify the \"/etc/grub.d/40_custom\" file and add the following two lines to add a boot password for the root entry:\n\n     set superusers=\"rooty\"\n     password_pbkdf2 root grub.pbkdf2.sha512.03255F190F0E2F7B4F0D1C3216012309162F022A7A636771\n\nGenerate an updated \"grub.conf\" file with the new password using the following commands:\n\n     > sudo grub2-mkconfig --output=/tmp/grub2.cfg\n\n     > sudo mv /tmp/grub2.cfg /boot/efi/EFI/BOOT/grub.cfg",
+  "fix_id": "F-64905r996297_fix",
+  "VulnDiscussion": "If the system allows a user to boot into single-user or maintenance mode without authentication, any user that invokes single-user or maintenance mode is granted privileged access to all system information.",
+  "Documentable": "false"
+}

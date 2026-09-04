@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255959",
+  "rule_id": "SV-255959r961506_rule",
+  "stig_id": "ARST-ND-000660",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Arista network device must be configured to authenticate SNMP messages using a FIPS-validated Keyed-Hash Message Authentication Code (HMAC).",
+  "group_title": "SRG-APP-000395-NDM-000310",
+  "idents": {
+    "cci": [
+      "CCI-001967"
+    ]
+  },
+  "check_id": "C-59635r882217_chk",
+  "check_content": "Review the network device configuration to verify SNMP messages are authenticated using a FIPS-validated HMAC.\n\nVerify the Arista network device is configured for the following SNMP example parameters:\n\nswitch(config)#show run | section snmp\nsnmp-server engineID local f5717f444ca880dbb200\nsnmp-server chassis-id ID CC-7050X3\nsnmp-server contact FedSE\nsnmp-server location JITC\nsnmp-server view snmpview system included\nsnmp-server group testers v3 priv read snmpview\nsnmp-server user jitc-sw testers v3 localized f8527f444ca990dcc200 auth sha 7b65225a6abf5111cd951e6cb7e105aef5bcd734 priv aes a1aedb1986642e766d4c8032d58e73b72bc3528b\nsnmp-server host 192.168.10.31 version 3 priv jitc-sw\nsnmp-server enable traps snmp authentication\nsnmp-server enable traps snmp link-down\nsnmp-server enable traps snmp link-up\n!\n\nIf the Arista network device is not configured to authenticate SNMP messages using a FIPS-validated HMAC, this is a finding.",
+  "fixtext": "Configure the network device to authenticate SNMP messages using a FIPS-validated HMAC.\n\nConfigure the Arista network device following the example SNMP parameters to ensure messages are authenticated using FIPS-validated HMAC:\n\nswitch(config)#snmp-server engineID local f5717f444ca880dbb200\nswitch(config)#snmp-server chassis-id ID CC-7050X3\nswitch(config)#snmp-server contact FedSE\nswitch(config)#snmp-server location JITC\nswitch(config)#snmp-server view snmpview system included\nswitch(config)#snmp-server group testers v3 priv read snmpview\nswitch(config)#snmp-server user jitc-sw testers v3 localized f8527f444ca990dcc200 auth sha 7b65225a6abf5111cd951e6cb7e105aef5bcd734 priv aes a1aedb1986642e766d4c8032d58e73b72bc3528b\nswitch(config)#snmp-server host 192.168.10.31 version 3 priv jitc-sw\nswitch(config)#snmp-server enable traps snmp authentication\nswitch(config)#snmp-server enable traps snmp link-down\nswitch(config)#snmp-server enable traps snmp link-up",
+  "fix_id": "F-59578r882218_fix",
+  "VulnDiscussion": "Without authenticating devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity. Bidirectional authentication provides stronger safeguards to validate the identity of other devices for connections that are of greater risk.\n\nA local connection is any connection with a device communicating without the use of a network. A network connection is any connection with a device that communicates through a network (e.g., local area or wide area network, internet). A remote connection is any connection with a device communicating through an external network (e.g., the internet).\n\nBecause of the challenges of applying this requirement on a large scale, organizations are encouraged to only apply the requirement to those limited number (and type) of devices that truly need to support this capability.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260932",
+  "rule_id": "SV-260932r966153_rule",
+  "stig_id": "CNTR-MK-000980",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MKE must preserve any information necessary to determine the cause of the disruption or failure.",
+  "group_title": "SRG-APP-000226-CTR-000575",
+  "idents": {
+    "cci": [
+      "CCI-001665"
+    ]
+  },
+  "check_id": "C-64661r966151_chk",
+  "check_content": "When using Swarm orchestration, this check is Not Applicable.\n\nReview the Kubernetes configuration to determine if information necessary to determine the cause of a disruption or failure is preserved.\n\nNotes:\n- The ReadWriteOnce access mode in the PVC means the volume can be mounted as read-write by a single node. Ensure the storage backend supports this mode.\n- Adjust the sleep duration in the writer pod as needed.\n- Ensure that the namespace and PVC names match the setup.\n\nSteps to verify data durability:\n1. Create a namespace to manage the testing:\n\napiVersion: v1\nkind: Namespace\nmetadata:\n  name: stig\n\n2. PersistentVolumeClaim (PVC):\nEnsure a PVC is created. If using a storage class like Longhorn, it would look similar to:\n\napiVersion: v1\nkind: PersistentVolumeClaim\nmetadata:\n  name: stig-pvc\n  namespace: stig\nspec:\n  accessModes:\n    - ReadWriteOnce\n  storageClassName: longhorn  # Replace with your storage class if different, e.g. NFS\n  resources:\n    requests:\n      storage: 5Gi\n\n3. Deploying the Initial Pod:\nCreate a pod that writes data to the PVC. This pod will use a simple loop to write data (e.g., timestamps) to a file on the mounted PVC. Example:\n\napiVersion: v1\nkind: Pod\nmetadata:\n  name: write-pod\n  namespace: stig\nspec:\n  volumes:\n    - name: log-storage\n      persistentVolumeClaim:\n        claimName: stig-pvc\n  containers:\n    - name: writer\n      image: busybox\n      command: [\"/bin/sh\", \"-c\"]\n      args: [\"while true; do date >> /data/logs.log; sleep 10; done\"]\n      volumeMounts:\n        - name: log-storage\n          mountPath: /data\n\n4. Simulate Pod Failure:\nAfter the pod has been writing data for some time, it can be deleted to simulate a failure by executing the following:\n\nkubectl delete pod write-pod -n stig\n\n5. Deploying a New Pod to Verify Data:\nDeploy another pod that mounts the same PVC to verify that the data is still there.\n\napiVersion: v1\nkind: Pod\nmetadata:\n  name: read-pod\n  namespace: stig\nspec:\n  volumes:\n    - name: log-storage\n      persistentVolumeClaim:\n        claimName: stig-pvc\n  containers:\n    - name: reader\n      image: busybox\n      command: [\"/bin/sh\", \"-c\"]\n      args: [\"sleep infinity\"]\n      volumeMounts:\n        - name: log-storage\n          mountPath: /data\n\n6. Verify Data Persistence:\nCheck the contents of the log file in the new pod to ensure that the data written by the first pod is still there by executing the following:\n\nkubectl exec read-pod -n stig -- cat /data/logs.log\n\nIf there is no log data, this is a finding.",
+  "fixtext": "When using Swarm orchestration, this check is Not Applicable.\n\nThis is a catastrophic error, contact Mirantis support.",
+  "fix_id": "F-64569r966152_fix",
+  "VulnDiscussion": "When a failure occurs within MKE, preserving the state of MKE and its components, along with other container services, helps to facilitate container platform restart and return to the operational mode of the organization with less disruption to mission essential processes. When preserving state, considerations for preservation of data confidentiality and integrity must be taken into consideration.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216240",
+  "rule_id": "SV-216240r959010_rule",
+  "stig_id": "SOL-11.1-100030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The systems physical devices must not be assigned to non-global zones.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-60715",
+      "V-47841"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17478r373096_chk",
+  "check_content": "This check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nList the non-global zones on the system.\n\n# zoneadm list -vi | grep -v global\n\nList the configuration for each zone.\n\n# zonecfg -z [zonename] info | grep dev\n\nCheck for device lines. If such a line exists and is not approved by security, this is a finding.",
+  "fixtext": "This check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nThe Zone Security profile is required:\n\nRemove all device assignments from the non-global zone. \n\n# pfexec zonecfg -z [zone] delete device [device]",
+  "fix_id": "F-17476r373097_fix",
+  "VulnDiscussion": "Solaris non-global zones can be assigned physical hardware devices. This increases the risk of such a non-global zone having the capability to compromise the global zone.",
+  "Documentable": "false"
+}

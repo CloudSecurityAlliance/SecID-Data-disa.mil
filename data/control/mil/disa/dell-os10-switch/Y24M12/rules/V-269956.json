@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269956",
+  "rule_id": "SV-269956r1052254_rule",
+  "stig_id": "OS10-L2S-000100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Dell OS10 Switch must have BPDU Guard enabled on all user-facing or untrusted access switch ports.",
+  "group_title": "SRG-NET-000362-L2S-000022",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-73989r1052252_chk",
+  "check_content": "Review the Dell OS10 Switch topology as well as the switch configuration to verify that BPDU Guard is enabled on all user-facing or untrusted access switch ports.\n\nFor each user-facing or untrusted access switch port, execute the following:\n\n    OS10# show running-configuration interface ethernet <interface number>\n    Verify Root Guard is enabled: spanning-tree bpduguard enable \n\nIf the switch has not enabled BPDU Guard on all user-facing or untrusted access switch ports, this is a finding.",
+  "fixtext": "Configure the Dell OS10 Switch to enable BPDU Guard on all user-facing or untrusted access switch ports, as shown in the example below:\n\nOS10(config)# interface ethernet 1/1/1\nOS10(conf-if-eth1/1/1)# spanning-tree bpduguard enable",
+  "fix_id": "F-73890r1052253_fix",
+  "VulnDiscussion": "If a rogue switch is introduced into the topology and transmits a Bridge Protocol Data Unit (BPDU) with a lower bridge priority than the existing root bridge, it will become the new root bridge and cause a topology change, rendering the network in a suboptimal state. The STP PortFast BPDU guard enhancement allows network designers to enforce the STP domain borders and keep the active topology predictable. The devices behind the ports that have STP PortFast enabled are not able to influence the STP topology. At the reception of BPDUs, the BPDU guard operation disables the port that has PortFast configured. The BPDU guard transitions the port into err disable state and sends a log message.",
+  "Documentable": "false"
+}

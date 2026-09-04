@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251415",
+  "rule_id": "SV-251415r1004742_rule",
+  "stig_id": "IMIC-11-008600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Ivanti EPMM server must be configured to transfer Ivanti EPMM server logs to another server for storage, analysis, and reporting. Note: Ivanti EPMM server logs include logs of UEM events and logs transferred to the Ivanti EPMM server by UEM agents of managed devices.",
+  "group_title": "SRG-APP-000358-UEM-000228",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-54850r806375_chk",
+  "check_content": "Verify that Splunk is configured for automated log export.\n\nStep 1: Verify that the Splunk Forwarder is enabled.\n1. Log in to System Manager.\n2. Go to Settings >> Services.\n3. Verify that the \"Enable\" toggle is ON and \"Running\" is displayed.\nIf \"Enable\" toggle is not ON or \"Running\" is not displayed, this is a finding.\n\nStep 2: Verify that Splunk Indexer is configured.\n1. Log in to System Manager.\n2. Go to Settings >> Data Export >> Splunk Indexer.\n3. Verify that there is an entry and the Status is \"Connected\".\nIf there is no entry for Splunk Indexer or the Status is \"Not Connected\", this is a finding.\n\nStep 3: Verify \"Audit Log\" is enabled in the Splunk \"data to index\".\n1. Log in to System Manager.\n2. Go to Settings >> Data Export >> Splunk Data to open the \"Data to Index\" window.\n3. Verify \"Audit Log\" is included in the \"Data To Index\".\nIf \"Audit Log\" is not included in the \"Data To Index\", this is a finding.\n\nNote: Syslog can be used instead of Splunk.",
+  "fixtext": "Complete the following activities to configure the transfer of MobileIron Core 10 server logs:\n\nConfigure Splunk for automated log export:\n\nStep 1: Enable Core to turn on the Splunk Forwarder so it can push data to the Splunk Indexer.\n\nTo enable the Splunk Forwarder:\n1. Log in to System Manager.\n2. Go to Settings >> Services.\n3. Select \"Enable\" next to Splunk Forwarder.\n4. Click Apply >> OK to save the changes.\n\nStep 2: Add a Splunk Indexer to configure which external Splunk Indexer will receive and manipulate the data from the Splunk Forwarder.\n\nTo add a Splunk Indexer:\n1. Log in to System Manager.\n2. Go to Settings >> Data Export >> Splunk Indexer.\n3. Click \"Add\" to open the Add Splunk Indexer window.\n4. Modify the fields, as necessary, in the \"Add Splunk Indexer\" window. The following fields and descriptions are in the Add Splunk Indexer window:\n- Splunk Indexer - Add the IP address of your Splunk Enterprise Server.\n- Port - Add port of your Splunk Enterprise Server.\n- Enable SSL - Click this check box to enable SSL.\n5. Click Apply >> OK to save the changes.\n\nStep 3: Configure Splunk Data to configure which data Splunk Forwarder sends to the Splunk Indexer.\n\nTo configure Splunk Data:\n1. Log in to System Manager.\n2. Go to Settings >> Data Export >> Splunk Data to open the \"Data to Index\" window.\n3. Modify the fields, as necessary.\n- Click Show/Hide Advanced Options to further customize which data to send to Splunk.\n- Check \"Audit Log\" at a minimum.\n4. Click Apply >> OK.\n5. Restart the Splunk Forwarder by disabling it, then enabling it again.\n  a. Go to Settings >> Services.\n  b. Select Disable next to Splunk Forwarder.\n  c. Click Apply >> OK.\n  d. Select Enable next to Splunk Forwarder.\n6. Click Apply >> OK to save the changes.\n\nNote: Syslog can be used instead of Splunk.",
+  "fix_id": "F-54803r851255_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.\n\nNote: UEM server logs include logs of UEM events and logs transferred to the UEM server by UEM agents of managed devices.\n\nSatisfies: FMT_SMF.1.1(2) c.8, FAU_STG_EXT.1.1(1) \nReference: PP-MDM-411054",
+  "Documentable": "false"
+}

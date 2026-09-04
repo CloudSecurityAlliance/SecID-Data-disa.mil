@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216183",
+  "rule_id": "SV-216183r959010_rule",
+  "stig_id": "SOL-11.1-070040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Permissions on user .netrc files must be 750 or less permissive.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48123",
+      "SV-60995"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17421r372931_chk",
+  "check_content": "The root role is required.\n\nCheck that permissions on user .netrc files are 750 or less permissive.\n\n# for dir in \\\n`logins -ox | awk -F: '($8 == \"PS\") { print $6 }'`; do\nfind ${dir}/.netrc -type f \\( \\\n-perm -g+r -o -perm -g+w -o -perm -g+x -o \\\n-perm -o+r -o -perm -o+w -o -perm -o+x \\) \\\n-ls 2>/dev/null\ndone\n\nIf output is produced, this is a finding.",
+  "fixtext": "The root role is required. \n\nChange the permissions on users' .netrc files to 750 or less permissive.\n\n# chmod 750 [file name]",
+  "fix_id": "F-17419r372932_fix",
+  "VulnDiscussion": ".netrc files may contain unencrypted passwords that can be used to attack other systems.",
+  "Documentable": "false"
+}

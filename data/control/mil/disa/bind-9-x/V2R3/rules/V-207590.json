@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207590",
+  "rule_id": "SV-207590r879887_rule",
+  "stig_id": "BIND-9X-001411",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "On the BIND 9.x server the private key corresponding to the ZSK, stored on name servers accepting dynamic updates, must be group owned by root.",
+  "group_title": "SRG-APP-000516-DNS-000111",
+  "idents": {
+    "legacy": [
+      "SV-87121",
+      "V-72497"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-7845r283824_chk",
+  "check_content": "If the server is in a classified network, this is Not Applicable.\nNote: This check only verifies for ZSK key file ownership. Permissions for key files are required under V-72451, BIND-9X-001132 and V-72461, BIND-9X-001142.\n\nFor each signed zone file, identify the ZSK \"key id\" number:\n\n# cat <signed_zone_file> | grep -i \"zsk\"\nZSK; alg = ECDSAP256SHA256; key id = 22335\n\nUsing the ZSK \"key id\", verify the private ZSK.\n\nKexample.com.+008+22335.private\n\nVerify that the private ZSK is owned by root:\n\n# ls -l <ZSK_key_file>\n-r------- 1 root root 1776 Jul 3 17:56 Kexample.com.+008+22335.private\n\nIf the key file is not group owned by root, this is a finding.",
+  "fixtext": "Change the group ownership of the ZSK private key to the root group account.\n\n# chgrp root <key_file>",
+  "fix_id": "F-7845r283825_fix",
+  "VulnDiscussion": "The private ZSK key must be protected from unauthorized access.\n\nThis strategy is not feasible in situations in which the DNSSEC-aware name server has to support dynamic updates. To support dynamic update transactions, the DNSSEC-aware name server (which usually is a primary authoritative name server) has to have both the zone file master copy and the private key corresponding to the zone-signing key (ZSK-private) online to immediately update the signatures for the updated RRsets.",
+  "Documentable": "false"
+}

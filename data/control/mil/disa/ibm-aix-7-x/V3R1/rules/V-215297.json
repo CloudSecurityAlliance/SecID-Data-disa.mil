@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215297",
+  "rule_id": "SV-215297r991589_rule",
+  "stig_id": "AIX7-00-002114",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must turn on SSH daemon privilege separation.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101823",
+      "V-91725"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16495r294342_chk",
+  "check_content": "Check the SSH daemon configuration for the \"UsePrivilegeSeparation\" setting using command: \n\n# grep -i UsePrivilegeSeparation  /etc/ssh/sshd_config | grep -v '^#' \nUsePrivilegeSeparation yes\n\nIf the setting is not present or the setting is \"no\", this is a finding.",
+  "fixtext": "Edit the \"/etc/sshd/sshd_config\" file and add the following line:\nUsePrivilegeSeparation yes\n\nRestart the SSH daemon:\n# stopsrc -s sshd\n# startsrc -s sshd",
+  "fix_id": "F-16493r294343_fix",
+  "VulnDiscussion": "SSH daemon privilege separation causes the SSH process to drop root privileges when not needed, which would decrease the impact of software vulnerabilities in the unprivileged section.",
+  "Documentable": "false"
+}

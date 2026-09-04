@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257810",
+  "rule_id": "SV-257810r1044869_rule",
+  "stig_id": "RHEL-09-213075",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must disable access to network bpf system call from nonprivileged processes.",
+  "group_title": "SRG-OS-000132-GPOS-00067",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-61551r1044867_chk",
+  "check_content": "Verify that RHEL 9 prevents privilege escalation through the kernel by disabling access to the bpf system call with the following commands:\n\n$ sysctl kernel.unprivileged_bpf_disabled  \n\nkernel.unprivileged_bpf_disabled = 1\n\nIf the returned line does not have a value of \"1\", or a line is not returned, this is a finding.\n\nCheck that the configuration files are present to enable this kernel parameter.  \n\n$ sudo /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' | grep -F kernel.unprivileged_bpf_disabled | tail -1\n\nkernel.unprivileged_bpf_disabled = 1\n\nIf the network parameter \"kernel.unprivileged_bpf_disabled\" is not equal to \"1\", or nothing is returned, this is a finding.",
+  "fixtext": "Configure the currently loaded kernel parameter to the secure setting:\n\n$ sudo sysctl -w kernel.unprivileged_bpf_disabled=1\n\nConfigure RHEL 9 to prevent privilege escalation through the kernel by disabling access to the bpf syscall by adding the following line to a file in the \"/etc/sysctl.d\" directory:\n\nkernel.unprivileged_bpf_disabled = 1\n\nThe system configuration files must be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sysctl --system",
+  "fix_id": "F-61475r1044868_fix",
+  "VulnDiscussion": "Loading and accessing the packet filters programs and maps using the bpf() system call has the potential of revealing sensitive information about the kernel state.\n\nSatisfies: SRG-OS-000132-GPOS-00067, SRG-OS-000480-GPOS-00227",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255250",
+  "rule_id": "SV-255250r958752_rule",
+  "stig_id": "SSMC-OS-030140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SSMC must allocate audit record storage capacity to store at least one weeks' worth of audit records, when audit records are not immediately sent to a central audit record storage facility.",
+  "group_title": "SRG-OS-000341-GPOS-00132",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-58863r869898_chk",
+  "check_content": "Verify SSMC allocates audit record storage capacity to store at least one weeks' worth of audit records, when audit records are not immediately sent to remote logging server by doing the following:\n\n1. Log on to SSMC appliance as ssmcadmin. Press \"X\" to escape to general bash shell.\n\n2. Execute the following command:\n\n$ sudo /ssmc/bin/config_security.sh -o remote_syslog_appliance -a status | grep ssmc.rsyslog.queue.maxdiskspace\n\nssmc.rsyslog.queue.maxdiskspace=6\n\nIf the command output does not read \"ssmc.rsyslog.queue.maxdiskspace=6\", this is a finding.",
+  "fixtext": "Configure SSMC to allocate audit record storage capacity to store at least one week's worth of audit records. Perform the following to do so: \n\n1. Configure smtp parameters in /ssmc/conf/security_config.properties like below (use vi editor) -\n\nssmc.rsyslog.server.host=<rsyslog_server>\nssmc.rsyslog.server.port=<rsyslog_port>\nssmc.rsyslog.server.protocol=tcp\nssmc.rsyslog.server.tls-enabled=1\nssmc.rsyslog.cert.caroot=<ca_root_cert_pem>\nssmc.rsyslog.cert.clientcert=<ssmc_client_cert_pem>\nssmc.rsyslog.cert.clientkey=<ssmc_client_key_pem>\nssmc.rsyslog.server.authMode=<x509/name | x509/certvalid>\nssmc.rsyslog.server.permittedPeers=<cn_of_rsyslog_server>\nssmc.rsyslog.server.device=<ens160|ens192|eth0|eth1>\nssmc.rsyslog.queue.maxdiskspace=6\nssmc.rsyslog.smtp.alert=true\nssmc.rsyslog.smtp.server=<server_ip>\nssmc.rsyslog.smtp.port=25\nssmc.rsyslog.smtp.recipient=[\"id1@domain\",\"id2@domain\"]\nssmc.rsyslog.smtp.notify-interval=300\nssmc.rsyslog.smtp.mailFrom=id@domain\n\n2. Execute the following command to commit configuration and activate the service: \n\n$ sudo /ssmc/bin/config_security.sh -o remote_syslog_appliance -a set -f",
+  "fix_id": "F-58807r869899_fix",
+  "VulnDiscussion": "In order to ensure operating systems have a sufficient storage capacity in which to write the audit logs, operating systems need to be able to allocate audit record storage capacity.\n\nThe task of allocating audit record storage capacity is usually performed during initial installation of the operating system.",
+  "Documentable": "false"
+}

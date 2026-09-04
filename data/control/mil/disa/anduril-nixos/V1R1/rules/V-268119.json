@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-268119",
+  "rule_id": "SV-268119r1039577_rule",
+  "stig_id": "ANIX-00-000610",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS audit system must protect login UIDs from unauthorized change.",
+  "group_title": "SRG-OS-000058-GPOS-00028",
+  "idents": {
+    "cci": [
+      "CCI-000163",
+      "CCI-000164"
+    ]
+  },
+  "check_id": "C-72043r1039575_chk",
+  "check_content": "Verify the audit system prevents unauthorized changes to login UIDs with the following command:\n\n$ sudo auditctl -s | grep -i immutable\n\nloginuid_immutable 1 locked\n\nIf the command does not return \"loginuid_immutable 1 locked\", this is a finding.",
+  "fixtext": "Configure NixOS to prevent unauthorized changes to login UIDs.\n\nAdd or update the \"security.audit.rules\" configuration in /etc/nixos/configuration.nix to include the following rule:\n\n security.audit.rules = [\n  \"--loginuid-immutable\"\n ];\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71946r1039576_fix",
+  "VulnDiscussion": "If audit information were to become compromised, then forensic analysis and discovery of the true source of potentially malicious system activity is impossible to achieve.\n\nAudit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit system activity.\n\nIn immutable mode, unauthorized users cannot execute changes to the audit system to potentially hide malicious activity and then put the audit rules back. A system reboot would be noticeable and a system administrator could then investigate the unauthorized changes.\n\nSatisfies: SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029",
+  "Documentable": "false"
+}

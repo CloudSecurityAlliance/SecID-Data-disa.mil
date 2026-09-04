@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233878",
+  "rule_id": "SV-233878r1082650_rule",
+  "stig_id": "IDNS-8X-400020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Infoblox DNS service member must send outgoing DNS messages from a random port.",
+  "group_title": "SRG-APP-000516-DNS-000110",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-37063r611154_chk",
+  "check_content": "Verify the default Infoblox configuration to use random ports is not overridden at either the global or member level.  \n\nGlobal-Level check: \n1. Navigate to Data Management >> DNS Edit Grid DNS Properties, or System DNS Properties on a stand-alone system.  \n2. Toggle Advanced Mode and select the General >> Advanced tab. \n3. Verify that the options under \"Source Port Settings\", \"Set static source UDP port for queries (not recommended)\", and \"Set static source UDP port for notify messages\" use the default value of \"not enabled\".  \n4. When complete, click \"Cancel\" to exit the \"Properties\" screen.\n\nMember-Level check: \n1. Navigate to Data Management >> DNS >> Members tab.  \n2. Review each server with the DNS service enabled.  \n3. Select each server, click \"Edit\", toggle Advanced Mode, and select General >> Advanced tab. \n4. Verify that the options under \"Source Port Settings\", \"Set static source UDP port for queries (not recommended)\", and \"Set static source UDP port for notify messages\" use the default value of \"not enabled\". \n5. When complete, click \"Cancel\" to exit the \"Properties\" screen.  \n\nIf configuration of either of these values exists, this is a finding.",
+  "fixtext": "1. Navigate to Data Management >> DNS >> Grid DNS Properties or System DNS properties on a stand-alone system.  \n2. Toggle Advanced Mode and select General >> Advanced tab. Disable \"Set static source UDP port for queries (not recommended)\" and \"Set static source UDP port for notify messages\". \n3. Navigate to Data Management >> DNS >> Members tab. \n4. Review each Infoblox member with the DNS service enabled. \n5. Select each server, click \"Edit\", toggle Advanced Mode, and select General >> Advanced tab. \n6. Locate the section labeled \"Source port settings\" and click \"Override\" to use the Grid default values that disable static source ports.  \n7. When complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen. \n8. Perform a service restart if necessary.",
+  "fix_id": "F-37028r1082649_fix",
+  "VulnDiscussion": "OS configuration practices as issued by the U.S. Computer Emergency Response Team (US CERT) and the National Institute of Standards and Technology's (NIST's) National Vulnerability Database (NVD), based on identified vulnerabilities that pertain to the application profile into which the name server software fits, must always be followed. \n\nIn particular, hosts that run the name server software should not provide any other services, and therefore, should be configured to respond to DNS traffic only. In other words, the only allowed incoming ports/protocols to these hosts should be 53/udp and 53/tcp. \n\nOutgoing DNS messages must be sent from a random port to minimize the risk of an attacker guessing the outgoing message port and sending forged replies.",
+  "Documentable": "false"
+}

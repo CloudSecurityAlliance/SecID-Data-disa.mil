@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-237822",
+  "rule_id": "SV-237822r647875_rule",
+  "stig_id": "HP3P-32-001305",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SNMP service on the storage system must require the use of a FIPS 140-2 approved cryptographic hash algorithm as part of its authentication and integrity methods.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-85119",
+      "V-70497"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-41032r647873_chk",
+  "check_content": "Verify that SNMP encryption uses AES by entering the following command:\n\ncli% showsnmpuser\nUsername AuthProtocol PrivProtocol\n3parsnmpuser HMAC-SHA-96 CFB128-AES-128\n\nIf the PrivProtocol in the result is not AES, this is a finding.",
+  "fixtext": "Configure the storage system to use AES encryption for SNMPv3 by entering the command:\n\ncli% setsnmpmgr -snmpuser 3parsnmpuser -pw <password> -version 3 <IP address of SNMP manager>",
+  "fix_id": "F-40991r647874_fix",
+  "VulnDiscussion": "The SNMP service must use AES or a FIPS 140-2 approved successor algorithm for protecting the privacy of communications.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214522",
+  "rule_id": "SV-214522r1038960_rule",
+  "stig_id": "JUSX-AG-000063",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "In the event that communications with the Syslog server is lost, the Juniper SRX Services Gateway must continue to queue traffic log records locally.",
+  "group_title": "SRG-NET-000089-ALG-000055",
+  "idents": {
+    "legacy": [
+      "SV-80799",
+      "V-66309"
+    ],
+    "cci": [
+      "CCI-000140"
+    ]
+  },
+  "check_id": "C-15728r297250_chk",
+  "check_content": "Verify logging has been enabled and configured.\n\n[edit] \nshow log <LOG-NAME> match \"RT_FLOW_SESSION\"\n\nIf a local log file or files is not configured to capture \"RT_FLOW_SESSION\" events, this is a finding.",
+  "fixtext": "The following example commands configure local backup files to capture DoD-defined auditable events. \n\n[edit]\nset system syslog file <LOG-NAME> any info\nset system syslog file <LOG-NAME> match \"RT_FLOW_SESSION \"\n\nExample:\nset system syslog file<LOG-NAME> match \"RT_FLOW_SESSION \"",
+  "fix_id": "F-15726r297251_fix",
+  "VulnDiscussion": "It is critical that when the network element is at risk of failing to process audit logs as required, it take action to mitigate the failure. Audit processing failures include: software/hardware errors, failures in the audit capturing mechanisms, and audit storage capacity being reached or exceeded. Responses to audit failure depend upon the nature of the failure mode.\n\nSince availability is an overriding concern given the role of the Juniper SRX in the enterprise, the system must not be configured to shut down in the event of a log processing failure. The system will be configured to log events to local files which will provide a log backup. If communication with the syslog server is lost or the server fails, the network device must continue to queue log records locally. Upon restoration of the connection to the centralized collection server, action should be taken to synchronize the local log data with the collection server.\n\nBy default, both traffic log and system log events are sent to a local log file named messages. You can create a separate log file that contains only traffic log messages so that you do not need to filter for traffic log messages. This makes it easier to track usage patterns or troubleshoot issues for a specific policy. \n\nA best practice is to add log-prefixes to the log file names to help in researching the events and filters to prevent log overload. Another best practice is to add a match condition to limit the recorded events to those containing the regular expression (REGEX).",
+  "Documentable": "false"
+}

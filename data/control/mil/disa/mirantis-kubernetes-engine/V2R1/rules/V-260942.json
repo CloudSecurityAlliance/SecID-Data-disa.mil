@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-260942",
+  "rule_id": "SV-260942r1015772_rule",
+  "stig_id": "CNTR-MK-001380",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MKE must only run signed images.",
+  "group_title": "SRG-APP-000386-CTR-000920",
+  "idents": {
+    "cci": [
+      "CCI-001774",
+      "CCI-003992",
+      "CCI-001749"
+    ]
+  },
+  "check_id": "C-64671r966181_chk",
+  "check_content": "On each node, check that MKE is configured to only run images signed by applicable Orgs and Teams.\n\n1. Log in to the MKE web UI and navigate to admin >> Admin Settings >> Docker Content Trust.\n\nIf Content Trust Settings \"Run only signed images\" is disabled, this is a finding.\n\n2. Verify that the Orgs and Teams that images must be signed by in the drop-down matches the organizational policies.\n\nIf an Org or Team selected does not match organizational policies, this is a finding. \n\n3. Verify that all images sitting on an MKE cluster are signed.\n\nVia CLI:\nLinux: As an MKE Admin, execute the following commands using a client bundle:\n\ndocker trust inspect $(docker images | awk '{print $1 \":\" $2}')\n\nVerify that all image tags in the output have valid signatures. If the images are not signed, this is a finding.",
+  "fixtext": "On each node, enable Content Trust enforcement in MKE.\n\n1. Log in to the MKE web UI and navigate to admin >> Admin Settings >> Docker Content Trust.\n\nUnder Content Trust Settings section, enable \"Run only signed images\".\n\n2. Log in to the MKE web UI and navigate to admin >> Admin Settings >> Docker Content Trust.\n\nClick \"Add Team +\" and set the appropriate Orgs and Teams that must sign images. Use the drop-down (\"v\") that follows to match the organizational policies.\n\nRemove any unwanted teams by clicking the minus symbol.\n\nClick \"Save\".\n\n3. Manually remove any unsigned images sitting on an MKE cluster by executing the following:\n\ndocker rmi <IMAGE_ID>",
+  "fix_id": "F-64579r966182_fix",
+  "VulnDiscussion": "Controlling the sources where container images can be pulled from allows the organization to define what software can be run within MKE. Allowing any container image to be introduced and instantiated within MKE may introduce malicious code and vulnerabilities to the platform and the hosting system.\n\nMKE registry must deny all container images except for those signed by organizational-approved sources.",
+  "Documentable": "false"
+}

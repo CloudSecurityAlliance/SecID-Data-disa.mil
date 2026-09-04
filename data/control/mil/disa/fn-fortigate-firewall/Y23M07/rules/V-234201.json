@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234201",
+  "rule_id": "SV-234201r879768_rule",
+  "stig_id": "FGFW-ND-000210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate device must authenticate SNMP messages using a FIPS-validated Keyed-Hash Message Authentication Code (HMAC).",
+  "group_title": "SRG-APP-000395-NDM-000310",
+  "idents": {
+    "cci": [
+      "CCI-001967"
+    ]
+  },
+  "check_id": "C-37386r611790_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click System.\n2. Click SNMP.\n3. Verify the SNMPv3 settings are configured and enabled.\n4. Select each SNMPv3 user and click Edit.\n5. On Security Level, verify the SNMPv3 user is configured to use SHA256 as the Authentication Algorithm.\n\nIf the FortiGate device is not configured to authenticate SNMP messages using a FIPS-validated HMAC, this is a finding.\n\nor \n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n\n     # show full-configuration system snmp user | grep -i 'security-level\\ |auth-proto'\n\nFor each SNMPv3 user, the output should be similar to:\n\n          set security-level auth\n          set auth-proto sha256\n\nIf the security-level parameter is not set to auth or auth-priv, and the auth-proto is not set to SHA, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click System.\n2. Click SNMP.\n3. Select each SNMPv3 user.\n4. Click Edit.\n5. On Security Level, click Authentication.\n6. Select SHA256 for the Authentication Algorithm.\n7. Change the Password if required.\n8. Click OK.\n9. Click Apply.\n\nor \n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config system snmp user\n     #    edit {NAME}\n     #    set status enable\n     #    set security-level auth\n     #    set auth-proto sha256\n     #    set auth-pwd {PASSWORD}\n     #    next\n     # end",
+  "fix_id": "F-37351r850531_fix",
+  "VulnDiscussion": "Without authenticating devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity. Bidirectional authentication provides stronger safeguards to validate the identity of other devices for connections that are of greater risk.\n\nA local connection is any connection with a device communicating without the use of a network. A network connection is any connection with a device that communicates through a network (e.g., local area or wide area network, internet). A remote connection is any connection with a device communicating through an external network (e.g., internet).\n\nBecause of the challenges of applying this requirement on a large scale, organizations are encouraged to only apply the requirement to those limited number (and type) of devices that truly need to support this capability.",
+  "Documentable": "false"
+}

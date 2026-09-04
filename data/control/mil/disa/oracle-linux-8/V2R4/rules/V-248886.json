@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248886",
+  "rule_id": "SV-248886r991589_rule",
+  "stig_id": "OL08-00-040270",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must not allow interfaces to perform Internet Control Message Protocol (ICMP) redirects by default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52320r833271_chk",
+  "check_content": "Verify OL 8 does not allow interfaces to perform Internet Protocol version 4 (IPv4) ICMP redirects by default.\n\nCheck the value of the \"default send_redirects\" variables with the following command:\n\n$ sudo sysctl net.ipv4.conf.default.send_redirects\n\nnet.ipv4.conf.default.send_redirects=0\n\nIf the returned line does not have a value of \"0\" or a line is not returned, this is a finding.\n\nCheck that the configuration files are present to enable this network parameter.\n\n$ sudo grep -r net.ipv4.conf.default.send_redirects /run/sysctl.d/*.conf /usr/local/lib/sysctl.d/*.conf /usr/lib/sysctl.d/*.conf /lib/sysctl.d/*.conf /etc/sysctl.conf /etc/sysctl.d/*.conf\n\n/etc/sysctl.d/99-sysctl.conf: net.ipv4.conf.default.send_redirects = 0\n\nIf \"net.ipv4.conf.default.send_redirects\" is not set to \"0\", is missing or commented out, this is a finding.\n\nIf conflicting results are returned, this is a finding.",
+  "fixtext": "Configure OL 8 to not allow interfaces to perform Internet Protocol version 4 (IPv4) ICMP redirects by default with the following command:\n\n$ sudo sysctl -w net.ipv4.conf.default.send_redirects=0\n\nRemove any configurations that conflict with the above from the following locations: \n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf\n/etc/sysctl.d/*.conf\n\nIf \"0\" is not the system's default value, add or update the following line in \"/etc/sysctl.conf\" or in the appropriate file under \"/etc/sysctl.d\":\n\nnet.ipv4.conf.default.send_redirects=0",
+  "fix_id": "F-52274r858674_fix",
+  "VulnDiscussion": "ICMP redirect messages are used by routers to inform hosts that a more direct route exists for a particular destination. These messages contain information from the system's route table, possibly revealing portions of the network topology.\n \nThere are notable differences between Internet Protocol version 4 (IPv4) and Internet Protocol version 6 (IPv6). There is only a directive to disable sending of IPv4 redirected packets. Refer to RFC4294 for an explanation of \"IPv6 Node Requirements\", which resulted in this difference between IPv4 and IPv6.\n\nThe sysctl --system command will load settings from all system configuration files. All configuration files are sorted by their filename in lexicographic order, regardless of which of the directories they reside in. If multiple files specify the same option, the entry in the file with the lexicographically latest name will take precedence. Files are read from directories in the following list from top to bottom. Once a file of a given filename is loaded, any file of the same name in subsequent directories is ignored.\n/etc/sysctl.d/*.conf\n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf",
+  "Documentable": "false"
+}

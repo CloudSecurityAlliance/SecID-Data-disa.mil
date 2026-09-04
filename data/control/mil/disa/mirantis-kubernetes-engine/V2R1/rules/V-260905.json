@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260905",
+  "rule_id": "SV-260905r966072_rule",
+  "stig_id": "CNTR-MK-000580",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "User-managed resources must be created in dedicated namespaces.",
+  "group_title": "SRG-APP-000141-CTR-000315",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-64634r966070_chk",
+  "check_content": "This check only applies when using Kubernetes orchestration.\n\nLog in to the MKE web UI and navigate to Kubernetes >> Namespaces. \n\nThe default namespaces are: \"default\", \"kube-public\", and \"kube-node-lease\".\n\n1. In the top right corner, if \"Set context for all namespaces\" is not enabled, this is a finding.\n\n2. Navigate to Kubernetes >> Services. Confirm that no service except \"kubernetes\" has the \"default\" namespace listed. Confirm that only approved system services have the \"kube-system\" namespace listed.\n\nIf \"default\" has a service other than the \"kubernetes\" services, this is a finding.\n\nIf \"kube-system\" has a service that is not listed in the System Security Plan (SSP), this is a finding.",
+  "fixtext": "Log in to the MKE web UI and navigate to Kubernetes >> Namespaces.\n\nIn the top right corner, enable \"Set context for all namespaces\".\n\nMove any user-managed resources from the default, kube-public and kube-node-lease namespaces, to user namespaces.\n\n- Navigate to Kubernetes >> Services.\n- Select the user-managed service.\n- Click on the settings wheel in the top right corner to view the .yaml for that service.\n- Change the \"namespace\" to a user namespace.\n- Click \"Save\".",
+  "fix_id": "F-64542r966071_fix",
+  "VulnDiscussion": "Dedicated namespaces act as security boundaries, limiting the blast radius in case of security incidents or misconfigurations. If an issue arises within a specific namespace, it is contained within that namespace and does not affect the resources in other namespaces. Kubernetes provides Role-Based Access Control (RBAC) mechanisms, and namespaces are a fundamental unit for access control. Using dedicated namespaces for user-managed resources provides a level of isolation. Each namespace acts as a separate environment, allowing users or teams to deploy their applications and services without interfering with the resources in other namespaces. This isolation helps prevent unintentional conflicts and ensures a more predictable deployment environment.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217150",
+  "rule_id": "SV-217150r991589_rule",
+  "stig_id": "SLES-12-010520",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The SUSE operating system file integrity tool must be configured to verify Access Control Lists (ACLs).",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-77155",
+      "SV-91851"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-18378r880938_chk",
+  "check_content": "Verify that the SUSE operating system file integrity tool is configured to verify ACLs.\n\nCheck the \"aide.conf\" file to determine if the \"acl\" rule has been added to the rule list being applied to the files and directories selection lists.\n\nAn example rule that includes the \"acl\" rule follows:\n\n     All= p+i+n+u+g+s+m+S+sha512+acl+xattrs+selinux\n     /bin All # apply the custom rule to the files in bin \n     /sbin All # apply the same custom rule to the files in sbin \n\nIf the \"acl\" rule is not being used on all selection lines in the \"/etc/aide.conf\" file, or ACLs are not being checked by another file integrity tool, this is a finding.",
+  "fixtext": "Configure the SUSE operating system file integrity tool to check file and directory ACLs. \n\nIf AIDE is installed, ensure the \"acl\" rule is present on all file and directory selection lists.",
+  "fix_id": "F-18376r369607_fix",
+  "VulnDiscussion": "ACLs can provide permissions beyond those permitted through the file mode and must be verified by file integrity tools.",
+  "Documentable": "false"
+}

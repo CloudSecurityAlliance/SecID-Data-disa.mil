@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213537",
+  "rule_id": "SV-213537r961170_rule",
+  "stig_id": "JBOS-AS-000425",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to JBoss log files must be restricted to authorized users.",
+  "group_title": "SRG-APP-000267-AS-000170",
+  "idents": {
+    "legacy": [
+      "SV-76791",
+      "V-62301"
+    ],
+    "cci": [
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-14760r956037_chk",
+  "check_content": "If the JBoss log folder is installed in the default location and 213514 (JBOS-AS-000170) is not a finding, the log folders are protected and this requirement is not a finding.\n\nBy default, JBoss installs its log files into a sub-folder of the \"jboss-eap-6.3\" home folder. \n\nUsing a UNIX like OS example, the default location for log files is:\nJBOSS_HOME/standalone/log\nJBOSS_HOME/domain/log\n\nFor a standalone configuration:\nJBOSS_HOME/standalone/log/server.log\"  Contains all server log messages, including server startup messages.\n\nFor a domain configuration:\nJBOSS_HOME/domain/log/hostcontroller.log\nHost Controller boot log. Contains log messages related to the startup of the host controller.\n\nJBOSS_HOME/domain/log/processcontroller.log\nProcess controller boot log. Contains log messages related to the startup of the process controller.\n\nJBOSS_HOME/domain/servers/SERVERNAME/log/server.log\nThe server log for the named server. Contains all log messages for that server, including server startup messages.\n\nLog on with an OS user account with JBoss access and permissions.\n\nNavigate to the \"Jboss-eap-6.3\" folder using the relevant OS commands for either a UNIX like OS or a Windows OS.\n\nExamine the permissions of the JBoss logs folders.\n\nOwner can be full access.\nGroup can be full access.\nAll others must be restricted.\n\nIf the JBoss log folder is world readable or world writeable, this is a finding.",
+  "fixtext": "Configure file permissions on the JBoss log folder to protect from unauthorized access.",
+  "fix_id": "F-14758r296278_fix",
+  "VulnDiscussion": "If the application provides too much information in error logs and administrative messages to the screen, this could lead to compromise. The structure and content of error messages need to be carefully considered by the organization and development team. The extent to which the information system is able to identify and handle error conditions is guided by organizational policy and operational requirements.\n\nApplication servers must protect the error messages that are created by the application server. All application server users' accounts are used for the management of the server and the applications residing on the application server. All accounts are assigned to a certain role with corresponding access rights. The application server must restrict access to error messages so only authorized users may view them. Error messages are usually written to logs contained on the file system. The application server will usually create new log files as needed and must take steps to ensure that the proper file permissions are utilized when the log files are created.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207537",
+  "rule_id": "SV-207537r879887_rule",
+  "stig_id": "BIND-9X-001005",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The host running a BIND 9.x implementation must use a dedicated management interface in order to separate management traffic from DNS specific traffic.",
+  "group_title": "SRG-APP-000516-DNS-000109",
+  "idents": {
+    "legacy": [
+      "SV-86997",
+      "V-72373"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-7792r283665_chk",
+  "check_content": "Verify that the BIND 9.x server is configured to use a dedicated management interface:\n\n# ifconfig -a\neth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST> mtu 1500\ninet 10.0.1.252 netmask 255.255.255.0 broadcast 10.0.1.255\ninet6 fd80::21c:d8ff:fab7:1dba prefixlen 64 scopeid 0x20<link>\nether 00:1a:b8:d7:1a:bf txqueuelen 1000 (Ethernet)\nRX packets 2295379 bytes 220126493 (209.9 MiB)\nRX errors 0 dropped 31 overruns 0 frame 0\nTX packets 70507 bytes 12284940 (11.7 MiB)\nTX errors 0 dropped 0 overruns 0 carrier 0 collisions 0\n\neth1: flags=4163<UP,BROADCAST,RUNNING,MULTICAST> mtu 1458\ninet 10.0.0.5 netmask 255.255.255.0 broadcast 10.0.0.255\ninet6 fe81::21c:a8bf:fad7:1dca prefixlen 64 scopeid 0x20<link>\nether 00:1d:d8:b5:1c:dd txqueuelen 1000 (Ethernet)\nRX packets 39090 bytes 4196802 (4.0 MiB)\nRX errors 0 dropped 0 overruns 0 frame 0\nTX packets 93250 bytes 18614094 (17.7 MiB)\nTX errors 0 dropped 0 overruns 0 carrier 0 collisions 0\n\nIf one of the interfaces listed is not dedicated to only process management traffic, this is a finding.",
+  "fixtext": "On the host machine, configure an interface that is dedicated to management traffic.\n\nRestart the host machine.",
+  "fix_id": "F-7792r283666_fix",
+  "VulnDiscussion": "Providing Out-Of-Band (OOB) management is the best first step in any management strategy. No production traffic resides on an out-of-band network. The biggest advantage to implementation of an OOB network is providing support and maintenance to the network that has become degraded or compromised. During an outage or degradation period the in band management link may not be available.",
+  "Documentable": "false"
+}

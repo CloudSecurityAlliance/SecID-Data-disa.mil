@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-253733",
+  "rule_id": "SV-253733r1018602_rule",
+  "stig_id": "MADB-10-008000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must produce audit records of its enforcement of access restrictions associated with changes to the configuration of the DBMS or database(s).",
+  "group_title": "SRG-APP-000381-DB-000361",
+  "idents": {
+    "cci": [
+      "CCI-003938",
+      "CCI-001814"
+    ]
+  },
+  "check_id": "C-57185r841722_chk",
+  "check_content": "To verify that system denies are logged when unprivileged users attempt to change database configuration, run the following commands using the database administrator, and a newly created user shown here as test_user: \n\nMariaDB> CREATE USER 'test_user'@'localhost' IDENTIFIED BY 'TEst_Password!2';\nMariaDB> CREATE DATABASE myapp;\nMariaDB> CREATE TABLE myapp.mytable (a int, b char(10));\n\nAs the newly created test_user, alter the table: \n$ mariadb -u test_user -p\nEnter password:\nMariaDB> ALTER TABLE mytable ADD COLUMN (c int);\n\nCheck the latest log to determine if the denial is logged. For example: \n$ tail -f /var/log/mysql/audit.log\n \n20190909 12:14:29,osboxes,test_user9,localhost,21,0,CONNECT,,,0\n20190909 12:14:29,osboxes,test_user9,localhost,21,10,QUERY,, alter table myapp.mytable add column (c int) ,1142\n20190909 12:14:29,osboxes,test_user9,localhost,21,0,DISCONNECT,,,0\n\nIf the denial is not produced, this is a finding.\n\nBy default MariaDB configuration files are owned by the OS Administrator user (here root) and cannot be edited by nonprivileged users:\n\n$ ls -la /etc | grep my.cnf\n-rw-r--r--.   1 root root      301 Aug 25 12:45 my.cnf\n\nIf my.cnf is not owned by the OS administrator (chown here as root) and does not have read and write permissions for the owner, this is a finding.",
+  "fixtext": "The MariaDB Enterprise Audit plugin can be configured to audit these changes. \n\nUpdate necessary audit filters to include query_event ALL. Example: \n\nMariaDB> DELETE FROM mysql.server_audit_filters WHERE filtername = 'default';\n\nMariaDB> INSERT INTO mysql.server_audit_filters (filtername, rule)\n   VALUES ('default',\n      JSON_COMPACT(\n         '{\n            \"connect_event\": [\n               \"CONNECT\",\n               \"DISCONNECT\"\n            ],\n            \"query_event\": [\n                \"ALL\"\n            ]\n         }'\n      ));\n\nIf the config files are not secured properly in the file system, change the ownership and permissions with operating system operations. \n\nExample: \n\nchown root:root /etc/my.cnf.d\nchmod 644 /etc/my.cnf.d",
+  "fix_id": "F-57136r841723_fix",
+  "VulnDiscussion": "Without auditing the enforcement of access restrictions against changes to configuration, it would be difficult to identify attempted attacks and an audit trail would not be available for forensic investigation for after-the-fact actions. \n\nEnforcement actions are the methods or mechanisms used to prevent unauthorized changes to configuration settings. Enforcement action methods may be as simple as denying access to a file based on the application of file permissions (access restriction). Audit items may consist of lists of actions blocked by access restrictions or changes identified after the fact.",
+  "Documentable": "false"
+}

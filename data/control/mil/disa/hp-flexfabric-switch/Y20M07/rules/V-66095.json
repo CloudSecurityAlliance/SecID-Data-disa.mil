@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-66095",
+  "rule_id": "SV-80585r1_rule",
+  "stig_id": "HFFS-L2-000029",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HP FlexFabric Switch must have the native VLAN assigned to a VLAN ID other than the default VLAN ID for all 802.1q trunk links.",
+  "group_title": "SRG-NET-000512-L2S-000012",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-66741r1_chk",
+  "check_content": "Review the HP FlexFabric Switch configurations and examine all trunk links. Verify the native VLAN has been configured to a VLAN ID other than the default VLAN 1. Connect to switch via console or SSH.\n\n<HP> display current interface Bridge-Aggregation \n#\ninterface Bridge-Aggregation1\n description To-DistroEast(10G)\n port link-type trunk\n undo port trunk permit vlan 1\n port trunk permit vlan 2100 to 2102 4017\n port trunk pvid vlan 4017\n link-aggregation mode dynamic\n\nIf any of the trunk links are assigned to VLAN 1, this is a finding.",
+  "fixtext": "Configure the ID of the native vlan on all trunk port(s).\n\n[HP-GigabitEthernet1/0/13] undo port trunk permit vlan 1\n[HP-GigabitEthernet1/0/13]port trunk pvid vlan 4017",
+  "fix_id": "F-72171r1_fix",
+  "VulnDiscussion": "VLAN hopping can be initiated by an attacker who has access to a switch port belonging to the same VLAN as the native VLAN of the trunk link connecting to another switch that the victim is connected to. If the attacker knows the victim’s MAC address, it can forge a frame with two 802.1q tags and a layer 2 header with the destination address of the victim. Since the frame will ingress the switch from a port belonging to its native VLAN, the trunk port connecting to the victim’s switch will simply remove the outer tag because native VLAN traffic is to be untagged. The switch will forward the frame on to the trunk link unaware of the inner tag with a VLAN ID of which the victim’s  switch port is a member.",
+  "Documentable": "false"
+}

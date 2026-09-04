@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270555",
+  "rule_id": "SV-270555r1065222_rule",
+  "stig_id": "O19C-00-013200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OS accounts used to run external procedures called by Oracle Database must have limited privileges.",
+  "group_title": "SRG-APP-000141-DB-000093",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-74588r1064941_chk",
+  "check_content": "Determine which OS accounts are used by Oracle to run external procedures.\n\nValidate that these OS accounts have only the privileges necessary to perform the required functionality.\n\nIf any OS accounts used by the database for running external procedures have privileges beyond those required for running the external procedures, this is a finding.\n\nIf use of the external procedure agent is authorized, ensure extproc is restricted to execution of authorized applications.\n\nExternal jobs are run using the account \"nobody\" by default.\n\nReview the contents of the file ORACLE_HOME/rdbms/admin/externaljob.ora for the lines run_user= and run_group=.\n\nIf the user assigned to these parameters is not \"nobody\", this is a finding.\n\nSystem views providing privilege information are:\nDBA_SYS_PRIVS\nDBA_TAB_PRIVS\nDBA_ROLE_PRIVS",
+  "fixtext": "Limit privileges to DBMS-related OS accounts to those required to perform their DBMS specific functionality.",
+  "fix_id": "F-74489r1065222_fix",
+  "VulnDiscussion": "This requirement is intended to limit exposure due to operating from within a privileged account or role. The inclusion of role is intended to address those situations where an access control policy, such as Role Based Access Control (RBAC) is being implemented and where a change of role provides the same degree of assurance in the change of access authorizations for both the user and all processes acting on behalf of the user as would be provided by a change between a privileged and nonprivileged account.\n\nTo limit exposure when operating from within a privileged account or role, the application must support organizational requirements that users of information system accounts, or roles, with access to organization-defined lists of security functions or security-relevant information, use nonprivileged accounts, or roles, when accessing other (nonsecurity) system functions.\n\nUse of privileged accounts for nonadministrative purposes puts data at risk of unintended or unauthorized loss, modification, or exposure. In particular, database administrator (DBA) accounts if used for nonadministration application development or application maintenance can lead to miss-assignment of privileges where privileges are inherited by object owners. It may also lead to loss or compromise of application data where the elevated privileges bypass controls designed in and provided by applications.\n\nExternal applications called or spawned by the database management system (DBMS) process may be executed under OS accounts with unnecessary privileges. This can lead to unauthorized access to OS resources and compromise of the OS, the DBMS or any other services provided by the host platform.",
+  "Documentable": "false"
+}

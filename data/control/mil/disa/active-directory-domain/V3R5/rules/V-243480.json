@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-243480",
+  "rule_id": "SV-243480r959010_rule",
+  "stig_id": "AD.0160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The domain functional level must be at a Windows Server version still supported by Microsoft.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-8551",
+      "SV-9048"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-46755r956038_chk",
+  "check_content": "Open \"Active Directory Domains and Trusts\" (run \"domain.msc\") or \"Active Directory Users and Computers\" (run \"dsa.msc\").\nRight-click in the left pane on the name of the Domain being reviewed.\nSelect \"Raise domain functional level...\"\nThe current domain functional level will be displayed (as well as the option to raise the domain functional level).\nSelect \"Cancel\" to exit.\n\nAlternately, using PowerShell (Windows Server 2016):\nSelect \"Active Directory Module for Windows PowerShell\", available in Administrative Tools or the Start Screen.\nRun \"Get-ADDomain\".\nView the value for \"DomainMode:\"\n\nIf the domain functional level is not Windows Server 2016, this is a finding.\n\nUsing the highest domain functional level supported by the domain controllers is recommended.",
+  "fixtext": "Raise the domain functional level to Windows Server 2016.  Using the highest domain functional level supported by the domain controllers is recommended.\n\nRaising the domain functional level needs to be carefully planned and implemented.  This prevents the addition of domain controllers to the domain using Windows versions prior to the current domain functional level. \n\nRefer to Microsoft documentation for the process and requirements of raising the domain functional level.",
+  "fix_id": "F-46712r956039_fix",
+  "VulnDiscussion": "Domains operating at functional levels below Windows Server versions no longer supported by Microsoft reduce the level of security in the domain and forest as advanced features of the directory are not available.  This also prevents the addition of domain controllers to the domain using Windows Server versions prior to the current domain functional level.",
+  "Documentable": "false"
+}

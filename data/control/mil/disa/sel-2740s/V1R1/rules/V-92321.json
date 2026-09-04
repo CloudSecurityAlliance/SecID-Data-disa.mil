@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-92321",
+  "rule_id": "SV-102409r1_rule",
+  "stig_id": "SELS-SW-000130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SEL-2740S must be configured to prevent packet flooding and bandwidth saturation.",
+  "group_title": "SRG-NET-000362-L2S-000024",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-91617r1_chk",
+  "check_content": "Review the SEL-2740S flows to ensure the meter rules are in place to prevent packet flooding and bandwidth saturation.\n\nIf the switch is not configured to prevent packet flooding, this is a finding.",
+  "fixtext": "Add a flow meter rule to prevent packet flooding and bandwidth saturation.\n\nTo add an SEL-2740S Flow Meter, do the following:\n1. Log on to OTSDN Controller using Permission Level 3.\n2. Under \"Meter Entry\" General settings, select \"Meter ID\", \"Measurement Type\", and \"Burst Size\".\n3. Add meter rule to SEL-2740S Flow Rules that require monitoring.",
+  "fix_id": "F-98559r1_fix",
+  "VulnDiscussion": "Access layer switches use the Content Addressable Memory (CAM) table to direct traffic to specific ports based on the VLAN number and the destination MAC address of the frame. When a router has an Address Resolution Protocol (ARP) entry for a destination host and forwards it to the access layer switch and there is no entry corresponding to the frame's destination MAC address in the incoming VLAN, the frame will be sent to all forwarding ports within the respective VLAN, which causes flooding. Large amounts of flooded traffic can saturate low-bandwidth links, causing network performance issues or complete connectivity outage to the connected devices. Unknown unicast flooding has been a nagging problem in networks that have asymmetric routing and default timers. To mitigate the risk of a connectivity outage, the Unknown Unicast Flood Blocking (UUFB) feature must be implemented on all access layer switches. The UUFB feature will block unknown unicast traffic flooding and only permit egress traffic with MAC addresses that are known to exit on the port.",
+  "Documentable": "false"
+}

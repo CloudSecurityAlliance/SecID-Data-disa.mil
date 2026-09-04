@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234979",
+  "rule_id": "SV-234979r1009576_rule",
+  "stig_id": "SLES-15-030800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Audispd must take appropriate action when the SUSE operating system audit storage is full.",
+  "group_title": "SRG-OS-000479-GPOS-00224",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-38167r1009574_chk",
+  "check_content": "Verify the audit system off-loads audit records if the SUSE operating system storage volume becomes full.\n\nCheck that the records are properly off-loaded to a remote server with the following command:\n\n> sudo grep -i \"disk_full_action\" /etc/audit/audisp-remote.conf\ndisk_full_action = syslog\n\nIf \"disk_full_action\" is not set to \"syslog\", \"single\", or \"halt\" or the line is commented out, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to take the appropriate action if the audit storage is full.\n\nAdd, edit, or uncomment the \"disk_full_action\" option in \"/etc/audit/audisp-remote.conf\". Set it to \"syslog\", \"single\" or \"halt\" as in the example below:\n\ndisk_full_action = syslog",
+  "fix_id": "F-38130r1009575_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.",
+  "Documentable": "false"
+}

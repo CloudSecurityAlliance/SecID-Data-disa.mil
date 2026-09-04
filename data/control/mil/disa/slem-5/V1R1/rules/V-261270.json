@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261270",
+  "rule_id": "SV-261270r996860_rule",
+  "stig_id": "SLEM-05-213015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 kernel core dumps must be disabled unless needed.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-64999r996302_chk",
+  "check_content": "Verify that SLEM 5 kernel core dumps are disabled unless needed with the following command:\n\n     > systemctl status kdump.service\n     kdump.service - Load kdump kernel and initrd\n          Loaded: loaded (/usr/lib/systemd/system/kdump.service; disabled; vendor preset: disabled)\n          Active: inactive (dead)\n\nIf \"kdump.service\" is active, ask the system administrator if the use of the service is required and documented with the information system security officer (ISSO).\n\nIf the service is active and is not documented, this is a finding.",
+  "fixtext": "If SLEM 5 kernel core dumps are not required, disable the \"kdump\" service with the following command:\n\n     > sudo systemctl disable kdump.service\n\nIf kernel core dumps are required, document the need with the ISSO.",
+  "fix_id": "F-64907r995676_fix",
+  "VulnDiscussion": "Kernel core dumps may contain the full contents of system memory at the time of the crash. Kernel core dumps may consume a considerable amount of disk space and may result in denial of service (DoS) by exhausting the available space on the target file system partition.",
+  "Documentable": "false"
+}

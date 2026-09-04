@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222926",
+  "rule_id": "SV-222926r960735_rule",
+  "stig_id": "TCAT-AS-000010",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The number of allowed simultaneous sessions to the manager application must be limited.",
+  "group_title": "SRG-APP-000001-AS-000001",
+  "idents": {
+    "legacy": [
+      "SV-111371",
+      "V-102427"
+    ],
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-24598r426222_chk",
+  "check_content": "If the manager application is not in use or has been deleted from the system, this is not a finding.\n\nFrom the Tomcat server as an elevated user run the following command:\n\nsudo grep -i maxactivesessions $CATALINA_BASE/webapps/manager/ META-INF/context.xml\n\nIf the maxActiveSesions setting is not configured according to the number of connections defined in the SSP, this is a finding.",
+  "fixtext": "Determine the number of authorized admins requiring simultaneous access and increase the number of allowed simultaneous sessions by a small percentage in order to address potential lockout scenarios. Document that value in the System Security Plan.\n\nReview the maxActiveSessions setting in the $CATALINA_BASE/webapps/manager/ META-INF/context.xml configuration file.\n\nConfigure maxActiveSessions setting according to admin access requirements defined in the SSP.\n\nEXAMPLE:\n<Manager … maxActiveSessions=\"10\" />",
+  "fix_id": "F-24587r426223_fix",
+  "VulnDiscussion": "The manager application provides configuration access to the Tomcat server. Access to the manager application must be limited and that includes the number of sessions allowed to access the management application. A balance must be struck between the number of simultaneous connections allowed to the management application and the number of authorized admins requiring access at any given time.\n\nDetermine the number of authorized admins requiring simultaneous access and increase the number of allowed simultaneous sessions by a small percentage in order to help prevent potential lockouts.\n\nDocument that value in the System Security Plan (SSP).",
+  "Documentable": "false"
+}

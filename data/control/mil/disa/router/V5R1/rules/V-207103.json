@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207103",
+  "rule_id": "SV-207103r604135_rule",
+  "stig_id": "SRG-NET-000018-RTR-000007",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Multicast Source Discovery Protocol (MSDP) router must be configured to filter received source-active multicast advertisements for any undesirable multicast groups and sources.",
+  "group_title": "SRG-NET-000018",
+  "idents": {
+    "legacy": [
+      "V-78343",
+      "SV-93049"
+    ],
+    "cci": [
+      "CCI-001368"
+    ]
+  },
+  "check_id": "C-7364r382154_chk",
+  "check_content": "Review the router configuration to determine if there is an import policy to block source-active multicast advertisements for any undesirable multicast groups, as well as any (S, G) states with undesirable source addresses. \n\nStep 1: Verify that an inbound source-active filter is bound to each MSDP peer.\n\nStep 2: Review the access lists referenced by the source-active filter to verify that undesirable multicast groups, auto-RP, single source multicast (SSM) groups, and advertisements from undesirable sources are blocked.\n\nIf the router is not configured with an import policy to block undesirable SA multicast advertisements, this is a finding.",
+  "fixtext": "Configure the MSDP router to implement an import policy to block multicast advertisements for undesirable multicast groups and sources.",
+  "fix_id": "F-7364r382155_fix",
+  "VulnDiscussion": "The interoperability of BGP extensions for interdomain multicast routing and MSDP enables seamless connectivity of multicast domains between autonomous systems. MP-BGP advertises the unicast prefixes of the multicast sources used by Protocol Independent Multicast (PIM) routers to perform RPF checks and build multicast distribution trees. MSDP is a mechanism used to connect multiple PIM sparse-mode domains, allowing RPs from different domains to share information about active sources. When RPs in peering multicast domains hear about active sources, they can pass on that information to their local receivers, thereby allowing multicast data to be forwarded between the domains. Configuring an import policy to block multicast advertisements for reserved, martian, single-source multicast, and any other undesirable multicast groups, as well as any source-group (S, G) states with Bogon source addresses, would assist in avoiding unwanted multicast traffic from traversing the core.",
+  "Documentable": "false"
+}

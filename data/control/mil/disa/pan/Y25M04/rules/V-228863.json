@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-228863",
+  "rule_id": "SV-228863r831605_rule",
+  "stig_id": "PANW-AG-000109",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Palo Alto Networks security platform must identify and log internal users associated with prohibited outgoing communications traffic.",
+  "group_title": "SRG-NET-000370-ALG-000125",
+  "idents": {
+    "legacy": [
+      "SV-77097",
+      "V-62607"
+    ],
+    "cci": [
+      "CCI-002400"
+    ]
+  },
+  "check_id": "C-31098r513884_chk",
+  "check_content": "Log into device Command Line Interface.\nEnter the command \"show user ip-user-mapping all\".\nIf the output is blank, this is a finding.\n\nAn alternate means to verify that User-ID is properly configured, view the URL Filtering and Traffic logs is to view the logs.\nTo view the URL Filtering logs:\nGo to Monitor >> Logs >> URL Filtering\n\nTo view the  Traffic logs:\nGo to Monitor >> Logs >> Traffic\n\nUser traffic originating from a trusted zone contains a username in the \"Source User\" column.\nIf the \"Source User\" column is blank, this is a finding.\n\nAlternatively, verify that usernames are displayed in reports.\nGo to Monitor >> Reports\nSelect the \"Denied Applications Report\".\nIf the \"Source User\" fields are empty, this is a finding.",
+  "fixtext": "User-ID can integrate with the enclave's systems using different methods; therefore, the exact configuration is dependent on the method chosen.  \nDetermine which method User-ID will use to integrate with the enclave's systems - Server Monitoring, Client Probing, Syslog User-ID Agent, Terminal Services Agent, or Captive Portal. \nConfigure how groups and users are retrieved from the directory and which users groups are to be included in policies.\nConfigure the Security Policies that controls traffic from client hosts in the trust zone to the untrust zone.\nGo to Policies >> Security\nSelect \"Add\" to create a new policy or select the Name of the Policy to edit it.\nIn the \"Security Policy Rule\" window, complete the required fields.\nIn the \"General\" tab, complete the \"Name\" and \"Description\" fields.\nIn the \"Source\" tab, complete the \"Source Zone\" and \"Source Address\" fields.  \nIn the \"User\" tab, select \"any\".\nIn the \"Destination\" tab, complete the \"Destination Zone\" and \"Destination Address\" fields. \nIn the \"Applications\" tab, select the authorized applications.\nIn the \"Service/URL Category\" tab, select \"application-default\".\nTo add a service, select the \"Service\" check box, select \"Add\" and select a listed service or add a new service or service group.\nIn the \"Actions\" tab, select either \"Deny\" or \"Allow (as required)\" as the resulting action.\nSelect the required Log Setting and Profile Settings as necessary.\nCommit changes by selecting \"Commit\" in the upper-right corner of the screen.\nSelect \"OK\" when the confirmation dialog appears.",
+  "fix_id": "F-31075r513885_fix",
+  "VulnDiscussion": "Without identifying the users who initiated the traffic, it would be difficult to identify those responsible for the prohibited communications. This requirement applies to those network elements that perform Data Leakage Prevention (DLP) (e.g., ALGs, proxies, or application-level firewalls).  \n\nThe Palo Alto Networks Security Platform uses User-ID to map a user's identity to an IP address.  This allows Administrators to configure and enforce firewall policies based on users and user groups in addition to network zones and addresses. If the user changes devices or the device is assigned a different IP address, User-ID tracks those changes and maintains the user to IP address mapping information.  This supports non-repudiation. \n\nBefore a security policy can be written for groups of users, the relationships between the users and the groups they are members of must be established. This information can be retrieved from an LDAP directory, such as Active Directory or eDirectory.",
+  "Documentable": "false"
+}

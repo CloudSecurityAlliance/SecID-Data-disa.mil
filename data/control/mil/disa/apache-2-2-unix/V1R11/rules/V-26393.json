@@ -1,0 +1,18 @@
+{
+  "vuln_id": "V-26393",
+  "rule_id": "SV-33232r1_rule",
+  "stig_id": "WA00547 A22",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ability to override the access configuration for the OS root directory must be disabled.",
+  "group_title": "WA00547",
+  "idents": {},
+  "check_id": "C-33831r1_chk",
+  "check_content": "Enter the following command:\n\nmore /usr/local/Apache2.2/conf/httpd.conf.\n\nReview the httpd.conf file and search for the following directive:\n\nDirectory \n\nFor every root directory entry (i.e. <Directory />) ensure the following entry exists:\n\nAllowOverride None\n\nIf the statement above is not found in the root directory statement, this is a finding. \n\nIf Allow directives are included in the root directory statement, this is a finding.\n\nIf the root directory statement is not listed at all, this is a finding.",
+  "fixtext": "Edit the httpd.conf file and add or set the value of AllowOverride to \"None\".",
+  "fix_id": "F-29497r1_fix",
+  "VulnDiscussion": "The Apache OverRide directive allows for .htaccess files to be used to override much of the configuration, including authentication, handling of document types, auto generated indexes, access control, and options. When the server finds an .htaccess file (as specified by AccessFileName) it needs to know which directives declared in that file can override earlier access information. When this directive is set to None, then .htaccess files are completely ignored. In this case, the server will not even attempt to read .htaccess files in the file system. When this directive is set to All, then any directive which has the .htaccess Context is allowed in .htaccess files.",
+  "Documentable": "false",
+  "Responsibility": "Web Administrator"
+}

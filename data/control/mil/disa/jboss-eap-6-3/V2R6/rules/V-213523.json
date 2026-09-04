@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213523",
+  "rule_id": "SV-213523r960963_rule",
+  "stig_id": "JBOS-AS-000245",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Welcome Web Application must be disabled.",
+  "group_title": "SRG-APP-000141-AS-000095",
+  "idents": {
+    "legacy": [
+      "SV-76761",
+      "V-62271"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-14746r296235_chk",
+  "check_content": "Use a web browser and browse to HTTP://JBOSS SERVER IP ADDRESS:8080\n\nIf the JBoss Welcome page is displayed, this is a finding.",
+  "fixtext": "Use the Management CLI script JBOSS_HOME/bin/jboss-cli.sh to run the following command. You may need to change the profile to modify a different managed domain profile, or remove the \"/profile=default\" portion of the command for a standalone server.\n\n\"/profile=default/subsystem=web/virtual-server=default-host:writeattribute(name=enable-welcome-root,value=false)\"\n\nTo configure your web application to use the root context (/) as its URL address, modify the applications jboss-web.xml, which is located in the applications META-INF/ or WEB-INF/ directory. Replace its <context-root> directive with one that looks like the following:\n\n<jboss-web>\n         <context-root>/</context-root>\n</jboss-web>",
+  "fix_id": "F-14744r296236_fix",
+  "VulnDiscussion": "The Welcome to JBoss web page provides a redirect to the JBoss admin console, which, by default, runs on TCP 9990 as well as redirects to the Online User Guide and Online User Groups hosted at locations on the Internet.  The welcome page is unnecessary and should be disabled or replaced with a valid web page.",
+  "Documentable": "false"
+}

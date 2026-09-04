@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215296",
+  "rule_id": "SV-215296r991589_rule",
+  "stig_id": "AIX7-00-002113",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX SSH daemon must not allow compression.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101803",
+      "V-91705"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16494r922843_chk",
+  "check_content": "Note:  If the installed version of OpenSSH is 7.4 or above, this requirement is not applicable.\n\nCheck the SSH daemon configuration for the Compression setting by running: \n# grep -i Compression /etc/ssh/sshd_config | grep -v '^#' \nCompression no\n\nIf the setting is not present, or it is not set to \"no\", this is a finding.",
+  "fixtext": "Edit the \"/etc/ssh/sshd_config\" file and add (or modify) the following line:\nCompression no\n\nRestart the SSH daemon:\n# stopsrc -s sshd\n# startsrc -s sshd",
+  "fix_id": "F-16492r294340_fix",
+  "VulnDiscussion": "If compression is allowed in an SSH connection prior to authentication, vulnerabilities in the compression software could result in compromise of the system from an unauthenticated connection, potentially with root privileges.",
+  "Documentable": "false"
+}

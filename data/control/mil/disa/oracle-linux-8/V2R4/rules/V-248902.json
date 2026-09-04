@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248902",
+  "rule_id": "SV-248902r991589_rule",
+  "stig_id": "OL08-00-040350",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If the Trivial File Transfer Protocol (TFTP) server is required, the OL 8 TFTP daemon must be configured to operate in secure mode.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52336r780270_chk",
+  "check_content": "Verify the TFTP daemon is configured to operate in secure mode with the following commands: \n \n$ sudo yum list installed tftp-server \n \ntftp-server.x86_64 x.x-x.el8 \n \nIf a TFTP server is not installed, this is not applicable. \n \nIf a TFTP server is installed, check for the server arguments with the following command: \n \n$ sudo grep server_args /etc/xinetd.d/tftp \n \nserver_args = -s /var/lib/tftpboot \n \nIf the \"server_args\" line does not have a \"-s\" option and a subdirectory is not assigned, this is a finding.",
+  "fixtext": "Configure the TFTP daemon to operate in secure mode by adding the following line to \"/etc/xinetd.d/tftp\" (or modify the line to have the required value): \n \nserver_args = -s /var/lib/tftpboot",
+  "fix_id": "F-52290r780271_fix",
+  "VulnDiscussion": "Restricting TFTP to a specific directory prevents remote users from copying, transferring, or overwriting system files.",
+  "Documentable": "false"
+}

@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-215248",
+  "rule_id": "SV-215248r991557_rule",
+  "stig_id": "AIX7-00-002025",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX audit tools must be owned by root.",
+  "group_title": "SRG-OS-000256-GPOS-00097",
+  "idents": {
+    "legacy": [
+      "V-91467",
+      "SV-101565"
+    ],
+    "cci": [
+      "CCI-001493",
+      "CCI-001494",
+      "CCI-001495"
+    ]
+  },
+  "check_id": "C-16446r294195_chk",
+  "check_content": "Check the following audit tools are owned by \"root\":\n\n    /usr/sbin/audit\n    /usr/sbin/auditbin\n    /usr/sbin/auditcat\n    /usr/sbin/auditconv\n    /usr/sbin/auditmerge\n    /usr/sbin/auditpr\n    /usr/sbin/auditselect\n    /usr/sbin/auditstream\n    /usr/sbin/auditldap\n\n# ls -l /usr/sbin/audit*|grep -v ldap\n-r-sr-x---    1 root     audit         64926 Mar 30 2016  /usr/sbin/audit\n-r-sr-x---    1 root     audit         41240 Mar 30 2016  /usr/sbin/auditbin\n-r-sr-x---    1 root     audit         40700 Mar 30 2016  /usr/sbin/auditcat\n-r-sr-x---    1 root     audit         13072 Mar 30 2016  /usr/sbin/auditconv\n-r-sr-x---    1 root     audit         11328 Mar 30 2016  /usr/sbin/auditmerge\n-r-sr-x---    1 root     audit         53466 Mar 30 2016  /usr/sbin/auditpr\n-r-sr-x---    1 root     audit         33128 Mar 30 2016  /usr/sbin/auditselect\n-r-sr-x---    1 root     audit         29952 Mar 30 2016  /usr/sbin/auditstream\n-r-x------    1 root     security      12204 Mar 30 2016  /usr/sbin/auditldap\n\nIf any above file's ownership is not \"root\", this is a finding.",
+  "fixtext": "For each audit tool in: \n   /usr/sbin/audit\n    /usr/sbin/auditbin\n    /usr/sbin/auditcat\n    /usr/sbin/auditconv\n    /usr/sbin/auditmerge\n    /usr/sbin/auditpr\n    /usr/sbin/auditselect\n    /usr/sbin/auditstream\n\nSet the owner to \"root\". \n# chown root <audit tool>\n\nFor  /usr/sbin/auditldap\n\nSet the owner to \"root\". \n# chown root  /usr/sbin/auditldap",
+  "fix_id": "F-16444r294196_fix",
+  "VulnDiscussion": "Protecting audit information also includes identifying and protecting the tools used to view and manipulate log data. Therefore, protecting audit tools is necessary to prevent unauthorized operation on audit information.\n\nOperating systems providing tools to interface with audit information will leverage user permissions and roles identifying the user accessing the tools and the corresponding rights the user enjoys in order to make access decisions regarding the access to audit tools.\n\nAudit tools include, but are not limited to, vendor-provided and open source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.\n\nSatisfies: SRG-OS-000256-GPOS-00097, SRG-OS-000257-GPOS-00098, SRG-OS-000258-GPOS-00099",
+  "Documentable": "false"
+}

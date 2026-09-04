@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248764",
+  "rule_id": "SV-248764r958442_rule",
+  "stig_id": "OL08-00-030313",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must generate audit records for any use of the \"semanage\" command.",
+  "group_title": "SRG-OS-000062-GPOS-00031",
+  "idents": {
+    "cci": [
+      "CCI-000169"
+    ]
+  },
+  "check_id": "C-52198r779856_chk",
+  "check_content": "Verify if OL 8 is configured to audit the execution of the \"semanage\" command by running the following command: \n \n$ sudo grep -w semanage /etc/audit/audit.rules \n \na always,exit -F path=/usr/sbin/semanage -F perm=x -F auid>=1000 -F auid!=unset -k privileged-unix-update \n \nIf the command does not return all lines or the lines are commented out, this is a finding. \n \nNote: The \"-k\" allows for specifying an arbitrary identifier, and the string after it does not need to match the example output above.",
+  "fixtext": "Configure OL 8 to audit the execution of the \"semanage\" command by adding or updating the following lines to \"/etc/audit/rules.d/audit.rules\": \n \na always,exit -F path=/usr/sbin/semanage -F perm=x -F auid>=1000 -F auid!=unset -k privileged-unix-update \n \nThe audit daemon must be restarted for the changes to take effect. To restart the audit daemon, run the following command: \n \n$ sudo service auditd restart",
+  "fix_id": "F-52152r779857_fix",
+  "VulnDiscussion": "Reconstruction of harmful events or forensic analysis is not possible if audit records do not contain enough information.\n\nAt a minimum, the organization must audit the full-text recording of privileged commands. The organization must maintain audit trails in sufficient detail to reconstruct events to determine the cause and impact of compromise. The \"semanage\" command is used to configure certain elements of SELinux policy without requiring modification to or recompilation from policy sources.\n\nWhen a user logs on, the AUID is set to the UID of the account that is being authenticated. Daemons are not user sessions and have the loginuid set to \"-1\". The AUID representation is an unsigned 32-bit integer, which equals \"4294967295\". The audit system interprets \"-1\", \"4294967295\", and \"unset\" in the same way.",
+  "Documentable": "false"
+}

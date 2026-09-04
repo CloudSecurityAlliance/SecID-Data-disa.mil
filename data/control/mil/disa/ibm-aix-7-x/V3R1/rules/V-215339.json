@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215339",
+  "rule_id": "SV-215339r991589_rule",
+  "stig_id": "AIX7-00-003033",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All AIX Group Identifiers (GIDs) referenced in the /etc/passwd file must be defined in the /etc/group file.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101723",
+      "V-91625"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16537r294468_chk",
+  "check_content": "Verify that there are no GIDs referenced in \"/etc/passwd\" that are not defined in \"/etc/group\":\n\n# cut -d: -f4 /etc/passwd\n0\n1\n2\n3\n4\n203\n204\n\n# cut -d: -f3 /etc/group\n0\n1\n2\n3\n4\n203\n204\n\nIf there are GID's listed in the \"/etc/passwd\" file that are not listed in the \"/etc/group\" file, this is a finding.",
+  "fixtext": "Add a group to the system for each GID referenced without a corresponding group by running \"mkgroup\" command.",
+  "fix_id": "F-16535r294469_fix",
+  "VulnDiscussion": "If a user is assigned the GID of a group not existing on the system, and a group with that GID is subsequently created, the user may have unintended rights to the group.",
+  "Documentable": "false"
+}

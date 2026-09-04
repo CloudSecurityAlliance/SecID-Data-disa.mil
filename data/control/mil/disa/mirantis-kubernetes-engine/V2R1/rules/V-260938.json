@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-260938",
+  "rule_id": "SV-260938r1015771_rule",
+  "stig_id": "CNTR-MK-001180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Docker CLI commands must be run with an MKE client trust bundle and without unnecessary permissions.",
+  "group_title": "SRG-APP-000342-CTR-000775",
+  "idents": {
+    "cci": [
+      "CCI-002233",
+      "CCI-004068",
+      "CCI-001991"
+    ]
+  },
+  "check_id": "C-64667r966169_chk",
+  "check_content": "The host OS must be locked down so that only authorized users with a client bundle can access docker commands.\n\nTo ensure that no commands with privilege or user authorizations are present via CLI:\n\nLinux: As a trusted user on the host operating system, use the below command to filter out docker exec commands that used --privileged or --user option.\n\nsudo ausearch -k docker | grep exec | grep privileged | grep user \n\nIf there are any in the output, then this is a finding.",
+  "fixtext": "Docker CLI command must only be run with a client bundle and must not use --privileged or --user option.\n\nRefer to https://docs.mirantis.com/mke/3.7/ops/access-cluster/client-bundle/configure-client-bundle.html?highlight=client%20bundle.",
+  "fix_id": "F-64575r966170_fix",
+  "VulnDiscussion": "Running docker CLI commands remotely with a client trust bundle ensures that authentication and role permissions are checked for the command.\n\nUsing --privileged option or --user option in docker exec gives extended Linux capabilities to the command. Do not run docker exec with the --privileged or --user options, especially when running containers with dropped capabilities or with enhanced restrictions. By default, docker exec command runs without --privileged or --user options.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216041",
+  "rule_id": "SV-216041r1038966_rule",
+  "stig_id": "SOL-11.1-010420",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The operating system must shut down by default upon audit failure (unless availability is an overriding concern).",
+  "group_title": "SRG-OS-000047",
+  "idents": {
+    "legacy": [
+      "V-47863",
+      "SV-60737"
+    ],
+    "cci": [
+      "CCI-000140"
+    ]
+  },
+  "check_id": "C-17279r372505_chk",
+  "check_content": "The Audit Configuration profile is required.\n\nThis check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\n# pfexec auditconfig -getpolicy | grep ahlt\n\nIf the output does not include \"ahlt\" as an active audit policy, this is a finding.\n\n# pfexec auditconfig -getpolicy | grep active | grep cnt\n\nIf the output includes \"cnt\" as an active audit policy, this is a finding.",
+  "fixtext": "The Audit Configuration profile is required.\n\nThis action applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this action applies.\n\nSet audit policy to halt and suspend on failure.\n\n# pfexec auditconfig -setpolicy +ahlt\n# pfexec auditconfig -setpolicy -cnt",
+  "fix_id": "F-17277r372506_fix",
+  "VulnDiscussion": "Continuing to operate a system without auditing working properly can result in undocumented access or system changes.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223472",
+  "rule_id": "SV-223472r991589_rule",
+  "stig_id": "ACF2-ES-000540",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS LOGONIDs with the AUDIT or CONSULT attribute must be properly scoped.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-106747",
+      "V-97643"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-25145r504534_chk",
+  "check_content": "From the ACF Command Screen enter:\nSET LID\nLIST IF(AUDIT)\n\nIf all logonids with the attributes AUDIT and/or CONSULT also do not have the SCPLIST attribute specified properly according to job function and areas of responsibility, this is a finding.\n\nNOTE: SCPLST attributes are not required for Logonids with the attributes AUDIT or CONSULT if the security ISSM/ISSO determines it requires ability to view the entire ACF2 environment. SCPLST attributes are not required for Auditors, Domain Level Security Admin Logonids, and BATCH Logonids that review the entire ACF2 environment to include GSO records, data set and resource rules, etc. or run audit reports.",
+  "fixtext": "Configure logonids with the AUDIT or CONSULT attributes are restricted by a SCPLIST attribute that restricts authority based on job function and area of responsibility.\n\nThe following user attributes allow viewing of the ACF2 databases for the purpose of inspecting users, data set access rules, and Infostorage records. When granted to a logonid, restrict the scope of the following attributes using an associated SCPLIST (scope list) record:\n\nAUDIT\nCONSULT\n\nNOTE: SCPLST attributes are not required for Logonids with the attributes AUDIT or CONSULT if the security ISSM/ISSO determines it requires ability to view the entire ACF2 environment. SCPLST attributes are not required for Auditors, Domain Level Security Admin Logonids, and BATCH Logonids that review the entire ACF2 environment to include GSO records, data set and resource rules, etc. or run audit reports.",
+  "fix_id": "F-25133r504535_fix",
+  "VulnDiscussion": "The use of security policy filters provides protection for the confidentiality of data by restricting the flow of data. A crucial part of any flow control solution is the ability to configure policy filters. This allows the operating system to enforce multiple and different security policies. Policy filters serve to enact and enforce the organizational policy as it pertains to controlling data flow.",
+  "Documentable": "false"
+}

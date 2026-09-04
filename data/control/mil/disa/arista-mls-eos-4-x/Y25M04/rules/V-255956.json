@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255956",
+  "rule_id": "SV-255956r991784_rule",
+  "stig_id": "ARST-ND-000490",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Arista network device must terminate all network connections associated with a device management session at the end of the session, or the session must be terminated after 10 minutes of inactivity except to fulfill documented and validated mission requirements.",
+  "group_title": "SRG-APP-000190-NDM-000267",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-59632r882208_chk",
+  "check_content": "Verify the Arista device is configured for 10-minute inactivity timeout for management sessions.\n\nswitch#sh run | section management\n!\ninterface Management1\n   ip address 172.28.134.55/20\n!\nmanagement console\nidle-timeout 10\n!\nmanagement ssh\n   idle-timeout 10\n!\n\nIf the Arista network device is not configured to terminate the connection associated with a device management session at the end of the session or after 10 minutes of inactivity, this is a finding.",
+  "fixtext": "Configure the Arista network device to terminate the connections after 10 minutes of inactivity.\n\nStep 1: Configure the settings for the console.\n\nswitch(config)#management console\nswitch(config-mgmt-console)#idle-timeout 10\nswitch(config-mgmt-console)#exit\nswitch(config)#\n!\n\nStep 2: Configure the settings for SSH.\n\nswitch(config)#management ssh\nswitch(config-mgmt-ssh)#idle-timeout 10\nswitch(config-mgmt-console)#exit\nswitch(config)#\n!",
+  "fix_id": "F-59575r882209_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle session will also free up resources committed by the managed network element. \n\nTerminating network connections associated with communications sessions includes, for example, de-allocating associated TCP/IP address/port pairs at the operating system level, or de-allocating networking assignments at the application level if multiple application sessions are using a single, operating system-level network connection. This does not mean that the device terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.\n\nSatisfies: SRG-APP-000190-NDM-000267, SRG-APP-000186-NDM-000266",
+  "Documentable": "false"
+}

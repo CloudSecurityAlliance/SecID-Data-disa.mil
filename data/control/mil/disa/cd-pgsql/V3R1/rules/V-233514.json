@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233514",
+  "rule_id": "SV-233514r960933_rule",
+  "stig_id": "CD12-00-000400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The audit information produced by PostgreSQL must be protected from unauthorized modification.",
+  "group_title": "SRG-APP-000119-DB-000060",
+  "idents": {
+    "cci": [
+      "CCI-000163"
+    ]
+  },
+  "check_id": "C-36708r606765_chk",
+  "check_content": "Review locations of audit logs, both internal to the database and database audit logs located at the operating system level. \n\nVerify there are appropriate controls and permissions to protect the audit information from unauthorized modification. \n\nNote: The following instructions use the PGLOG environment variable. See supplementary content APPENDIX-I for instructions on configuring PGLOG. \n\n#### stderr Logging \n\nIf the PostgreSQL server is configured to use stderr for logging, the logs will be owned by the database owner (usually postgres user) with a default permissions level of 0600. The permissions can be configured in postgresql.conf. \n\nTo check the permissions for log files in postgresql.conf, as the database owner (shown here as \"postgres\"), run the following command: \n\n$ sudo su - postgres \n$ psql -c \"show log_file_mode;\" \n\nIf the permissions are not 0600, this is a finding. \n\nAs the database owner (shown here as \"postgres\"), list the permissions of the logs: \n\n$ sudo su - postgres \n$ ls -la ${PGLOG?} \n\nIf logs are not owned by the database owner (shown here as \"postgres\") and are not the same permissions as configured in postgresql.conf, this is a finding. \n\n#### syslog Logging \n\nIf the PostgreSQL server is configured to use syslog for logging, consult the organization syslog setting for permissions and ownership of logs.",
+  "fixtext": "To ensure that logging is enabled, review supplementary content APPENDIX-C for instructions on enabling logging.\n\nNote: The following instructions use the PGDATA environment variable. See supplementary content APPENDIX-F for instructions on configuring PGDATA and APPENDIX-I for instructions on configuring PGLOG.\n\n#### stderr Logging\n\nWith stderr logging enabled, as the database owner (shown here as \"postgres\"), set the following parameter in postgresql.conf:\n\n$ vi ${PGDATA?}/postgresql.conf\nlog_file_mode = 0600\n\nTo change the owner and permissions of the log files, run the following:\n\n$ chown postgres:postgres ${PGDATA?}/${PGLOG?}\n$ chmod 0700 ${PGDATA?}/${PGLOG?}\n$ chmod 600 ${PGDATA?}/${PGLOG?}/*.log\n\n#### syslog Logging\n\nIf PostgreSQL is configured to use syslog for logging, the log files must be configured to be owned by root with 0600 permissions.\n\n$ chown root:root <log directory name>/<log_filename>\n$ chmod 0700 <log directory name>\n$ chmod 0600 <log directory name>/*.log",
+  "fix_id": "F-36673r606766_fix",
+  "VulnDiscussion": "If audit data were to become compromised, then competent forensic analysis and discovery of the true source of potentially malicious system activity is impossible to achieve. \n\nTo ensure the veracity of audit data the information system and/or the application must protect audit information from unauthorized modification. \n\nThis requirement can be achieved through multiple methods that will depend upon system architecture and design. Some commonly employed methods include ensuring log files enjoy the proper file system permissions and limiting log data locations. \n\nApplications providing a user interface to audit data will leverage user permissions and roles identifying the user accessing the data and the corresponding rights that the user enjoys in order to make access decisions regarding the modification of audit data.\n\nAudit information includes all information (e.g., audit records, audit settings, and audit reports) needed to successfully audit information system activity. \n\nModification of database audit data could mask the theft of, or the unauthorized modification of, sensitive data stored in the database.",
+  "Documentable": "false"
+}

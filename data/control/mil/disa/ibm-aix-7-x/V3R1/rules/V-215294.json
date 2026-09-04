@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215294",
+  "rule_id": "SV-215294r991589_rule",
+  "stig_id": "AIX7-00-002111",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX SSH daemon must be configured to only use Message Authentication Codes (MACs) employing FIPS 140-2 approved cryptographic hash algorithms.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101683",
+      "V-91585"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16492r294333_chk",
+  "check_content": "Check the SSH daemon configuration for allowed MACs by running the following command: \n# grep -i macs /etc/ssh/sshd_config | grep -v '^#' \nMACs hmac-sha1,hmac-sha1-96,hmac-sha2-256,hmac-sha2-256-96,hmac-sha2-512,hmac-sha2-512-96\n\nIf no lines are returned, or the returned MAC list contains any MAC that is not FIPS 140-2 approved, this is a finding.",
+  "fixtext": "Edit the \"/etc/ssh/sshd_config\" file and add/edit the following line to contain FIPS 140-2 approved ciphers:\nMACs hmac-sha1,hmac-sha1-96,hmac-sha2-256,hmac-sha2-256-96,hmac-sha2-512,hmac-sha2-512-96\n\nRestart SSH daemon:\n# stopsrc -s sshd\n# startsrc -s sshd\n\nNote: If the \"MACs\" configuration contains any ciphers that are not FIPS 140-2 approved, they should be removed from the configuration file.",
+  "fix_id": "F-16490r294334_fix",
+  "VulnDiscussion": "DoD information systems are required to use FIPS 140-2 approved cryptographic hash functions.",
+  "Documentable": "false"
+}

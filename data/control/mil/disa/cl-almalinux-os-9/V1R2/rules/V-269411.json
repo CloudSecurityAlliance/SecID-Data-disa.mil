@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269411",
+  "rule_id": "SV-269411r1050294_rule",
+  "stig_id": "ALMA-09-038960",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must map the authenticated identity to the user or group account for PKI-based authentication.",
+  "group_title": "SRG-OS-000068-GPOS-00036",
+  "idents": {
+    "cci": [
+      "CCI-000187"
+    ]
+  },
+  "check_id": "C-73442r1048609_chk",
+  "check_content": "Note: If the system administrator (SA) demonstrates the use of an approved alternate multifactor authentication method, this requirement is not applicable.\n\nVerify the operating system implements Online Certificate Status Protocol (OCSP) and is using the proper digest value on the system with the following command:\n\n$ grep certmap /etc/sssd/sssd.conf /etc/sssd/conf.d/*.conf \n\n/etc/sssd/conf.d/mapping.conf:[certmap/testing.test/rule_name]\n\nIf the certmap section does not exist, ask the system administrator (SA) to indicate how certificates are mapped to accounts. If there is no evidence of certificate mapping, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to map the authenticated identity to the user or group account by adding or modifying the certmap section of the \"/etc/sssd/sssd.conf\" file or a \"*.conf\" file within the \"/etc/sssd/conf.d/\" directory, based on the following example:\n\n[certmap/testing.test/rule_name]\nmatchrule = .*EDIPI@mil\nmaprule = (userCertificate;binary={cert!bin})\ndomains = testing.test\n\nThe \"sssd\" service must be restarted for the changes to take effect. To restart the \"sssd\" service, run the following command:\n\n$ systemctl restart sssd.service",
+  "fix_id": "F-73343r1049654_fix",
+  "VulnDiscussion": "Without mapping the certificate used to authenticate to the user account, the ability to determine the identity of the individual user or group will not be available for forensic analysis.",
+  "Documentable": "false"
+}

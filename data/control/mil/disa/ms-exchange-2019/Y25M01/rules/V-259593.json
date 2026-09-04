@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259593",
+  "rule_id": "SV-259593r961101_rule",
+  "stig_id": "EX19-ED-000095",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange internet-facing send connectors must specify a Smart Host.",
+  "group_title": "SRG-APP-000213",
+  "idents": {
+    "cci": [
+      "CCI-001178"
+    ]
+  },
+  "check_id": "C-63332r942091_chk",
+  "check_content": "Note: This is not applicable for SIPR enclaves.\n\nReview the Email Domain Security Plan (EDSP).\n\nDetermine the internet-facing connectors.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-SendConnector | Select-Object -Property Name, Identity, SmartHosts, DNSRoutingEnabled\n\nFor each send connector, if the value of \"SmartHosts\" does not return the Smart Host IP Address and the value for \"DNSRoutingEnabled\" is not set to \"False\", this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-SendConnector <'IdentityName'> -SmartHosts <'IP Address of Smart Host'> -DNSRoutingEnabled $false \n\nNote: The <IdentityName> value must be in quotes.\n\nRepeat the procedure for each send connector.",
+  "fix_id": "F-63240r942092_fix",
+  "VulnDiscussion": "When identifying a \"Smart Host\" for the email environment, a logical send connector is the preferred method.\n\nA Smart Host acts as an internet-facing concentrator for other email servers. Appropriate hardening can be applied to the Smart Host, rather than at multiple locations throughout the enterprise.\n\nFailure to identify a Smart Host could default to each email server performing its own lookups (potentially through protective firewalls). Exchange servers should not be internet facing and should therefore not perform any Smart Host functions. When the Exchange servers are internet facing, they must be configured to identify the internet-facing server that is performing the Smart Host function.",
+  "Documentable": "false"
+}

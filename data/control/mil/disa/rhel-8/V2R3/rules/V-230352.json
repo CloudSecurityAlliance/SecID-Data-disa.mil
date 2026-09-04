@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230352",
+  "rule_id": "SV-230352r1017165_rule",
+  "stig_id": "RHEL-08-020060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must automatically lock graphical user sessions after 15 minutes of inactivity.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-33021r646875_chk",
+  "check_content": "Verify the operating system initiates a session lock after a 15-minute period of inactivity for graphical user interfaces with the following commands:\n\nThis requirement assumes the use of the RHEL 8 default graphical user interface, Gnome Shell. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\n$ sudo gsettings get org.gnome.desktop.session idle-delay\n\nuint32 900\n\nIf \"idle-delay\" is set to \"0\" or a value greater than \"900\", this is a finding.",
+  "fixtext": "Configure the operating system to initiate a screensaver after a 15-minute period of inactivity for graphical user interfaces.\n\nCreate a database to contain the system-wide screensaver settings (if it does not already exist) with the following command:\n\n$ sudo touch /etc/dconf/db/local.d/00-screensaver\n\nEdit /etc/dconf/db/local.d/00-screensaver and add or update the following lines:\n\n[org/gnome/desktop/session]\n# Set the lock time out to 900 seconds before the session is considered idle\nidle-delay=uint32 900\n\nUpdate the system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-32996r567803_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.\n\nThe session lock is implemented at the point where session activity can be determined. Rather than be forced to wait for a period of time to expire before the user session can be locked, RHEL 8 needs to provide users with the ability to manually invoke a session lock so users can secure their session if it is necessary to temporarily vacate the immediate physical vicinity.\n\nSatisfies: SRG-OS-000029-GPOS-00010, SRG-OS-000031-GPOS-00012",
+  "Documentable": "false"
+}

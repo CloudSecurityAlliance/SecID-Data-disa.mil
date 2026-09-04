@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259529",
+  "rule_id": "SV-259529r958478_rule",
+  "stig_id": "APPL-14-002210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable sending Siri and Dictation information to Apple.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-63268r941207_chk",
+  "check_content": "Verify the macOS system is configured to disable sending Siri and Dictation information to Apple with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.assistant.support')\\\n.objectForKey('Siri Data Sharing Opt-In Status').js\nEOS\n\nIf the result is not \"2\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable sending Siri and Dictation information to Apple by installing the \"com.apple.assistant.support\" configuration profile.",
+  "fix_id": "F-63176r941208_fix",
+  "VulnDiscussion": "The ability for Apple to store and review audio of Siri and Dictation interactions must be disabled.\n\nThe information system must be configured to provide only essential capabilities. Disabling the submission of Siri and Dictation information will mitigate the risk of unwanted data being sent to Apple.",
+  "Documentable": "false"
+}

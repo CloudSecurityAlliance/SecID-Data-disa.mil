@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-94313",
+  "rule_id": "SV-104267r1_rule",
+  "stig_id": "SYMP-AG-000500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If reverse proxy is used for validating and restricting certs from external entities, and this function is required by the SSP, Symantec ProxySG providing user authentication intermediary services using PKI-based user authentication must only accept end entity certificates issued by DoD PKI or DoD-approved PKI Certification Authorities (CAs) for the establishment of protected sessions.",
+  "group_title": "SRG-NET-000355-ALG-000117",
+  "idents": {
+    "cci": [
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-93499r1_chk",
+  "check_content": "Verify that only DoD-approved Certificate Authorities are trusted by the ProxySG for reverse proxy services.\n\n1. Log on to the Web Management Console.\n2. Browse to Configuration >> Services >> Proxy Services.\n3. Select each HTTPS Reverse Proxy service and click \"Edit Service\".\n4. Note the name of the CCL listed.\n5. Browse to SSL >> CA Certificates >> CA Certificate Lists.\n6. Select the CCL from step 4 and click \"View\".\n7. Verify that only DoD-approved CA Certifications are listed in the box on the right.\n\nIf any CA certifications that are not DoD approved are found in a CCL assigned to a reverse proxy service, this is a finding.",
+  "fixtext": "Configure reverse proxy services to only trust DoD-approved Certificate Authorities.\n\n1. Log on to the Web Management Console.\n2. Browse to Configuration >> Services >> Proxy Services.\n3. Browse to SSL >> CA Certificates >> CA Certificate Lists.\n4. Click \"Import,\" provide a \"Name,\" and paste in the first DoD CA certificate in PEM format and click \"OK\". Repeat for each DoD CA certificate desired.\n5. Click CA Certificate Lists >> New.\n6. Provide a \"Name,\" click each DoD CA certificate created in step 4, and click \"Add\". Once all certificates have been added, click \"OK\".\n7. Browse to Configuration >> Services >> Proxy Services.\n8. Select each HTTPS Reverse Proxy service and click \"Edit Service\".\n9. Select the CCL created in step 6, click \"OK,\" and then click \"Apply\".",
+  "fix_id": "F-100429r1_fix",
+  "VulnDiscussion": "Non-DoD-approved PKIs have not been evaluated to ensure they have security controls and identity vetting procedures in place that are sufficient for DoD systems to rely on the identity asserted in the certificate. PKIs lacking sufficient security controls and identity vetting procedures risk being compromised and issuing certificates that enable adversaries to impersonate legitimate users.\n\nThe authoritative list of DoD-approved PKIs is published at http://iase.disa.mil/pki-pke/interoperability. DoD-approved PKI CAs may include Category I, II, and III certificates. Category I DoD-Approved External PKIs are PIV issuers. Category II DoD-Approved External PKIs are Non-Federal Agency PKIs cross-certified with the Federal Bridge Certification Authority (FBCA). Category III DoD-Approved External PKIs are Foreign, Allied, or Coalition Partner PKIs.\n\nDeploying the ALG with TLS enabled will require the installation of DoD and/or DoD-Approved CA certificates in the trusted root certificate store of each proxy to be used for TLS traffic. \n\nThis requirement focuses on communications protection for the application session rather than for the network packet.",
+  "Documentable": "false"
+}

@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-221658",
+  "rule_id": "SV-221658r1015163_rule",
+  "stig_id": "OL07-00-010061",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must uniquely identify and must authenticate users using multifactor authentication via a graphical user logon.",
+  "group_title": "SRG-OS-000375-GPOS-00160",
+  "idents": {
+    "legacy": [
+      "SV-108161",
+      "V-99057"
+    ],
+    "cci": [
+      "CCI-001948",
+      "CCI-004046"
+    ]
+  },
+  "check_id": "C-23373r419046_chk",
+  "check_content": "Verify the operating system uniquely identifies and authenticates users using multifactor authentication via a graphical user logon.\n\nNote: If the system does not have GNOME installed, this requirement is Not Applicable. \n\nDetermine which profile the system database is using with the following command:\n\n# grep system-db /etc/dconf/profile/user\n\nsystem-db:local\n\nNote: The example is using the database local for the system, so the path is \"/etc/dconf/db/local.d\". This path must be modified if a database other than local is being used.\n\n# grep enable-smartcard-authentication /etc/dconf/db/local.d/*\n\nenable-smartcard-authentication=true\n\nIf \"enable-smartcard-authentication\" is set to \"false\" or the keyword is missing, this is a finding.",
+  "fixtext": "Configure the operating system to uniquely identify and authenticate users using multifactor authentication via a graphical user logon.\n\nNote: If the system does not have GNOME installed, this requirement is Not Applicable.\n\nCreate a database to contain the system-wide screensaver settings (if it does not already exist) with the following command: \n\nNote: The example is using the local system database, so if the system is using another database in \"/etc/dconf/profile/user\", create the file under the appropriate subdirectory.\n\n# touch /etc/dconf/db/local.d/00-defaults\n\nEdit \"[org/gnome/login-screen]\" and add or update the following line:\nenable-smartcard-authentication=true \n\nUpdate the system databases:\n# dconf update",
+  "fix_id": "F-23362r419047_fix",
+  "VulnDiscussion": "To assure accountability and prevent unauthenticated access, users must be identified and authenticated to prevent potential misuse and compromise of the system.\n\nMultifactor solutions that require devices separate from information systems gaining access include, for example, hardware tokens providing time-based or challenge-response authenticators and smart cards such as the U.S. Government Personal Identity Verification card and the DoD Common Access Card.\n\nSatisfies: SRG-OS-000375-GPOS-00161, SRG-OS-000377-GPOS-00162",
+  "Documentable": "false"
+}

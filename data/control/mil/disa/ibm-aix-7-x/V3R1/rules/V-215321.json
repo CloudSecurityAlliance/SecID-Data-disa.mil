@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215321",
+  "rule_id": "SV-215321r958450_rule",
+  "stig_id": "AIX7-00-003004",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX SSH private host key files must have mode 0600 or less permissive.",
+  "group_title": "SRG-OS-000067-GPOS-00035",
+  "idents": {
+    "legacy": [
+      "V-91279",
+      "SV-101377"
+    ],
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-16519r294414_chk",
+  "check_content": "Check the permissions for SSH private host key files: \n# ls -lL /etc/ssh/*key \n\nThe above command should yield the following output:\n-rw-------    1 root     system          668 Jan 18 2017  /etc/ssh/ssh_host_dsa_key\n-rw-------    1 root     system          227 Jan 18 2017  /etc/ssh/ssh_host_ecdsa_key\n-rw-------    1 root     system          965 Jan 18 2017  /etc/ssh/ssh_host_key\n-rw-------    1 root     system         1675 Jan 18 2017  /etc/ssh/ssh_host_rsa_key\n\nIf any file has a mode more permissive than \"0600\", this is a finding.",
+  "fixtext": "Change the permissions for the SSH private host key files:\n# chmod 0600 /etc/ssh/*key",
+  "fix_id": "F-16517r294415_fix",
+  "VulnDiscussion": "If the private key is discovered, an attacker can use the key to authenticate as an authorized user and gain access to the network infrastructure.\n\nThe cornerstone of the PKI is the private key used to encrypt or digitally sign information.\n\nIf the private key is stolen, this will lead to the compromise of the authentication and non-repudiation gained through PKI because the attacker can use the private key to digitally sign documents and pretend to be the authorized user.\n\nBoth the holders of a digital certificate and the issuing authority must protect the computers, storage devices, or whatever they use to keep the private keys.",
+  "Documentable": "false"
+}

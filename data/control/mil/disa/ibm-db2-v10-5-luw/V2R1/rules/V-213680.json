@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213680",
+  "rule_id": "SV-213680r879569_rule",
+  "stig_id": "DB2X-00-001800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DB2 must include additional, more detailed, organization-defined information in the audit records for audit events identified by type, location, or subject.",
+  "group_title": "SRG-APP-000101-DB-000044",
+  "idents": {
+    "legacy": [
+      "SV-89123",
+      "V-74449"
+    ],
+    "cci": [
+      "CCI-000135"
+    ]
+  },
+  "check_id": "C-14901r295089_chk",
+  "check_content": "Check with the ISSO if any more of the organization-defined information needs to be captured as part of DBMS auditing.\n\nIf there is additional information that needs to be captured and is currently not being written to audit logs, this is a finding.",
+  "fixtext": "Configure the application to write the organization-defined information to a database table.\n\nSet the auditing for the database table capturing the organization-defined information so that it is written to the database audit.\n\nDefine an audit policy with the needed subset using the CREATE AUDIT POLICY SQL statement:\nDB2> CREATE AUDIT POLICY <table audit policy name> \n           CATEGORIES CONTEXT STATUS BOTH, EXECUTE STATUS BOTH \n           ERROR TYPE AUDIT\n\nTo modify an existing audit policy, replace \"CREATE\" with \"ALTER\" in the preceding statement. Only the categories explicitly named in the statement will be affected. In this case, the changes take effect immediately.\n\nIf CREATE was used above, apply the policy created to the database: \nDB2> AUDIT TABLE <org info table> using <audit policy name>",
+  "fix_id": "F-14899r295090_fix",
+  "VulnDiscussion": "Information system auditing capability is critical for accurate forensic analysis. Reconstruction of harmful events or forensic analysis is not possible if audit records do not contain enough information. To support analysis, some types of events will need information to be logged that exceeds the basic requirements of event type, time stamps, location, source, outcome, and user identity. If additional information is not available, it could negatively impact forensic investigations into user actions or other malicious events.\n\nThe organization must determine what additional information is required for complete analysis of the audited events. The additional information required is dependent on the type of information (e.g., sensitivity of the data and the environment within which it resides). At a minimum, the organization must employ either full-text recording of privileged commands or the individual identities of group users, or both. The organization must maintain audit trails in sufficient detail to reconstruct events to determine the cause and impact of compromise. \n\nExamples of detailed information the organization may require in audit records are full-text recording of privileged commands or the individual identities of group account users.",
+  "Documentable": "false"
+}

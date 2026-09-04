@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213746",
+  "rule_id": "SV-213746r879869_rule",
+  "stig_id": "DB2X-00-010700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DB2 must generate audit records when unsuccessful attempts to modify categorized information (e.g., classification levels/security levels) occur.",
+  "group_title": "SRG-APP-000498-DB-000347",
+  "idents": {
+    "legacy": [
+      "SV-89309",
+      "V-74635"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-14967r295287_chk",
+  "check_content": "Review the system documentation to determine whether it is required to track categories of information, such as classification or sensitivity level. If it is not, this is not applicable (NA).\n\nTo meet these requirements at the SECMAINT, CONTEXT category auditing needs to be implemented at database level. \n\nRun the following SQL statement to ensure that an audit policy is defined upon the database: \nDB2> SELECT AUDITPOLICYNAME, AUDITPOLICYID \n           FROM SYSCAT.AUDITUSE \n           WHERE OBJECTTYPE IN (' ')\n\nIf no rows are returned, this is a finding. \n\nUsing the AUDITPOLICYID from above query find the details of audit policy: \nDB2> SELECT AUDITPOLICYNAME, CONTEXTSTATUS, SECMAINTSTATUS, ERRORTYPE AS ERRORTYPE \n           FROM SYSCAT.AUDITPOLICIES \n           WHERE AUDITPOLICYID = <audit policy ID>\n\nIf the values for CONTEXTSTATUS and SECMAINTSTATUS are not 'B' (Both) or ERRORTYPE is not 'A' (Audit), this is a finding.",
+  "fixtext": "Run the following command to define an audit policy with the needed subset using the CREATE AUDIT POLICY SQL statement: \nDB2> CREATE AUDIT POLICY <DB audit policy name> \n            CATEGORIES SECMAINT STATUS BOTH, CONTEXT STATUS BOTH \n            ERROR TYPE AUDIT\n\nTo modify an existing audit policy, replace \"CREATE\" with \"ALTER\" in the preceding statement. Only the categories explicitly named in the statement will be affected.  In this case, the changes take effect immediately.\n\nIf CREATE was used above, run the following command to apply the policy created above to the database: \nDB2> AUDIT DATABASE USING POLICY <DB audit policy name>",
+  "fix_id": "F-14965r295288_fix",
+  "VulnDiscussion": "Changes in categorized information must be tracked. Without an audit trail, unauthorized access to protected data could go undetected.\n\nTo aid in diagnosis, it is necessary to keep track of failed attempts in addition to the successful ones.\n\nFor detailed information on categorizing information, refer to FIPS Publication 199, Standards for Security Categorization of Federal Information and Information Systems, and FIPS Publication 200, Minimum Security Requirements for Federal Information and Information Systems.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221664",
+  "rule_id": "SV-221664r958402_rule",
+  "stig_id": "OL07-00-010100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must initiate a session lock for the screensaver after a period of inactivity for graphical user interfaces.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "legacy": [
+      "SV-108173",
+      "V-99069"
+    ],
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-36267r880616_chk",
+  "check_content": "Verify the operating system initiates a session lock after a 15-minute period of inactivity for graphical user interfaces.\n\nNote: If the system does not have GNOME installed, this requirement is Not Applicable.\n\nCheck for the session lock settings with the following commands:\n\n     # grep -i idle-activation-enabled /etc/dconf/db/local.d/*\n     idle-activation-enabled=true\n\nIf \"idle-activation-enabled\" is not set to \"true\", this is a finding.",
+  "fixtext": "Configure the operating system to initiate a session lock after a 15-minute period of inactivity for graphical user interfaces.\n\nCreate a database to contain the system-wide screensaver settings (if it does not already exist) with the following command: \n\n     # touch /etc/dconf/db/local.d/00-screensaver\n\nAdd the setting to enable screensaver locking after 15 minutes of inactivity:\n\n     [org/gnome/desktop/screensaver]\n     idle-activation-enabled=true\n\nUpdate the system databases:\n\n     # dconf update\n\nUsers must log out and back in again before the system-wide settings take effect.",
+  "fix_id": "F-36231r880617_fix",
+  "VulnDiscussion": "A session time-out lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not log out because of the temporary nature of the absence. Rather than relying on the user to manually lock their operating system session prior to vacating the vicinity, operating systems must be able to identify when a user's session has idled and take action to initiate the session lock.\n\nThe session lock is implemented at the point where session activity can be determined and/or controlled.",
+  "Documentable": "false"
+}

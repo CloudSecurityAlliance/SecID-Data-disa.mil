@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-257799",
+  "rule_id": "SV-257799r1044850_rule",
+  "stig_id": "RHEL-09-213020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must prevent the loading of a new kernel for later execution.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-003992",
+      "CCI-001749"
+    ]
+  },
+  "check_id": "C-61540r942968_chk",
+  "check_content": "Verify RHEL 9 is configured to disable kernel image loading.\n\nCheck the status of the kernel.kexec_load_disabled kernel parameter with the following command:\n\n$ sudo sysctl kernel.kexec_load_disabled\n\nkernel.kexec_load_disabled = 1\n\nIf \"kernel.kexec_load_disabled\" is not set to \"1\" or is missing, this is a finding.\n\nCheck that the configuration files are present to enable this kernel parameter with the following command:\n\n$ sudo /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' | grep -F kernel.kexec_load_disabled | tail -1\n\nkernel.kexec_load_disabled = 1\n\nIf \"kernel.kexec_load_disabled\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Add or edit the following line in a system configuration file in the \"/etc/sysctl.d/\" directory:\n\nkernel.kexec_load_disabled = 1\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-61464r925383_fix",
+  "VulnDiscussion": "Changes to any software components can have significant effects on the overall security of the operating system. This requirement ensures the software has not been tampered with and that it has been provided by a trusted vendor.\n\nDisabling kexec_load prevents an unsigned kernel image (that could be a windows kernel or modified vulnerable kernel) from being loaded. Kexec can be used subvert the entire secureboot process and should be avoided at all costs especially since it can load unsigned kernel images.\n\nSatisfies: SRG-OS-000480-GPOS-00227, SRG-OS-000366-GPOS-00153",
+  "Documentable": "false"
+}

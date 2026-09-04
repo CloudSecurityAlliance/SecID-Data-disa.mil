@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-265924",
+  "rule_id": "SV-265924r1028722_rule",
+  "stig_id": "MD7X-00-004600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MongoDB must separate user functionality (including user interface services) from database management functionality.",
+  "group_title": "SRG-APP-000211-DB-000122",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-69842r1028722_chk",
+  "check_content": "MongoDB grants access to data and commands through role-based authorization and provides built-in roles that provide the different levels of access commonly needed in a database system. Additionally, user-defined roles can be created.\n\nCheck a user's role to ensure correct privileges for the function:\n\nRun the following command to get a list of all the databases in the system:\n\n> show dbs\n\nFor each database in the system, identify the user's roles for the database:\n\n> use <database>\n> db.getUsers()\n\nThe server will return a document with the all users in the data and their associated roles.\n\nView a role's privileges: \n\nFor each database, identify the privileges granted by a role:\n\n> use <database>\n> db.getRole( \"<role name>\", { showPrivileges: true } )\n\nThe server will return a document with the \"privileges\" and \"inheritedPrivileges\" arrays. \n\nThe \"privileges returned document lists the privileges directly specified by the role and excludes those privileges inherited from other roles. \n\nThe \"inheritedPrivileges\" returned document lists all privileges granted by this role, both directly specified and inherited. If the role does not inherit from other roles, the two fields are the same.\n\nIf a user has a role with inappropriate privileges, this is a finding.",
+  "fixtext": "Administrators using MongoDB should document the appropriate privileges for various roles appropriate to the application.\n\nFor each database, identify the user's roles for the database. \n\n> use <database>\n> db.getUser(\"<username>\")\n\nThe server will return a document with the user's roles.\n\nTo revoke a user's role from a database use the following:\n\n> db.revokeRolesFromUser( \"<username>\", [ <roles> ], { <writeConcern> } )\n\nTo grant a role to a user use the following:\n \n> db.grantRolesToUser( \"<username>\", [ <roles> ], { <writeConcern> } )",
+  "fix_id": "F-69746r1028557_fix",
+  "VulnDiscussion": "Information system management functionality includes functions necessary to administer databases, network components, workstations, or servers and typically requires privileged user access.\n\nThe separation of user functionality from information system management functionality is either physical or logical and is accomplished by using different computers, different central processing units, different instances of the operating system, different network addresses, combinations of these methods, or other methods, as appropriate.\n\nAn example of this type of separation is observed in web administrative interfaces that use separate authentication methods for users of any other information system resources.\n\nThis may include isolating the administrative interface on a different domain and with additional access controls.\n\nIf administrative functionality or information regarding DBMS management is presented on an interface available for users, information on DBMS settings may be inadvertently made available to the user.",
+  "Documentable": "false"
+}

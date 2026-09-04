@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255963",
+  "rule_id": "SV-255963r961863_rule",
+  "stig_id": "ARST-ND-000810",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The network device must be configured to use an authentication server to authenticate users prior to granting administrative access.",
+  "group_title": "SRG-APP-000516-NDM-000336",
+  "idents": {
+    "cci": [
+      "CCI-000370"
+    ]
+  },
+  "check_id": "C-59639r882229_chk",
+  "check_content": "Verify the Arista network device is configured to use an authentication server as primary source for authentication.\n\nVerify the Arista network device configuration for RADIUS server IP, aaa group server, and defined encryption key using the following example command:\n\nswitch#show running-config |section radius\nradius-server host 192.168.10.101 key 7 106D1A182224E12AZ\n!\naaa group server radius RADIUS_1\n   server 192.168.10.101\n!\nswitch#show running-config | section aaa\naaa authentication login default group radius local\naaa authentication login console group radius local\naaa authentication dot1x default group radius\naaa authentication policy on-success log\naaa authentication policy on-failure log\naaa authorization console\naaa authorization commands all default local\naaa accounting exec default start-stop group radius logging\naaa accounting system default start-stop group radius logging\naaa accounting commands all default start-stop logging group radius\n\nIf the Arista network device is not configured to use an authentication server to authenticate users prior to granting administrative access, this is a finding.",
+  "fixtext": "Configure the Arista network device to use an authentication server.\n\nStep 1: Configure the Arista network device to use RADIUS server using the following commands:\n\nswitch#config\nswitch(config)#radius-server host 192.168.10.101 key 7 106D1A182224E12AZ\naaa group server radius RADIUS_1\n   server 192.168.10.101\n\nStep 2: Configure all network connections associated with device management to use an authentication server for login authentication.\n\nswitch(config)#aaa authentication login default group radius local\naaa authentication login console group radius local\naaa authentication dot1x default group radius\naaa authentication policy on-success log\naaa authentication policy on-failure log\naaa authorization console\naaa authorization commands all default local\naaa accounting exec default start-stop group radius logging\naaa accounting system default start-stop group radius logging\naaa accounting commands all default start-stop logging group radius\nswitch(config)#exit",
+  "fix_id": "F-59582r882230_fix",
+  "VulnDiscussion": "Centralized management of authentication settings increases the security of remote and nonlocal access methods. This control is particularly important protection against the insider threat. With robust centralized management, audit records for administrator account access to the organization's network devices can be more readily analyzed for trends and anomalies. The alternative method of defining administrator accounts on each device exposes the device configuration to remote access authentication attacks and system administrators with multiple authenticators for each network device.",
+  "Documentable": "false"
+}

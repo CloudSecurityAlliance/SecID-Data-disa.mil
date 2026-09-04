@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213558",
+  "rule_id": "SV-213558r961857_rule",
+  "stig_id": "JBOS-AS-000730",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The JBoss server must be configured to use DoD- or CNSS-approved PKI Class 3 or Class 4 certificates.",
+  "group_title": "SRG-APP-000514-AS-000137",
+  "idents": {
+    "legacy": [
+      "SV-76833",
+      "V-62343"
+    ],
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-14781r296340_chk",
+  "check_content": "Interview the administrator to determine if JBoss is using certificates for PKI.  If JBoss is not performing any PKI functions, this finding is NA.\n\nThe CA certs are usually stored in a file called cacerts located in the directory $JAVA_HOME/lib/security.  If the file is not in this location, use a search command to locate the file, or ask the administrator where the certificate store is located.\n\nOpen a dos shell or terminal window and change to the location of the certificate store.  To view the certificates within the certificate store, run the command (in this example, the keystore file is cacerts.): keytool -list -v -keystore ./cacerts  \n\nLocate the \"OU\" field for each certificate within the keystore.  The field should contain either \"DoD\" or \"CNSS\" as the Organizational Unit (OU). \n\nIf the OU does not show that the certificates are DoD or CNSS supplied, this is a finding.",
+  "fixtext": "Configure the application server to use DoD- or CNSS-approved Class 3 or Class 4 PKI certificates.",
+  "fix_id": "F-14779r296341_fix",
+  "VulnDiscussion": "Class 3 PKI certificates are used for servers and software signing rather than for identifying individuals. Class 4 certificates are used for business-to-business transactions. Utilizing unapproved certificates not issued or approved by DoD or CNS creates an integrity risk. The application server must utilize approved DoD or CNS Class 3 or Class 4 certificates for software signing and business-to-business transactions.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242414",
+  "rule_id": "SV-242414r1043177_rule",
+  "stig_id": "CNTR-K8-000960",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes cluster must use non-privileged host ports for user pods.",
+  "group_title": "SRG-APP-000142-CTR-000330",
+  "idents": {
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-45689r863835_chk",
+  "check_content": "On the Control Plane, run the command:\nkubectl get pods --all-namespaces\n\nThe list returned is all pods running within the Kubernetes cluster. For those pods running within the user namespaces (System namespaces are kube-system, kube-node-lease and kube-public), run the command:\nkubectl get pod podname -o yaml | grep -i port\n\nNote: In the above command, \"podname\" is the name of the pod. For the command to work correctly, the current context must be changed to the namespace for the pod. The command to do this is:\n\nkubectl config set-context --current --namespace=namespace-name\n(Note: \"namespace-name\" is the name of the namespace.)\n\nReview the ports that are returned for the pod.\n\nIf any host-privileged ports are returned for any of the pods, this is a finding.",
+  "fixtext": "For any of the pods that are using host-privileged ports, reconfigure the pod to use a service to map a host non-privileged port to the pod port or reconfigure the image to use non-privileged ports.",
+  "fix_id": "F-45647r717032_fix",
+  "VulnDiscussion": "Privileged ports are those ports below 1024 and that require system privileges for their use. If containers can use these ports, the container must be run as a privileged user. Kubernetes must stop containers that try to map to these ports directly. Allowing non-privileged ports to be mapped to the container-privileged port is the allowable method when a certain port is needed. An example is mapping port 8080 externally to port 80 in the container.",
+  "Documentable": "false"
+}

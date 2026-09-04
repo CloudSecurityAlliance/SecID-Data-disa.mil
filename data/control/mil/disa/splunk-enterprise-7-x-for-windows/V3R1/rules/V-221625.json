@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221625",
+  "rule_id": "SV-221625r961398_rule",
+  "stig_id": "SPLK-CL-000290",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Splunk Enterprise must be configured to send an immediate alert to the System Administrator (SA) and Information System Security Officer (ISSO) (at a minimum) when allocated log record storage volume reaches 75 percent of the repository maximum log record storage capacity.",
+  "group_title": "SRG-APP-000359-AU-000120",
+  "idents": {
+    "legacy": [
+      "SV-111341",
+      "V-102397"
+    ],
+    "cci": [
+      "CCI-001855"
+    ]
+  },
+  "check_id": "C-23340r416332_chk",
+  "check_content": "Perform the following checks. If any do not comply, this is a finding.\n\n(Note that these files may exist in one of the following folders or its subfolders:\n$SPLUNK_HOME/etc/apps/\n$SPLUNK_HOME/etc/slave-apps/)\n\n1. Examine the file in the Splunk installation folder:\n\n$SPLUNK_HOME/etc/system/local/server.conf\n\nLocate the following setting:\n\n[diskUsage]\nminFreeSpace =  xxxx\n\nVerify that the value is set to 25 percent of the size of the storage volume. For example, 25 percent of a 100 GB drive is 25 GB, and the value set would be 25000, as the value is in megabytes.\n\n2. Examine the file in the Splunk installation folder:\n\n$SPLUNK_HOME/etc/system/local/health.conf\n\nLocate the following setting:\n\n[alert_action:email]\ndisabled = 0\naction.to =\naction.cc =\n\nVerify that the email addresses of the ISSO and SA are set to receive alerts. This email address can be a group address (example alerts@domain.com) that contains the addresses of the ISSO and SA.\n\n3. In the Splunk console, select Settings >> Health Report Manager >> feature:disk_space.\n\nVerify Red setting is 1, and Yellow setting is 2.",
+  "fixtext": "Perform the following fixes.\n\n(Note that these files may exist in one of the following folders or its subfolders:\n$SPLUNK_HOME/etc/apps/\n$SPLUNK_HOME/etc/slave-apps/)\n\n1. Edit the file in the Splunk installation folder:\n\n$SPLUNK_HOME/etc/system/local/server.conf\n\nAdd the following lines:\n\n[diskUsage]\nminFreeSpace =  xxxx\n\nSet the value to 25 percent of the size of the storage volume. For example, 25 percent of a 100 GB drive is 25 GB, and the value set would be 25000, as the value is in megabytes.\n\n2. Examine the file in the Splunk installation folder:\n\n$SPLUNK_HOME/etc/system/local/health.conf\n\nAdd the following lines:\n\n[alert_action:email]\ndisabled = 0\naction.to =\naction.cc =\n\nSet the email addresses of the ISSO and SA to be able to receive alerts. This email address can be a group address (example alerts@domain.com) that contains the addresses of the ISSO and SA.\n\n3. In the Splunk console, select Settings >> Health Report Manager >> feature:disk_space.\n\nSet the Red setting to 1, and Yellow setting to 2.",
+  "fix_id": "F-23329r416333_fix",
+  "VulnDiscussion": "If security personnel are not notified immediately upon storage volume utilization reaching 75 percent they are unable to plan for storage capacity expansion. \n\nAlthough this may be part of the operating system function, for the enterprise events management system, this is most often a function managed through the application since it is a critical function and requires the use of a large amount of external storage.",
+  "Documentable": "false"
+}

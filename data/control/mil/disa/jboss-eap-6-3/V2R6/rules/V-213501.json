@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213501",
+  "rule_id": "SV-213501r960792_rule",
+  "stig_id": "JBOS-AS-000050",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Silent Authentication must be removed from the Default Management Security Realm.",
+  "group_title": "SRG-APP-000033-AS-000024",
+  "idents": {
+    "legacy": [
+      "V-62223",
+      "SV-76713"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-14724r754850_chk",
+  "check_content": "Log on to the OS of the JBoss server with OS permissions that allow access to JBoss. \nUsing the relevant OS commands and syntax, cd to the <JBOSS_HOME>/bin/ folder. \nRun the jboss-cli script. \nConnect to the server and authenticate. \n\nVerify that Silent Authentication has been removed from the default Management security realm.\nRun the following command. \n\nFor standalone servers run the following command:\n\"ls /core-service=management/security-realm=ManagementRealm/authentication\"\n\nFor managed domain installations run the following command:\n\"ls /host=HOST_NAME/core-service=management/security-realm=ManagementRealm/authentication\"\n\nIf \"local\" is returned, this is a finding.",
+  "fixtext": "Log on to the OS of the JBoss server with OS permissions that allow access to JBoss. \nUsing the relevant OS commands and syntax, cd to the <JBOSS_HOME>/bin/ folder. \nRun the jboss-cli script. \nConnect to the server and authenticate. \n\nRemove the local element from the Management Realm.\nFor standalone servers run the following command:\n/core-service=management/security-realm=\nManagementRealm/authentication=local:remove\n\nFor managed domain installations run the following command:\n/host=HOST_NAME/core-service=management/security-realm=\nManagementRealm/authentication=local:remove",
+  "fix_id": "F-14722r754851_fix",
+  "VulnDiscussion": "Silent Authentication is a configuration setting that allows local OS users access to the JBoss server and a wide range of operations without specifically authenticating on an individual user basis.  By default $localuser is a Superuser. This introduces an integrity and availability vulnerability and violates best practice requirements regarding accountability.",
+  "Documentable": "false"
+}

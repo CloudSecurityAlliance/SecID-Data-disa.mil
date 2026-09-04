@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-237820",
+  "rule_id": "SV-237820r647869_rule",
+  "stig_id": "HP3P-32-001300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SNMP must be changed from default settings and must be configured on the storage system to provide alerts of critical events that impact system security.",
+  "group_title": "SRG-OS-000046-GPOS-00022",
+  "idents": {
+    "legacy": [
+      "SV-85115",
+      "V-70493"
+    ],
+    "cci": [
+      "CCI-000139",
+      "CCI-000366",
+      "CCI-001858"
+    ]
+  },
+  "check_id": "C-41030r647867_chk",
+  "check_content": "Verify a SNMPv3 user account is configured. Run the following command:\n\ncli% showsnmpuser\nUsername | AuthProtocol | PrivProtocol\n3parsnmpuser | HMAC SHA 96 | CFB128 AES 128\n\nIf the output is not displayed in the above format, this is a finding.\n\nIdentify the SNMP trap recipient and report SNMP configuration with the following command:\n\ncli% showsnmpmgr\nHostIP | Port | SNMPVersion | User\n<snmp trap recipient IP> | 162 | 3 | 3parsnmpuser\n\nIf the SNMP trap recipient IP address is incorrect, this is a finding.\nIf the SNMP port is not \"162\", this is a finding.\nIf the SNMP version is not \"3\", this is a finding.\nIf the SNMP user ID is incorrect, this is a finding.\n\nGenerate a test trap:\ncli% checksnmp\n\nTrap sent to the following managers:\n< IP address of trap recipient>\n\nIf the response does not indicate a trap was successfully sent, this is a finding.",
+  "fixtext": "To configure SNMPv3 alert notifications, use this sequence of operations to create and enable an SNMPv3 user, and create associated keys for authentication and privacy:\n\nFirst, create the \"3parsnmpuser\" on the host with the following command:\n\ncli% createuser 3parsnmpuser all browse\n\nEnter the password and retype the password to confirm.\n\nNext, create the snmp user and associate that with the \"3parsnmpuser\" account on the host.\n\ncli% createsnmpuser 3parsnmpuser\n\nEnter the password and retype the password to confirm. \n\nFinally, add the IP address of the SNMPv3 trap recipient, where the permissions of the account are used:\n\ncli% addsnmpmgr -pw <password> -version 3 -snmpuser 3parsnmpuser <ip address>",
+  "fix_id": "F-40989r647868_fix",
+  "VulnDiscussion": "Whether active or not, default SNMP passwords, users, and passphrases must be changed to maintain security. If the service is running with the default authenticators, anyone can gather data about the system and the network(s) and use the information to potentially compromise the integrity of the system or network(s).\n\nThe product must be configured to alert administrators when events occur that may impact system operation or security. The alerting mechanism must support secured options and configurations that can be audited.\n\nSatisfies: SRG-OS-000046-GPOS-00022, SRG-OS-000480-GPOS-00227, SRG-OS-000344-GPOS-00135",
+  "Documentable": "false"
+}

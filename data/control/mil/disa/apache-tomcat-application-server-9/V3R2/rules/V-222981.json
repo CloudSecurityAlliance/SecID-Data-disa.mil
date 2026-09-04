@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222981",
+  "rule_id": "SV-222981r961281_rule",
+  "stig_id": "TCAT-AS-001030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "LockOutRealms failureCount attribute must be set to 5 failed logins for admin users.",
+  "group_title": "SRG-APP-000316-AS-000199",
+  "idents": {
+    "legacy": [
+      "SV-111485",
+      "V-102545"
+    ],
+    "cci": [
+      "CCI-002322"
+    ]
+  },
+  "check_id": "C-24653r426387_chk",
+  "check_content": "From the Tomcat server console, run the following command:\n\nsudo grep -i  LockOutRealm $CATALINA_BASE/conf/server.xml.  \n\nIf there are no results or if the LockOutRealm failureCount setting is not configured to 5, this is a finding.",
+  "fixtext": "From the Tomcat server console as a privileged user edit the $CATALINA_BASE/conf/server.xml file.\n\nsudo nano $CATALINA_BASE/conf/server.xml file\n\nLocate or add the LockOutRealm element. Set LockOutRealm failureCount=\"5\"\n\nEXAMPLE:\n      <Realm className=\"org.apache.catalina.realm.LockOutRealm\" failureCount=\"5\" lockOutTime=\"600\">\n...\n</Realm>",
+  "fix_id": "F-24642r426388_fix",
+  "VulnDiscussion": "A LockOutRealm adds the ability to lock a user out after multiple failed logins. Setting the failureCount attribute to 5 will lock out a user account after 5 failed attempts. \n\nLockOutRealm is an implementation of the Tomcat Realm interface that extends the CombinedRealm to provide user lock out functionality if there are too many failed authentication attempts in a given period of time. A LockOutRealm is created by wrapping around a standard realm such as a JNDI Directory Realm which connects Tomcat to an LDAP Directory.\n\nA Catalina container (Engine, Host, or Context) may contain no more than one Realm element (although this one Realm may itself contain multiple nested Realms). In addition, the Realm associated with an Engine or a Host is automatically inherited by lower-level containers unless the lower level container explicitly defines its own Realm. If no Realm is configured for the Engine, an instance of the Null Realm will be configured for the Engine automatically.",
+  "Documentable": "false"
+}

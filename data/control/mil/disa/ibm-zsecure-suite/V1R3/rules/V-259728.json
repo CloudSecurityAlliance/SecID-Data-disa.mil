@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259728",
+  "rule_id": "SV-259728r1050748_rule",
+  "stig_id": "ZSEC-00-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to IBM Security zSecure installation data sets must be properly restricted and logged.",
+  "group_title": "SRG-APP-000133-MFP-000192",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-63467r943216_chk",
+  "check_content": "Verify the accesses to zSecure installation data sets are properly restricted. \n\n- The RACF profile(s) protecting zSecure installation data sets must not allow general access by means of UACC, ID(*), WARNING, or global access.\n- The RACF profile(s) protecting zSecure installation data sets must restrict READ access to auditors, security administrators , decentralized security administrators, batch jobs that perform External Security Manager (ESM) maintenance, and trusted STC users.\n- The RACF profile(s) protecting zSecure installation data sets must restrict UPDATE and higher access to systems programmers. \n- All failures and successful UPDATE and higher access must be logged.\n\nIf all of the above restrictions are true, this is not a finding.",
+  "fixtext": "Ensure ALTER access to zSecure installation data sets is restricted to systems programmers, and all failures and successful UPDATE and higher access is logged. \n\nREAD access can be permitted to auditors, security administrators (domain level and decentralized), batch jobs that perform ESM maintenance, and trusted STC users.\n\nThe installing systems programmer will identify and document the product data sets and categorize them according to who will require UPDATE and higher access and if required that all successful UPDATE and higher access is logged. The installing systems programmer will identify if any additional groups need READ access for specific zSecure installation data sets, and once documented will work with the information system security officer (ISSO) to ensure they are properly restricted to the ESM active on the system.\n\nThe following commands are provided as a RACF sample for implementing zSecure installation data set controls. Please convert these commands for any other ESM:\n\nad 'hlq.zsec.inst.dsn' uacc(none) owner(zSecure owner) -\naudit(success(update) failures(read)) \npe 'hlq.zsec.inst.dsn'  id(AUDTAUDT, SECAAUDT, SECBAUDT, SECDAUDT, TSTCAUDT) access(READ)  \npe  'hlq.zsec.inst.dsn'  id(SYSPAUDT) access(ALTER)",
+  "fix_id": "F-63374r1050747_fix",
+  "VulnDiscussion": "If the zSecure application were to allow any user to make changes to software libraries, those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n\nThis requirement applies to applications with software libraries that are accessible and configurable, as in the case of interpreted languages. Software libraries also include privileged programs that execute with escalated privileges. Only qualified and authorized individuals must be allowed to obtain access to information system components to initiate changes, including upgrades and modifications.",
+  "Documentable": "false"
+}

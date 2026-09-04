@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234162",
+  "rule_id": "SV-234162r879525_rule",
+  "stig_id": "FGFW-ND-000005",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate device must automatically audit account creation.",
+  "group_title": "SRG-APP-000026-NDM-000208",
+  "idents": {
+    "cci": [
+      "CCI-000018"
+    ]
+  },
+  "check_id": "C-37347r611673_chk",
+  "check_content": "If the System category of Event Logging is enabled, then account creation is audited. To check that System and Event Logging are enabled, log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Log and Report.\n2. Click Log Settings.\n3. Scroll down to Log Settings.\n4. Verify Event Logging is set to \"All\" (for most verbose logging) or \"Customize\", and includes at least the System activity event.\n\nIf Event Logging is not set to \"All\" or \"Customize\" with System enabled, then account creation will not be audited, and this is a finding.\n\nor \n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n\n     # show full-configuration log eventfilter | grep -i 'event\\|system'\nThe output should be: \n     set event enable\n     set system enable\n\nIf event and system parameters are set to disable, the account creation is not audited, and this is a finding.",
+  "fixtext": "This fix can be performed on the FortiGate GUI or on the CLI. \nLog in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Log and Report.\n2. Click Log Settings.\n3. Scroll down to Log Settings.\n4. For Event Logging options, click \"All\" (for most verbose logging) or \"Customize\", and include at least the System activity event.\n5. Click Apply.\n\nor\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config log eventfilter\n     #    set event enable\n     #    set system enable\n     #    set endpoint enable\n     #    set user enable\n     # end",
+  "fix_id": "F-37312r628858_fix",
+  "VulnDiscussion": "Upon gaining access to a network device, an attacker will often first attempt to create a persistent method of reestablishing access. One way to accomplish this is to create a new account. Notification of account creation helps to mitigate this risk. Auditing account creation provides the necessary reconciliation that account management procedures are being followed. Without this audit trail, personnel without the proper authorization may gain access to critical network nodes.",
+  "Documentable": "false"
+}

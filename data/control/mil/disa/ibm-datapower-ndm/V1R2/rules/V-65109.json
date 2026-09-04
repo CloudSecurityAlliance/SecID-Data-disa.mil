@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-65109",
+  "rule_id": "SV-79599r1_rule",
+  "stig_id": "WSDP-NM-000072",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DataPower Gateway must generate unique session identifiers using a FIPS 140-2 approved random number generator.",
+  "group_title": "SRG-APP-000224-NDM-000270",
+  "idents": {
+    "cci": [
+      "CCI-001188"
+    ]
+  },
+  "check_id": "C-65737r1_chk",
+  "check_content": "From the web interface for DataPower device management, verify that the DataPower Gateway Cryptographic Mode is Set to FIPS 140-2 Level 1; Status >> Crypto >> Cryptographic Mode Status.\n\nIf it is not set to FIPS 140-2, this is a finding.\n\nThen, verify that the session identifiers (TIDs) in the System Log are random: Status >> View Logs >> Systems Logs.\n\nIf they are not random, this is a finding.",
+  "fixtext": "From the DataPower command line, enter \"use-fips on\" to configure DataPower to generate unique session identifiers using a FIPS 140-2 approved random number generator. From the web interface, use \"Set Cryptographic Mode\" (Administration >> Miscellaneous >> Crypto Tools, Set Cryptographic Mode tab) to set the appliance to \"FIPS 140-2 Level 1\" mode.\n\nThis will achieve NIST SP800-131a compliance.",
+  "fix_id": "F-71049r1_fix",
+  "VulnDiscussion": "Sequentially generated session IDs can be easily guessed by an attacker. Employing the concept of randomness in the generation of unique session identifiers helps to protect against brute-force attacks to determine future session identifiers.\n\nUnique session IDs address man-in-the-middle attacks, including session hijacking or insertion of false information into a session. If the attacker is unable to identify or guess the session information related to pending application traffic, they will have more difficulty in hijacking the session or otherwise manipulating valid sessions.\n\nThis requirement is applicable to devices that use a web interface for device management.",
+  "Documentable": "false"
+}

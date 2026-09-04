@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261393",
+  "rule_id": "SV-261393r996602_rule",
+  "stig_id": "SLEM-05-611090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must employ FIPS 140-2/140-3 approved cryptographic hashing algorithm for system authentication (login.defs).",
+  "group_title": "SRG-OS-000120-GPOS-00061",
+  "idents": {
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-65122r996601_chk",
+  "check_content": "Verify that the shadow password suite configuration is set to encrypt password with a FIPS 140-2/140-3 approved cryptographic hashing algorithm with the following command:\n\n     > grep \"^ENCRYPT_METHOD \" /etc/login.defs\n     ENCRYPT_METHOD SHA512\n\nIf \"ENCRYPT_METHOD\" is not set to \"SHA512\", if any values other that \"SHA512\" are configured, or if no output is produced, this is a finding.",
+  "fixtext": "Configure SLEM 5 to require \"ENCRYPT_METHOD\" of \"SHA512\".\n\nAdd or modify the following line in the \"/etc/login.defs\" file:\n\nENCRYPT_METHOD SHA512",
+  "fix_id": "F-65030r996045_fix",
+  "VulnDiscussion": "Unapproved mechanisms that are used for authentication to the cryptographic module are not verified and therefore cannot be relied on to provide confidentiality or integrity, and DOD data may be compromised.\n\nSLEM 5 using encryption are required to use FIPS 140-2/140-3 compliant mechanisms for authenticating to cryptographic modules.\n\nFIPS 140-2/140-3 is the current standard for validating that mechanisms used to access cryptographic modules use authentication that meets DOD requirements. This allows for Security Levels 1, 2, 3, or 4 for use on a general-purpose computing system.",
+  "Documentable": "false"
+}

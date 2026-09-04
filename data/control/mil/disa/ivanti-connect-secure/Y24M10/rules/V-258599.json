@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-258599",
+  "rule_id": "SV-258599r961863_rule",
+  "stig_id": "IVCS-NM-000030",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The ICS must be configured to send admin log data to a redundant central log server.",
+  "group_title": "SRG-APP-000516-NDM-000350",
+  "idents": {
+    "cci": [
+      "CCI-001851",
+      "CCI-001858",
+      "CCI-002605"
+    ]
+  },
+  "check_id": "C-62339r930483_chk",
+  "check_content": "Verify the ICS is configured with address information so it sends admin log event records to a central log server.\n\nIn the ICS Web UI, navigate to System >> Log/Monitoring >> Events >> Settings. \n\nUnder \"Syslog Servers\", verify a server name/IP address, facility of LOCAL0, type TLS, and the management source interface are defined.\n\nIn the ICS Web UI, navigate to System >> Log/Monitoring >> Admin Access >> Settings.\n\nUnder \"Syslog Servers\", verify server names/IP addresses are added. Also ensure facility of LOCAL0, type TLS, and them management source interface are not defined.\n\nIf the ICS is not configured to send log admin log events data to redundant central log servers, this is a finding.",
+  "fixtext": "Configure the ICS with the address information for the redundant central log servers. \n\nIn the ICS Web UI:\n1. Navigate to System >> Log/Monitoring >> Events >> Settings.\n2. Under \"Syslog Servers\" add an IP address/server name/IP.\n3. Set the facility to LOCAL0.\n4. Set type to TLS.\n5. If a client cert is required for the syslog server, select the client certificate to use for the syslog traffic. If none exists, import the DOD-signed client key pair to the ICS under System >> Configuration >> Certificates >> Client Auth Certificates.\n6. Set the standard filer.\n7. Set the source interface as the management interface.\n8. Click \"Add\".\n9. Click \"Save Changes\".\n10. Repeat these steps for the admin logs under System >> Log/Monitoring >> Admin Access >> Settings.\n11. Repeat these steps to add a redundant syslog server.",
+  "fix_id": "F-62248r930484_fix",
+  "VulnDiscussion": "The aggregation of log data kept on a syslog server can be used to detect attacks and trigger an alert to the appropriate security personnel. The stored log data can used to detect weaknesses in security that enable the network IA team to find and address these weaknesses before breaches can occur. Reviewing these logs, whether before or after a security breach, are important in showing whether someone is an internal employee or an outside threat.\n\nSatisfies: SRG-APP-000516-NDM-000350, SRG-APP-000360-NDM-000295, SRG-APP-000515-NDM-000325",
+  "Documentable": "false"
+}

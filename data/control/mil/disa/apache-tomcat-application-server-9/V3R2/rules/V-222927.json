@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222927",
+  "rule_id": "SV-222927r960759_rule",
+  "stig_id": "TCAT-AS-000020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Secured connectors must be configured to use strong encryption ciphers.",
+  "group_title": "SRG-APP-000014-AS-000009",
+  "idents": {
+    "legacy": [
+      "SV-111373",
+      "V-102429"
+    ],
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-24599r426225_chk",
+  "check_content": "From the Tomcat server console, run the following command:\n\nsudo grep -i ciphers $CATALINA_BASE/conf/server.xml.\n\nExamine each <Connector/> element that is not a redirect to a secure port. Identify the ciphers that are configured on each connector and determine if any of the ciphers are not secure.\n\nFor a list of approved ciphers, refer to NIST SP 800-52 section 3.3.1.1.\n\nIf insecure ciphers are configured for use, this is a finding.",
+  "fixtext": "As a privileged user on the Tomcat server, edit the $CATALINA_BASE/conf/server.xml and modify the <Connector/> element.\n\nAdd the SSLEnabledProtocols=\"TLSv1.2\" setting to the connector or modify the existing setting.\n\nSet SSLEnabledProtocols=\"TLSv1.2\". Save the server.xml file and restart Tomcat:\nsudo systemctl restart tomcat\nsudo systemctl reload-daemon",
+  "fix_id": "F-24588r426226_fix",
+  "VulnDiscussion": "The Tomcat <Connector> element controls the TLS protocol and the associated ciphers used. If a strong cipher is not selected, an attacker may be able to circumvent encryption protections that are configured for the connector. Strong ciphers must be employed when configuring a secured connector.\n\nThe configuration attribute and its values depend on what HTTPS implementation the user is utilizing. The user may be utilizing either Java-based implementation aka JSSE — with BIO and NIO connectors, or OpenSSL-based implementation — with APR connector.\n\nTLSv1.2 ciphers are configured via the server.xml file on a per connector basis.  For a list of approved ciphers, refer to NIST SP 800-52 section 3.3.1.1.",
+  "Documentable": "false"
+}

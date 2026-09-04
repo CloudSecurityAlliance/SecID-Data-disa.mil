@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207566",
+  "rule_id": "SV-207566r879887_rule",
+  "stig_id": "BIND-9X-001113",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BIND 9.X implementation must not utilize a TSIG or DNSSEC key for more than one year.",
+  "group_title": "SRG-APP-000516-DNS-000500",
+  "idents": {
+    "legacy": [
+      "SV-87067",
+      "V-72443"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-7821r283752_chk",
+  "check_content": "With the assistance of the DNS Administrator, identify all of the cryptographic key files used by the BIND 9.x implementation.\n\nWith the assistance of the DNS Administrator, determine the location of the cryptographic key files used by the BIND 9.x implementation.\n\n# ls –al <Crypto_Key_Location>\n-rw-------. 1 named named 76 May 10 20:35 crypto-example.key\n\nIf the server is in a classified network, the DNSSEC portion of the requirement is Not Applicable.\n\nFor DNSSEC Keys:\nVerify that the “Created” date is less than one year from the date of inspection:\n\nNote: The date format will be displayed in YYYYMMDDHHMMSS.\n\n# cat <DNSSEC_Key_File> | grep -i “created”\nCreated: 20160704235959\n\nIf the “Created” date is more than one year old, this is a finding.\n\nFor TSIG Keys:\n\nVerify with the ISSO/ISSM that the TSIG keys are less than one year old.\n\nIf a TSIG key is more than one year old, this is a finding.",
+  "fixtext": "Generate new DNSSEC and TSIG keys.\n\nFor DNSSEC keys:\n\nUse the newly generated keys to resign all of the zone files on the name server.\n\nFor TSIG keys:\n\nUpdate the named.conf file with the new keys.\n\nRestart the BIND 9.X process.",
+  "fix_id": "F-7821r283753_fix",
+  "VulnDiscussion": "Cryptographic keys are the backbone of securing DNS information over the wire, maintaining DNS data integrity, and the providing the ability to validate DNS information that is received.\n\nWhen a cryptographic key is utilized by a DNS server for a long period of time, the likelihood of compromise increases. A compromised key set would allow an attacker to intercept and possibly inject comprised data into the DNS server. In this compromised state, the DNS server would be vulnerable to DoS attacks, as well as being vulnerable to becoming a launching pad for further attacks on an organizations network.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220801",
+  "rule_id": "SV-220801r958478_rule",
+  "stig_id": "WN10-CC-000039",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Run as different user must be removed from context menus.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "SV-86953",
+      "V-72329"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-22516r554888_chk",
+  "check_content": "If the following registry values do not exist or are not configured as specified, this is a finding.\nThe policy configures the same Value Name, Type and Value under four different registry paths.\n\nRegistry Hive:  HKEY_LOCAL_MACHINE\nRegistry Paths:  \n\\SOFTWARE\\Classes\\batfile\\shell\\runasuser\\\n\\SOFTWARE\\Classes\\cmdfile\\shell\\runasuser\\\n\\SOFTWARE\\Classes\\exefile\\shell\\runasuser\\\n\\SOFTWARE\\Classes\\mscfile\\shell\\runasuser\\\n\nValue Name:  SuppressionPolicy\n\nType:  REG_DWORD\nValue:  0x00001000 (4096)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Administrative Templates >> MS Security Guide >> \"Remove \"Run as Different User\" from context menus\" to \"Enabled\".\n\nThis policy setting requires the installation of the SecGuide custom templates included with the STIG package.  \"SecGuide.admx\" and \"SecGuide.adml\" must be copied to the \\Windows\\PolicyDefinitions and \\Windows\\PolicyDefinitions\\en-US directories respectively.",
+  "fix_id": "F-22505r554889_fix",
+  "VulnDiscussion": "The \"Run as different user\" selection from context menus allows the use of credentials other than the currently logged on user.  Using privileged credentials in a standard user session can expose those credentials to theft.  Removing this option from context menus helps prevent this from occurring.",
+  "Documentable": "false"
+}

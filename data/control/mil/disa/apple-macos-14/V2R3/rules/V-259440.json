@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-259440",
+  "rule_id": "SV-259440r958388_rule",
+  "stig_id": "APPL-14-000060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must set account lockout time to 15 minutes.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044",
+      "CCI-002238"
+    ]
+  },
+  "check_id": "C-63179r940940_chk",
+  "check_content": "Verify the macOS system is configured to set account lockout time to 15 minutes with the following command:\n\n/usr/bin/pwpolicy -getaccountpolicies 2> /dev/null | /usr/bin/tail +2 | /usr/bin/xmllint --xpath '//dict/key[text()=\"autoEnableInSeconds\"]/following-sibling::integer[1]/text()' - | /usr/bin/awk '{ if ($1/60 >= 15 ) {print \"yes\"} else {print \"no\"}}'\n\nIf the result is not \"yes\", this is a finding.",
+  "fixtext": "Configure the macOS system to set account lockout time to 15 minutes by installing the \"com.apple.mobiledevice.passwordpolicy\" configuration profile or by a directory service.",
+  "fix_id": "F-63087r940941_fix",
+  "VulnDiscussion": "The macOS must be configured to enforce a lockout time period of at least 15 minutes when the maximum number of failed logon attempts is reached.\n\nThis rule protects against malicious users attempting to gain access to the system via brute-force hacking methods.\n\nSatisfies: SRG-OS-000021-GPOS-00005,SRG-OS-000329-GPOS-00128",
+  "Documentable": "false"
+}

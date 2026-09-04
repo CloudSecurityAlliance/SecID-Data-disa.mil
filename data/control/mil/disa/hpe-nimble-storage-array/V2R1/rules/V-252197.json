@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-252197",
+  "rule_id": "SV-252197r997780_rule",
+  "stig_id": "HPEN-NM-000120",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The HPE Nimble must be configured to use an authentication server for the purpose of authenticating users prior to granting administrative access.",
+  "group_title": "SRG-APP-000516-NDM-000336",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-000370"
+    ]
+  },
+  "check_id": "C-55653r997780_chk",
+  "check_content": "Run the command \"userauth --list\". \n\nIf the output is \"No domains configured\", this is a finding.",
+  "fixtext": "To configure AD, run the following commands: \n\n\"userauth --join <domain> --domain_user administrator\" and enter the domain administrator password to join <domain>. \n\n\"userauth --list\" will show the domain and its status. \n\nTo create a mapping between an AD group and one of the four device RBAC roles, run the following command: \n\n\"userauth --add_group <domain_group> --domain <domain> --role {administrator|poweruser|operator|guest}\"\n\nThis command allows any member of <domain_group> in <domain> AD domain to log in to the device with one of the selected roles. \n\nTo display the group to role mappings, run \"userauth --list_group --domain <domain>\".",
+  "fix_id": "F-55603r814070_fix",
+  "VulnDiscussion": "Centralized management of authentication settings increases the security of remote and nonlocal access methods. This control is particularly important protection against the insider threat. With robust centralized management, audit records for administrator account access to the organization's network devices can be more readily analyzed for trends and anomalies. The alternative method of defining administrator accounts on each device exposes the device configuration to remote access authentication attacks and system administrators with multiple authenticators for each network device.",
+  "Documentable": "false"
+}

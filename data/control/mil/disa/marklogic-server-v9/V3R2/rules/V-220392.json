@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220392",
+  "rule_id": "SV-220392r961797_rule",
+  "stig_id": "ML09-00-009500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MarkLogic Server must generate audit records when categories of information (e.g., classification levels/security levels) are accessed.",
+  "group_title": "SRG-APP-000494-DB-000344",
+  "idents": {
+    "legacy": [
+      "SV-110133",
+      "V-101029"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-22107r401627_chk",
+  "check_content": "Review the DBMS/database security and audit configurations to verify that audit records are produced when categories of information are accessed, to include reads, creations, modifications, and deletions.\n\nIf they are not produced, this is a finding.\n\nPerform the check from the MarkLogic Server Admin Interface with a user that holds administrative-level privileges.\n\n1. Click the Groups icon.\n2. Click the group in which the configuration to be checked resides (e.g., Default).\n3. Click the Auditing icon on the left tree menu.\n4. Inspect the audit enabled field, a value of false means there is no auditing identifying the individual user, this is a finding. \n5. If audit enabled field is true but the document-read event is not selected, this is a finding.\n6. Under the Audit Restrictions - Outcome section, verify the security-access event for auditing is set to \"both\". If the setting is not both, this is a finding.\n7. If the role that has been configured for the category of information is not included under the audit restriction roles, this is a finding.",
+  "fixtext": "Configure MarkLogic to produce audit records when categories of information are accessed, to include reads, creations, modifications, and deletions.\n\nPerform the fix from the MarkLogic Server Admin Interface with a user that holds administrative-level privileges.\n\n1. Click the Groups icon.\n2. Click the group in which the configuration to check resides (e.g., Default).\n3. Click the Auditing icon on the left tree menu.\n4. Set the audit enabled field to true.\n5. Enable the document-read event for auditing.\n6. Enable \"both\" for the audit restriction under the outcome selection.\n7. Add the role that encompasses the categories of information that need auditing. See MarkLogic Server - Using Security Guide 9.0-9, Ch 5, Section 2: Configuring Compartment Security, for information on defining the categories of information by using compartmented security.",
+  "fix_id": "F-22096r401628_fix",
+  "VulnDiscussion": "Changes in categories of information must be tracked. Without an audit trail, unauthorized access to protected data could go undetected.\n\nFor detailed information on categorizing information, refer to FIPS Publication 199, Standards for Security Categorization of Federal Information and Information Systems, and FIPS Publication 200, Minimum Security Requirements for Federal Information and Information Systems.",
+  "Documentable": "false"
+}

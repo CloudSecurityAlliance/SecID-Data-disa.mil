@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215178",
+  "rule_id": "SV-215178r1009531_rule",
+  "stig_id": "AIX7-00-001011",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Direct logins to the AIX system must not be permitted to shared accounts, default accounts, application accounts, and utility accounts.",
+  "group_title": "SRG-OS-000109-GPOS-00056",
+  "idents": {
+    "legacy": [
+      "SV-101525",
+      "V-91427"
+    ],
+    "cci": [
+      "CCI-004045",
+      "CCI-000770"
+    ]
+  },
+  "check_id": "C-16376r293985_chk",
+  "check_content": "Obtain a list of Shared/Application/Default/Utility accounts from the ISSO/ISSM.\n\nShared/Application/Default/Utility accounts can have direct login disabled by setting the \"rlogin\" parameter to \"false\" in the user’s stanza of the \"/etc/security/user\" file. \n\nFrom the command prompt, run the following command to check if shared account has \"rlogin=true\":\n\n# lsuser -a rlogin [shared_account] \n<shared_account> rlogin=true\n\nIf a shared account is configured for \"rlogin=true\", this is a finding.",
+  "fixtext": "Direct login to shared or application accounts can be prevented by setting the \"rlogin=false\" in the accounts stanza of the \"/etc/security/user\" file.\n\nFrom the command prompt, run the following command to set \"rlogin=false\" for a shared account:\n\n# chuser rlogin=false [shared_account]",
+  "fix_id": "F-16374r293986_fix",
+  "VulnDiscussion": "Shared accounts (accounts where two or more people log in with the same user identification) do not provide identification and authentication. There is no way to provide for non-repudiation or individual accountability.",
+  "Documentable": "false"
+}

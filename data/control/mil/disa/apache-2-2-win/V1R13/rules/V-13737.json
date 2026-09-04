@@ -1,0 +1,18 @@
+{
+  "vuln_id": "V-13737",
+  "rule_id": "SV-33009r1_rule",
+  "stig_id": "WA000-WWA062 W22",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HTTP request header fields must be limited.",
+  "group_title": "WA000-WWA062",
+  "idents": {},
+  "check_id": "C-33690r1_chk",
+  "check_content": "Locate the Apache httpd.conf file.\n\nIf unable to locate the file, perform a search of the system to find the location of the file.\n\nOpen the httpd.conf file with an editor such as notepad, and search for the following uncommented directive: LimitRequestFields\n\nEvery enabled LimitRequestFields value needs to be greater than 0. If any directive is set improperly, this is a finding.\n\nNote: This can be set to a really high number (Current max is 32767), it just cannot be unspecified.",
+  "fixtext": "Set LimitRequestFields Directive to a value greater than 0.",
+  "fix_id": "F-29309r1_fix",
+  "VulnDiscussion": "Buffer overflow attacks are carried out by a malicious attacker sending amounts of data that the web server cannot store in a given size buffer. The eventual overflow of this buffer can overwrite system memory. Subsequently an attacker may be able to elevate privileges and take control of the server. This Apache directive limits the size of the various HTTP header sizes, thereby limiting the chances for a buffer overflow.\n\nThe LimitRequestFields directive allows the server administrator to modify the limit on the number of request header fields allowed in an HTTP request. A server needs this value to be larger than the number of fields that a normal client request might include. The number of request header fields used by a client rarely exceeds 20, but this may vary among different client implementations, often depending upon the extent to which a user has configured their browser to support detailed content negotiation. Optional HTTP extensions are often expressed using request header fields.\n\nThis directive gives the server administrator greater control over abnormal client request behavior, which may be useful for avoiding some forms of denial-of-service attacks. The value should be increased if normal clients see an error response from the server that indicates too many fields were sent in the request.",
+  "Documentable": "false",
+  "Responsibility": "Web Administrator"
+}

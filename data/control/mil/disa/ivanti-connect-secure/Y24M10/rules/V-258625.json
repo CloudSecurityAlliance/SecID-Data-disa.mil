@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-258625",
+  "rule_id": "SV-258625r961863_rule",
+  "stig_id": "IVCS-NM-000740",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ICS must be configured to conduct backups of system level information contained in the information system when changes occur.",
+  "group_title": "SRG-APP-000516-NDM-000340",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-000537"
+    ]
+  },
+  "check_id": "C-62365r930561_chk",
+  "check_content": "In the ICS Web UI, navigate to Maintenance >> Archiving >> Archive Servers.\n\nUnder \"Archive Settings\", if there is no archive server configured, this is a finding.\n\nUnder \"Archive Schedule\", if \"Archive System Configuration\", and \"Archive User Accounts\" are not selected, this is a finding.\n\nUnder \"Archive Schedule\", if \"Archive System Configuration\", and \"Archive User Accounts\" are not configured at a specific time and day of the week, this is a finding.\n\nUnder \"Archive Schedule\", if \"Archive System Configuration\", and \"Archive User Accounts\" are not configured with a password for backup encryption, this is a finding.",
+  "fixtext": "In the ICS Web UI, navigate to Maintenance >> Archiving >> Archive Servers.\n1. Click \"SCP\" if using an SFTP/SCP server, other mechanisms may not be allowed due to local security policy. Check with the ISSM before configuring anything other than SCP.\n2. Under \"Archive Server\", type the hostname or IPv4/IPv6 address.\n3. In \"Destination Directory\" type the path of the backup (e.g., \"/backupfolder/ics/\").\n4. In the \"Username\" field, type the username with SCP/SFTP permissions on the backup server.\n5. In the \"Password\" field, type the password.\n6. Under \"Archive Schedule\", select \"Archive System Configuration\", then click the day of the week and time when the backup should be sent.\n7. Under \"Archive System Configuration\", ensure a password is given to encrypt the backup.\n8. Under \"Archive Schedule\", select \"Archive User Accounts\", then click the day of the week and time when the backup should be sent.\n9. Under \"Archive User Accounts\", ensure a password is given to encrypt the backup.\n10. Click \"Save Changes\".",
+  "fix_id": "F-62274r930562_fix",
+  "VulnDiscussion": "System-level information includes default and customized settings and security attributes, including ACLs that relate to the network device configuration, as well as software required for the execution and operation of the device. Information system backup is a critical step in ensuring system integrity and availability. If the system fails and there is no backup of the system-level information, a denial of service condition is possible for all who utilize this critical network component.\n\nThis control requires the network device to support the organizational central backup process for system-level information associated with the network device. This function may be provided by the network device itself; however, the preferred best practice is a centralized backup rather than each network device performing discrete backups.",
+  "Documentable": "false"
+}

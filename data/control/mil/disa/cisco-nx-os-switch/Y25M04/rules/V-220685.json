@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220685",
+  "rule_id": "SV-220685r856494_rule",
+  "stig_id": "CISC-L2-000140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must have IP Source Guard enabled on all user-facing or untrusted access switch ports.",
+  "group_title": "SRG-NET-000362-L2S-000026",
+  "idents": {
+    "legacy": [
+      "SV-110345",
+      "V-101241"
+    ],
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-22400r539106_chk",
+  "check_content": "Review the switch configuration to verify that IP Source Guard is enabled on all user-facing or untrusted access switch ports as shown in the example below:\n\ninterface Ethernet1/1\n ip verify source dhcp-snooping-vlan\n\ninterface Ethernet1/2\n ip verify source dhcp-snooping-vlan\n…\n…\n…\ninterface Ethernet1/32\n ip verify source dhcp-snooping-vlan\n\nNote: the IP Source Guard feature depends on the entries in the DHCP snooping database or static IP-MAC-VLAN configuration commands to verify IP-to-MAC address bindings.\n\nIf the switch does not have IP Source Guard enabled on all untrusted access switch ports, this is a finding.",
+  "fixtext": "Configure the switch to have IP Source Guard enabled on all user-facing or untrusted access switch ports.\n\nSW1(config)# int e1/1-32\nSW1(config-if-range)# ip verify source dhcp-snooping-vlan",
+  "fix_id": "F-22389r539107_fix",
+  "VulnDiscussion": "IP Source Guard provides source IP address filtering on a Layer 2 port to prevent a malicious host from impersonating a legitimate host by assuming the legitimate host's IP address. The feature uses dynamic DHCP snooping and static IP source binding to match IP addresses to hosts on untrusted Layer 2 access ports. Initially, all IP traffic on the protected port is blocked except for DHCP packets. After a client receives an IP address from the DHCP server, or after static IP source binding is configured by the administrator, all traffic with that IP source address is permitted from that client. Traffic from other hosts is denied. This filtering limits a host's ability to attack the network by claiming a neighbor host's IP address.",
+  "Documentable": "false"
+}

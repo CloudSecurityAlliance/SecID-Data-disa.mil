@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-268427",
+  "rule_id": "SV-268427r1038944_rule",
+  "stig_id": "APPL-15-000014",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must enforce time synchronization.",
+  "group_title": "SRG-OS-000355-GPOS-00143",
+  "idents": {
+    "cci": [
+      "CCI-004923",
+      "CCI-004926",
+      "CCI-004922"
+    ]
+  },
+  "check_id": "C-72457r1034219_chk",
+  "check_content": "Verify the macOS system is configured to enforce time synchronization with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.timed')\\\n.objectForKey('TMAutomaticTimeOnlyEnabled').js\nEOS\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to enforce time synchronization by installing the \"com.apple.timed\" configuration profile.",
+  "fix_id": "F-72358r1034220_fix",
+  "VulnDiscussion": "Time synchronization must be enforced on all networked systems.\n\nThis rule ensures the uniformity of time stamps for information systems with multiple system clocks and systems connected over a network.\n\nSatisfies: SRG-OS-000355-GPOS-00143, SRG-OS-000356-GPOS-00144, SRG-OS-000785-GPOS-00250",
+  "Documentable": "false"
+}

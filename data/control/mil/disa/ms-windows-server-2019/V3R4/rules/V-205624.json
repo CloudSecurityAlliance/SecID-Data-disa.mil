@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-205624",
+  "rule_id": "SV-205624r958364_rule",
+  "stig_id": "WN19-00-000300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2019 must automatically remove or disable temporary user accounts after 72 hours.",
+  "group_title": "SRG-OS-000002-GPOS-00002",
+  "idents": {
+    "legacy": [
+      "SV-103063",
+      "V-92975"
+    ],
+    "cci": [
+      "CCI-000016"
+    ]
+  },
+  "check_id": "C-5889r857300_chk",
+  "check_content": "Review temporary user accounts for expiration dates.\n\nDetermine if temporary user accounts are used and identify any that exist. If none exist, this is NA.\n\nDomain Controllers:\n\nOpen \"PowerShell\".\n\nEnter \"Search-ADAccount -AccountExpiring | FT Name, AccountExpirationDate\".\n\nIf \"AccountExpirationDate\" has not been defined within 72 hours for any temporary user account, this is a finding.\n\nMember servers and standalone or nondomain-joined systems:\n\nOpen \"Command Prompt\".\n\nRun \"Net user [username]\", where [username] is the name of the temporary user account.\n\nIf \"Account expires\" has not been defined within 72 hours for any temporary user account, this is a finding.",
+  "fixtext": "Configure temporary user accounts to automatically expire within 72 hours.\n\nDomain accounts can be configured with an account expiration date, under \"Account\" properties.\n\nLocal accounts can be configured to expire with the command \"Net user [username] /expires:[mm/dd/yyyy]\", where username is the name of the temporary user account.\n\nDelete any temporary user accounts that are no longer necessary.",
+  "fix_id": "F-5889r354791_fix",
+  "VulnDiscussion": "If temporary user accounts remain active when no longer needed or for an excessive period, these accounts may be used to gain unauthorized access. To mitigate this risk, automated termination of all temporary accounts must be set upon account creation.\n\nTemporary accounts are established as part of normal account activation procedures when there is a need for short-term accounts without the demand for immediacy in account activation.\n\nIf temporary accounts are used, the operating system must be configured to automatically terminate these types of accounts after a DoD-defined time period of 72 hours.\n\nTo address access requirements, many operating systems may be integrated with enterprise-level authentication/access mechanisms that meet or exceed access control policy requirements.",
+  "Documentable": "false"
+}

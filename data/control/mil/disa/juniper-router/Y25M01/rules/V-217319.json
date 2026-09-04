@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217319",
+  "rule_id": "SV-217319r960960_rule",
+  "stig_id": "JUNI-ND-000460",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured to limit privileges to change the software resident within software libraries.",
+  "group_title": "SRG-APP-000133-NDM-000244",
+  "idents": {
+    "legacy": [
+      "SV-101223",
+      "V-91123"
+    ],
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-18546r296535_chk",
+  "check_content": "Review the router configuration to verify that it is compliant with this requirement. The configuration example below depicts a class JR_ENGINEER that is not permitted to add, change, or delete software installed on the router.\n\nlogin {\n    class JR_ENGINEER {\n        permissions all;\n        deny-commands \"request system software\";\n    }\n\nNote: The following are the options under request system software:\n\nabort    - Abort software upgrade\nadd      - Add extension or upgrade package\ndelete   - Remove extension or upgrade package\nrollback - Roll back to previous set of packages\nvalidate - Verify package compatibility with current configuration\n\nIf the router is not configured to limit privileges to change the software resident within software libraries, this is a finding.",
+  "fixtext": "Configure one or more classes as shown in the example below whose users will not be permitted to add, change, or delete software installed on the router.\n\n[edit system]\nset login class JR_ENGINEER permissions all \nset login class JR_ENGINEER deny-commands “(request system software)”\n\nNote: The predefined classes \"operator\" and \"Read-only\" do not have permissions to install or delete software.",
+  "fix_id": "F-18544r296536_fix",
+  "VulnDiscussion": "Changes to any software components of the network device can have significant effects on the overall security of the network. Therefore, only qualified and authorized individuals should be allowed administrative access to the network device for implementing any changes or upgrades. If the network device were to enable non-authorized users to make changes to software libraries, those changes could be implemented without undergoing testing, validation, and approval.",
+  "Documentable": "false"
+}

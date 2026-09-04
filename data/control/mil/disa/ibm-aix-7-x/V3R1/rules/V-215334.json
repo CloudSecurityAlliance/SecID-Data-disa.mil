@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215334",
+  "rule_id": "SV-215334r1009554_rule",
+  "stig_id": "AIX7-00-003022",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AIX must disable trivial file transfer protocol.",
+  "group_title": "SRG-OS-000365-GPOS-00152",
+  "idents": {
+    "legacy": [
+      "SV-101629",
+      "V-91531"
+    ],
+    "cci": [
+      "CCI-003938",
+      "CCI-001814"
+    ]
+  },
+  "check_id": "C-16532r294453_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^tftp[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, it is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"tftp\" entry: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'tftp' -p 'udp'\n\nRestart inetd:\n# refresh -s inetd",
+  "fix_id": "F-16530r294454_fix",
+  "VulnDiscussion": "Without auditing the enforcement of access restrictions against changes to the application configuration, it will be difficult to identify attempted attacks and an audit trail will not be available for forensic investigation for after-the-fact actions.\n\nEnforcement actions are the methods or mechanisms used to prevent unauthorized changes to configuration settings. Enforcement action methods may be as simple as denying access to a file based on the application of file permissions (access restriction). Audit items may consist of lists of actions blocked by access restrictions or changes identified after the fact.",
+  "Documentable": "false"
+}

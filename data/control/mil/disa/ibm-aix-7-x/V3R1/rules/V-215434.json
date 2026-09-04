@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215434",
+  "rule_id": "SV-215434r991592_rule",
+  "stig_id": "AIX7-00-003140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX root user home directory must not be the root directory (/).",
+  "group_title": "SRG-OS-000480-GPOS-00230",
+  "idents": {
+    "legacy": [
+      "V-91751",
+      "SV-101849"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16632r294753_chk",
+  "check_content": "Determine if root is assigned a home directory other than \"/\" by listing its home directory by running command: \n\n# grep \"^root\" /etc/passwd | awk -F\":\" '{print $6}' \n/root\n\nIf the root user's home directory is \"/\", this is a finding.",
+  "fixtext": "The root home directory should be something other than \"/\" (such as /root). \n\nRun commands: \n# mkdir /root \n# chown root /root \n# chgrp system /root \n# chmod 700 /root \n\nThen, edit the passwd file and change the root home directory to \"/root\".",
+  "fix_id": "F-16630r294754_fix",
+  "VulnDiscussion": "Changing the root home directory to something other than / and assigning it a 0700 protection makes it more difficult for intruders to manipulate the system by reading the files that root places in its default directory. It also gives root the same discretionary access control for root's home directory as for the other plain user home directories.",
+  "Documentable": "false"
+}

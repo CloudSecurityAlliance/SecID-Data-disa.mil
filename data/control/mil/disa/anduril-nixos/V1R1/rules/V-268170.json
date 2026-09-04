@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268170",
+  "rule_id": "SV-268170r1039398_rule",
+  "stig_id": "ANIX-00-001861",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must enable the use of pwquality.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-72094r1039396_chk",
+  "check_content": "Verify NixOS prevents the use of dictionary words for passwords with the following command:\n\n$ grep -i pam_pwquality /etc/pam.d/passwd /etc/pam.d/chpasswd /etc/pam.d/sudo\n\n/etc/pam.d/passwd:password requisite /nix/store/db96zr26w71dzx0bzf47d88kw19fr0l7-libpwquality-1.4.5.-lib/lib/security/pam_pwquality.so\n/etc/pam.d/chpasswd:password requisite /nix/store/db96zr26w71dzx0bzf47d88kw19fr0l7-libpwquality-1.4.5.-lib/lib/security/pam_pwquality.so\n/etc/pam.d/sudo:password requisite /nix/store/db96zr26w71dzx0bzf47d88kw19fr0l7-libpwquality-1.4.5.-lib/lib/security/pam_pwquality.so\n\nIf the pam_pwquality.so module is not present in the passwd, chpasswd, and sudo pam files, this is a finding.",
+  "fixtext": "Configure NixOS to check password change attempts against a dictionary.\n\nAdd the following Nix code to the NixOS Configuration usually located in /etc/nixos/configuration.nix\n\nsecurity.pam.services.passwd.text = pkgs.lib.mkDefault (pkgs.lib.mkBefore \"password requisite ${pkgs.libpwquality.lib}/lib/security/pam_pwquality.so\");\nsecurity.pam.services.chpasswd.text = pkgs.lib.mkDefault (pkgs.lib.mkBefore \"password requisite ${pkgs.libpwquality.lib}/lib/security/pam_pwquality.so\");\nsecurity.pam.services.sudo.text = pkgs.lib.mkDefault (pkgs.lib.mkBefore \"password requisite ${pkgs.libpwquality.lib}/lib/security/pam_pwquality.so\");\n\nRebuild the system with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71997r1039397_fix",
+  "VulnDiscussion": "If the operating system allows the user to select passwords based on dictionary words, then this increases the chances of password compromise by increasing the opportunity for successful guesses and brute-force attacks.",
+  "Documentable": "false"
+}

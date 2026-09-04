@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219963",
+  "rule_id": "SV-219963r958442_rule",
+  "stig_id": "SOL-11.1-010320",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The audit system must be configured to audit all discretionary access control permission modifications.",
+  "group_title": "SRG-OS-000062",
+  "idents": {
+    "legacy": [
+      "V-47821",
+      "SV-60697"
+    ],
+    "cci": [
+      "CCI-000169"
+    ]
+  },
+  "check_id": "C-21673r370886_chk",
+  "check_content": "The Audit Configuration profile is required.\n\nCheck that the audit flag for auditing file access is enabled.\n\nThis check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nDetermine the OS version you are currently securing.\n# uname –v\n\nFor Solaris 11, 11.1, 11.2, and 11.3:\n# pfexec auditconfig -getflags | grep active | cut -f2 -d=\nIf \"fm\" audit flag is not included in output, this is a finding.\n\nFor Solaris 11.4 or newer:\n# pfexec auditconfig -t -getflags | cut -f2 -d=\n\nIf \"fm\" audit flag is not included in output, this is a finding.\n\nDetermine if auditing policy is set to collect command line arguments.\n\n# pfexec auditconfig -getpolicy | grep active | grep argv\n\nIf the active audit policies line does not appear, this is a finding.",
+  "fixtext": "The Audit Configuration profile is required. All audit flags must be enabled in a single command.\n\nThis action applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this action applies.\n\nFor Solaris 11, 11.1, 11.2, and 11.3:\n# pfexec auditconfig -setflags cusa,-ps,fd,-fa,fm\n\nFor Solaris 11.4 or newer:\n# pfexec auditconfig -setflags cusa,-fa,-ex,-ps,fd,fm\n\nEnable the audit policy to collect command line arguments.\n\n# pfexec auditconfig -setpolicy +argv\n\nThese changes will not affect users that are currently logged in.",
+  "fix_id": "F-21672r370887_fix",
+  "VulnDiscussion": "Without auditing, individual system accesses cannot be tracked, and malicious activity cannot be detected and traced back to an individual account.",
+  "Documentable": "false"
+}

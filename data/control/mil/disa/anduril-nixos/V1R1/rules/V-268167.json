@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-268167",
+  "rule_id": "SV-268167r1039389_rule",
+  "stig_id": "ANIX-00-001820",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must generate audit records for all account creations, modifications, disabling, and termination events.",
+  "group_title": "SRG-OS-000476-GPOS-00221",
+  "idents": {
+    "cci": [
+      "CCI-000172",
+      "CCI-000135",
+      "CCI-000015"
+    ]
+  },
+  "check_id": "C-72091r1039387_chk",
+  "check_content": "Verify NixOS is configured to generate audit records on account events with the following command:\n\n$ sudo auditctl -l | grep /etc\n\n-w /etc/sudoers -p wa -k identity\n-w /etc/passwd -p wa -k identity\n-w /etc/shadow -p wa -k identity\n-w /etc/gshadow -p wa -k identity\n-w /etc/group -p wa -k identity\n-w /etc/security/opasswd -p wa -k identity\n\nIf the output from the command does not include the example output, this is a finding.",
+  "fixtext": "Modify NixOS to generate audit logs on account creations and modifications.\n\nEdit /etc/nixos/configuration.nix and ensure the following options are configured:\n\n security.audit.rules = [\n  \"-w /etc/sudoers -p wa -k identity\"\n  \"-w /etc/passwd -p wa -k identity\"\n  \"-w /etc/shadow -p wa -k identity\"\n  \"-w /etc/gshadow -p wa -k identity\"\n  \"-w /etc/group -p wa -k identity\"\n  \"-w /etc/security/opasswd -p wa -k identity\"\n ];\n\nRebuild the system with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71994r1039388_fix",
+  "VulnDiscussion": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).\n\nSatisfies: SRG-OS-000476-GPOS-00221, SRG-OS-000042-GPOS-00020, SRG-OS-000274-GPOS-00104, SRG-OS-000275-GPOS-00105, SRG-OS-000276-GPOS-00106, SRG-OS-000277-GPOS-00107, SRG-OS-000477-GPOS-00222, SRG-OS-000304-GPOS-00121",
+  "Documentable": "false"
+}

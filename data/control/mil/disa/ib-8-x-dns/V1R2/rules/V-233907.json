@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233907",
+  "rule_id": "SV-233907r961101_rule",
+  "stig_id": "IDNS-8X-700002",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Infoblox system must provide additional data origin artifacts along with the authoritative data the system returns in response to external name/address resolution queries.",
+  "group_title": "SRG-APP-000213-DNS-000024",
+  "idents": {
+    "cci": [
+      "CCI-001178"
+    ]
+  },
+  "check_id": "C-37092r611241_chk",
+  "check_content": "Note: For Infoblox DNS systems on a classified network, this requirement is Not Applicable.  \n\n1. Navigate to Data Management >> DNS >> Grid DNS properties. \n2. Toggle Advanced Mode, click on \"DNSSEC\" tab, and verify that \"Enable DNSSEC\" is enabled. \n3. Navigate to Data Management >> DNS >> Zones. Verify that the \"Signed\" column is displayed.\n4. Validate that all external authoritative zones are signed by displaying \"Yes\".\n5. When complete, click \"Cancel\" to exit the \"Properties\" screen.\n\nIf DNSSEC is not enabled and external authoritative zones are not signed, this is a finding.",
+  "fixtext": "Note: Ensure DNSSEC is configured to meet all other STIG requirements prior to signing a zone to avoid signing with an unapproved configuration.  \n\n1. Navigate to Data Management >> DNS >> Zones tab.  \n2. Place a check mark in the box next to the desired external authoritative zone. Using the \"DNSSEC\" drop-down menu in the toolbar, select \"Sign zones\". \n3. Acknowledge the informational banner and the service restart banner if prompted.",
+  "fix_id": "F-37057r611242_fix",
+  "VulnDiscussion": "The underlying feature in the major threat associated with DNS query/response (i.e., forged response or response failure) is the integrity of DNS data returned in the response. The security objective is to verify the integrity of each response received. An integral part of integrity verification is to ensure that valid data has originated from the right source. Establishing trust in the source is called data origin authentication. \n\nThe security objectives, and consequently the security services, that are required for securing the DNS query/response transaction are data origin authentication and data integrity verification. \n\nThe specification for a digital signature mechanism in the context of the DNS infrastructure is in the Internet Engineering Task Force's (IETF's) Domain Name System Security Extension (DNSSEC) standard. In DNSSEC, trust in the public key (for signature verification) of the source is established not by going to a third party or a chain of third parties (as in public key infrastructure [PKI] chaining), but by starting from a trusted zone (such as the root zone) and establishing the chain of trust down to the current source of response through successive verifications of signature of the public key of a child by its parent. The public key of the trusted zone is called the trust anchor.",
+  "Documentable": "false"
+}

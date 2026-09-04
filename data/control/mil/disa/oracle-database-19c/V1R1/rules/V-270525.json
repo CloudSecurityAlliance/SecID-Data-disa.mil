@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270525",
+  "rule_id": "SV-270525r1064853_rule",
+  "stig_id": "O19C-00-009300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle SQL92_SECURITY parameter must be set to TRUE.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-74558r1064851_chk",
+  "check_content": "From SQL*Plus:\n\nselect value from v$parameter where name = 'sql92_security';\n\nIf the value returned is set to FALSE, this is a finding.\n\nIf the parameter is set to TRUE or does not exist, this is not a finding.",
+  "fixtext": "Enable SQL92 security.\n\nFrom SQL*Plus:\n\nalter system set sql92_security = TRUE scope = spfile;\n\nThe above SQL*Plus command will set the parameter to take effect at next system startup.",
+  "fix_id": "F-74459r1064852_fix",
+  "VulnDiscussion": "The configuration option SQL92_SECURITY specifies whether table-level SELECT privileges are required to execute an update or delete those references table column values. If this option is disabled (set to FALSE), the UPDATE privilege can be used to determine values that should require SELECT privileges.\n\nThe SQL92_SECURITY setting of TRUE prevents the exploitation of user credentials with only DELETE or UPDATE privileges on a table from being able to derive column values in that table by performing a series of update/delete statements using a where clause, and rolling back the change. In the following example, with SQL92_SECURITY set to FALSE, a user with only delete privilege on the scott.emp table is able to derive that there is one employee with a salary greater than 3000. With SQL92_SECURITY set to TRUE, that user is prevented from attempting to derive a value.\n\nSQL92_SECURITY = FALSE\nSQL> delete from scott.emp where sal > 3000;\n1 row deleted\nSQL> rollback;\nRollback complete\n\nSQL92_SECURITY = TRUE\nSQL> delete from scott.emp where sal > 3000;\ndelete from scott.emp where sal > 3000\n*\nERROR at line 1:\nORA-01031: insufficient privileges",
+  "Documentable": "false"
+}

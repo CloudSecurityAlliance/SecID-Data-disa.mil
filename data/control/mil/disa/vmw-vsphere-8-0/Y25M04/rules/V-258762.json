@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258762",
+  "rule_id": "SV-258762r959010_rule",
+  "stig_id": "ESXI-80-000204",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host Secure Shell (SSH) daemon must not permit user environment settings.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62502r933345_chk",
+  "check_content": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config list -k permituserenvironment\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$esxcli.system.ssh.server.config.list.invoke() | Where-Object {$_.Key -eq 'permituserenvironment'}\n\nExample result:\n\npermituserenvironment no\n\nIf \"permituserenvironment\" is not configured to \"no\", this is a finding.",
+  "fixtext": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config set -k permituserenvironment -v no\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$arguments = $esxcli.system.ssh.server.config.set.CreateArgs()\n$arguments.keyword = 'permituserenvironment'\n$arguments.value = 'no'\n$esxcli.system.ssh.server.config.set.Invoke($arguments)",
+  "fix_id": "F-62411r933346_fix",
+  "VulnDiscussion": "SSH environment options potentially allow users to bypass access restriction in some configurations. Users must not be able to present environment options to the SSH daemon.",
+  "Documentable": "false"
+}

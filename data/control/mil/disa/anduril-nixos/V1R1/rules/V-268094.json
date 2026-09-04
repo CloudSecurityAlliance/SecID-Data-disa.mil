@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268094",
+  "rule_id": "SV-268094r1039561_rule",
+  "stig_id": "ANIX-00-000270",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Successful/unsuccessful uses of the mount syscall in NixOS must generate an audit record.",
+  "group_title": "SRG-OS-000042-GPOS-00020",
+  "idents": {
+    "cci": [
+      "CCI-000135"
+    ]
+  },
+  "check_id": "C-72018r1039168_chk",
+  "check_content": "Verify NixOS generates an audit record for any successful/unsuccessful use of the \"mount\" syscall with the following command:\n\n$ sudo auditctl -l | grep -w \"\\-S mount\"\n\n-a always,exit -F arch=b32 -S mount -F auid>=1000 -F auid!=-1 -k privileged-mount\n-a always,exit -F arch=b64 -S mount -F auid>=1000 -F auid!=-1 -k privileged-mount\n\nIf the command does not return the example output, this is a finding.\n\nNote: The \"-k\" allows for specifying an arbitrary identifier. The string following \"-k\" does not need to match the example output above.",
+  "fixtext": "Configure NixOS to generate audit records for any successful/unsuccessful use of the \"mount\" syscall.\n\nAdd or update the \"security.audit.rules\" configuration in /etc/nixos/configuration.nix to include the following rule:\n\n security.audit.rules = [\n  \"-a always,exit -F arch=b32 -S mount -F auid>=1000 -F auid!=unset -k privileged-mount\"\n  \"-a always,exit -F arch=b64 -S mount -F auid>=1000 -F auid!=unset -k privileged-mount\"\n ];\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71921r1039169_fix",
+  "VulnDiscussion": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter). The \"mount\" syscall is used to mount a filesystem.\n\nWhen a user logs in, the AUID is set to the UID of the account that is being authenticated. Daemons are not user sessions and have the loginuid set to \"-1\". The AUID representation is an unsigned 32-bit integer, which equals \"4294967295\". The audit system interprets \"-1\", \"4294967295\", and \"unset\" in the same way.",
+  "Documentable": "false"
+}

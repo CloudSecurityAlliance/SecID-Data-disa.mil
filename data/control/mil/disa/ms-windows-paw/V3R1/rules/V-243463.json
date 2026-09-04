@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-243463",
+  "rule_id": "SV-243463r991589_rule",
+  "stig_id": "WPAW-00-002400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Local privileged groups (excluding Administrators) on the Windows PAW must be restricted to include no members.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-78159",
+      "SV-92865"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-46738r722958_chk",
+  "check_content": "Verify membership of local admin groups on the PAW are empty:\n\nOn the Windows PAW, verify there are no members in the following local privileged groups (excluding Administrators)*:\n\n- Backup Operators (built-in)\n- Cryptographic Operators\n- Hyper-V Administrators\n- Network Configuration Operators\n- Power Users\n- Remote Desktop Users\n- Replicator\n\nIf the membership of the following admin groups is not empty, this is a finding: Backup Operators (built-in), Cryptographic Operators, Hyper-V Administrators, Network Configuration Operators, Power Users, Remote Desktop Users, and Replicator.\n\n*Allowed exception: If a Hyper-V environment is used, the Hyper-V Administrators group may include members.",
+  "fixtext": "Complete the following configuration procedures to restrict access to privileged accounts on the PAW (see the instructions for use of group policy to define membership, PAW Installation instructions in the Microsoft PAW paper).\n\nConfigure membership of all local privileged groups (except for \"Administrators (built-in)\" group) so it is empty*. This procedure applies to the following local privileged groups:\n\n- Backup Operators (built-in)\n- Hyper-V Administrators\n- Network Configuration Operators\n- Power Users\n- Remote Desktop Users\n- Replicator\n\nLink the PAW group policy object (GPO) to the appropriate Tier devices Organizational Unit (OU).\n\n*Allowed exception: If a Hyper-V environment is used, the Hyper-V Administrators group may include members.",
+  "fix_id": "F-46695r722959_fix",
+  "VulnDiscussion": "A main security architectural construct of a PAW is to restrict access to the PAW from only specific privileged accounts designated for managing the high-value IT resources the PAW has been designated to manage. If unauthorized standard user accounts or unauthorized high-value administrative accounts are able to access a specific PAW, high-value IT resources and critical DoD information could be compromised.",
+  "Documentable": "false"
+}

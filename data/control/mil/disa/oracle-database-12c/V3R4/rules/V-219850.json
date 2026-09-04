@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219850",
+  "rule_id": "SV-219850r961863_rule",
+  "stig_id": "O121-BP-023900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle _TRACE_FILES_PUBLIC parameter if present must be set to FALSE.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "legacy": [
+      "SV-75955",
+      "V-61465"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-21561r533084_chk",
+  "check_content": "From SQL*Plus:\n\n  select value from v$parameter where name = '_trace_files_public';\n\nIf the value returned is TRUE, this is a finding.\n\nIf the parameter does not exist or is set to FALSE, this is not a finding.",
+  "fixtext": "From SQL*Plus (shutdown database instance):\n\n  shutdown immediate\n\nFrom SQL*Plus (create a pfile from spfile):\n\n  create pfile='[PATH]init[SID].ora' from spfile;\n\nEdit the init[SID].ora file and remove the following line:\n\n  *._trace_files_public=TRUE\n\nFrom SQL*Plus (update the spfile using the pfile):\n\n  create spfile from pfile='[PATH]init[SID].ora';\n\nFrom SQL*Plus (start the database instance):\n\n  startup\n\nNote: [PATH] depends on the platform (Windows or UNIX).\n\nEnsure the file is directed to a writable location.\n\n[SID] is equal to the oracle SID or database instance ID.",
+  "fix_id": "F-21560r533085_fix",
+  "VulnDiscussion": "The _TRACE_FILES_PUBLIC parameter is used to make trace files used for debugging database applications and events available to all database users. Use of this capability precludes the discrete assignment of privileges based on job function. Additionally, its use may provide access to external files and data to unauthorized users.",
+  "Documentable": "false"
+}

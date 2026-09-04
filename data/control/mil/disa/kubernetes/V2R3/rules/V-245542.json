@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-245542",
+  "rule_id": "SV-245542r961632_rule",
+  "stig_id": "CNTR-K8-002620",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Kubernetes API Server must disable basic authentication to protect information in transit.",
+  "group_title": "SRG-APP-000439-CTR-001080",
+  "idents": {
+    "cci": [
+      "CCI-002448"
+    ]
+  },
+  "check_id": "C-48817r863943_chk",
+  "check_content": "Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Control Plane. Run the command:\ngrep -i basic-auth-file * \n\nIf \"basic-auth-file\" is set in the Kubernetes API server manifest file this is a finding.",
+  "fixtext": "Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Control Plane. Remove the setting \"--basic-auth-file\".",
+  "fix_id": "F-48772r863944_fix",
+  "VulnDiscussion": "Kubernetes basic authentication sends and receives request containing username, uid, groups, and other fields over a clear text HTTP communication. Basic authentication does not provide any security mechanisms using encryption standards. PKI certificate-based authentication must be set over a secure channel to ensure confidentiality and integrity. Basic authentication must not be set in the manifest file.",
+  "Documentable": "false"
+}

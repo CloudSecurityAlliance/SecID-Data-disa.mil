@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214524",
+  "rule_id": "SV-214524r557389_rule",
+  "stig_id": "JUSX-AG-000084",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper SRX Services Gateway Firewall must not be configured as an NTP server since providing this network service is unrelated to the role as a firewall.",
+  "group_title": "SRG-NET-000131-ALG-000086",
+  "idents": {
+    "legacy": [
+      "SV-80803",
+      "V-66313"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-15730r297256_chk",
+  "check_content": "Check both the zones and the interface stanza to ensure NTP is not configured as a service option.\n\n[edit]\nshow security zones\n\nand, for each interface used, enter:\n\nshow security zones <zone-name> interface <interface-name>\n\nIf NTP is included in any of the zone or interface stanzas, this is a finding.",
+  "fixtext": "Delete NTP options from zones and interface commands. Re-enter the set security zone command without the \"ntp\" attribute. The exact command entered depends how the zone is configured with the authorized attributes, services, and options.\n\nExamples: \n\n[edit]\nset security zones security-zone <zone-name> interfaces <interface-name> host-inbound-traffic",
+  "fix_id": "F-15728r297257_fix",
+  "VulnDiscussion": "Information systems are capable of providing a wide variety of functions (capabilities or processes) and services. Some of these functions and services are installed and enabled by default. The organization must determine which functions and services are required to perform the content filtering and other necessary core functionality for each component of the SRX. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nThe Juniper SRX is a highly configurable platform that can fulfil many roles in the Enterprise or Branch architecture depending on the model installed. Some services are employed for management services; however, these services can often also be provided as a network service on the data plane. Examples of these services are NTP, DNS, and DHCP. Also, as a Next Generation Firewall (NGFW) and Unified Threat Management (UTM) device, the SRX integrate functions which have been traditionally separated. \n\nThe SRX may integrate related content filtering, security services, and analysis services and tools (e.g., IPS, proxy, malware inspection, black/white lists). Depending on licenses purchased, gateways may also include email scanning, decryption, caching, VPN, and DLP services. However, services and capabilities which are unrelated to this primary functionality must not be installed (e.g., DNS, email server, FTP server, or web server).",
+  "Documentable": "false"
+}

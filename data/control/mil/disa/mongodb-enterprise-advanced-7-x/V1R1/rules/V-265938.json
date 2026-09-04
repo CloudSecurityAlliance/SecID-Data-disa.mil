@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-265938",
+  "rule_id": "SV-265938r1028600_rule",
+  "stig_id": "MD7X-00-007200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MongoDB must allocate audit record storage capacity in accordance with site audit record storage requirements.",
+  "group_title": "SRG-APP-000357-DB-000316",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-69856r1028598_chk",
+  "check_content": "Investigate whether there have been any incidents where the MongoDB server ran out of audit log space since the last time the space was allocated or other corrective measures were taken.\n\nIf these conditions exist, this is a finding.",
+  "fixtext": "To specify auditLog, or a centralized system log (which is recommended), configure these in the mongod.conf configuration file:\n\nauditLog:\n   destination: syslog\n\nAllocate sufficient space to the storage volume hosting the file identified in the MongoDB configuration \"auditLog.path\" to support audit file peak demand.",
+  "fix_id": "F-69760r1028599_fix",
+  "VulnDiscussion": "In order to ensure sufficient storage capacity for the audit logs, MongoDB must be able to allocate audit record storage capacity. Although another requirement (SRG-APP-000515-DB-000318) mandates that audit data be off-loaded to a centralized log management system, it remains necessary to provide space on the database server to serve as a buffer against outages and capacity limits of the off-loading mechanism.\n\nThe task of allocating audit record storage capacity is usually performed during initial installation of MongoDB and is closely associated with the DBA and system administrator roles. The DBA or system administrator will usually coordinate the allocation of physical drive space with the application owner/installer and the application will prompt the installer to provide the capacity information, the physical location of the disk, or both.\n\nIn determining the capacity requirements, consider such factors as: total number of users; expected number of concurrent users during busy periods; number and type of events being monitored; types and amounts of data being captured; the frequency/speed with which audit records are off-loaded to the central log management system; and any limitations that exist on MongoDB's ability to reuse the space formerly occupied by off-loaded records.",
+  "Documentable": "false"
+}

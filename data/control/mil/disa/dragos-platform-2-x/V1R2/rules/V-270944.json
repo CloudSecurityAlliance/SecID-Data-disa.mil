@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-270944",
+  "rule_id": "SV-270944r1058004_rule",
+  "stig_id": "DRAG-OT-000490",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Dragos Platform must be configured to send backup audit records.",
+  "group_title": "SRG-APP-000125",
+  "idents": {
+    "cci": [
+      "CCI-001348",
+      "CCI-001851",
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-74987r1057473_chk",
+  "check_content": "Verify third-party server is used to offload audit records.\n\n1. Check for a configured Syslog Server. In the UI, navigate to Admin >> Integrations.\n\nClick \"LAUNCH\" in the Syslog section.\n\nIf a Syslog Server is not listed or Status is not connected, this is a finding. \n\n2. Check for an export rule. In the UI, navigate to Notification >> RULES Tab.\n\nVerify a rule exists and has the following:\nAction = \"Send Syslog (<your syslog server>)\"\nCriteria = \"IF Notification Type equals System\" \n\nIf this rule does not exist with the correct Action and Criteria, this is a finding.",
+  "fixtext": "Create Syslog server and Rule.\n\n1. Create a Syslog server on a third-party device. The steps may vary depending on the chosen Syslog server software.\n\n2. Create a syslog server output in the Dragos UI.\n\nNavigate to Admin >> Integrations.\n\nClick \"LAUNCH\" in the Syslog section.\n\nClick \"ADD NEW SERVER\".\n\nEnter third-party server information and click \"NEXT\".\n\nInput Message Template.\n\nClick \"SAVE\".\n\n3. Create a rule.\nNavigate to Notification >> RULES Tab.\n\nClick \"NEW RULE\".\n\nFill in Name and Processing Order.\n\nSelect For Rule Criteria:\nIf ANY of the following - \"Notification Type\" \"Equals\" \"System\"\nAction = Send Syslog (third-party server)\n\nClick \"SAVE\".",
+  "fix_id": "F-74888r1058003_fix",
+  "VulnDiscussion": "Configuring the Dragos Platform to send out backup audit records is a critical best practice for ensuring the security, integrity, and availability of audit data. It supports disaster recovery, regulatory compliance, forensic investigations, and overall operational resilience, thereby strengthening the organization's cybersecurity posture.\n\nStoring backup audit records in a separate location ensures that even if the primary system is compromised or experiences a failure, the audit records remain intact and secure. This separation enhances the overall integrity and security of the audit data.\n\nIn the event of a catastrophic event such as a cyberattack, hardware failure, or natural disaster, having backup audit records stored offsite allows for recovery of critical audit data. This capability is essential for restoring operations and conducting post-incident analyses.\n\nIn the aftermath of a security incident, forensic investigators rely on audit records to reconstruct events and understand the nature and impact of the incident. Backup audit records provide a reliable source of information for these investigations, even if the primary records are tampered with or deleted.\n\nRegularly backing up audit records ensures operational continuity by safeguarding critical data. In case of an unexpected event, the Dragos Platform can quickly access the backup records to continue monitoring and analyzing security events without significant disruption.\n\nRegular backups of audit records help ensure accountability by providing a reliable and tamper-evident log of activities. This accountability is essential for maintaining trust and transparency within the organization and with external stakeholders.\n\nSatisfies: SRG-APP-000125, SRG-APP-000515, SRG-APP-000358",
+  "Documentable": "false"
+}

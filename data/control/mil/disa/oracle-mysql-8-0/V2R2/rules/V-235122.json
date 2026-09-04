@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235122",
+  "rule_id": "SV-235122r961818_rule",
+  "stig_id": "MYS8-00-003500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must generate audit records when unsuccessful attempts to delete security objects occur.",
+  "group_title": "SRG-APP-000501-DB-000337",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-38341r623486_chk",
+  "check_content": "Review the system documentation to determine if MySQL Server is required to audit when unsuccessful attempts to delete security objects occur.\n\nCheck if MySQL audit is configured and enabled. The my.cnf file will set the variable audit_file.\n\nTo further check, execute the following query: \nSELECT PLUGIN_NAME, PLUGIN_STATUS\n      FROM INFORMATION_SCHEMA.PLUGINS\n      WHERE PLUGIN_NAME LIKE 'audit%';\n\nThe status of the audit_log plugin must be \"active\". If it is not \"active\", this is a finding.\n\nReview audit filters and associated users by running the following queries:\nSELECT `audit_log_filter`.`NAME`,\n   `audit_log_filter`.`FILTER`\nFROM `mysql`.`audit_log_filter`;\n\nSELECT `audit_log_user`.`USER`,\n   `audit_log_user`.`HOST`,\n   `audit_log_user`.`FILTERNAME`\nFROM `mysql`.`audit_log_user`;\n\nAll currently defined audits for the MySQL server instance will be listed. If no audits are returned, this is a finding.\n\nTo check if the audit filters in place are generating records when security objects are deleted, run the following, which will test auditing as a user with administrator-level privileges:\ndrop table mysql.columns_priv;\nERROR: 1142: DROP command denied to user 'newuser'@'localhost' for table 'columns_priv'\n\nReview the audit log by running the Linux command:\nsudo cat  <directory where audit log files are located>/audit.log|egrep DROP\nFor example if the values returned by - \"select @@datadir, @@audit_log_file; \" are  /usr/local/mysql/data/,  audit.log\nsudo cat  /usr/local/mysql/data/audit.log |egrep DROP\n\nThe audit data will look similar to the example below and contain a non-zero status value:\n{ \"timestamp\": \"2020-08-21 17:21:12\", \"id\": 0, \"class\": \"general\", \"event\": \"status\", \"connection_id\": 17, \"account\": { \"user\": \"newuser\", \"host\": \"localhost\" }, \"login\": { \"user\": \"newuser\", \"os\": \"\", \"ip\": \"::1\", \"proxy\": \"\" }, \"general_data\": { \"command\": \"Query\", \"sql_command\": \"drop_table\", \"query\": \"drop table `mysql`.audit_log_user\", \"status\": 1142 } },\n\nIf the audit event is not present, this is a finding.",
+  "fixtext": "Configure the MySQL Database Server to audit when unsuccessful attempts to delete security objects occur.\n\nSee the supplemental file \"MySQL80Audit.sql\".",
+  "fix_id": "F-38304r623487_fix",
+  "VulnDiscussion": "The removal of security objects from the database/Database Management System (DBMS) would seriously degrade a system's information assurance posture. If such an action is attempted, it must be logged.\n\nTo aid in diagnosis, it is necessary to keep track of failed attempts in addition to the successful ones.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221230",
+  "rule_id": "SV-221230r961155_rule",
+  "stig_id": "EX16-ED-000310",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Exchange Internet Receive connector connections count must be set to default.",
+  "group_title": "SRG-APP-000247",
+  "idents": {
+    "legacy": [
+      "SV-95251",
+      "V-80541"
+    ],
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-22945r411816_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP).\n\nDetermine the Maximum Inbound connections value. \n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-ReceiveConnector | Select Name, Identity, MaxInboundConnection\n\nIdentify Internet-facing connectors.\n\nFor each receive connector, if the value of \"MaxInboundConnection\" is not set to \"5000\", this is a finding.\n\nor\n\nIf \"MaxInboundConnection\" is set to a value other than \"5000\" or is set to unlimited and has signoff and risk acceptance in the EDSP, this is not a finding.",
+  "fixtext": "Update the EDSP to reflect the Maximum Inbound connections value.\n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-ReceiveConnector -Identity <'IdentityName'> -MaxInboundConnection 5000\n\nNote: The <IdentityName> value must be in single quotes.\n\nor\n\nThe value as identified by the EDSP that has obtained a signoff with risk acceptance.\n\nRepeat the procedure for each receive connector.",
+  "fix_id": "F-22934r411817_fix",
+  "VulnDiscussion": "Email system availability depends in part on best practice strategies for setting tuning configurations. This configuration controls the maximum number of simultaneous inbound connections allowed to the SMTP server. \n\nBy default, the number of simultaneous inbound connections is 5000. If a limit is set too low, the connections pool may be filled. If attackers perceive the limit is too low, they could deny service to the Simple Mail Transfer Protocol (SMTP) server by using a connection count that exceeds the limit set. By setting the default configuration to 5000, attackers would need many more connections to cause denial of service.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251594",
+  "rule_id": "SV-251594r960864_rule",
+  "stig_id": "IDMS-DB-000140",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "IDMS must protect against the use of default userids.",
+  "group_title": "SRG-APP-000080-DB-000063",
+  "idents": {
+    "cci": [
+      "CCI-000166"
+    ]
+  },
+  "check_id": "C-55029r807647_chk",
+  "check_content": "Examine load module \"RHDCSRTT\" by executing CA IDMS utility \"IDMSSRTD\", or by issuing command \"DCMT DISPLAY SRTT\" while signed onto the CV, and reviewing the output. \n\nNote: This requires PTFs SO07995 and SO09476. \n\nIf the TYPE=INITIAL #SECRTT has DFLTSGN=YES specified, this is a finding.\n\nIf DFLTUID is defined, this is a finding.",
+  "fixtext": "Set DFLTSGN=NO and remove the DFLTUID from the #SECRTT INITIAL macro that is input to the RHDCSRTT module, then reassemble and relink RHDCSRTT.\n\nAfter making the above changes, assemble and link RHDCSRTT to create a new SRTT. To implement the new SRTT, either recycle any CVs that use the SRTT or issue these commands:       \n \nDCMT VARY NUCLEUS MODULE RHDCSRTT NEW COPY \nDCMT VARY NUCLEUS RELOAD",
+  "fix_id": "F-54983r807648_fix",
+  "VulnDiscussion": "Default sign-ons can be used by individuals to perform adverse actions anonymously.",
+  "Documentable": "false"
+}

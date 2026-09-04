@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207592",
+  "rule_id": "SV-207592r879887_rule",
+  "stig_id": "BIND-9X-001600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "A BIND 9.x server validity period for the RRSIGs covering a zones DNSKEY RRSet must be no less than two days and no more than one week.",
+  "group_title": "SRG-APP-000516-DNS-000078",
+  "idents": {
+    "legacy": [
+      "SV-87125",
+      "V-72501"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-7847r283830_chk",
+  "check_content": "If the server is in a classified network, this is Not Applicable.\n\nWith the assistance of the DNS Administrator, identify the RRSIGs that cover the DNSKEY resource record set for each zone.\n\nEach record will list an expiration and inception date, the difference of which will provide the validity period.\n\nThe dates are listed in the following format:\n\nYYYYMMDDHHMMSS\n\nFor each RRSIG identified, verify that the validity period is no less than two days and is no longer than seven days.\n\nIf the validity period is outside of the specified range, this is a finding.",
+  "fixtext": "Resign each zone that is outside of the validity period.\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-7847r283831_fix",
+  "VulnDiscussion": "The best way for a zone administrator to minimize the impact of a key compromise is by limiting the validity period of RRSIGs in the zone and in the parent zone. This strategy limits the time during which an attacker can take advantage of a compromised key to forge responses. An attacker that has compromised a ZSK can use that key only during the KSK's signature validity interval. An attacker that has compromised a KSK can use that key for only as long as the signature interval of the RRSIG covering the DS RR in the delegating parent. These validity periods should be short, which will require frequent re-signing.",
+  "Documentable": "false"
+}

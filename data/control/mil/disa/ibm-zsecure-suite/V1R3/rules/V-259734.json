@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-259734",
+  "rule_id": "SV-259734r1050758_rule",
+  "stig_id": "ZSEC-00-000160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The IBM Security zSecure programs CKFCOLL and CKGRACF, and the APF-authorized version of program CKRCARLA, must be restricted to security administrators, security batch jobs performing External Security Manager (ESM) maintenance, auditors, and systems programmers, and must be audited.",
+  "group_title": "SRG-APP-000342-MFP-000090",
+  "idents": {
+    "cci": [
+      "CCI-002233",
+      "CCI-002234"
+    ]
+  },
+  "check_id": "C-63473r1050756_chk",
+  "check_content": "If this is not a RACF system, the presence of CKGRACF is not applicable.\n\nVerify the access and log settings of the profiles that protect the use of the CKFCOLL and CKGRACF programs and the APF-authorized version of the CKRCARLA program.\n\nIf the CKF.** and CKG.** profiles that protect the use of the CKFCOLL, CKGRACF, and CKRCARLA programs allow general access (UACC, ID(*), WARNING, or global access) or do not log successful READ access, this is a finding.\n\nIf READ or higher access to profile(s) protecting CKF.** resources in XFACILIT class is not restricted to security administrators (domain or decentralized), batch jobs performing ESM maintenance, auditors, or systems programmers, this is a finding.\n\nIf READ or higher access to profile(s) protecting CKG.** resources in XFACILIT class is not restricted to security administrators (domain or decentralized) or batch jobs performing ESM maintenance, this is a finding.\n\nReview auditing of the profile protecting the CKR.CKRCARLA.APF resource in XFACILIT class. \n\nIf successful READs are not audited, this is a finding.",
+  "fixtext": "The following commands are provided as a sample for implementing RACF zSecure user data set controls. Convert these commands for any other ESM:\n\nrdef program CKFCOLL uacc(none) owner(zSecure owner) audit(all(read))\npe CKFCOLL class(program) id(AUDTAUDT, SECAAUDT, SECBAUDT,\nSECDAUDT, SYSPAUDT) access(READ)\nrdef program CKGRACF uacc(none) owner(zSecure owner) audit(all(read))\npe CKGRACF class(program) id(AUDTAUDT, SECAAUDT, SECBAUDT,\nSECDAUDT, SYSPAUDT) access(READ)\nrdef program CKRCARLX uacc(none) owner(zSecure owner) audit(all(read))\npe CKRCARLX class(program) id(AUDTAUDT, SECAAUDT, SECBAUDT,\nSECDAUDT, SYSPAUDT) access(READ)",
+  "fix_id": "F-63380r1050757_fix",
+  "VulnDiscussion": "Users authorized to use the zSecure program CKFCOLL can collect z/OS system information that is not accessible to regular users. \n\nUsers authorized to use the zSecure program CKGRACF can change certain permitted RACF profile definitions that otherwise would not be allowed. \n\nUsers authorized to use the zSecure program CKRCARLX can fake SMF records. \n\nAllowing inappropriate users to use the CKFCOLL, CKGRACF, and CKRCARLX programs could result in disclosure of z/OS installation and configuration information or inappropriate RACF profile or SMF record changes.\n\nSatisfies: SRG-APP-000342-MFP-000090,SRG-APP-000343-MFP-000091",
+  "Documentable": "false"
+}

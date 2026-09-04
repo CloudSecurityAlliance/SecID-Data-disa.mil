@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-228855",
+  "rule_id": "SV-228855r831595_rule",
+  "stig_id": "PANW-AG-000079",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Palo Alto Networks security, if used as a TLS gateway/decryption point or VPN concentrator, must provide the capability to immediately disconnect or disable remote access to the information system.",
+  "group_title": "SRG-NET-000314-ALG-000013",
+  "idents": {
+    "legacy": [
+      "SV-77081",
+      "V-62591"
+    ],
+    "cci": [
+      "CCI-002322"
+    ]
+  },
+  "check_id": "C-31090r513860_chk",
+  "check_content": "If the Palo Alto Networks security platform is not used as a TLS gateway/decryption point or VPN concentrator, this is not applicable.\n\nGo to Policies >> Decryption\nNote each configured decryption policy.\nGo to Policies >> Security\nView the configured security policies.\nIf there is a decryption policy that does not have a corresponding security policy, this is a finding.\n\nThe matching policy may not be obvious, and it may be necessary for the Administrator to identify the corresponding security policy.\nSelect the Security Policy Rules applied to the decrypted traffic. If it allows traffic that is prohibited, this is a finding.",
+  "fixtext": "These instructions explain the steps involved but do not provide specific details since the exact policies and expected traffic are not known.\n\nGo to Policies >> Security\nSelect \"Add\".\nIn the \"Security Policy Rule\" window, complete the required fields.\nConfigure the Security Policy in accordance with the enclave's or system's policy for the resulting decrypted traffic.\nFor any traffic that violates the enclave policy, configure the Security Policy rule to deny the traffic.\nIn the \"Security Policy Rule\" window, in the \"Actions\" tab, in the \"Action Setting\" section, select \"deny\".\nFor any traffic that is allowed, configure the Security Policy Rule to allow the traffic and apply Antivirus and Vulnerability Protection Profiles. \nIn the \"Security Policy Rule\" window, in the \"Actions\" tab, in the \"Action Setting\" section, select \"allow\".\nIn the \"Security Policy Rule\" window, in the \"Actions\" tab, in the \"Profiles Setting\" section, select the necessary Profiles.\nCommit changes by selecting \"Commit\" in the upper-right corner of the screen.\nSelect \"OK\" when the confirmation dialog appears.",
+  "fix_id": "F-31067r513861_fix",
+  "VulnDiscussion": "Without the ability to immediately disconnect or disable remote access, an attack or other compromise taking place would not be immediately stopped.\n\nRemote access functionality must have the capability to immediately disconnect current users remotely accessing the information system and/or disable further remote access. The remote access functionality may implement features such as automatic disconnect (or user-initiated disconnect) in case of adverse information based on an indicator of compromise or attack.\n\nIf the Palo Alto Networks security platform is used as a TLS gateway/decryption point or VPN concentrator, configure the device to deny decrypted traffic that violates the enclave or system policies. For each type of SSL/TLS traffic that is decrypted, the resulting traffic must be inspected and filtered.",
+  "Documentable": "false"
+}

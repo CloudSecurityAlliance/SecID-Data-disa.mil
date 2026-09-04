@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213699",
+  "rule_id": "SV-213699r917664_rule",
+  "stig_id": "DB2X-00-004100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If passwords are used for authentication, DB2 must transmit only encrypted representations of passwords.",
+  "group_title": "SRG-APP-000172-DB-000075",
+  "idents": {
+    "legacy": [
+      "SV-89161",
+      "V-74487"
+    ],
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-14920r295146_chk",
+  "check_content": "Run the following command to find the value of the authentication parameter: \n\n$db2 get dbm cfg \n\nIf the AUTHENTICATION parameter is not set to SERVER_ENCRYPT, this is a finding.\n\nRun the following command to find the value of the registry variable DB2AUTH: \n\n$db2set -all\n\nIf the value of DB2AUTH is not set to JCC_ENFORCE_SECMEC, or DB2AUTH is not set (i.e. a row is not returned for DB2AUTH from the above command), this is a finding.",
+  "fixtext": "Run the following command to set the value of the authentication encryption to SERVER_ENCRYPT: \n\n$db2 update dbm cfg using authentication server_encrypt\n\nRun the following db2set command to set the value of DB2AUTH to JCC_ENFORCE_SECMEC: \n\n$db2set DB2AUTH=JCC_ENFORCE_SECMEC\n\nNote: It is recommended to set the ALTERNATE_AUTH_ENC database manager configuration parameter to AES_ONLY to require that AES encryption be used.",
+  "fix_id": "F-14918r917663_fix",
+  "VulnDiscussion": "The DoD standard for authentication is DoD-approved PKI certificates.\n\nAuthentication based on User ID and Password may be used only when it is not possible to employ a PKI certificate, and requires AO approval.\n\nIn such cases, passwords need to be protected at all times, and encryption is the standard method for protecting passwords during transmission.\n\nDBMS passwords sent in clear text format across the network are vulnerable to discovery by unauthorized users. Disclosure of passwords may easily lead to unauthorized access to the database.",
+  "Documentable": "false"
+}

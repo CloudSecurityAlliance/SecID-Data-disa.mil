@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269354",
+  "rule_id": "SV-269354r1050237_rule",
+  "stig_id": "ALMA-09-031040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "A graphical display manager must not be installed on AlmaLinux OS 9 unless approved.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-73385r1048438_chk",
+  "check_content": "Verify that a graphical user interface is not installed with the following command:\n\n$ dnf list --installed \"xorg-x11-server-common\"\n\nError: No matching Packages to list\n\nIf the \"xorg-x11-server-common\" package is installed, and the use of a graphical user interface has not been documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Document the requirement for a graphical user interface with the ISSO or remove all xorg packages with the following command:\n\nWarning: If accessing the system through the graphical user interface, change to the multi-user.target with the following command:\n\n$ systemctl isolate multi-user.target\n\nWarning: Removal of the graphical user interface will immediately render it useless. The following commands must not be run from a virtual terminal emulator in the graphical interface.\n\n$ dnf remove \"xorg*\"\n$ systemctl set-default multi-user.target",
+  "fix_id": "F-73286r1048439_fix",
+  "VulnDiscussion": "Unnecessary service packages must not be installed to decrease the attack surface of the system. Graphical display managers have a long history of security vulnerabilities and must not be used, unless approved and documented.",
+  "Documentable": "false"
+}

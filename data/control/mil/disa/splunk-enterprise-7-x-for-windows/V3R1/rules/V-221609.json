@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221609",
+  "rule_id": "SV-221609r961029_rule",
+  "stig_id": "SPLK-CL-000080",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Splunk Enterprise must use LDAPS for the LDAP connection.",
+  "group_title": "SRG-APP-000172-AU-002550",
+  "idents": {
+    "legacy": [
+      "SV-111319",
+      "V-102367"
+    ],
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-23324r663929_chk",
+  "check_content": "If the instance being checked is in a distributed environment and has the web interface disabled, this check is N/A.\n\nIf using SAML for authentication, this check is N/A.\n\nSelect Settings >> Access Controls >> Authentication method.\n\nSelect LDAP Settings.\n\nSelect the LDAP strategy and verify that SSL enabled is checked and the Port is set to 636.\n\nIf SSL enabled is not checked, and Port is not 636, this is a finding.",
+  "fixtext": "If using SAML for authentication, this fix is N/A.\n\nSelect Settings >> Access Controls >> Authentication method.\n\nSelect LDAP Settings.\n\nSelect the LDAP strategy and check the option SSL enabled.\n\nSet Port to 636.\n\nEdit the following file in the installation to configure Splunk to use SSL certificates:\n\n$SPLUNK_HOME/etc/openldap/ldap.conf\n\nAdd the following line:\n\nTLS_CACERT <path to the DoD approved certificate in PEM format>",
+  "fix_id": "F-23313r416285_fix",
+  "VulnDiscussion": "Passwords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nSecuring the connection to the LDAP servers mitigates this risk.",
+  "Documentable": "false"
+}

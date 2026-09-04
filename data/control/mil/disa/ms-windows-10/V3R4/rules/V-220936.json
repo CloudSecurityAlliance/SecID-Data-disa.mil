@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220936",
+  "rule_id": "SV-220936r971535_rule",
+  "stig_id": "WN10-SO-000190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Kerberos encryption types must be configured to prevent the use of DES and RC4 encryption suites.",
+  "group_title": "SRG-OS-000120-GPOS-00061",
+  "idents": {
+    "legacy": [
+      "SV-78285",
+      "V-63795"
+    ],
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-22651r555293_chk",
+  "check_content": "If the following registry value does not exist or is not configured as specified, this is a finding:\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System\\Kerberos\\Parameters\\\n\nValue Name: SupportedEncryptionTypes\n\nValue Type: REG_DWORD\nValue: 0x7ffffff8 (2147483640)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> Security Options >> \"Network security: Configure encryption types allowed for Kerberos\" to \"Enabled\" with only the following selected:\n\nAES128_HMAC_SHA1\nAES256_HMAC_SHA1\nFuture encryption types",
+  "fix_id": "F-22640r555294_fix",
+  "VulnDiscussion": "Certain encryption types are no longer considered secure.  This setting configures a minimum encryption type for Kerberos, preventing the use of the DES and RC4 encryption suites.",
+  "Documentable": "false"
+}

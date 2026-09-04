@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258788",
+  "rule_id": "SV-258788r958754_rule",
+  "stig_id": "ESXI-80-000233",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must off-load audit records via syslog.",
+  "group_title": "SRG-OS-000342-VMM-001230",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-62528r933423_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"Syslog.global.auditRecord.remoteEnable\" value and verify it is set to \"true\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Syslog.global.auditRecord.remoteEnable\n\nIf the \"Syslog.global.auditRecord.remoteEnable\" setting is not set to \"true\", this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"Syslog.global.auditRecord.remoteEnable\" value and configure it to \"true\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Syslog.global.auditRecord.remoteEnable | Set-AdvancedSetting -Value \"true\"",
+  "fix_id": "F-62437r933424_fix",
+  "VulnDiscussion": "ESXi offers both local and remote audit recordkeeping to meet the requirements of the NIAP Virtualization Protection Profile and Server Virtualization Extended Package. Local records are stored on any accessible local or VMFS path. Remote records are sent to the global syslog servers configured elsewhere.\n\nTo operate in the NIAP-validated state, ESXi must enable and properly configure this audit system. This system is disabled by default.\n\nNote: Audit records can be viewed locally via the \"/bin/viewAudit\" utility over SSH or at the ESXi shell.",
+  "Documentable": "false"
+}

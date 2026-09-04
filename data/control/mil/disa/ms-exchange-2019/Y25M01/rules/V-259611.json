@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259611",
+  "rule_id": "SV-259611r961161_rule",
+  "stig_id": "EX19-ED-000125",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange filtered messages must be archived.",
+  "group_title": "SRG-APP-000261",
+  "idents": {
+    "cci": [
+      "CCI-001308"
+    ]
+  },
+  "check_id": "C-63350r942145_chk",
+  "check_content": "Note: If third-party anti-spam product is being used, the anti-spam product must be configured to meet the requirement.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-ContentFilterConfig | Select-Object -Property Name, quarantineMailbox\n\nIf no SMTP address is assigned to \"quarantineMailbox\", this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-ContentFilterConfig -quarantineMailbox <'quarantineMailbox SmtpAddress'>\n\nNote: The <quarantineMailbox SmtpAddress> value must be in quotes.",
+  "fix_id": "F-63258r942146_fix",
+  "VulnDiscussion": "By performing filtering at the perimeter, up to 90 percent of spam, malware, and other undesirable messages are eliminated from the message stream rather than admitting them into the mail server environment. This significantly reduces the attack vector for inbound email-borne spam and malware.\n\nAs messages are filtered, it is prudent to temporarily host them in an archive for evaluation by administrators or users. The archive can be used to recover messages that might have been inappropriately filtered, preventing data loss, and to provide a base of analysis that can provide future filter refinements.",
+  "Documentable": "false"
+}

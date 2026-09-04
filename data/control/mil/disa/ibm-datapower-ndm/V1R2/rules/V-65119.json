@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-65119",
+  "rule_id": "SV-79609r1_rule",
+  "stig_id": "WSDP-NM-000080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DataPower Gateway must generate alerts that can be forwarded to the administrators and ISSO when accounts are removed.",
+  "group_title": "SRG-APP-000294-NDM-000278",
+  "idents": {
+    "cci": [
+      "CCI-001686"
+    ]
+  },
+  "check_id": "C-65747r1_chk",
+  "check_content": "In the DataPower web interface, navigate to Administration >> Access >> SNMP Settings. Verify that \"Trap Event Subscriptions\" include the Event Subscription code that indicates account removal: 0x8240001c.\n\nOn the \"Trap and Notification Targets\" tab, verify that this configuration includes the Remote Host Address and Remote Port of an approved SNMP server that generates alerts that will be forwarded to the administrators and ISSO when account disabled events occur.\n\nOn the Main tab, confirm that the \"Administrative state\" is set to \"enabled\". Additionally, confirm that that the run time state (shown at the top of the page after the text \"SNMP Settings\") indicates in brackets that the SNMP object is in an \"up\" state.\n\nConfirm that when an account is removed, an appropriate 0x8240001c \"Configuration deleted\" event appears in the DataPower audit log (In the WebGUI go to Status >> View Logs >> Audit Log), and that an appropriate notification is sent by the SNMP server specified on the \"Trap and Notification Targets\" tab of the DataPower SNMP Settings. \n\nIf this event message does not appear in the audit log, this is a finding.",
+  "fixtext": "In the DataPower web interface, navigate to Administration >> Access >> SNMP Settings. \n\nOn the Trap Event Subscriptions tab, set to \"on\" the \"Enable Default Event Subscriptions\" option >> set to \"warning\" the \"Minimum Priority\" option >> configure \"Trap Event Subscriptions\" to include an Event Subscription that indicates account removal by adding a 0x8240001c Event Subscription.\n\nExample log result: \"[conf][success][0x8240001c] (admin:default:web-gui:192.168.65.1): user 'TestUser' Configuration deleted\"\n\nOn the \"Trap and Notification Targets\" tab, add the Remote Host Address and Remote Port of an approved SNMP server that generates alerts that will be forwarded to the administrators and ISSO when accounts are removed.\n\nOn the Main tab, set the \"Administrative state\" to \"enabled\" >> Click \"Save Configuration\".",
+  "fix_id": "F-71059r1_fix",
+  "VulnDiscussion": "When application accounts are removed, administrator accessibility is affected. Accounts are utilized for identifying individual device administrators or for identifying the device processes themselves. \n\nIn order to detect and respond to events that affect administrator accessibility and device processing, devices must audit account removal actions and, as required, notify the appropriate individuals so they can investigate the event. Such a capability greatly reduces the risk that device accessibility will be negatively affected for extended periods of time and also provides logging that can be used for forensic purposes.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-266930",
+  "rule_id": "SV-266930r1039811_rule",
+  "stig_id": "ARBA-ND-000250",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AOS must implement replay-resistant authentication mechanisms for network access to privileged accounts.",
+  "group_title": "SRG-APP-000156-NDM-000250",
+  "idents": {
+    "cci": [
+      "CCI-001941"
+    ]
+  },
+  "check_id": "C-70854r1039809_chk",
+  "check_content": "Verify the AOS configuration using the web interface: \n  \n1. Navigate to Configuration >> System >> Admin and expand \"Admin Authentication Options\".  \n2. Verify what \"Server group\" is handling admin authentication.  \n3. Expand \"Admin Authentication Servers\".  \n4. Select the Server Group identified from the \"Options\" section.  \n5. Verify that each authentication server configured in Server Group <server group name> is configured with secure LDAP using port 636 and connection type ldap-s.  \n \nIf each management authentication server is not configured to use secure LDAP, this is a finding.",
+  "fixtext": "Configure AOS using the web interface:  \n \n1. Navigate to Configuration >> System >> Admin and expand \"Admin Authentication Servers\".  \n2. Click on the plus sign (+) under \"All Servers\" and configure the type of authentication server. Provide the Name, Type, and IP address. Click \"Submit\".  \n3. Select the created authentication server and configure the required attributes for LDAP: \n  \nAdmin-dn <username> \nAdmin-passwd <password> \nRe-type admin-passwd <password> \nAuth port: 636 \nBase-dn: cn/ou=<container>,dc=<level>,dc=<mil> \nKey-attribute: userPrincipalName \n \n4. Click \"Submit\".  \n5. Repeat this process and configure a second authentication server.  \n6. Click Pending Changes >> Deploy Changes.  \n7. Click on the plus sign (+) under \"Server Groups\" and add a server group. Click \"Submit\".  \n8. Select the created server group and click the plus sign (+) in the Server Group <server group name> box.  \n9. Add the first configured authentication server.  \n10. Reselect the created server group and click the plus sign (+) in the Server Group <server group name> box.  \n11. Click Submit >> Pending Changes >> Deploy Changes. \n12. Expand \"Admin Authentication Options\". Select the Server group created earlier.  \n13. Click Submit >> Pending Changes >> Deploy Changes.",
+  "fix_id": "F-70757r1039810_fix",
+  "VulnDiscussion": "A replay attack may enable an unauthorized user to gain access to the application. Authentication sessions between the authenticator and the application validating the user credentials must not be vulnerable to a replay attack. \n \nAn authentication process resists replay attacks if it is impractical to achieve a successful authentication by recording and replaying a previous authentication message.  \n \nTechniques to address this include protocols using nonces (e.g., numbers generated for a specific one-time use) or challenges (e.g., Transport Layer Security [TLS], Web Services Security [WS_Security]). Additional techniques include time-synchronous or challenge-response one-time authenticators.",
+  "Documentable": "false"
+}

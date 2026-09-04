@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219830",
+  "rule_id": "SV-219830r961863_rule",
+  "stig_id": "O121-BP-021900",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Oracle REMOTE_OS_AUTHENT parameter must be set to FALSE.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "legacy": [
+      "SV-75915",
+      "V-61425"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-21541r533029_chk",
+  "check_content": "From SQL*Plus:\n\n  select value from v$parameter where name = 'remote_os_authent';\n\nIf the value returned does not equal FALSE, this is a finding.",
+  "fixtext": "Document remote OS authentication in the System Security Plan.\n\nIf not required or not mitigated to an acceptable level, disable remote OS authentication.\n\nFrom SQL*Plus:\n\n  alter system set remote_os_authent = FALSE scope = spfile;\n\nThe above SQL*Plus command will set the parameter to take effect at next system startup.",
+  "fix_id": "F-21540r533030_fix",
+  "VulnDiscussion": "Setting this value to TRUE allows operating system authentication over an unsecured connection. Trusting remote operating systems can allow a user to impersonate another operating system user and connect to the database without having to supply a password. If REMOTE_OS_AUTHENT is set to true, the only information a remote user needs to connect to the database is the name of any user whose account is setup to be authenticated by the operating system.",
+  "Documentable": "false"
+}

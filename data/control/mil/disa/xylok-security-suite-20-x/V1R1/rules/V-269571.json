@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-269571",
+  "rule_id": "SV-269571r1053488_rule",
+  "stig_id": "XYLK-20-000003",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Xylok Security Suite must initiate a session lock after a 15-minute period of inactivity.",
+  "group_title": "SRG-APP-000003",
+  "idents": {
+    "cci": [
+      "CCI-000057",
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-73604r1053486_chk",
+  "check_content": "Verify session is configured to lock after 15 minutes of inactivity. Execute the following:\n$ grep SESSION_LENGTH /etc/xylok.conf\n\nSESSION_LENGTH=900\n\nIf \"SESSION_LENGTH\" is set to more than15 minutes or is missing, this is a finding. \n\nNote: The setting is in seconds. 900 sec = 15 min.",
+  "fixtext": "Set the session length:\n1. As root, open /etc/xylok.conf in a text editor.\n\n2. Add/Amend \"SESSION_LENGTH=900\" to the configuration file.\n\n3. Restart Xylok to apply settings by executing the following:\n    # systemctl restart xylok",
+  "fix_id": "F-73505r1053487_fix",
+  "VulnDiscussion": "A session time-out lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system, but does not log out because of the temporary nature of the absence.\n\nThe session lock is implemented at the point where session activity can be determined and/or controlled. This is handled at the operating system-level and results in a system lock.\n\nSatisfies: SRG-APP-000003, SRG-APP-000190",
+  "Documentable": "false"
+}

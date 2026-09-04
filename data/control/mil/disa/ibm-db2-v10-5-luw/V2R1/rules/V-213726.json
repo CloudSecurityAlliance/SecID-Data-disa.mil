@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213726",
+  "rule_id": "SV-213726r879756_rule",
+  "stig_id": "DB2X-00-008300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DB2 must disable network functions, ports, protocols, and services deemed by the organization to be nonsecure, in accord with the Ports, Protocols, and Services Management (PPSM) guidance.",
+  "group_title": "SRG-APP-000383-DB-000364",
+  "idents": {
+    "legacy": [
+      "SV-89269",
+      "V-74595"
+    ],
+    "cci": [
+      "CCI-001762"
+    ]
+  },
+  "check_id": "C-14947r295227_chk",
+  "check_content": "Run the following command to find the value of the network service:\n\n     $db2 get dbm cfg\n\nTCP/IP Service name                     (SVCENAME) \nSSL service name                         (SSL_SVCENAME) \n\nIf the port numbers are not specified, look for the port numbers in services file and find the port numbers defined for the TCP/IP service name and SSL service name (SVCENAME, SSL_SVCENAME) above.\n\nDefault Location for services file:\n   Windows Service File:  %SystemRoot%\\system32\\drivers\\etc\\services\n   UNIX Services File: /etc/services\n\nIf the network protocols and ports found in previous step are not in as per PPSM guidance, this is a finding.",
+  "fixtext": "Use the following commands to set the protocol and ports as per PPSM guidance:\n\n     $db2 update dbm cfg using svcename [service_name | port_number]\n\n     $db2 update dbm cfg using ssl_svcename [ssl_service_name | port_number]\n\n\nNote: http://www.ibm.com/support/knowledgecenter/en/SSEPGG_10.5.0/com.ibm.db2.luw.admin.sec.doc/doc/t0025241.html",
+  "fix_id": "F-14945r295228_fix",
+  "VulnDiscussion": "Use of nonsecure network functions, ports, protocols, and services exposes the system to avoidable threats.",
+  "Documentable": "false"
+}

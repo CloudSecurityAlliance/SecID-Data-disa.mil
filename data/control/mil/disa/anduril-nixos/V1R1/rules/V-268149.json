@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-268149",
+  "rule_id": "SV-268149r1039335_rule",
+  "stig_id": "ANIX-00-001420",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must, for networked systems, compare internal information system clocks at least every 24 hours with a server which is synchronized to one of the redundant United States Naval Observatory (USNO) time servers, or a time server designated for the appropriate DOD network (NIPRNet/SIPRNet), and/or the Global Positioning System (GPS).",
+  "group_title": "SRG-OS-000355-GPOS-00143",
+  "idents": {
+    "cci": [
+      "CCI-004923",
+      "CCI-001890",
+      "CCI-004922"
+    ]
+  },
+  "check_id": "C-72073r1039333_chk",
+  "check_content": "Verify NixOS is configured with an approved time server with the following command:\n\n$ timedatectl show-timesync | grep NTPServers\n\nSystemNTPServers=tick.usnogps.navy.mil\nFallbackNTPServers=tock.usnogps.navy.mil\n\nIf the output of the command does not list authorized time servers, this is a finding.",
+  "fixtext": "Configure /etc/nixos/configuration.nix to use approved timeservers by adding the following configuration settings:\n\n networking.timeServers = [\n  \"tick.usnogps.navy.mil\"\n  \"tock.usnogps.navy.mil\"\n ];\n\nRebuild the system with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71976r1039334_fix",
+  "VulnDiscussion": "Inaccurate time stamps make it more difficult to correlate events and can lead to an inaccurate analysis. Determining the correct time a particular event occurred on a system is critical when conducting forensic analysis and investigating system events. Sources outside the configured acceptable allowance (drift) may be inaccurate.\n\nSynchronizing internal information system clocks provides uniformity of time stamps for information systems with multiple system clocks and systems connected over a network.\n\nOrganizations should consider endpoints that may not have regular access to the authoritative time server (e.g., mobile, teleworking, and tactical endpoints).\n\nSatisfies: SRG-OS-000355-GPOS-00143, SRG-OS-000359-GPOS-00146, SRG-OS-000785-GPOS-00250",
+  "Documentable": "false"
+}

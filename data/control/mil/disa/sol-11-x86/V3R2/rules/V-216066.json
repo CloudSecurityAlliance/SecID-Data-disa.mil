@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216066",
+  "rule_id": "SV-216066r959010_rule",
+  "stig_id": "SOL-11.1-020320",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Run control scripts executable search paths must contain only authorized paths.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-59831",
+      "SV-74261"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17304r372580_chk",
+  "check_content": "Verify run control scripts' executable search paths. \n\nProcedure: \n\n# find /etc/rc* /etc/init.d /lib/svc/method -type f -print | xargs grep -i PATH\n\nThis variable is formatted as a colon-separated list of directories.\n\nIf there is an empty entry, such as a leading or trailing colon or two consecutive colons, this is a finding. \n\nIf an entry begins with a character other than a slash (/), or has not been documented with the ISSO, this is a finding.",
+  "fixtext": "Edit the run control script and remove the relative path entries from the executable search path variable that have not been documented with the ISSO.\n  \nEdit the run control script and remove any empty path entries from the file.",
+  "fix_id": "F-17302r372581_fix",
+  "VulnDiscussion": "The executable search path (typically the PATH environment variable) contains a list of directories for the shell to search to find executables. If this path includes the current working directory or other relative paths, executables in these directories may be executed instead of system commands. This variable is formatted as a colon-separated list of directories. If there is an empty entry, such as a leading or trailing colon, two consecutive colons, or a single period, this is interpreted as the current working directory. Paths starting with a slash (/) are absolute paths.",
+  "Documentable": "false"
+}

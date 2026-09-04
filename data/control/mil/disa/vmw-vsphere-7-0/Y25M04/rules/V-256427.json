@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256427",
+  "rule_id": "SV-256427r959010_rule",
+  "stig_id": "ESXI-70-000070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must not provide root/administrator-level access to Common Information Model (CIM)-based hardware monitoring tools or other third-party applications.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-60102r886060_chk",
+  "check_content": "If CIM monitoring is not implemented, this is not applicable.\n\nFrom the Host Client, select the ESXi host, right-click, and go to \"Permissions\".\n\nVerify the CIM service account is assigned the \"Read-only\" role or a custom role as described in the discussion.\n\nIf there is no dedicated CIM service account, this is a finding.\n\nIf the CIM service account has more permissions than necessary as noted in the discussion, this is a finding.",
+  "fixtext": "If write access is required, create a new role for the CIM service account:\n\nFrom the Host Client, go to Manage >> Security & Users.\n\nSelect \"Roles\" and click \"Add role\".\n\nProvide a name for the new role and select Host >> Cim >> Ciminteraction and click \"Add\".\n\nAdd a CIM service account:\n\nFrom the Host Client, go to Manage >> Security & Users.\n\nSelect \"Users\" and click \"Add user\".\n\nProvide a name, description, and password for the new user and click \"Add\".\n\nAssign the CIM service account permissions to the host with the new role:\n\nFrom the Host Client, select the ESXi host, right-click, and go to \"Permissions\".\n\nClick \"Add User\", select the CIM service account from the drop-down list, and select either \"Read-only\" or the role just created. Click \"Add User\".",
+  "fix_id": "F-60045r886061_fix",
+  "VulnDiscussion": "The CIM system provides an interface that enables hardware-level management from remote applications via a set of standard application programming interfaces (APIs). \n\nIn environments that implement CIM hardware monitoring, create a limited-privilege, read-only service account for CIM and place this user in the Exception Users list. When CIM write access is required, create a new role with only the \"Host.CIM.Interaction\" permission and apply that role to the CIM service account.",
+  "Documentable": "false"
+}

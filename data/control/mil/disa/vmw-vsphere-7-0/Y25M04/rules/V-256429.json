@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256429",
+  "rule_id": "SV-256429r959010_rule",
+  "stig_id": "ESXI-70-000074",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The ESXi host must exclusively enable Transport Layer Security (TLS) 1.2 for all endpoints.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-002420"
+    ]
+  },
+  "check_id": "C-60104r886066_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"UserVars.ESXiVPsDisabledProtocols\" value and verify it is set to the following:\n\ntlsv1,tlsv1.1,sslv3\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name UserVars.ESXiVPsDisabledProtocols\n\nIf the \"UserVars.ESXiVPsDisabledProtocols\" setting is not set to \"tlsv1,tlsv1.1,sslv3\" or the setting does not exist, this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"UserVars.ESXiVPsDisabledProtocols\" value and set it to the following:\n\ntlsv1,tlsv1.1,sslv3\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name UserVars.ESXiVPsDisabledProtocols | Set-AdvancedSetting -Value \"tlsv1,tlsv1.1,sslv3\"\n\nReboot the host for changes to take effect.",
+  "fix_id": "F-60047r886067_fix",
+  "VulnDiscussion": "TLS 1.0 and 1.1 are deprecated protocols with well-published shortcomings and vulnerabilities. TLS 1.2 should be enabled on all interfaces and SSLv3, TL 1.1, and 1.0 disabled, where supported.\n\nMandating TLS 1.2 may break third-party integrations and add-ons to vSphere. Test these integrations carefully after implementing TLS 1.2 and roll back where appropriate.\n\nOn interfaces where required functionality is broken with TLS 1.2, this finding is not applicable until such time as the third-party software supports TLS 1.2.\n\nModify TLS settings in the following order:\n1. vCenter.\n2. ESXi.\n\nSatisfies: SRG-OS-000480-VMM-002000, SRG-OS-000425-VMM-001710",
+  "Documentable": "false"
+}

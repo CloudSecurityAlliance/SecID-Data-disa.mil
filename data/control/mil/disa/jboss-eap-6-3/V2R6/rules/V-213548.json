@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213548",
+  "rule_id": "SV-213548r961635_rule",
+  "stig_id": "JBOS-AS-000655",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "JBoss must be configured to use an approved cryptographic algorithm in conjunction with TLS.",
+  "group_title": "SRG-APP-000440-AS-000167",
+  "idents": {
+    "legacy": [
+      "SV-76813",
+      "V-62323"
+    ],
+    "cci": [
+      "CCI-002421"
+    ]
+  },
+  "check_id": "C-14771r296310_chk",
+  "check_content": "Log on to the OS of the JBoss server with OS permissions that allow access to JBoss.\nUsing the relevant OS commands and syntax, cd to the <JBOSS_HOME>/bin/ folder.\nRun the jboss-cli script.\nConnect to the server and authenticate.\n\nValidate that the TLS protocol is used for HTTPS connections.\nRun the command:\n\n\"ls /subsystem=web/connector=https/ssl=configuration\"\n\nReview the cipher suites.  The following suites are acceptable as per NIST 800-52r1 section 3.3.1 - Cipher Suites.  Refer to the NIST document for a complete list of acceptable cipher suites.  The source NIST document and approved encryption algorithms/cipher suites are subject to change and should be referenced.\n\nAES_128_CBC\nAES_256_CBC\nAES_128_GCM\nAES_128_CCM\nAES_256_CCM\n\nIf the cipher suites utilized by the TLS server are not approved by NIST as per 800-52r1, this is a finding.",
+  "fixtext": "Reference section 4.6 of the JBoss EAP 6.3 Security Guide located on the Red Hat vendor's website for step-by-step instructions on establishing SSL encryption on JBoss.\n\nThe overall steps include:\n\n1. Add an HTTPS connector.\n2. Configure the SSL encryption certificate and keys.\n3. Set the Cipher to an approved algorithm.",
+  "fix_id": "F-14769r296311_fix",
+  "VulnDiscussion": "Preventing the disclosure or modification of transmitted information requires that application servers take measures to employ approved cryptography in order to protect the information during transmission over the network. This is usually achieved through the use of Transport Layer Security (TLS), SSL VPN, or IPSec tunnel.\n\nIf data in transit is unencrypted, it is vulnerable to disclosure and modification. If approved cryptographic algorithms are not used, encryption strength cannot be assured.\n\nFIPS 140-2 approved TLS versions include TLS V1.2 or greater.\n\nTLS must be enabled, and non-FIPS-approved SSL versions must be disabled.  NIST SP 800-52 specifies the preferred configurations for government systems.",
+  "Documentable": "false"
+}

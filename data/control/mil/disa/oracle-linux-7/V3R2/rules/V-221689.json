@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-221689",
+  "rule_id": "SV-221689r1015184_rule",
+  "stig_id": "OL07-00-010310",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must disable account identifiers (individuals, groups, roles, and devices) if the password expires.",
+  "group_title": "SRG-OS-000118-GPOS-00060",
+  "idents": {
+    "legacy": [
+      "V-99117",
+      "SV-108221"
+    ],
+    "cci": [
+      "CCI-000795",
+      "CCI-003627"
+    ]
+  },
+  "check_id": "C-23404r1015182_chk",
+  "check_content": "If passwords are not being used for authentication, this is Not Applicable.\n\nVerify the operating system disables account identifiers (individuals, groups, roles, and devices) after the password has expired with the following command:\n\n     # grep -i inactive /etc/default/useradd\n     INACTIVE=35\n\nIf \"INACTIVE\" is set to \"-1\", a value greater than \"35\", is commented out, or is not defined, this is a finding.",
+  "fixtext": "Configure the operating system to disable account identifiers (individuals, groups, roles, and devices) 35 days after the password has expired.\n\nAdd the following line to \"/etc/default/useradd\" (or modify the line to have the required value):\n\n     INACTIVE=35\n\nDOD recommendation is 35 days, but a lower value is acceptable. The value \"-1\" will disable this feature, and \"0\" will disable the account immediately after the password expires.",
+  "fix_id": "F-23393r1015183_fix",
+  "VulnDiscussion": "Inactive identifiers pose a risk to systems and applications because attackers may exploit an inactive identifier and potentially obtain undetected access to the system. Owners of inactive accounts will not notice if unauthorized access to their user account has been obtained.\n\nOperating systems need to track periods of inactivity and disable application identifiers after 35 days of inactivity.",
+  "Documentable": "false"
+}

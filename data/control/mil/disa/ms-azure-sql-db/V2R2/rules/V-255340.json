@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255340",
+  "rule_id": "SV-255340r961221_rule",
+  "stig_id": "ASQL-00-010200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Database must automatically terminate a user session after organization-defined conditions or trigger events requiring session disconnect.",
+  "group_title": "SRG-APP-000295-DB-000305",
+  "idents": {
+    "cci": [
+      "CCI-002361"
+    ]
+  },
+  "check_id": "C-59013r871144_chk",
+  "check_content": "Review system documentation to obtain the organization's definition of circumstances requiring automatic session termination. If the documentation explicitly states that such termination is not required or is prohibited, this is not a finding.\n\nIf the system owner, data owner, or organization requires additional assurance, this is a finding.",
+  "fixtext": "Determine the situations when a user-initiated database session must be terminated.\n\nNote: The user running the commands shown below requires the KILL DATABASE CONNECTION permission. The server-level principal login has the KILL DATABASE CONNECTION.\n\nIn the SQL Server Management Studio ,as an authenticated user connected to master database, run the following command to list all user sessions:\n\nSELECT c.session_id,host_name,program_name,nt_domain, login_name, connect_time, last_request_end_time \nFROM sys.dm_exec_sessions AS s\nJOIN sys.dm_exec_connections AS c ON s.session_id= c.session_id;\n\nhttps://docs.microsoft.com/en-us/sql/relational-databases/system-dynamic-management-views/sys-dm-exec-sessions-transact-sql?view=azuresqldb-current\n\nExample output:\n76        MyComputer    Microsoft SQL Server Management Studio - Transact-SQL IntelliSense NULL            MyLogin           2022-08-26 20:08:38.170         2022-08-26 20:22:39.697\n\nFrom the output identify the names of users whose session_ids should be terminated. Using the user for each session to be terminated, run the following command (still in SQL Server Management Studio).\n\nExample to terminate user \"MyLogin\" sessions from example output:\nKILL <SPID> - where <SPID> is the Session_ID of the session you want to terminate.\n\nReference:\nhttps://docs.microsoft.com/en-us/sql/t-sql/language-elements/kill-transact-sql?view=azuresqldb-current",
+  "fix_id": "F-58957r871145_fix",
+  "VulnDiscussion": "This addresses the termination of user-initiated logical sessions in contrast to the termination of network connections that are associated with communications sessions (i.e., network disconnect). A logical session (for local, network, and remote access) is initiated whenever a user (or process acting on behalf of a user) accesses an organizational information system. Such user sessions can be terminated (and thus terminate user access) without terminating network sessions. \n\nSession termination ends all processes associated with a user's logical session except those batch processes/jobs that are specifically created by the user (i.e., session owner) to continue after the session is terminated. \n\nConditions or trigger events requiring automatic session termination can include, for example, organization-defined periods of user inactivity, targeted responses to certain types of incidents, and time-of-day restrictions on information system use.\n\nThis capability is typically reserved for specific cases where the system owner, data owner, or organization requires additional assurance.",
+  "Documentable": "false"
+}

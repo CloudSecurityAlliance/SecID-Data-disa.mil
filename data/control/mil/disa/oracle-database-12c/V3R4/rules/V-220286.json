@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220286",
+  "rule_id": "SV-220286r960963_rule",
+  "stig_id": "O121-C2-011700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Unused database components that are integrated in the DBMS and cannot be uninstalled must be disabled.",
+  "group_title": "SRG-APP-000141-DB-000092",
+  "idents": {
+    "legacy": [
+      "SV-76171",
+      "V-61681"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-22001r391989_chk",
+  "check_content": "Run this query to check to see what integrated components are installed in the database:\n\nSELECT parameter, value\nfrom v$option\nwhere parameter in \n(\n'Data Mining',\n'Oracle Database Extensions for .NET',\n'OLAP',\n'Partitioning',\n'Real Application Testing'\n);\n\nThis will return all of the relevant database options and their status. TRUE means that the option is installed. If the option is not installed, the option will be set to FALSE.\n\nReview the options and check the system documentation to see what is required.  If all listed components are authorized to be in use, this is not a finding.\n\nIf any unused components or features are listed by the query as TRUE, this is a finding.",
+  "fixtext": "In the system documentation list the integrated components required for operation of applications that will be accessing the DBMS.\n\nFor Oracle Database 12.1, only the following components can be enabled/disabled:\n\nOracle Data Mining (dm)\nOracle Database Extensions for .NET (ode_net)\nOracle OLAP (olap)\nOracle Partitioning (partitioning)\nReal Application Testing (rat)\n\nUse the chopt utility (an Oracle-supplied operating system command that resides in the <Oracle Home path>/bin directory) to disable each option that should not be available.  The command format is \n\n            chopt <enable|disable> <option>\nwhere <option> is any of the abbreviations in parentheses in the list above.  For example, to disable Real Application Testing, issue the following command at an OS prompt:\n\n            chopt disable rat\n\nRestart the Oracle service.\n\n(See My Oracle Support Document 948061.1 for more on the chopt command.)",
+  "fix_id": "F-21993r391990_fix",
+  "VulnDiscussion": "Information systems are capable of providing a wide variety of functions and services. Some of the functions and services, provided by default, may not be necessary to support essential organizational operations (e.g., key missions, functions).\n\nIt is detrimental for applications to provide, or install by default, functionality exceeding requirements or mission objectives. Examples include, but are not limited to, installing advertising software, demonstrations, or browser plug-ins not related to requirements or providing a wide array of functionality not required for the mission.\n\nApplications must adhere to the principles of least functionality by providing only essential capabilities.\n\nUnused, unnecessary DBMS components increase the attack vector for the DBMS by introducing additional targets for attack. By minimizing the services and applications installed on the system, the number of potential vulnerabilities is reduced. Components of the system that are unused and cannot be uninstalled must be disabled.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269175",
+  "rule_id": "SV-269175r1050057_rule",
+  "stig_id": "ALMA-09-010910",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 library files must be group-owned by root or a system account.",
+  "group_title": "SRG-OS-000259-GPOS-00100",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-73206r1049257_chk",
+  "check_content": "Verify the systemwide shared library files are group-owned by \"root\" with the following command:\n\n$ find -L /lib /lib64 /usr/lib /usr/lib64 ! -group root -exec ls -l {} \\;\n\nIf any systemwide shared library file is returned and is not group-owned by a required system account, this is a finding.",
+  "fixtext": "Configure the systemwide shared library files (/lib, /lib64, /usr/lib and /usr/lib64) to be protected from unauthorized access.\n\nRun the following command, replacing \"[FILE]\" with any library file not group-owned by \"root\".\n\n$ chgrp root [FILE]",
+  "fix_id": "F-73107r1049258_fix",
+  "VulnDiscussion": "If AlmaLinux OS 9 allowed any user to make changes to software libraries, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n\nThis requirement applies to AlmaLinux OS 9 with software libraries that are accessible and configurable, as in the case of interpreted languages. Software libraries also include privileged programs that execute with escalated privileges.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216182",
+  "rule_id": "SV-216182r959010_rule",
+  "stig_id": "SOL-11.1-070030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Permissions on user . (hidden) files must be 750 or less permissive.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-61001",
+      "V-48129"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17420r793047_chk",
+  "check_content": "The root role is required.\n\nEnsure that the permissions on user \".\" files are 750 or less permissive.\n\n# for dir in \\\n`logins -ox | awk -F: '($8 == \"PS\") { print $6 }'`; do\nfind ${dir}/.[A-Za-z0-9]* \\! -type l \\\n\\( -perm -0001 -o -perm -0002 -o -perm -0004 -o -perm -0020 \\) -ls\ndone\n\nIf output is produced, this is a finding.",
+  "fixtext": "The root role is required. \n\nChange the permissions on users' \".\" files to 750 or less permissive.\n\n# chmod 750 [file name]",
+  "fix_id": "F-17418r372929_fix",
+  "VulnDiscussion": "Group-writable or world-writable user configuration files may enable malicious users to steal or modify other users' data or to gain another user's system privileges.",
+  "Documentable": "false"
+}

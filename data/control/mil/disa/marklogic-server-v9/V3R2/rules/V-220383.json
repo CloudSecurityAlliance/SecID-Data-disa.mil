@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-220383",
+  "rule_id": "SV-220383r1018605_rule",
+  "stig_id": "ML09-00-007900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MarkLogic Server must produce audit records of its enforcement of access restrictions associated with changes to the configuration of the DBMS or database(s).",
+  "group_title": "SRG-APP-000381-DB-000361",
+  "idents": {
+    "legacy": [
+      "SV-110115",
+      "V-101011"
+    ],
+    "cci": [
+      "CCI-003938",
+      "CCI-001814"
+    ]
+  },
+  "check_id": "C-22098r401600_chk",
+  "check_content": "Review the MarkLogic security and audit configurations to verify that audit records are produced when other errors prevent attempts to change the configuration of the MarkLogic Server or database(s).\n\nPerform the check from the MarkLogic Server Admin Interface with a user that holds administrative-level privileges.\n\n1. Click the Groups icon.\n2. Click the group in which the configuration to be checked resides (e.g., Default).\n3. Click the Auditing icon on the left tree menu.\n4. Inspect the audit enabled field, a value of false means auditing is not enabled, this is a finding. \n5. If the following audit events are not enabled, this is a finding:\n- Audit Configuration Change\n- Configuration Change\n- User Configuration Change\n6. If the Audit Restrictions - Outcome is not Both, this is a finding.\n7. If any Audit Restriction Inclusions/Exclusions are not documented in the System Security Plan, this is a finding.",
+  "fixtext": "Configure the MarkLogic to produce audit records when it denies attempts to change the configuration or when other errors prevent attempts to change the configuration of the MarkLogic Server or database(s).\n\nPerform the fix from the MarkLogic Server Admin Interface with a user that holds administrative-level privileges.\n\n1. Click the Groups icon.\n2. Click the group in which the configuration to be checked resides (e.g., Default).\n3. Click the Auditing icon on the left tree menu.\n4. Set the audit enabled field to true.\n5. Enable the following audit events:\n- Audit Configuration Change\n- Configuration Change\n- User Configuration Change\n6. Set the Audit Restrictions - Outcome to Both.\n7. If any Audit Restriction - Inclusions/Exclusions are approved in the SSP, ensure they have been applied.",
+  "fix_id": "F-22087r401601_fix",
+  "VulnDiscussion": "Without auditing the enforcement of access restrictions against changes to configuration, it would be difficult to identify attempted attacks and an audit trail would not be available for forensic investigation for after-the-fact actions. \n\nEnforcement actions are the methods or mechanisms used to prevent unauthorized changes to configuration settings. Enforcement action methods may be as simple as denying access to a file based on the application of file permissions (access restriction). Audit items may consist of lists of actions blocked by access restrictions or changes identified after the fact.",
+  "Documentable": "false"
+}

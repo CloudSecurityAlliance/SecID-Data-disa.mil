@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221821",
+  "rule_id": "SV-221821r991580_rule",
+  "stig_id": "OL07-00-030820",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must audit all uses of the init_module and finit_module syscalls.",
+  "group_title": "SRG-OS-000471-GPOS-00216",
+  "idents": {
+    "legacy": [
+      "V-99381",
+      "SV-108485"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-23536r833098_chk",
+  "check_content": "Verify the operating system generates audit records upon successful/unsuccessful attempts to use the \"init_module\" and \"finit_module\" syscalls. \n\nCheck the auditing rules in \"/etc/audit/audit.rules\" with the following command:\n\nNote: The output lines of the command are duplicated to cover both 32-bit and 64-bit architectures. Only the line appropriate for the system architecture must be present.\n\n$ sudo grep init_module /etc/audit/audit.rules \n\n-a always,exit -F arch=b32 -S init_module,finit_module -F auid>=1000 -F auid!=unset -k modulechange\n\n-a always,exit -F arch=b64 -S init_module,finit_module -F auid>=1000 -F auid!=unset -k modulechange\n\nIf there are no audit rules defined for \"init_module\" and \"finit_module\", this is a finding.",
+  "fixtext": "Configure the operating system to generate audit records upon successful/unsuccessful attempts to use the \"init_module\" and \"finit_module\" syscalls. \n\nAdd or update the following rules in \"/etc/audit/rules.d/audit.rules\":\n\nNote: The rules are duplicated to cover both 32-bit and 64-bit architectures. Only the lines appropriate for the system architecture must be configured. \n\n-a always,exit -F arch=b32 -S init_module,finit_module -F auid>=1000 -F auid!=unset -k modulechange\n\n-a always,exit -F arch=b64 -S init_module,finit_module -F auid>=1000 -F auid!=unset -k modulechange\n\nThe audit daemon must be restarted for the changes to take effect.",
+  "fix_id": "F-23525r833099_fix",
+  "VulnDiscussion": "Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. \n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).\n\nThe system call rules are loaded into a matching engine that intercepts each syscall made by all programs on the system. Therefore, it is very important to use syscall rules only when absolutely necessary since these affect performance. The more rules, the bigger the performance hit. The performance can be helped, however, by combining syscalls into one rule whenever possible.\n\nSatisfies: SRG-OS-000471-GPOS-00216, SRG-OS-000477-GPOS-00222",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-261401",
+  "rule_id": "SV-261401r996622_rule",
+  "stig_id": "SLEM-05-631020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5, for PKI-based authentication, must validate certificates by constructing a certification path (which includes status information) to an accepted trust anchor.",
+  "group_title": "SRG-OS-000066-GPOS-00034",
+  "idents": {
+    "cci": [
+      "CCI-000185",
+      "CCI-001991"
+    ]
+  },
+  "check_id": "C-65130r996620_chk",
+  "check_content": "Verify SLEM 5 for PKI-based authentication had valid certificates by constructing a certification path (which includes status information) to an accepted trust anchor with the following command:\n\n     > grep cert_policy /etc/pam_pkcs11/pam_pkcs11.conf\n     cert_policy = ca,oscp_on,signature,crl_auto;\n\nIf \"cert_policy\" is not set to include \"ca\" on all returned lines, this is a finding.",
+  "fixtext": "Configure SLEM 5 for PKI-based authentication to validate certificates by constructing a certification path (which includes status information) to an accepted trust anchor.\n\nModify all of the cert_policy lines in \"/etc/pam_pkcs11/pam_pkcs11.conf\" to include \"ca\":\n\ncert_policy = ca,signature,oscp_on;\n\nNote: Additional certificate validation polices are permitted.\n\nAdditional information on the configuration of multifactor authentication on SLEM 5 can be found at https://www.suse.com/communities/blog/configuring-smart-card-authentication-suse-linux-enterprise/.",
+  "fix_id": "F-65038r996621_fix",
+  "VulnDiscussion": "Without path validation, an informed trust decision by the relying party cannot be made when presented with any certificate not already explicitly trusted.\n\nA trust anchor is an authoritative entity represented via a public key and associated data. It is used in the context of public key infrastructures, X.509 digital certificates, and DNSSEC.\n\nWhen there is a chain of trust, usually the top entity to be trusted becomes the trust anchor; it can be, for example, a Certification Authority (CA). A certification path starts with the subject certificate and proceeds through a number of intermediate certificates up to a trusted root certificate, typically issued by a trusted CA.\n\nThis requirement verifies that a certification path to an accepted trust anchor is used for certificate validation and that the path includes status information. Path validation is necessary for a relying party to make an informed trust decision when presented with any certificate not already explicitly trusted. Status information for certification paths includes certificate revocation lists or online certificate status protocol responses. Validation of the certificate status information is out of scope for this requirement.",
+  "Documentable": "false"
+}

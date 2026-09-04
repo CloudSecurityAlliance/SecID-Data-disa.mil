@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268229",
+  "rule_id": "SV-268229r1038748_rule",
+  "stig_id": "HYCU-ND-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must retain the Standard Mandatory DOD Notice and Consent Banner on the screen until the administrator acknowledges the usage conditions and takes explicit actions to log in for further access.",
+  "group_title": "SRG-APP-000069-NDM-000216",
+  "idents": {
+    "cci": [
+      "CCI-000050"
+    ]
+  },
+  "check_id": "C-72250r1038644_chk",
+  "check_content": "Log in to the HYCU VM console and verify the banner setting is in use in the \"/etc/ssh/sshd_config\" file by executing the following command:\ngrep Banner /etc/ssh/sshd_config\n\nIf the banner is not set to \"/etc/issue\", this is a finding.\n\nVerify \"/etc/issue\" contains valid DOD notice text by executing the following command:\nsudo cat /etc/issue\n\nIf DOD Notice is not present in the \"/etc/issue\" file, this is a finding.\n\nOpen the HYCU Web UI login page and verify the mandatory notice is present on the Welcome page.\n\nIf the mandatory notice is not present at HYCU Web UI Welcome page, this is a finding.",
+  "fixtext": "Change the GUI login page welcome message and look of the console/ssh login by following the procedure below:\n\n1. Open a remote session to the HYCU backup controller:\nssh hycu@<HYCUBackupControllerIPAddress>\n\n2. Create the /hycudata/var/branding folder by executing:\nsudo mkdir -p /hycudata/var/branding\n\n3. Make the following files available in /hycudata/var/branding:\nloginImage.PNG/ JPG - Login screen background (1920 x 1440)\n\nconsole.txt - Pre-login banner for text-based console\n\nsshd.txt - Pre-login banner for SSH access\n\n4. Update the branding configuration by running the following command:\nsudo /opt/grizzly/bin/hycu-branding.sh\n\n5. Perform a hard reload of the HYCU Web UI page in the web browser.",
+  "fix_id": "F-72153r1038748_fix",
+  "VulnDiscussion": "The banner must be acknowledged by the administrator prior to the device allowing the administrator access to the network device. This provides assurance that the administrator has seen the message and accepted the conditions for access. If the consent banner is not acknowledged by the administrator, DOD will not comply with system use notifications required by law.",
+  "Documentable": "false"
+}

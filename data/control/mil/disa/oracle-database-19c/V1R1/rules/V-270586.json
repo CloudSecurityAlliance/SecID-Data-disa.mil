@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270586",
+  "rule_id": "SV-270586r1065036_rule",
+  "stig_id": "O19C-00-018700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Oracle Database must disable accounts when the accounts have expired.",
+  "group_title": "SRG-APP-000700-DB-000100",
+  "idents": {
+    "cci": [
+      "CCI-003627"
+    ]
+  },
+  "check_id": "C-74619r1065034_chk",
+  "check_content": "Retrieve the settings for PASSWORD_LIFE_TIME for each profile with the query:\nSELECT * FROM SYS.DBA_PROFILES WHERE RESOURCE_NAME = 'PASSWORD_LIFE_TIME';\n\nIf the Oracle Database settings for PASSWORD_LIFE_TIME for any profile is greater than 60, this is a finding.\n\nIf the database management system (DBMS) is not configured to disable accounts when the accounts have expired, this is a finding.",
+  "fixtext": "Configure the DBMS to disable accounts when the accounts have expired.\n\nThe user profile, ORA_STIG_PROFILE, has been provided to satisfy the STIG requirements pertaining to the profile parameters. Oracle recommends that this profile be customized with any site-specific requirements and assigned to all users where applicable. Note: It remains necessary to create a customized replacement for the password validation function, ORA12C_STRONG_VERIFY_FUNCTION, if relying on this technique to verify password complexity.\n\nThe defaults for ORA_STIG_PROFILE are set as follows:\nResource Name                   Limit\n-------------                   ------\nCOMPOSITE_LIMIT                 DEFAULT\nSESSIONS_PER_USER               DEFAULT\nCPU_PER_SESSION                 DEFAULT\nCPU_PER_CALL                    DEFAULT\nLOGICAL_READS_PER_SESSION       DEFAULT\nLOGICAL_READS_PER_CALL          DEFAULT\nIDLE_TIME                          15\nCONNECT_TIME                    DEFAULT\nPRIVATE_SGA                     DEFAULT\nFAILED_LOGIN_ATTEMPTS               3 \nPASSWORD_LIFE_TIME                 60\nPASSWORD_REUSE_TIME               365\nPASSWORD_REUSE_MAX                 10\nPASSWORD_VERIFY_FUNCTION    ORA12C_STRONG_VERIFY_FUNCTION\nPASSWORD_LOCK_TIME              UNLIMITED\nPASSWORD_GRACE_TIME                 5\n\nChange the value of PASSWORD_LIFE_TIME (along with the other parameters, where relevant) from UNLIMITED to 60 and then assign users to the profile.\nALTER PROFILE ORA_STIG_PROFILE LIMIT PASSWORD_LIFE_TIME 60;\n\nTo assign the user to the profile do the following:\nALTER USER <username> PROFILE ORA_STIG_PROFILE;",
+  "fix_id": "F-74520r1065035_fix",
+  "VulnDiscussion": "Disabling expired, inactive, or otherwise anomalous accounts supports the concepts of least privilege and least functionality, which reduce the attack surface of the system.",
+  "Documentable": "false"
+}

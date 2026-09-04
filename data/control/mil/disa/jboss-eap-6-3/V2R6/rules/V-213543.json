@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213543",
+  "rule_id": "SV-213543r981687_rule",
+  "stig_id": "JBOS-AS-000550",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Production JBoss servers must log when failed application deployments occur.",
+  "group_title": "SRG-APP-000381-AS-000089",
+  "idents": {
+    "legacy": [
+      "SV-76803",
+      "V-62313"
+    ],
+    "cci": [
+      "CCI-001814"
+    ]
+  },
+  "check_id": "C-14766r296295_chk",
+  "check_content": "Log on to the OS of the JBoss server with OS permissions that allow access to JBoss. \nUsing the relevant OS commands and syntax, cd to the <JBOSS_HOME>/bin/ folder. \nRun the jboss-cli script. \nConnect to the server and authenticate. \nRun the command:\n\nls /core-service=management/access=audit/logger=audit-log\n\nIf \"enabled\" = false, this is a finding.",
+  "fixtext": "Launch the jboss-cli management interface substituting standalone or domain for <CONFIG> based upon the server installation.\n\n<JBOSS_HOME>/<CONFIG>/bin/jboss-cli\n\nconnect to the server and run the following command:\n\n/core-service=management/access=audit/logger=audit-log:write-attribute(name=enabled,value=true)",
+  "fix_id": "F-14764r296296_fix",
+  "VulnDiscussion": "Without logging the enforcement of access restrictions against changes to the application server configuration, it will be difficult to identify attempted attacks, and a log trail will not be available for forensic investigation for after-the-fact actions.  Configuration changes may occur to any of the modules within the application server through the management interface, but logging of actions to the configuration of a module outside the application server is not logged.\n\nEnforcement actions are the methods or mechanisms used to prevent unauthorized changes to configuration settings. Enforcement action methods may be as simple as denying access to a file based on the application of file permissions (access restriction). Log items may consist of lists of actions blocked by access restrictions or changes identified after the fact.",
+  "Documentable": "false"
+}

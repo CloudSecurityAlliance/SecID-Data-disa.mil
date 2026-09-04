@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223292",
+  "rule_id": "SV-223292r961128_rule",
+  "stig_id": "O365-CO-000009",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Office applications must be configured to specify encryption type in password-protected Office Open XML files.",
+  "group_title": "SRG-APP-000231",
+  "idents": {
+    "legacy": [
+      "SV-108761",
+      "V-99657"
+    ],
+    "cci": [
+      "CCI-001199"
+    ]
+  },
+  "check_id": "C-24965r442095_chk",
+  "check_content": "Verify the policy value for User Configuration >> Administrative Templates >> Microsoft Office 2016 >> Security Settings >> Encryption type for password protected Office Open XML files is set to Microsoft Enhanced RSA and AES Cryptographic Provider,AES 256,256.\n \nUse the Windows Registry Editor to navigate to the following key:\n\nHKCU\\software\\policies\\microsoft\\office\\16.0\\common\\security\n\nIf the value OpenXMLEncryption is REG_SZ = \"Microsoft Enhanced RSA and AES Cryptographic Provider,AES 256,256\", this is not a finding.",
+  "fixtext": "Set the policy value for User Configuration >> Administrative Templates >> Microsoft Office 2016 >> Security Settings >> Encryption type for password protected Office Open XML files to Microsoft Enhanced RSA and AES Cryptographic Provider,AES 256,256.",
+  "fix_id": "F-24953r442096_fix",
+  "VulnDiscussion": "This policy setting allows you to specify an encryption type for Office Open XML files.\n\nIf you enable this policy setting, you can specify the type of encryption that Office applications use to encrypt password-protected files in the Office Open XML file formats used by Excel, PowerPoint, and Word. The chosen encryption type must have a corresponding cryptographic service provider (CSP) installed on the computer that encrypts the file. See the HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Cryptography\\Defaults\\Provider\\ registry key for a list of CSPs installed on the local computer. Specify the encryption type to use by entering it in the provided text box in the following form:\n\n<Encryption Provider>,<Encryption Algorithm>,<Encryption Key Length>\n\nFor example: Microsoft Enhanced Cryptographic Provider v1.0,RC4,128\n\nIf you disable or do not configure this policy setting, the default CSP is used. The default cryptographic service provider (CSP) is Microsoft Enhanced RSA and AES Cryptographic Provider, AES-128, 128-bit.\n\nNote: This policy setting does not take effect unless the registry key \nHKEY_CURRENT_USER\\Software\\Microsoft\\Office\\16.0\\<office application name>\\Security\\Crypto\\CompatMode is set to 0. By default the CompatMode registry key is set to 1.",
+  "Documentable": "false"
+}

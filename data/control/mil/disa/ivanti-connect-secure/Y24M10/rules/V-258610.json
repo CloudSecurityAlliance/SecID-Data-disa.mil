@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-258610",
+  "rule_id": "SV-258610r997509_rule",
+  "stig_id": "IVCS-NM-000360",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ICS must be configured to synchronize internal information system clocks using redundant authoritative time sources.",
+  "group_title": "SRG-APP-000373-NDM-000298",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-004928",
+      "CCI-004922",
+      "CCI-004923"
+    ]
+  },
+  "check_id": "C-62350r930516_chk",
+  "check_content": "In the ICS Web UI, navigate to System >> Status >> Overview.\n\nUnder \"Appliance Details\", and \"System Date and Time\", click \"Edit\".\n\nIf the Time Source is not set to at least two NTP time sources, this is a finding.\n\nIf the Time Sources are not specific to a DOD authoritative time source, this is a finding.\n\nIf the Time Sources are not configured to use a SHA1 preshared key for authentication, this is a finding.",
+  "fixtext": "In the ICS Web UI, navigate to System >> Status >> Overview.\n1. Under \"Appliance Details\", and \"System Date and Time\", click \"Edit\".\n2. Click \"Use Pool of NTP Servers\".\n3. Set the IP address or hostname of the first time source.\n4. In the \"Key 1\" box, type the number, algorithm, and key value using this format: 1 SHA1 testingkey\n5. Set the IP address or hostname of the second time source, noting that this must be a time source different from the first.\n6. In the \"Key 2\" box, type the number, algorithm, and key value using this format: 1 SHA1 testingkey.\n7. Click \"Save Changes\".\n8. Navigate to System >> Log/Monitoring >> Events >> Log on the Web UI.\n9. Look in the logs for successful or unsuccessful time sync messages.",
+  "fix_id": "F-62259r930517_fix",
+  "VulnDiscussion": "The loss of connectivity to a particular authoritative time source will result in the loss of time synchronization (free-run mode) and increasingly inaccurate time stamps on audit events and other functions.\n\nMultiple time sources provide redundancy by including a secondary source. Time synchronization is usually a hierarchy; clients synchronize time to a local source while that source synchronizes its time to a more accurate source. The network device must utilize an authoritative time server and/or be configured to use redundant authoritative time sources. This requirement is related to the comparison done in CCI-001891.\n\nDOD-approved solutions consist of a combination of a primary and secondary time source using a combination or multiple instances of the following: a time server designated for the appropriate DOD network (NIPRNet/SIPRNet); United States Naval Observatory (USNO) time servers; and/or the Global Positioning System (GPS). The secondary time source must be located in a different geographic region than the primary time source.",
+  "Documentable": "false"
+}

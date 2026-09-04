@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207536",
+  "rule_id": "SV-207536r879887_rule",
+  "stig_id": "BIND-9X-001004",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The host running a BIND 9.X implementation must implement a set of firewall rules that restrict traffic on the DNS interface.",
+  "group_title": "SRG-APP-000516-DNS-000109",
+  "idents": {
+    "legacy": [
+      "SV-86995",
+      "V-72371"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-7791r283662_chk",
+  "check_content": "With the assistance of the DNS administrator, verify that the OS firewall is configured to only allow incoming messages on ports 53/tcp and 53/udp.\n\nNote: The following rules are for the IPTables firewall. If the system is utilizing a different firewall, the rules may be different.\n\nInspect the hosts firewall rules for the following rules:\n\n-A INPUT -i [DNS Interface] -p tcp --dport 53 -j ACCEPT\n-A INPUT -i [DNS Interface] -p udp --dport 53 -j ACCEPT\n-A INPUT -i [DNS Interface] -j DROP\n\nIf any of the above rules do not exist, this is a finding.\n\nIf there are rules listed that allow traffic on ports other than 53/tcp and 53/udp, this is a finding.",
+  "fixtext": "Configure the OS firewall to only allow incoming DNS traffic on ports 53/tcp and 53/udp.\nAdd the following rules to the host firewall rule set:\n\n# iptables -A INPUT -i [DNS Interface] -p tcp --dport 53 -j ACCEPT\n# iptables -A INPUT -i [DNS Interface] -p udp --dport 53 -j ACCEPT\n# iptables -A INPUT -i [DNS Interface] -j DROP\n\nNote: If the system is not using an IPTables firewall, the appropriate firewall rules that limit traffic to ports 53/tcp and 53/udp should be configured on the active firewall.",
+  "fix_id": "F-7791r283663_fix",
+  "VulnDiscussion": "Configuring hosts that run a BIND 9.X implementation to only accept DNS traffic on a DNS interface allows a system firewall to be configured to limit the allowed incoming ports/protocols to 53/tcp and 53/udp. Sending outgoing DNS messages from a random port minimizes the risk of an attacker guessing the outgoing message port and sending forged replies.\n\nThe TCP/IP stack in DNS hosts (stub resolver, caching/resolving/recursive name server, authoritative name server, etc.) could be subjected to packet flooding attacks (such as SYNC and smurf), resulting in disruption of communication. By implementing a specific set of firewall rules that limit accepted traffic to the interface, these risk of packet flooding and other TCP/IP based attacks is reduced.",
+  "Documentable": "false"
+}

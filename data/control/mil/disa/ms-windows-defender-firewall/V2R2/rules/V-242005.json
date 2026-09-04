@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-242005",
+  "rule_id": "SV-242005r922960_rule",
+  "stig_id": "WNFWA-000025",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Defender Firewall with Advanced Security local connection rules must not be merged with Group Policy settings when connected to a public network.",
+  "group_title": "SRG-OS-000327-GPOS-00127",
+  "idents": {
+    "legacy": [
+      "V-17443",
+      "SV-54918"
+    ],
+    "cci": [
+      "CCI-001190"
+    ]
+  },
+  "check_id": "C-45280r698254_chk",
+  "check_content": "If the system is not a member of a domain, this is NA.\n\nIf the firewall's Public Profile is not enabled (see V-17417), this requirement is also a finding.\n\nVerify the registry value below.\n\nIf this registry value does not exist or is not configured as specified, this is a finding.\n\nRegistry Hive:  HKEY_LOCAL_MACHINE\nRegistry Path:  \\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\\n\nValue Name:  AllowLocalIPsecPolicyMerge\n\nType:  REG_DWORD\nValue:  0x00000000 (0)",
+  "fixtext": "If the system is not a member of a domain, this is NA.\n\nConfigure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Windows Defender Firewall with Advanced Security >> Windows Defender Firewall with Advanced Security >> Windows Defender Firewall Properties (this link will be in the right pane) >> Public Profile tab >> Settings (select Customize) >> Rule merging, \"Apply local connection security rules:\" to \"No\".",
+  "fix_id": "F-45239r922959_fix",
+  "VulnDiscussion": "A firewall provides a line of defense against attack. To be effective, it must be enabled and properly configured. Local connection rules will not be merged with Group Policy settings on a public network to prevent Group Policy settings from being changed.",
+  "Documentable": "false"
+}

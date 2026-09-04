@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214179",
+  "rule_id": "SV-214179r612370_rule",
+  "stig_id": "IDNS-7X-000350",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Infoblox system must be configured to manage excess capacity, bandwidth, or other redundancy to limit the effects of information flooding types of Denial of Service (DoS) attacks.",
+  "group_title": "SRG-APP-000247-DNS-000036",
+  "idents": {
+    "legacy": [
+      "V-68553",
+      "SV-83043"
+    ],
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-15394r295800_chk",
+  "check_content": "Infoblox systems have a number of options that can be configured to reduce the ability to be exploited in a DoS attack. Usage of rate limiting can reduce risk from cache poisoning attacks and DoS attacks.\n\nLog on to the Infoblox system and issue the commands:\n\n\"show ip_rate_limit\" and \"show dns_rrl\"\n\nReview the output from these commands with the network architecture.\n\nIf rate limiting is not configured on the Infoblox system or within the network security architecture, this is a finding.\n\nNote: \"set dns_rrl\" is only applicable to code version 7.2 and above.",
+  "fixtext": "Log on to the Infoblox system using the CLI.\n\nUse \"set ip_rate_limit [OPTIONS}\" to reduce risk of cache poisoning attacks by rate limiting udp/53 traffic.\n\nUse \"set dns_rrl\" to enable DNS response rate limiting. This helps reduce the risk of DoS attacks by reducing the rate at which authoritative name servers respond to queries, such as a flood.",
+  "fix_id": "F-15392r295801_fix",
+  "VulnDiscussion": "A DoS is a condition when a resource is not available for legitimate users. When this occurs, the organization either cannot accomplish its mission or must operate at degraded capacity. \n\nIn the case of application DoS attacks, care must be taken when designing the application to ensure the application makes the best use of system resources. SQL queries have the potential to consume large amounts of CPU cycles if they are not tuned for optimal performance. Web services containing complex calculations requiring large amounts of time to complete can bog down if too many requests for the service are encountered within a short period of time. \n\nA denial of service (DoS) attack against the DNS infrastructure has the potential to cause a DoS to all network users. As the DNS is a distributed backbone service of the Internet, various forms of amplification attacks resulting in DoS, while utilizing the DNS, are still prevalent on the Internet today. Some potential DoS flooding attacks against the DNS include malformed packet flood, spoofed source addresses, and distributed DoS. Without the DNS, users and systems would not have the ability to perform simple name to IP resolution. \n\nConfiguring the DNS implementation to defend against cache poisoning, employing increased capacity and bandwidth, building redundancy into the DNS architecture, utilizing DNSSEC, limiting and securing recursive services, DNS black holes, etc., may reduce the susceptibility to some flooding types of DoS attacks.",
+  "Documentable": "false"
+}

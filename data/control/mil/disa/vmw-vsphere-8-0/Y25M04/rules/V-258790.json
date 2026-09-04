@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258790",
+  "rule_id": "SV-258790r958412_rule",
+  "stig_id": "ESXI-80-000235",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must forward audit records containing information to establish what type of events occurred.",
+  "group_title": "SRG-OS-000037-VMM-000150",
+  "idents": {
+    "cci": [
+      "CCI-000130"
+    ]
+  },
+  "check_id": "C-62530r933429_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"Syslog.global.logLevel\" value and verify it is set to \"info\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Syslog.global.logLevel\n\nIf the \"Syslog.global.logLevel\" setting is not set to \"info\", this is a finding.\n\nNote: Verbose logging level is acceptable for troubleshooting purposes.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"Syslog.global.logLevel\" value and configure it to \"info\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Syslog.global.logLevel | Set-AdvancedSetting -Value \"info\"",
+  "fix_id": "F-62439r933430_fix",
+  "VulnDiscussion": "Without establishing what types of events occurred, it would be difficult to establish, correlate, and investigate the events leading up to an outage or attack. \n\nAudit record content that may be necessary to satisfy this requirement includes, for example, time stamps, source and destination addresses, user/process/VM identifiers, event descriptions, success/fail indications, filenames involved, and access control or flow control rules invoked.\n\nAssociating event types with detected events in the ESXi audit logs provides a means of investigating an attack; recognizing resource utilization or capacity thresholds; or identifying an improperly configured host.",
+  "Documentable": "false"
+}

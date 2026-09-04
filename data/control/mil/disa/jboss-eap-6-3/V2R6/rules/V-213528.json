@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213528",
+  "rule_id": "SV-213528r981680_rule",
+  "stig_id": "JBOS-AS-000275",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The JBoss server must be configured to use individual accounts and not generic or shared accounts.",
+  "group_title": "SRG-APP-000153-AS-000104",
+  "idents": {
+    "legacy": [
+      "SV-76771",
+      "V-62281"
+    ],
+    "cci": [
+      "CCI-000770"
+    ]
+  },
+  "check_id": "C-14751r956001_chk",
+  "check_content": "If the application server management interface is configured to use LDAP authentication this requirement is NA.\n\nDetermine the mode in which the JBoss server is operating by authenticating to the OS, changing to the <JBOSS_HOME>/bin/ folder and executing the jboss-cli script.\nConnect to the server and authenticate.\nRun the command: \"ls\" and examine the \"launch-type\" setting.\n\nUser account information is stored in the following files for a JBoss server configured in standalone mode.  The command line flags passed to the \"standalone\" startup script determine the standalone operating mode:\n<JBOSS_HOME>/standalone/configuration/standalone.xml\n<JBOSS_HOME>/standalone/configuration/standalone-full.xml\n<JBOSS_HOME>/standalone/configuration/standalone.-full-ha.xml\n<JBOSS_HOME>/standalone/configuration/standalone.ha.xml\n\nFor a Managed Domain:\n<JBOSS_HOME>/domain/configuration/domain.xml.\n\nReview file(s) for generic or shared user accounts.\n\nOpen each xml file with a text editor and locate the <management-interfaces> section.\nReview the <user name = \"xxxxx\"> sub-section where \"xxxxx\" will be a user name.\n\nHave the system administrator identify the user of each user account.\n\nIf user accounts are not assigned to individual users, this is a finding.",
+  "fixtext": "Configure the application server so required users are individually authenticated by creating individual user accounts.  Utilize an LDAP server that is configured according to DOD policy.",
+  "fix_id": "F-14749r296251_fix",
+  "VulnDiscussion": "To assure individual accountability and prevent unauthorized access, application server users (and any processes acting on behalf of application server users) must be individually identified and authenticated.\n\nA group authenticator is a generic account used by multiple individuals. Use of a group authenticator alone does not uniquely identify individual users.\n\nApplication servers must ensure that individual users are authenticated prior to authenticating via role or group authentication. This is to ensure that there is non-repudiation for actions taken.",
+  "Documentable": "false"
+}

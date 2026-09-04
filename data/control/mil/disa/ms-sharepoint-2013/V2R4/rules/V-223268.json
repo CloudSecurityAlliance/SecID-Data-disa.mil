@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223268",
+  "rule_id": "SV-223268r961863_rule",
+  "stig_id": "SP13-00-000165",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SharePoint farm service account (database access account) must be configured with minimum privileges on the SQL server.",
+  "group_title": "SRG-APP-000516",
+  "idents": {
+    "legacy": [
+      "SV-74429",
+      "V-59999"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-24941r430861_chk",
+  "check_content": "Review the SharePoint server configuration to ensure the farm service account (database access account) is configured with minimum privileges on the SQL server.\n\n- Launch the SQL Server Management Console and navigate to Security >> Logins. \n- Select the SharePoint farm service account. \n- Click on \"Server Roles\" and verify only public, dbcreator, and securityadmin are checked.\n- Click on \"User Mapping\" and verify that the farm account is a member of the public and db_owner role on each SharePoint database.\n\nOtherwise, this is a finding.",
+  "fixtext": "Configure the SharePoint farm service account (database access account) with minimum privileges on the SQL server.\n\nConfigure the account on each SQL server in the farm.\n- Launch the SQL Server Management Console and navigate to Security >> Logins. \n- Select the SharePoint farm service account.\n- Click on Server Roles.\n- Ensure only public, dbcreator, and securityadmin roles are checked.\n- Remove checks from all other roles.",
+  "fix_id": "F-24929r430862_fix",
+  "VulnDiscussion": "Separation of duties is a prevalent Information Technology control implemented at different layers of the information system including the operating system and in applications. It serves to eliminate or reduce the possibility that a single user may carry out a prohibited action. Separation of duties requires the person accountable for approving an action not be the same person who is tasked with implementing the action. \n\nThis requirement is intended to limit exposure due to user accounts being used to operate from within a privileged account or role. Limiting the access and permissions of privileged accounts to the minimum required, reduces exposure if the account is compromised and provides forensic history of activity when operating from these accounts. \nThis policy limits the Farm Account privileges in AD.  However, default permissions for this account are configured by the SharePoint Products Configuration Wizard during product installation. This account is referred to during the installation as the \"Database Access\" account. By default, the account is used as the service account for the SharePoint Timer Service and the SharePoint Central Administration Web Site Application Pool. These settings should not be changed. Furthermore, this account should not be used as the service account for non-privileged services, applications, or application pools.",
+  "Documentable": "false"
+}

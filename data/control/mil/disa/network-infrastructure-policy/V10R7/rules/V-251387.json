@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-251387",
+  "rule_id": "SV-251387r806116_rule",
+  "stig_id": "NET2005",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "A Quality of Service (QoS) policy must be implemented to provide preferred treatment for Command and Control (C2) real-time services and control plane traffic.",
+  "group_title": "NET2005",
+  "idents": {
+    "legacy": [
+      "V-66363",
+      "SV-80853"
+    ],
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-54822r806114_chk",
+  "check_content": "Review each router and verify that a QoS policy has been configured to provide preferred treatment for control plane traffic and C2 real-time services.\n\nStep 1: Verify that the class-maps are configured to match on DSCP values that have been set at the edges as shown in the configuration example below:\n\nclass-map match-all CONTROL_PLANE\nmatch ip dscp 48\nclass-map match-all C2_VOICE\nmatch ip dscp 47\nclass-map match-all VOICE\nmatch ip dscp ef\nclass-map match-all VIDEO\nmatch ip dscp af4\nclass-map match-all PREFERRED_DATA\nmatch ip dscp af3\n\nStep 2: Verify that the policy map applied to the core-layer-facing interface reserves the bandwidth for each traffic type as shown in the following example:\n\npolicy-map QOS_POLICY\nclass CONTROL_PLANE\npriority percent 10\nclass C2_VOICE\npriority percent 10\nclass VOICE\npriority percent 15\nclass VIDEO\nbandwidth percent 25\nclass PREFERRED_DATA\nbandwidth percent 25\nclass class-default\nbandwidth percent 15\n\nStep 3: Verify that an output service policy is bound to the core-layer-facing interface as shown in the configuration example below:\n\ninterface GigabitEthernet1/1\n ip address 10.2.0.2 255.255.255.252\n service-policy output QOS_POLICY\n\nIf a QoS policy has not been implemented within the JIE WAN infrastructure to provide assured services for control plane traffic and C2 real-time services, this is a finding.",
+  "fixtext": "Configure a QoS policy on each router to provide assured services for control plane traffic and C2 real-time services.",
+  "fix_id": "F-54775r806115_fix",
+  "VulnDiscussion": "Different applications have unique requirements and toleration levels for delay, jitter, packet loss, and availability. To manage the multitude of applications and services, a network requires a Quality of Service (QoS) framework to differentiate traffic and provide a method to manage network congestion. The Differentiated Services Model (DiffServ) is based on per-hop behavior by categorizing traffic into different classes and enabling each node to enforce a forwarding treatment to each packet as dictated by a service policy. Packet markings such as IP Precedence and its successor, Differentiated Services Code Points (DSCP), were defined along with specific per-hop behaviors for key traffic types to enable a scalable QoS solution. DiffServ QoS categorizes network traffic, prioritizes it according to its relative importance, and provides priority treatment based on the classification. It is imperative that end-to-end QoS is implemented to guarantee the required bandwidth for control plane traffic and C2 real-time services during periods of congestion within the JIE WAN IP network.",
+  "Documentable": "false"
+}

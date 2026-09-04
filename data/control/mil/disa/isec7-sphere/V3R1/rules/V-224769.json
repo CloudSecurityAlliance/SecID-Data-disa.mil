@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-224769",
+  "rule_id": "SV-224769r1013821_rule",
+  "stig_id": "ISEC-06-001730",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The ISEC7 SPHERE must accept Personal Identity Verification (PIV) credentials.",
+  "group_title": "SRG-APP-000391",
+  "idents": {
+    "legacy": [
+      "SV-106501",
+      "V-97397"
+    ],
+    "cci": [
+      "CCI-001953"
+    ]
+  },
+  "check_id": "C-26460r1013819_chk",
+  "check_content": "Log in to the ISEC7 SPHERE Console.\n\nNavigate to Administration >> Configuration >> Settings.\n\nVerify the CAC login box has been checked.\n\nOn the ISEC7 SPHERE server, browse to the install directory.\nDefault is %Install Drive%/Program Files/ISEC7 SPHERE\nSelect the conf folder.\nOpen config.properties and confirm the following lines exist:\n\n    cacUserUIDRegex=^CN=[^0-9]*\\\\.([0-9]+),\n    cacUserUIDProperty=UserPrincipalName\n\nBrowse to %Install Drive%/Program Files >> ISEC7 SPHERE >> Tomcat >> conf\nConfirm the server.xml file has clientAuth=\"required\" under the Connection.\n\nIf the required commands do not exist in config.properties or if clientAuth does not =\"required\" in the server.xml file, this is a finding.",
+  "fixtext": "Log in to the ISEC7 SPHERE Console.\nNavigate to Administration >> Configuration >> LDAP.\nCheck \"Also enable user certificate logins. e.g. from smart cards (CAC)\".\nCheck \"Only allow certificates with extended key usage for smartcard logon (1.3.6.1.4.1.311.20.2.2)\".\n\nBrowse to %Install Drive%/Program Files >> ISEC7 SPHERE >> Tomcat >> conf.\nOpen the server.xml file and add clientAuth=\"required\" under the Connection.",
+  "fix_id": "F-26448r1013820_fix",
+  "VulnDiscussion": "The use of PIV credentials facilitates standardization and reduces the risk of unauthorized access.\n\nDOD has mandated the use of the CAC to support identity management and personal authentication for systems covered under HSPD 12, as well as a primary component of layered protection for national security systems.",
+  "Documentable": "false"
+}

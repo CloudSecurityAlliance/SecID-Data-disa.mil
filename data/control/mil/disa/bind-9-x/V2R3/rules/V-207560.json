@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207560",
+  "rule_id": "SV-207560r879650_rule",
+  "stig_id": "BIND-9X-001080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "A BIND 9.x implementation configured as a caching name server must restrict recursive queries to only the IP addresses and IP address ranges of known supported clients.",
+  "group_title": "SRG-APP-000246-DNS-000035",
+  "idents": {
+    "legacy": [
+      "SV-87049",
+      "V-72425"
+    ],
+    "cci": [
+      "CCI-001094"
+    ]
+  },
+  "check_id": "C-7815r283734_chk",
+  "check_content": "This check is only applicable to caching name servers.\n\nVerify the allow-query and allow-recursion phrases are properly configured.\n\nInspect the \"named.conf\" file for the following:\n\nallow-query {trustworthy_hosts;};\nallow-recursion {trustworthy_hosts;};\n\nThe name of the ACL does not need to be \"trustworthy_hosts\" but the name should match the ACL name defined earlier in \"named.conf\" for this purpose. If not, this is a finding.\n\nVerify non-internal IP addresses do not appear in either the referenced ACL (e.g., trustworthy_hosts) or directly in the statements themselves.\n\nIf non-internal IP addresses appear, this is a finding.",
+  "fixtext": "Configure the caching name server to accept recursive queries only from the IP addresses and address ranges of known supported clients.\n\nEdit the \"named.conf\" file and add the following to the options statement:\n\nallow-query {trustworthy_hosts;};\nallow-recursion {trustworthy_hosts;}; \n\nRestart the BIND 9.x process",
+  "fix_id": "F-7815r283735_fix",
+  "VulnDiscussion": "Any host that can query a resolving name server has the potential to poison the servers name cache or take advantage of other vulnerabilities that may be accessed through the query service. The best way to prevent this type of attack is to limit queries to internal hosts, which need to have this service available to them.\n\nTo guard against poisoning, name servers authoritative for .mil domains should be separated functionally from name servers that resolve queries on behalf of internal clients. Organizations may achieve this separation by dedicating machines to each function or, if possible, by running two instances of the name server software on the same machine; one for the authoritative function and the other for the resolving function. In this design, each name server process may be bound to a different IP address or network interface to implement the required segregation.",
+  "Documentable": "false"
+}

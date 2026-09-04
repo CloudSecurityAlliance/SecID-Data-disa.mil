@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256448",
+  "rule_id": "SV-256448r1051419_rule",
+  "stig_id": "ESXI-70-000097",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi Common Information Model (CIM) service must be disabled.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-60123r1051418_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Services.\n\nLocate the \"CIM Server\" service and verify the \"Daemon\" is \"Stopped\" and the \"Startup Policy\" is set to \"Start and stop manually\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-VMHostService | Where {$_.Label -eq \"CIM Server\"}\n\nIf the \"CIM Server\" service does not have a \"Policy\" of \"off\" or is running, this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Services.\n\nSelect the \"CIM Server\" service. If the service is started, click \"Stop\". \n\nClick \"Edit Startup Policy...\". Select \"Start and stop manually\". Click \"OK\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\nGet-VMHost | Get-VMHostService | Where {$_.Label -eq \"CIM Server\"} | Set-VMHostService -Policy Off\nGet-VMHost | Get-VMHostService | Where {$_.Label -eq \"CIM Server\"} | Stop-VMHostService",
+  "fix_id": "F-60066r886124_fix",
+  "VulnDiscussion": "The CIM system provides an interface that enables hardware-level management from remote applications via a set of standard application programming interfaces (APIs). These APIs are consumed by external applications such as HP SIM or Dell OpenManage for agentless, remote hardware monitoring of the ESXi host.\n\nTo reduce attack surface area and following the minimum functionality principal, the CIM service must be disabled unless explicitly needed and approved.",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-233892",
+  "rule_id": "SV-233892r1082670_rule",
+  "stig_id": "IDNS-8X-400034",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Infoblox system must send a notification in the event of an error when validating the binding of another DNS service member's identity to the DNS information.",
+  "group_title": "SRG-APP-000350-DNS-000044",
+  "idents": {
+    "cci": [
+      "CCI-001906",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-37077r1082668_chk",
+  "check_content": "Infoblox systems allow configuration of DNS auditing based on selectable events. Verify that important event categories are enabled to log events. \n\n1. Navigate to Data Management >> DNS and select \"Grid DNS Properties\". \n2. Toggle Advanced Mode and review the \"Logging\" tab.\n3. Validate that at a minimum the following categories are enabled:\nclient\nconfig\ndatabase\ndnssec\nlame servers\nnetwork\nnotify\nrate-limit\nresolver\nsecurity\ntransfer-in\ntransfer-out\nupdate\nupdate-security\n4. When complete, click \"Cancel\" to exit the \"Properties\" screen. \n\nIf the named logging categories are not enabled, this is a finding.",
+  "fixtext": "1. Navigate to Data Management >> DNS. Select \"Grid DNS Properties\".\n2. Toggle Advanced Mode and review the \"Logging\" tab.\n3. Enable the following categories using the check boxes: \nclient\nconfig\ndatabase\ndnssec\nlame servers\nnetwork\nnotify\nrate-limit\nresolver\nsecurity\ntransfer-in\ntransfer-out\nupdate\nupdate-security\n4. When complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen.\n5. Perform a service restart if necessary.",
+  "fix_id": "F-37042r1082669_fix",
+  "VulnDiscussion": "Failing to act on validation errors may result in the use of invalid, corrupted, or compromised information. The validation of bindings can be achieved, for example, by the use of cryptographic checksums. Validations must be performed automatically.\n\nAt a minimum, the application must log the validation error. However, more stringent actions can be taken based on the security posture and value of the information. The organization must consider the system's environment and impact of the errors when defining the actions. Additional examples of actions include automated notification to administrators, halting system process, or halting the specific operation.\n\nThe DNS server must audit all failed attempts at server authentication through DNSSEC and TSIG/SIG(0). The actual auditing is performed by the OS/NDM, but the configuration to trigger the auditing is controlled by the DNS server.",
+  "Documentable": "false"
+}

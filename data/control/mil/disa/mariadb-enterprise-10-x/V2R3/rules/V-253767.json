@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253767",
+  "rule_id": "SV-253767r961827_rule",
+  "stig_id": "MADB-10-011500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must generate audit records when unsuccessful attempts to execute privileged activities or other system-level access occur.",
+  "group_title": "SRG-APP-000504-DB-000355",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-57219r841824_chk",
+  "check_content": "Check what filters are in place by running the following as an administrative user: \n\nMariaDB> SELECT * FROM mysql.server_audit_filters;\n\nVerify audit filters are correctly configured to log desired actions per user. If not, this is a finding.",
+  "fixtext": "Edit the necessary filters to include the desired logging actions. Exact steps vary depending on desired logging. \n\nExample named audit filter assigned to specific user: \n\nMariaDB> INSERT INTO mysql.server_audit_users (host, user, filtername)\n   VALUES (\"%\", \"user1\", \"filter_example\");\n\nMariaDB> SET GLOBAL server_audit_reload_filters=ON;",
+  "fix_id": "F-57170r841825_fix",
+  "VulnDiscussion": "Without tracking privileged activity, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. \n\nSystem documentation should include a definition of the functionality considered privileged.\n\nA privileged function in this context is any operation that modifies the structure of the database, its built-in logic, or its security settings. This would include all Data Definition Language (DDL) statements and all security-related statements. In an SQL environment, it encompasses, but is not necessarily limited to:\n\nCREATE\nALTER\nDROP\nGRANT\nREVOKE\n\nNote that it is particularly important to audit, and tightly control, any action that weakens the implementation of this requirement itself, since the objective is to have a complete audit trail of all administrative activity.\n\nTo aid in diagnosis, it is necessary to keep track of failed attempts in addition to the successful ones.",
+  "Documentable": "false"
+}

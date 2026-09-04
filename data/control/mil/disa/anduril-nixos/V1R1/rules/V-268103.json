@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268103",
+  "rule_id": "SV-268103r1039197_rule",
+  "stig_id": "ANIX-00-000420",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must take action when allocated audit record storage volume reaches 75 percent of the repository maximum audit record storage capacity.",
+  "group_title": "SRG-OS-000046-GPOS-00022",
+  "idents": {
+    "cci": [
+      "CCI-000139"
+    ]
+  },
+  "check_id": "C-72027r1039195_chk",
+  "check_content": "Verify NixOS takes action when allocated audit record storage volume reaches 75 percent of the repository maximum audit record storage capacity with the following commands:\n\n$ sudo grep -w space_left /etc/audit/auditd.conf\n\nspace_left = 25%\n\nIf the value of the \"space_left\" keyword is not set to \"25%\" or if the line is commented out, this is a finding.",
+  "fixtext": "Configure the operating system to initiate an action to notify the system administrator (SA) and information system security officer (ISSO) (at a minimum) when allocated audit record storage volume reaches 75 percent of the repository maximum audit record storage.\n\nAdd or update the 'environment.etc.\"audit/auditd.conf\".text' configuration in /etc/nixos/configuration.nix to include the following:\n\n environment.etc.\"audit/auditd.conf\".text = [\n  ''\n   space_left = 25%\n  ''\n ];\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71930r1039196_fix",
+  "VulnDiscussion": "If security personnel are not notified immediately when storage volume reaches 75 percent utilization, they are unable to plan for audit record storage capacity expansion.",
+  "Documentable": "false"
+}

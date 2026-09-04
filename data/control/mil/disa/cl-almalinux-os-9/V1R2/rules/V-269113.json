@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269113",
+  "rule_id": "SV-269113r1049995_rule",
+  "stig_id": "ALMA-09-002990",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 SSH client must be configured to use only encryption ciphers employing FIPS 140-3 validated cryptographic hash algorithms to protect the confidentiality of SSH client connections.",
+  "group_title": "SRG-OS-000250-GPOS-00093",
+  "idents": {
+    "cci": [
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-73144r1047715_chk",
+  "check_content": "Verify the SSH client is configured to use only ciphers employing FIPS 140-3 approved algorithms with the following command:\n\n$ grep -i ciphers /etc/crypto-policies/back-ends/openssh.config \n\nCiphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr\n\nIf the cipher entries in the \"openssh.config\" file have any ciphers other than \"aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr\", the order differs from the example above, they are missing, or commented out, this is a finding.",
+  "fixtext": "Configure the AlmaLinux OS 9 SSH client to use only ciphers employing FIPS 140-3 approved algorithms by updating the \"/etc/crypto-policies/back-ends/openssh.config\" file with the following line:\n\nCiphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr\n\nA reboot is required for the changes to take effect.",
+  "fix_id": "F-73045r1049115_fix",
+  "VulnDiscussion": "Without cryptographic integrity protections, information can be altered by unauthorized users without detection.\n\nRemote access (e.g., RDP) is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nCryptographic mechanisms used for protecting the integrity of information include, for example, signed hash functions using asymmetric cryptography enabling distribution of the public key to verify the hash information while maintaining the confidentiality of the secret key used to generate the hash.\n\nAlmaLinux OS 9 incorporates systemwide crypto policies by default. The SSH configuration file has no effect on the ciphers, MACs, or algorithms unless specifically defined in the /etc/sysconfig/sshd file. The employed algorithms can be viewed in the /etc/crypto-policies/back-ends/opensshserver.config file.",
+  "Documentable": "false"
+}

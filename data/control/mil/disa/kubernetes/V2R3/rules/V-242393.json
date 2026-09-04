@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242393",
+  "rule_id": "SV-242393r960792_rule",
+  "stig_id": "CNTR-K8-000400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Kubernetes Worker Nodes must not have sshd service running.",
+  "group_title": "SRG-APP-000033-CTR-000095",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-45668r712533_chk",
+  "check_content": "Log in to each worker node. Verify that the sshd service is not running. To validate that the service is not running, run the command:\n\nsystemctl status sshd\n\nIf the service sshd is active (running), this is a finding.\n\nNote: If console access is not available, SSH access can be attempted. If the worker nodes cannot be reached, this requirement is \"not a finding\".",
+  "fixtext": "To stop the sshd service, run the command:\n\nsystemctl stop sshd\n\nNote: If access to the worker node is through an SSH session, it is important to realize there are two requirements for disabling and stopping the sshd service and they should be done during the same SSH session. Disabling the service must be performed first and then the service stopped to guarantee both settings can be made if the session is interrupted.",
+  "fix_id": "F-45626r863782_fix",
+  "VulnDiscussion": "Worker Nodes are maintained and monitored by the Control Plane. Direct access and manipulation of the nodes should not take place by administrators. Worker nodes should be treated as immutable and updated via replacement rather than in-place upgrades.",
+  "Documentable": "false"
+}

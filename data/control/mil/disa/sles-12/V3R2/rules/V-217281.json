@@ -1,0 +1,28 @@
+{
+  "vuln_id": "V-217281",
+  "rule_id": "SV-217281r1038944_rule",
+  "stig_id": "SLES-12-030300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system clock must, for networked systems, be synchronized to an authoritative DoD time source at least every 24 hours.",
+  "group_title": "SRG-OS-000355-GPOS-00143",
+  "idents": {
+    "legacy": [
+      "V-77475",
+      "SV-92171"
+    ],
+    "cci": [
+      "CCI-002046",
+      "CCI-004926",
+      "CCI-001891",
+      "CCI-004923"
+    ]
+  },
+  "check_id": "C-18509r646754_chk",
+  "check_content": "Verify the SUSE operating system clock must be configured to synchronize to an authoritative DoD time source when the time difference is greater than one second. \n\nCheck that the SUSE operating system clock must be configured to synchronize to an authoritative DoD time source when the time difference is greater than one second with the following command:\n\n> sudo grep maxpoll /etc/ntp.conf\n\nserver 0.us.pool.ntp.mil maxpoll 16\n\nIf nothing is returned or \"maxpoll\" is greater than \"16\", or is commented out, this is a finding.\n\nVerify the \"ntp.conf\" file is configured to an authoritative DoD time source by running the following command:\n\n> sudo grep -i server /etc/ntp.conf\nserver 0.us.pool.ntp.mil \n\nIf the parameter \"server\" is not set or is not set to an authoritative DoD time source, this is a finding.",
+  "fixtext": "Configure the SUSE operating system clock must be configured to synchronize to an authoritative DoD time source when the time difference is greater than one second. \n\nTo configure the system clock to synchronize to an authoritative DoD time source at least every 24 hours, edit the file \"/etc/ntp.conf\". Add or correct the following lines by replacing \"[time_source]\" with an authoritative DoD time source:\n\nserver [time_source] maxpoll 16",
+  "fix_id": "F-18507r370000_fix",
+  "VulnDiscussion": "Inaccurate time stamps make it more difficult to correlate events and can lead to an inaccurate analysis. Determining the correct time a particular event occurred on a system is critical when conducting forensic analysis and investigating system events. Sources outside the configured acceptable allowance (drift) may be inaccurate.\n\nSynchronizing internal information system clocks provides uniformity of time stamps for information systems with multiple system clocks and systems connected over a network.\n\nOrganizations should consider endpoints that may not have regular access to the authoritative time server (e.g., mobile, teleworking, and tactical endpoints).\n\nSatisfies: SRG-OS-000355-GPOS-00143, SRG-OS-000356-GPOS-00144",
+  "Documentable": "false"
+}

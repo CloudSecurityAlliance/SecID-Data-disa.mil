@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-94263",
+  "rule_id": "SV-104217r1_rule",
+  "stig_id": "SYMP-AG-000240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The reverse proxy Symantec ProxySG providing intermediary services for FTP must inspect inbound FTP communications traffic for protocol compliance and protocol anomalies.",
+  "group_title": "SRG-NET-000512-ALG-000065",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-001125"
+    ]
+  },
+  "check_id": "C-93449r1_chk",
+  "check_content": "Verify that FTP reverse proxy intermediary services are configured.\n\n1. Verify with the ProxySG administrator that FTP reverse proxy services are configured. \n2. Log on to the Web Management Console. \n3. Click Configuration >> Services >> Proxy Services. \n4. For each FTP reverse proxy service identified by the administrator, verify that the Action is set to \"intercept\".\n5. Browse to Configuration >> Forwarding Hosts. Verify that the back-end FTP server is specified in the list.\n6. Browse to Policy >> Visual Policy Manager\" and click \"Launch\".\n7. Verify that a Forwarding Layer exists that references the Forwarding Host configured in step 5.\n\nIf the reverse proxy Symantec ProxySG providing intermediary services for FTP does not inspect inbound FTP communications traffic for protocol compliance and protocol anomalies, this is a finding.",
+  "fixtext": "Configure FTP reverse proxy intermediary services.\n\nSee the ProxySG Reverse Proxy WebGuide for details.\n\n1. Log on to the Web Management Console. \n2. Click Configuration >> Services >> Proxy Services. \n3. Click \"New Service\" and create new FTP proxy services with the Action set to \"intercept\".\n4. Browse to Configuration >> Forwarding Hosts. Click \"New\" and create an entry for the desired back-end FTP server. Click \"Apply\".\n5. Browse to Policy >> Visual Policy Manager and click \"Launch\".\n6. Click Policy >> Add Forwarding Layer. In the default rule, set the Action to be the Forwarding Host configured in step 4.\n7. Click File >> Install Policy on SG Appliance.",
+  "fix_id": "F-100379r1_fix",
+  "VulnDiscussion": "Application protocol anomaly detection examines application layer protocols such as FTP to identify attacks based on observed deviations in the normal RFC behavior of a protocol or service. This type of monitoring allows for the detection of known and unknown exploits that exploit weaknesses of commonly used protocols.\n\nBecause protocol anomaly analysis examines the application payload for patterns or anomalies, an FTP proxy must be included in the ALG. This ALG will be configured to inspect inbound and outbound FTP communications traffic to detect protocol anomalies such as malformed message and command insertion attacks.",
+  "Documentable": "false"
+}

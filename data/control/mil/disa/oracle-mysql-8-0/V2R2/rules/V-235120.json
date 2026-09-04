@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235120",
+  "rule_id": "SV-235120r961812_rule",
+  "stig_id": "MYS8-00-003300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must generate audit records when unsuccessful attempts to delete privileges/permissions occur.",
+  "group_title": "SRG-APP-000499-DB-000331",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-38339r623480_chk",
+  "check_content": "Review the system documentation to determine if MySQL Server is required to audit when unsuccessful attempts to delete privileges/permissions occur.\n\nCheck if MySQL audit is configured and enabled. The my.cnf file will set the variable audit_file.\n\nTo further check, execute the following query: \nSELECT PLUGIN_NAME, PLUGIN_STATUS\n      FROM INFORMATION_SCHEMA.PLUGINS\n      WHERE PLUGIN_NAME LIKE 'audit%';\n\nThe status of the audit_log plugin must be \"active\". If it is not \"active\", this is a finding.\n\nReview audit filters and associated users by running the following queries:\nSELECT `audit_log_filter`.`NAME`,\n   `audit_log_filter`.`FILTER`\nFROM `mysql`.`audit_log_filter`;\n\nSELECT `audit_log_user`.`USER`,\n   `audit_log_user`.`HOST`,\n   `audit_log_user`.`FILTERNAME`\nFROM `mysql`.`audit_log_user`;\n\nAll currently defined audits for the MySQL server instance will be listed. If no audits are returned, this is a finding.\n\nTo check if the audit filters in place are generating records when unsuccessful attempts to delete privileges/permissions occur, run the following, which will test auditing without destroying data but as a user without administrative privileges so that it fails:\ndelete from mysql.procs_priv where 1=2; \n\nReview the audit log by running the Linux command:\nsudo cat  <directory where audit log files are located>/audit.log|egrep procs_priv\nFor example if the values returned by - \"select @@datadir, @@audit_log_file; \" are  /usr/local/mysql/data/,  audit.log\nsudo cat  /usr/local/mysql/data/audit.log |egrep procs_priv\n\nThe audit data will look similar to the  example below and contain a non-zero status value:\n{ \"timestamp\": \"2020-08-19 21:24:26\", \"id\": 2, \"class\": \"general\", \"event\": \"status\", \"connection_id\": 9, \"account\": { \"user\": \"root\", \"host\": \"localhost\" }, \"login\": { \"user\": \"root\", \"os\": \"\", \"ip\": \"::1\", \"proxy\": \"\" }, \"general_data\": { \"command\": \"Query\", \"sql_command\": \"delete\", \"query\": \"delete from procs_priv\", \"status\": 1142 } }\n\nIf the audit event is not present, this is a finding.",
+  "fixtext": "Configure the MySQL Database Server to audit when unsuccessful attempts to delete privileges/permissions occur.\n\nSee the supplemental file \"MySQL80Audit.sql\".",
+  "fix_id": "F-38302r623481_fix",
+  "VulnDiscussion": "Failed attempts to change the permissions, privileges, and roles granted to users and roles must be tracked. Without an audit trail, unauthorized attempts to elevate or restrict individuals and groups privileges could go undetected.   \n\nIn a SQL environment, deleting permissions is typically done via the REVOKE or DENY command. \n\nTo aid in diagnosis, it is necessary to keep track of failed attempts in addition to the successful ones.",
+  "Documentable": "false"
+}

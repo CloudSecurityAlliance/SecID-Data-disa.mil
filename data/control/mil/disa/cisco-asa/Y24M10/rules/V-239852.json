@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-239852",
+  "rule_id": "SV-239852r665842_rule",
+  "stig_id": "CASA-FW-000010",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco ASA must be configured to filter outbound traffic, allowing only authorized ports and services.",
+  "group_title": "SRG-NET-000019-FW-000003",
+  "idents": {
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-43085r665840_chk",
+  "check_content": "Review the ASA configuration to determine if it only permits outbound traffic using authorized ports and services.\n\nStep 1: Verify that an ingress ACL has been applied to all internal interfaces as shown in the example below.\n\n interface GigabitEthernet0/0\n nameif INSIDE\n security-level 100\n ip address 10.1.11.1 255.255.255.0\n…\n…\n…\naccess-group INSIDE _IN in interface INSIDE \n\nStep 2: Verify that the ingress ACL only allows outbound traffic using authorized ports and services as shown in the example below.\n\naccess-list INSIDE _IN extended permit tcp any any eq www \naccess-list INSIDE _IN extended permit tcp any any eq https \naccess-list INSIDE _IN extended permit tcp any any eq …\naccess-list INSIDE _IN extended deny ip any any log\n\nIf the ASA is not configured to only allow outbound traffic using authorized ports and services, this is a finding.",
+  "fixtext": "Step 1: Configure the ingress ACL similar to the example below.\n\nASA(config)# access-list INSIDE_INextended permit tcp any any eq https\nASA(config)# access-list INSIDE_INextended permit tcp any any eq http\nASA(config)# access-list INSIDE_INextended permit tcp any any eq …\nASA(config)# access-list INSIDE_INextended deny ip any any log      \n\nStep 2: Apply the ACL inbound on all internal interfaces as shown in the example below.\n\nASA(config)# access-group INSIDE_IN in interface INSIDE\nASA(config)# end",
+  "fix_id": "F-43044r665841_fix",
+  "VulnDiscussion": "Information flow control regulates where information is allowed to travel within a network and between interconnected networks. Blocking or restricting detected harmful or suspicious communications between interconnected networks enforces approved authorizations for controlling the flow of traffic.\n\nThe firewall that filters traffic outbound to interconnected networks with different security policies must be configured to permit or block traffic based on organization-defined traffic authorizations.",
+  "Documentable": "false"
+}

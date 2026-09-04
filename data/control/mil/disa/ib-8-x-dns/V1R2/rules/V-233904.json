@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233904",
+  "rule_id": "SV-233904r1083000_rule",
+  "stig_id": "IDNS-8X-500007",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Infoblox Grid Master must be configured as a stealth (hidden) domain DNS service member in order to protect the Zone Signing Key (ZSK) residing on it.",
+  "group_title": "SRG-APP-000176-DNS-000096",
+  "idents": {
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-37089r1082698_chk",
+  "check_content": "Note: For Infoblox DNS systems on a classified network, this requirement is Not Applicable. \n\nBy default, ZSK private keys are stored encrypted within the Infoblox database on the Grid Master. The Grid Master will by default enable the DNS service when DNSSEC is enabled for internal processing. Clients must not be permitted to use the Grid Master DNS service. Refer to the Infoblox STIG Overview document for additional information on HSM usage. \n\n1. Navigate to Data Management >> DNS >> Zones.  \n2. Review each zone by selecting the zone, clicking \"Edit\", and selecting the \"DNS service members\" tab. \n3. When complete, click \"Cancel\" to exit the \"Properties\" screen.  \n\nIf the Grid Master is a listed DNS service member and not marked \"Stealth\", this is a finding.",
+  "fixtext": "1. Navigate to Data Management >> DNS >> Zones.  \n2. Select the zone, click \"Edit\", and select the \"DNS service members\" tab. \n3. Mark the Grid Master as \"Stealth\". \n4. If no other DNS service members are listed, one must be added before the configuration can be valid. \n5. When complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen.  \n6. Perform a service restart if necessary.",
+  "fix_id": "F-37054r1082999_fix",
+  "VulnDiscussion": "Security-relevant information is any information within information systems that can potentially impact the operation of security functions or the provision of security services in a manner that could result in failure to enforce system security policies or maintain the isolation of code and data. \n\nSecurity-relevant information includes, for example, file permissions, cryptographic key management information, configuration parameters for security services, and access control lists. Secure, nonoperable system states include the times in which information systems are not performing mission/business-related processing (e.g., the system is offline for maintenance, troubleshooting, bootup, and shutdown).\n\nOn Infoblox, Domain Name System Security Extension (DNSSEC) ZSKs are stored on either a Hardware Security Module or the Infoblox Grid Master. By configuring the Grid Master as \"stealth\" to prevent client communications to the Infoblox Grid Master, and ensuring the Grid Master uses an encrypted management tunnel to update DNS members serving DNSSEC signed zones, the DNSSEC keys are protected.",
+  "Documentable": "false"
+}

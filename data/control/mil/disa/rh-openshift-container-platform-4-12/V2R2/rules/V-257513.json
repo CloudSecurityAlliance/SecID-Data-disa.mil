@@ -1,0 +1,30 @@
+{
+  "vuln_id": "V-257513",
+  "rule_id": "SV-257513r1015793_rule",
+  "stig_id": "CNTR-OS-000090",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "OpenShift RBAC access controls must be enforced.",
+  "group_title": "SRG-APP-000033-CTR-000090",
+  "idents": {
+    "cci": [
+      "CCI-000213",
+      "CCI-000764",
+      "CCI-004045",
+      "CCI-001499",
+      "CCI-001774",
+      "CCI-003980",
+      "CCI-001813",
+      "CCI-002235",
+      "CCI-000770",
+      "CCI-001812"
+    ]
+  },
+  "check_id": "C-61248r921480_chk",
+  "check_content": "The administrator must verify that OpenShift is configured with the necessary RBAC access controls.\n\nReview the RBAC configuration.\n\nAs the cluster-admin, view the cluster roles and their associated rule sets by executing the following:\n\noc describe clusterrole.rbac\n\nNow, view the current set of cluster role bindings, which shows the users and groups that are bound to various roles by executing the following:\n\noc describe clusterrolebinding.rbac\n\nLocal roles and bindings can be determined by executing the following:\n\noc describe rolebinding.rbac\n\nIf these results show users with privileged access that do not require that access, this is a finding.",
+  "fixtext": "If users or groups exist that are bound to roles they must not have, modify the user or group permissions using the following cluster and local role binding commands:\n\nRemove a user from a Cluster RBAC role by executing the following:\n\noc adm policy remove-cluster-role-from-user <role> <username>\n\nRemove a group from a Cluster RBAC role by executing the following:\n\noc adm policy remove-cluster-role-from-group <role> <groupname>\n\nRemove a user from a Local RBAC role by executing the following:\n\noc adm policy remove-role-from-user <role> <username>\n\nRemove a group from a Local RBAC role by executing the following:\n\noc adm policy remove-role-from-group <role> <groupname>\n \nNote: For additional information, refer to https://docs.openshift.com/container-platform/4.8/authentication/using-rbac.html.",
+  "fix_id": "F-61172r921481_fix",
+  "VulnDiscussion": "Controlling and limiting users access to system services and resources is key to securing the platform and limiting the intentional or unintentional compromising of the system and its services. OpenShift provides a robust RBAC policy system that allows for authorization policies to be as detailed as needed. Additionally, there are two layers of RBAC policies. The first is Cluster RBAC policies which administrators can control who has what access to cluster level services. The other is Local RBAC policies, which allow project developers/administrators to control what level of access users have to a given project or namespace.\n\nOpenShift provides a set of default roles out of the box, and additional roles may be added as needed. Each role has a set of rules controlling what access that role may have, and users and/or groups may be bound to one or more roles. The cluster-admin cluster level RBAC role has complete super admin privileges and it is a required role for select cluster administrators to have.\n\nThe OpenShift Container Platform includes a built-in image registry. The primary purpose is to allow users to create, import, and generally manage images running in the cluster. This registry is integrated with the authentication and authorization (RBAC) services on the cluster.\n\nRestricting access permissions and providing access only to the necessary components and resources within the OpenShift environment reduces the potential impact of security breaches and unauthorized activities.\n\nSatisfies: SRG-APP-000033-CTR-000090, SRG-APP-000033-CTR-000095, SRG-APP-000033-CTR-000100, SRG-APP-000133-CTR-000290, SRG-APP-000133-CTR-000295, SRG-APP-000133-CTR-000300, SRG-APP-000133-CTR-000305, SRG-APP-000133-CTR-000310, SRG-APP-000148-CTR-000350, SRG-APP-000153-CTR-000375, SRG-APP-000340-CTR-000770, SRG-APP-000378-CTR-000880, SRG-APP-000378-CTR-000885, SRG-APP-000378-CTR-000890, SRG-APP-000380-CTR-000900, SRG-APP-000386-CTR-000920",
+  "Documentable": "false"
+}

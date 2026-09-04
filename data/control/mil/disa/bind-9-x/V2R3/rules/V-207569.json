@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207569",
+  "rule_id": "SV-207569r879642_rule",
+  "stig_id": "BIND-9X-001131",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DNSSEC keys used with the BIND 9.x implementation must be group owned by a privileged account.",
+  "group_title": "SRG-APP-000231-DNS-000033",
+  "idents": {
+    "legacy": [
+      "SV-87073",
+      "V-72449"
+    ],
+    "cci": [
+      "CCI-001199"
+    ]
+  },
+  "check_id": "C-7824r283761_chk",
+  "check_content": "If the server is in a classified network, this is Not Applicable.\n\nWith the assistance of the DNS Administrator, identify all of the DNSSEC keys used by the BIND 9.x implementation.\n\nIdentify the account that the \"named\" process is running as:\n\n# ps -ef | grep named\nnamed 3015 1 0 12:59 ? 00:00:00 /usr/sbin/named -u named -t /var/named/chroot\n\nWith the assistance of the DNS Administrator, determine the location of the DNSSEC keys used by the BIND 9.x implementation.\n\n# ls –al <DNSSEC_Key_Location>\n-r--------. 1 named named 76 May 10 20:35 DNSSEC-example.key\n\nIf any of the DNSSEC keys are not group owned by the above account, this is a finding.",
+  "fixtext": "Change the group ownership of the DNSSEC keys to the named process is running as.\n\n# chgrp <named_proccess_group> <DNSSEC_key_file>.",
+  "fix_id": "F-7824r283762_fix",
+  "VulnDiscussion": "Information at rest refers to the state of information when it is located on a secondary storage device within an organizational information system. Mobile devices, laptops, desktops, and storage devices can be either lost or stolen, and the contents of their data storage (e.g., hard drives and non-volatile memory) can be read, copied, or altered. Applications and application users generate information throughout the course of their application use.\n\nThe DNS server must protect the confidentiality and integrity of the DNSSEC keys and must protect the integrity of DNS information. There is no need to protect the confidentiality of DNS information because it is accessible by all devices that can contact the server.",
+  "Documentable": "false"
+}

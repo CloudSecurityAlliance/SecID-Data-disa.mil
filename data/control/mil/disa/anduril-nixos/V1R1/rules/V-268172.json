@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268172",
+  "rule_id": "SV-268172r1039586_rule",
+  "stig_id": "ANIX-00-001880",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "NixOS must not allow an unattended or automatic login to the system via the console.",
+  "group_title": "SRG-OS-000480-GPOS-00229",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-72096r1039584_chk",
+  "check_content": "Verify NixOS does not allow an unattended or automatic login to the system via the console with the following command:\n\n$ grep -iR autologin.user /etc/nixos\n\nIf \"services.xserver.displayManager.autoLogin.user\" is defined and is not \"null\", this is a finding.",
+  "fixtext": "Configure the operating system to not allow an unattended or automatic login to the system via the console.\n\nNote: Once set, the system must be rebooted for any changes to apply.\n\nAdd or update the following configuration in /etc/nixos/configuration.nix:\n\nservices.xserver.displayManager.autoLogin.user = null;\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71999r1039585_fix",
+  "VulnDiscussion": "Failure to restrict system access via the console to authenticated users negatively impacts operating system security.",
+  "Documentable": "false"
+}

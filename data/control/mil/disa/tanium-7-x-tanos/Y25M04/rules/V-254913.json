@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-254913",
+  "rule_id": "SV-254913r1043190_rule",
+  "stig_id": "TANS-AP-000475",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Tanium application must enforce a 60-day maximum password lifetime restriction.",
+  "group_title": "SRG-APP-000174",
+  "idents": {
+    "cci": [
+      "CCI-004066",
+      "CCI-000199"
+    ]
+  },
+  "check_id": "C-58526r867637_chk",
+  "check_content": "Console Users:\n\nPer guidance, Enterprise Console users are inherited via LDAP synchronization as such passwords are not managed or enforced at the Tanium application level. \n\nLocal TanOS account: \n\n1. Access the Tanium Server interactively.\n\n2. Log on to the TanOS server with the tanadmin role.\n\n3. Enter \"C\" for \"User Administration Menu,\" and then press \"Enter\".\n\n4. Enter \"L\" for \" Local Tanium User Management,\" and then press \"Enter\".\n\n5. Enter \"B\" for \" Security Policy Local Authentication Service,\" and then press \"Enter\".\n\nIf the value of \"Password Maximum Age (days):\" is greater than \"60\", this is a finding.",
+  "fixtext": "Console Users:\n\nPer guidance, Enterprise Console users are inherited via LDAP synchronization as such passwords are not managed or enforced at the Tanium application level.\n\nLocal TanOS account: \n\n1. Access the Tanium Server interactively.\n\n2. Log on to the TanOS server with the tanadmin role.\n\n3. Enter \"\" for \"User Administration Menu,\" and then press \"Enter\".\n\n4. Enter \"L\" for \"Local Tanium User Management,\" and then press \"Enter\".\n\n5. Enter \"B\" for \"Security Policy Local Authentication Service,\" and then press \"Enter\".\n\n6. Type \"yes,\" and then press \"Enter\".\n\n7. Input the following settings, pressing \"Enter\" after every value:\n    a) Minimum Password Lifetime - 1\n    b) Maximum Password Lifetime - 60\n    c) Minimum Password Length - 15\n    d) Minimum Password History - 5\n    e) Password Lockout - TRUE\n    f) Maximum Password Attempts - 3\n\n8. Type \"yes\" to accept the new password policy.",
+  "fix_id": "F-58470r867638_fix",
+  "VulnDiscussion": "Any password, no matter how complex, can eventually be cracked. Therefore, passwords need to be changed at specific intervals. \n\nOne method of minimizing this risk is to use complex passwords and periodically change them. If the application does not limit the lifetime of passwords and force users to change their passwords, there is the risk that the system and/or application passwords could be compromised. \n\nThis requirement does not include emergency administration accounts which are meant for access to the application in case of failure. These accounts are not required to have maximum password lifetime restrictions.",
+  "Documentable": "false"
+}

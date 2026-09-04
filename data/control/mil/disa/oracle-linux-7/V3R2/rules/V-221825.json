@@ -1,0 +1,30 @@
+{
+  "vuln_id": "V-221825",
+  "rule_id": "SV-221825r958368_rule",
+  "stig_id": "OL07-00-030870",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/passwd.",
+  "group_title": "SRG-OS-000004-GPOS-00004",
+  "idents": {
+    "legacy": [
+      "SV-108493",
+      "V-99389"
+    ],
+    "cci": [
+      "CCI-000018",
+      "CCI-000172",
+      "CCI-001403",
+      "CCI-001404",
+      "CCI-001405",
+      "CCI-002130"
+    ]
+  },
+  "check_id": "C-23540r419547_chk",
+  "check_content": "Verify the operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect \"/etc/passwd\".\n\nCheck the auditing rules in \"/etc/audit/audit.rules\" with the following command:\n\n# grep /etc/passwd /etc/audit/audit.rules\n\n-w /etc/passwd -p wa -k identity\n\nIf the command does not return a line, or the line is commented out, this is a finding.",
+  "fixtext": "Configure the operating system to generate audit records for all account creations, modifications, disabling, and termination events that affect \"/etc/passwd\".\n\nAdd or update the following rule \"/etc/audit/rules.d/audit.rules\":\n\n-w /etc/passwd -p wa -k identity\n\nThe audit daemon must be restarted for the changes to take effect.",
+  "fix_id": "F-23529r419548_fix",
+  "VulnDiscussion": "Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).\n\nSatisfies: SRG-OS-000004-GPOS-00004, SRG-OS-000239-GPOS-00089, SRG-OS-000240-GPOS-00090, SRG-OS-000241-GPOS-00091, SRG-OS-000303-GPOS-00120, SRG-OS-000476-GPOS-00221",
+  "Documentable": "false"
+}

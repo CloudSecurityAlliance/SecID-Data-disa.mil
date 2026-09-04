@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251664",
+  "rule_id": "SV-251664r960873_rule",
+  "stig_id": "SPLK-CL-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "In a distributed environment, Splunk Enterprise indexers must be configured to ingest log records from its forwarders.",
+  "group_title": "SRG-APP-000086-AU-000390",
+  "idents": {
+    "cci": [
+      "CCI-000174"
+    ]
+  },
+  "check_id": "C-55102r808226_chk",
+  "check_content": "This check is applicable to the instance with the Indexer role or the Forwarder role, which may be a different instance in a distributed environment.\n\nVerify the Splunk Enterprise Environment is configured to ingest log records from different hosts.\n\nOn the forwarders, check if the output.conf file is configured with the details of the indexer is ingesting the log data (e.g., Hostname, port# etc.).\n\nOn the indexer, check if the input.conf file is configured with the details of the forwarders that are sending the data.\n\nIf the Splunk Enterprise is not configured to perform analysis of log records from across multiple hosts, this is a finding.",
+  "fixtext": "On the forwarders, configure the outputs.conf with the information of the indexer that the data will be sent to for analysis.\n\nOn the indexer, configure the inputs.conf file with the information of the forwarders that are sending the data for analysis.",
+  "fix_id": "F-55056r808227_fix",
+  "VulnDiscussion": "Log servers (e.g., syslog servers) are often used on network segments to consolidate from the devices and hosts on that network segment. However, this does not achieve compliance with the DoD requirement for a centralized enclave log server.\n\nTo comply with this requirement, create a central log server that aggregates multiple log servers, or use another method to ensure log analysis and management is centrally managed and available to enterprise forensics and analysis tools. This server is often called a log aggregator, SIEM, or events server.",
+  "Documentable": "false"
+}

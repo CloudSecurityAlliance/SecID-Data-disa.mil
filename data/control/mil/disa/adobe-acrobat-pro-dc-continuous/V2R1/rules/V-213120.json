@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213120",
+  "rule_id": "SV-213120r766520_rule",
+  "stig_id": "AADC-CN-000280",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Adobe Acrobat Pro DC Continuous access to unknown websites must be restricted.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "legacy": [
+      "SV-94071",
+      "V-79365"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-14357r766518_chk",
+  "check_content": "Verify the following registry configuration:\n\nUtilizing the Registry Editor, navigate to the following:\nHKEY_LOCAL_MACHINE\\Software\\Policies\\Adobe\\Adobe Acrobat\\DC\\FeatureLockDown\\cDefaultLaunchURLPerms\\\n\nValue Name: iUnknownURLPerms\nType: REG_DWORD\nValue: 3\n\nIf the value for iUnknownURLPerms is not set to “3” and Type is not configured to REG_DWORD or does not exist, this is a finding.\n\nGUI path: Edit > Preferences > Trust Manager > In the 'Internet Access from PDF Files outside the web browser' section > Select 'Change Settings' option >  In the 'PDF Files may connect to web sites to share or get information' section, if 'Block PDF files access to all web sites' is selected and greyed out (locked), then this is not a finding. If 'Custom setting' is checked, then in the 'Default behavior for web sites that are not in the above list' section,  verify the radio button 'Block access'  is checked and greyed out (locked) .  If the box is not checked nor greyed out, this is a finding.\n\nAdmin Template path: Computer Configuration > Administrative Templates > Adobe Acrobat Pro DC Continuous > Preferences > Trust Manager > 'Access to unknown websites' must be set to 'Enabled' and 'Block access' selected in the drop down box.",
+  "fixtext": "Configure the following registry value:\n\nRegistry Hive:\nHKEY_LOCAL_MACHINE\nRegistry Path:\n\\Software\\Policies\\Adobe\\Adobe Acrobat\\DC\\FeatureLockDown\\cDefaultLaunchURLPerms\\\n\nValue Name: iUnknownURLPerms\nType: REG_DWORD\nValue: 3\n\nConfigure the policy value for Computer Configuration > Administrative Templates > Adobe Acrobat Pro DC Continuous > Preferences > Trust Manager > 'Access to unknown websites' to 'Enabled' and select 'Block access' in the drop down box.",
+  "fix_id": "F-14355r766519_fix",
+  "VulnDiscussion": "Acrobat provides the ability for the user to store a list of websites with an associated behavior of allow, ask, or block. Websites that are not in this list are unknown. PDF files can contain URLs that will initiate connections to unknown websites in order to share or get information. That access must be restricted.",
+  "Documentable": "false"
+}

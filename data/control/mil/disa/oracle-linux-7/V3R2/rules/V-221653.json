@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-221653",
+  "rule_id": "SV-221653r1015161_rule",
+  "stig_id": "OL07-00-010020",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that the cryptographic hash of system files and commands matches vendor values.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-99047",
+      "SV-108151"
+    ],
+    "cci": [
+      "CCI-001749",
+      "CCI-003992"
+    ]
+  },
+  "check_id": "C-36265r602389_chk",
+  "check_content": "Verify the cryptographic hash of system files and commands match the vendor values.\n\nCheck the cryptographic hash of system files and commands with the following command:\n\nNote: System configuration files (indicated by a \"c\" in the second column) are expected to change over time. Unusual modifications should be investigated through the system audit log.\n\n# rpm -Va --noconfig | grep '^..5'\n\nIf there is any output from the command for system files or binaries, this is a finding.",
+  "fixtext": "Run the following command to determine which package owns the file:\n\n# rpm -qf <filename>\n\nThe package can be reinstalled from a yum repository using the command:\n\n# sudo yum reinstall <packagename>\n\nAlternatively, the package can be reinstalled from trusted media using the command:\n\n# sudo rpm -Uvh <packagename>",
+  "fix_id": "F-36229r602390_fix",
+  "VulnDiscussion": "Without cryptographic integrity protections, system command and files can be altered by unauthorized users without detection.\n\nCryptographic mechanisms used for protecting the integrity of information include, for example, signed hash functions using asymmetric cryptography enabling distribution of the public key to verify the hash information while maintaining the confidentiality of the key used to generate the hash.",
+  "Documentable": "false"
+}

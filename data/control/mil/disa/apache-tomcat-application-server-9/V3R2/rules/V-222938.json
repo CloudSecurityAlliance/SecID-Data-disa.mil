@@ -1,0 +1,29 @@
+{
+  "vuln_id": "V-222938",
+  "rule_id": "SV-222938r960882_rule",
+  "stig_id": "TCAT-AS-000180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AccessLogValve must be configured per each virtual host.",
+  "group_title": "SRG-APP-000090-AS-000051",
+  "idents": {
+    "legacy": [
+      "SV-111549",
+      "V-102603"
+    ],
+    "cci": [
+      "CCI-000130",
+      "CCI-000135",
+      "CCI-000171",
+      "CCI-000172",
+      "CCI-001487"
+    ]
+  },
+  "check_id": "C-24610r426258_chk",
+  "check_content": "As an elevated user on the Tomcat server:\n\nEdit the $CATALINA_BASE/conf/server.xml file.\n\nReview for all <Host> elements.\n\nIf a <Valve className=\"org.apache.catalina.valves.AccessLogValve\" .../> element is not nested within each <Host> element, this is a finding.\n\nEXAMPLE:\n<Host name=\"localhost\" appBase=\"webapps\"\n unpackWARs=\"true\" autoDeploy=\"false\">\n...\n<Valve className=\"org.apache.catalina.valves.AccessLogValve\" directory=\"logs\"\n prefix=\"localhost_access_log\" suffix=\".txt\"\n pattern=\"%h %l %t %u &quot;%r&quot; %s %b\" />\n ...\n</Host>",
+  "fixtext": "As a privileged user on the Tomcat server:\n\nEdit the $CATALINA_BASE/conf/server.xml file.\n\nCreate a <Valve> element that is nested beneath the <Host> element containing an AccessLogValve.\n\nEXAMPLE:\n<Host name=\"localhost\" appBase=\"webapps\"\n unpackWARs=\"true\" autoDeploy=\"false\">\n...\n<Valve className=\"org.apache.catalina.valves.AccessLogValve\" directory=\"logs\"\n prefix=\"localhost_access_log\" suffix=\".txt\"\n pattern=\"%h %l %t %u &quot;%r&quot; %s %b\" />\n ...\n</Host>\n\nRestart the Tomcat server:\nsudo systemctl restart tomcat\nsudo systemctl daemon-reload",
+  "fix_id": "F-24599r426259_fix",
+  "VulnDiscussion": "Application servers utilize role-based access controls in order to specify the individuals who are allowed to configure application component loggable events. The application server must be configured to select which personnel are assigned the role of selecting which loggable events are to be logged.\n\nSatisfies: SRG-APP-000090-AS-000051, SRG-APP-000095-AS-000056, SRG-APP-000100-AS-000063, SRG-APP-000101-AS-000072, SRG-APP-000503-AS-000228, SRG-APP-000505-AS-000230, SRG-APP-000506-AS-000231",
+  "Documentable": "false"
+}

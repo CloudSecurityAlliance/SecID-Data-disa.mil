@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254568",
+  "rule_id": "SV-254568r1016534_rule",
+  "stig_id": "CNTR-R2-000890",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Rancher RKE2 must terminate all network connections associated with a communications session at the end of the session, or as follows: for in-band management sessions (privileged sessions), the session must be terminated after five minutes of inactivity.",
+  "group_title": "SRG-APP-000190-CTR-000500",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-58052r1016532_chk",
+  "check_content": "Ensure streaming-connection-idle-timeout argument is set correctly.\n\nRun this command on each node:\n/bin/ps -ef | grep kubelet | grep -v grep\n\nIf --streaming-connection-idle-timeout is set to < \"5m\", missing or the parameter is not configured, this is a finding.",
+  "fixtext": "Edit the RKE2 Server configuration file on all RKE2 Agent hosts, located at /etc/rancher/rke2/config.yaml, to contain the following:\n\nkubelet-arg:\n- streaming-connection-idle-timeout=5m\n\nIf configuration files are updated on a host, restart the RKE2 Service. \nRun the command \"systemctl restart rke2-server\" for server hosts and \"systemctl restart rke2-agent\" for agent hosts.",
+  "fix_id": "F-58001r1016533_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle session will also free up resources committed by the managed network element. \n\nTerminating network connections associated with communications sessions includes, for example, de-allocating associated TCP/IP address/port pairs at the operating system level, or de-allocating networking assignments at the application level if multiple application sessions are using a single, operating-system-level network connection. This does not mean that the application terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.",
+  "Documentable": "false"
+}

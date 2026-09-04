@@ -1,0 +1,18 @@
+{
+  "vuln_id": "V-26294",
+  "rule_id": "SV-33171r2_rule",
+  "stig_id": "WA00510 W22",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Web server status module must be disabled.",
+  "group_title": "WA00510",
+  "idents": {},
+  "check_id": "C-33808r3_chk",
+  "check_content": "Open a command prompt window.\n\nNavigate to the “bin” directory (in many cases this may be [Drive Letter]:\\[directory path]\\Apache Software Foundation\\Apache2.2\\bin>).\n\nEnter the following command: httpd –M <enter>\nNOTE: Some installations may be running under apache.exe. In such case, validate by running the following command: apache -M <enter>\n\nThis will provide a list of all loaded modules. If any of the following modules are found this is a finding: info_module & status_module.",
+  "fixtext": "Disable info and status modules by adding a \"#\" in front of them within the httpd.conf file, and restarting the Apache service.",
+  "fix_id": "F-29457r2_fix",
+  "VulnDiscussion": "The Apache mod_info module provides information on the server configuration via access to a /server-info URL location, while the mod_status module provides current server performance statistics. While having server configuration and status information available as a web page may be convenient, it is recommended that these modules not be enabled: Once mod_info is loaded into the server, its handler capability is available in per-directory .htaccess files and can leak sensitive information from the configuration directives of other Apache modules such as system paths, usernames/passwords, database names, etc. If mod_status is loaded into the server, its handler capability is available in all configuration files, including per-directory files (e.g., .htaccess) and may have security-related ramifications.",
+  "Documentable": "false",
+  "Responsibility": "Web Administrator"
+}

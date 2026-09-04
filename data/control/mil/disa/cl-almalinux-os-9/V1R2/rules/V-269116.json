@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269116",
+  "rule_id": "SV-269116r1050608_rule",
+  "stig_id": "ALMA-09-003320",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must implement DOD-approved encryption ciphers to protect the confidentiality of SSH server connections.",
+  "group_title": "SRG-OS-000250-GPOS-00093",
+  "idents": {
+    "cci": [
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-73147r1047724_chk",
+  "check_content": "Verify the SSH server is configured to use only ciphers employing FIPS 140-3 approved algorithms with the following command:\n\nFirst, ensure that FIPS mode is enabled with the following command:\n$ cat /proc/sys/crypto/fips_enabled\n1\n\nIf the command does not return a \"1\", then the systemwide crypto policy is not set to FIPS, and this is a finding.\n\nTo verify the Ciphers in the systemwide SSH configuration file, use the following command:\n\n$ sudo grep -i ciphers /etc/crypto-policies/back-ends/opensshserver.config \nCiphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr\n\nIf the Ciphers entries in the \"opensshserver.config\" file have any hashes other than \"aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr\", the order differs from the example above, or they are missing or commented out, this is a finding.",
+  "fixtext": "Configure the AlmaLinux OS 9 SSH server to use only ciphers employing FIPS 140-3 approved algorithms by updating the \"/etc/crypto-policies/back-ends/opensshserver.config\" file with the following commands:\n\nNote: Before enabling FIPS mode, ensure that the dracut-fips package is installed on the system.\n\nEnable FIPS mode by updating the system's crypto policy with the following command:\n$ sudo update-crypto-policies --set FIPS\n\nNote: If FIPS mode has never been enabled on the system, additional steps will need to be conducted. Refer to vendor documentation.\n\nTo manually update the Ciphers in the systemwide SSH configuration, use the following command:\n\n$ sudo sed -i -E '/^Ciphers/s/.*/Ciphers aes256-gcm@openssh.com,aes128-gcm@openssh.com,aes256-ctr,aes128-ctr/' \"$(readlink -f /etc/crypto-policies/back-ends/opensshserver.config)\"\n\nA reboot is required for the changes to take effect.",
+  "fix_id": "F-73048r1049122_fix",
+  "VulnDiscussion": "Without cryptographic integrity protections, information can be altered by unauthorized users without detection.\n\nRemote access (e.g., RDP) is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nCryptographic mechanisms used for protecting the integrity of information include, for example, signed hash functions using asymmetric cryptography enabling distribution of the public key to verify the hash information while maintaining the confidentiality of the secret key used to generate the hash.",
+  "Documentable": "false"
+}

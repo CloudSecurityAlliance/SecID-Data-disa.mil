@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214172",
+  "rule_id": "SV-214172r612370_rule",
+  "stig_id": "IDNS-7X-000250",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "A DNS server implementation must provide the means to enable verification of a chain of trust among parent and child domains (if the child supports secure resolution services).",
+  "group_title": "SRG-APP-000215-DNS-000026",
+  "idents": {
+    "legacy": [
+      "V-68539",
+      "SV-83029"
+    ],
+    "cci": [
+      "CCI-001663"
+    ]
+  },
+  "check_id": "C-15387r295782_chk",
+  "check_content": "Note: For Infoblox DNS systems on a Classified network, this requirement is Not Applicable.\n\nAuthoritative Check: Navigate to Data Management >> DNS >> Zones.\n\nEnsure external authoritative zones are DNSSEC signed.\n\nRecursive Check: Navigate to Data Management >> DNS >> Zones.\n\nNote: DNSSEC validation is only applicable on a grid member where recursion is active.\n\nEdit \"Grid DNS Properties\", toggle Advanced Mode, and select the DNSSEC tab.\nValidate that both \"Enable DNSSEC\" and \"Enable DNSSEC Validation\" are enabled.\nWhen complete, click \"Cancel\" to exit the \"Properties\" screen.\n\nIf DNSSEC is not utilized for authoritative DNS and recursive clients this is a finding.\n\nNote: To add \"Signed\" column, select an existing column, select the down arrow, select \"Columns\", select \"Edit Columns\", select the check box for \"Visible\" and select \"Apply\".",
+  "fixtext": "Authoritative Fix: Navigate to Data Management >> DNS >> Zones.\n\nSelect the appropriate zone using the check box, then use the \"DNSSEC\" drop-down menu and select \"Sign Zones\".\nFollow prompt to acknowledge zone signing.\n\nRecursive Fix: Navigate to Data Management >> DNS >> Zones.\n\nEdit \"Grid DNS Properties\", toggle Advanced Mode, and select the \"DNSSEC\" tab.\nEnable both \"Enable DNSSEC\" and \"Enable DNSSEC Validation\" options.\nWhen complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen.\n\nPerform a service restart if necessary.",
+  "fix_id": "F-15385r295783_fix",
+  "VulnDiscussion": "If name server replies are invalid or cannot be validated, many networking functions and communication would be adversely affected. With DNS, the presence of Delegation Signer (DS) records associated with child zones informs clients of the security status of child zones. These records are crucial to the DNSSEC chain of trust model. Each parent domain's DS record is used to verify the DNSKEY record in its subdomain, from the top of the DNS hierarchy down.\n\nA DNS server is an example of an information system providing name/address resolution service. Digital signatures and cryptographic keys are examples of additional artifacts. DNS resource records are examples of authoritative data. Applications other than the DNS to map between host/service names and network addresses must provide other means to assure the authenticity and integrity of response data.\n\nDNSSEC provides the means to verify integrity assurances for the host/service name to network address resolution information obtained through the service. By using the delegation signer (DS) resource records in the DNS, the security status of a child domain can be validated. The DS resource record is used to identify the DNSSEC signing key of a delegated zone.\n\nStarting from a trusted name server (such as the root name server) and down to the current source of response through successive verifications of signature of the public key of a child by its parent, the chain of trust is established. The public key of the trusted name servers is called the trust anchor. After authenticating the source, the next process DNSSEC calls for is to authenticate the response. This requires that responses consist of not only the requested RRs but also an authenticator associated with them. In DNSSEC, this authenticator is the digital signature of a Resource Record (RR) Set. The digital signature of an RRSet is encapsulated through a special RRType called RRSIG. The DNS client using the trusted public key of the source (whose trust has just been established) then verifies the digital signature to detect if the response is valid or bogus.\n\nThis control enables the DNS to obtain origin authentication and integrity verification assurances for the host/service name to network address resolution information obtained through the service. Without indication of the security status of a child domain and enabling verification of a chain of trust, integrity and availability of the DNS infrastructure cannot be assured.",
+  "Documentable": "false"
+}

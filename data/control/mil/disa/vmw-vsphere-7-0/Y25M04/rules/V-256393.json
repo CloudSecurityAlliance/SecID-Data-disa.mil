@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256393",
+  "rule_id": "SV-256393r959010_rule",
+  "stig_id": "ESXI-70-000025",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host Secure Shell (SSH) daemon must not permit tunnels.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-60068r885958_chk",
+  "check_content": "From an ESXi shell, run the following command:\n\n# /usr/lib/vmware/openssh/bin/sshd -T|grep permittunnel\n\nExpected result:\n\npermittunnel no\n\nIf the output does not match the expected result, this is a finding.",
+  "fixtext": "From an ESXi shell, add or correct the following line in \"/etc/ssh/sshd_config\":\n\nPermitTunnel no",
+  "fix_id": "F-60011r885959_fix",
+  "VulnDiscussion": "OpenSSH has the ability to create network tunnels (layer 2 and layer 3) over an SSH connection. This function can provide similar convenience to a virtual private network (VPN) with the similar risk of providing a path to circumvent firewalls and network Access Control Lists (ACLs).",
+  "Documentable": "false"
+}

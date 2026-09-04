@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235159",
+  "rule_id": "SV-235159r960888_rule",
+  "stig_id": "MYS8-00-007800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must initiate session auditing upon startup.",
+  "group_title": "SRG-APP-000092-DB-000208",
+  "idents": {
+    "cci": [
+      "CCI-001464"
+    ]
+  },
+  "check_id": "C-38378r623597_chk",
+  "check_content": "Determine if an audit is configured and enabled. \n\nThe my.cnf file will set the variable audit_file.\n\nReview the my.cnf file for the following entries:\n[mysqld]\nplugin-load-add=audit_log.so\naudit-log=FORCE_PLUS_PERMANENT\n\nIf these entries are not present. This is a finding.\n\nExecute the following query: \nSELECT PLUGIN_NAME, PLUGIN_STATUS\n       FROM INFORMATION_SCHEMA.PLUGINS\n       WHERE PLUGIN_NAME LIKE 'audit%';\n\nThe status of the \"audit_log plugin\" must be \"active\". If it is not \"active\", this is a finding.\n\nReview audit filters and associated users by running the following queries:\nSELECT `audit_log_filter`.`NAME`,\n    `audit_log_filter`.`FILTER`\nFROM `mysql`.`audit_log_filter`;\n\nSELECT `audit_log_user`.`USER`,\n    `audit_log_user`.`HOST`,\n    `audit_log_user`.`FILTERNAME`\nFROM `mysql`.`audit_log_user`;\n\nAll currently defined audits for the MySQL server instance will be listed. If no audits are returned, this is a finding.",
+  "fixtext": "Configure the MySQL Audit to automatically start during system startup.  \nAdd to the my.cnf: \n\n[mysqld]\nplugin-load-add=audit_log.so\naudit-log=FORCE_PLUS_PERMANENT\naudit-log-format=JSON",
+  "fix_id": "F-38341r623598_fix",
+  "VulnDiscussion": "Session auditing is for use when a user's activities are under investigation. To be sure of capturing all activity during those periods when session auditing is in use, it needs to be in operation for the whole time the Database Management System (DBMS) is running.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214326",
+  "rule_id": "SV-214326r1043177_rule",
+  "stig_id": "AS24-W1-000360",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Apache web server must be configured to use a specified IP address and port.",
+  "group_title": "SRG-APP-000142-WSR-000089",
+  "idents": {
+    "legacy": [
+      "SV-102477",
+      "V-92389"
+    ],
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-15538r277481_chk",
+  "check_content": "Review the <'INSTALL PATH'>\\conf\\httpd.conf file and search for the following directive:\n\nListen\n\nFor any enabled \"Listen\" directives, verify they specify both an IP address and port number.\n\nIf the \"Listen\" directive is found with only an IP address or only a port number specified, this is finding.\n\nIf the IP address is all zeros (i.e., 0.0.0.0:80 or [::ffff:0.0.0.0]:80), this is a finding.\n\nIf the \"Listen\" directive does not exist, this is a finding.",
+  "fixtext": "Edit the <'INSTALL PATH'>\\conf\\httpd.conf file and set the \"Listen\" directive to listen on a specific IP address and port.\n\nRestart the Apache service.",
+  "fix_id": "F-15536r277482_fix",
+  "VulnDiscussion": "The web server must be configured to listen on a specified IP address and port. Without specifying an IP address and port for the web server to use, the web server will listen on all IP addresses available to the hosting server. If the web server has multiple IP addresses, i.e., a management IP address, the web server will also accept connections on the management IP address.\n\nAccessing the hosted application through an IP address normally used for non-application functions opens the possibility of user access to resources, utilities, files, ports, and protocols that are protected on the desired application IP address.",
+  "Documentable": "false"
+}

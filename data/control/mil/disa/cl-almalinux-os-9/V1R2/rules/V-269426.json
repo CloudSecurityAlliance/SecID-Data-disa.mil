@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-269426",
+  "rule_id": "SV-269426r1050309_rule",
+  "stig_id": "ALMA-09-041160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must prevent kernel profiling by nonprivileged users.",
+  "group_title": "SRG-OS-000132-GPOS-00067",
+  "idents": {
+    "cci": [
+      "CCI-001082",
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-73457r1049688_chk",
+  "check_content": "Verify AlmaLinux OS 9 is configured to prevent kernel profiling by nonprivileged users with the following commands:\n\nCheck the status of the kernel.perf_event_paranoid kernel parameter.\n\n$ sysctl kernel.perf_event_paranoid\n\nkernel.perf_event_paranoid = 2\n\nIf \"kernel.perf_event_paranoid\" is not set to \"2\" or is missing, this is a finding.\n\nCheck that the configuration files are present to enable this kernel parameter.\n\n$ /usr/lib/systemd/systemd-sysctl --cat-config  | egrep -v '^(#|;)' | grep -F kernel.perf_event_paranoid | tail -1\n\nkernel.perf_event_paranoid = 2\n\nIf \"kernel.perf_event_paranoid\" is not set to \"2\" or is missing, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to prevent kernel profiling by nonprivileged users with the following command:\n\n$ echo \"kernel.perf_event_paranoid = 2\" > /etc/sysctl.d/60-perf.conf\n\nLoad settings from all system configuration files with the following command:\n\n$ sysctl --system",
+  "fix_id": "F-73358r1049689_fix",
+  "VulnDiscussion": "Setting the kernel.perf_event_paranoid kernel parameter to \"2\" prevents attackers from gaining additional system information as a nonprivileged user.\n\nSatisfies: SRG-OS-000132-GPOS-00067, SRG-OS-000138-GPOS-00069",
+  "Documentable": "false"
+}

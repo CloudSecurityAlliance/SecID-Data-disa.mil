@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-266149",
+  "rule_id": "SV-266149r1024844_rule",
+  "stig_id": "F5BI-AP-300043",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The F5 BIG-IP appliance that provides intermediary services for HTTP must inspect inbound and outbound HTTP traffic for protocol compliance and protocol anomalies.",
+  "group_title": "SRG-NET-000512-ALG-000066",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-001125"
+    ]
+  },
+  "check_id": "C-70073r1024842_chk",
+  "check_content": "If the BIG-IP appliance does not provide intermediary/proxy services for HTTP communications traffic, this is not applicable.\n\nApplication Security Policy:\nFrom the BIG-IP GUI:\n1. Security.\n2. Application Security.\n3. Policy Building.\n4. Learning and Blocking Settings.\n5. Verify the correct policy is selected from the drop-down in the upper left.\n6. Expand \"HTTP protocol compliance failed\".\n7. Verify the proper inspection criteria are selected.\n\nHTTP Virtual Server:\nFrom the BIG-IP GUI:\n1. Local Traffic.\n2. Virtual Servers.\n3. Virtual Server List.\n4. Click the name of the HTTP Virtual Server.\n5. Security >> Policies tab.\n6. Verify the correct policy is selected for \"Application Security Policy\".\n\nIf the BIG-IP appliance is not configured to inspect inbound and outbound HTTP communications traffic for protocol compliance and protocol anomalies, this is a finding.",
+  "fixtext": "Application Security Policy:\nFrom the BIG-IP GUI:\n1. Security.\n2. Application Security.\n3. Policy Building.\n4. Learning and Blocking Settings.\n5. Select the correct policy from the drop-down in the upper left.\n6. Expand \"HTTP protocol compliance failed\".\n7. Select the proper inspection criteria.\n8. Click \"Save\".\n9. Click \"Apply Policy\".\n\nHTTP Virtual Server:\nFrom the BIG-IP GUI:\n1. Local Traffic.\n2. Virtual Servers.\n3. Virtual Server List.\n4. Click the name of the HTTP virtual server.\n5. Security >> Policies tab.\n6. Set \"Application Security Policy\" to \"Enabled\".\n7. Select the correct policy from the drop-down.\n8. Click \"Update\".\n\nRefer to vendor documentation for more information.",
+  "fix_id": "F-69976r1024843_fix",
+  "VulnDiscussion": "Application protocol anomaly detection examines application layer protocols such as HTTP to identify attacks based on observed deviations in the normal RFC behavior of a protocol or service. This type of monitoring allows for the detection of known and unknown exploits which exploit weaknesses of commonly used protocols.\n\nSince protocol anomaly analysis examines the application payload for patterns or anomalies, an HTTP proxy must be included in the ALG. This ALG will be configured to inspect inbound and outbound HTTP communications traffic to detect protocol anomalies such as malformed message and command insertion attacks.\n\nAll inbound and outbound traffic, including HTTPS, must be inspected. However, the intention of this policy is not to mandate HTTPS inspection by the ALG. Typically, HTTPS traffic is inspected either at the source, destination and/or is directed for inspection by organizationally-defined network termination point.",
+  "Documentable": "false"
+}

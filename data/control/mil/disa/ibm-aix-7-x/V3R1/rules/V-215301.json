@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215301",
+  "rule_id": "SV-215301r991589_rule",
+  "stig_id": "AIX7-00-002118",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must turn off TCP forwarding for the SSH daemon.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91733",
+      "SV-101831"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16499r294354_chk",
+  "check_content": "If TCP forwarding is approved for use by the ISSO, this is not applicable.\n\nCheck the SSH daemon configuration for the \"AllowTcpForwarding\" directive using command: \n\n# grep -i AllowTcpForwarding /etc/ssh/sshd_config | grep -v '^#' \nAllowTcpForwarding no\n\nIf the setting is not present or the setting is \"yes\", this is a finding.",
+  "fixtext": "Edit the \"/etc/sshd/sshd_config\" file to add the following line and save the change:\nAllowTcpForwarding no\n\nRestart the SSH daemon:\n# stopsrc -s sshd\n# startsrc -s sshd",
+  "fix_id": "F-16497r294355_fix",
+  "VulnDiscussion": "SSH TCP connection forwarding provides a mechanism to establish TCP connections proxied by the SSH server. This function can provide similar convenience to a Virtual Private Network (VPN) with the similar risk of providing a path to circumvent firewalls and network ACLs.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257964",
+  "rule_id": "SV-257964r991589_rule",
+  "stig_id": "RHEL-09-253045",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must not forward IPv4 source-routed packets by default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61705r942992_chk",
+  "check_content": "Verify RHEL 9 does not accept IPv4 source-routed packets by default.\n\nCheck the value of the accept source route variable with the following command:\n\n$ sudo sysctl net.ipv4.conf.default.accept_source_route\n\nnet.ipv4.conf.default.accept_source_route = 0\n\nIf the returned line does not have a value of \"0\", a line is not returned, or the line is commented out, this is a finding.\n\nCheck that the configuration files are present to enable this network parameter.\n\n$ sudo /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' | grep -F net.ipv4.conf.default.accept_source_route | tail -1\n\nnet.ipv4.conf.default.accept_source_route = 0\n\nIf \"net.ipv4.conf.default.accept_source_route\" is not set to \"0\" or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 9 to not forward IPv4 source-routed packets by default.\n\nAdd or edit the following line in a single system configuration file, in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv4.conf.default.accept_source_route = 0\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-61629r925878_fix",
+  "VulnDiscussion": "Source-routed packets allow the source of the packet to suggest routers forward the packet along a different path than configured on the router, which can be used to bypass network security measures.\n\nAccepting source-routed packets in the IPv4 protocol has few legitimate uses. It must be disabled unless it is absolutely required, such as when IPv4 forwarding is enabled and the system is legitimately functioning as a router.",
+  "Documentable": "false"
+}

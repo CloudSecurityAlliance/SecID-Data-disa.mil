@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-270227",
+  "rule_id": "SV-270227r1085728_rule",
+  "stig_id": "ENTR-ID-000370",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Microsoft Entra ID must be configured to transfer logs to another server for storage, analysis, and reporting.",
+  "group_title": "SRG-APP-000125",
+  "idents": {
+    "cci": [
+      "CCI-001348",
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-74260r1085726_chk",
+  "check_content": "Verify Microsoft Entra ID sign-in logs are updated in Microsoft Sentinel or equivalent SIEM. Verify the Connected Status is \"green\" with Last Log Received within the past hour. \n\n1. Sign in to the Microsoft Entra admin center as a Global Administrator.\n2. Browse to Identity >> Monitoring & health >> Diagnostic settings.\n3. Select \"Edit settings\" for the entry that has an established log analytics workspace.\n4. Review the selected log categories. The minimum required categories are:\n- SigninLogs.\n- AuditLogs.\n- ServicePrincipalSignInLogs.\n- ManagedIdentitySignInLogs.\n- UserRiskEvents.\n- RiskyUsers.\n- RiskyServicePrincipals.\n- ServicePrincipalRiskEvents.\n\nIf there is not an entry established to offload logs to a log analytic workspace and the minimum log categories are not selected, this is a finding.",
+  "fixtext": "Configure the Microsoft Entra to transfer Microsoft Entra server logs to another server for storage, analysis, and reporting at least every seven days.\n\n1. Sign in to the Microsoft Entra admin center as a Global Administrator.\n2. Browse to Identity >> Monitoring & health >> Diagnostic settings.\n3. Select \"+ Add diagnostic settings\".\n4. Select at least these required categories:\n- SigninLogs.\n- AuditLogs.\n- ServicePrincipalSignInLogs.\n- ManagedIdentitySignInLogs.\n- UserRiskEvents.\n- RiskyUsers.\n- RiskyServicePrincipals.\n- ServicePrincipalRiskEvents. \n5. Select \"Send to Log Analytics workspace\". For details on establishing a log analytics workspace, reference the DOD365 TCG.",
+  "fix_id": "F-74161r1085727_fix",
+  "VulnDiscussion": "Protection of log data includes ensuring log data is not accidentally lost or deleted. Backing up audit records to a different system or onto separate media than the system being audited on an organizationally defined frequency helps to ensure the audit records will be retained in the event of a catastrophic system failure. \n\nThis also ensures a compromise of the information system being audited does not result in a compromise of the audit records.\n\nThis requirement only applies to applications that have a native backup capability for audit records. Operating system backup requirements cover applications that do not provide native backup functions.\n\nSatisfies: SRG-APP-000358",
+  "Documentable": "false"
+}

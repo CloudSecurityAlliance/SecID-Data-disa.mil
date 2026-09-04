@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221875",
+  "rule_id": "SV-221875r991589_rule",
+  "stig_id": "OL07-00-040612",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must use a reverse-path filter for IPv4 network traffic when possible by default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-99489",
+      "SV-108593"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23590r880640_chk",
+  "check_content": "Verify the system uses a reverse-path filter for IPv4:\n\n     # grep -r net.ipv4.conf.default.rp_filter /run/sysctl.d/* /etc/sysctl.d/* /usr/local/lib/sysctl.d/* /usr/lib/sysctl.d/* /lib/sysctl.d/* /etc/sysctl.conf 2> /dev/null\n     net.ipv4.conf.default.rp_filter = 1\n\nIf \"net.ipv4.conf.default.rp_filter\" is not configured in the /etc/sysctl.conf file or in any of the other sysctl.d directories, is commented out, or does not have a value of \"1\", this is a finding.\n\nCheck that the operating system implements the accept source route variable with the following command:\n\n     # /sbin/sysctl -a | grep net.ipv4.conf.default.rp_filter\n     net.ipv4.conf.default.rp_filter = 1\n\nIf the returned line does not have a value of \"1\", this is a finding.\n\nIf conflicting results are returned, this is a finding.",
+  "fixtext": "Set the system to the required kernel parameter by adding the following line to \"/etc/sysctl.conf\" or a configuration file in the /etc/sysctl.d/ directory (or modify the line to have the required value):\n\n     net.ipv4.conf.default.rp_filter = 1 \n\nIssue the following command to make the changes take effect:\n\n     # sysctl --system",
+  "fix_id": "F-23579r880641_fix",
+  "VulnDiscussion": "Enabling reverse path filtering drops packets with invalid source addresses received on the interface. It should not be used on systems which are routers for complicated networks, but is helpful for end hosts and routers serving small networks.",
+  "Documentable": "false"
+}

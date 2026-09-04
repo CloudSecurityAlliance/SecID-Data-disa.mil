@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-81277",
+  "rule_id": "SV-95991r1_rule",
+  "stig_id": "WBSP-AS-000960",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The WebSphere Application Server must be run as a non-admin user.",
+  "group_title": "SRG-APP-000141-AS-000095",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-80977r1_chk",
+  "check_content": "Interview systems manager.\n\nIdentify the OS user ID that the WAS server runs as.\n\nUsing relevant OS commands review OS processes and search for WAS processes (running as Java).\n\nEnsure they are running under the assigned non-administrative user id.\n\nFor UNIX: \"ps -ef|grep -i websphere\"\n\nFor Windows: \"wmic path win32_process where \"caption = 'java.exe'\" get CommandLine\n\nIf the WebSphere processes are running as the root or administrator user, this is a finding.",
+  "fixtext": "Ensure that WAS processes are started via the specified non-privileged OS user ID when running commands such as startManager, startNode, and startServer.\n\nIf startManager and startNode are in the system startup scripts, ensure that they are not started as the root user or admin user for Windows systems. \n\nFor example, in the UNIX system, the inittab entry may look like: \"was:235:respawn:/usr/WebSphere/AppServer/bin/rc.was >/dev/console 2>&1\".\n\nEnsure the user is not a root user and is instead a regular OS user.",
+  "fix_id": "F-88059r1_fix",
+  "VulnDiscussion": "Running WebSphere as an admin user gives attackers immediate admin privileges in the event the WebSphere processes are compromised.\n \nBest practice is to operate the WebSphere server with an account that has limited OS privileges.\n\nTo configure system startup: https://www.ibm.com/support/knowledgecenter/en/SSAW57_8.5.5/com.ibm.websphere.nd.multiplatform.doc/ae/trun_processrestart.html",
+  "Documentable": "false"
+}

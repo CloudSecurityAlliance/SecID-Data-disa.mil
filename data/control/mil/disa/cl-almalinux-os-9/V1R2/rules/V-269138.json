@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269138",
+  "rule_id": "SV-269138r1050020_rule",
+  "stig_id": "ALMA-09-006400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must require a unique superuser's name upon booting into single-user and maintenance modes.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-73169r1047790_chk",
+  "check_content": "Verify the boot loader superuser account has been set with the following command:\n\n$ grep -A1 \"superusers\" /etc/grub2.cfg \n\nset superusers=\"superman\"\nexport superusers\npassword_pbkdf2 superman ${GRUB2_PASSWORD}\n\nIn this example \"superman\" is the actual account name, changed from the default \"root\".\n\nIf superusers contains easily guessable usernames, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to have a unique username for the grub superuser account using the following commands:\n\n$ sed -ri 's/root/superman/' /etc/grub.d/01_users\n\n$ grub2-mkconfig -o /boot/grub2/grub.cfg",
+  "fix_id": "F-73070r1049176_fix",
+  "VulnDiscussion": "Having a nondefault grub superuser username makes password-guessing attacks less effective.",
+  "Documentable": "false"
+}

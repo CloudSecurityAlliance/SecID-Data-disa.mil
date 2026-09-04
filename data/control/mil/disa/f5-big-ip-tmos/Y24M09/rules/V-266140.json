@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-266140",
+  "rule_id": "SV-266140r1024838_rule",
+  "stig_id": "F5BI-AP-300006",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "To protect against data mining, the F5 BIG-IP appliance providing content filtering must prevent code injection attacks from being launched against data storage objects, including, at a minimum, databases, database records, queries, and fields.",
+  "group_title": "SRG-NET-000318-ALG-000014",
+  "idents": {
+    "cci": [
+      "CCI-002346",
+      "CCI-002347"
+    ]
+  },
+  "check_id": "C-70064r1023666_chk",
+  "check_content": "If the ALG does not perform content filtering as part of the traffic management functions, this is not applicable.\n\nFrom the BIG-IP GUI:\n1. Security.\n2. Application Security.\n3. Security Policies.\n4. Policies List.\n5. Click the name of the policy.\n6. Verify \"Enforcement Mode\" is set to \"Blocking\".\n7. Select \"Attack Signatures\".\n8. Click the filter at the top left of the signatures window.\n9. Select \"XPath Injection\" in the \"Attack Type\" field and click \"Apply\".\n10. Verify \"Block\" is checked for all signatures and \"Status\" is set to \"Enforced\".\n11. Click the filter at the top left of the signatures window.\n12. Select \"LDAP Injection\" in the \"Attack Type\" field and click \"Apply\".\n13. Verify \"Block\" is checked for all signatures and \"Status\" is set to \"Enforced\".\n\nIf the BIG-IP appliance is not configured to prevent code injection attacks from being launched against data storage objects, including, at a minimum, databases, database records, queries, and fields, this is a finding.",
+  "fixtext": "From the BIG-IP GUI:\n1. Security.\n2. Application Security.\n3. Security Policies.\n4. Policies List.\n5. Click the name of the policy.\n6. Set \"Enforcement Mode\" to \"Blocking\".\n7. Select \"Attack Signatures\".\n8. Click the filter at the top left of the signatures window.\n9. Select \"XPath Injection\" in the \"Attack Type\" field and click \"Apply\".\n10. Select all signatures in the filtered list and click \"Enforce\".\n11. Click \"Enforce\" again.\n12. Click the filter at the top left of the signatures window.\n13. Select \"LDAP Injection\" in the \"Attack Type\" field and click \"Apply\".\n14. Select all signatures in the filtered list and click \"Enforce\".\n15. Click \"Enforce\" again.\n16. Click \"Apply Policy\".",
+  "fix_id": "F-69967r1023667_fix",
+  "VulnDiscussion": "Data mining is the analysis of large quantities of data to discover patterns and is used in intelligence gathering. Failure to prevent attacks launched against organizational information from unauthorized data mining may result in the compromise of information.\n\nInjection attacks allow an attacker to inject code into a program or query or inject malware onto a computer to execute remote commands that can read or modify a database or change data on a website. Web applications frequently access databases to store, retrieve, and update information. An attacker can construct inputs that the database will execute. This is most commonly referred to as a code injection attack. This type of attack includes XPath and LDAP injections.\n\nCompliance requires the ALG to have the capability to prevent code injections. Examples include a Web Application Firewalls (WAFs) or database application gateways.\n\nSatisfies: SRG-NET-000318-ALG-000014, SRG-NET-000319-ALG-000015",
+  "Documentable": "false"
+}

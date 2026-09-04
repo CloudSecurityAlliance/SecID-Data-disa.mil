@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219956",
+  "rule_id": "SV-219956r958754_rule",
+  "stig_id": "AIX7-00-002017",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must be configured so that the audit system takes appropriate action when the audit storage volume is full.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "legacy": [
+      "SV-109109",
+      "V-100005"
+    ],
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-21667r853495_chk",
+  "check_content": "Verify the action the operating system takes if the disk the audit records are written to becomes full.\n\nVerify that the file \"/etc/security/audit/config\" includes the required settings with the following command:\n\n# cat /etc/security/audit/config\n\nbin:\ntrail = /audit/trail\nbin1 = /audit/bin1\nbin2 = /audit/bin2\nbinsize = 25000\ncmds = /etc/security/audit/bincmds\nfreespace = 65536\nbackuppath = /audit\nbackupsize = 0\nbincompact = off\n\nIf any of the configurations listed above is missing or not set to the listed value or greater, this is a finding.",
+  "fixtext": "Edit the /etc/security/audit/config file and add/modify the following values:\n\nNote: The values for \"binsize\" and \"freespace\" are the minimum required values. These values can be increased to meet organizationally defined values that exceed the listed values.\n\nbin:\ntrail = /audit/trail\nbin1 = /audit/bin1\nbin2 = /audit/bin2\nbinsize = 25000\ncmds = /etc/security/audit/bincmds\nfreespace = 65536\nbackuppath = /audit\nbackupsize = 0\nbincompact = off\n\nRestart the audit process:\n# /usr/sbin/audit shutdown\n# /usr/sbin/audit start",
+  "fix_id": "F-21666r853496_fix",
+  "VulnDiscussion": "Taking appropriate action in case of a filled audit storage volume will minimize the possibility of losing audit records.",
+  "Documentable": "false"
+}

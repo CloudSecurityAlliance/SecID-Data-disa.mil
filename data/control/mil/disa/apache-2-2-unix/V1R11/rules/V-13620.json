@@ -1,0 +1,18 @@
+{
+  "vuln_id": "V-13620",
+  "rule_id": "SV-32936r1_rule",
+  "stig_id": "WG355 A22",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "A private web server’s list of CAs in a trust hierarchy must lead to an authorized  DoD PKI Root CA.",
+  "group_title": "WG355",
+  "idents": {},
+  "check_id": "C-33628r1_chk",
+  "check_content": "Enter the following command: \n\nfind / -name ssl.conf  note the path of the file. \n\ngrep \"SSLCACertificateFile\" /path/of/ssl.conf  \n\nReview the results to determine the path of the SSLCACertificateFile. \n\nmore /path/of/ca-bundle.crt \n\nExamine the contents of this file to determine if the trusted CAs are DoD approved. If the trusted CA that is used to authenticate users to the web site does not lead to an approved DoD CA, this is a finding. \n\nNOTE: There are non DoD roots that must be on the server in order for it to function. Some applications, such as anti-virus programs, require root CAs to function. DoD approved certificate can include the External Certificate Authorities (ECA), if approved by the DAA. The PKE InstallRoot 3.06 System Administrator Guide (SAG), dated 8 Jul 2008, contains a complete list of DoD, ECA, and IECA CAs.",
+  "fixtext": "Configure the web server’s trust store to trust only DoD-approved PKIs (e.g., DoD PKI, DoD ECA, and DoD-approved external partners).",
+  "fix_id": "F-29265r1_fix",
+  "VulnDiscussion": "A PKI certificate is a digital identifier that establishes the identity of an individual or a platform. A server that has a certificate provides users with third-party confirmation of authenticity. Most web browsers perform server authentication automatically and the user is notified only if the authentication fails. The authentication process between the server and the client is performed using the SSL/TLS protocol. Digital certificates are authenticated, issued, and managed by a trusted Certificate Authority (CA).\n\nThe use of a trusted certificate validation hierarchy is crucial to the ability to control access to a site’s server and to prevent unauthorized access. Only DoD-approved PKIs will be utilized.",
+  "Documentable": "false",
+  "Responsibility": "Information Assurance Officer"
+}

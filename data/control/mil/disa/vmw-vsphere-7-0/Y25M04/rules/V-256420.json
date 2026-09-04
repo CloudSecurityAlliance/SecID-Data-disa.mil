@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256420",
+  "rule_id": "SV-256420r959010_rule",
+  "stig_id": "ESXI-70-000059",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All port groups on standard switches must be configured to reject forged transmits.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-60095r886039_chk",
+  "check_content": "Note: This control addresses ESXi standard switches. Distributed switches are addressed in the vCenter STIG. If there is no standard switch on the ESXi host, this is not applicable.\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> Networking >> Virtual Switches.\n\nOn each standard switch, click the \"...\" button next to each port group. Click View Settings >> Policies tab. \n\nVerify that \"Forged transmits\" is set to \"Reject\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\nGet-VirtualSwitch -Standard | Get-SecurityPolicy\nGet-VirtualPortGroup -Standard | Get-SecurityPolicy\n\nIf the \"Forged Transmits\" policy is set to \"Accept\" (or \"true\", via PowerCLI), this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> Networking >> Virtual Switches.\n\nOn each standard switch, click the \"...\" button next to each port group. Click Edit Settings >> Security tab. \n\nSet \"Forged transmits\" to \"Reject\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\nGet-VirtualSwitch -Standard | Get-SecurityPolicy | Set-SecurityPolicy -ForgedTransmits $false\nGet-VirtualPortGroup -Standard | Get-SecurityPolicy | Set-SecurityPolicy -ForgedTransmitsInherited $true",
+  "fix_id": "F-60038r886040_fix",
+  "VulnDiscussion": "If the virtual machine (VM) operating system changes the Media Access Control (MAC) address, the operating system can send frames with an impersonated source MAC address at any time. This allows an operating system to stage malicious attacks on the devices in a network by impersonating a network adaptor authorized by the receiving network. \n \nThis means the virtual switch does not compare the source and effective MAC addresses. \n \nTo protect against MAC address impersonation, all virtual switches must have forged transmissions set to reject. Reject Forged Transmit can be set at the vSwitch and/or the Portgroup level. Switch-level settings can be overridden at the Portgroup level.",
+  "Documentable": "false"
+}

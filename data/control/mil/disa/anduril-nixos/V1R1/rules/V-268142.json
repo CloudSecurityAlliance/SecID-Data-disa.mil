@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-268142",
+  "rule_id": "SV-268142r1039535_rule",
+  "stig_id": "ANIX-00-000990",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must terminate all SSH connections after 10 minutes of becoming unresponsive.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "cci": [
+      "CCI-001133",
+      "CCI-002361",
+      "CCI-002891"
+    ]
+  },
+  "check_id": "C-72066r1039312_chk",
+  "check_content": "Verify that all network connections associated with SSH traffic are automatically terminated after 10 minutes of becoming unresponsive with the following command:\n\n$ grep -i clientaliveinterval /etc/ssh/sshd_config\n\nClientAliveInterval 600\n\nIf \"ClientAliveInterval\" does not have a value of \"600\" or less, is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure NixOS to automatically terminate all network connections associated with SSH traffic after being unresponsive for 10 minutes. \n\nAdd or edit the following in the NixOS configuration: /etc/nixos/configuration.nix:\n\nservices.openssh.extraConfig = ''\n ClientAliveInterval 600\n'';\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71969r1039535_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle session will also free up resources committed by the managed network element. \n\nTerminating network connections associated with communications sessions includes, for example, de-allocating associated TCP/IP address/port pairs at the operating system level, and de-allocating networking assignments at the application level if multiple application sessions are using a single operating system-level network connection. This does not mean that the operating system terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.\n\nSatisfies: SRG-OS-000163-GPOS-00072, SRG-OS-000279-GPOS-00109, SRG-OS-000395-GPOS-00175",
+  "Documentable": "false"
+}

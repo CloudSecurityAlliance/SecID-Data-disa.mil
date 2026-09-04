@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-234165",
+  "rule_id": "SV-234165r879589_rule",
+  "stig_id": "FGFW-ND-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate device must have only one local account to be used as the account of last resort in the event the authentication server is unavailable.",
+  "group_title": "SRG-APP-000148-NDM-000346",
+  "idents": {
+    "cci": [
+      "CCI-001358",
+      "CCI-002111"
+    ]
+  },
+  "check_id": "C-37350r611682_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click System.\n2. Click Administrators.\n3. Verify the admin account is the only account configured as Type Local.\n\nIf more than one local user account exists, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click System.\n2. Click Administrators.\n3. Review list of administrators and determine if any besides admin have Type listed as Local\n4. For any with type Local, click Administrator, and then click Edit to change to remote authentication, or Delete to remove the administrator\n5. To change the administrator to remote authentication, in Type select \"Match a user on a remote server group\".\n6. In Remote User Group, select the appropriate configured remote user group.\n7. Click OK.\n8. Repeat for all administrators, besides admin that have local authentication listed.\n9. Click OK.",
+  "fix_id": "F-37315r850510_fix",
+  "VulnDiscussion": "Authentication for administrative (privilege-level) access to the device is required at all times. An account can be created on the device's local database for use when the authentication server is down or connectivity between the device and the authentication server is not operable. This account is referred to as the \"account of last resort\" since it is intended to be used as a last resort and when immediate administrative access is absolutely necessary.\n\nThe account of last resort logon credentials must be stored in a sealed envelope and kept in a safe. The safe must be periodically audited to verify the envelope remains sealed. The signature of the auditor and the date of the audit must be added to the envelope as a record. Administrators must secure the credentials and disable the root account (if possible) when not needed for system administration functions.",
+  "Documentable": "false"
+}

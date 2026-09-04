@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214215",
+  "rule_id": "SV-214215r612370_rule",
+  "stig_id": "IDNS-7X-000880",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The IP address for hidden master authoritative name servers must not appear in the name servers set in the zone database.",
+  "group_title": "SRG-APP-000516-DNS-000108",
+  "idents": {
+    "legacy": [
+      "SV-83131",
+      "V-68641"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-15430r295908_chk",
+  "check_content": "The Infoblox Grid Master should not be configured to service DNS requests from clients.\n\nNavigate to Data Management >> DNS >> Zones.\n\nReview each zone by selecting the zone and clicking \"Edit\", and selecting the \"Name Servers\" tab.\n\nIf the Grid Master is a listed name server and not marked \"Stealth\", this is a finding.",
+  "fixtext": "For each zone that is not in compliance reconfigure the \"Name Servers\" tab and modify the Grid Master by selecting \"Stealth\".\n\nWhen complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen.\n\nPerform a service restart if necessary.",
+  "fix_id": "F-15428r295909_fix",
+  "VulnDiscussion": "A hidden master authoritative server is an authoritative DNS server whose IP address does not appear in the name server set for a zone. All of the name servers that do appear in the zone database as designated name servers get their zone data from the hidden master via a zone transfer request. In effect, all visible name servers are actually secondary slave servers. This prevents potential attackers from targeting the master name server because its IP address may not appear in the zone database.",
+  "Documentable": "false"
+}

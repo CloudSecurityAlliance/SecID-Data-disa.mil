@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216239",
+  "rule_id": "SV-216239r959010_rule",
+  "stig_id": "SOL-11.1-100020",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The limitpriv zone option must be set to the vendor default or less permissive.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-60767",
+      "V-47895"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17477r373093_chk",
+  "check_content": "This check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nList the non-global zones on the system.\n\n# zoneadm list -vi | grep -v global\n\nFrom the output list of non-global zones found, determine if any are Kernel zones.\n\n# zoneadm list -cv | grep [zonename] | grep solaris-kz\n\nExclude any Kernel zones found from the list of local zones.\n\nList the configuration for each zone.\n\n# zonecfg -z [zonename] info |grep limitpriv\n\nIf the output of this command has a setting for limitpriv and it is not:\nlimitpriv: default\n\nthis is a finding.",
+  "fixtext": "This check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nThe Zone Security profile is required:\n\nChange the \"limitpriv\" setting to default. \n\n# pfexec zonecfg -z [zone] set limitpriv=default",
+  "fix_id": "F-17475r373094_fix",
+  "VulnDiscussion": "Solaris zones can be assigned privileges generally reserved for the global zone using the \"limitpriv\" zone option. Any privilege assignments in excess of the vendor defaults may provide the ability for a non-global zone to compromise the global zone.",
+  "Documentable": "false"
+}

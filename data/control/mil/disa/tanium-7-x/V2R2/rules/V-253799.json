@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253799",
+  "rule_id": "SV-253799r997238_rule",
+  "stig_id": "TANS-00-001425",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Tanium application must electronically verify Personal Identity Verification (PIV) credentials.",
+  "group_title": "SRG-APP-000392",
+  "idents": {
+    "cci": [
+      "CCI-001954"
+    ]
+  },
+  "check_id": "C-57251r842423_chk",
+  "check_content": "1. Access the Tanium Server.\n\n2. Log on to the server with an account that has administrative privileges.\n\n3. Run regedit as Administrator.\n\n4. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> Wow6432Node >> Tanium >> Tanium Server.\n\n5. Validate the value for REG_DWORD \"ForceSOAPSSLClientCert\" is set to \"1\".\n\n6. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> Wow6432Node >> Tanium >> Tanium Server.\n\n7. Validate the following keys exist and are configured:\n\nREG_SZ \"ClientCertificateAuthField\"\nFor example: \nX509v3 Subject Alternative Name.\n\nREG_SZ \"ClientCertificateAuthRegex\"\nFor example-DoD:\n.+?Name:\\s*?(\\S+@[._a-zA-Z0-9]+).*\nNote: This regex may vary and should be valid for any Subject Alternative Name entry. \n\nREG_SZ \"ClientCertificateAuth\"\nFor example:\nC:\\Program Files\\Tanium\\Tanium Server\\dod.pem\n\nIf the value for REG_DWORD \"ForceSOAPSSLClientCert\" is not set to \"1\" and the remaining registry values are not configured, this is a finding.",
+  "fixtext": "1. Access the Tanium Server.\n\n2. Log on to the server with an account that has administrative privileges.\n\n3. Run regedit as Administrator.\n\n4. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> Wow6432Node >> Tanium >> Tanium Server.\n\n5. Validate the value for REG_DWORD \"ForceSOAPSSLClientCert\" is set to \"1\".\n\n6. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> Wow6432Node >> Tanium >> Tanium Server.\n\n7. Configure the following keys:\n\nREG_SZ \"ClientCertificateAuthField\"\nFor example: \nX509v3 Subject Alternative Name.\n\nREG_SZ \"ClientCertificateAuthRegex\"\nFor example-DoD:\n.+?Name:\\s*?(\\S+@[._a-zA-Z0-9]+).*\nNote: This regex may vary. \n\nREG_SZ \"ClientCertificateAuth\"\nFor example:\nC:\\Program Files\\Tanium\\Tanium Server\\dod.pem",
+  "fix_id": "F-57202r842424_fix",
+  "VulnDiscussion": "The use of PIV credentials facilitates standardization and reduces the risk of unauthorized access.\n\nDoD has mandated the use of the CAC to support identity management and personal authentication for systems covered under HSPD 12 and as a primary component of layered protection for national security systems.",
+  "Documentable": "false"
+}

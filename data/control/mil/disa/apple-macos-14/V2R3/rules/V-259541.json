@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-259541",
+  "rule_id": "SV-259541r1009597_rule",
+  "stig_id": "APPL-14-003011",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must require passwords contain a minimum of one special character.",
+  "group_title": "SRG-OS-000266-GPOS-00101",
+  "idents": {
+    "cci": [
+      "CCI-004066",
+      "CCI-004064",
+      "CCI-001619"
+    ]
+  },
+  "check_id": "C-63280r941243_chk",
+  "check_content": "Verify the macOS system is configured to require passwords contain a minimum of one special character with the following command:\n\n/usr/bin/pwpolicy -getaccountpolicies 2> /dev/null | /usr/bin/tail +2 | /usr/bin/xmllint --xpath 'boolean(//*[contains(text(),\"policyAttributePassword matches '\\''(.*[^a-zA-Z0-9].*){1,}'\\''\")])' -\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to require passwords contain a minimum of one special character by installing the \"com.apple.mobiledevice.passwordpolicy\" configuration profile.",
+  "fix_id": "F-63188r941244_fix",
+  "VulnDiscussion": "The macOS must be configured to require at least one special character be used when a password is created.\n\nSpecial characters are those characters that are not alphanumeric. Examples include: ~ ! @ # $ % ^ *.\n\nThis rule enforces password complexity by requiring users to set passwords that are less vulnerable to malicious users.\n\nNote: The guidance for password-based authentication in NIST 800-53 (Rev 5) and NIST 800-63B state that complexity rules should be organizationally defined. The values defined are based on common complexity values, but an organization may define its own password complexity rules.",
+  "Documentable": "false"
+}

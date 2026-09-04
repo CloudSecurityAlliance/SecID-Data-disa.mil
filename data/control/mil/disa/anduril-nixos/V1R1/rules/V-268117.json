@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268117",
+  "rule_id": "SV-268117r1039239_rule",
+  "stig_id": "ANIX-00-000590",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS syslog log directory must have a mode of 0750 or less permissive.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162"
+    ]
+  },
+  "check_id": "C-72041r1039237_chk",
+  "check_content": "Verify NixOS protects audit information from unauthorized read access by implementing a mode of 0750 or less on the creation of log directories with the following command: \n\n$ cat $(egrep -o 'cfgfile=.*\\.conf' $(nix-store --query --requisites /run/current-system | grep syslog-ng.service)/syslog-ng.service | awk -F '=' '{print $2}') | grep dir_perm\n\n  dir_perm(0750);\n\nIf the syslog log directory is not a mode of 0750 or less permissive, this is a finding.",
+  "fixtext": "Configure the syslog-ng service to create log directories with a mode of \"0750\" or less permissive.\n\nNote: By specifying these configurations in the \"options\" sections, these configurations apply globally and take effect when these configuration options are not specified later on specific file-based destinations. If there are also related configurations specified at the destination level, these will either need to be updated or removed such that the global specifications apply.\n\nAdd or update the \"services.syslog-ng.extraConfig\" configuration in /etc/nixos/configuration.nix to include the following:\n\n services.syslog-ng.extraConfig = ''\n   options {\n    dir_perm(0750);\n   };\n  '';\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71944r1039238_fix",
+  "VulnDiscussion": "Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.\n\nAudit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit NixOS system activity.",
+  "Documentable": "false"
+}

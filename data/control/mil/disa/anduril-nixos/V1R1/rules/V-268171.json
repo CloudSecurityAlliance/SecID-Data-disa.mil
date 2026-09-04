@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268171",
+  "rule_id": "SV-268171r1039583_rule",
+  "stig_id": "ANIX-00-001870",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must enforce a delay of at least four seconds between login prompts following a failed login attempt.",
+  "group_title": "SRG-OS-000480-GPOS-00226",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-72095r1039581_chk",
+  "check_content": "Verify the NixOS operating system enforces a four-second delay between login attempts with the following command:\n \n$ grep -I delay /etc/login.defs\n\nFAIL_DELAY 4\n\nIf \"FAIL_DELAY\" is not set to \"4\" or greater, is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure NixOS operating system to enforce a four-second delay between login attempts.\n\nAdd the following Nix code to the NixOS Configuration usually located in /etc/nixos/configuration.nix\n\nenvironment.etc.\"login.defs\".text = pkgs.lib.mkForce ''\nFAIL_DELAY 4\n'';\n\nRebuild the system with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71998r1039582_fix",
+  "VulnDiscussion": "Limiting the number of login attempts over a certain time interval reduces the chances that an unauthorized user may gain access to an account.",
+  "Documentable": "false"
+}

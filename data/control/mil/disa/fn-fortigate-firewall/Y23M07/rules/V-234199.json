@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234199",
+  "rule_id": "SV-234199r879588_rule",
+  "stig_id": "FGFW-ND-000200",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The FortiGate device must prohibit the use of all unnecessary and/or non-secure functions, ports, protocols, and/or services.",
+  "group_title": "SRG-APP-000142-NDM-000245",
+  "idents": {
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-37384r611784_chk",
+  "check_content": "Log in to FortiGate GUI with Super-Admin privileges.\n\n1. Click Policy and Objects.\n2. Click Services, and then review services, functions, and ports that are allowed by the firewall.\n3. Next, open a CLI console, via SSH or available from the GUI.\n4. Run the following commands:\n# show firewall policy\n# show firewall policy6\n\nReview policies to ensure that no restricted services, ports, protocols or functions are allowed. FortiGate is configured to deny by default, so if a service, port, protocol, or function is not specifically allowed, it will be denied. \n\nIf restricted functions, ports, protocols, and/or services are allowed by the firewall, this is a finding.\n\nor \n\nLog in to the FortiGate GUI with Super-Admin privilege.\n1. Open a CLI console over SSH or available from the GUI.\n2. Run the following \n# show full-configuration system interface\n3. Review configuration for unnecessary services.\n\nIf unnecessary services are configured, this is a finding.\n\nReview the PPSM CAL and determine which functions, ports, protocols, and/or services must be disabled or restricted.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n1. Click Policy and Objects.\n2. Click IPv4 or IPv6 Policy.\n3. Click +Create New.\n4. Name the policy, and then select Incoming and Outgoing Interfaces.\n5. Create policies with authorized sources and destinations.\n6. Set action to DENY.\n7. Ensure Enable this policy is toggled to right.\n8. Click OK.\n9. Ensure a policy is created for each interface and that every PPSM CAL and VA mitigation is covered.\n\nTraffic is denied by default and policies must be configured to allow traffic that meets PPSM CAL and VA guidelines.\n\nor \n\nLog in to the FortiGate GUI with Super-Admin privilege.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following \n  # config system interface\n      # edit {INTERFACE-NAME}\n         # set {DHCP-RELAY-SERVICE | PPTP-CLIENT | ARPFORWARD | BROADCAST-FORWARD | L2FORWARD | ICMP-REDIRECT | VLANFORWARD | STPFORWARD  | LLDP-TRANSMISSION} disable\n      # end\nCreate a new line for each service in {} that needs to be removed.",
+  "fix_id": "F-37349r628877_fix",
+  "VulnDiscussion": "To prevent unauthorized connection of devices, unauthorized transfer of information, or unauthorized tunneling (i.e., embedding of data types within data types), organizations must disable unused or unnecessary physical and logical ports/protocols on information systems.\n\nNetwork devices are capable of providing a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., email and web services); however, doing so increases risk over limiting the services provided by any one component. \n\nTo support the requirements and principles of least functionality, the network device must support the organizational requirements providing only essential capabilities and limiting the use of ports, protocols, and/or services to only those required, authorized, and approved. Some network devices have capabilities enabled by default; if these capabilities are not necessary, they must be disabled. If a particular capability is used, then it must be documented and approved.",
+  "Documentable": "false"
+}

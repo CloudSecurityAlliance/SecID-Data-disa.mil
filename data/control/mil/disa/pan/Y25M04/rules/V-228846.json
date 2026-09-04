@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-228846",
+  "rule_id": "SV-228846r971530_rule",
+  "stig_id": "PANW-AG-000052",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Palo Alto Networks security platform must terminate communications sessions after 15 minutes of inactivity.",
+  "group_title": "SRG-NET-000213-ALG-000107",
+  "idents": {
+    "legacy": [
+      "V-62575",
+      "SV-77065"
+    ],
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-31081r513833_chk",
+  "check_content": "To check global values:\nGo to Device >> Setup >> Session\nIn the \"Session Timeouts\" pane, if the TCP field has a value of greater than \"900\", this is a finding.\n\nObtain the list of authorized applications for the system or network.\nTo check application-specific values:\nGo to Objects >> Applications\nSelect, in turn, each authorized application.\nIn the \"Application\" window, in the \"Options\" pane, view the \"TCP\" and \"UDP Timeout\" fields, if the value is greater than \"900\", this is a finding.\n\nMany applications will not have one of these two fields.",
+  "fixtext": "To configure the global values:\nGo to Device >> Setup >> Session\nIn the \"Session Timeouts\" pane, select the \"Edit\" icon (the gear symbol in the upper-right corner of the pane).\nIn the \"TCP\" field, enter \"900\".\nSelect \"OK\".\n\nTo configure application-specific values:\nGo to Objects >> Applications\nSelect an application name to view additional details about the application.\nTo search for a specific application, enter the \"application name\" or \"description\" in the \"Search\" field.\nIn the \"Application\" window, in the \"Options\" pane, in the \"TCP Timeout\" field, select \"Customize\".\nIn the Application specific window, in the \"TCP\" and \"UDP Timeout\" fields, enter \"900\" if the existing value is greater than \"900\".   Many applications will not have one of these two fields.\nSelect \"OK\".\nCommit changes by selecting \"Commit\" in the upper-right corner of the screen.\nSelect \"OK\" when the confirmation dialog appears.",
+  "fix_id": "F-31058r513834_fix",
+  "VulnDiscussion": "Idle sessions can accumulate, leading to an exhaustion of memory in network elements processing traffic flows.\nNote that the 15 minute period is a maximum value; Administrators can choose shorter timeout values to account for system- or network-specific requirements.\n\nOn a Palo Alto Networks security platform,  a session is defined by two uni-directional flows, each uniquely identified by a 6-tuple key: source-address, destination-address, source-port, destination-port, protocol, and security-zone.  Besides the six attributes that identify a session, each session has few more notable identifiers: end hosts - the source IP and destination IP which will be marked as client(source IP) and server(destination IP) and flow direction - each session is bi-directional and is identified by a two uni-directional flows, the first flow is client-to-server(c2s) and the returning flow is server-to-client(s2c).\n\nSessions between endpoints are kept active by either normal traffic or by keepalive messages (also sometimes referred to as heartbeat messages).  On the Palo Alto Networks security platform, the session timeout period is the time (seconds) required for the application to time out due to inactivity.  Session timeouts are configured globally and on a per-application basis.  When configured, timeouts for an application override the global TCP or UDP session timeouts.",
+  "Documentable": "false"
+}

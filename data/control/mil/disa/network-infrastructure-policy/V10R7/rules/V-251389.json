@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-251389",
+  "rule_id": "SV-251389r806122_rule",
+  "stig_id": "NET2007",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "A Protocol Independent Multicast (PIM) neighbor filter must be implemented to restrict and control multicast traffic.",
+  "group_title": "NET2007",
+  "idents": {
+    "legacy": [
+      "V-66367",
+      "SV-80857"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-54824r806120_chk",
+  "check_content": "Step 1: Verify that an ACL is configured that will specify the allowable PIM neighbors similar to the following example.\n\nip access-list standard pim-neighbors permit 192.0.2.1\npermit 192.0.2.3\n\nStep 2: Verify that a pim neighbor-filter command is configured on all PIM enabled interfaces that is referencing the PIM neighbor ACL similar to the following example:\n\ninterface GigabitEthernet0/3\nip address 192.0.2.2 255.255.255.0\npim neighbor-filter pim-neighbors\n\nIf PIM neighbor filter is not bound to interfaces that have PIM enabled, this is a finding.",
+  "fixtext": "The router administrator configures and binds a PIM neighbor filter to those interfaces that have PIM enabled.",
+  "fix_id": "F-54777r806121_fix",
+  "VulnDiscussion": "Protocol Independent Multicast (PIM) is a routing protocol that is used by the IP core for forwarding multicast traffic. PIM traffic must be limited to only known PIM neighbors by configuring and binding a PIM neighbor filter to those interfaces that have PIM enabled.",
+  "Documentable": "false"
+}

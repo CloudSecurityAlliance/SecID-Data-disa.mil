@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-233596",
+  "rule_id": "SV-233596r1015714_rule",
+  "stig_id": "CD12-00-009500",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "If passwords are used for authentication, PostgreSQL must store only hashed, salted representations of passwords.",
+  "group_title": "SRG-APP-000171-DB-000074",
+  "idents": {
+    "cci": [
+      "CCI-004062",
+      "CCI-000196"
+    ]
+  },
+  "check_id": "C-36790r607011_chk",
+  "check_content": "Note: The following instructions use the PGVER environment variables. See supplementary content APPENDIX-H for PGVER.\n\nTo check if password encryption is enabled, as the database administrator (shown here as \"postgres\"), run the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"SHOW password_encryption\"\n\nIf password_encryption is not \"scram-sha-256\", this is a finding.\n\nNext, to identify if any passwords have been stored without being hashed and salted, as the database administrator (shown here as \"postgres\"), run the following SQL:\n\n$ sudo su - postgres\n$ psql -x -c \"SELECT usename, passwd FROM pg_shadow WHERE passwd IS NULL AND passwd NOT LIKE 'SCRAM-SHA-256%';\"\n\nIf any password is in plaintext, this is a finding.",
+  "fixtext": "Note: The following instructions use the PGDATA and PGVER environment variables. See supplementary content APPENDIX-F for instructions on configuring PGDATA and APPENDIX-H for PGVER.\n\nTo enable password_encryption, as the database administrator, edit postgresql.conf:\n\n$ sudo su - postgres\n$ vi ${PGDATA?}/postgresql.conf\npassword_encryption = 'scram-sha-256'\n\nInstitute a policy of not using the \"WITH UNENCRYPTED PASSWORD\" option with the CREATE ROLE/USER and ALTER ROLE/USER commands. This option overrides the setting of the password_encryption configuration parameter.\n\nAs the system administrator, restart the server with the new configuration:\n\n# SYSTEMD SERVER ONLY\n$ sudo systemctl restart postgresql-${PGVER?}",
+  "fix_id": "F-36755r998200_fix",
+  "VulnDiscussion": "The DOD standard for authentication is DOD-approved PKI certificates.\n\nAuthentication based on User ID and Password may be used only when it is not possible to employ a PKI certificate, and requires Authorizing Official (AO) approval.\n\nIn such cases, database passwords stored in clear text, using reversible encryption, or using unsalted hashes would be vulnerable to unauthorized disclosure. Database passwords must always be in the form of one-way, salted hashes when stored internally or externally to PostgreSQL.",
+  "Documentable": "false"
+}

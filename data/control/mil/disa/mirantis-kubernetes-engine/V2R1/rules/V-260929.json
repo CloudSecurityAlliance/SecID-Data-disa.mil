@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260929",
+  "rule_id": "SV-260929r966144_rule",
+  "stig_id": "CNTR-MK-000650",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Containers must not map to privileged ports.",
+  "group_title": "SRG-APP-000142-CTR-000330",
+  "idents": {
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-64658r966142_chk",
+  "check_content": "This check must be executed on all nodes in an MKE cluster.\n\nVerify no running containers are mapping host port numbers below 1024.\n\nVia CLI:\nLinux: Execute the following command as a trusted user on the host operating system:\n\ndocker ps --quiet --all | xargs docker inspect --format '{{ .Id }}: Ports={{ .NetworkSettings.Ports }}'\n\nReview the list and ensure container ports are not mapped to host port numbers below 1024. If they are, then this is a finding.",
+  "fixtext": "To edit container ports, log in to the MKE web UI and navigate to Shared Resources >> Containers.\n\n- Locate the container with the incorrect port mapping. \n- Click on the container name and stop the container by clicking the three dots in the upper right corner. \n- Scroll down to Ports and check if ports have been manually assigned.\n- Edit the port to a nonprivileged port.",
+  "fix_id": "F-64566r966143_fix",
+  "VulnDiscussion": "Privileged ports are those ports below 1024 and that require system privileges for their use. If containers are able to use these ports, the container must be run as a privileged user. MKE must stop containers that try to map to these ports directly. Allowing nonprivileged ports to be mapped to the container-privileged port is the allowable method when a certain port is needed. An example is mapping port 8080 externally to port 80 in the container.\n\nBy default, if the user does not specifically declare the container port to host port mapping, MKE automatically and correctly maps the container port to one available in 49153-65535 block on the host. But, MKE allows a container port to be mapped to a privileged port on the host if the user explicitly declared it. This is because containers are executed with NET_BIND_SERVICE Linux kernel capability that does not restrict the privileged port mapping. The privileged ports receive and transmit various sensitive and privileged data. Allowing containers to use them can bring serious implications.",
+  "Documentable": "false"
+}

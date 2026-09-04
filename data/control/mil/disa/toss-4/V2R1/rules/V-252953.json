@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-252953",
+  "rule_id": "SV-252953r986584_rule",
+  "stig_id": "TOSS-04-020120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must disable account identifiers (individuals, groups, roles, and devices) after 35 days of inactivity.",
+  "group_title": "SRG-OS-000118-GPOS-00060",
+  "idents": {
+    "cci": [
+      "CCI-003627",
+      "CCI-003628"
+    ]
+  },
+  "check_id": "C-56406r824181_chk",
+  "check_content": "Verify the account identifiers (individuals, groups, roles, and devices) are disabled after 35 days of inactivity with the following command:\n\nCheck the account inactivity value by performing the following command:\n\n$ sudo grep -i inactive /etc/default/useradd\n\nINACTIVE=35\n\nIf \"INACTIVE\" is set to \"-1\", a value greater than \"35\", or is commented out, this is a finding.",
+  "fixtext": "Configure TOSS to disable account identifiers after 35 days of inactivity after the password expiration. \n\nRun the following command to change the configuration for useradd:\n\n$ sudo useradd -D -f 35\n\nDOD recommendation is 35 days, but a lower value is acceptable. The value \"-1\" will disable this feature, and \"0\" will disable the account immediately after the password expires.",
+  "fix_id": "F-56356r986583_fix",
+  "VulnDiscussion": "Inactive identifiers pose a risk to systems and applications because attackers may exploit an inactive identifier and potentially obtain undetected access to the system. Owners of inactive accounts will not notice if unauthorized access to their user account has been obtained.\n\nOperating systems need to track periods of inactivity and disable application identifiers after 35 days of inactivity.",
+  "Documentable": "false"
+}

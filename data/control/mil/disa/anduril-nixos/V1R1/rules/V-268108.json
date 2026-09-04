@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268108",
+  "rule_id": "SV-268108r1039573_rule",
+  "stig_id": "ANIX-00-000480",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The NixOS audit records must be off-loaded onto a different system or storage media from the system being audited.",
+  "group_title": "SRG-OS-000051-GPOS-00024",
+  "idents": {
+    "cci": [
+      "CCI-000154"
+    ]
+  },
+  "check_id": "C-72032r1039210_chk",
+  "check_content": "Verify the audit system off-loads audit records onto a different system or media from the system being audited.\n\nList the configured destinations with the following command:\n\n$ cat $(egrep -o 'cfgfile=.*\\.conf' $(nix-store --query --requisites /run/current-system | grep syslog-ng.service)/syslog-ng.service | awk -F '=' '{print $2}')\n\n@version: 4.4\n@include \"scl.conf\"\n\noptions {\n keep-hostname(yes);\n create_dirs(yes);\n owner(root);\n group(root);\n perm(0644);\n dir_owner(root);\n dir_group(root);\n dir_perm(0755);\n};\n\nsource s_local { system(); internal(); };\n\ndestination d_local { file(\"/var/log/messages\"); };\ndestination d_network {\n syslog(\n  \"<remote-logging-server>\" port(<port>)\n  transport(tls)\n  tls(\n   cert-file(\"/var/syslog-ng/certs.d/certificate.crt\")\n   key-file(\"/var/syslog-ng/certs.d/certificate.key\")\n   ca-file(\"/var/syslog-ng/certs.d/cert-bundle.crt\")\n   peer-verify(yes)\n  )\n );\n};\n\nlog { source(s_local); destination(d_local); destination(d_network); };\n\nIf the configuration does not specify a \"log\" directive for sources to be sent to a remote destination, or the lines are commented out, ask the system administrator (SA) to indicate how the audit logs are off-loaded to a different system or media. \n\nIf there is no evidence that the audit logs are being off-loaded to another system or media, this is a finding.",
+  "fixtext": "Configure the operating system to off-load audit records onto a different system or media from the system being audited by specifying a remote destination in the syslog-ng configuration.\n\nAdd or update the \"services.syslog-ng.extraConfig\" configuration in /etc/nixos/configuration.nix to include the following:\n\n  source s_local { system(); internal(); };\n\n  destination d_network {\n   syslog(\n    \"<remote-logging-server>\" port(<port>)\n  };\n\n  log { source(s_local); destination(d_network); };\n\nFor example, an updated configuration of services.rsyslogd.extraConfig' would look like the following in /etc/nixos/configuration.nix ('...' denoting that the 'services.rsyslogd.extraConfig' configuration may have other options configured):\n\n services.rsyslogd.extraConfig = ''\n   ...\n   source s_local { system(); internal(); };\n\n   destination d_network {\n    syslog(\n     \"<remote-logging-server>\" port(<port>)\n     ...\n   };\n\n   log { source(s_local); destination(d_network); };\n   ...\n  '';\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71935r1039211_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.\n\nNixOS supports \"syslog-ng\". \"syslog-ng\" is a common system utility providing support for message logging. Support for both internet and Unix domain sockets enables this utility to support both local and remote logging. This utility also natively supports TLS to securely encrypt and off-load auditing.",
+  "Documentable": "false"
+}

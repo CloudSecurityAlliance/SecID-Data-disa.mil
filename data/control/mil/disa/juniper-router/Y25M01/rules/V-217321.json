@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-217321",
+  "rule_id": "SV-217321r1051115_rule",
+  "stig_id": "JUNI-ND-000490",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured with only one local account to be used as the account of last resort in the event the authentication server is unavailable.",
+  "group_title": "SRG-APP-000148-NDM-000346",
+  "idents": {
+    "legacy": [
+      "SV-101227",
+      "V-91127"
+    ],
+    "cci": [
+      "CCI-001358",
+      "CCI-002111"
+    ]
+  },
+  "check_id": "C-18548r863255_chk",
+  "check_content": "Review the router configuration to verify that a local account for last resort has been configured as shown in the following example:\n\nsystem {\n    authentication-order radius;\n    }\n    login {\n        class ENGINEER {\n            permissions all;\n            deny-commands \"(file delete)\";\n            deny-configuration \"(system syslog)\";\n        }\n         user Last_Resort {\n            uid 2000;\n            class ENGINEER;\n            authentication {\n                encrypted-password \"$1$CYrhql/I$v2ydLnac9EPdA1F/KvROT1\"; ## SECRET-DATA\n            }\n        }\n\nNote: If there is no response from the authentication server, JUNOS will authenticate using a local account as last resort. It is recommended to not configure password at the end of the authentication order, as JUNOS will attempt to authenticate using a local account upon a rejection from the authentication server if password is in the authentication order. The last resort account is used when the authentication server is down.\n\nIf the router is not configured with only one local account to be used as the account of last resort in the event the authentication server is unavailable, this is a finding.",
+  "fixtext": "Step 1: Configure a class with the necessary privileges to troubleshoot network outage and restore operations as shown in the following example:\n\n[edit system]\nset login class ENGINEER permissions all \nset login class ENGINEER deny-configuration \"(system syslog)\"\nset login class ENGINEER deny-commands “(file delete)”\n\nStep 2: Assign the account of last resort to the ENGINEER class.\n\nset user LAST_RESORT class ENGINEER authentication plain-text-password\nNew password: xxxxxxxxxxxxx\n\nStep 3: Configure the authentication order to use the local account if the authentication server is not reachable as shown in the example below.\n\n[edit system]\nset authentication-order radius\n\nNote: If there is no response from the authentication server, JUNOS will authenticate using a local account as last resort. It is recommended to not configure password at the end of the authentication order, as JUNOS will attempt to authenticate using a local account upon a rejection from the authentication server if password is in the authentication order. The last resort account is used when the authentication server is down.",
+  "fix_id": "F-18546r863256_fix",
+  "VulnDiscussion": "Authentication for administrative (privileged level) access to the device is required at all times. An account can be created on the device's local database for use when the authentication server is down or connectivity between the device and the authentication server is not operable. This account is referred to as the account of last resort since it is intended to be used as a last resort and when immediate administrative access is absolutely necessary.\n\nThe account of last resort logon credentials must be stored in a sealed envelope and kept in a safe. The safe must be periodically audited to verify the envelope remains sealed. The signature of the auditor and the date of the audit should be added to the envelope as a record. Administrators should secure the credentials and disable the root account (if possible) when not needed for system administration functions.",
+  "Documentable": "false"
+}

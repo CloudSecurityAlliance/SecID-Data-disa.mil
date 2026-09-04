@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214197",
+  "rule_id": "SV-214197r612370_rule",
+  "stig_id": "IDNS-7X-000610",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DNS server implementation must maintain the integrity of information during preparation for transmission.",
+  "group_title": "SRG-APP-000441-DNS-000066",
+  "idents": {
+    "legacy": [
+      "SV-83079",
+      "V-68589"
+    ],
+    "cci": [
+      "CCI-002420"
+    ]
+  },
+  "check_id": "C-15412r295854_chk",
+  "check_content": "Navigate to Data Management >> DNS >> Zones tab.\n\nReview each zone by clicking \"Edit\" and inspecting the \"Name Servers\" tab.\n\nIf the all entries in the \"Type\" column are configured as \"Grid\", this check is not applicable.\n\nVerify that each zone which contains non-Grid name servers is further verified by inspection of the \"Zone Transfers\" tab and configuration of TSIG Access Control Entry (ACE).\n\nIf there is a non-Grid system which utilizes zone transfers but does not have a TSIG key, this is a finding.\n\nWhen complete, click \"Cancel\" to exit the \"Properties\" screen.",
+  "fixtext": "Navigate to Data Management >> DNS >> Zones tab.\n\nSelect a zone and click \"Edit\".\nClick on \"Zone Transfers\" tab, and click \"Override\" for the \"Allow Zone Transfers to\" section.\nUse the radio button to select \"Set of ACEs\" and the \"Add\" dropdown to configure a TSIG key. It is important to verify that both the Infoblox and other DNS server have the identical TSIG configuration.\nWhen complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen.\n\nPerform a service restart if necessary.\n\nVerify zone transfers are operational after configuration of TSIG.",
+  "fix_id": "F-15410r295855_fix",
+  "VulnDiscussion": "Information can be either unintentionally or maliciously disclosed or modified during preparation for transmission, including, for example, during aggregation, at protocol transformation points, and during packing/unpacking. These unauthorized disclosures or modifications compromise the confidentiality or integrity of the information.\n\nConfidentiality is not an objective of DNS, but integrity is. DNS is responsible for maintaining the integrity of DNS information while it is being prepared for transmission.",
+  "Documentable": "false"
+}

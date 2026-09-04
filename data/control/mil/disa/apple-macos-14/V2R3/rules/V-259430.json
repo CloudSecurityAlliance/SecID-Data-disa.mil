@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-259430",
+  "rule_id": "SV-259430r958390_rule",
+  "stig_id": "APPL-14-000024",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must enforce SSH to display the Standard Mandatory DOD Notice and Consent Banner.",
+  "group_title": "SRG-OS-000023-GPOS-00006",
+  "idents": {
+    "cci": [
+      "CCI-000048",
+      "CCI-000050"
+    ]
+  },
+  "check_id": "C-63169r940910_chk",
+  "check_content": "Verify the macOS system is configured to display the contents of \"/etc/banner\" before granting access to the system with the following command:\n\n/usr/sbin/sshd -G | /usr/bin/grep -c \"^banner /etc/banner\"\n\nIf the command does not return \"1\", this is a finding.",
+  "fixtext": "Configure the macOS system to display the contents of \"/etc/banner\" before granting access to the system by creating a plain text file in the /private/etc/ssh/sshd_config.d/ directory containing the following:\n\nbanner /etc/banner",
+  "fix_id": "F-63077r940911_fix",
+  "VulnDiscussion": "Displaying a standardized and approved use notification before granting access to the operating system ensures that users are provided with privacy and security notification verbiage that is consistent with applicable federal laws, Executive Orders, directives, policies, regulations, standards, and guidance.\n\nSystem use notifications are required only for access via logon interfaces with human users and are not required when such human interfaces do not exist.\n\nThe banner must be formatted in accordance with DTM-08-060.\n\nNote: /etc/ssh/sshd_config will be automatically modified to its original state following any update or major upgrade to the operating system.\n\nSatisfies: SRG-OS-000023-GPOS-00006,SRG-OS-000024-GPOS-00007",
+  "Documentable": "false"
+}

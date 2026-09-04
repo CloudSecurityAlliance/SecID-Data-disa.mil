@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255955",
+  "rule_id": "SV-255955r961050_rule",
+  "stig_id": "ARST-ND-000470",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Arista network device must use FIPS 140-2 approved algorithms for authentication to a cryptographic module.",
+  "group_title": "SRG-APP-000179-NDM-000265",
+  "idents": {
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-59631r882205_chk",
+  "check_content": "Determine if the Arista network device uses FIPS 140-2 approved algorithms for authentication to a cryptographic module.\n\nStep 1: Review the Arista network device configuration to verify hardware or software entropy is enabled and FIPS restrictions are used in accordance with NIST-specified validated cryptographic requirements.\n\nswitch# show management security\nCPU Model: AMD GX-424CC SOC with Radeon(TM) R5E Graphics\nSecurity Chip: N313X\nCrypto Module: Arista EOS Crypto Module v2.0\nForwarding ASIC: Jericho0 Model: Jericho\nBlocked client protocols: None\nHardware entropy generation is enabled\nHaveged entropy generation is disabled\nJitter entropy generation is disabled\n!\n\nIf both hardware entropy and haveged entropy are disabled, this is a finding.\n\nStep 2: Review the Arista network device configuration to verify that FIPS restrictions are enabled for management security to use EOS Crypto Module for the RSA key pair used for SSH and the device can only use FIPS-approved algorithms.\n\nswitch(config)show run | section management ssh\nmanagement ssh\n   fips restrictions\n!\n\nIf the FIPS restrictions line is not present, this is a finding.",
+  "fixtext": "Configure the Arista network device to use FIPS 140-2 approved algorithms for authentication to a cryptographic module.\n\nStep 1: Configure the Arista network device to ensure hardware or software entropy is enabled and FIPS restrictions are used in accordance with NIST-specified validated cryptographic requirements.\n\nswitch(config)#management security\n   switch(config-mgmt-security)#entropy source hardware\nOR (only set one or the other, not both)\n   switch(config-mgmt-security)#entropy source haveged\n!\n\nStep 2: Configure the Arista network device to ensure the old RSA key pairs are zeroized and a new FIPS-approved hostkey is generated. It is extremely important to complete this step after hardware or software entropy is configured.\n\nswitch#reset ssh hostkey rsa\n!\n*IMPORTANT part of Step 2* Review the Arista network device configuration new key has been generated.\n\nswitch#show management ssh hostkey rsa public\nssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCz8vDiTWYcGuVrv04fwPj8YYBaHU+UFFl5zrFjeYiVl/dvswsiRSophF98aLjnRdJJ0NcjovjEEUnP0Q39UCoSYQRjrUzK2nzRMMD2IKxZyNhx9+/OT60lgh4M//kwxq0vMI1nk1pUO/wRaN1B4IzDizcyP9jY28bSdz8Y5TyLgrca6Ja4v99Io+lkHG0bj6X8s+VnBsFWMrlabw1s4bUPr9PzMfUHx9gLHCVR+DFZvPHMR4sSK14F949IJgOKsXj  chassisAddr=84:73:cf:6f:6c:55\n\nStep 3: Enable FIPS restrictions for SSH and so the device can only use FIPS-approved algorithms.\n \nswitch(config)management ssh\nswitch(config-mgmt-ssh)#fips restrictions",
+  "fix_id": "F-59574r882206_fix",
+  "VulnDiscussion": "Unapproved mechanisms used for authentication to the cryptographic module are not validated and therefore cannot be relied upon to provide confidentiality or integrity, and DOD data may be compromised.\n\nNetwork devices utilizing encryption are required to use FIPS-compliant mechanisms for authenticating to cryptographic modules.\n\nFIPS 140-2 is the current standard for validating that mechanisms used to access cryptographic modules utilize authentication that meets DOD requirements. However, authentication algorithms must configure security processes to use only FIPS-approved and NIST-recommended authentication algorithms.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259625",
+  "rule_id": "SV-259625r961161_rule",
+  "stig_id": "EX19-ED-000139",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Exchange Simple Mail Transfer Protocol (SMTP) Sender filter must be enabled.",
+  "group_title": "SRG-APP-000261",
+  "idents": {
+    "cci": [
+      "CCI-001308"
+    ]
+  },
+  "check_id": "C-63364r942187_chk",
+  "check_content": "This requirement is not applicable for SIPR enclaves. \n\nThis requirement is not applicable if the organization subscribes to EEMSG or other similar DOD enterprise protections for email services.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-SenderFilterConfig | Select-Object -Property Name, Enabled\n\nIf the value of \"Enabled\" is not set to \"True\", this is a finding.\n\nNote: \"Enabled\" set to \"True\" is the default value.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-SenderFilterConfig -Enabled $true",
+  "fix_id": "F-63272r942188_fix",
+  "VulnDiscussion": "Email system availability depends in part on best practices strategies for setting tuning configurations. Careful tuning reduces the risk that system or network congestion will contribute to availability impacts.\n\nFilters that govern inbound email evaluation can significantly reduce spam, phishing, and spoofed emails. Filters for messages from blank senders, known spammers, or zero-day attack modifications must be enabled to be effective.\n\nFailure to enable the filter will result in no action taken. This setting should always be enabled.",
+  "Documentable": "false"
+}

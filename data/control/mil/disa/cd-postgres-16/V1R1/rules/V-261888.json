@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261888",
+  "rule_id": "SV-261888r1000669_rule",
+  "stig_id": "CD16-00-003400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to external executables must be disabled or restricted.",
+  "group_title": "SRG-APP-000141-DB-000093",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-65742r1000667_chk",
+  "check_content": "PostgreSQL's COPY command can interact with the underlying OS. Only superuser has access to this command.\n\nAs the database administrator (shown here as \"postgres\"), run the following SQL to list all roles and their privileges:\n\n$ sudo su - postgres\n$ psql -x -c \"\\du\"\n\nIf any role has \"superuser\" that should not, this is a finding.\n\nIt is possible for an extension to contain code that could access external executables via SQL. To list all installed extensions, as the database administrator (shown here as \"postgres\"), run the following SQL:\n\n$ sudo su - postgres\n$ psql -x -c \"SELECT * FROM pg_available_extensions WHERE installed_version IS NOT NULL\"\n\nIf any installed extensions are not approved, this is a finding.",
+  "fixtext": "To remove superuser from a role, as the database administrator (shown here as \"postgres\"), run the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"ALTER ROLE <role-name> WITH NOSUPERUSER\"\n\nTo remove extensions from PostgreSQL, as the database administrator (shown here as \"postgres\"), run the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"DROP EXTENSION extension_name\"",
+  "fix_id": "F-65650r1000668_fix",
+  "VulnDiscussion": "Information systems are capable of providing a wide variety of functions and services. Some of the functions and services, provided by default, may not be necessary to support essential organizational operations (e.g., key missions, functions).\n\nIt is detrimental for applications to provide, or install by default, functionality exceeding requirements or mission objectives.\n\nApplications must adhere to the principles of least functionality by providing only essential capabilities.\n\nPostgreSQL may spawn additional external processes to execute procedures that are defined in PostgreSQL but stored in external host files (external procedures). The spawned process used to execute the external procedure may operate within a different OS security context than PostgreSQL and provide unauthorized access to the host system.",
+  "Documentable": "false"
+}

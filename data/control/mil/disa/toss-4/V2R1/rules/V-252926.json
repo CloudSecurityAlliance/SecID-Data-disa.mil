@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-252926",
+  "rule_id": "SV-252926r991554_rule",
+  "stig_id": "TOSS-04-010160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The TOSS SSH daemon must be configured to use only Message Authentication Codes (MACs) employing FIPS 140-2 validated cryptographic hash algorithms.",
+  "group_title": "SRG-OS-000250-GPOS-00093",
+  "idents": {
+    "cci": [
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-56379r824100_chk",
+  "check_content": "Verify the SSH daemon is configured to use only MACs employing FIPS 140-2-approved algorithms:\n\nCheck that the MACs in the back-end configurations are FIPS 140-2-approved algorithms with the following command:\n\n$ sudo grep -i macs /etc/crypto-policies/back-ends/openssh.config /etc/crypto-policies/back-ends/opensshserver.config\n\n/etc/crypto-policies/back-ends/openssh.config:MACs hmac-sha2-512,hmac-sha2-256\n/etc/crypto-policies/back-ends/opensshserver.config:-oMACs=hmac-sha2-512,hmac-sha2-256'\n/etc/crypto-policies/back-ends/opensshserver.config:-oMACs=hmac-sha2-512,hmac-sha2-256'\n\nIf the MAC entries in the \"openssh.config\" and \"opensshserver.config\" files have any hashes other than \"hmac-sha2-512\" and \"hmac-sha2-256\", the order differs from the example above, if they are missing, or commented out, this is a finding.",
+  "fixtext": "Configure the TOSS SSH daemon to use only MACs employing FIPS 140-2-approved algorithms.\n\nUpdate the \"/etc/crypto-policies/back-ends/openssh.config\" \nand \"/etc/crypto-policies/back-ends/opensshserver.config\" files to include these MACs employing FIPS 140-2-approved algorithms:\n\n/etc/crypto-policies/back-ends/openssh.config:MACs hmac-sha2-512,hmac-sha2-256\n/etc/crypto-policies/back-ends/opensshserver.config:-oMACs=hmac-sha2-512,hmac-sha2-256'\n/etc/crypto-policies/back-ends/opensshserver.config:-oMACs=hmac-sha2-512,hmac-sha2-256'\n\nA reboot is required for the changes to take effect.",
+  "fix_id": "F-56329r824101_fix",
+  "VulnDiscussion": "Without cryptographic integrity protections, information can be altered by unauthorized users without detection.\n\nRemote access (e.g., RDP) is access to DoD nonpublic information systems by an authorized user (or an information system) communicating through an external, non-organization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nCryptographic mechanisms used for protecting the integrity of information include, for example, signed hash functions using asymmetric cryptography enabling distribution of the public key to verify the hash information while maintaining the confidentiality of the secret key used to generate the hash.\n\nTOSS incorporates system-wide crypto policies by default. The SSH configuration file has no effect on the ciphers, MACs, or algorithms unless specifically defined in the /etc/sysconfig/sshd file. The employed algorithms can be viewed in the /etc/crypto-policies/back-ends/openssh.config file.\n\nBy specifying a hash algorithm list with the order of hashes being in a \"strongest to weakest\" orientation, the system will automatically attempt to use the strongest hash for securing SSH connections.",
+  "Documentable": "false"
+}

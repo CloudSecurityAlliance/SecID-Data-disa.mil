@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219861",
+  "rule_id": "SV-219861r961863_rule",
+  "stig_id": "O121-BP-025100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DBMS data files, transaction logs and audit files must be stored in dedicated directories or disk partitions separate from software or other application files.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "legacy": [
+      "SV-76453",
+      "V-61963"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-21572r533106_chk",
+  "check_content": "Review the disk/directory specification where database data, transaction log and audit files are stored.\n\nIf DBMS data, transaction log or audit data files are stored in the same directory, this is a finding.\n\nIf multiple applications are accessing the database and the database data files are stored in the same directory, this is a finding.\n\nIf multiple applications are accessing the database and database data is separated into separate physical directories according to application, this check is not a finding.",
+  "fixtext": "Specify dedicated host system disk directories to store database data, transaction and audit files.\nExample directory structure:\n/*/app/oracle/oradata/db_name\n/*/app/oracle/admin/db_name/arch/*\n/*/app/oracle/oradata/db_name/audit\n/*/app/oracle/fast_recovery_area/db_name/\n\nSee Oracle Optimal Flexible Architecture:\nhttps://docs.oracle.com/database/121/LADBI/appendix_ofa.htm#LADBI7921\n\nWhen multiple applications are accessing a single database, configure DBMS default file storage according to application to use dedicated disk directories. \n\n/*/app/oracle/oradata/db_name/app_name\n\nSee Oracle Optimal Flexible Architecture:\nhttps://docs.oracle.com/database/121/LADBI/appendix_ofa.htm#LADBI7921",
+  "fix_id": "F-21571r533107_fix",
+  "VulnDiscussion": "Protection of DBMS data, transaction and audit data files stored by the host operating system is dependent on OS controls. When different applications share the same database, resource contention and security controls are required to isolate and protect an application's data from other applications. In addition, it is an Oracle best practice to separate data, transaction logs, and audit logs into separate physical directories according to Oracle’s OFA (Optimal Flexible Architecture). And finally, DBMS software libraries and configuration files also require differing access control lists.",
+  "Documentable": "false"
+}

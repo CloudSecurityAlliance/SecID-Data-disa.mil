@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-267341",
+  "rule_id": "SV-267341r1026082_rule",
+  "stig_id": "MSIN-24-000440",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Microsoft Intune service must be configured to use a DOD Central Directory Service to provide multifactor authentication for network access to privileged and nonprivileged accounts and individual and group accounts.",
+  "group_title": "SRG-APP-000149-UEM-000083",
+  "idents": {
+    "cci": [
+      "CCI-000765",
+      "CCI-004045"
+    ]
+  },
+  "check_id": "C-71265r1025496_chk",
+  "check_content": "Verify all Intune user accounts require MFA.\n\n1. Sign in to the Microsoft Entra admin center as at least a Conditional Access Administrator.\n\n2. Browse to Conditional Access.\n\n3. Find the MFA policy.\n\n4. Confirm Enable policy is set to \"On\".\n\nIf all Intune user accounts do not require MFA, this is a finding.",
+  "fixtext": "Intune administrator account authentication is managed by Entra ID. The following steps will create a Conditional Access policy to require all Intune users use multifactor authentication.\n\n1. Sign in to the Microsoft Entra admin center as at least a Conditional Access Administrator.\n\n2. In the search bar, search for Conditional Access.\n\n3. Select \"Create new policy\".\n\n4. Name the policy. It is recommended that organizations create a meaningful standard for the names of their policies.\n\n5. Under Assignments, select \"Users or workload identities\".\n\na. Under Include, select \"All users\".\n\nb. Under Exclude, select \"Users and groups\" and choose the organization's emergency access or break-glass accounts.\n\n6. Under Target resources >> Cloud apps >> Include, select \"All cloud apps\". This will include Intune.\n\na. Under Exclude, select any applications that do not require multifactor authentication.\n\n7. Under Access controls >> Grant, select \"Grant access, Require multifactor authentication\", and select \"Select\".\n\n8. Confirm the settings and set Enable policy to Report-only.\n\n9. Select Create to create to enable the policy.\n\n10. After confirming the policy, deploy the policy be either moving the Enable policy toggle from Report-only to On or alternately, deploy the policy using a Conditional Access template.",
+  "fix_id": "F-71168r1026082_fix",
+  "VulnDiscussion": "A comprehensive account management process that includes automation helps to ensure the accounts designated as requiring attention are consistently and promptly addressed. If an attacker compromises an account, the entire MDM server infrastructure is at risk. Providing automated support functions for the management of accounts will ensure only active accounts will be granted access with the proper authorization levels. These objectives are best achieved by configuring the MDM server to leverage an enterprise authentication mechanism (e.g., Microsoft Active Directory Kerberos). \n\nTo ensure individual accountability and prevent unauthorized access, application users must be individually identified and authenticated. Individual accountability mandates that each user is uniquely identified. A group authenticator is a shared account or some other form of authentication that allows multiple unique individuals to access the application using a single account. If an application allows or provides for group authenticators, it must first individually authenticate users prior to implementing group authenticator functionality. Some applications may not have the need to provide a group authenticator; this is considered a matter of application design. In those instances where the application design includes the use of a group authenticator, this requirement will apply.\n\nSatisfies: FIA \nReference: PP-MDM-414003\n\nSatisfies: SRG-APP-000149-UEM-000083, SRG-APP-000153-UEM-000087",
+  "Documentable": "false"
+}

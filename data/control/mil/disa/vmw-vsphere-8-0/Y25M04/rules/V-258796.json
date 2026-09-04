@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258796",
+  "rule_id": "SV-258796r959010_rule",
+  "stig_id": "ESXI-80-000241",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must not use the default Active Directory ESX Admin group.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62536r933447_chk",
+  "check_content": "For systems that do not use Active Directory, this is not applicable.\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"Config.HostAgent.plugins.hostsvc.esxAdminsGroup\" value and verify it is not set to \"ESX Admins\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Config.HostAgent.plugins.hostsvc.esxAdminsGroup\n\nIf the \"Config.HostAgent.plugins.hostsvc.esxAdminsGroup\" setting is set to \"ESX Admins\", this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"Config.HostAgent.plugins.hostsvc.esxAdminsGroup\" key and configure its value to an appropriate Active Directory group other than \"ESX Admins\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Config.HostAgent.plugins.hostsvc.esxAdminsGroup | Set-AdvancedSetting -Value \"<site specific AD group>\"\n\nNote: Changing the group name does not remove the permissions of the previous group.",
+  "fix_id": "F-62445r933448_fix",
+  "VulnDiscussion": "When adding ESXi hosts to Active Directory, all user/group accounts assigned to the Active Directory group \"ESX Admins\" will have full administrative access to the host.\n\nIf this group is not controlled or known to the system administrators, it may be used for inappropriate access to the host. Therefore, the default group must be changed to a site-specific Active Directory group and membership must be severely restricted.",
+  "Documentable": "false"
+}

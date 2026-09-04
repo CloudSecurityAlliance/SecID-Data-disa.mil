@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223005",
+  "rule_id": "SV-223005r961863_rule",
+  "stig_id": "TCAT-AS-001690",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ENFORCE_ENCODING_IN_GET_WRITER must be set to true.",
+  "group_title": "SRG-APP-000516-AS-000237",
+  "idents": {
+    "legacy": [
+      "SV-111533",
+      "V-102593"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-24677r426459_chk",
+  "check_content": "From the Tomcat server as a privileged user, run the following command:\n\nsudo grep -i  enforce_encoding /etc/systemd/system/tomcat.service \n\nIf there are no results, or if the org.apache.catalina.connector.response.ENFORCE_ENCODING_IN_GET_WRITER is not =\"true\", this is a finding.",
+  "fixtext": "From the Tomcat server as a privileged user: \n\nEdit the /etc/systemd/system/tomcat.service file, and either add or edit the org.apache.catalina.connector.response.ENFORCE_ENCODING_IN_GET_WRITER setting.\n\nSet the org.apache.catalina.connector.response.ENFORCE_ENCODING_IN_GET_WRITER=true \n\nEXAMPLE:\nEnvironment='CATALINA_OPTS -Dorg.apache.catalina.connector.response.ENFORCE_ENCODING_IN_GET_WRITER=true'\n\nRestart the Tomcat server:\nsudo systemctl restart tomcat\nsudo systemctl daemon-reload",
+  "fix_id": "F-24666r426460_fix",
+  "VulnDiscussion": "Some clients try to guess the character encoding of text media when the mandated default of ISO-8859-1 should be used. Some browsers will interpret as UTF-7 when the characters are safe for ISO-8859-1. This can create the potential for a XSS attack. To defend against this, enforce_encoding_in_get_writer must be set to true.",
+  "Documentable": "false"
+}

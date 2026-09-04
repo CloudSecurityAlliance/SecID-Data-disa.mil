@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223531",
+  "rule_id": "SV-223531r958472_rule",
+  "stig_id": "ACF2-JS-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS JES2 system commands must be protected in accordance with security requirements.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "legacy": [
+      "V-97767",
+      "SV-106871"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-25204r504648_chk",
+  "check_content": "NOTE: If CLASMAP defines OPERCMDS as anything other than TYPE(OPR), replace OPR below with the appropriate three letters.\n\nFrom the ACF command screen enter:\nSET RESOURCE(OPR)\nLIST LIKE(JES-)\n\nIf the JES2.- resource is defined to the OPERCMDS class with a default access of PREVENT and all access is logged, this is not a finding.\n\nIf access to JES2 system commands defined in the table in the IBM JES2 Initialization and Tuning Guide titled \"JES2 commands with profile names and minimum required authority\" is restricted to the appropriate personnel (e.g., operations staff, systems programming personnel, general users), this is not a finding.\n\nIf all elevated access to JES2 system commands is logged, this is not a finding.",
+  "fixtext": "Review the GSO definitions. If CLASMAP defines OPERCMDS as anything other than TYPE(OPR), replace OPR below with the appropriate three letters.\n\nReview resource rules for TYPE(OPR).\n\nDefine the JES2.- resource is defined to the OPERCMDS class with a default access of PREVENT and all access is logged.\n\nDefine access to JES2 system commands defined in the JES2 system commands defined in the table in the IBM JES2 Initialization and Tuning Guide entitled 'JES2 commands with profile names and minimum required authority' is restricted to the appropriate personnel (e.g., operations staff, systems programming personnel, general users).\n\nDefine access to specific JES2 system commands is logged as indicated in the table JES2 system commands defined in the table in the IBM JES2 Initialization and Tuning Guide titled \"JES2 commands with profile names and minimum required authority\".\n\nAssure that elevated access is logged.\n\nSome ACF2 Examples:\n$KEY(JES2) TYPE(OPR)\nCANCEL.BAT UID(oper) SERVICE(READ,UPDATE) LOG\nDISPLAY.JOB UID(*) SERVICE(READ) LOG\nSTART.INITIATOR UID(oper) SERVICE(DELETE) LOG\nSTART.LINE UID(oper) SERVICE(DELETE) LOG \nSTOP.INITIATOR UID(oper) SERVICE(DELETE) LOG\nSTOP.LINE UID(oper) SERVICE(DELETE) LOG \n- UID(*) PREVENT",
+  "fix_id": "F-25192r504649_fix",
+  "VulnDiscussion": "To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DoD-approved PKIs, all DoD systems (e.g., web servers and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. Successful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement.\n\nAccess control policies include: identity-based policies, role-based policies, and attribute-based policies. Access enforcement mechanisms include: access control lists, access control matrices, and cryptography. These policies and mechanisms must be employed by the application to control access between users (or processes acting on behalf of users) and objects (e.g., devices, files, records, processes, programs, and domains) in the information system.",
+  "Documentable": "false"
+}

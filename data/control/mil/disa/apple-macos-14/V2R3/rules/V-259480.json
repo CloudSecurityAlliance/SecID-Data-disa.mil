@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259480",
+  "rule_id": "SV-259480r958478_rule",
+  "stig_id": "APPL-14-002004",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable Location Services.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-63219r941060_chk",
+  "check_content": "Verify the macOS system is configured to disable Location Services with the following command:\n\n/usr/bin/sudo -u _locationd /usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.locationd')\\\n.objectForKey('LocationServicesEnabled').js\nEOS\n\nIf the result is not \"false\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable Location Services with the following command:\n\n/usr/bin/defaults write /var/db/locationd/Library/Preferences/ByHost/com.apple.locationd LocationServicesEnabled -bool false; /bin/launchctl kickstart -k system/com.apple.locationd\n\nThe system may need to be restarted for the update to take effect.",
+  "fix_id": "F-63127r941061_fix",
+  "VulnDiscussion": "The information system must be configured to provide only essential capabilities. Disabling Location Services helps prevent the unauthorized connection of devices, unauthorized transfer of information, and unauthorized tunneling.",
+  "Documentable": "false"
+}

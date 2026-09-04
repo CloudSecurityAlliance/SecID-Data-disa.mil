@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257545",
+  "rule_id": "SV-257545r961095_rule",
+  "stig_id": "CNTR-OS-000500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must separate user functionality (including user interface services) from information system management functionality.",
+  "group_title": "SRG-APP-000211-CTR-000530",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-61280r921576_chk",
+  "check_content": "Verify that root and core are the only user accounts on the nodes by executing the following:\n\nfor node in $(oc get node -oname); do oc debug $node -- chroot /host /bin/bash -c 'echo -n \"$HOSTNAME \"; cat /etc/passwd' 2>/dev/null; done\n\nThe output will look similar to:\n\n<node_name> root:x:0:0:root:/root:/bin/bash\ncore:x:1000:1000:CoreOS Admin:/var/home/core:/bin/bash\ncontainers:x:993:995:User for housing the sub ID range for containers:/var/home/containers:/sbin/nologin\n\nIf there are any user accounts in addition to root, containers, and core, this is a finding.\n\nVerify the root and core users are set to disable password logon by executing the following:\n\nfor node in $(oc get node -oname); do oc debug $node -- chroot /host /bin/bash -c 'echo -n \"$HOSTNAME \"; grep -e \"^root\" -e \"^core\" /etc/shadow' 2>/dev/null; done\n\nThe output will look similar to:\n<node_name>\nroot:*:18367:0:99999:7:::\ncore:*:18939:0:99999:7:::\n\nIf the password entry has anything other than '*', this is a finding.",
+  "fixtext": "Disable and remove passwords from root and core accounts by executing the following:\n\nfor node in $(oc get node -oname); do oc debug $node -- chroot /host /bin/bash -c 'usermod -p \"*\" root; usermod -p \"*\" core' 2>/dev/null; done\n\nRemove any additional user accounts from the nodes by executing the following:\n\noc debug node/<node> -- chroot /host /bin/bash -c 'userdel <user>'",
+  "fix_id": "F-61204r921577_fix",
+  "VulnDiscussion": "Red Hat Enterprise Linux CoreOS (RHCOS) is a single-purpose container operating system. RHCOS is only supported as a component of the OpenShift Container Platform. Remote management of the RHCOS nodes is performed at the OpenShift Container Platform API level. \n\nAny direct access to the RHCOS nodes is unnecessary. RHCOS only has two user accounts defined, root(0) and core(1000). These are the only two user accounts that should exist on the RHCOS nodes. As any administrative access or actions are to be done through the OpenShift Container Platform's administrative APIs, direct logon access to the RHCOS host must be disabled.",
+  "Documentable": "false"
+}

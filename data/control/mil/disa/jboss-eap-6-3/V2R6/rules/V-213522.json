@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213522",
+  "rule_id": "SV-213522r960963_rule",
+  "stig_id": "JBOS-AS-000240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Remote access to JMX subsystem must be disabled.",
+  "group_title": "SRG-APP-000141-AS-000095",
+  "idents": {
+    "legacy": [
+      "SV-76759",
+      "V-62269"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-14745r296232_chk",
+  "check_content": "Log on to the OS of the JBoss server with OS permissions that allow access to JBoss.\nUsing the relevant OS commands and syntax, cd to the <JBOSS_HOME>/bin/ folder.\nRun the jboss-cli script to start the Command Line Interface (CLI).\nConnect to the server and authenticate.\n\nFor a Managed Domain configuration, you must check each profile name:\n\nFor each PROFILE NAME, run the command:\n\"ls /profile=<PROFILE NAME>/subsystem=jmx/remoting-connector\"\n\nFor a Standalone configuration:\n\"ls /subsystem=jmx/remoting-connector\"\n\nIf \"jmx\" is returned, this is a finding.",
+  "fixtext": "Log on to the OS of the JBoss server with OS permissions that allow access to JBoss.\nUsing the relevant OS commands and syntax, cd to the <JBOSS_HOME>/bin/ folder.\nRun the jboss-cli script to start the Command Line Interface (CLI).\nConnect to the server and authenticate.\n\nFor a Managed Domain configuration you must check each profile name:\n\nFor each PROFILE NAME, run the command:\n\"/profile=<PROFILE NAME>/subsystem=jmx/remoting-connector=jmx:remove\"\n\nFor a Standalone configuration:\n\"/subsystem=jmx/remoting-connector=jmx:remove\"",
+  "fix_id": "F-14743r296233_fix",
+  "VulnDiscussion": "The JMX subsystem allows you to trigger JDK and application management operations remotely.  In a managed domain configuration, the JMX subsystem is removed by default. For a standalone configuration, it is enabled by default and must be removed.",
+  "Documentable": "false"
+}

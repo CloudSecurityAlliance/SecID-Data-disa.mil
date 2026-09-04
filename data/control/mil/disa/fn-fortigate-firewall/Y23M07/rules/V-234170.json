@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234170",
+  "rule_id": "SV-234170r879548_rule",
+  "stig_id": "FGFW-ND-000055",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate device must retain the Standard Mandatory DoD Notice and Consent Banner on the screen until the administrator acknowledges the usage conditions and takes explicit actions to log on for further access.",
+  "group_title": "SRG-APP-000069-NDM-000216",
+  "idents": {
+    "cci": [
+      "CCI-000050"
+    ]
+  },
+  "check_id": "C-37355r611697_chk",
+  "check_content": "1. Attempt to access the FortiGate device using HTTPS URL.\n2. Verify Standard Mandatory DoD Notice and Consent Banner is displayed and retained on the screen.\n3. Verify a user has to explicitly ACCEPT the banner before to log on for further access.\n\nIf Standard Mandatory DoD Notice and Consent Banner is not retained, and a user is not forced to ACCEPT the banner to log on for further access, this is a finding.\n\nAnd, \n\n1. Attempt to login to the FortiGate via SSH:\n2. Enter username.\n3. Verify the Standard Mandatory DoD Notice and Consent Banner before prompting to enter a password.\n\nIf Standard Mandatory DoD Notice and Consent Banner is not retained before entering the password to log on for further access, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config system global\n     #    set pre-login-banner enable\n     # end\n     #    config system replacemsg admin pre_admin-disclaimer-text \n     #    set buffer \"You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only.\n\n          By using this IS (which includes any device attached to this IS), you consent to the following conditions:\n          The USG routinely intercepts and monitors communications on this IS for purposes including, but not limited to, penetration testing, COMSEC monitoring, network operations and defense, personnel misconduct (PM), law enforcement (LE), and counterintelligence (CI) investigations.\n          At any time, the USG may inspect and seize data stored on this IS.\n          Communications using, or data stored on, this IS are not private, are subject to routine monitoring, interception, and search, and may be disclosed or used for any USG-authorized purpose.\n          This IS includes security measures (e.g., authentication and access controls) to protect USG interests--not for your personal benefit or privacy.\n          Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential. See User Agreement for details.\"\n         # end",
+  "fix_id": "F-37320r611698_fix",
+  "VulnDiscussion": "The banner must be acknowledged by the administrator prior to the device allowing the administrator access to the network device. This ensures the administrator has seen the message and accepted the conditions for access. If the consent banner is not acknowledged by the administrator, DoD will not be in compliance with system use notifications required by law. \n\nTo establish acceptance of the network administration policy, a click-through banner at management session logon is required. The device must prevent further activity until the administrator executes a positive action to manifest agreement.\n\nIn the case of CLI access using a terminal client, entering the username and password when the banner is presented is considered an explicit action of acknowledgement. Entering the username, viewing the banner, then entering the password is also acceptable.",
+  "Documentable": "false"
+}

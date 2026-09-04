@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230481",
+  "rule_id": "SV-230481r958754_rule",
+  "stig_id": "RHEL-08-030710",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must encrypt the transfer of audit records off-loaded onto a different system or media from the system being audited.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-33150r818839_chk",
+  "check_content": "Verify the operating system encrypts audit records off-loaded onto a different system or media from the system being audited with the following commands:\n\n$ sudo grep -i '$DefaultNetstreamDriver' /etc/rsyslog.conf /etc/rsyslog.d/*.conf\n\n/etc/rsyslog.conf:$DefaultNetstreamDriver gtls\n\nIf the value of the \"$DefaultNetstreamDriver\" option is not set to \"gtls\" or the line is commented out, this is a finding.\n\n$ sudo grep -i '$ActionSendStreamDriverMode' /etc/rsyslog.conf /etc/rsyslog.d/*.conf\n\n/etc/rsyslog.conf:$ActionSendStreamDriverMode 1\n\nIf the value of the \"$ActionSendStreamDriverMode\" option is not set to \"1\" or the line is commented out, this is a finding.\n\nIf neither of the definitions above are set, ask the System Administrator to indicate how the audit logs are off-loaded to a different system or media. \n\nIf there is no evidence that the transfer of the audit logs being off-loaded to another system or media is encrypted, this is a finding.",
+  "fixtext": "Configure the operating system to encrypt off-loaded audit records by setting the following options in \"/etc/rsyslog.conf\" or \"/etc/rsyslog.d/[customfile].conf\":\n\n$DefaultNetstreamDriver gtls\n$ActionSendStreamDriverMode 1",
+  "fix_id": "F-33125r568190_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.\n\nRHEL 8 installation media provides \"rsyslogd\".  \"rsyslogd\" is a system utility providing support for message logging.  Support for both internet and UNIX domain sockets enables this utility to support both local and remote logging.  Couple this utility with \"gnutls\" (which is a secure communications library implementing the SSL, TLS and DTLS protocols), and you have a method to securely encrypt and off-load auditing.\n\nSatisfies: SRG-OS-000342-GPOS-00133, SRG-OS-000479-GPOS-00224",
+  "Documentable": "false"
+}

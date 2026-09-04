@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213511",
+  "rule_id": "SV-213511r960903_rule",
+  "stig_id": "JBOS-AS-000130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The application server must produce log records that contain sufficient information to establish the outcome of events.",
+  "group_title": "SRG-APP-000099-AS-000062",
+  "idents": {
+    "legacy": [
+      "SV-76737",
+      "V-62247"
+    ],
+    "cci": [
+      "CCI-000134"
+    ]
+  },
+  "check_id": "C-14734r955999_chk",
+  "check_content": "Log on to the OS of the JBoss server with OS permissions that allow access to JBoss.\nUsing the relevant OS commands and syntax, cd to the <JBOSS_HOME>/bin/ folder.\nRun the jboss-cli script to start the Command Line Interface (CLI).\nConnect to the server and authenticate.\nRun the command:\n\nFor a Managed Domain configuration:\n\"ls host=master/server=<SERVERNAME>/core-service=management/access=audit/logger=audit-log:write-attribute(name=enabled,value=true)\"\n\nFor a Standalone configuration:\n\"ls /core-service=management/access=audit/logger=audit-log:write-attribute(name=enabled,value=true)\"\n\nIf \"enabled\" = false, this is a finding.",
+  "fixtext": "Launch the jboss-cli management interface.\nConnect to the server by typing \"connect\", authenticate as a user in the Superuser role, and run the following command:\n\nFor a Managed Domain configuration:\n\"host=master/server/<SERVERNAME>/core-service=management/access=audit/logger=audit-log:write-attribute(name=enabled,value=true)\"\n\nFor a Standalone configuration:\n\"/core-service=management/access=audit/logger=audit-log:write-attribute(name=enabled,value=true)\"",
+  "fix_id": "F-14732r296200_fix",
+  "VulnDiscussion": "Information system logging capability is critical for accurate forensic analysis. Log record content that may be necessary to satisfy the requirement of this control includes, but is not limited to, time stamps, source and destination IP addresses, user/process identifiers, event descriptions, application-specific events, success/fail indications, filenames involved, access control or flow control rules invoked.\n\nSuccess and failure indicators ascertain the outcome of a particular application server event or function. As such, they also provide a means to measure the impact of an event and help authorized personnel to determine the appropriate response.  Event outcome may also include event-specific results (e.g., the security state of the information system after the event occurred).",
+  "Documentable": "false"
+}

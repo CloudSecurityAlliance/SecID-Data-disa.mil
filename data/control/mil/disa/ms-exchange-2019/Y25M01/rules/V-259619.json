@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259619",
+  "rule_id": "SV-259619r1040909_rule",
+  "stig_id": "EX19-ED-000133",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange messages with a malformed From address must be rejected.",
+  "group_title": "SRG-APP-000261",
+  "idents": {
+    "cci": [
+      "CCI-001308"
+    ]
+  },
+  "check_id": "C-63358r1040908_chk",
+  "check_content": "If this server is in a SIPR Enclave, this requirement is Not Applicable.\n\nNote: If third-party anti-spam product is being used, the anti-spam product must be configured to meet the requirement.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-SenderIdConfig | Select-Object -Property Name, Identity, SpoofedDomainAction\n\nIf the value of \"SpoofedDomainAction\" is not set to \"Reject\", this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-SenderIdConfig -SpoofedDomainAction Reject",
+  "fix_id": "F-63266r942170_fix",
+  "VulnDiscussion": "Sender Identification (SID) is an email anti-spam sanitization process. Sender ID uses DNS MX record lookups to verify the Simple Mail Transfer Protocol (SMTP) sending server is authorized to send email for the originating domain.\n\nFailure to implement Sender ID risks that spam could be admitted into the email domain that originates from rogue servers. Most spam content originates from domains where the IP address has been spoofed prior to sending, thereby avoiding detection. For example, messages with malformed or incorrect \"purported responsible sender\" data in the message header could be (best case) created by using RFI noncompliant software but is more likely to be spam.",
+  "Documentable": "false"
+}

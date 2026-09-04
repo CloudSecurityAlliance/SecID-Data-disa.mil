@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223493",
+  "rule_id": "SV-223493r958482_rule",
+  "stig_id": "ACF2-ES-000750",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "IBM z/OS UID(0) must be properly assigned.",
+  "group_title": "SRG-OS-000104-GPOS-00051",
+  "idents": {
+    "legacy": [
+      "SV-106789",
+      "V-97685"
+    ],
+    "cci": [
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-25166r504582_chk",
+  "check_content": "From the ACF command screen enter:\nSET PROFILE(USER) DIVISION(OMVS) \nSET VERBOSE \nLIST LIKE(-) \n\nIf UID(0) is assigned only to system tasks such as the z/OS/ UNIX kernel (i.e., OMVS), z/OS UNIX daemons (e.g., inetd, syslogd, ftpd), and other system software daemons, this is not a finding.\n\nIf UID(0) is assigned to security administrators who create or maintain user account definitions; and to systems programming accounts dedicated to maintenance (e.g., SMP/E) of HFS-based components, this is not a finding.\n\nNOTE: The assignment of UID(0) confers full time superuser privileges. This is not appropriate for personal user accounts. Access to the BPX.SUPERUSER resource is used to allow personal user accounts to gain short-term access to superuser privileges.\n\nIf UID(0) is assigned to non-systems or non-maintenance accounts, this is a finding.",
+  "fixtext": "Assure that UID(0) is defined as specified below:\nUID(0) is assigned only to system tasks such as the z/OS UNIX kernel (i.e., OMVS), z/OS UNIX daemons (e.g., inetd, syslogd, ftpd), and other system software daemons.\n\nUID(0) is assigned to security administrators who create or maintain user account definitions; and to systems programming accounts dedicated to maintenance (e.g., SMP/E) of HFS-based components.\n\nNOTE: The assignment of UID(0) confers full time superuser privileges, this is not appropriate for personal user accounts. Access to the BPX.SUPERUSER resource is used to allow personal user accounts to gain short-term access to superuser privileges.",
+  "fix_id": "F-25154r504583_fix",
+  "VulnDiscussion": "To assure accountability and prevent unauthenticated access, organizational users must be identified and authenticated to prevent potential misuse and compromise of the system.\n\nOrganizational users include organizational employees or individuals the organization deems to have equivalent status of employees (e.g., contractors). Organizational users (and processes acting on behalf of users) must be uniquely identified and authenticated to all accesses, except for the following: \n\n1) Accesses explicitly identified and documented by the organization. Organizations document specific user actions that can be performed on the information system without identification or authentication; and\n\n2) Accesses that occur through authorized use of group authenticators without individual authentication. Organizations may require unique identification of individuals in group accounts (e.g., shared privilege accounts) or for detailed accountability of individual activity.",
+  "Documentable": "false"
+}

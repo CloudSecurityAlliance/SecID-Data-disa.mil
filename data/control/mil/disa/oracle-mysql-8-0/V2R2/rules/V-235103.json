@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235103",
+  "rule_id": "SV-235103r960879_rule",
+  "stig_id": "MYS8-00-001600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must be configured to provide audit record generation capability for DoD-defined auditable events within all database components.",
+  "group_title": "SRG-APP-000089-DB-000064",
+  "idents": {
+    "cci": [
+      "CCI-000169"
+    ]
+  },
+  "check_id": "C-38322r623429_chk",
+  "check_content": "Check MySQL auditing to determine whether organization-defined auditable events are being audited by the system.\n\nSELECT PLUGIN_NAME, plugin_status FROM INFORMATION_SCHEMA.PLUGINS\n       WHERE PLUGIN_NAME LIKE 'audit_log' ;\n\nIf nothing is returned OR if the results are not \"audit_log\" and \"plugin_status='ACTIVE'\" , this is a finding.\n\nNext determine if the audit lot is encrypted. \nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables\nWHERE VARIABLE_NAME LIKE 'audit_log_encryption' ;\n\nIf nothing is returned OR the value for audit_log_encryption is not \"AES\", this is a finding.",
+  "fixtext": "Deploy a MySQL Database Server 8.0 that supports the DoD minimum set of auditable events.\n\nConfigure the MySQL Database Server 8.0 to generate audit records for at least the DoD minimum set of events.\n\nsudo vi /etc/my.cnf\n[mysqld]\naudit-log=FORCE_PLUS_PERMANENT\naudit-log-format=JSON\naudit-log-encryption=AES\n\nAfter changing the my.cnf, restart the server.\n\nSELECT audit_log_encryption_password_set(password);\n\nCreate auditing rules - for example:\nConnect to MySQL and Use functions to define audit rules and audited users  audit_log_filter_set,audit_log_filter_set_user\n\nTo log all auditable events:\nSELECT audit_log_filter_set_filter('log_all', '{ \"filter\": { \"log\": true } }');\n\nAnd to apply this log_all filter to all users:\nSELECT audit_log_filter_set_user('%', 'log_all');",
+  "fix_id": "F-38285r623430_fix",
+  "VulnDiscussion": "Without the capability to generate audit records, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. \n\nAudit records can be generated from various components within the Database Management System (DBMS) (e.g., process, module). Certain specific application functionalities may be audited as well. The list of audited events is the set of events for which audits are to be generated. This set of events is typically a subset of the list of all events for which the system is capable of generating audit records.\n\nDoD has defined the list of events for which the DBMS will provide an audit record generation capability as the following: \n\n(i) Successful and unsuccessful attempts to access, modify, or delete privileges, security objects, security levels, or categories of information (e.g., classification levels);\n\n(ii) Access actions, such as successful and unsuccessful logon attempts, privileged activities, or other system-level access, starting and ending time for user access to the system, concurrent logons from different workstations, successful and unsuccessful accesses to objects, all program initiations, and all direct access to the information system; and\n\n(iii) All account creation, modification, disabling, and termination actions.\n\nOrganizations may define additional events requiring continuous or ad hoc auditing.",
+  "Documentable": "false"
+}

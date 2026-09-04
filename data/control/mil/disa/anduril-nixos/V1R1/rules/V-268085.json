@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268085",
+  "rule_id": "SV-268085r1039143_rule",
+  "stig_id": "ANIX-00-000090",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "NixOS must be configured to limit the number of concurrent sessions to ten for all accounts and/or account types.",
+  "group_title": "SRG-OS-000027-GPOS-00008",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-72009r1039141_chk",
+  "check_content": "Verify NixOS limits the number of concurrent sessions to ten for all accounts and/or account types.\n\nCheck /etc/nixos/configuration.nix and any files imported from it to ensure the attribute \"security.pam.loginLimits\" is defined to include the following value with the following command:\n\n$ grep -R -A 5 pam.loginLimits /etc/nixos\n\n/etc/nixos/configuration.nix:security.pam.loginLimits = [\n/etc/nixos/configuration.nix:{\n/etc/nixos/configuration.nix:domain = \"*\";\n/etc/nixos/configuration.nix:item = \"maxlogins\";\n/etc/nixos/configuration.nix:type = \"hard\";\n/etc/nixos/configuration.nix:value = \"10\";\n\nIf the \"maxlogins\" item is missing, commented out, or the value is set greater than \"10\" and is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure the NixOS to limit the number of concurrent sessions to ten for all accounts and/or account types.\n\nAdd the following to the NixOS configuration: /etc/nixos/configuration.nix\n\nsecurity.pam.loginLimits = [\n {\n  domain = \"*\";\n  item = \"maxlogins\";\n  type = \"hard\";\n  value = \"10\";\n }\n];\n\nNote: Security.pam.loginLimits can be set as a global domain (with the * wildcard) but may be set differently for multiple domains.\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71912r1039142_fix",
+  "VulnDiscussion": "Operating system management includes the ability to control the number of users and user sessions that use an operating system. Limiting the number of allowed users and sessions per user is helpful in reducing the risks related to denial-of-service (DoS) attacks.\n\nThis requirement addresses concurrent sessions for information system accounts and does not address concurrent sessions by single users via multiple system accounts. The maximum number of concurrent sessions should be defined based upon mission needs and the operational environment for each system.",
+  "Documentable": "false"
+}

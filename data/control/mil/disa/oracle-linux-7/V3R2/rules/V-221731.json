@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221731",
+  "rule_id": "SV-221731r991589_rule",
+  "stig_id": "OL07-00-020650",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that all local interactive user home directories are group-owned by the home directory owners primary group.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-108305",
+      "V-99201"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23446r880595_chk",
+  "check_content": "Verify the assigned home directory of all local interactive users is group-owned by that user's primary GID.\n\nCheck the home directory assignment for all local interactive users on the system with the following command:\n\n     # ls -ld $(awk -F: '($3>=1000)&&($7 !~ /nologin/){print $6}' /etc/passwd)\n\n     -rwxr-x--- 1 smithj users 13 Apr 1 04:20 /home/smithj\n\nCheck the user's primary group with the following command:\n\n     # grep $(grep smithj /etc/passwd | awk -F: '{print $4}') /etc/group\n\n     users:x:250:smithj,marinc,chongt\n\nIf the user home directory referenced in \"/etc/passwd\" is not group-owned by that user's primary GID, this is a finding.",
+  "fixtext": "Change the group owner of a local interactive user's home directory to the group found in \"/etc/passwd\". To change the group owner of a local interactive user's home directory, use the following command:\n\nNote: The example will be for the user \"smithj\", who has a home directory of \"/home/smithj\", and has a primary group of users.\n\n     # chgrp users /home/smithj",
+  "fix_id": "F-23435r880596_fix",
+  "VulnDiscussion": "If the Group Identifier (GID) of a local interactive user's home directory is not the same as the primary GID of the user, this would allow unauthorized access to the user's files, and users that share the same group may not be able to access files that they legitimately should.",
+  "Documentable": "false"
+}

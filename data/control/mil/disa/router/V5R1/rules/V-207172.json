@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207172",
+  "rule_id": "SV-207172r604135_rule",
+  "stig_id": "SRG-NET-000512-RTR-000001",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The BGP router must be configured to use its loopback address as the source address for iBGP peering sessions.",
+  "group_title": "SRG-NET-000512",
+  "idents": {
+    "legacy": [
+      "V-78283",
+      "SV-92989"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-7433r382604_chk",
+  "check_content": "Review the router configuration to verify that a loopback address has been configured.\n\nVerify that a loopback interface is used as the source address for all iBGP sessions.\n\nIf the router does not use its loopback address as the source address for all iBGP sessions, this is a finding.",
+  "fixtext": "Ensure that the router’s loopback address is used as the source address when originating traffic.",
+  "fix_id": "F-7433r382605_fix",
+  "VulnDiscussion": "Using a loopback address as the source address offers a multitude of uses for security, access, management, and scalability of the BGP routers. It is easier to construct appropriate ingress filters for router management plane traffic destined to the network management subnet since the source addresses will be from the range used for loopback interfaces instead of a larger range of addresses used for physical interfaces. Log information recorded by authentication and syslog servers will record the router’s loopback address instead of the numerous physical interface addresses.\n\nWhen the loopback address is used as the source for eBGP peering, the BGP session will be harder to hijack since the source address to be used is not known globally—making it more difficult for a hacker to spoof an eBGP neighbor. By using traceroute, a hacker can easily determine the addresses for an eBGP speaker when the IP address of an external interface is used as the source address. The routers within the iBGP domain should also use loopback addresses as the source address when establishing BGP sessions.",
+  "Documentable": "false"
+}

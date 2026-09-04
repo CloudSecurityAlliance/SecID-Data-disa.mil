@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235140",
+  "rule_id": "SV-235140r961047_rule",
+  "stig_id": "MYS8-00-005300",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must obscure feedback of authentication information during the authentication process to protect the information from possible exploitation/use by unauthorized individuals.",
+  "group_title": "SRG-APP-000178-DB-000083",
+  "idents": {
+    "cci": [
+      "CCI-000206"
+    ]
+  },
+  "check_id": "C-38359r623540_chk",
+  "check_content": "If all interaction with the user for purposes of authentication is handled by a software component separate from the MySQL Database Server 8.0, this is not a finding.\n\nIf any application, tool, or feature associated with the MySQL Database Server 8.0/database displays any authentication secrets (to include PINs and passwords) during or after the authentication process, this is a finding.\n\nMySQL command line option --password (or -p) obscures feedback on the typed in password. \n\nEnsure users are trained to use alternatives to command line password parameters, if they are not, this is a finding.",
+  "fixtext": "Modify and configure each non-compliant application, tool, or feature associated with the MySQL Database Server 8.0/database so that it does not display authentication secrets.\n\nUse -p (--password) without providing a password for the mysql command line tool.\n\nConfigure or modify applications to prohibit display of passwords in clear text.\n\nUse OS pluggable password manager integration to protect passwords using keyrings. Following is an example:\n$ /usr/local/mysql/bin/mysql -uroot -p\nEnter password:\n\n$ mysqlsh --user=user --password\nPlease provide the password for 'user@localhost':",
+  "fix_id": "F-38322r623541_fix",
+  "VulnDiscussion": "The DoD standard for authentication is DoD-approved PKI certificates.\n\nNormally, with PKI authentication, the interaction with the user for authentication will be handled by a software component separate from the Database Management System (DBMS), such as ActivIdentity ActivClient. However, in cases where the DBMS controls the interaction, this requirement applies.\n\nTo prevent the compromise of authentication information such as passwords and PINs during the authentication process, the feedback from the system must not provide any information that would allow an unauthorized user to compromise the authentication mechanism. \n\nObfuscation of user-provided authentication secrets when typed into the system is a method used in addressing this risk. \n\nDisplaying asterisks when a user types in a password or a smart card PIN is an example of obscuring feedback of authentication secrets.\n\nFor mysql tools, which can accept a plain-text password, and any other essential tool with the same limitation:\n1) Document the need for it, who uses it, and any relevant mitigations, and obtain Authorizing Official (AO) approval\n2) Train all users of the tool in the importance of not using the plain-text password option and in how to keep the password hidden by using the \"-p\" without the password option. The user will then be prompted and the password obfuscated.\n3) Make use of OS pluggable password manager integration to protect passwords using keyrings",
+  "Documentable": "false"
+}

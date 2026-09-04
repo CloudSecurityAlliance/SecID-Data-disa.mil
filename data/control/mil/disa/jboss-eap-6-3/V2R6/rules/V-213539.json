@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213539",
+  "rule_id": "SV-213539r961353_rule",
+  "stig_id": "JBOS-AS-000475",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The application server must prevent non-privileged users from executing privileged functions to include disabling, circumventing, or altering implemented security safeguards/countermeasures.",
+  "group_title": "SRG-APP-000340-AS-000185",
+  "idents": {
+    "legacy": [
+      "SV-76795",
+      "V-62305"
+    ],
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-14762r296283_chk",
+  "check_content": "Log on to the OS of the JBoss server with OS permissions that allow access to JBoss.\nUsing the relevant OS commands and syntax, cd to the <JBOSS_HOME>/bin/ folder.\nRun the jboss-cli script.\nConnect to the server and authenticate.\n\nRun the following command:\n\nFor standalone servers:\n\"ls /core-service=management/access=authorization/\"\n\nFor managed domain installations:\n\"ls /host=master/core-service=management/access=authorization/\"\n\nIf the \"provider\" attribute is not set to \"rbac\", this is a finding.",
+  "fixtext": "Run the following command.\n<JBOSS_HOME>/bin/jboss-cli.sh -c -> connect -> cd /core-service=management/access-authorization :write-attribute(name=provider, value=rbac)\n\nRestart JBoss.\n\nMap users to roles by running the following command.  Upper-case words are variables.\n\nrole-mapping=ROLENAME/include=ALIAS:add(name-USERNAME, type=USER ROLE)",
+  "fix_id": "F-14760r296284_fix",
+  "VulnDiscussion": "Preventing non-privileged users from executing privileged functions mitigates the risk that unauthorized individuals or processes may gain unnecessary access to information or privileges.\n\nRestricting non-privileged users also prevents an attacker who has gained access to a non-privileged account, from elevating privileges, creating accounts, and performing system checks and maintenance.",
+  "Documentable": "false"
+}

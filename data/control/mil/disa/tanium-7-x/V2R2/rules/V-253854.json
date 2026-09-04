@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253854",
+  "rule_id": "SV-253854r997276_rule",
+  "stig_id": "TANS-SV-000026",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The permissions on the Tanium Server registry keys must be restricted to only the Tanium service account and the [Tanium Admins] group.",
+  "group_title": "SRG-APP-000328",
+  "idents": {
+    "cci": [
+      "CCI-002165"
+    ]
+  },
+  "check_id": "C-57306r842588_chk",
+  "check_content": "1. Access the Tanium Server.\n\n2. Log on to the server with an account that has administrative privileges.\n\n3. Run regedit as Administrator.\n\n4. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> Wow6432Node >> Tanium >> Tanium Server.\n\n5. Right-click \"Tanium Server\".\n\n6. Select \"Permissions\".\n\n7. Click the \"Security\" tab.\n\n8. Click the \"Advanced\" button.\n\n- Validate the [Tanium service account] has full permissions.\n- Validate the [Tanium Admins] group has full permissions.\n- Validate the SYSTEM account has full permissions.\n- Validate the User accounts do not have any permissions.\n\nIf any other account has full permissions and/or the User account has any permissions, this is a finding.",
+  "fixtext": "1. Access the Tanium Server.\n\n2. Log on to the server with an account that has administrative privileges.\n\n3. Run regedit as Administrator.\n\n4. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> Wow6432Node >> Tanium >> Tanium Server.\n\n5. Right-click \"Tanium Server\".\n\n6. Select \"Properties\".\n\n7. Click the \"Security\" tab.\n\n8. Click the \"Advanced\" button.\n\n9. Provide the [Tanium service account] with full permissions.\n\n10. Provide the [Tanium Admins] group with full permissions.\n\n11. Reduce permissions for any other accounts with full permissions.\n\n12. Remove permissions for User accounts.",
+  "fix_id": "F-57257r842589_fix",
+  "VulnDiscussion": "Discretionary Access Control (DAC) is based on the notion that individual users are \"owners\" of objects and therefore have discretion over who should be authorized to access the object and in which mode (e.g., read or write). Ownership is usually acquired as a consequence of creating the object or via specified ownership assignment. DAC allows the owner to determine who will have access to objects they control. An example of DAC includes user-controlled file permissions.\n\nWhen DAC policies are implemented, subjects are not constrained with regard to what actions they can take with information for which they have already been granted access. Thus, subjects that have been granted access to information are not prevented from passing (i.e., the subjects have the discretion to pass) the information to other subjects or objects. \n\nA subject that is constrained in its operation by Mandatory Access Control policies is still able to operate under the less rigorous constraints of this requirement. Thus, while Mandatory Access Control imposes constraints preventing a subject from passing information to another subject operating at a different sensitivity level, this requirement permits the subject to pass the information to any subject at the same sensitivity level. \n\nThe policy is bounded by the information system boundary. Once the information is passed outside of the control of the information system, additional means may be required to ensure the constraints remain in effect. While the older, more traditional definitions of DAC require identity-based access control, that limitation is not required for this use of DAC.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268099",
+  "rule_id": "SV-268099r1039185_rule",
+  "stig_id": "ANIX-00-000360",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Successful/unsuccessful uses of the chown, fchown, fchownat, and lchown system calls in NixOS must generate an audit record.",
+  "group_title": "SRG-OS-000042-GPOS-00020",
+  "idents": {
+    "cci": [
+      "CCI-000135"
+    ]
+  },
+  "check_id": "C-72023r1039183_chk",
+  "check_content": "Verify NixOS generates an audit record upon attempts to use the \"chown\", \"fchown\", \"fchownat\", and \"lchown\" system calls.\n\nCheck the auditing rules currently loaded into the audit daemon with the following command:\n\n$ sudo auditctl -l | grep chown\n\n-a always,exit -F arch=b32 -S lchown,fchown,chown,fchownat -F auid>=1000 -F auid!=-1 -F key=perm_mod\n-a always,exit -F arch=b64 -S chown,fchown,lchown,fchownat -F auid>=1000 -F auid!=-1 -F key=perm_mod\n\nIf the command does not return an audit rule for \"chown\", \"fchown\", \"fchownat\", and \"lchown\", this is a finding.\n\nNote: The \"-k\" allows for specifying an arbitrary identifier. The string following \"-k\" does not need to match the example output above.",
+  "fixtext": "Configure NixOS to generate audit records for any attempts to use the \"chown\", \"fchown\", \"fchownat\", and \"lchown\" system calls.\n\nAdd or update the \"security.audit.rules\" configuration in /etc/nixos/configuration.nix to include the following rule:\n\n security.audit.rules = [\n  \"-a always,exit -F arch=b32 -S lchown,fchown,chown,fchownat -F auid>=1000 -F auid!=unset -F key=perm_mod\"\n  \"-a always,exit -F arch=b64 -S chown,fchown,lchown,fchownat -F auid>=1000 -F auid!=unset -F key=perm_mod\"\n ];\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71926r1039184_fix",
+  "VulnDiscussion": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).",
+  "Documentable": "false"
+}

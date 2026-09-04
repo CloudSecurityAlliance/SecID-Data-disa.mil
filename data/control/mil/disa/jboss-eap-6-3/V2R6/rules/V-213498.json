@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213498",
+  "rule_id": "SV-213498r1028281_rule",
+  "stig_id": "JBOS-AS-000035",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The JBoss server must be configured with Role Based Access Controls.",
+  "group_title": "SRG-APP-000033-AS-000024",
+  "idents": {
+    "legacy": [
+      "SV-76717",
+      "V-62227"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-14721r1028279_chk",
+  "check_content": "Log on to the OS of the JBoss server with OS permissions that allow access to JBoss.\nUsing the relevant OS commands and syntax, cd to the <JBOSS_HOME>/bin/ folder.\nRun the jboss-cli script.\nConnect to the server and authenticate.\n\nRun the following command:\n\nFor standalone servers:\n\"ls /core-service=management/access=authorization/\"\n\nFor managed domain installations, target the domain-management resource (the core management service for the entire domain):\n\"ls /core-service=management/access=authorization/\"\n\nIf the \"provider\" attribute is not set to \"rbac\", this is a finding.\n(Default, the access control is \"provider=simple\")",
+  "fixtext": "Run the following command.\n<JBOSS_HOME>/bin/jboss-cli.sh -c -> connect -> cd /core-service=management/access-authorization :write-attribute(name=provider, value=rbac)\n\nRestart JBoss.\n\nMap users to roles by running the following command.  Uppercase words  are variables.\n\nrole-mapping=ROLENAME/include=ALIAS:add(name-USERNAME, type=USER ROLE)",
+  "fix_id": "F-14719r1028280_fix",
+  "VulnDiscussion": "By default, the JBoss server is not configured to utilize role based access controls (RBAC).  RBAC provides the capability to restrict user access to their designated management role, thereby limiting access to only the JBoss functionality that they are supposed to have.  Without RBAC, the JBoss server is not able to enforce authorized access according to role.",
+  "Documentable": "false"
+}

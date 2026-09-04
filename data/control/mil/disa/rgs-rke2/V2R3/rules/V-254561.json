@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254561",
+  "rule_id": "SV-254561r960792_rule",
+  "stig_id": "CNTR-R2-000150",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Kubernetes kubelet must enable explicit authorization.",
+  "group_title": "SRG-APP-000033-CTR-000095",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-58045r918232_chk",
+  "check_content": "Ensure authorization-mode is set correctly in the kubelet on each rke2 node.\n\nRun this command on each node:\n/bin/ps -ef | grep kubelet | grep -v grep\n\nIf --authorization-mode is not set to \"Webhook\" or is not configured, this is a finding.",
+  "fixtext": "Edit the RKE2 Configuration File /etc/rancher/rke2/config.yaml on every RKE2 node and set the following \"kubelet-arg\" argument:\n\n- authorization-mode=Webhook\n\nOnce the configuration file is updated, restart the RKE2 Server or Agent. Run the command:\nsystemctl restart rke2-server or systemctl restart rke2-agent",
+  "fix_id": "F-57994r918233_fix",
+  "VulnDiscussion": "Kubelet is the primary agent on each node. The API server communicates with each kubelet to perform tasks such as starting/stopping pods. By default, kubelets allow all authenticated requests, even anonymous ones, without requiring any authorization checks from the API server. This default behavior bypasses any authorization controls put in place to limit what users may perform within the Kubernetes cluster. To change this behavior, the default setting of AlwaysAllow for the authorization mode must be set to \"Webhook\".",
+  "Documentable": "false"
+}

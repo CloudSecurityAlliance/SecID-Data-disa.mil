@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-70671",
+  "rule_id": "SV-85293r1_rule",
+  "stig_id": "DTOO146",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Trust access for VBA must be disallowed.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-71071r2_chk",
+  "check_content": "Verify the policy value for User Configuration -> Administrative Templates -> Microsoft PowerPoint 2016 -> PowerPoint Options -> Security -> Trust Center \"Trust access to Visual Basic Project\" is set to \"Disabled\".\n\nProcedure: Use the Windows Registry Editor to navigate to the following key: \n\nHKCU\\Software\\Policies\\Microsoft\\Office\\16.0\\PowerPoint\\security\n\nCriteria: If the value AccessVBOM is REG_DWORD=0, this is not a finding.",
+  "fixtext": "Set the policy value for User Configuration -> Administrative Templates -> Microsoft PowerPoint 2016 -> PowerPoint Options -> Security -> Trust Center \"Trust access to Visual Basic Project\" to \"Disabled\".",
+  "fix_id": "F-76915r1_fix",
+  "VulnDiscussion": "This policy setting controls whether automation clients such as Microsoft Visual Studio 2005 Tools for Microsoft Office (VSTO) can access the Visual Basic for Applications project system in the specified applications. VSTO projects require access to the Visual Basic for Applications project system in Excel, PowerPoint, and Word, even though the projects do not use Visual Basic for Applications. Design-time support of controls in both Visual Basic and C# projects depends on the Visual Basic for Applications project system in Word and Excel. If you enable this policy setting, VSTO and other automation clients can access the Visual Basic for Applications project system in the specified applications. Users will not be able to change this behavior through the \"Trust access to the VBA project object model\" user interface option under the Macro Settings section of the Trust Center. If you disable this policy setting, VSTO does not have programmatic access to VBA projects. In addition, the \"Trust access to the VBA project object model\" check box is cleared and users cannot change it.  Note: Disabling this policy setting prevents VSTO projects from interacting properly with the VBA project system in the selected application. If you do not configure this policy setting, automation clients do not have programmatic access to VBA projects. Users can enable this by selecting the \"Trust access to the VBA project object model\" in the \"Macro Settings\" section of the Trust Center. However, doing so allows macros in any documents the user opens to access the core Visual Basic objects, methods, and properties, which represents a potential security hazard.",
+  "Documentable": "false"
+}

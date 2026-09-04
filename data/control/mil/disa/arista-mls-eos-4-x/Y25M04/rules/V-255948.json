@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-255948",
+  "rule_id": "SV-255948r991781_rule",
+  "stig_id": "ARST-ND-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Arista network device must enforce approved authorizations for controlling the flow of management information within the network device based on information flow control policies.",
+  "group_title": "SRG-APP-000038-NDM-000213",
+  "idents": {
+    "cci": [
+      "CCI-001368",
+      "CCI-004192"
+    ]
+  },
+  "check_id": "C-59624r882184_chk",
+  "check_content": "Verify the Arista network device is configured with access control lists to control the flow of management information.\n\nStep 1: Verify SSH has an inbound ACL applied as shown in the example below.\n\nsh run | sec management ssh\n ip access-group MGMT_NETWORK in\n\nStep 2: Verify the ACL permits only hosts from the management network to access the device.\n\nsh run | sec access-list MGMT_NETWORK\n ip access-list MGMT_NETWORK\n   10 permit ip 10.1.12.0/24 any\n   20 deny ip any any log\n\nIf the Arista network device is not configured to enforce approved authorizations for controlling the flow of management information within the device based on control policies, this is a finding.",
+  "fixtext": "Step 1: Configure an ACL for SSH access using the following commands:\n\nswitch(config)#ip access-list MGMT_NETWORK\nswitch(config-acl-MGMT_NETWORK)#10 permit ip 10.1.12.0/24 any\nswitch(config-acl-MGMT_NETWORK)#20 deny ip any any log\nswitch(config-acl-MGMT_NETWORK)#exit\n\nStep 2: Apply the ACL to management ssh.\n\nswitch(config)#management ssh \nswitch(config-mgmt-ssh)#ip access-group MGMT_NETWORK in\nswitch(config-mgmt-ssh)#exit",
+  "fix_id": "F-59567r882185_fix",
+  "VulnDiscussion": "A mechanism to detect and prevent unauthorized communication flow must be configured or provided as part of the system design. If management information flow is not enforced based on approved authorizations, the network device may become compromised. Information flow control regulates where management information is allowed to travel within a network device. The flow of all management information must be monitored and controlled so it does not introduce any unacceptable risk to the network device or data.\n\nApplication-specific examples of enforcement occur in systems that employ rule sets or establish configuration settings that restrict information system services or message-filtering capability based on message content (e.g., implementing key word searches or using document characteristics).\n\nApplications providing information flow control must be able to enforce approved authorizations for controlling the flow of management information within the system in accordance with applicable policy.",
+  "Documentable": "false"
+}

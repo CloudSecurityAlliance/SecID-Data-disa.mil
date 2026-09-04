@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260940",
+  "rule_id": "SV-260940r966177_rule",
+  "stig_id": "CNTR-MK-001220",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Use of privileged Linux containers must be limited to system containers.",
+  "group_title": "SRG-APP-000342-CTR-000775",
+  "idents": {
+    "cci": [
+      "CCI-002233"
+    ]
+  },
+  "check_id": "C-64669r966175_chk",
+  "check_content": "When using Kubernetes orchestration, this check is Not Applicable. \n\nWhen using Swarm orchestration, execute the following command as a trusted user on the host operating system via CLI:\n\ndocker ps --quiet --all | grep -iv \"MKE\\|kube\\|dtr\" | awk '{print $1}' | xargs docker inspect --format '{{ .Id }}: Privileged={{ .HostConfig.Privileged }}'\n\nVerify in the output that no containers are running with the --privileged flag. If there are, this is a finding.",
+  "fixtext": "When using Kubernetes orchestration, this check is Not Applicable. \n\nReview and remove nonsystem containers previously created by these users that allowed privileged execution using:\n\ndocker container rm [container]",
+  "fix_id": "F-64577r966176_fix",
+  "VulnDiscussion": "Using the --privileged flag gives all Linux Kernel Capabilities to the container, thus overwriting the --cap-add and --cap-drop flags. The --privileged flag gives all capabilities to the container, and it also lifts all the limitations enforced by the device cgroup controller. Any container that requires this privilege must be documented and approved.",
+  "Documentable": "false"
+}

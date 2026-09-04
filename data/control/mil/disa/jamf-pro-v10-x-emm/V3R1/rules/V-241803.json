@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-241803",
+  "rule_id": "SV-241803r971326_rule",
+  "stig_id": "JAMF-10-100120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MySQL DatabasePassword key must be removed or set to a blank value in the database configuration file in Jamf Pro EMM.",
+  "group_title": "PP-MDM-991000",
+  "idents": {
+    "legacy": [
+      "SV-108711",
+      "V-99607"
+    ],
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-45079r685161_chk",
+  "check_content": "Verify the MySQL <DatabasePassword> key has been removed or set to a blank value in Jamf Pro EMM.\n\n1. On the Jamf Pro server, navigate to the JSS/Tomcat/webapps/ROOT/WEB-INF/xml.\n2. Find the \"Database.xml\" file and open it in a text editor.\n3. Find the <DatabasePassword>.\n4. Verify that there is no password.\n\nIf the MySQL <DatabasePassword> key has not been removed or not set to a blank value, this is a finding.",
+  "fixtext": "Remove the MySQL <DatabasePassword> key or set to a blank value in Jamf Pro EMM.\n\nIf the database password is removed from the configuration file, the database password must be entered manually for the Jamf Pro EMM server web app during startup. In a clustered environment, the database password must be entered manually for each individual node.\n\nNote: Default values are included below for reference only. Use unique values in production environments.\n\n<Database>\n...\n<DatabaseName>jamfsoftware</DatabaseName>\n<DatabaseUser>jamfsoftware</DatabaseUser>\n<DatabasePassword></DatabasePassword>\n...\n</Database>",
+  "fix_id": "F-45038r685162_fix",
+  "VulnDiscussion": "If the database password is not removed or set to a blank value in the configuration file, the user is not forced to enter the password, which would allow an adversary to access to access the database.\n\nSFR ID: FMT_SMF.1(2)b. / CM-5(10)\n\nSatisfies: SRG-APP-000380",
+  "Documentable": "false"
+}

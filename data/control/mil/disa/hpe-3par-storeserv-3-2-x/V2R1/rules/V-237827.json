@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-237827",
+  "rule_id": "SV-237827r647890_rule",
+  "stig_id": "HP3P-32-001507",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The storage system must only be operated in conjunction with an Active Directory server in a trusted environment if an LDAP server is not available.",
+  "group_title": "SRG-OS-000001-GPOS-00001",
+  "idents": {
+    "legacy": [
+      "SV-85129",
+      "V-70507"
+    ],
+    "cci": [
+      "CCI-000015",
+      "CCI-000366",
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-41037r647888_chk",
+  "check_content": "Determine if the system is configured for Active Directory (AD). \n\nEnter the following command:\n\ncli% showauthparam\n\nIf the result returns an error, this is a finding.\n\nIf the resulting output does include the parameters \"groups-dn\", \"group-obj\", or \"group-name-attr\" then the host is setup for LDAP, this requirement is not applicable.\n\nIf the host is setup for Active Directory and these fields in the output are not configured, this is a finding.\n\nldap-server <ip address of AD server> \nldap-server-hn <host name of AD server>\n\nNext, verify that the AD authentication is operational by entering the following command:\n\ncli% checkpassword <username>:\npassword: <Enter the password for username>\n\nIf the username and password used in checkpassword are known to be valid AD credentials, and the following text is NOT displayed at the end of the resulting output, this is a finding.\n\nuser <username> is authenticated and authorized\n\nNote: The \"checkpassword\" command will not display authenticated information even if AD is properly configured, if the username and password are not entered correctly.",
+  "fixtext": "Use this series of commands to configure the host to use Active Directory:\n\ncli% setauthparam -f ldap-server        <AD server IP address>\ncli% setauthparam -f binding            simple\ncli% setauthparam -f ldap-StartTLS      require\ncli% setauthparam -f Kerberos-realm     <Kerberos realm, such as WIN2K12FOREST.THISDOMAIN.COM>\ncli% setauthparam -f ldap-server-hn     <fully qualified domain name of AD server, such as adserver.thisdomain.com>\ncli% setauthparam -f accounts-dn        CN=Users,DC=win2k12forest,DC=thisdomain,DC=com\ncli% setauthparam -f user-dn-base       CN=Users,DC=win2k12forest,DC=thisdomain,DC=com\ncli% setauthparam -f user-attr          WIN2K12FOREST\\\\\ncli% setauthparam -f account-obj        user\ncli% setauthparam -f account-name-attr  sAMAccountName\ncli% setauthparam -f memberof-attr      memberOf\ncli% setauthparam -f browse-map         \"CN=<customer-assigned name of browse role>,CN=Users,DC=win2k12forest,DC=thisdomain,DC=com\"\ncli% setauthparam -f edit-map           \"CN=<customer-assigned name of edit role>,CN=Users,DC=win2k12forest,DC=thisdomain,DC=com\"\ncli% setauthparam -f service-map        \"CN=<customer-assigned name of service role>,CN=Users,DC=win2k12forest,DC=thisdomain,DC=com\"\ncli% setauthparam -f super-map          \"CN=<customer-assigned name of super role>,CN=Users,DC=win2k12forest,DC=thisdomain,DC=com\"",
+  "fix_id": "F-40996r647889_fix",
+  "VulnDiscussion": "Where strong account and password management capabilities are required, the 3PAR system is heavily dependent on its ability to use an AD server.\n\nSatisfies: SRG-OS-000001-GPOS-00001, SRG-OS-000104-GPOS-00051, SRG-OS-000480-GPOS-00227",
+  "Documentable": "false"
+}

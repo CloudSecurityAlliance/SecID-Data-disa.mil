@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-214529",
+  "rule_id": "SV-214529r997544_rule",
+  "stig_id": "JUSX-AG-000120",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Juniper SRX Services Gateway Firewall providing content filtering must protect against known and unknown types of denial-of-service (DoS) attacks by implementing statistics-based screens.",
+  "group_title": "SRG-NET-000362-ALG-000112",
+  "idents": {
+    "legacy": [
+      "SV-80813",
+      "V-66323"
+    ],
+    "cci": [
+      "CCI-002385",
+      "CCI-004866"
+    ]
+  },
+  "check_id": "C-15735r297271_chk",
+  "check_content": "Run the following command to see the screen options currently configured:\n\n[edit]\nshow security screen ids-option\nshow security zone match \"screen\"\n\nIf security screens are not configured or if the security zone is not configured with screen options, this is a finding.",
+  "fixtext": "The following example commands configure security screens under a profile named untrust-screen. Screen options, with configurable thresholds may be customized to minimize/prevent operational impact on traffic performance.\n\n[edit]\nset security screen ids-option <zone-name> <screen name> <option name> <value>\n\nBased on 800-53 requirements and vendor recommendations, the following DoS screens are required, at a minimum, for use in DOD configurations.\n\nset security screen ids-option untrust-screen icmp ip-sweep threshold 1000\nset security screen ids-option untrust-screen tcp port-scan threshold 1000\nset security screen ids-option untrust-screen tcp syn-flood alarm-threshold 1000\nset security screen ids-option untrust-screen tcp syn-flood attack-threshold 1100\nset security screen ids-option untrust-screen tcp syn-flood source-threshold 100\nset security screen ids-option untrust-screen tcp syn-flood destination-threshold 2048\nset security screen ids-option untrust-screen tcp syn-flood timeout 20\nset security screen ids-option untrust-screen udp flood threshold 5000\nset security screen ids-option untrust-screen udp udp-sweep threshold 1000\n\nTo enable screen protection, the screen profile must be associated with individual security zones using the following command. Recommend assigning \"untrust-screen\" profile name to the default zone named \"untrust\".\n\n[edit]\nset security zone security-zone <zone-name> screen <screen-profile>\nExample: set security zones security-zone untrust screen untrust-screen",
+  "fix_id": "F-15733r997543_fix",
+  "VulnDiscussion": "If the network does not provide safeguards against DoS attacks, network resources will be unavailable to users. Installation of content filtering gateways and application layer firewalls at key boundaries in the architecture mitigates the risk of DoS attacks. These attacks can be detected by matching observed communications traffic with patterns of known attacks and monitoring for anomalies in traffic volume/type.\n \nJuniper SRX Firewall DoS protections can be configured by either using a Screen or within the global flow options. Screens, also known as IDS-options, block various layer 3 and 4 attacks. Screen objects are configured with various screen-specific options and then assigned to a zone. The Juniper SRX can be configured with Screens to protect against the following statistics-based DoS attacks: IP sweeps, port scans, and flood attacks.",
+  "Documentable": "false"
+}

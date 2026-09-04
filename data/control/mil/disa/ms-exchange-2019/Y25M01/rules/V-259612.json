@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259612",
+  "rule_id": "SV-259612r961161_rule",
+  "stig_id": "EX19-ED-000126",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Exchange sender filter must block unaccepted domains.",
+  "group_title": "SRG-APP-000261",
+  "idents": {
+    "cci": [
+      "CCI-001308"
+    ]
+  },
+  "check_id": "C-63351r942148_chk",
+  "check_content": "Note: If third-party anti-spam product is being used, the anti-spam product must be configured to meet the requirement.\n\nReview the Email Domain Security Plan (EDSP).\n\nDetermine the unaccepted domains that are to be blocked.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-SenderFilterConfig | Select-Object -Property Name, BlockedDomains, BlockedDomainsAndSubdomains\n\nIf the value for \"BlockedDomains\" or \"BlockedDomainsAndSubdomains\" does not reflect the list of accepted domains, this is a finding.",
+  "fixtext": "Update the EDSP to reflect the unaccepted domains that are to be blocked.\n\nOpen the Exchange Management Shell and enter the following command:\n\nFor BlockedDomains:\n\nSet-SenderFilterConfig -BlockedDomains <BlockedDomain>\n\nTo add additional domains to the list (array):\n\nSet-SenderFilterConfig -BlockedDomains @{add=\"<blockeddomain2>\",\"<blockeddomain3>\",\"<blockeddomain4>\"}\n\nEach domain added must be quotes and separated by a comma.\n\nRepeat the procedure for each domain that is to be blocked.\n\nor\n\nFor BlockedDomainsAndSubdomains:\n\nSet-SenderFilterConfig -BlockedDomainsAndSubdomains <BlockedDomainAndSubdomain>\n\nSame procedure applies for adding multiple domains applies to this filter.\n\nRepeat the procedure for each domain and all of its subdomains that are to be blocked.",
+  "fix_id": "F-63259r942149_fix",
+  "VulnDiscussion": "Spam origination sites and other sources of suspected email-borne malware have the ability to corrupt, compromise, or otherwise limit availability of email servers. Limiting exposure to unfiltered inbound messages can reduce the risk of spam and malware impacts.\n\nThe Global Deny list blocks messages originating from specific sources. Most block list filtering is done using a commercial block list service, because eliminating threats from known spammers prevents the messages being evaluated inside the enclave where there is more risk they can do harm.\n\nAdditional sources should also be blocked to supplement the contents of the commercial Block List service. For example, during a zero-day threat action, entries can be added and then removed when the threat is mitigated. An additional best practice is to enter the enterprise's home domains in the block list, because inbound email with a \"from\" address of the home domain is very likely to be spoofed spam.",
+  "Documentable": "false"
+}

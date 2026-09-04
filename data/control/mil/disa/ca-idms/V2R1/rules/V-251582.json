@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251582",
+  "rule_id": "SV-251582r960735_rule",
+  "stig_id": "IDMS-DB-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "For interactive sessions, IDMS must limit the number of concurrent sessions for the same user to one or allow unlimited sessions.",
+  "group_title": "SRG-APP-000001-DB-000031",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-55017r807611_chk",
+  "check_content": "Use task SYSGEN if online, or program RHDCSGEN if batch.\n  \nSign on to the dictionary where the System definition is maintained: \"SIGNON DICTIONARY SYSTEM.\", for example.\n\nEnter: \"DISPLAY SYSTEM 123.\" where 123 is the number of the system being checked.\n\nScroll through the returned text until \"MULTIPLE SIGNON\" is found.\n\nIf the associated value is \"YES\", this is a finding.",
+  "fixtext": "Use TASK SYSGEN if online, or program RHDCSGEN if batch.\n\nSign on to the dictionary where the system definition is maintained: \"SIGNON DICTIONARY SYSTEM.\", for example.\n\nEnter: \"MODIFY SYSTEM 123 MULTIPLE SIGNON IS NO.\" where 123 is the number of the system being modified.\n\nEnter: \"VALIDATE.\"\n\nEnter: \"GENERATE.\"\n\nThe change will become effective the next time the CV is stopped and started.",
+  "fix_id": "F-54971r807612_fix",
+  "VulnDiscussion": "Multiple interactive sessions can provide a way to cause a DoS attack against IDMS if a user ID and password were compromised. Not allowing multiple sign-ons can mitigate the risk of malicious attacks using multiple sessions for a user.",
+  "Documentable": "false"
+}

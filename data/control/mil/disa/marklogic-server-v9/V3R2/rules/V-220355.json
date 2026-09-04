@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220355",
+  "rule_id": "SV-220355r960960_rule",
+  "stig_id": "ML09-00-002500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MarkLogic Server must limit privileges to change software modules, including stored procedures, functions, and triggers, and links to software external to the DBMS.",
+  "group_title": "SRG-APP-000133-DB-000179",
+  "idents": {
+    "legacy": [
+      "SV-110057",
+      "V-100953"
+    ],
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-22070r401516_chk",
+  "check_content": "Review monitoring procedures and implementation evidence to verify monitoring of changes to MarkLogic software libraries, related applications, and configuration files is done.\n\nIf a third-party file automated tool is used, this is not a finding.\n\nTo check for automated monitoring, issue the following command at a command prompt with a user that has administrative privileges:\n\nCheck to see if the crond service is running for scheduling recurring tasks. \n\nIf it is not running, this is a finding.\n> sudo systemctl status crond\n\nCheck to see if ml-filechange-mon.sh is in the cron schedule, and runs frequently enough to meet System Security Plan (SSP) requirements. If the script is not scheduled to run, or does not run frequently enough to meet the SSP requirements, this is a finding.\n> sudo crontab -l | grep ml-filechange\n\nCheck ml-filechange-mon.sh to verify email addresses have been configured to receive alerts. If no email addresses have been added, this is a finding.\n> grep \"EMAIL_LIST\" /path/to/ml-filechange-mon.sh",
+  "fixtext": "Implement procedures to monitor for unauthorized changes to DBMS software libraries, related software application libraries, and configuration files. If a third-party automated tool is not employed, an automated job that reports file information on the directories and files of interest and compares them to the baseline report for the same will meet the requirement. \n\nThe supplemental file \"ml-filechange-mon.sh\" can be used to meet this requirement. \n- Edit the ml-filechange-mon.sh script with the correct email addresses and notification level.\n- Place the script in a location that can be accessed by the cron daemon.\n- Edit the crontab, and configure the script to run frequently enough to meet DoD minimum requirements.",
+  "fix_id": "F-22059r401517_fix",
+  "VulnDiscussion": "If the system were to allow any user to make changes to software libraries, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n\nAccordingly, only qualified and authorized individuals must be allowed to obtain access to information system components for purposes of initiating changes, including upgrades and modifications.\n\nUnmanaged changes that occur to the database software libraries or configuration can lead to unauthorized or compromised installations.",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-259519",
+  "rule_id": "SV-259519r958472_rule",
+  "stig_id": "APPL-14-002110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable Bluetooth sharing.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213",
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-63258r941177_chk",
+  "check_content": "Verify the macOS system is configured to disable Bluetooth sharing with the following command:\n\n/usr/bin/sudo -u \"$CURRENT_USER\" /usr/bin/defaults -currentHost read com.apple.Bluetooth PrefKeyServicesEnabled\n\nIf the result is not \"0\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable Bluetooth sharing with the following command:\n\n/usr/bin/sudo -u \"$CURRENT_USER\" /usr/bin/defaults -currentHost write com.apple.Bluetooth PrefKeyServicesEnabled -bool false",
+  "fix_id": "F-63166r941178_fix",
+  "VulnDiscussion": "Bluetooth Sharing must be disabled.\n\nBluetooth Sharing allows users to wirelessly transmit files between the macOS and Bluetooth-enabled devices, including personally owned cellphones and tablets. A malicious user might introduce viruses or malware onto the system or extract sensitive files via Bluetooth Sharing. When Bluetooth Sharing is disabled, this risk is mitigated.\n\n[NOTE]\n====\nThe check and fix are for the currently logged on user. To get the currently logged on user, run the following.\n[source,bash]\n----\nCURRENT_USER=$( /usr/sbin/scutil <<< \"show State:/Users/ConsoleUser\" | /usr/bin/awk '/Name :/ && ! /loginwindow/ { print $3 }' )\n----\n====\n\nSatisfies: SRG-OS-000080-GPOS-00048,SRG-OS-000095-GPOS-00049",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221236",
+  "rule_id": "SV-221236r961161_rule",
+  "stig_id": "EX16-ED-000370",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange nonexistent recipients must not be blocked.",
+  "group_title": "SRG-APP-000261",
+  "idents": {
+    "legacy": [
+      "SV-95263",
+      "V-80553"
+    ],
+    "cci": [
+      "CCI-001308"
+    ]
+  },
+  "check_id": "C-22951r411834_chk",
+  "check_content": "Note: If third-party anti-spam product is being used, the anti-spam product must be configured to meet the requirement.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-RecipientFilterConfig | Select Name, RecipientValidationEnabled\n\nIf the value of \"RecipientValidationEnabled\" is not set to \"False\", this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-RecipientFilterConfig -RecipientValidationEnabled $false",
+  "fix_id": "F-22940r411835_fix",
+  "VulnDiscussion": "Spam originators, in an effort to refine mailing lists, sometimes use a technique where they first create fictitious names and then monitor rejected emails for non-existent recipients. Those not rejected are deemed to exist and are used in future spam mailings. \n\nTo prevent this disclosure of existing email accounts to spammers, email to nonexistent recipients must not be blocked. Instead, it is recommended that all messages be received, then evaluated and disposed of without enabling the sender to determine existent vs. nonexistent recipients.",
+  "Documentable": "false"
+}

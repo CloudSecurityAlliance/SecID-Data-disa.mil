@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259592",
+  "rule_id": "SV-259592r961095_rule",
+  "stig_id": "EX19-ED-000094",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange queue database must reside on a dedicated partition.",
+  "group_title": "SRG-APP-000211",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-63331r942088_chk",
+  "check_content": "Open the Exchange Management Shell and run the following command:\n\nGet-Content $exbin\\EdgeTransport.exe.config |Select-String \"QueueDatabasePath\" -SimpleMatch\n\nExample Output:\n\n<add key=\"QueueDatabasePath\" value=\"F:\\Program Files\\Microsoft\\Exchange\nServer\\V15\\TransportRoles\\data\\Queue\" />\n\nIf the path of the Queue Database is in the same volume as the installation of Exchange, this is a finding.\n\nIf the path of the Queue Database is on the same volume of existing applications, this is a finding.",
+  "fixtext": "It is recommended to follow the instructions found in the following documentation:\nhttps://learn.microsoft.com/en-us/exchange/mail-flow/queues/relocate-queue-database?view=exchserver-2019\n\nSet aside time for maintenance before correcting the issue, as this will affect mail flow through the Edge role on that server.\n\nOpen an Exchange Management Shell and use the automated script (shipped with Exchange) to move the queue database and its existing files to the new destination.\n\nThe following parameters must be answered to successfully complete the move:\n\n-queueDatabasePath #New destination for the Queue Database. If destination does not exist, the script will create it with the appropriate permissions.\n-queueDatabaseLoggingPath #New destination for the Queue Database Logs. If destination does not exist, the script will create it with the appropriate permissions.\n-ipFilterDatabasePath #New destination for the IP filtering Database. If the destination does not exist, the script will create it with the appropriate permissions.\n-ipFilterDatabaseLoggingPath #New destination for the IP filtering Database Logs. If the destination does not exist, the script will create it with the appropriate permissions.\n-temporaryStorage #This will be the path that the script moves the old version of the EdgeTransport.exe.config. The new version will have the updated path.\n\nNote: Always back up the configuration file as CUs will overwrite any added custom configuration.",
+  "fix_id": "F-63239r942089_fix",
+  "VulnDiscussion": "In the same way that added security layers can provide a cumulative positive effect on security posture, multiple applications can provide a cumulative negative effect. A vulnerability and subsequent exploit to one application can lead to an exploit of other applications sharing the same security context. For example, an exploit to a web server process that leads to unauthorized administrative access to the host system can most likely lead to a compromise of all applications hosted by the same system.\n\nEmail services should be installed to a discrete set of directories on a partition that does not host other applications. Email services should never be installed on a Domain Controller/Directory Services server.",
+  "Documentable": "false"
+}

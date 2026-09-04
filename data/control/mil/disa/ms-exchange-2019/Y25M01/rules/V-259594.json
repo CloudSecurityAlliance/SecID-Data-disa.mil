@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259594",
+  "rule_id": "SV-259594r1043178_rule",
+  "stig_id": "EX19-ED-000098",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange internal send connectors must use domain security (mutual authentication Transport Layer Security).",
+  "group_title": "SRG-APP-000219",
+  "idents": {
+    "cci": [
+      "CCI-001184"
+    ]
+  },
+  "check_id": "C-63333r942094_chk",
+  "check_content": "Open the Exchange Management Shell and enter the following command:\n\nGet-SendConnector | Select-Object -Property Name, Identity, DomainSecureEnabled\n\nFor each send connector, if the value of \"DomainSecureEnabled\" is not set to \"True\", this is a finding.\n\nIf the \"TlsAuthLevel\" parameter is set to \"DomainValidation\" then the \"TlsDomain\" parameter is required if \"DNSRoutingEnabled\" parameter is set to \"$false\".\n\nThe \"DNSRoutingEnabled\" parameter must be \"$true\" If the value of \"DomainSecureEnabled\" is \"$true\".",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-SendConnector <'IdentityName'> -DomainSecureEnabled $true\n\nNote: The <IdentityName> value must be in quotes.\n\nRepeat the procedure for each send connector.",
+  "fix_id": "F-63241r942095_fix",
+  "VulnDiscussion": "The Simple Mail Transfer Protocol (SMTP) connector is used by Exchange to send and receive messages from server to server. Several controls work together to provide security between internal servers. This setting controls the authentication method used for communications between servers. With this feature enabled, only servers capable of supporting domain authentication will be able to send and receive mail within the domain.\n\nThe use of secure communication prevents eavesdroppers from reading or modifying communications between mail clients and servers. While sensitive message bodies should be encrypted by the sender at the client, requiring a secure connection from server to server adds protection by encrypting the sender and recipient information that cannot be encrypted by the sender. \n\nIndividually, channel security and encryption can be compromised by attackers. Used together, email becomes a more difficult target, and security is heightened. Failure to enable this feature gives eavesdroppers an opportunity to read or modify messages between servers.",
+  "Documentable": "false"
+}

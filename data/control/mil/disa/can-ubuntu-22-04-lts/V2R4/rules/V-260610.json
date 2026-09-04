@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260610",
+  "rule_id": "SV-260610r958446_rule",
+  "stig_id": "UBTU-22-654040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must generate audit records for successful/unsuccessful uses of the crontab command.",
+  "group_title": "SRG-OS-000064-GPOS-00033",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-64339r953641_chk",
+  "check_content": "Verify that an audit event is generated for any successful/unsuccessful use of the \"crontab\" command by using the following command:  \n  \n     $ sudo auditctl -l | grep -w crontab \n     -a always,exit -S all -F path=/usr/bin/crontab -F perm=x -F auid>=1000 -F auid!=-1 -F key=privileged-crontab  \n  \nIf the command does not return a line that matches the example or the line is commented out, this is a finding.  \n  \nNote: The \"key=\" value is arbitrary and can be different from the example output above.",
+  "fixtext": "Configure the audit system to generate an audit event for any successful/unsuccessful uses of the \"crontab\" command.   \n  \nAdd or modify the following line in the \"/etc/audit/rules.d/stig.rules\" file:  \n  \n-a always,exit -F path=/usr/bin/crontab -F perm=x -F auid>=1000 -F auid!=unset -k privileged-crontab \n    \nTo reload the rules file, issue the following command:  \n  \n     $ sudo augenrules --load \n \nNote: The \"-k <keyname>\" at the end of the line gives the rule a unique meaning to help during an audit investigation. The <keyname> does not need to match the example above.",
+  "fix_id": "F-64247r953642_fix",
+  "VulnDiscussion": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.  \n  \nAudit records can be generated from various components within the information system (e.g., module or policy filter).",
+  "Documentable": "false"
+}

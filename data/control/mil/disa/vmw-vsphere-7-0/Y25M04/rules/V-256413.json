@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256413",
+  "rule_id": "SV-256413r958908_rule",
+  "stig_id": "ESXI-70-000050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must protect the confidentiality and integrity of transmitted information by isolating IP-based storage traffic.",
+  "group_title": "SRG-OS-000423-VMM-001700",
+  "idents": {
+    "cci": [
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-60088r886018_chk",
+  "check_content": "If IP-based storage is not used, this is not applicable.\n\nFrom the vSphere Client, select the ESXi host and go to Configure >> Networking >> VMkernel adapters.\n\nSelect each IP-based storage VMkernel adapter and view the enabled services.\n\nIf any services are enabled on an NFS or iSCSI IP-based storage VMkernel adapter, this is a finding.\n\nIf any services are enabled on a vSAN VMkernel adapter other than vSAN, this is a finding.\n\nFrom the vSphere Client, select the ESXi host and go to Configure >> Networking >> VMkernel adapters.\n\nReview the VLANs associated with any IP-based storage VMkernels and verify they are dedicated for that purpose and are logically separated from other functions.\n\nIf any IP-based storage networks are not isolated from other traffic types, this is a finding.",
+  "fixtext": "Configuration of an IP-based VMkernel will be unique to each environment.\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> Networking >> VMkernel adapters.\n\nSelect the VMkernel used for IP-based storage and click \"Edit...\". On the \"Port\" properties tab, uncheck all services. Click \"OK\".\n\nNote: For VMkernels used for vSAN, leave the vSAN service enabled and uncheck all others.\n\nFrom the vSphere Client, go to Hosts and Clusters >> select the ESXi Host >> Configure >> Networking >> Virtual switches.\n\nFind the port group that is dedicated to IP-based storage and click the \"...\" button next to the name. Click \"Edit Settings\".\n\nOn the \"Properties\" tab, change the \"VLAN ID\" to one dedicated for IP-based storage traffic. Click \"OK\".",
+  "fix_id": "F-60031r886019_fix",
+  "VulnDiscussion": "Virtual machines (VMs) might share virtual switches and VLANs with the IP-based storage configurations. IP-based storage includes vSAN, iSCSI, and NFS. This configuration might expose IP-based storage traffic to unauthorized VM users. IP-based storage frequently is not encrypted. It can be viewed by anyone with access to this network.\n\nTo restrict unauthorized users from viewing the IP-based storage traffic, the IP-based storage network must be logically separated from any other traffic. Configuring the IP-based storage adaptors on separate VLANs or network segments from other VMkernels and VMs will limit unauthorized users from viewing the traffic.",
+  "Documentable": "false"
+}

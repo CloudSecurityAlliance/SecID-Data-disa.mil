@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253108",
+  "rule_id": "SV-253108r991589_rule",
+  "stig_id": "TOSS-04-040670",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The TOSS SSH public host key files must have mode 0644 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56561r824994_chk",
+  "check_content": "Verify the SSH public host key files have mode \"0644\" or less permissive with the following command:\n\n$ sudo ls -l /etc/ssh/*.pub\n\n-rw-r--r-- 1 root root 618 Nov 28 06:43 ssh_host_dsa_key.pub\n-rw-r--r-- 1 root root 347 Nov 28 06:43 ssh_host_key.pub\n-rw-r--r-- 1 root root 238 Nov 28 06:43 ssh_host_rsa_key.pub\n\nIf any key.pub file has a mode more permissive than \"0644\", this is a finding.\n\nNote: SSH public key files may be found in other directories on the system depending on the installation.",
+  "fixtext": "Change the mode of public host key files under \"/etc/ssh\" to \"0644\" with the following command:\n\n$ sudo chmod 0644 /etc/ssh/*key.pub\n\nThe SSH daemon must be restarted for the changes to take effect. To restart the SSH daemon, run the following command:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-56511r824995_fix",
+  "VulnDiscussion": "If a public host key file is modified by an unauthorized user, the SSH service may be compromised.",
+  "Documentable": "false"
+}

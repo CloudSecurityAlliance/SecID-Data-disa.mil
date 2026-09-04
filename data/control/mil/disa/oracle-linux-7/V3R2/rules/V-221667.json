@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-221667",
+  "rule_id": "SV-221667r1015164_rule",
+  "stig_id": "OL07-00-010118",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that /etc/pam.d/passwd implements /etc/pam.d/system-auth when changing passwords.",
+  "group_title": "SRG-OS-000069-GPOS-00037",
+  "idents": {
+    "legacy": [
+      "SV-108179",
+      "V-99075"
+    ],
+    "cci": [
+      "CCI-000192",
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-23382r419073_chk",
+  "check_content": "Verify that /etc/pam.d/passwd is configured to use /etc/pam.d/system-auth when changing passwords:\n\n# cat /etc/pam.d/passwd | grep -i substack | grep -i system-auth\npassword substack system-auth\n\nIf no results are returned, the line is commented out, this is a finding.",
+  "fixtext": "Configure PAM to utilize /etc/pam.d/system-auth when changing passwords.\n\nAdd the following line to \"/etc/pam.d/passwd\" (or modify the line to have the required value):\n\npassword substack system-auth",
+  "fix_id": "F-23371r419074_fix",
+  "VulnDiscussion": "Pluggable authentication modules (PAM) allow for a modular approach to integrating authentication methods. PAM operates in a top-down processing model and if the modules are not listed in the correct order, an important security function could be bypassed if stack entries are not centralized.",
+  "Documentable": "false"
+}

@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-251657",
+  "rule_id": "SV-251657r1043182_rule",
+  "stig_id": "SPLK-CL-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Splunk Enterprise idle session timeout must be set to not exceed 15 minutes.",
+  "group_title": "SRG-APP-000295-AU-000190",
+  "idents": {
+    "cci": [
+      "CCI-004895",
+      "CCI-002361",
+      "CCI-002038"
+    ]
+  },
+  "check_id": "C-55095r992036_chk",
+  "check_content": "This check is performed on the machine used as a search head, which may be a separate machine in a distributed environment.\n\nIf the instance being reviewed is not used as a search head, this check in Not Applicable.\n\nExamine the configuration.\n\nNavigate to the $SPLUNK_HOME/etc/system/local/ directory. View the web.conf file.\n \nIf the web.conf file does not exist, this is a finding.\n\nIf the \"tools.sessions.timeout\" is missing or is configured to 16 or more, this is a finding.",
+  "fixtext": "This configuration is performed on the machine used as a search head, which may be a separate machine in a distributed environment.\n\nIf the web.conf file does not exist, copy the file from $SPLUNK_HOME/etc/system/default to the $SPLUNK_HOME/etc/system/local directory.\n\nModify/Add the following lines in the web.conf file:\n\ntools.session.timeout = 15",
+  "fix_id": "F-55049r819078_fix",
+  "VulnDiscussion": "Automatic session termination after a period of inactivity addresses the potential for a malicious actor to exploit the unattended session. Closing any unattended sessions reduces the attack surface to the application.\n\nSatisfies: SRG-APP-000295-AU-000190, SRG-APP-000389-AU-000180",
+  "Documentable": "false"
+}

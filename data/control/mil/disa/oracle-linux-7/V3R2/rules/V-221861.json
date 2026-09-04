@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221861",
+  "rule_id": "SV-221861r958796_rule",
+  "stig_id": "OL07-00-040440",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that the SSH daemon does not permit Kerberos authentication unless needed.",
+  "group_title": "SRG-OS-000364-GPOS-00151",
+  "idents": {
+    "legacy": [
+      "V-99461",
+      "SV-108565"
+    ],
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-23576r419655_chk",
+  "check_content": "Verify the SSH daemon does not permit Kerberos to authenticate passwords unless approved.\n\nCheck that the SSH daemon does not permit Kerberos to authenticate passwords with the following command:\n\n# grep -i kerberosauth /etc/ssh/sshd_config\nKerberosAuthentication no\n\nIf the \"KerberosAuthentication\" keyword is missing, or is set to \"yes\" and is not documented with the Information System Security Officer (ISSO), or the returned line is commented out, this is a finding.",
+  "fixtext": "Uncomment the \"KerberosAuthentication\" keyword in \"/etc/ssh/sshd_config\" (this file may be named differently or be in a different location if using a version of SSH that is provided by a third-party vendor) and set the value to \"no\":\n\nKerberosAuthentication no\n\nThe SSH service must be restarted for changes to take effect.\n\nIf Kerberos authentication is required, it must be documented, to include the location of the configuration file, with the ISSO.",
+  "fix_id": "F-23565r419656_fix",
+  "VulnDiscussion": "Kerberos authentication for SSH is often implemented using Generic Security Service Application Program Interface (GSSAPI). If Kerberos is enabled through SSH, the SSH daemon provides a means of access to the system's Kerberos implementation. Vulnerabilities in the system's Kerberos implementation may then be subject to exploitation. To reduce the attack surface of the system, the Kerberos authentication mechanism within SSH must be disabled for systems not using this capability.",
+  "Documentable": "false"
+}

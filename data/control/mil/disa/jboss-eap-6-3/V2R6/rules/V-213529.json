@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213529",
+  "rule_id": "SV-213529r981681_rule",
+  "stig_id": "JBOS-AS-000290",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "JBoss management Interfaces must be integrated with a centralized authentication mechanism that is configured to manage accounts according to DoD policy.",
+  "group_title": "SRG-APP-000163-AS-000111",
+  "idents": {
+    "legacy": [
+      "SV-76775",
+      "V-62285"
+    ],
+    "cci": [
+      "CCI-000795"
+    ]
+  },
+  "check_id": "C-14752r296253_chk",
+  "check_content": "Log on to the OS of the JBoss server with OS permissions that allow access to JBoss.\nUsing the relevant OS commands and syntax, cd to the <JBOSS_HOME>/bin/ folder.\nRun the jboss-cli script.\nConnect to the server and authenticate.\n\nObtain the list of management interfaces by running the command:\n\"ls /core-service=management/management-interface\"\n\nIdentify the security realm used by each management interface configuration by running the command:\n\"ls /core-service=management/management-interface=<MANAGEMENT-INTERFACE-NAME>\"\n\nDetermine if the security realm assigned to the management interface uses LDAP for authentication by running the command:\n\"ls /core-service=management/security-realm=<SECURITY_REALM_NAME>/authentication\"\n\nIf  the security realm assigned to the management interface does not utilize LDAP for authentication, this is a finding.",
+  "fixtext": "Follow steps in section 11.8 - Management Interface Security in the JBoss_Enterprise_Application_Platform-6.3-Administration_and_Configuration_Guide-en-US document.\n\n1. Create an outbound connection to the LDAP server.\n2. Create an LDAP-enabled security realm.\n3. Reference the new security domain in the Management Interface.",
+  "fix_id": "F-14750r296254_fix",
+  "VulnDiscussion": "JBoss EAP provides a security realm called ManagementRealm.  By default, this realm uses the mgmt-users.properties file for authentication.  Using file-based authentication does not allow the JBoss server to be in compliance with a wide range of user management requirements such as automatic disabling of inactive accounts as per DoD policy.  To address this issue, the management interfaces used to manage the JBoss server must be associated with a security realm that provides centralized authentication management.  Examples are AD or LDAP.\n\nManagement of user identifiers is not applicable to shared information system accounts (e.g., guest and anonymous accounts). It is commonly the case that a user account is the name of an information system account associated with an individual.",
+  "Documentable": "false"
+}

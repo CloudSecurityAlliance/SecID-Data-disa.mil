@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-94347",
+  "rule_id": "SV-104301r1_rule",
+  "stig_id": "SYMP-AG-000670",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Symantec ProxySG providing content filtering must generate an alert to, at a minimum, the ISSO and ISSM when denial-of-service (DoS) incidents are detected.",
+  "group_title": "SRG-NET-000392-ALG-000148",
+  "idents": {
+    "cci": [
+      "CCI-002664"
+    ]
+  },
+  "check_id": "C-93533r1_chk",
+  "check_content": "Verify that DoS events generate alerts to at least the ISSO and ISSM.\n\n1. SSH into the ProxySG console and type \"enable\".\n2. Enter the correct password and type \"config\". \n3. Press \"Enter\" and type \"show attack-detection configuration\". \n4. Verify that \"client limits enabled\" equals \"true\".\n5. Log on to the Web Management Console.\n6. Browse to Maintenance >> Event Logging and click the \"Mail\" tab. Verify that the ISSO and ISSM email addresses are specified.\n7. Browse to Configuration >> Policy >> Visual Policy Manager. Click \"Launch\".\n8. In each Web Access Layer, find rules that contain an \"Action\" of \"Attack Detection\". \n9. Verify that the \"Track\" field of these rules is set to \"Email\" and that the \"recipients\" are set to at least the ISSO and ISSM.\n\nIf Symantec ProxySG providing content filtering does not generate an alert to, at a minimum, the ISSO and ISSM when DoS incidents are detected, this is a finding.",
+  "fixtext": "Configure the ProxySG to email DoS attack detection/mitigation alerts to the ISSO and ISSM. \n\n1. SSH into the ProxySG console and type \"enable\".\n2. Enter the correct password and type \"config\".\n3. Press \"Enter\" and type \"attack-detection\". \n4. See the ProxySG Administration Guide, Chapter 73: Preventing Denial of Service Attacks, to understand the functionality before proceeding.\n5. Type \"client\" and press \"Enter\". Type \"enable-limits\" and press \"Enter\".\n6. Log on to the Web Management Console.\n7. Browse to Maintenance >> Event Logging and click the \"Mail\" tab. Ensure that the ISSO and ISSM email addresses are specified.\n8. Browse to Configuration >> Policy >> Visual Policy Manager. Click \"Launch\".\n9. In one Web Access Layer, create a new rule. Right-click the \"Action\" of that rule and select \"Set\". Click \"New\" and select \"Set Attack Detection\". Provide a \"Failure Weight\" per local security policy requirements.\n10. Click \"OK\" and click \"OK\" again. \n11. Right-click the \"Track\" column for this rule and select \"Set\". Click \"New\" and select \"Email\". \n12. Select \"Custom Recipients\" and click \"Configure Custom Recipients Lists\".\n13. Click \"New,\" provide a name for the list, and enter the ISSO and ISSM email addresses in the \"List Members\" field.\n14. Click \"OK\" and click \"OK\" again. Create message text and click \"OK\".\n15. Click \"OK\" and click \"OK\" again. Select File >> Install Policy on SG Appliance.",
+  "fix_id": "F-100463r2_fix",
+  "VulnDiscussion": "Without an alert, security personnel may be unaware of major detection incidents that require immediate action, and this delay may result in the loss or compromise of information.\n\nThe ALG generates an alert that notifies designated personnel of the Indicators of Compromise (IOCs) that require real-time alerts. These messages should include a severity level indicator or code as an indicator of the criticality of the incident. These indicators reflect the occurrence of a compromise or a potential compromise. Since these incidents require immediate action, these messages are assigned a critical or level 1 priority/severity, depending on the system's priority schema.\n\nCJCSM 6510.01B, \"Cyber Incident Handling Program\", lists nine Cyber Incident and Reportable Event categories. DoD has determined that categories identified by CJCSM 6510.01B Major Indicators (category 1, 2, 4, or 7 detection events) will require an alert when an event is detected.\n\nAlerts may be transmitted, for example, telephonically, by electronic mail messages, or by text messaging. The ALG must either send the alert to a management console that is actively monitored by authorized personnel or use a messaging capability to send the alert directly to designated personnel.",
+  "Documentable": "false"
+}

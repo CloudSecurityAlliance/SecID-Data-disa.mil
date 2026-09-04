@@ -1,0 +1,28 @@
+{
+  "vuln_id": "V-237723",
+  "rule_id": "SV-237723r1043176_rule",
+  "stig_id": "O121-C2-012900",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The DBMS must use multifactor authentication for access to user accounts.",
+  "group_title": "SRG-APP-000023-DB-000001",
+  "idents": {
+    "legacy": [
+      "V-61703",
+      "SV-76193"
+    ],
+    "cci": [
+      "CCI-000765",
+      "CCI-000766",
+      "CCI-000767",
+      "CCI-000768"
+    ]
+  },
+  "check_id": "C-40942r998251_chk",
+  "check_content": "If all user accounts are authenticated by the organization-level authentication/access mechanism and not by the DBMS, this is not a finding.\n\nReview DBMS settings, OS settings, and/or enterprise-level authentication/access mechanism settings to determine whether user accounts are required to use multifactor authentication.\n\nIf user accounts are not required to use multifactor authentication, this is a finding.\n\nIf the $ORACLE_HOME/network/admin/sqlnet.ora contains entries similar to the following, TLS is enabled. (Note: This assumes that a single sqlnet.ora file, in the default location, is in use. Refer to the supplemental file \"Non-default sqlnet.ora configurations.pdf\" for how to find multiple and/or differently located sqlnet.ora files.)\n\nSQLNET.AUTHENTICATION_SERVICES= (BEQ, TCPS)\nSSL_VERSION = 1.2\nSSL_CLIENT_AUTHENTICATION = TRUE\nWALLET_LOCATION =\n(SOURCE =\n(METHOD = FILE)\n(METHOD_DATA =\n(DIRECTORY = /u01/app/oracle/product/12.1.0/dbhome_1/owm/wallets)\n)\n)\n\nSSL_CIPHER_SUITES= (SSL_RSA_WITH_AES_256_CBC_SHA384)\nADR_BASE = /u01/app/oracle",
+  "fixtext": "Configure DBMS, OS and/or enterprise-level authentication/access mechanism to require multifactor authentication for user accounts.\n\nIf appropriate, enable support for TLS protocols and multifactor authentication through the use of smart cards (CAC/PIV). Oracle Database is capable of being configured to integrate users with an enterprise-level authentication/access mechanism.\n \nThe directions are in the Oracle Database Security Guide, Section 6:\nhttps://docs.oracle.com/en/database/oracle/oracle-database/19/dbseg/database-security-guide.pdf\n\nThis section will give detailed step-by-step directions to configure authentication using PKI certificates for centrally managed users by configuring SSL in the Oracle database and integrating with LDAP.",
+  "fix_id": "F-40905r1015774_fix",
+  "VulnDiscussion": "Multifactor authentication is defined as using two or more factors to achieve authentication.\n\nFactors include: \n(i) Something a user knows (e.g., password/PIN); \n(ii) Something a user has (e.g., cryptographic identification device, token); or\n(iii) Something a user is (e.g., biometric).\n\nThe DBMS must be configured to automatically utilize organization-level account management functions, and these functions must immediately enforce the organization's current account policy.\n\nThe lack of multifactor authentication makes it much easier for an attacker to gain unauthorized access to a system.\n\nTransport Layer Security (TLS) is the successor protocol to Secure Sockets Layer (SSL). Although the Oracle configuration parameters have names that include \"SSL\", such as SSL_VERSION and SSL_CIPHER_SUITES, they refer to TLS.\n\nUse authentication to prove the identities of users who are attempting to log on to the database. Oracle Database enables strong authentication with Oracle authentication adapters that support various third-party authentication services, including TLS with digital certificates, as well as Smart Cards (CAC, PIV).",
+  "Documentable": "false"
+}

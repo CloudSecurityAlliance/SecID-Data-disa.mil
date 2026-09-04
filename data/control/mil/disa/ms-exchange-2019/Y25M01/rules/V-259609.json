@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259609",
+  "rule_id": "SV-259609r961161_rule",
+  "stig_id": "EX19-ED-000123",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange messages with a blank sender field must be rejected.",
+  "group_title": "SRG-APP-000261",
+  "idents": {
+    "cci": [
+      "CCI-001308"
+    ]
+  },
+  "check_id": "C-63348r942139_chk",
+  "check_content": "This requirement is Not Applicable for SIPR enclaves.\n\nThis requirement is Not Applicable if the organization subscribes to EEMSG or other similar DOD enterprise protections for email services.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-SenderFilterConfig | Select-Object -Property Name, Action \n\nIf the value of \"Action\" is not set to \"Reject\", this is a finding.\n\nNote: \"Reject\" is the default value.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-SenderFilterConfig -Action Reject",
+  "fix_id": "F-63256r942140_fix",
+  "VulnDiscussion": "By performing filtering at the perimeter, up to 90 percent of spam, malware, and other undesirable messages are eliminated from the message stream rather than admitting them into the mail server environment. Anonymous email (messages with blank sender fields) cannot be replied to. Messages formatted in this way may be attempting to hide their true origin to avoid responses or to spam any receiver with impunity while hiding their source of origination.\n\nRather than spend resources and risk infection while evaluating them, it is recommended that these messages be filtered immediately upon receipt and not forwarded to end users.",
+  "Documentable": "false"
+}

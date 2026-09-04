@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-242006",
+  "rule_id": "SV-242006r922962_rule",
+  "stig_id": "WNFWA-000027",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Windows Defender Firewall with Advanced Security log size must be configured for public network connections.",
+  "group_title": "SRG-OS-000327-GPOS-00127",
+  "idents": {
+    "legacy": [
+      "V-17445",
+      "SV-54921"
+    ],
+    "cci": [
+      "CCI-000140"
+    ]
+  },
+  "check_id": "C-45281r698257_chk",
+  "check_content": "If the firewall's Public Profile is not enabled (see V-17417), this requirement is also a finding.\n\nIf the following policy-based registry value exists and is not configured as specified, this is a finding.\n\nRegistry Hive:  HKEY_LOCAL_MACHINE\nRegistry Path:  \\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PublicProfile\\Logging\\\n\nValue Name:  LogFileSize\n\nType:  REG_DWORD\nValue:  0x00004000 (16384) (or greater)\n\nIf the policy-based registry value does not exist, verify the following registry value. If it is not configured as specified, this is a finding.\n\nRegistry Hive:  HKEY_LOCAL_MACHINE\nRegistry Path:  \\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\PublicProfile\\Logging\\\n\nValue Name:  LogFileSize\n\nType:  REG_DWORD\nValue:  0x00004000 (16384) (or greater)",
+  "fixtext": "The preferred method of configuring the firewall settings is with a policy, particularly in a domain environment.\n\nConfigure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Microsoft Defender Firewall with Advanced Security >> Microsoft Defender Firewall with Advanced Security >> Microsoft Defender Firewall Properties (this link will be in the right pane) >> Public Profile tab >> Logging (select Customize), \"Size limit (KB)\" to \"16,384\" or greater.\n\nIn addition to using policies, systems may also be configured using the firewall GUI or Netsh commands. These methods may be more appropriate for standalone systems.\n\nThe configuration settings in the GUI are the same as those specified in the policy above. Microsoft Defender Firewall Properties will be a link in the center pane after opening Microsoft Defender Firewall with Advanced Security.\n\nThe following Netsh command may also be used to configure this setting:\n\n\"Netsh advfirewall set publicprofile logging maxfilesize 16384\" or greater.",
+  "fix_id": "F-45240r922961_fix",
+  "VulnDiscussion": "A firewall provides a line of defense against attack. To be effective, it must be enabled and properly configured. The firewall log file size for a public network connection will be set to ensure enough capacity is allocated for audit data.",
+  "Documentable": "false"
+}

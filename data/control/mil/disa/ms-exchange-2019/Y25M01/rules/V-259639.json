@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259639",
+  "rule_id": "SV-259639r961620_rule",
+  "stig_id": "EX19-ED-000232",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange internal Send connectors must use an authentication level.",
+  "group_title": "SRG-APP-000435",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-63378r942229_chk",
+  "check_content": "Open the Exchange Management Shell and enter the following command:\n\nGet-SendConnector | Select-Object -Property Name, Identity, TlsAuthLevel\n\nIf the value of \"TlsAuthLevel\" is not set to \"DomainValidation\", this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-SendConnector -Identity <'IdentityName'> -TlsAuthLevel DomainValidation",
+  "fix_id": "F-63286r942230_fix",
+  "VulnDiscussion": "The Simple Mail Transfer Protocol (SMTP) connector is used by Exchange to send and receive messages from server to server. Several controls work together to provide security between internal servers. This setting controls the encryption method used for communications between servers. With this feature enabled, only servers capable of supporting Transport Layer Security (TLS) will be able to send and receive mail within the domain.\n\nThe use of secure communication prevents eavesdroppers from reading or modifying communications between mail clients and servers. While sensitive message bodies should be encrypted by the sender at the client, requiring a secure connection from server to server adds protection by encrypting the sender and recipient information that cannot be encrypted by the sender.\n\nIndividually, channel security and encryption can be compromised by attackers. Used together, email becomes a more difficult target, and security is heightened. Failure to enable this feature gives eavesdroppers an opportunity to read or modify messages between servers.",
+  "Documentable": "false"
+}

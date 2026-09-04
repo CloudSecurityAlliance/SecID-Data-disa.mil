@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217337",
+  "rule_id": "SV-217337r961506_rule",
+  "stig_id": "JUNI-ND-001120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured to authenticate SNMP messages using a FIPS-validated Keyed-Hash Message Authentication Code (HMAC).",
+  "group_title": "SRG-APP-000395-NDM-000310",
+  "idents": {
+    "legacy": [
+      "SV-101263",
+      "V-91163"
+    ],
+    "cci": [
+      "CCI-001967"
+    ]
+  },
+  "check_id": "C-18564r296589_chk",
+  "check_content": "Review the router configuration to verify that it is compliant with this requirement as shown in the example below.\n\nsnmp {\n    v3 {\n        usm {\n            local-engine {\n                user R5_NMS {\n                    authentication-sha {\n                        authentication-key \"$8$vOiLX-Vb2oaUwsJDiHmPz3690BcSevM\"; ## SECRET-DATA\n                    }\n                }\n            }\n        }\n        target-address NMS_HOST {\n            address x.x.x.x;\n            address-mask 255.255.255.0;\n            tag-list NMS;\n            target-parameters TP1;\n        }\n        target-parameters TP1 {\n            parameters {\n                message-processing-model v3;\n                security-model usm;\n                security-level authentication;\n                security-name R5_NMS;\n            }\n        }\n        notify SEND_TRAPS {\n            type trap;\n            tag NMS;\n        }\n        snmp-community index1 {\n            security-name R5_NMS;\n            tag NMS;\n        }\n    }\n} \n\nIf the router is not configured to authenticate SNMP messages using a FIPS-validated HMAC, this is a finding.",
+  "fixtext": "Configure the router to authenticate SNMP messages as shown in the example below.\n\n[edit snmp]\nset v3 usm local-engine user R5_NMS authentication-sha authentication-password xxxxxxxxxx\nset v3 target-address NMS_HOST address x.x.x.x\n\nedit v3 target-address NMS_HOST\n[edit snmp v3 target-address NMS_HOST]\nset address-mask 255.255.255.0\nset tag-list NMS\nset target-parameters TP1\nexit\n\n[edit snmp]\nset v3 target-parameters TP1 parameters message-processing-model v3\nset v3 target-parameters TP1 parameters security-model usm\nset v3 target-parameters TP1 parameters security-name R5_NMS\nset v3 target-parameters TP1 parameters security-level authentication\nset v3 snmp-community index1 security-name R5_NMS tag NMS\nset v3 notify SEND_TRAPS type trap tag NMS",
+  "fix_id": "F-18562r296590_fix",
+  "VulnDiscussion": "Without authenticating devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity. Bidirectional authentication provides stronger safeguards to validate the identity of other devices for connections that are of greater risk.\n\nA local connection is any connection with a device communicating without the use of a network. A network connection is any connection with a device that communicates through a network (e.g., local area or wide area network, Internet). A remote connection is any connection with a device communicating through an external network (e.g., the Internet).\n\nBecause of the challenges of applying this requirement on a large scale, organizations are encouraged to only apply the requirement to those limited number (and type) of devices that truly need to support this capability.",
+  "Documentable": "false"
+}

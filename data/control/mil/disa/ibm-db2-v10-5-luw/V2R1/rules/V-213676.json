@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213676",
+  "rule_id": "SV-213676r879561_rule",
+  "stig_id": "DB2X-00-000800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DB2 must generate audit records when privileges/permissions are retrieved.",
+  "group_title": "SRG-APP-000091-DB-000066",
+  "idents": {
+    "legacy": [
+      "SV-89115",
+      "V-74441"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-14897r295077_chk",
+  "check_content": "To monitor who/what is reading the privilege/permission/role information from catalog tables a minimum audit set of CONTEXT and EXECUTE (with data) categories on the following catalog tables are required:\n\nSYSIBM.SYSINDEXAUTH\nSYSIBM.SYSPLANAUTH\nSYSIBM.SYSPASSTHRUAUTH\nSYSIBM.SYSROUTINEAUTH\nSYSIBM.SYSSCHEMAAUTH\nSYSIBM.SYSSECURITYLABELACCESS\nSYSIBM.SYSSECURITYPOLICYEXEMPTIONS\nSYSIBM.SYSSEQUENCEAUTH\nSYSIBM.SYSSURROGATEAUTHIDS\nSYSIBM.SYSTABAUTH \nSYSIBM.SYSTBSPACEAUTH \nSYSIBM.SYSXSROBJECTAUTH\nSYSIBM.SYSCOLAUTH\nSYSIBM.SYSLIBRARYAUTH\nSYSIBM.SYSMODULEAUTH\nSYSIBM.SYSROLEAUTH\nSYSIBM.SYSVARIABLEAUTH\nSYSIBM.SYSWORKLOADAUTH\nSYSIBM.SYSDBAUTH\nSYSIBM.SYSUSERAUTH\n\nRun the following SQL statement to ensure that an audit policy is defined upon the above catalog tables and/or the database:\n\nDB2> SELECT AUDITPOLICYNAME, OBJECTSCHEMA, OBJECTNAME, OBJECTTYPE \nFROM SYSCAT.AUDITUSE \nWHERE OBJECTTYPE IN ('T',' ')\n\nIf no rows are returned, this is a finding. \n\nIf a row with the OBJECTTYPE of ' ' (Database; value is a blank) exists in the output, it is a database level policy. \n\nIf a row with OBJECTTYPE of 'T' exists in the output, it is a table level policy.\n\nFor each audit policy returned in the statement above, run the following SQL statement to confirm that the CONTEXT and EXECUTE categories are part of that policy:\n\nDB2> SELECT AUDITPOLICYNAME, CONTEXTSTATUS, EXECUTESTATUS, ERRORTYPE AS ERRORTYPE \nFROM SYSCAT.AUDITPOLICIES\n\nIf the values for CONTEXTSTATUS and EXECUTESTATUS are not 'B' (Both) or ERRORTYPE is not 'A' (Audit), this is a finding.\n\nIf a database policy does not exist or does not cover CONTEXTSTATUS or EXECUTESTATUS then check if the appropriate policies are defined for all the required tables listed above.\n\nIf audit policies for the required tables do not have the values for the CONTEXTSTATUS and EXECUTESTATUS columns set to 'S' (Success) or 'B' (Both) or ERRORTYPE is not 'A' (Audit), this is a finding.",
+  "fixtext": "Define the audit policy using the CREATE AUDIT POLICY SQL statement:\nDB2> CREATE AUDIT POLICY CATALOGAUDIT CATEGORIES CONTEXT STATUS BOTH, EXECUTE STATUS BOTH ERROR TYPE AUDIT\n\nTo modify an existing audit policy, replace \"CREATE\" with \"ALTER\" in the preceding statement. Only the categories explicitly named in the statement will be affected.  In this case, the changes take effect immediately.\n\nIf CREATE was used above, apply the correct audit policy to either the database as a whole or to the specific catalog tables using one of these two statements:\nDB2> AUDIT DATABASE USING POLICY CATALOGAUDIT \n  Or \nDB2> AUDIT TABLE <table name> USING POLICY CATALOGAUDIT\n\nNote: The Database level policy in the Check category, covered in SRG-DB2X-00-000600, generates audit events of successful/unsuccessful read attempts on views based on these catalog tables.",
+  "fix_id": "F-14895r295078_fix",
+  "VulnDiscussion": "Under some circumstances, it may be useful to monitor who/what is reading privilege/permission/role information. Therefore, it must be possible to configure auditing to do this. DBMSs typically make such information available through views or functions.\n\nThis requirement addresses explicit requests for privilege/permission/role membership information. It does not refer to the implicit retrieval of privileges/permissions/role memberships that the DBMS continually performs to determine if any and every action on the database is permitted.",
+  "Documentable": "false"
+}

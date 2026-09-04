@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261341",
+  "rule_id": "SV-261341r996486_rule",
+  "stig_id": "SLEM-05-255080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 SSH daemon must perform strict mode checking of home directory configuration files.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65070r996484_chk",
+  "check_content": "Verify SLEM 5 SSH daemon performs strict mode checking of home directory configuration files with the following command:\n\n     > sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*strictmodes'\n     /etc/ssh/sshd_config:StrictModes yes\n\nIf \"StrictModes\" is not set to \"yes\", is commented out, missing, or conflicting results are returned, this is a finding.",
+  "fixtext": "Configure SLEM 5 SSH daemon performs strict mode checking of home directory configuration files.\n\nAdd or modify the following line in the \"/etc/ssh/sshd_config\" file:\n\nStrictModes yes\n\nRestart the SSH daemon in order for the changes to take effect:\n\n     > sudo systemctl restart sshd.service",
+  "fix_id": "F-64978r996485_fix",
+  "VulnDiscussion": "If other users have access to modify user-specific SSH configuration files, they may be able to log on to the system as another user.",
+  "Documentable": "false"
+}

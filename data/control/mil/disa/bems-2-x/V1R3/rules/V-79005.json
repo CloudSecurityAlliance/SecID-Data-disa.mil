@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-79005",
+  "rule_id": "SV-93711r1_rule",
+  "stig_id": "BEMS-00-002700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BlackBerry Enterprise Mobility Server (BEMS) must protect log information from unauthorized modification.",
+  "group_title": "SRG-APP-000119-AS-000079",
+  "idents": {
+    "cci": [
+      "CCI-000163"
+    ]
+  },
+  "check_id": "C-78593r1_chk",
+  "check_content": "Verify BEMS has been configured with the following administrator groups/roles, each group/role has required permissions, and at least one user has been assigned to each Administrator group/role: Server primary administrator, auditor.\n\nProcedure for Server Primary Administrator:\n1. In the BEMS Dashboard, under \"BEMS System Settings\", click \"BEMS Configuration\".\n2. Click \"Dashboard Administrators\".\n3. Confirm the Administrator role for the primary server administrator has been assigned the dashboard role of Admin.\n4. Verify in AD at least one member has been assigned to the BEMS administrator group. (Note: Actual group name may be different.)\n\nProcedure for Auditor:\n1. Verify in AD an auditor group has been set up with at least one member.\n2. Browse to the log repository.\n3. Right-click on the folder.\n4. Select \"Properties\".\n5. Select the \"Security\" tab. \n6. Confirm the auditor security group is listed.\n\nIf required administrator roles have not been set up on BEMS and at least one user has not been assigned to each role, this is a finding.",
+  "fixtext": "Configure BEMS to have at least one user in the following Administrator roles: Server primary administrator, auditor.\n\n1. In the BEMS Dashboard, under \"BEMS System Settings\", click \"BEMS Configuration\".\n2. Click \"Dashboard Administrators\".\n3. Click \"Add Group\".\n4. In the \"Active Directory Security Group\" field, type the name of the Microsoft Active Directory security group.\n5. Click \"Save\".\n6. Repeat steps 3 to 5 to add additional security groups.\n7. For the server primary administrator, the default role of Admin meets the required roles and no additional configuration is needed.\n8. For the Auditor role, complete the following steps:\n  - In active directory, create a domain auditor group and assign personnel designated as auditors to that group.\n  - Browse to the log repository.\n  - Right-click on the folder.\n  - Select \"Properties\".\n  - Select the \"Security\" tab.\n  - Click \"Edit\".\n  - Click \"Add\".\n  - Type in name of the user group.\n  - Confirm that only the necessary groups have rights to the folder (CREATOR OWNER, SYSTEM, Administrators, Auditors).\n  - Set proper permissions for auditors (Read, List folder contents, Read & Execute).",
+  "fix_id": "F-85755r1_fix",
+  "VulnDiscussion": "If log data were to become compromised, then competent forensic analysis and discovery of the true source of potentially malicious system activity is difficult, if not impossible, to achieve. In addition, access to log records provides information an attacker could potentially use to his or her advantage.\n\nApplication servers contain admin interfaces that allow reading and manipulation of log records. Therefore, these interfaces should not allow unfettered access to those records.  Application servers also write log data to log files which are stored on the OS, so appropriate file permissions must also be used to restrict access.\n\nLog information includes all information (e.g., log records, log settings, transaction logs and log reports) needed to successfully log information system activity. Application servers must protect log information from unauthorized modification.",
+  "Documentable": "false"
+}

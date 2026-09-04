@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220406",
+  "rule_id": "SV-220406r961821_rule",
+  "stig_id": "ML09-00-010900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MarkLogic Server must generate audit records when categories of information (e.g., classification levels/security levels) are deleted.",
+  "group_title": "SRG-APP-000502-DB-000348",
+  "idents": {
+    "legacy": [
+      "SV-110161",
+      "V-101057"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-22121r401669_chk",
+  "check_content": "Check MarkLogic audit configurations to verify that audit records are produced when categories of information are deleted.\n\nPerform the check from the MarkLogic Server Admin Interface with a user that holds administrative-level privileges.\n\n1. Click the Groups icon.\n2. Click the group in which the configuration to be checked resides (e.g., Default).\n3. Click the Auditing icon on the left tree menu.\n4. Inspect the audit enabled field. A value of false means auditing is not enabled and this is a finding. \n5. If audit enabled field is true, but the document-update event is not selected, this is a finding.\n6. Under the Audit Restrictions - Outcome section, verify the security-access event for auditing is set to \"both\". If the setting is not \"both\", this is a finding.\n7. If any roles, URIs, or users are identified in audit restrictions, and not documented in the System Security Plan, this is a finding.",
+  "fixtext": "Configure MarkLogic to produce audit records when categories of information are deleted.\n\nPerform the fix from the MarkLogic Server Admin Interface with a user that holds administrative-level privileges.\n\n1. Click the Groups icon.\n2. Click the group in which the configuration to be checked resides (e.g., Default).\n3. Click the Auditing icon on the left tree menu.\n4. Set the audit enabled field to true.\n5. Enable the document-update event for auditing.\n6. Enable \"both\" for the audit restriction under the outcome selection.\n7. Ensure no roles, URIs, or users are identified in the audit restrictions, unless documented in the System Security Plan. \n\nSee MarkLogic Server - Using Security Guide 9.0-9, Ch 5, Section 2: Configuring Compartment Security, for information on defining the categories of information by using compartmented security.",
+  "fix_id": "F-22110r401670_fix",
+  "VulnDiscussion": "Changes in categories of information must be tracked. Without an audit trail, unauthorized access to protected data could go undetected.\n\nFor detailed information on categorizing information, refer to FIPS Publication 199, Standards for Security Categorization of Federal Information and Information Systems, and FIPS Publication 200, Minimum Security Requirements for Federal Information and Information Systems.",
+  "Documentable": "false"
+}

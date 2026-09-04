@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215419",
+  "rule_id": "SV-215419r991589_rule",
+  "stig_id": "AIX7-00-003124",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX systems access control program must be configured to grant or deny system access to specific hosts.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91685",
+      "SV-101783"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16617r294708_chk",
+  "check_content": "Check for the existence of the \"/etc/hosts.allow\" and \"/etc/hosts.deny\" files using commands: \n\n# ls -la /etc/hosts.allow \n-rw-r--r--    1 root     system           11 Jan 28 11:09 /etc/hosts.allow\n\n# ls -la /etc/hosts.deny\n-rw-r--r--    1 root     system            0 Jan 28 11:02 /etc/hosts.deny\n \nIf either file does not exist, this is a finding. \n\nCheck for the presence of a default deny entry using command: \n\n# grep -E \"ALL:[[:blank:]]*ALL\" /etc/hosts.deny \nALL:ALL\n\nIf the \"ALL: ALL\" entry is not present in the \"/etc/hosts.deny\" file, any TCP service from a host or network not matching other rules will be allowed access. \n\nIf the entry is not in \"/etc/hosts.deny\", this is a finding.",
+  "fixtext": "Edit the \"/etc/hosts.allow\" and \"/etc/hosts.deny\" files to configure access restrictions.\n\nAdd \"ALL: ALL\" entry to \"/etc/hosts.deny\" file.",
+  "fix_id": "F-16615r294709_fix",
+  "VulnDiscussion": "If the system's access control program is not configured with appropriate rules for allowing and denying access to system network resources, services may be accessible to unauthorized hosts.",
+  "Documentable": "false"
+}

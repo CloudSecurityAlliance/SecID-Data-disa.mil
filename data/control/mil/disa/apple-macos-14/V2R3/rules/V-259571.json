@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-259571",
+  "rule_id": "SV-259571r1009608_rule",
+  "stig_id": "APPL-14-005080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must prohibit user installation of software into /users/.",
+  "group_title": "SRG-OS-000362-GPOS-00149",
+  "idents": {
+    "cci": [
+      "CCI-003980",
+      "CCI-001812"
+    ]
+  },
+  "check_id": "C-63310r941333_chk",
+  "check_content": "Verify the macOS system is configured to prohibit user installation of software into /users/ with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\nfunction run() {\n  let pref1 = ObjC.unwrap($.NSUserDefaults.alloc.initWithSuiteName('com.apple.applicationaccess.new')\\\n  .objectForKey('familyControlsEnabled'))\n  let pathlist = $.NSUserDefaults.alloc.initWithSuiteName('com.apple.applicationaccess.new')\\\n  .objectForKey('pathBlackList').js\n  for ( let app in pathlist ) {\n      if ( ObjC.unwrap(pathlist[app]) == \"/Users/\" && pref1 == true ){\n          return(\"true\")\n      }\n  }\n  return(\"false\")\n  }\nEOS\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to prohibit user installation of software into /users/ by installing the \"com.apple.applicationaccess.new\" configuration profile.",
+  "fix_id": "F-63218r941334_fix",
+  "VulnDiscussion": "Users must not be allowed to install software into /users/.\n\nAllowing users who do not possess explicit privileges to install software presents the risk of untested and potentially malicious software being installed on the system. Explicit privileges (escalated or administrative privileges) provide the regular user with explicit capabilities and control that exceeds the rights of a regular user.\n\n[IMPORTANT]\n====\nApple has deprecated the use of application restriction controls (https://github.com/apple/device-management/blob/eb51fb0cb9626cac4717858556912c257a734ce0/mdm/profiles/com.apple.applicationaccess.new.yaml#L67-L70). Using these controls may not work as expected. Third-party software may be required to fulfill the compliance requirements.\n====",
+  "Documentable": "false"
+}

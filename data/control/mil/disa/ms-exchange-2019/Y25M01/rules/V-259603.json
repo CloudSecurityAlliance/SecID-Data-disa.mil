@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259603",
+  "rule_id": "SV-259603r961155_rule",
+  "stig_id": "EX19-ED-000116",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange send connectors delivery retries must be controlled.",
+  "group_title": "SRG-APP-000247",
+  "idents": {
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-63342r942121_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP).\n\nDetermine the value for Transient Failure Retry Count.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-TransportService | Select-Object -Property Name, Identity, TransientFailureRetryCount\n\nIf the value of \"TransientFailureRetryCount\" is not set to \"10\" or less, this is a finding.\n\nor\n\nIf the value of \"TransientFailureRetryCount\" is set to more than \"10\" or has signoff and risk acceptance in the EDSP, this is not a finding.",
+  "fixtext": "Update the EDSP to reflect the value for Transient Failure Retry Count.\n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-TransportService -Identity <'IdentityName'> -TransientFailureRetryCount 10\n\nNote: The <IdentityName> value must be in quotes.\n\nor\n\nThe value as identified by the EDSP that has obtained a signoff with risk acceptance.",
+  "fix_id": "F-63250r942122_fix",
+  "VulnDiscussion": "This setting controls the rate at which delivery attempts from the home domain are retried and user notifications are issued and notes the expiration time when the message will be discarded. \n\nIf delivery retry attempts are too frequent, servers will generate network congestion. If they are too far apart, messages may remain queued longer than necessary, potentially raising disk resource requirements.\n\nThe default values of these fields should be adequate for most environments. Administrators may wish to modify the values, but changes should be documented in the System Security Plan.\n\nNote: Transport configuration settings apply to the organization/global level of the Exchange SMTP path. By checking and setting them at the Hub server, the setting will apply to both Hub and Edge roles.",
+  "Documentable": "false"
+}

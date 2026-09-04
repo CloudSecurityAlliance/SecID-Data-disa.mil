@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260926",
+  "rule_id": "SV-260926r966135_rule",
+  "stig_id": "CNTR-MK-000600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MKE must use a non-AUFS storage driver.",
+  "group_title": "SRG-APP-000141-CTR-000315",
+  "idents": {
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-64655r966133_chk",
+  "check_content": "The default storage driver for MCR is overlay2. To confirm this has not been changed via CLI: \n\nAs a trusted user on the underlying host operating system, execute the following command:\n\ndocker info | grep -e \"Storage Driver:\"\n\nIf the Storage Driver setting contains *aufs or *btrfs, then this is a finding. If the above command returns no values, this is not a finding.",
+  "fixtext": "Modify Storage Driver setting.\n\nVia CLI as a trusted user on the underlying host operating system:\n\nIf the daemon.json file does not exist, it must be created.\n\n\"/etc/docker/daemon.json\"\n\nEdit the \"/etc/docker/daemon.json\" file and set the \"storage-driver\" property to a value that is not \"aufs\" or \"btrfs\".\n{\n  \"storage-driver\": \"overlay2\"\n}\n\nRestart the Docker daemon by executing the following:\n\nsudo systemctl restart docker",
+  "fix_id": "F-64563r966134_fix",
+  "VulnDiscussion": "The aufs storage driver is an old driver based on a Linux kernel patch-set that is unlikely to be merged into the main Linux kernel. aufs driver is also known to cause some serious kernel crashes. aufs only has legacy support from Docker. Most importantly, aufs is not a supported driver in many Linux distributions using latest Linux kernels.",
+  "Documentable": "false"
+}

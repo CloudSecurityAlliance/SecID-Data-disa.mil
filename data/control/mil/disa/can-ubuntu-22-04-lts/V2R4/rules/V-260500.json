@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260500",
+  "rule_id": "SV-260500r1069099_rule",
+  "stig_id": "UBTU-22-232075",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS library files must be group-owned by \"root\".",
+  "group_title": "SRG-OS-000259-GPOS-00100",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-64229r1069098_chk",
+  "check_content": "Verify the systemwide library files contained in the directories \"/lib\", \"/lib64\", and \"/usr/lib\" are group-owned by \"root\", or a required system account, by using the following command:  \n  \n     $ sudo find /lib /lib64 /usr/lib /usr/lib64 ! -group root -type f -exec stat -c \"%n %G\" '{}' \\;  \n  \nIf any systemwide shared library file is returned and is not group-owned by a required system account, this is a finding.",
+  "fixtext": "Configure Ubuntu 22.04 LTS library files to be protected from unauthorized access. \n\nRun the following command, replacing \"<command_name>\" with any system command not group-owned by \"root\" or a required system account:  \n  \n     $ sudo chgrp root <command_name>",
+  "fix_id": "F-64137r953312_fix",
+  "VulnDiscussion": "If the operating system were to allow any user to make changes to software libraries, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.  \n  \nThis requirement applies to operating systems with software libraries that are accessible and configurable, as in the case of interpreted languages. Software libraries also include privileged programs that execute with escalated privileges. Only qualified and authorized individuals must be allowed to obtain access to information system components for purposes of initiating changes, including upgrades and modifications.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213190",
+  "rule_id": "SV-213190r400378_rule",
+  "stig_id": "ARDC-CN-000330",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Adobe Reader DC must disable periodical uploading of European certificates.",
+  "group_title": "SRG-APP-000427",
+  "idents": {
+    "legacy": [
+      "SV-80163",
+      "V-65673"
+    ],
+    "cci": [
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-14425r276788_chk",
+  "check_content": "Verify the following registry configuration:\n\nNote: The Key Names \"cDigSig\" and \"cEUTLDownload\" are not created by default in the Adobe Reader DC install and must be created.\n\nUtilizing the Registry Editor, navigate to the following: HKEY_CURRENT_USER\\Software\\Adobe\\Acrobat Reader\\DC\\Security\\cDigSig\\cEUTLDownload\n\nValue Name: bLoadSettingsFromURL \nType: REG_DWORD\nValue: 0\n\nIf the value for bLoadSettingsFromURL is not set to “0” and Type configured to REG_DWORD or does not exist, then this is a finding.",
+  "fixtext": "Configure the following registry value:\n\nNote: The Key Names \"cDigSig\" and \"cEUTLDownload\" are not created by default in the Adobe Reader DC install and must be created.\n\nRegistry Hive: HKEY_CURRENT_USER\nRegistry Path: \\Software\\Adobe\\Acrobat Reader\\DC\\Security\\cDigSig\\cEUTLDownload\n\nValue Name: bLoadSettingsFromURL \nType: REG_DWORD\nValue: 0",
+  "fix_id": "F-14423r276789_fix",
+  "VulnDiscussion": "By default, the user can update European certificates from an Adobe server through the GUI.\n\nWhen uploading European certificates is disabled, it prevents the automatic download and installation of certificates and disables and locks the end user's ability to upload those certificates.",
+  "Documentable": "false"
+}

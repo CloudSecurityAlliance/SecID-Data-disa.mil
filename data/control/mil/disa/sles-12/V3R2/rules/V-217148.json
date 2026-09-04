@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-217148",
+  "rule_id": "SV-217148r958794_rule",
+  "stig_id": "SLES-12-010500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Advanced Intrusion Detection Environment (AIDE) must verify the baseline SUSE operating system configuration at least weekly.",
+  "group_title": "SRG-OS-000363-GPOS-00150",
+  "idents": {
+    "legacy": [
+      "V-77151",
+      "SV-91847"
+    ],
+    "cci": [
+      "CCI-002696",
+      "CCI-002699",
+      "CCI-001744"
+    ]
+  },
+  "check_id": "C-18376r902838_chk",
+  "check_content": "Verify the SUSE operating system checks the baseline configuration for unauthorized changes at least once weekly.\n\nNote: A file integrity tool other than Advanced Intrusion Detection Environment (AIDE) may be used, but the tool must be executed at least once per week.\n\nCheck for a \"crontab\" that controls the execution of the file integrity application. For example, if AIDE is installed on the system, use the following command:\n\n     # sudo crontab -l\n     0 0 * * 6 /usr/bin/aide --check | /bin/mail -s \"$HOSTNAME - Daily AIDE integrity check run\" root@example_server_name.mil\n\nIf the file integrity application does not exist, or a \"crontab\" entry does not exist, check the cron directories for a script that runs the file integrity application:\n\n     # ls -al /etc/cron.daily /etc/cron.weekly\n\nInspect the file and ensure that the file integrity tool is being executed.\n\nIf a file integrity tool is not configured in the crontab or in a script that runs at least weekly, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to check the baseline configuration for unauthorized changes at least once weekly.\n\nConfigure the file integrity tool to automatically run on the system at least weekly. \n\nThe following example output is generic. It will set cron to run AIDE weekly, but other file integrity tools may be used:\n\n     # sudo crontab -l\n\n     0 0 * * 6 /usr/sbin/aide --check | /bin/mail -s \"$HOSTNAME - Daily AIDE integrity check run\" root@example_server_name.mil\n\nNote: Per requirement SLES-12-010498, the \"mailx\" package must be installed on the system to enable email functionality.",
+  "fix_id": "F-18374r902839_fix",
+  "VulnDiscussion": "Unauthorized changes to the baseline configuration could make the system vulnerable to various attacks or allow unauthorized access to the SUSE operating system. Changes to SUSE operating system configurations can have unintended side effects, some of which may be relevant to security.\n\nDetecting such changes and providing an automated response can help avoid unintended, negative consequences that could ultimately affect the security state of the SUSE operating system. The SUSE operating system's Information System Security Manager (ISSM)/Information System Security Officer (ISSO) and System Administrator (SAs) must be notified via email and/or monitoring system trap when there is an unauthorized modification of a configuration item.",
+  "Documentable": "false"
+}

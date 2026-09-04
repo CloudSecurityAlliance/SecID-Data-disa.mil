@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214231",
+  "rule_id": "SV-214231r961863_rule",
+  "stig_id": "AS24-U1-000065",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Apache web server must have system logging enabled.",
+  "group_title": "SRG-APP-000516-WSR-000174",
+  "idents": {
+    "legacy": [
+      "SV-102695",
+      "V-92607"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-15445r881409_chk",
+  "check_content": "Determine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nNote: The apachectl front end is the preferred method for locating the Apache httpd file. For some Linux distributions, \"apache2ctl -V\" or  \"httpd -V\" can also be used.\n\nSearch for the directive \"CustomLog\" in the \"httpd.conf\" file:\n\n# cat /<path_to_file>/httpd.conf | grep -i \"CustomLog\"\n\nIf the \"CustomLog\" directive is missing, this is a finding:\n\nAn example CustomLog directive would be as follows:\nCustomLog \"logs/access_log\" common or CustomLog “log/access_log” combined\n(May also be \"Logs/access_log\")",
+  "fixtext": "Edit the \"httpd.conf\" file and enter the name, path and level for the CustomLog.",
+  "fix_id": "F-15443r276954_fix",
+  "VulnDiscussion": "The server error logs are invaluable because they can also be used to identify potential problems and enable proactive remediation. Log data can reveal anomalous behavior such as “not found” or “unauthorized” errors that may be an evidence of attack attempts. Failure to enable error logging can significantly reduce the ability of Web Administrators to detect or remediate problems. The CustomLog directive specifies the log file, syslog facility, or piped logging utility.",
+  "Documentable": "false"
+}

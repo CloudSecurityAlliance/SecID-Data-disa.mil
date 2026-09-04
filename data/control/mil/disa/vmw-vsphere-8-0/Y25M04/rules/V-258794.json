@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258794",
+  "rule_id": "SV-258794r1003574_rule",
+  "stig_id": "ESXI-80-000239",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must configure the firewall to restrict access to services running on the host.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62534r1003541_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Firewall.\n\nUnder the \"Allowed IP addresses\" column, review the allowed IPs for each service.\n\nCheck this for \"Incoming\" and \"Outgoing\" sections.\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-VMHostFirewallException | Where {($_.Enabled -eq $true) -and ($_.ExtensionData.IpListUserConfigurable -eq $true)} | Select Name,Enabled,@{N=\"AllIPEnabled\";E={$_.ExtensionData.AllowedHosts.AllIP}},@{N=\"AllIPUserConfigurable\";E={$_.ExtensionData.IpListUserConfigurable}}\n\nIf \"Allow connections from any IP address\" is configured on a user-configurable enabled service, this is a finding.\n\nNote: In vSphere 8 U2 firewall rules were categorized as user or system owned for both enabling/disabling and configuring the allowed IP addresses. This control is only applicable for rules in which a user can configure the allowed IP addresses.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Firewall.\n\nClick \"Edit...\". For each user-configurable enabled service, uncheck the check box to \"Allow connections from any IP address\" and input the site-specific network(s) required.\n\nThe following example formats are acceptable:\n\n192.168.0.0/24\n192.168.1.2, 2001::1/64\nfd3e:29a6:0a81:e478::/64\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n#This disables the allow all rule for the target service. The sshServer service is the target in this example.\n$arguments = $esxcli.network.firewall.ruleset.set.CreateArgs()\n$arguments.rulesetid = \"sshServer\"\n$arguments.allowedall = $false\n$esxcli.network.firewall.ruleset.set.Invoke($arguments)\n\n#Next add the allowed IPs for the service. Note that executing the \"vSphere Web Client\" service this way may disable access but may be done through vCenter or through the console.\n$arguments = $esxcli.network.firewall.ruleset.allowedip.add.CreateArgs()\n$arguments.rulesetid = \"sshServer\"\n$arguments.ipaddress = \"10.0.0.0/8\"\n$esxcli.network.firewall.ruleset.allowedip.add.Invoke($arguments)\n\nThis must be done for each user-configurable enabled service.",
+  "fix_id": "F-62443r1003542_fix",
+  "VulnDiscussion": "Unrestricted access to services running on an ESXi host can expose a host to outside attacks and unauthorized access. Reduce the risk by configuring the ESXi firewall to only allow access from authorized networks.",
+  "Documentable": "false"
+}

@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-217099",
+  "rule_id": "SV-217099r961863_rule",
+  "stig_id": "JBOS-AS-000285",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The JBoss server must be configured to bind the management interfaces to only management networks.",
+  "group_title": "SRG-APP-000516-AS-000237",
+  "idents": {
+    "legacy": [
+      "SV-76773",
+      "V-62283"
+    ],
+    "cci": [
+      "CCI-000366",
+      "CCI-000778"
+    ]
+  },
+  "check_id": "C-18328r296346_chk",
+  "check_content": "Obtain documentation and network drawings from system admin that shows the network interfaces on the JBoss server and the networks they are configured for.\n\nIf a management network is not used, you may substitute localhost/127.0.0.1 for management address.  If localhost/127.0.0.1 is used for management interface, this is not a finding.\n\nFrom the JBoss server open the web-based admin console by pointing a browser to HTTP://127.0.0.1:9990.\nLog on to the management console with admin credentials.\nSelect \"RUNTIME\". \nExpand STATUS by clicking on +.\nExpand PLATFORM by clicking on +.\nIn the \"Environment\" tab, click the > arrow until you see the \"jboss.bind.properties\" and the \"jboss.bind.properties.management\" values.\n\nIf the jboss.bind.properties and the jboss.bind.properties.management do not have different IP network addresses assigned, this is a finding.\n\nReview the network documentation.  If access to the management IP address is not restricted, this is a finding.",
+  "fixtext": "Refer to Section 4.9 of the JBoss EAP 6.3 Installation guide for detailed instructions on how to start JBoss as a service.\n\nUse the following command line parameters to assign the management interface to a specific management network.\n\nThese command line flags must be added both when starting JBoss as a service and when starting from the command line.\n\nSubstitute your actual network address for the 10.x.x.x addresses provided as an example below.\n\nFor a standalone configuration:\nJBOSS_HOME/bin/standalone.sh -bmanagement=10.2.2.1 -b 10.1.1.1\n\nJBOSS_HOME/bin/domain.sh -bmanagement=10.2.2.1 -b 10.1.1.1\n\nIf a management network is not available, you may substitute localhost/127.0.0.1 for management address.  This will force you to manage the JBoss server from the local host.",
+  "fix_id": "F-18326r296347_fix",
+  "VulnDiscussion": "JBoss provides multiple interfaces for accessing the system.  By default, these are called \"public\" and \"management\".  Allowing non-management traffic to access the JBoss management interface increases the chances of a security compromise.  The JBoss server must be configured to bind the management interface to a network that controls access.  This is usually a network that has been designated as a management network and has restricted access.  Similarly, the public interface must be bound to a network that is not on the same segment as the management interface.",
+  "Documentable": "false"
+}

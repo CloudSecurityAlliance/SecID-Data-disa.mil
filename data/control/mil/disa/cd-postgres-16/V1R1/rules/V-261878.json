@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261878",
+  "rule_id": "SV-261878r1000958_rule",
+  "stig_id": "CD16-00-002300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must protect its audit features from unauthorized access.",
+  "group_title": "SRG-APP-000121-DB-000202",
+  "idents": {
+    "cci": [
+      "CCI-001493"
+    ]
+  },
+  "check_id": "C-65732r1000637_chk",
+  "check_content": "Note: The following instructions use the PGDATA and PGVER environment variables. Refer to APPENDIX-F for instructions on configuring PGDATA, APPENDIX-H for PGVER, and APPENDIX-I for PGLOG. Only the database owner and superuser can alter configuration of PostgreSQL.\n\nEnsure the PGLOG directory is owned by postgres user and group:\n\n$ sudo su - postgres\n$ ls -la ${PGLOG?} \n\nIf PGLOG is not owned by the database owner, this is a finding. \n\nEnsure the data directory is owned by postgres user and group. \n\n$ sudo su - postgres\n$ ls -la ${PGDATA?}\n\nIf PGDATA is not owned by the database owner, this is a finding.\n\nEnsure the pgaudit installation is owned by root:\n\n$ sudo su - postgres\n$ ls -la /usr/pgsql-${PGVER?}/share/extension/pgaudit*\n\nIf the pgaudit installation is not owned by root, this is a finding.\n\nAs the database administrator (shown here as \"postgres\"), run the following SQL to list all roles and their privileges:\n\n$ sudo su - postgres\n$ psql -x -c \"\\du\"\n\nIf any role has \"superuser\" that should not, this is a finding.",
+  "fixtext": "Note: The following instructions use the PGDATA and PGVER environment variables. Refer to APPENDIX-F for instructions on configuring PGDATA, APPENDIX-H for PGVER and APPENDIX-I for PGLOG.\n\nIf PGLOG or PGDATA are not owned by postgres user and group, configure them as follows: \n\n$ sudo chown -R postgres:postgres ${PGDATA?}\n$ sudo chown -R postgres:postgres ${PGLOG?}\n\nIf the pgaudit installation is not owned by root user and group, configure it as follows:\n\n$ sudo chown -R root:root /usr/pgsql-${PGVER?}/share/extension/pgaudit*\n\nTo remove superuser from a role, as the database administrator (shown here as \"postgres\"), run the following SQL:\n\n$ sudo su - postgres\n$ psql -c \"ALTER ROLE <role-name> WITH NOSUPERUSER\"",
+  "fix_id": "F-65640r1000638_fix",
+  "VulnDiscussion": "Protecting audit data also includes identifying and protecting the tools used to view and manipulate log data. \n\nDepending upon the log format and application, system and application log tools may provide the only means to manipulate and manage application and system log data. It is, therefore, imperative that access to audit tools be controlled and protected from unauthorized access. \n\nApplications providing tools to interface with audit data will leverage user permissions and roles identifying the user accessing the tools and the corresponding rights the user enjoys in order to make access decisions regarding the access to audit tools.\n\nAudit tools include, but are not limited to, OS-provided audit tools, vendor-provided audit tools, and open-source audit tools needed to successfully view and manipulate audit information system activity and records. \n\nIf an attacker were to gain access to audit tools, they could analyze audit logs for system weaknesses or weaknesses in the auditing itself. An attacker could also manipulate logs to hide evidence of malicious activity.",
+  "Documentable": "false"
+}

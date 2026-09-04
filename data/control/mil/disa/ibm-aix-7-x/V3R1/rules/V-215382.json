@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215382",
+  "rule_id": "SV-215382r958478_rule",
+  "stig_id": "AIX7-00-003077",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The sprayd daemon must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "SV-101493",
+      "V-91395"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16580r294597_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^sprayd[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"sprayd\" entry by running command: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'sprayd' -p 'udp'\n\nRestart inetd:\n# refresh -s inetd",
+  "fix_id": "F-16578r294598_fix",
+  "VulnDiscussion": "The sprayd service is used as a tool to generate UDP packets for testing and diagnosing network problems. The service must be disabled if NFS is not in use, as it can be used by attackers in a Distributed Denial of Service (DDoS) attack.",
+  "Documentable": "false"
+}

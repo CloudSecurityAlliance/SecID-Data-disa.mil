@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257977",
+  "rule_id": "SV-257977r991589_rule",
+  "stig_id": "RHEL-09-254040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must not forward IPv6 source-routed packets by default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61718r943010_chk",
+  "check_content": "Verify RHEL 9 does not accept IPv6 source-routed packets by default.\n\nNote: If IPv6 is disabled on the system, this requirement is Not Applicable.\n\nCheck the value of the accept source route variable with the following command:\n\n$ sudo sysctl net.ipv6.conf.default.accept_source_route\n\nnet.ipv6.conf.default.accept_source_route = 0\n\nIf the returned line does not have a value of \"0\", a line is not returned, or the line is commented out, this is a finding.\n\nCheck that the configuration files are present to enable this network parameter.\n\n$ sudo /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' |  grep -F net.ipv6.conf.default.accept_source_route | tail -1\n\nnet.ipv6.conf.default.accept_source_route = 0\n\nIf \"net.ipv6.conf.default.accept_source_route\" is not set to \"0\" or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 9 to not forward IPv6 source-routed packets by default.\n\nAdd or edit the following line in a single system configuration file, in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv6.conf.default.accept_source_route = 0\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-61642r925917_fix",
+  "VulnDiscussion": "Source-routed packets allow the source of the packet to suggest that routers forward the packet along a different path than configured on the router, which can be used to bypass network security measures. This requirement applies only to the forwarding of source-routed traffic, such as when forwarding is enabled and the system is functioning as a router.\n\nAccepting source-routed packets in the IPv6 protocol has few legitimate uses. It must be disabled unless it is absolutely required.",
+  "Documentable": "false"
+}

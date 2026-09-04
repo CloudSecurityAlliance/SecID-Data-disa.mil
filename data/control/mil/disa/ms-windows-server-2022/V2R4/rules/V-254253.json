@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254253",
+  "rule_id": "SV-254253r958702_rule",
+  "stig_id": "WN22-00-000160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2022 permissions for the Windows installation directory must conform to minimum requirements.",
+  "group_title": "SRG-OS-000312-GPOS-00122",
+  "idents": {
+    "cci": [
+      "CCI-002165"
+    ]
+  },
+  "check_id": "C-57738r848573_chk",
+  "check_content": "The default permissions are adequate when the Security Option \"Network access: Let Everyone permissions apply to anonymous users\" is set to \"Disabled\" (WN22-SO-000240).\n\nReview the permissions for the Windows installation directory (usually C:\\Windows). Nonprivileged groups such as Users or Authenticated Users must not have greater than \"Read & execute\" permissions. Individual accounts must not be used to assign permissions.\n\nIf permissions are not as restrictive as the default permissions listed below, this is a finding:\n\nViewing in File Explorer:\n\nFor each folder, view the Properties.\n\nSelect the \"Security\" tab and the \"Advanced\" button.\n\nDefault permissions:\n\\Windows\nType - \"Allow\" for all\nInherited from - \"None\" for all\n\nPrincipal - Access - Applies to\n\nTrustedInstaller - Full control - This folder and subfolders\nSYSTEM - Modify - This folder only\nSYSTEM - Full control - Subfolders and files only\nAdministrators - Modify - This folder only\nAdministrators - Full control - Subfolders and files only\nUsers - Read & execute - This folder, subfolders, and files\nCREATOR OWNER - Full control - Subfolders and files only\nALL APPLICATION PACKAGES - Read & execute - This folder, subfolders, and files\nALL RESTRICTED APPLICATION PACKAGES - Read & execute - This folder, subfolders, and files\n\nAlternately, use icacls:\n\nOpen a Command prompt (admin).\n\nEnter \"icacls\" followed by the directory:\n\n\"icacls c:\\windows\"\n\nThe following results must be displayed for each when entered:\n\nc:\\windows\nNT SERVICE\\TrustedInstaller:(F)\nNT SERVICE\\TrustedInstaller:(CI)(IO)(F)\nNT AUTHORITY\\SYSTEM:(M)\nNT AUTHORITY\\SYSTEM:(OI)(CI)(IO)(F)\nBUILTIN\\Administrators:(M)\nBUILTIN\\Administrators:(OI)(CI)(IO)(F)\nBUILTIN\\Users:(RX)\nBUILTIN\\Users:(OI)(CI)(IO)(GR,GE)\nCREATOR OWNER:(OI)(CI)(IO)(F)\nAPPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES:(RX)\nAPPLICATION PACKAGE AUTHORITY\\ALL APPLICATION PACKAGES:(OI)(CI)(IO)(GR,GE)\nAPPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES:(RX)\nAPPLICATION PACKAGE AUTHORITY\\ALL RESTRICTED APPLICATION PACKAGES:(OI)(CI)(IO)(GR,GE)\nSuccessfully processed 1 files; Failed processing 0 files",
+  "fixtext": "Maintain the default file ACLs and configure the Security Option \"Network access: Let Everyone permissions apply to anonymous users\" to \"Disabled\" (WN22-SO-000240).\n\nDefault permissions:\nType - \"Allow\" for all\nInherited from - \"None\" for all\n\nPrincipal - Access - Applies to\n\nTrustedInstaller - Full control - This folder and subfolders\nSYSTEM - Modify - This folder only\nSYSTEM - Full control - Subfolders and files only\nAdministrators - Modify - This folder only\nAdministrators - Full control - Subfolders and files only\nUsers - Read & execute - This folder, subfolders, and files\nCREATOR OWNER - Full control - Subfolders and files only\nALL APPLICATION PACKAGES - Read & execute - This folder, subfolders, and files\nALL RESTRICTED APPLICATION PACKAGES - Read & execute - This folder, subfolders, and files",
+  "fix_id": "F-57689r848574_fix",
+  "VulnDiscussion": "Changing the system's file and directory permissions allows the possibility of unauthorized and anonymous modification to the operating system and installed applications.\n\nThe default permissions are adequate when the Security Option \"Network access: Let Everyone permissions apply to anonymous users\" is set to \"Disabled\" (WN22-SO-000240).\n\nSatisfies: SRG-OS-000312-GPOS-00122, SRG-OS-000312-GPOS-00123, SRG-OS-000312-GPOS-00124",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-251383",
+  "rule_id": "SV-251383r806104_rule",
+  "stig_id": "NET2000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Multi-Protocol Labeled Switching (MPLS) protocols deployed to build Label-Switch Path (LSP) tunnels must authenticate all messages with a hash function using the most secured cryptographic algorithm available.",
+  "group_title": "NET2000",
+  "idents": {
+    "legacy": [
+      "V-66353",
+      "SV-80843"
+    ],
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-54818r806102_chk",
+  "check_content": "Review the router configuration to determine if LDP and RSVP messages are being authenticated as shown in the examples below.\n\nIf authentication is not being used for these protocols using a secured hashing algorithm for message authentication, this is a finding.\n\nAn LDP session is secured by configuring a password for each LDP peer as shown in the example below:\n\nmpls ip\nmpls label protocol ldp\nmpls ldp neighbor 10.1.1.1 password xzxxxxxxxxxxx \nmpls ldp neighbor 10.3.3.3 password xxxxxzzzzxxxz\n\nThe IP address 10.1.1.1 and 10.3.3.3 in this example are the router IDs of the neighbors for which this router has an LDP session requiring MD5 authentication. To specify that the router ID 10.1.1.1 is to be found in VPN routing/forwarding instance (VRF) named VPN1 instead of the global route table, the \"vrf\" keyword is used in the command as shown in the following example:\n\nmpls ldp neighbor vrf VPN1 10.1.1.1 password xxxxxxxxxxxxxxxxx\n\nA group of peers using the same MD5 password can be configured as shown in the example below: \n\nmpls ldp password for 10 xxxxxxxxxxxxxxx\nmpls ldp password required for 10\n!\naccess-list 10 permit 10.1.1.1\naccess-list 10 permit 10.3.3.3\naccess-list 10 permit 10.4.4.4\n\nThe access list specifies a password is mandatory for LDP sessions with neighbors whose LDP router IDs are permitted by the access list.\n\nTo configure MD5 or SHA-1 authentication for RSVP, both ip rsvp authentication key and ip rsvp authentication commands must be configured as shown in the example below. The latter command simply enables authentication.\n\ninterface Ethernet0/0\nip address 192.168.101.2 255.255.255.0\nip rsvp bandwidth 7500 7500\nip rsvp authentication type sha-1\nip rsvp authentication key xxxxxxxx ip rsvp authentication\n\nNote: If SHA-1 is not specified using the ip rsvp authentication type command, MD5 will be utilized.",
+  "fixtext": "Implement neighbor authentication using a secured hashing algorithm for all signaling protocols deployed to build LSP tunnels.",
+  "fix_id": "F-54771r806103_fix",
+  "VulnDiscussion": "Spoofed TCP segments could be introduced into the connection streams for LDP sessions used to build LSPs. By configuring strict authentication between LSR peers, LDP TCP sessions can be restricted and the integrity of LSPs can be guarded using the TCP MD5 Signature Option. The LSR ignores LDP Hellos from any LSR for which a password has not been configured. This ensures that the LSR establishes LDP TCP connections only with LSRs for which the shared secret has been configured. RSVP messages are used to control resource reservations for MPLS TE tunnels inside the MPLS core. The RSVP message authentication permits neighbors to use a secure hash to digitally sign all RSVP signaling messages, thus allowing the receiver of an RSVP message to verify the sender. By protecting against corruption and spoofing of RSVP messages, the integrity of the LSPs for bandwidth provisioning, path setup, and path teardown is maintained.",
+  "Documentable": "false"
+}

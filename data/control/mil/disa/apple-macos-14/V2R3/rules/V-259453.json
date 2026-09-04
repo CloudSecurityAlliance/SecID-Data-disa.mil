@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-259453",
+  "rule_id": "SV-259453r958406_rule",
+  "stig_id": "APPL-14-001002",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must be configured to audit all log on and log out events.",
+  "group_title": "SRG-OS-000032-GPOS-00013",
+  "idents": {
+    "cci": [
+      "CCI-000067",
+      "CCI-000172",
+      "CCI-002884"
+    ]
+  },
+  "check_id": "C-63192r940979_chk",
+  "check_content": "Verify the macOS system is configured to audit all log on and log out events with the following command:\n\n/usr/bin/awk -F':' '/^flags/ { print $NF }' /etc/security/audit_control | /usr/bin/tr ',' '\\n' | /usr/bin/grep -Ec '^lo'\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Configure the macOS system to audit all log on and log out events with the following command:\n\n/usr/bin/grep -qE \"^flags.*[^-]lo\" /etc/security/audit_control || /usr/bin/sed -i.bak '/^flags/ s/$/,lo/' /etc/security/audit_control; /usr/sbin/audit -s\n\nA text editor may also be used to implement the required updates to the \"/etc/security/audit_control\" file.",
+  "fix_id": "F-63100r940980_fix",
+  "VulnDiscussion": "The audit system must be configured to record all attempts to log in and out of the system (lo).\n\nFrequently, an attacker that successfully gains access to a system has only gained access to an account with limited privileges, such as a guest account or a service account. The attacker must attempt to change to another user account with normal or elevated privileges in order to proceed. Auditing both successful and unsuccessful attempts to switch to another user account (by way of monitoring log on and log out events) mitigates this risk.\n\nThe information system monitors log on and log out events.\n\nSatisfies: SRG-OS-000032-GPOS-00013,SRG-OS-000064-GPOS-00033,SRG-OS-000392-GPOS-00172,SRG-OS-000458-GPOS-00203,SRG-OS-000470-GPOS-00214,SRG-OS-000471-GPOS-00215,SRG-OS-000471-GPOS-00216,SRG-OS-000472-GPOS-00217,SRG-OS-000473-GPOS-00218",
+  "Documentable": "false"
+}

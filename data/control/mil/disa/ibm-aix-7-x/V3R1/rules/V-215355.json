@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215355",
+  "rule_id": "SV-215355r958478_rule",
+  "stig_id": "AIX7-00-003049",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX DHCP client must be disabled.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "SV-101433",
+      "V-91335"
+    ],
+    "cci": [
+      "CCI-000366",
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16553r294516_chk",
+  "check_content": "If the DHCP client is needed by the system and is documented, this is Not Applicable. \n\nDetermine if the DHCP client is running: \n\n# ps -ef |grep dhcpcd \n\nIf \"dhcpcd\" is running, this is a finding.\n\nVerify that DHCP is disabled on startup:\n\n# grep \"^start[[:blank:]]/usr/sbin/dhcpcd\" /etc/rc.tcpip\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "Disable the system's DHCP client. \n\nIn \"/etc/rc.tcpip\", comment out the \"dhcpcd\" entry by running command:\n\n# chrctcp -d dhcpcd\n\nReboot the system to ensure the DHCP client has been disabled fully. \n\nConfigure a static IP for the system, if network connectivity is required.",
+  "fix_id": "F-16551r294517_fix",
+  "VulnDiscussion": "The dhcpcd daemon receives address and configuration information from the DHCP server. DHCP relies on trusting the local network. If the local network is not trusted, then it should not be used.\n\nTo prevent remote attacks this daemon should not be enabled unless there is no alternative.\n\nSatisfies: SRG-OS-000095-GPOS-00049, SRG-OS-000480-GPOS-00227",
+  "Documentable": "false"
+}

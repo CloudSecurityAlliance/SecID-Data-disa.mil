@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261294",
+  "rule_id": "SV-261294r996359_rule",
+  "stig_id": "SLEM-05-232045",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 SSH daemon private host key files must have mode 640 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65023r996358_chk",
+  "check_content": "Verify SLEM 5 SSH daemon private host key files have mode \"640\" or less permissive.\n\nThe following command will find all SSH private key files on the system with the following command:\n\n     > sudo find / -name '*ssh_host*key' -exec ls -lL {} \\;\n\nCheck the mode of the private host key files under \"/etc/ssh\" file with the following command:\n\n     > find /etc/ssh -name 'ssh_host*key' -exec stat -c \"%a %n\" {} \\;\n\n     640 /etc/ssh/ssh_host_rsa_key\n     640 /etc/ssh/ssh_host_dsa_key\n     640 /etc/ssh/ssh_host_ecdsa_key\n     640 /etc/ssh/ssh_host_ed25519_key\n\nIf any file has a mode more permissive than \"640\", this is a finding.",
+  "fixtext": "Configure the mode of SLEM 5 SSH daemon private host key files under \"/etc/ssh\" to \"640\" with the following command:\n\n      > sudo chmod 640 /etc/ssh/ssh_host*key",
+  "fix_id": "F-64931r995748_fix",
+  "VulnDiscussion": "If an unauthorized user obtains the private SSH host key file, the host could be impersonated.",
+  "Documentable": "false"
+}

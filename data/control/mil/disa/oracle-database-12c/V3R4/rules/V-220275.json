@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220275",
+  "rule_id": "SV-220275r960906_rule",
+  "stig_id": "O121-C2-007900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DBMS must produce audit records containing sufficient information to establish the identity of any user/subject or process associated with the event.",
+  "group_title": "SRG-APP-000100-DB-000201",
+  "idents": {
+    "legacy": [
+      "SV-76129",
+      "V-61639"
+    ],
+    "cci": [
+      "CCI-001487"
+    ]
+  },
+  "check_id": "C-21990r836899_chk",
+  "check_content": "Verify, using vendor and system documentation if necessary, that the DBMS is configured to use Oracle's auditing features, or that a third-party product or custom code is deployed and configured to satisfy this requirement.\n\nIf a third-party product or custom code is used, compare its current configuration with the audit requirements. If any of the requirements is not covered by the configuration, this is a finding.\n\nThe remainder of this Check is applicable specifically where Oracle auditing is in use.\n\nIf Standard Auditing is used:\nTo see if Oracle is configured to capture audit data, enter the following SQL*Plus command:\n\nSHOW PARAMETER AUDIT_TRAIL\n\nor the following SQL query:\n\nSELECT * FROM SYS.V$PARAMETER WHERE NAME = 'audit_trail';\n\nIf Oracle returns a value something other than \"TRUE\", this is a finding\n\nTo confirm that Oracle audit is capturing sufficient information to establish the identity of the user/subject or process, perform a successful auditable action and an auditable action that results in an SQL error, and then view the results in the SYS.AUD$ table or the audit file, whichever is in use.\n\nIf no user ID, or the wrong value, is returned for the auditable actions just performed, this is a finding.\n\nIf Unified Auditing is used:\nTo see if Oracle is configured to capture audit data, enter the following SQL*Plus command:\n\nSELECT * FROM V$OPTION WHERE PARAMETER = 'Unified Auditing';\n\nIf Oracle returns the value \"TRUE\", this is not a finding.\n\nTo confirm that Oracle audit is capturing sufficient information to establish the identity of the user/subject or process, perform a successful auditable action and an auditable action that results in an SQL error, and then view the results in the SYS.UNIFIED_AUDIT_TRAIL view, whichever is in use.\n\nIf no user ID, or the wrong value, is returned for the auditable actions just performed, this is a finding.",
+  "fixtext": "Configure the DBMS's auditing to audit standard and organization-defined auditable events, the audit record to include the identity of any user/subject or process associated with the event. If preferred, use a third-party or custom tool.\n\nIf using a third-party product, proceed in accordance with the product documentation. If using Oracle's capabilities, proceed as follows.\n\nIf Standard Auditing is used:\nUse this process to ensure auditable events are captured:\n\nALTER SYSTEM SET AUDIT_TRAIL=<audit trail type> SCOPE=SPFILE;\n\nAudit trail type can be 'OS', 'DB', 'DB,EXTENDED', 'XML' or 'XML,EXTENDED'.\nAfter executing this statement, it may be necessary to shut down and restart the Oracle database.\n\nIf unified Auditing is used:\nTo ensure auditable events are captured:\nLink the oracle binary with uniaud_on, and then restart the database.                                                                                                                                                                                  \nOracle Database Upgrade Guide describes how to enable unified auditing.\n\nFor more information on the configuration of auditing, refer to the following documents:\n\"Auditing Database Activity\" in the Oracle Database 2 Day + Security Guide:\nhttp://docs.oracle.com/database/121/TDPSG/tdpsg_auditing.htm#TDPSG50000\n\"Monitoring Database Activity with Auditing\" in the Oracle Database Security Guide:\nhttp://docs.oracle.com/database/121/DBSEG/part_6.htm#CCHEHCGI\n\"DBMS_AUDIT_MGMT\" in the Oracle Database PL/SQL Packages and Types Reference:\nhttp://docs.oracle.com/database/121/ARPLS/d_audit_mgmt.htm#ARPLS241\nOracle Database Upgrade Guide:\nhttp://docs.oracle.com/database/121/UPGRD/afterup.htm#UPGRD52810\nhttp://docs.oracle.com/database/121/UPGRD/afterup.htm#UPGRD52810",
+  "fix_id": "F-21982r391957_fix",
+  "VulnDiscussion": "Information system auditing capability is critical for accurate forensic analysis. Audit record content that may be necessary to satisfy the requirement of this control includes:  timestamps, source and destination addresses, user/process identifiers, event descriptions, success/fail indications, file names involved, and access control or flow control rules invoked.\n\nDatabase software is capable of a range of actions on data stored within the database. It is important, for accurate forensic analysis, to know exactly who performed a given action.  If user identification information is not recorded and stored with the audit record, the record itself is of very limited use.",
+  "Documentable": "false"
+}

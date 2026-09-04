@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259542",
+  "rule_id": "SV-259542r958470_rule",
+  "stig_id": "APPL-14-003012",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable password hints.",
+  "group_title": "SRG-OS-000079-GPOS-00047",
+  "idents": {
+    "cci": [
+      "CCI-000206"
+    ]
+  },
+  "check_id": "C-63281r941246_chk",
+  "check_content": "Verify the macOS system is configured to disable password hints with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.loginwindow')\\\n.objectForKey('RetriesUntilHint').js\nEOS\n\nIf the result is not \"0\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable password hints by installing the \"com.apple.loginwindow\" configuration profile.",
+  "fix_id": "F-63189r941247_fix",
+  "VulnDiscussion": "Password hints must be disabled.\n\nPassword hints leak information about passwords that are currently in use and can lead to loss of confidentiality.",
+  "Documentable": "false"
+}

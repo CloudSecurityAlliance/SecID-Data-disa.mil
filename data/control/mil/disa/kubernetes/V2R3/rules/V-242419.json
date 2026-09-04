@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242419",
+  "rule_id": "SV-242419r1043178_rule",
+  "stig_id": "CNTR-K8-001410",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Kubernetes API Server must have the SSL Certificate Authority set.",
+  "group_title": "SRG-APP-000219-CTR-000550",
+  "idents": {
+    "cci": [
+      "CCI-001184"
+    ]
+  },
+  "check_id": "C-45694r863845_chk",
+  "check_content": "Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Control Plane. Run the command:\ngrep -i client-ca-file *\n\nIf the setting feature client-ca-file is not set in the Kubernetes API server manifest file or contains no value, this is a finding.",
+  "fixtext": "Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Control Plane. \n\nSet the value of \"--client-ca-file\" to path containing Approved Organizational Certificate.",
+  "fix_id": "F-45652r918175_fix",
+  "VulnDiscussion": "Kubernetes control plane and external communication are managed by API Server. The main implementation of the API Server is to manage hardware resources for pods and containers using horizontal or vertical scaling. Anyone who can access the API Server can effectively control the Kubernetes architecture. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.\n\nThe communication session is protected by utilizing transport encryption protocols such as TLS. TLS provides the Kubernetes API Server with a means to authenticate sessions and encrypt traffic. \n\nTo enable encrypted communication for API Server, the parameter client-ca-file must be set. This parameter gives the location of the SSL Certificate Authority file used to secure API Server communication.",
+  "Documentable": "false"
+}

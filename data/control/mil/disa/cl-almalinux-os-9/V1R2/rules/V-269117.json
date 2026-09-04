@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269117",
+  "rule_id": "SV-269117r1049999_rule",
+  "stig_id": "ALMA-09-003325",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 SSH server must be configured to use only FIPS 140-3 validated key exchange algorithms.",
+  "group_title": "SRG-OS-000250-GPOS-00093",
+  "idents": {
+    "cci": [
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-73148r1049124_chk",
+  "check_content": "Verify that the SSH server is configured to use only FIPS 140-3 validated key exchange algorithms:\n\nFirst, ensure that FIPS mode is enabled with the following command:\n\n$ cat /proc/sys/crypto/fips_enabled\n1\n\nIf the command does not return a \"1\", then the systemwide crypto policy is not set to FIPS, and this is a finding.\n\n$ sudo grep -i kexalgorithms /etc/crypto-policies/back-ends/opensshserver.config\n\nKexAlgorithms ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256\n\nIf the entries following \"KexAlgorithms\" have any algorithms defined other than \"ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256\", appear in different order than shown, or are missing or commented out, this is a finding.",
+  "fixtext": "Configure the AlmaLinux OS 9 SSH server to use only FIPS 140-3 approved algorithms by updating the \"/etc/crypto-policies/back-ends/opensshserver.config\" file with the following commands:\n\nNote: Before enabling FIPS mode, ensure that the dracut-fips package is installed on the system.\n\nEnable FIPS mode by updating the system's crypto policy with the following command:\n$ sudo update-crypto-policies --set FIPS\n\nNote: If FIPS mode has never been enabled on the system, additional steps will need to be conducted. Refer to vendor documentation.\n\nTo manually update the Key Exchange Algorithms in the systemwide SSH configuration, use the following command:\n\n$ sudo sed -i -E '/^KexAlgorithms/s/.*/KexAlgorithms ecdh-sha2-nistp384,ecdh-sha2-nistp256,diffie-hellman-group-exchange-sha256,diffie-hellman-group14-sha256/' \"$(readlink -f /etc/crypto-policies/back-ends/opensshserver.config)\"\n\nReboot the system for the changes to take effect.",
+  "fix_id": "F-73049r1049125_fix",
+  "VulnDiscussion": "Without cryptographic integrity protections provided by FIPS-validated cryptographic algorithms, information can be viewed and altered by unauthorized users without detection.\n\nAlmaLinux OS 9 incorporates systemwide crypto policies by default. The SSH configuration file has no effect on the ciphers, MACs, or algorithms unless specifically defined in the /etc/sysconfig/sshd file. The employed algorithms can be viewed in the /etc/crypto-policies/back-ends/opensshserver.config file.\n\nThe system will attempt to use the first algorithm presented by the client that matches the server list. Listing the values \"strongest to weakest\" is a method to ensure the use of the strongest algorithm available to secure the SSH connection.",
+  "Documentable": "false"
+}

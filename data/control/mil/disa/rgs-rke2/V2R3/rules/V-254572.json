@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-254572",
+  "rule_id": "SV-254572r1016560_rule",
+  "stig_id": "CNTR-R2-001270",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Rancher RKE2 must prohibit the installation of patches, updates, and instantiation of container images without explicit privileged status.",
+  "group_title": "SRG-APP-000378-CTR-000880",
+  "idents": {
+    "cci": [
+      "CCI-003980",
+      "CCI-001812"
+    ]
+  },
+  "check_id": "C-58056r1016540_chk",
+  "check_content": "Ensure authorization-mode is set correctly in the apiserver.\n\nRun this command on all RKE2 Control Plane hosts:\n/bin/ps -ef | grep kube-apiserver | grep -v grep\n\nIf  --authorization-mode is not set to \"RBAC,Node\" or is not configured, this is a finding.\n(By default, RKE2 sets Node,RBAC as the parameter to the --authorization-mode argument.)",
+  "fixtext": "Edit the RKE2 Server configuration file on all RKE2 Control Plane hosts, located at /etc/rancher/rke2/config.yaml, to contain the following:\n\n kube-apiserver-arg:\n--authorization-mode=RBAC,Node\n\nOnce configuration file is updated, restart the RKE2 Server. Run the command:\nsystemctl restart rke2-server",
+  "fix_id": "F-58005r1016541_fix",
+  "VulnDiscussion": "Controlling access to those users and roles responsible for patching and updating RKE2 reduces the risk of untested or potentially malicious software from being installed within the platform. This access may be separate from the access required to install container images into the registry and those access requirements required to instantiate an image into a service. Explicit privileges (escalated or administrative privileges) provide the regular user with explicit capabilities and control that exceeds the rights of a regular user.\n\nKubernetes uses the API Server to control communication to the other services that makeup Kubernetes. The use of authorizations and not the default of \"AlwaysAllow\" enables the Kubernetes functions control to only the groups that need them.\n\nTo control access, the API server must have one of the following options set for the authorization mode:\n    --authorization-mode=ABAC Attribute-Based Access Control (ABAC) mode allows a user to configure policies using local files.\n    --authorization-mode=RBAC Role-based access control (RBAC) mode allows a user to create and store policies using the Kubernetes API.\n    --authorization-mode=Webhook\nWebHook is an HTTP callback mode that allows a user to manage authorization using a remote REST endpoint.\n    --authorization-mode=Node \nNode authorization is a special-purpose authorization mode that specifically authorizes API requests made by kubelets.\n    --authorization-mode=AlwaysDeny \nThis flag blocks all requests. Use this flag only for testing.\n\nSatisfies: SRG-APP-000378-CTR-000880, SRG-APP-000378-CTR-000885",
+  "Documentable": "false"
+}

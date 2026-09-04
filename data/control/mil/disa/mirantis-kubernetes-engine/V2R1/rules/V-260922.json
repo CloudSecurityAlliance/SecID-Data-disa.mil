@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260922",
+  "rule_id": "SV-260922r966123_rule",
+  "stig_id": "CNTR-MK-000550",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Docker socket must not be mounted inside any containers.",
+  "group_title": "SRG-APP-000141-CTR-000315",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-64651r966121_chk",
+  "check_content": "If using Kubernetes orchestration, this check is Not Applicable.\n\nWhen using Swarm orchestration, log in to the CLI as an MKE Admin, and execute the following command using an MKE client bundle:\n\ndocker ps --all --filter \"label=com.docker.ucp.version\" | xargs docker inspect --format '{{ .Id }}: Volumes={{ .Mounts }}' | grep -i \"docker.sock\\|docker_engine\"\n\nIf the Docker socket is mounted inside containers, this is a finding.\n\nIf \"volumes\" is not present or if \"docker.sock\" is listed, this is a finding.",
+  "fixtext": "If using Kubernetes orchestration, this check is Not Applicable.\n\nWhen using Swarm orchestration and using the -v/--volume flags to mount volumes to containers in a docker run command, do not use docker.sock as a volume.\n\nA reference for the docker run command can be found at https://docs.docker.com/engine/reference/run/.\n\nReview and remove nonsystem containers previously created by these users without the runAsGroup must be removed using:\n\ndocker container rm [container]",
+  "fix_id": "F-64559r966122_fix",
+  "VulnDiscussion": "The Docker socket docker.sock must not be mounted inside a container, with the exception case being during the installation of Universal Control Plane (UCP) component of Docker Enterprise as it is required for install.\n\nIf the Docker socket is mounted inside a container, it would allow processes running within the container to execute docker commands which effectively allows for full control of the host.\n\nBy default, docker.sock (Linux) and \\\\.\\pipe\\docker_engine (Windows) is not mounted inside containers.",
+  "Documentable": "false"
+}

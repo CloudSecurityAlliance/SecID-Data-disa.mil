@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235104",
+  "rule_id": "SV-235104r960882_rule",
+  "stig_id": "MYS8-00-001700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must allow only the Information System Security Manager (ISSM) (or individuals or roles appointed by the ISSM) to select which auditable events are to be audited.",
+  "group_title": "SRG-APP-000090-DB-000065",
+  "idents": {
+    "cci": [
+      "CCI-000171"
+    ]
+  },
+  "check_id": "C-38323r623432_chk",
+  "check_content": "Check MySQL settings and documentation to determine whether designated personnel are able to select which auditable events are being audited.\n  \nTo list out users who have rights to administrative access for auditing, run this query:\nSELECT * FROM INFORMATION_SCHEMA.USER_PRIVILEGES where PRIVILEGE_TYPE in ('AUDIT_ADMIN', 'SUPER');\n\nIf any of the roles or users returned have permissions that are not documented, or the documented audit maintainers do not have permissions, this is a finding.",
+  "fixtext": "Configure the MySQL Database Server 8.0 settings to allow designated personnel to select which auditable events are audited.\n\nGrant permissions to users who need rights to create auditing rules.\n\nGRANT AUDIT_ADMIN\nON *.* TO '<auditusername>'@'<host_specification>';\n\nFor example:\nGRANT AUDIT_ADMIN\nON *.* TO 'auditusername'@'%';",
+  "fix_id": "F-38286r623433_fix",
+  "VulnDiscussion": "Without the capability to restrict which roles and individuals can select which events are audited, unauthorized personnel may be able to prevent or interfere with the auditing of critical events. \n\nSuppression of auditing could permit an adversary to evade detection.\n\nMisconfigured audits can degrade the system's performance by overwhelming the audit log. Misconfigured audits may also make it more difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAUDIT_ADMIN enables audit log configuration. This privilege is defined by the audit_log plugin when it is installed.\nSUPER is a powerful and far-reaching privilege and should not be granted lightly.",
+  "Documentable": "false"
+}

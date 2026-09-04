@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215247",
+  "rule_id": "SV-215247r991555_rule",
+  "stig_id": "AIX7-00-002023",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must start audit at boot.",
+  "group_title": "SRG-OS-000254-GPOS-00095",
+  "idents": {
+    "legacy": [
+      "V-91463",
+      "SV-101561"
+    ],
+    "cci": [
+      "CCI-001464"
+    ]
+  },
+  "check_id": "C-16445r294192_chk",
+  "check_content": "Check if /etc/rc contains the following line:\n/usr/sbin/audit start\n\n# grep \"audit start\" /etc/rc\n/usr/sbin/audit start\n\nIf a result is not returned, this is a finding.",
+  "fixtext": "To start auditing at system startup, add the following line to the /etc/rc file, just prior to the line reading dspmsg rc.cat 5 'Multi-user initialization completed':\n/usr/sbin/audit start\n\nSymmetrically  add the '/usr/sbin/audit shutdown' command to /etc/rc.shutdown.",
+  "fix_id": "F-16443r294193_fix",
+  "VulnDiscussion": "If auditing is enabled late in the start-up process, the actions of some start-up processes may not be audited. Some audit systems also maintain state information only available if auditing is enabled before a given process is created.",
+  "Documentable": "false"
+}

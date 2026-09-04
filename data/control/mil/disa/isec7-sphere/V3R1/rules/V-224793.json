@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-224793",
+  "rule_id": "SV-224793r1013888_rule",
+  "stig_id": "ISEC-06-551700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Tomcat SSL must be restricted except for ISEC7 SPHERE tasks.",
+  "group_title": "SRG-APP-000439",
+  "idents": {
+    "legacy": [
+      "SV-106405",
+      "V-97301"
+    ],
+    "cci": [
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-26484r1013886_chk",
+  "check_content": "Verify Tomcat SSL is restricted to only ISEC7 SPHERE tasks.\n\nLog in to the ISEC7 SPHERE server.\nNavigate to <Drive>:\\ProgramFiles\\ISEC7 SPHERE\\Tomcat\\conf\\.\nEdit the web.xml file with Notepad.exe.\nVerify the following entries are present:\n\n<security-constraint>\n <web-resource-collection>\n  <web-resource-name>Unsecure</web-resource-name>\n  <!-- Agent -->\n  <url-pattern>/BNator/agent/*</url-pattern>\n  <url-pattern>/app/agent/*</url-pattern>\n  <url-pattern>/app/admin/agentinstaller.jnlp</url-pattern>\n  <!-- Client -->\n  <url-pattern>/app/clients/*</url-pattern>\n  <url-pattern>/app/data/*</url-pattern>\n  <!-- Remote Control -->\n  <url-pattern>/rc/*</url-pattern>\n  <!-- Traffic Push -->\n  <url-pattern>/BNator/uss/trafficinfo/*</url-pattern>\n  <url-pattern>/BNator/data/mds/trafficpush</url-pattern>\n  <url-pattern>/BNator/favorites/*</url-pattern>\n  <url-pattern>/app/resource/*</url-pattern>\n </web-resource-collection>\n</security-constraint>\n\n<security-constraint>\n <web-resource-collection>\n  <web-resource-name>Secure</web-resource-name>\n  <url-pattern>/*</url-pattern>\n </web-resource-collection>\n\n <user-data-constraint>\n  <transport-guarantee>CONFIDENTIAL</transport-guarantee>\n </user-data-constraint>\n</security-constraint>\n\nIf Tomcat SSL is not restricted to only ISEC7 SPHERE tasks, this is a finding.",
+  "fixtext": "To restrict Tomcat SSL to only ISEC7 SPHERE tasks, run the ISEC7 integrated installer or use the following manual procedure:\n\nTo restrict SSL for all users except for agent task, the user needs to add a security constraint tag to <Drive>:\\ProgramFiles\\ISEC7 SPHERE\\Tomcat\\conf\\web.xml.\n\nLog in to the ISEC7 SPHERE server.\nNavigate to <Drive>:\\ProgramFiles\\ISEC7 SPHERE\\Tomcat\\conf\\.\nEdit the web.xml file with Notepad.exe.\nAdd the following entry:\n\n<security-constraint>\n <web-resource-collection>\n  <web-resource-name>Unsecure</web-resource-name>\n  <!-- Agent -->\n  <url-pattern>/BNator/agent/*</url-pattern>\n  <url-pattern>/app/agent/*</url-pattern>\n  <url-pattern>/app/admin/agentinstaller.jnlp</url-pattern>\n  <!-- Client -->\n  <url-pattern>/app/clients/*</url-pattern>\n  <url-pattern>/app/data/*</url-pattern>\n  <!-- Remote Control -->\n  <url-pattern>/rc/*</url-pattern>\n  <!-- Traffic Push -->\n  <url-pattern>/BNator/uss/trafficinfo/*</url-pattern>\n  <url-pattern>/BNator/data/mds/trafficpush</url-pattern>\n  <url-pattern>/BNator/favorites/*</url-pattern>\n  <url-pattern>/app/resource/*</url-pattern>\n </web-resource-collection>\n</security-constraint>\n\n<security-constraint>\n <web-resource-collection>\n  <web-resource-name>Secure</web-resource-name>\n  <url-pattern>/*</url-pattern>\n </web-resource-collection>\n\n <user-data-constraint>\n  <transport-guarantee>CONFIDENTIAL</transport-guarantee>\n </user-data-constraint>\n</security-constraint>",
+  "fix_id": "F-26472r1013887_fix",
+  "VulnDiscussion": "Restricting the use of SSL helps ensure only authorized users and processes have access to Tomcat Web apps and reduces the attack surface of the ISEC7 EMM Suite. Without protection of the transmitted information, confidentiality and integrity may be compromised since unprotected communications can be intercepted and either read or altered. \n\nThis requirement applies only to those applications that are either distributed or can allow access to data nonlocally. Use of this requirement will be limited to situations where the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process. When transmitting data, applications need to leverage transmission protection mechanisms, such as TLS, TLS VPNs, or IPSEC.\n\nCommunication paths outside the physical protection of a controlled boundary are exposed to the possibility of interception and modification. Protecting the confidentiality and integrity of organizational information can be accomplished by physical means (e.g., employing physical distribution systems) or by logical means (e.g., employing cryptographic techniques). If physical means of protection are employed, then logical means (cryptography) do not have to be employed, and vice versa.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235177",
+  "rule_id": "SV-235177r961521_rule",
+  "stig_id": "MYS8-00-010300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must prohibit the use of cached authenticators after an organization-defined time period.",
+  "group_title": "SRG-APP-000400-DB-000367",
+  "idents": {
+    "cci": [
+      "CCI-002007"
+    ]
+  },
+  "check_id": "C-38396r623651_chk",
+  "check_content": "Verify that the MySQL is using Kerberos Authentication.  \n\nOn the server:\nSELECT PLUGIN_NAME, PLUGIN_STATUS\n       FROM INFORMATION_SCHEMA.PLUGINS\n       WHERE PLUGIN_NAME LIKE '%ldap%';\n\nOn the client(s) where Kerberos will authenticate, check how long the ticket is cached.\n\nFirst check whether Kerberos authentication works correctly:\nUse kinit to authenticate to Kerberos, for example.\nkinit bredon@MYSQL.LOCAL\n\nThe command authenticates for the Kerberos principal named bredon@MYSQL.LOCAL. Enter the principal's password when the command prompts for it. The KDC returns a TGT that is cached on the client side for use by other Kerberos-aware applications.\nUse klist to check whether the TGT was obtained correctly. \n\nThe output should be similar to this:\nTicket cache: FILE:/tmp/krb5cc_244306\nDefault principal: bredon@MYSQL.LOCAL\nValid starting                 Expires                           Service principal\n03/23/2020 08:18:33  03/23/2020 18:18:33  krbtgt/MYSQL.LOCAL@MYSQL.LOCAL\n\nIf the ticket expiration time exceeds the desired maximum expiration, and Kerberos is enabled, check the LDAP server for the maximum lifetime of the Kerberos service Tickets expiration policy.  \n\nIf the lifetime exceeds the desired expiration time, this is a finding.",
+  "fixtext": "Modify system settings to implement the organization-defined limit on the lifetime of cached authenticators.\n\nConfigure the MySQL server for GSSAPI/Kerberos LDAP authentication plugin to use the GSSAPI/Kerberos authentication method.\n\nFollowing is an example of plugin-related settings the server my.cnf file might contain:\n[mysqld]\nplugin-load-add=authentication_ldap_sasl.so\nauthentication_ldap_sasl_auth_method_name=\"GSSAPI\"\nauthentication_ldap_sasl_server_host=198.51.100.10\nauthentication_ldap_sasl_server_port=389\nauthentication_ldap_sasl_bind_root_dn=\"cn=admin,cn=users,dc=MYSQL,dc=LOCAL\"\nauthentication_ldap_sasl_bind_root_pwd=\"password\"\nauthentication_ldap_sasl_bind_base_dn=\"cn=users,dc=MYSQL,dc=LOCAL\"\nauthentication_ldap_sasl_user_search_attr=\"sAMAccountName\"\n\nCreate account(s) using Kerberos Authentication.\nFor example:\nCREATE USER 'bredon@MYSQL.LOCAL'\n  IDENTIFIED WITH authentication_ldap_sasl\n  BY '#krb_grp=proxied_krb_user';\n\nCREATE USER 'proxied_krb_user'\n  IDENTIFIED WITH mysql_no_login;\nGRANT ALL\n  ON krb_user_db.*\n  TO 'proxied_krb_user';\n\nGRANT PROXY\n  ON 'proxied_krb_user'\n  TO 'bredon@MYSQL.LOCAL’;",
+  "fix_id": "F-38359r623652_fix",
+  "VulnDiscussion": "If cached authentication information is out-of-date, the validity of the authentication information may be questionable.",
+  "Documentable": "false"
+}

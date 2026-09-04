@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248815",
+  "rule_id": "SV-248815r958754_rule",
+  "stig_id": "OL08-00-030700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must take appropriate action when the internal event queue is full.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-52249r780009_chk",
+  "check_content": "Verify the audit system is configured to take an appropriate action when the internal event queue is full: \n \n$ sudo grep -i overflow_action /etc/audit/auditd.conf \n \noverflow_action = syslog \n \nIf the value of the \"overflow_action\" option is not set to \"syslog\", \"single\", or \"halt\", or the line is commented out, ask the System Administrator to indicate how the audit logs are offloaded to a different system or media.  \n \nIf there is no evidence that the transfer of the audit logs being offloaded to another system or media takes appropriate action if the internal event queue becomes full, this is a finding.",
+  "fixtext": "Edit the \"/etc/audit/auditd.conf\" file and add or update the \"overflow_action\" option: \n \noverflow_action = syslog \n \nThe audit daemon must be restarted for changes to take effect.",
+  "fix_id": "F-52203r780010_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration. \n \nOffloading is a common process in information systems with limited audit storage capacity. \n \nOL 8 installation media provides \"rsyslogd\". This is a system utility providing support for message logging. Support for both internet and UNIX domain sockets enables this utility to support both local and remote logging. Coupling this utility with \"gnutls\" (which is a secure communications library implementing the SSL, TLS and DTLS protocols) provides a method to securely encrypt and offload auditing.\n\nSatisfies: SRG-OS-000342-GPOS-00133, SRG-OS-000479-GPOS-00224",
+  "Documentable": "false"
+}

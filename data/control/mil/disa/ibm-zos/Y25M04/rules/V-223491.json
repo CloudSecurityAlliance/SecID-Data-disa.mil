@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223491",
+  "rule_id": "SV-223491r958480_rule",
+  "stig_id": "ACF2-ES-000730",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS must properly protect MCS console userid(s).",
+  "group_title": "SRG-OS-000096-GPOS-00050",
+  "idents": {
+    "legacy": [
+      "SV-106785",
+      "V-97681"
+    ],
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-25164r504579_chk",
+  "check_content": "Refer to IEASYS00 to determine the correct CONSOLxx member. \n\nExamine the CONSOLxx member.\n\nVerify that the MCS console logonids are properly restricted. \n\nIf the following guidance is true, this is not a finding.\n\nEach console defined in the currently active CONSOLxx parmlib member is associated with a valid ACF2 logonid.\n\nEach console logonid has no special privileges and/or attributes (e.g., ACCOUNT, SECURITY, etc.).\n\nEach console logonid has no accesses to interactive online facilities (e.g., TSO, CICS, etc., excluding VTAM SMCS consoles).\n\nEach console logonid will be restricted from accessing all data sets and resources except MVS.MCSOPER.consolename in the OPERCMDS resource class and consolename in the CONSOLE resource class.\n\nNOTE: If LOGON(AUTO) is specified in the currently active CONSOLxx parmlib member, additional access may be required. Permissions for the console logonids may be given with SERVICE(READ) to MVS.CONTROL, MVS.DISPLAY, MVS.MONITOR, and MVS.STOPMN OPERCMDS resources.\n\nNOTE: Execute the JCL in CNTL(ACFRPTRX) using the ACF2 console userids in the LID statements in the SYSIN input. This report lists all occurrences of these userids within the ACF2 database, including data set and resource access lists.",
+  "fixtext": "Define all consoles identified in the currently active CONSOLxx parmlib member in EXAM.RPT(PARMLIB) to be defined to the ESM.\n\nReview the MCS console resources defined to z/OS and the ESM and ensure they conform to those outlined below.\n\nEach console defined in the currently active CONSOLxx parmlib member is associated with a valid ACF2 logonid.\n\nEach console logonid has no special privileges and/or attributes (e.g., ACCOUNT, SECURITY, etc.,  excluding VTAM SMCS consoles).\n\nEach console logonid has no accesses to interactive online facilities (e.g., TSO, CICS, etc.).\n\nEach console logonid will be restricted from accessing all data sets and resources except MVS.MCSOPER.consolename in the OPERCMDS resource class and consolename in the CONSOLE resource class.\n\nNOTE: If LOGON(AUTO) is specified in the currently active CONSOLxx parmlib member, additional access may be required. Permissions for the console logonids may be given with SERVICE(READ) to MVS.CONTROL, MVS.DISPLAY, MVS.MONITOR, and MVS.STOPMN OPERCMDS resources.\n\nNOTE: If LOGON(AUTO) is specified in the currently active CONSOLxx parmlib member, additional access may be required. Permissions for the console logonids may be given with SERVICE(READ) to MVS.CONTROL, MVS.DISPLAY, MVS.MONITOR, and MVS.STOPMN OPERCMDS resources.\n\nExample:\nINSERT MVAC20 NAME(MVA CONSOLE C20) PASSWORD(xxxxxxxx)\n\n$KEY(MVS) TYPE(OPR)\nMCSOPER.- UID(MVAC20) SERVICE(READ) ALLOW\nCONTROL.- UID(MVAC20) SERVICE(READ) ALLOW DATA(FOR LOGON(AUTO))\nMONITOR.- UID(MVAC20) SERVICE(READ) ALLOW DATA(FOR LOGON(AUTO))\nSTOPMN.- UID(MVAC20) SERVICE(READ) ALLOW DATA(FOR LOGON(AUTO))\nDISPLAY.- UID(*) SERVICE(READ) ALLOW\n- UID(*) PREVENT\n\nSET R(OPR)\nCOMPILE ' ACF2.MVA.OPR(MVS)' STORE\n\nF ACF2,REBUILD(OPR)\n\n$KEY(consname) TYPE(CON)\nUID(MVAC20) SERVICE(READ) ALLOW\n\nSET R(CON)\nCOMPILE ' ACF2.MVA.CON(consname)' STORE\n\nF ACF2,REBUILD(CON)",
+  "fix_id": "F-25152r504580_fix",
+  "VulnDiscussion": "In order to prevent unauthorized connection of devices, unauthorized transfer of information, or unauthorized tunneling (i.e., embedding of data types within data types), organizations must disable or restrict unused or unnecessary physical and logical ports/protocols on information systems.\n\nOperating systems are capable of providing a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., VPN and IPS); however, doing so increases risk over limiting the services provided by any one component.\n\nTo support the requirements and principles of least functionality, the operating system must support the organizational requirements, providing only essential capabilities and limiting the use of ports, protocols, and/or services to only those required, authorized, and approved to conduct official business or to address authorized quality of life issues.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233511",
+  "rule_id": "SV-233511r960966_rule",
+  "stig_id": "CD12-00-000100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL must be configured to prohibit or restrict the use of organization-defined functions, ports, protocols, and/or services, as defined in the PPSM CAL and vulnerability assessments.",
+  "group_title": "SRG-APP-000142-DB-000094",
+  "idents": {
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-36705r606756_chk",
+  "check_content": "As the database administrator, run the following SQL:\n\n$ psql -c \"SHOW port\"\n$ psql -c \"SHOW listen_addresses\"\n\nIf the currently defined address:port configuration is deemed prohibited, this is a finding.",
+  "fixtext": "Note: The following instructions use the PGDATA and PGVER environment variables. See supplementary content APPENDIX-F for instructions on configuring PGDATA and APPENDIX-H for PGVER.\n\nTo change the listening port of the database, as the database administrator, change the following setting in postgresql.conf: \n\n$ sudo su - postgres \n$ vi $PGDATA/postgresql.conf \n\nChange the port parameter to the desired port. \n\nNext, restart the database: \n\n# SYSTEMD SERVER ONLY \n$ sudo systemctl restart postgresql-${PGVER?} \n\nNote: psql uses the port 5432 by default. This can be changed by specifying the port with psql or by setting the PGPORT environment variable: \n\n$ psql -p 5432 -c \"SHOW port\" \n$ export PGPORT=5432",
+  "fix_id": "F-36670r617419_fix",
+  "VulnDiscussion": "To prevent unauthorized connection of devices, unauthorized transfer of information, or unauthorized tunneling (i.e., embedding of data types within data types), organizations must disable or restrict unused or unnecessary physical and logical ports/protocols/services on information systems.\n\nApplications are capable of providing a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., email and web services); however, doing so increases risk over limiting the services provided by any one component. \n\nTo support the requirements and principles of least functionality, the application must support the organizational requirements providing only essential capabilities and limiting the use of ports, protocols, and/or services to only those required, authorized, and approved to conduct official business or to address authorized quality of life issues.\n\nDatabase Management Systems using ports, protocols, and services deemed unsafe are open to attack through those ports, protocols, and services. This can allow unauthorized access to the database and through the database to other components of the information system.",
+  "Documentable": "false"
+}

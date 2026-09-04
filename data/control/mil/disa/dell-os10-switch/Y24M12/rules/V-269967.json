@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269967",
+  "rule_id": "SV-269967r1052287_rule",
+  "stig_id": "OS10-L2S-000220",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Dell OS10 Switch must not have the default VLAN assigned to any host-facing switch ports.",
+  "group_title": "SRG-NET-000512-L2S-000008",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-74000r1052285_chk",
+  "check_content": "Review the switch configurations and verify that no access switch ports have been assigned membership to the default VLAN (i.e., VLAN 1). VLAN assignments can be verified via the “show vlan” command:\n\nOS10# show vlan\nCodes: * - Default VLAN, M - Management VLAN, R - Remote Port Mirroring VLANs,\n       @ - Attached to Virtual Network, P - Primary, C - Community, I - Isolated,\n       S - VLAN-Stack VLAN\nQ: A - Access (Untagged), T - Tagged\n    NUM    Status    Description                     Q Ports\n*   1      Inactive\n    30     Inactive  Management VLAN\n    100    Inactive                                  A Eth1/1/1\n    200    Inactive                                  A Eth1/1/3-1/1/58\n    201    Inactive                                  A Eth1/1/2\nOS10#\n\nIf there are access switch ports assigned to the default VLAN, this is a finding.",
+  "fixtext": "Remove the assignment of the default VLAN from all access switch ports:\n\nOS10(config)# interface range eth1/1/4-1/1/58\nOS10(conf-range-eth1/1/4-1/1/58)# switchport mode access\nOS10(conf-range-eth1/1/4-1/1/58)# switchport access vlan 200",
+  "fix_id": "F-73901r1052286_fix",
+  "VulnDiscussion": "In a VLAN-based network, switches use the default VLAN (i.e., VLAN 1) for in-band management and to communicate with other networking devices using Spanning-Tree Protocol (STP), Dynamic Trunking Protocol (DTP), VLAN Trunking Protocol (VTP), and Port Aggregation Protocol (PAgP)—all untagged traffic. Therefore, the default VLAN may unwisely span the entire network if not appropriately pruned. If its scope is large enough, the risk of compromise can increase significantly.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261893",
+  "rule_id": "SV-261893r1000684_rule",
+  "stig_id": "CD16-00-004000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PostgreSQL, when using PKI-based authentication, must validate certificates by performing RFC 5280-compliant certification path validation.",
+  "group_title": "SRG-APP-000175-DB-000067",
+  "idents": {
+    "cci": [
+      "CCI-000185"
+    ]
+  },
+  "check_id": "C-65747r1000682_chk",
+  "check_content": "Note: The following instructions use the PGDATA environment variable. Refer to APPENDIX-F for instructions on configuring PGDATA.\n\nTo verify that a CRL file exists, as the database administrator (shown here as \"postgres\"), run the following:\n\n$ sudo su - postgres\n$ psql -c \"SELECT CASE WHEN length(setting) > 0 \nTHEN CASE WHEN substring(setting, 1, 1) = '/' \nTHEN setting \nELSE (SELECT setting FROM pg_settings WHERE name = 'data_directory') || '/' || setting\nEND\nELSE ''\nEND AS ssl_crl_file\nFROM pg_settings\nWHERE name = 'ssl_crl_file';\"\n\nIf this is not set to a CRL file, this is a finding.\n\nVerify the existence of the CRL file by checking the directory from above:\n\n$ sudo su - postgres\n$ ls -ld <ssl_crl_file>\n\nIf the CRL file does not exist, this is a finding.\n\nVerify that hostssl entries in pg_hba.conf have \"cert\" and \"clientcert=verify-ca\" enabled:\n\n$ sudo su - postgres\n$ grep '^hostssl.*cert.*clientcert=verify-ca ' ${PGDATA?}/pg_hba.conf\n\nIf hostssl entries are not returned, this is a finding.\n\nIf certificates are not being validated by performing RFC 5280-compliant certification path validation, this is a finding.",
+  "fixtext": "Note: The following instructions use the PGDATA and PGVER environment variables. Refer to APPENDIX-F for instructions on configuring PGDATA and APPENDIX-H for PGVER.\n\nTo configure PostgreSQL to use SSL, refer to supplementary content APPENDIX-G.\n\nTo generate a Certificate Revocation List, refer to the official Red Hat Documentation: https://access.redhat.com/documentation/en-US/Red_Hat_Update_Infrastructure/2.1/html/Administration_Guide/chap-Red_Hat_Update_Infrastructure-Administration_Guide-Certification_Revocation_List_CRL.html.\n\nAs the database administrator (shown here as \"postgres\"), copy the CRL file into the data directory:\n\nAs the system administrator, copy the CRL file into the PostgreSQL Data Directory:\n\n$ sudo cp root.crl ${PGDATA?}/root.crl\n\nAs the database administrator (shown here as \"postgres\"), set the ssl_crl_file parameter to the filename of the CRL:\n\n$ sudo su - postgres\n$ vi ${PGDATA?}/postgresql.conf\nssl_crl_file = 'root.crl'\n\nIn pg_hba.conf, require ssl authentication:\n\n$ sudo su - postgres\n$ vi ${PGDATA?}/pg_hba.conf\nhostssl <database> <user> <address> cert clientcert=verify-ca\n\nAs the system administrator, reload the server with the new configuration:\n\n# SYSTEMD SERVER ONLY\n$ sudo systemctl reload postgresql-${PGVER?}",
+  "fix_id": "F-65655r1000683_fix",
+  "VulnDiscussion": "The DOD standard for authentication is DOD-approved PKI certificates.\n\nA certificate's certification path is the path from the end entity certificate to a trusted root certification authority (CA). Certification path validation is necessary for a relying party to make an informed decision regarding acceptance of an end entity certificate. Certification path validation includes checks such as certificate issuer trust, time validity and revocation status for each certificate in the certification path. Revocation status information for CA and subject certificates in a certification path is commonly provided via certificate revocation lists (CRLs) or online certificate status protocol (OCSP) responses.\n\nDatabase Management Systems that do not validate certificates by performing RFC 5280-compliant certification path validation are in danger of accepting certificates that are invalid and/or counterfeit. This could allow unauthorized access to the database.",
+  "Documentable": "false"
+}

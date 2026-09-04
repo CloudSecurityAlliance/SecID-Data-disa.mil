@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215214",
+  "rule_id": "SV-215214r991554_rule",
+  "stig_id": "AIX7-00-001104",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If LDAP authentication is required on AIX, SSL must be used between LDAP clients and the LDAP servers to protect the integrity of remote access sessions.",
+  "group_title": "SRG-OS-000250-GPOS-00093",
+  "idents": {
+    "legacy": [
+      "V-91461",
+      "SV-101559"
+    ],
+    "cci": [
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-16412r294093_chk",
+  "check_content": "Run the following command to check if ldap_auth is used:\n\n# grep -iE \"^authtype:[[:blank:]]*ldap_auth\" /etc/security/ldap/ldap.cfg\n\nIf the command has no output, this is Not Applicable.\n\nRun the following command to check if SSL is used:\n\n# grep -iE \"^useSSL:[[:blank:]]*yes\" /etc/security/ldap/ldap.cfg\nuseSSL:yes\n\nIf the command has no output, this is a finding.",
+  "fixtext": "Configure the LDAP client on AIX to use the SSL.\n\nEdit /etc/security/ldap/ldap.cfg to have the following line:\nuseSSL:yes\n\nRestart the client daemon:\n# secldapclntd.",
+  "fix_id": "F-16410r294094_fix",
+  "VulnDiscussion": "If LDAP authentication is used, SSL must be used between LDAP clients and the LDAP servers to protect the integrity of remote access sessions.",
+  "Documentable": "false"
+}

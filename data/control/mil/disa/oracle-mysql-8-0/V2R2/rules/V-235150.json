@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235150",
+  "rule_id": "SV-235150r961095_rule",
+  "stig_id": "MYS8-00-006400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must separate user functionality (including user interface services) from database management functionality.",
+  "group_title": "SRG-APP-000211-DB-000122",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-38369r623570_chk",
+  "check_content": "Check MySQL settings and documentation to verify that administrative functionality is separate from user functionality.\n\nAs Database Administrator (DBA) (“root\"), list all roles and permissions for the database:\n\n> mysql -u root -p\n\nSELECT user,host, 'Global Priv', Select_priv, Insert_priv, Update_priv, Delete_priv, Create_priv,\n    Drop_priv, Reload_priv, Shutdown_priv, Process_priv, File_priv,\n    Grant_priv, References_priv, Index_priv, Alter_priv, Show_db_priv,\n    Super_priv, Create_tmp_table_priv, Lock_tables_priv, Execute_priv,\n    Repl_slave_priv, Repl_client_priv, Create_view_priv, Show_view_priv,\n    Create_routine_priv, Alter_routine_priv, Create_user_priv,\n    Event_priv, Trigger_priv, Create_tablespace_priv, Create_role_priv,\n    Drop_role_priv \n  FROM mysql.user WHERE 'Y' IN\n    (Select_priv, Insert_priv, Update_priv, Delete_priv, Create_priv,\n    Drop_priv, Reload_priv, Shutdown_priv, Process_priv, File_priv,\n    Grant_priv, References_priv, Index_priv, Alter_priv, Show_db_priv,\n    Super_priv, Create_tmp_table_priv, Lock_tables_priv, Execute_priv,\n    Repl_slave_priv, Repl_client_priv, Create_view_priv, Show_view_priv,\n    Create_routine_priv, Alter_routine_priv, Create_user_priv,\n    Event_priv, Trigger_priv, Create_tablespace_priv, Create_role_priv,\n    Drop_role_priv)\nAND user not in ('mysql.infoschema', 'mysql.session');\n\nIf any non-administrative role has permissions, other than mysql.infoschema and mysql.session, this is a finding.\n\nIf administrator and general user functionality are not separated, this is a finding.",
+  "fixtext": "Configure MySQL Database Server 8.0 to separate database administration and general user functionality.\n\nRevoke or remove users with admin and user mixed permissions.\n\nReview MySQL documentation related to access controls for users and admins: https://dev.mysql.com/doc/refman/8.0/en/access-control.html.",
+  "fix_id": "F-38332r623571_fix",
+  "VulnDiscussion": "Information system management functionality includes functions necessary to administer databases, network components, workstations, or servers, and typically requires privileged user access. \n\nThe separation of user functionality from information system management functionality is either physical or logical and is accomplished by using different computers, different central processing units, different instances of the operating system, different network addresses, combinations of these methods, or other methods, as appropriate. \n\nAn example of this type of separation is observed in web administrative interfaces that use separate authentication methods for users of any other information system resources. \n\nThis may include isolating the administrative interface on a different domain and with additional access controls.\n\nIf administrative functionality or information regarding DBMS management is presented on an interface available for users, information on DBMS settings may be inadvertently made available to the user.",
+  "Documentable": "false"
+}

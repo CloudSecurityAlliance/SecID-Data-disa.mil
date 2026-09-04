@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-224770",
+  "rule_id": "SV-224770r1013824_rule",
+  "stig_id": "ISEC-06-001760",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Before establishing a local, remote, and/or network connection with any endpoint device, the ISEC7 SPHERE must use a bidirectional authentication mechanism configured with a FIPS-validated Advanced Encryption Standard (AES) cipher block algorithm to authenticate with the device.",
+  "group_title": "SRG-APP-000395",
+  "idents": {
+    "legacy": [
+      "SV-106503",
+      "V-97399"
+    ],
+    "cci": [
+      "CCI-001967"
+    ]
+  },
+  "check_id": "C-26461r1013822_chk",
+  "check_content": "Log in to the ISEC7 SPHERE Console.\nConfirm that the browser session is secured using a DOD issued certificate. \nInternet Explorer:\nClick the Padlock icon at the end of the url field.\nSelect \"View Certificates\".\nConfirm that the Issued By is a valid DOD Certificate Authority.\n\nGoogle Chrome:\nClick the Padlock icon at the front of the url field.\nSelect \"Certificate\".\nConfirm that the Issued By is a valid DOD Certificate Authority.\n\nAlternately, log in to the ISEC7 SPHERE Console.\nNavigate to Administration >> Configuration >> Apache Tomcat Settings.\nIdentify which type of Keystore is being used.\n\nWindows MY: \nOpen the Microsoft Management Console.\nAdd the Certificates Snap-In for the ISEC7 Service Account.\nNavigate to the Personal Certificates Store.\nVerify the certificate is issued by a DOD Trusted Certificate Authority.\n\nJavaKeystore PKCS12:\nUsing a Keystore browser such as Portecle, open the ISEC7 SPHERE keystore.\nEnter the Keystore password when prompted.\nOpen the installed certificate and verify it was issued by a DOD Trusted Certificate Authority.\n\nIf certificates used by the server are not DOD-issued certificates, this is a finding.",
+  "fixtext": "Submit a CSR for a DOD-issued certificate with the private key.\nRetrieve the approved certificate from the issuing Certificate Authority.\nSet the friendly name on the certificate to https.\n\nWindows-MY:\nOpen the Microsoft Management Console.\nAdd the Certificates Snap-In for the ISEC7 Service Account.\nNavigate to the Personal Certificates Store.\nImport the certificate with Private key.\nLog in to the ISEC7 SPHERE Console.\nNavigate to Administration >> Configuration >> Apache Tomcat Settings.\nSet the Keystore Type to Windows-MY.\nRestart the ISEC7 SPHERE Web service.\n\nJavaKeystore:\nUsing a Keystore browser such as Portecle, open the ISEC7 SPHERE Suite keystore.\nEnter the Keystore password when prompted.\nDelete the self-signed certificate in the keystore.\nImport the DOD-issued certificate with the private key.\nEnter the key password when prompted.\nEnter the certificate alias as \"https\" when prompted.\nSave the keystore with the same keystore password.\nLog in to the ISEC7 SPHERE Console.\nNavigate to Administration >> Configuration >> Apache Tomcat Settings.\nVerify the Keystore type is set to JavaKeystore PKCS12.\nRestart the ISEC7 SPHERE Web service.",
+  "fix_id": "F-26449r1013823_fix",
+  "VulnDiscussion": "Without device-to-device authentication, communications with malicious devices may be established. Bidirectional authentication provides stronger safeguards to validate the identity of other devices for connections that are of greater risk. Currently, DOD requires the use of AES for bidirectional authentication since it is the only FIPS-validated AES cipher block algorithm. \n\nFor distributed architectures (e.g., service-oriented architectures), the decisions regarding the validation of authentication claims may be made by services separate from the services acting on those decisions. In such situations, it is necessary to provide authentication decisions (as opposed to the actual authenticators) to the services that need to act on those decisions.\n\nA local connection is any connection with a device communicating without the use of a network. A network connection is any connection with a device that communicates through a network (e.g., local area or wide area network; the internet). A remote connection is any connection with a device communicating through an external network (e.g., the internet).\n\nBecause of the challenges of applying this requirement on a large scale, organizations are encouraged to apply the requirement only to those limited number (and type) of devices that truly need to support this capability.",
+  "Documentable": "false"
+}

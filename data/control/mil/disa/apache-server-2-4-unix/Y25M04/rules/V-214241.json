@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214241",
+  "rule_id": "SV-214241r1051280_rule",
+  "stig_id": "AS24-U1-000260",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Apache web server must not be a proxy server.",
+  "group_title": "SRG-APP-000141-WSR-000076",
+  "idents": {
+    "legacy": [
+      "SV-102731",
+      "V-92643"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-15455r1051278_chk",
+  "check_content": "If the server has been approved to be a proxy server, this requirement is Not Applicable.\n\nDetermine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nNote: The apachectl front end is the preferred method for locating the Apache httpd file. For some Linux distributions, \"apache2ctl -V\" or \"httpd -V\" can also be used. \n\nSearch for the directive \"ProxyRequests\" in the \"httpd.conf\" file. \n\nIf the ProxyRequests directive is set to \"On\", this is a finding.",
+  "fixtext": "Determine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nEdit the file and comment out the ProxyRequests directive in the httpd.conf file.\n\nRestart Apache: apachectl restart",
+  "fix_id": "F-15453r1051279_fix",
+  "VulnDiscussion": "A web server should be primarily a web server or a proxy server but not both, for the same reasons that other multiuse servers are not recommended. Scanning for web servers that will also proxy requests into an otherwise protected network is a very common attack, making the attack anonymous.",
+  "Documentable": "false"
+}

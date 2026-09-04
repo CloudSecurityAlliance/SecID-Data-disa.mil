@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213728",
+  "rule_id": "SV-213728r879798_rule",
+  "stig_id": "DB2X-00-008700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DB2 must only accept end entity certificates issued by DoD PKI or DoD-approved PKI Certification Authorities (CAs) for the establishment of all encrypted sessions.",
+  "group_title": "SRG-APP-000427-DB-000385",
+  "idents": {
+    "legacy": [
+      "SV-89273",
+      "V-74599"
+    ],
+    "cci": [
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-14949r295233_chk",
+  "check_content": "Run the following command to find certificate details: \n\n     $gsk8capicmd_64 -cert -details -db \"<mydbserver.kdb>\" -pw \"<PASSWORD>\" -label \"<myselfsigned>\"\n\nThe output is displayed in  a form similar to the following: \n\n-- label : myselfsigned key size : 1024 version : X509 V3 serial : 96c2db8fa769a09d\n\n-- issue:CN=myhost.mycompany.com,O=myOrganization,OU=myOrganizationUnit,\nL=myLocation,ST=ON,C=CA \n\n-- subject:CN=myhost.mycompany.com,O=myOrganization,OU=myOrganizationUnit,\nL=myLocation,ST=ON,C=CA not before : Tuesday, 24 February 2009 17:11:50 PM not after : Thursday, 25 February 2010 17:11:50 PM\n\nIf the certificate is not issued by DoD PKI or DoD-approved PKI Certification Authorities (CAs), this is a finding.",
+  "fixtext": "Create a key database and set up the digital certificates.\n\nThe following command creates a key database called mydbserver.kdb and a stash file called mydbserver.sth: \n\n     $gsk8capicmd_64 -keydb -create -db \"mydbserver.kdb\" -pw \"myServerPassw0rdpw0\" -stash\n\nWhen you create a key database, it is automatically populated with signer certificates from a few certificate authorities (CAs), such as Verisign.\n\nAdd a certificate for your server to your key database. \n\nTo obtain a certificate, you can either use GSKCapiCmd to create a new certificate request and submit it to a CA to be signed, or you can create a self-signed certificate for testing purposes. \n\nFollowing is an example of command to create a self-signed certificate with a label of myselfsigned, use the GSKCapiCmd command as shown in the following command:\n\n     $gsk8capicmd_64 -cert -create -db \"mydbserver.kdb\" -pw \"myServerPassw0rdpw0\" -label \"myselfsigned\" -dn \"CN=myhost.mycompany.com,O=myOrganization, OU=myOrganizationUnit,L=myLocation,ST=ON,C=CA\"\n\nNotes:\n\n-- Use the GSKCapiCmd tool to create the key database. It must be a Certificate Management System (CMS) type key database. \n\nThe GSKCapiCmd is a non-Java-based command-line tool, and Java does not need to be installed on the system to use this tool. \n\nYou invoke GSKCapiCmd using the GSKCAPICMD command, as described in the GSKCapiCmd User's Guide. \n\nThe path for the command is sqllib/gskit/bin on Linux and UNIX platforms, and C:\\Program Files\\IBM\\GSK8\\bin on both 32-bit and 64-bit Windows platforms. \n\nOn 64-bit platforms, the 32-bit GSKit executable files and libraries are also present; in this case, the path for the command is C:\\ProgramFiles (x86)\\IBM\\GSK8\\bin. - Ensure PATH (on the Windows platform) includes the proper GSKit library path, and LIBPATH, SHLIB_PATH, or LD_LIBRARY_PATH (on UNIX or Linux platforms) include the proper GSKit library path, such as sqllib/lib64/gskit.\nThe -stash option creates a stash file at the same path as the key database, with a file extension of .sth. At instance start-up, GSKit uses the stash file to obtain the password to the key database.\nTo extract the certificate you created to a file, so that you can distribute it to computers running clients that will be establishing SSL connections to your DB2 server.\n\nRun the following GSKCapiCmd command extracts the certificate to a file called mydbserver.arm:\n\n     $gsk8capicmd_64 -cert -extract -db \"mydbserver.kdb\" -pw \"myServerPassw0rdpw0\" -label \"myselfsigned\" -target \"mydbserver.arm\" -format ascii –fips",
+  "fix_id": "F-14947r295234_fix",
+  "VulnDiscussion": "Only DoD-approved external PKIs have been evaluated to ensure that they have security controls and identity vetting procedures in place which are sufficient for DoD systems to rely on the identity asserted in the certificate.  PKIs lacking sufficient security controls and identity vetting procedures risk being compromised and issuing certificates that enable adversaries to impersonate legitimate users. \n\nThe authoritative list of DoD-approved PKIs is published at http://iase.disa.mil/pki-pke/interoperability.\n\nThis requirement focuses on communications protection for the DBMS session rather than for the network packet.",
+  "Documentable": "false"
+}

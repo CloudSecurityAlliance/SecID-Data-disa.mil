@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254918",
+  "rule_id": "SV-254918r961125_rule",
+  "stig_id": "TANS-AP-000600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Tanium Server and Client applications must have logging enabled.",
+  "group_title": "SRG-APP-000226",
+  "idents": {
+    "cci": [
+      "CCI-001665"
+    ]
+  },
+  "check_id": "C-58531r867652_chk",
+  "check_content": "Tanium Server:\n\n1. Using a web browser on a system that has connectivity to the Tanium Application, access the Tanium Application web user interface (UI) and log on with multi-factor authentication. \n\n2. Click \"Administration\" on the top navigation banner. \n\n3. Under \"Configuration,\" select \"Common\".\n\n4. Select \"Log Level\".\n\n5. In \"Log Verbosity Level for Troubleshooting,\" verify current level for \"Tanium Server\" is set.\n\nIf the value for current level for \"Tanium Server\" is not set to \"1\" or higher this is a finding.\n\nTanium Client:\n\n1. Using a web browser on a system that has connectivity to the Tanium Application, access the Tanium Application web user interface (UI) and log on with multi-factor authentication.\n\n2. Click \"Modules\" on the top navigation banner.\n\n3. Click \"Interact\".\n\n4. In the \"Explore Data\" box, type the following question:\n\n4A. Get Tanium Client Explicit Setting[LogVerbosityLevel] < 1 and Is Windows from all machines with Tanium Client Explicit Setting[LogVerbosityLevel] < 1\n\nNote: For VDI systems, follow vendor guidance: https://docs.tanium.com/client/client/os_imaging.html#VDI\n\nIf there are any answers returned that are \"0\" this is a finding.",
+  "fixtext": "Tanium Server:\n\n1. Using a web browser on a system that has connectivity to the Tanium Application, access the Tanium Application web user interface (UI) and log on with multi-factor authentication. \n\n2. Click \"Administration\" on the top navigation banner. \n\n3. Under \"Configuration,\" select \"Common\".\n\n4. Select \"Log Level\".\n\n5. In \"Log Verbosity Level for Troubleshooting,\" verify current level for \"Tanium Server\" is set.\n\nTanium Client:\n\n1. Using a web browser on a system that has connectivity to the Tanium Application, access the Tanium Application web user interface (UI) and log on with multi-factor authentication.\n\n2. Click \"Modules\" on the top navigation banner.\n\n3. Click \"Interact\".\n\n4. In the \"Explore Data\" box, type the following question:\n4A. Get Tanium Client Explicit Setting[LogVerbosityLevel] < 1 and Is Windows from all machines with Tanium Client Explicit Setting[LogVerbosityLevel] < 1\n\n5. Select the row with \"Is windows\" set to \"True\" and deploy the following action and settings:\n   a) Deployment Package: Modify Tanium Client Setting\n    b) RegType: REG_DWORD\n    c) ValueName: LogVerbosityLevel\n    d) ValueData: 1 or higher\n    \n    Schedule Deployment\n    a) Distribute over: 1 hour\n\n6. Click \"Show Preview to continue\".\n\n7. Click \"Deploy Action\".\n\n8. Select the row with \"Is windows\" set to \"False\" and deploy the following action and settings:\n    a) Deployment Package: Modify Tanium Client Setting [Non-Windows]\n    b) RegType: NUMERIC\n    c) ValueName: LogVerbosityLevel\n    d) ValueData: 1 or higher\n    \n    Schedule Deployment\n    a) Distribute over: 1 hour\n\n9. Click \"Show Preview to continue\".\n\n10. Click \"Deploy Action\".",
+  "fix_id": "F-58475r867653_fix",
+  "VulnDiscussion": "Failure to a known state can address safety or security in accordance with the mission/business needs of the organization. Failure to a known secure state helps prevent a loss of confidentiality, integrity, or availability in the event of a failure of the information system or a component of the system. Preserving application state information helps to facilitate application restart and return to the operational mode of the organization with less disruption to mission-essential processes.",
+  "Documentable": "false"
+}

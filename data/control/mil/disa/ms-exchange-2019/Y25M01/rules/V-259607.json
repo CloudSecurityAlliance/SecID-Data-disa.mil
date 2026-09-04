@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259607",
+  "rule_id": "SV-259607r961155_rule",
+  "stig_id": "EX19-ED-000120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange Message size restrictions must be controlled on receive connectors.",
+  "group_title": "SRG-APP-000247",
+  "idents": {
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-63346r942133_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP).\n\nDetermine the global maximum message receive size.\n\nOpen the Exchange Management Shell and enter the following command:\n\nIdentify internet-facing connectors.\n\nGet-ReceiveConnector | Select-Object -Property Name, Identity, MaxMessageSize\n\nIf the value of \"MaxMessageSize\" is not the same as the global value, this is a finding.\n\nor\n\nIf \"MaxMessageSize\" is set to a numeric value different from the global value and has signoff and risk acceptance in the EDSP, this is not a finding.",
+  "fixtext": "Update the EDSP to reflect the global maximum message receive size.\n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-ReceiveConnector -Identity <'IdentityName'> -MaxMessageSize <'MaxReceiveSize'>\n\nNote: The <IdentityName> and <MaxReceiveSize> values must be in quotes.\n\nor \n\nThe value as identified by the EDSP that has obtained a signoff with risk acceptance.",
+  "fix_id": "F-63254r942134_fix",
+  "VulnDiscussion": "Email system availability depends in part on best practices strategies for setting tuning configurations. For message size restrictions, multiple places exist to set or override inbound or outbound message size. Failure to control the configuration strategy can result in loss of data or system availability. \n\nThis setting enables the administrator to control the maximum message size on receive connectors. Using connectors to control size limits may necessitate applying message size limitations in multiple places, with the potential of introducing conflicts and impediments in the mail flow. Changing this setting at the connector overrides the global one. Therefore, if operational needs require it, the connector value may be set lower than the global value with the rationale documented in the EDSP.",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-260935",
+  "rule_id": "SV-260935r966162_rule",
+  "stig_id": "CNTR-MK-001020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Host IPC namespace must not be shared.",
+  "group_title": "SRG-APP-000243-CTR-000600",
+  "idents": {
+    "cci": [
+      "CCI-001090",
+      "CCI-002530"
+    ]
+  },
+  "check_id": "C-64664r966160_chk",
+  "check_content": "Check if the \"IpcMode\" is set to \"host\" for a running or stopped container.\n\nLog in to the MKE WebUI and Navigate to admin >> Admin Settings >> Privileges.\n\nIf hostIPC is checked for User account privileges or Service account privileges, consult the System Security Plan (SSP).\n\nIf hostIPC is not allowed per the SSP, this is a finding.",
+  "fixtext": "Modify IpcMode for a container by logging in to the MKE WebUI and navigating to admin >> Admin Settings >> Privileges.\n- Uncheck hostIPC.\n- Click \"Save\".",
+  "fix_id": "F-64572r966161_fix",
+  "VulnDiscussion": "IPC (POSIX/SysV IPC) namespace provides separation of named shared memory segments, semaphores, and message queues. IPC namespace on the host must not be shared with the containers and remain isolated unless required.\n\nIf the host's IPC namespace is shared with the container, it would allow processes within the container to view all of the IPC on the host system. This breaks the benefit of IPC level isolation between the host and the containers. Having access to the container can eventually manipulate the host IPC. Do not share the host's IPC namespace with the containers. Only containers with the proper label will share IPC namespace and this access must be documented.",
+  "Documentable": "false"
+}

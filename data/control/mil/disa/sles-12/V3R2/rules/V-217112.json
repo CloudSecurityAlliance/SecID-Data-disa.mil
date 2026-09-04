@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-217112",
+  "rule_id": "SV-217112r1050789_rule",
+  "stig_id": "SLES-12-010110",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The SUSE operating system must reauthenticate users when changing authenticators, roles, or escalating privileges.",
+  "group_title": "SRG-OS-000373-GPOS-00156",
+  "idents": {
+    "legacy": [
+      "SV-91763",
+      "V-77067"
+    ],
+    "cci": [
+      "CCI-002038",
+      "CCI-004895"
+    ]
+  },
+  "check_id": "C-18340r646685_chk",
+  "check_content": "Verify that the SUSE operating system requires reauthentication when changing authenticators, roles, or escalating privileges.\n\nCheck that \"/etc/sudoers\" has no occurrences of \"NOPASSWD\" or \"!authenticate\" with the following command:\n\n> sudo egrep -i '(nopasswd|!authenticate)' /etc/sudoers\n\nIf any uncommented lines containing \"!authenticate\", or \"NOPASSWD\" are returned and active accounts on the system have valid passwords, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to remove any occurrence of \"NOPASSWD\" or \"!authenticate\" found in the \"/etc/sudoers\" file. If the system does not use passwords for authentication, the \"NOPASSWD\" tag may exist in the file.",
+  "fix_id": "F-18338r369493_fix",
+  "VulnDiscussion": "Without reauthentication, users may access resources or perform tasks for which they do not have authorization. \n\nWhen SUSE operating system provide the capability to change user authenticators, change security roles, or escalate a functional capability, it is critical the user reauthenticate.\n\nSatisfies: SRG-OS-000373-GPOS-00156, SRG-OS-000373-GPOS-00157, SRG-OS-000373-GPOS-00158",
+  "Documentable": "false"
+}

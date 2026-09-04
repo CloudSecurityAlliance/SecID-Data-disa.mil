@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242596",
+  "rule_id": "SV-242596r1001250_rule",
+  "stig_id": "CSCO-NC-000220",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco ISE must be configured with a secondary log server in case the primary log is unreachable. This is required for compliance with C2C Step 1.",
+  "group_title": "SRG-NET-000336-NAC-001390",
+  "idents": {
+    "cci": [
+      "CCI-001861"
+    ]
+  },
+  "check_id": "C-45871r812773_chk",
+  "check_content": "If DoD is not at C2C Step 1 or higher, this is not a finding.\n\nReview the configured Remote Logging Targets to ensure there are, at a minimum, two configured.\n \nFrom the Web Admin portal:\n1. Choose Administration >> System >> Logging >> Logging Targets.\n2. Verify that \"LogCollector\" and \"LogCollector2\" or an additional target is defined along with being enabled.\n\nIf there are not two separate logging targets defined, this is a finding.\n\nNote: \"ProfilerRadiusProbe\" or any other target with a \"127.0.0.1\" address does not count as being a \"Remote\" Logging Target.",
+  "fixtext": "Configure Remote Logging Targets. \n\nFrom the Web Admin portal:\n1. Choose Administration >> System >> Logging >> Logging Targets.\n2. Select \"Secure Syslog\" or \"TCP Syslog\" in the Target Type drop-down.\n3. Configure a desired name.\n4. Configure the Host/IP address.\n5. Check the box for \"Buffer Messages When Server Down\".\n6. If \"Secure Syslog\" is used, select a CA certificate to use to define what system certificate to use to secure this connection.\n7. Choose \"Submit\".\n\nNote: \"LogCollector\" and \"LogCollector2\" represent the monitoring (MnT) nodes defined in the deployment. If there is a primary and a secondary MnT node, then nothing more is needed. \n\nNote: \"ProfilerRadiusProbe\" or any other target with a \"127.0.0.1\" address does not count as being a \"Remote\" Logging Target.",
+  "fix_id": "F-45828r714097_fix",
+  "VulnDiscussion": "It is critical for the appropriate personnel to be aware if a system is at risk of failing to process audit logs as required. Without this notification, the security personnel may be unaware of an impending failure of the audit capability and system operation may be adversely affected.\n\nAudit processing failures include software/hardware errors, failures in the audit capturing mechanisms, and audit storage capacity being reached or exceeded.",
+  "Documentable": "false"
+}

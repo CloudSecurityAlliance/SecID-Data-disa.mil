@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234214",
+  "rule_id": "SV-234214r916342_rule",
+  "stig_id": "FGFW-ND-000275",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The FortiGate device must terminate idle sessions after 10 minutes of inactivity.",
+  "group_title": "SRG-APP-000190-NDM-000267",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-37399r611829_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click System.\n2. Click Settings.\n3. Go to Administrative Settings.\n4. Verify Idle Timeout is configured to 10 minutes.\n\nIf the idle-timeout value is not 10 minutes, this is a finding.\n\nor \n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # show full-configuration sys global | grep -i admintimeout\n\nThe output should be:         \n          set admintimeout 10\n\nIf the admintimeout parameter is not set to 10 minutes, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click System.\n2. Click Settings.\n3. Go to Administrative Settings.\n4. Enter the Idle Timeout value of 10.\n5. Click Apply.\n\nor \n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config system global\n          # set admintimeout 10\n     # end",
+  "fix_id": "F-37364r611830_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle session will also free up resources committed by the managed network element. \n\nTerminating network connections associated with communications sessions includes, for example, de-allocating associated TCP/IP address/port pairs at the operating system level, or de-allocating networking assignments at the application level if multiple application sessions are using a single, operating system-level network connection. This does not mean that the device terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.",
+  "Documentable": "false"
+}

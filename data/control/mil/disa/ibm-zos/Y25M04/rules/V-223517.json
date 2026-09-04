@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-223517",
+  "rule_id": "SV-223517r958406_rule",
+  "stig_id": "ACF2-FT-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS SMF recording options for the FTP Server must be configured to write SMF records for all eligible events.",
+  "group_title": "SRG-OS-000032-GPOS-00013",
+  "idents": {
+    "legacy": [
+      "V-97739",
+      "SV-106843"
+    ],
+    "cci": [
+      "CCI-000067",
+      "CCI-002884"
+    ]
+  },
+  "check_id": "C-25190r504615_chk",
+  "check_content": "Refer to the FTP.DATA file specified on the SYSFTPD DD statement in the FTP started task JCL. The SYSFTPD DD statement is optional. The search order for FTP.DATA is: \n /etc/ftp.data \n SYSFTPD DD statement \n jobname.FTP.DATA \n SYS1.TCPPARMS(FTPDATA) \n tcpip.FTP.DATA \n\nIf FTPDATA is configured with the following SMF statements, this is not a finding.\n\nFTP.DATA Configuration Statements\nSMF TYPE119\nSMFJES TYPE119\nSMFSQL TYPE119\nSMFAPPE [Not coded or commented out]\nSMFDEL [Not coded or commented out]\nSMFEXIT [Not coded or commented out]\nSMFLOGN [Not coded or commented out]\nSMFREN [Not coded or commented out]\nSMFRETR [Not coded or commented out]\nSMFSTOR [Not coded or commented out]",
+  "fixtext": "Configure SMF options to conform to the specifications in the FTPDATA Configuration Statements below or that they are commented out.\n\nSMF TYPE119\nSMFJES TYPE119\nSMFSQL TYPE119\nSMFAPPE [Not coded or commented out]\nSMFDEL [Not coded or commented out]\nSMFEXIT [Not coded or commented out]\nSMFLOGN [Not coded or commented out]\nSMFREN [Not coded or commented out]\nSMFRETR [Not coded or commented out]\nSMFSTOR [Not coded or commented out]\n\nThe FTP Server can provide audit data in the form of SMF records. SMF record type 119, the TCP/IP Statistics record, can be written with the following subtypes:\n\n70 - Append\n70 - Delete and Multiple Delete\n72 - Invalid Logon Attempt\n70 - Rename\n70 - Get (Retrieve) and Multiple Get\n70 - Put (Store and Store Unique) and Multiple Put\n\nSMF data produced by the FTP Server provides transaction information for both successful and unsuccessful FTP commands. This data may provide valuable information for security audit activities. Type 119 records use a more standard format and provide more information.",
+  "fix_id": "F-25178r858863_fix",
+  "VulnDiscussion": "Without establishing when events occurred, it is impossible to establish, correlate, and investigate the events leading up to an outage or attack.\n\nIn order to compile an accurate risk assessment and provide forensic analysis, it is essential for security personnel to know when events occurred (date and time).\n\nAssociating event types with detected events in the operating system audit logs provides a means of investigating an attack; recognizing resource utilization or capacity thresholds; or identifying an improperly configured operating system.\n\nSMF data collection is the basic unit of tracking of all system functions and actions. Included in this tracking data are the audit records from each of the ACPs and system. If the required SMF data record types are not being collected, then accountability cannot be monitored, and its use in the execution of a contingency plan could be compromised.\n\nThis requirement addresses auditing-related issues associated with maintenance tools used specifically for diagnostic and repair actions on organizational information systems.\n\nNonlocal maintenance and diagnostic activities are those activities conducted by individuals communicating through a network, either an external network (e.g., the Internet) or an internal network. Local maintenance and diagnostic activities are those activities carried out by individuals physically present at the information system or information system component and not communicating across a network connection.\n\nThis requirement applies to hardware/software diagnostic test equipment or tools. This requirement does not cover hardware/software components that may support information system maintenance, yet are a part of the system, for example, the software implementing \"ping,\" \"ls,\" \"ipconfig,\" or the hardware and software implementing the monitoring port of an Ethernet switch.\n\nSatisfies: SRG-OS-000032-GPOS-00013, SRG-OS-000392-GPOS-00172",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222987",
+  "rule_id": "SV-222987r961461_rule",
+  "stig_id": "TCAT-AS-001220",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "$CATALINA_BASE/conf/ folder must be owned by root,  group tomcat.",
+  "group_title": "SRG-APP-000380-AS-000088",
+  "idents": {
+    "legacy": [
+      "SV-111497",
+      "V-102557"
+    ],
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-24659r426405_chk",
+  "check_content": "Access the Tomcat server from the command line and execute the following OS command:\n\nsudo find $CATALINA_BASE/conf -follow -maxdepth 0 \\(  ! -user root -o ! -group tomcat \\) -ls\n\nIf ISSM risk acceptance specifies deviation from requirement based on operational/application needs, this is not a finding if the group permissions are set in accordance with the risk acceptance. Ownership must not be changed.\n\nIf no folders are displayed, this is not a finding.\n\nIf results indicate the $CATALINA_BASE/conf folder ownership and group membership is not set to root:tomcat, this is a finding.",
+  "fixtext": "If operational/application requirements specify different group file permissions, obtain ISSM risk acceptance and set permissions according to risk acceptance.  Ownership must not be changed. \n\nRun the following commands on the Tomcat server:\n\nsudo find $CATALINA_BASE/conf -maxdepth 0 \\( ! -user root \\) | sudo xargs chown root\n\nsudo find $CATALINA_BASE/conf -maxdepth 0 \\( ! -group tomcat \\) | sudo xargs chgrp tomcat",
+  "fix_id": "F-24648r426406_fix",
+  "VulnDiscussion": "Tomcat file permissions must be restricted. The standard configuration is to have Tomcat files contained in the conf/ folder as members of the \"tomcat\" group. While root has read/write privileges, group only has read permissions, and world has no permissions. The exceptions are the logs, temp, and work directories that are owned by the Tomcat user rather than root. This means that even if an attacker compromises the Tomcat process, they cannot change the Tomcat configuration, deploy new web applications, or modify existing web applications. The Tomcat process runs with a umask of 0027 to maintain these permissions. Note that running Tomcat in a Docker environment can impact how file permissions and user ownership settings are applied. Due to associated Docker configuration complexities, the STIG is scoped for standalone rather than virtual Docker deployments.\n\nIf the ISSM determines the operational need to allow application admins access to change the Tomcat configuration outweighs the risk of limiting that access, then they can change the group membership to accommodate.  Ownership must not be changed.  The ISSM should take the exposure of the system to high risk networks into account.",
+  "Documentable": "false"
+}

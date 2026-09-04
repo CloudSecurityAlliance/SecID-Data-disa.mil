@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260913",
+  "rule_id": "SV-260913r966096_rule",
+  "stig_id": "CNTR-MK-000150",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MKE host network namespace must not be shared.",
+  "group_title": "SRG-APP-000039-CTR-000110",
+  "idents": {
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-64642r966094_chk",
+  "check_content": "When using Kubernetes orchestration, ensure that Pods do not use the host machine's network namespace and uses its own isolated network namespace.\n\nNote: If the hostNetwork field is not explicitly set in the Pod's specification, it will use the default behavior, which is equivalent to hostNetwork: false.\n\nExecute the following for all pods:\n\nkubectl get pods --all-namespaces -o json | jq '.items[] | select(.spec.hostNetwork == true) | .metadata.name'\n\nIf the above command returns a namespace then the \"hostNetwork\" = true, this is a finding unless a documented exception is present in the System Security Plan (SSP).\n\nWhen using Swarm orchestration, check that the host's network namespace is not shared.\n\nVia CLI: \nLinux: As an administrator, execute the following command using a Universal Control Plane (MKE) client bundle:\n\ndocker ps --filter \"label=com.docker.ucp.version\" | awk '{print $1}' | xargs docker inspect --format '{{ .Name }}: NetworkMode={{ .HostConfig.NetworkMode }}'\n\nIf the above command returns NetworkMode=host, this is a finding unless a documented exception is present in the SSP.",
+  "fixtext": "When using Kubernetes orchestration:\nIn Kubernetes, the hostNetwork setting is a part of the Pod's specification, and once a Pod is created, its hostNetwork setting cannot be directly modified. However, the desired effect can be achieved by creating a new Pod with the updated hostNetwork setting and then deleting the existing Pod. This process replaces the old Pod with the new one.\n\nWhen using Swarm orchestration:\nReview and remove nonsystem containers previously created by these users that allowed access to the host network namespace must be removed using:\n\ndocker container rm [container]",
+  "fix_id": "F-64550r966095_fix",
+  "VulnDiscussion": "MKE can be built with privileges that are not approved within the organization. To limit the attack surface of MKE, it is essential that privileges meet organization requirements.\n\nThe networking mode on a container when set to --net=host, skips placing the container inside a separate network stack. This is potentially dangerous because it allows the container process to open low-numbered ports like any other root process. Thus, a container process can potentially do unexpected things such as shutting down the Docker host. Do not use this option.\n\nBy default, bridge mode is used.",
+  "Documentable": "false"
+}

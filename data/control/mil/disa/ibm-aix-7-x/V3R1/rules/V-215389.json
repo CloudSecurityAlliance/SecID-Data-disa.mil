@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215389",
+  "rule_id": "SV-215389r958478_rule",
+  "stig_id": "AIX7-00-003084",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The finger daemon must be disabled on AIX.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "SV-101507",
+      "V-91409"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16587r294618_chk",
+  "check_content": "From the command prompt, execute the following command: \n# grep \"^finger[[:blank:]]\" /etc/inetd.conf\n\nIf there is any output from the command, this is a finding.",
+  "fixtext": "In \"/etc/inetd.conf\", comment out the \"finger\" entry by running command: \n# chsubserver -r inetd -C /etc/inetd.conf -d -v 'finger' -p 'tcp'\n\nRestart inetd:\n# refresh -s inetd",
+  "fix_id": "F-16585r294619_fix",
+  "VulnDiscussion": "The fingerd daemon provides the server function for the finger command. This allows users to view real-time pertinent user login information on other remote systems. This service should be disabled as it may provide an attacker with a valid user list to target.",
+  "Documentable": "false"
+}

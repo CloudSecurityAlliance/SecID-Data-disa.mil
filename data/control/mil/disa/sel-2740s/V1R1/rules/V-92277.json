@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-92277",
+  "rule_id": "SV-102365r1_rule",
+  "stig_id": "SELS-SW-000280",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SEL-2740S must be configured to mitigate the risk of ARP cache poisoning attacks.",
+  "group_title": "SRG-NET-000512-L2S-000028",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-91575r2_chk",
+  "check_content": "Review SEL-2740S ARP flow rules between hosts and ensure they are necessary for the additional flow rules that exist for communications between hosts.\n\nNote: Necessary flows are all ARPs between valid and authorized hosts that should be allowed to talk to each other and the physical path those circuits are allowed to talk.\n\nIf the SEL-2740S is configured with wildcard packet forwarding flows that are not for Security Information and Event Manager (SIEM) or unnecessary rules, this is a finding.",
+  "fixtext": "Configure point-to-point ARP flow rules between every device that must communicate.\n\nTo add ARP flow rules on all packet forwarding, do the following:\n1. Log on to OTSDN Controller using Permission Level 3.\n2. Click \"Flow Entries\" in Navigation Menu.\n3. Click \"Add Flow\" button.\n4. Enter General setting values for \"Switch\", \"Enable\".  Optional: Enter General Settings for \"Table ID\", \"Priority\", \"Idle Timeout\", and \"Hard Timeout\".\n5. Depending on communication protocol behavior, enter appropriate Match Field values for \"ARP Opcode\" (\"Request\" or \"Reply\"), \"ARP Source\", \"ARP Target\", \"Communication Service Type (CST) Match\", \"Ethernet Destination\", \"Ethernet Source\", \"Ethernet Type\", \"InPort\", \"IP Proto\", \"IPv4 Destination\", \"IPv4 Source\", \"TCP Destination\", \"TCP Source\", \"UDP Destination\", \"UDP Source\", \"VLAN Priority\", and/or \"VLAN Virtually ID\".\n6. Enter appropriate Write-Actions for \"Pop VLAN ID\", \"Push VLAN ID\", \"Set VLAN ID\", \"Set VLAN Priority\", \"Set Queue\", \"Group by Alias or Value\", and/or \"Output by Alias or Value\".\n7. Click \"Submit\".",
+  "fix_id": "F-98517r1_fix",
+  "VulnDiscussion": "The SEL-2740S must deter ARP cache poisoning attacks and configure the specific ARP flows that are only necessary to the control system network.",
+  "Documentable": "false"
+}

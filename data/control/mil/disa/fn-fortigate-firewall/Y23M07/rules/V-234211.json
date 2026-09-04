@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234211",
+  "rule_id": "SV-234211r879784_rule",
+  "stig_id": "FGFW-ND-000260",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The FortiGate devices must use FIPS-validated Keyed-Hash Message Authentication Code (HMAC) to protect the integrity of nonlocal maintenance and diagnostic communications.",
+  "group_title": "SRG-APP-000411-NDM-000330",
+  "idents": {
+    "cci": [
+      "CCI-002890"
+    ]
+  },
+  "check_id": "C-37396r611820_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Network, Interfaces.\n2. Click the interface designated for device management traffic.\n3. On Administrative Access, verify HTTPS and SSH are selected, and HTTP is not.\n\nIf HTTPS and SSH are not selected for administrative access, or HTTP is selected, this is a finding.\n\nor \n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # show full-configuration system interface port{Management Port Integer #} | grep -i allowaccess\n\nThe output should include: \n          set allowaccess ping https ssh\n\nIf the allowaccess parameter does not include https and ssh, this is a finding. If the allowaccess parameter includes http, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Network, Interfaces\n2. Click the interface designated for device management traffic and pick Edit.\n3. On Administrative Access, select HTTPS and SSH. Deselect HTTP.\n4. Click OK.\n\nor \n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config system interface \n     #    edit port{Management Port Integer #}\n     #    set allowaccess ping https ssh\n     # end\n\nNote: When adding or removing a protocol, the entire list of protocols must be typed again. For example, in an existing access list of HTTPS and SSH, if HTTP needs to be added, use the following CLI command: \n     #   set allowaccess https ssh ping http",
+  "fix_id": "F-37361r611821_fix",
+  "VulnDiscussion": "Unapproved mechanisms that are used for authentication to the cryptographic module are not verified and therefore cannot be relied upon to provide confidentiality or integrity, and DoD data may be compromised.\n\nNonlocal maintenance and diagnostic activities are those activities conducted by individuals communicating through a network, either an external network (e.g., the internet) or an internal network. \n\nCurrently, HMAC is the only FIPS-approved algorithm for generating and verifying message/data authentication codes in accordance with FIPS 198-1. Products that are FIPS 140-2 validated will have an HMAC that meets specification; however, the option must be configured for use as the only message authentication code used for authentication to cryptographic modules.\n\nSeparate requirements for configuring applications and protocols used by each application (e.g., SNMPv3, SSHv2, NTP, HTTPS, and other protocols and applications that require server/client authentication) are required to implement this requirement. Where SSH is used, the SSHv2 protocol suite is required because it includes Layer 7 protocols such as SCP and SFTP, which can be used for secure file transfers.",
+  "Documentable": "false"
+}

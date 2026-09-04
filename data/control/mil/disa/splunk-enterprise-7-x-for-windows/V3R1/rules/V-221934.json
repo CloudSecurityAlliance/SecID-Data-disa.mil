@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221934",
+  "rule_id": "SV-221934r960963_rule",
+  "stig_id": "SPLK-CL-000090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "When Splunk Enterprise is distributed over multiple servers, each server must be configured to disable non-essential capabilities.",
+  "group_title": "SRG-APP-000141-AU-000090",
+  "idents": {
+    "legacy": [
+      "SV-111321",
+      "V-102369"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-23648r420270_chk",
+  "check_content": "If the Splunk Installation is not distributed among multiple servers, this check is N/A.\n\nIf the machine being reviewed is not designated as a search head, check the following file in the Splunk installation folders:\n\n$SPLUNK_HOME/etc/system/local/web.conf\n\nCheck for the following lines:\n\n[settings]\nstartwebserver = 0\n\nIf the startwebserver = 0 line is missing, or is = 1, this is a finding.\n\nIf the machine being reviewed is not designated as an indexer, check the following file in the Splunk installation folders:\n\n$SPLUNK_HOME/etc/system/local/indexes.conf\n\nIf this file exists, this is a finding. \n\nThis file should only exist on an instance designated as an indexer.",
+  "fixtext": "If the Splunk Installation is not distributed among multiple servers, this fix is N/A.\n\nSelect Settings >> Monitoring Console.\n\nIn the Monitoring Console, select Settings >> General Setup.\n\nSet the Mode type based on the implementation design.\n\nIf Mode is set to Distributed, set each instance only with the server roles necessary for the desired functions.\n\nOn instances not designated as search heads, disable the web UI by using the following command:\n\n./splunk disable webserver\n\nOn instances not designated as indexers, remove the file:\n\n$SPLUNK_HOME/etc/system/local/indexes.conf",
+  "fix_id": "F-23637r420271_fix",
+  "VulnDiscussion": "Applications are capable of providing a wide variety of functions and services. Some of the functions and services may not be necessary to support the configuration. This becomes more of an issue in distributed environments, where the application functions are spread out over multiple servers.\n\nThese unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.",
+  "Documentable": "false"
+}

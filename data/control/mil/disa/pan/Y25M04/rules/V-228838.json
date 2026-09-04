@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-228838",
+  "rule_id": "SV-228838r557387_rule",
+  "stig_id": "PANW-AG-000036",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Palo Alto Networks security platform must disable WMI probing if it is not used.",
+  "group_title": "SRG-NET-000131-ALG-000085",
+  "idents": {
+    "legacy": [
+      "SV-77049",
+      "V-62559"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-31073r513809_chk",
+  "check_content": "Ask the Administrator if User-ID uses WMI Probing; if it does, this is not a finding.\n\nGo to Device >> User Identification\nOn the \"User Mapping\" tab, in the \"Palo Alto Networks User ID Agent\" pane, view the \"Enable Probing\" check box. If it is selected, this is a finding.",
+  "fixtext": "To disable WMI probing if it is not used:\nGo to Device >> User Identification\nOn the \"User Mapping\" tab, in the \"Palo Alto Networks User ID Agent\" pane, view the \"Enable Probing\" check box.\nIf it is selected, select the \"Edit\" icon in the upper-right corner of the pane.\nIn the \"Palo Alto Networks User ID Agent Setup\" window, in the \"Client Probing\" tab, deselect the \"Enable Probing\" check box.",
+  "fix_id": "F-31050r513810_fix",
+  "VulnDiscussion": "User-ID can use Windows Management Instrumentation (WMI) probing as a method of mapping users to IP addresses. If this is used, the User-ID Agent will send a probe to each learned IP address in its list to verify that the same user is still logged in. The results of the probe will be used to update the record on the agent and then be passed on to the firewall.  WMI probing is a Microsoft feature that collects user information from Windows hosts, and contains a username and encrypted password hash of a Domain Administrator account.\n\nWMI probing on external/untrusted zones can result in the User-ID agent sending WMI probes to external/untrusted hosts.  An attacker can capture these probes and obtain the username, domain name and encrypted password hash associated with the User-ID account. If WMI probing is not used as a method of user to IP address mapping, it must be disabled.",
+  "Documentable": "false"
+}

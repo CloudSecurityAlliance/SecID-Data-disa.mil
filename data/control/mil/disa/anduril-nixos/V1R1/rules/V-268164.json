@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268164",
+  "rule_id": "SV-268164r1039380_rule",
+  "stig_id": "ANIX-00-001730",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must generate audit records when successful/unsuccessful attempts to delete privileges occur.",
+  "group_title": "SRG-OS-000466-GPOS-00210",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-72088r1039378_chk",
+  "check_content": "Verify NixOS generates audit records when attempts to delete privileges occur with the following command:\n\n$ sudo auditctl -l | grep usermod\n\n-a always,exit -S all -F path=/run/current-system/sw/bin/usermod -F perm=x -F auid>=1000 -F auid!=-1 -k privileged-usermod\n\nIf the command does not return an audit rule for \"usermod\", this is a finding.",
+  "fixtext": "Configure /etc/nixos/configuration.nix to record attempts to delete privileges by adding the following configuration settings:\n\n security.audit.rules = [\n  \"-a always,exit -F path=/run/current-system/sw/bin/usermod -F perm=x -F auid>=1000 -F auid!=unset -k privileged-usermod\"\n ];\n\nRebuild the system with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71991r1039379_fix",
+  "VulnDiscussion": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).",
+  "Documentable": "false"
+}

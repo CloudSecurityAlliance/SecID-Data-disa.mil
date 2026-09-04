@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260923",
+  "rule_id": "SV-260923r966126_rule",
+  "stig_id": "CNTR-MK-000560",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Linux Kernel capabilities must be restricted within containers.",
+  "group_title": "SRG-APP-000141-CTR-000315",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-64652r966124_chk",
+  "check_content": "When using Kubernetes orchestration this check is Not Applicable.\n\nWhen using Swarm orchestration, via CLI:\n\nLinux: Execute the following command as a trusted user on the host operating system:\n\ndocker ps --quiet --all | xargs docker inspect --format '{{ .Name }}: CapAdd={{ .HostConfig.CapAdd }} CapDrop={{ .HostConfig.CapDrop }}'\n\nThe command will output all Linux Kernel Capabilities.\n\nIf Linux Kernel Capabilities exceed what is defined in the System Security Plan (SSP), this is a finding.",
+  "fixtext": "When using Kubernetes orchestration this check is Not Applicable.\n\nWhen using Swarm orchestration, review and remove nonsystem containers previously created by these users that allowed capabilities to be added or must be removed using:\n\ndocker container rm [container]",
+  "fix_id": "F-64560r966125_fix",
+  "VulnDiscussion": "By default, MKE starts containers with a restricted set of Linux Kernel Capabilities. Any process may be granted the required capabilities instead of root access. Using Linux Kernel Capabilities, the processes do not have to run as root for almost all the specific areas where root privileges are usually needed. MKE supports the addition and removal of capabilities, allowing the use of a nondefault profile. Remove all capabilities except those explicitly required for the user's container process.\n\nBy default, below capabilities are available for Linux containers:\n\nAUDIT_WRITE\nCHOWN\nDAC_OVERRIDE\nFOWNER\nFSETID\nKILL\nMKNOD\nNET_BIND_SERVICE\nNET_RAW\nSETFCAP\nSETGID\nSETPCAP\nSETUID\nSYS_CHROOT",
+  "Documentable": "false"
+}

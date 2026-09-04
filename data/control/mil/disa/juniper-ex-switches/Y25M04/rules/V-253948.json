@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253948",
+  "rule_id": "SV-253948r843877_rule",
+  "stig_id": "JUEX-L2-000010",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to disable non-essential capabilities.",
+  "group_title": "SRG-NET-000131-L2S-000014",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-57400r843875_chk",
+  "check_content": "Review the switch configuration and verify the switch does not have an unnecessary or non-secure services enabled. For example, the following directives should not be in the configuration (deleted) or, if present, must be disabled (inactive):\n\nVerify the following commands are not present:\n[edit system services]\nfinger;\nftp;\nrlogin;\ntelnet;\nxnm-clear-text;\ntftp;\nrest {\n    http;\n}\nweb-management {\n    http;\n    https;\n}\nNote: If the services listed above are marked \"inactive\", they are not enabled. For example, although the FTP stanza is present in the following snippet, it is disabled (inactive):\n[edit system services]\ninactive: ftp;\n\nBecause J-Web was not included in the FIPS certification, verify the web-management process is disabled.\n[edit system services]\nweb-management disable;\n\nIf any unnecessary services are enabled, this is a finding.",
+  "fixtext": "Disable the following services:\n\nIf present, delete the following directives:\ndelete system services finger\ndelete system services ftp\ndelete system services rlogin\ndelete system services telnet\ndelete system services xnm-clear-text\ndelete system services tftp\ndelete system services rest http\ndelete system services web-management\n\nDisable the web-management process:\nset system processes web-management disable",
+  "fix_id": "F-57351r843876_fix",
+  "VulnDiscussion": "A compromised switch introduces risk to the entire network infrastructure as well as data resources that are accessible via the network. The perimeter defense has no oversight or control of attacks by malicious users within the network. Preventing network breaches from within is dependent on implementing a comprehensive defense-in-depth strategy, including securing each device connected to the network. This is accomplished by following and implementing all security guidance applicable for each node type. A fundamental step in securing each switch is to enable only the capabilities required for operation.",
+  "Documentable": "false"
+}

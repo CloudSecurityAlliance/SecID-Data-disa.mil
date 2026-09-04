@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268120",
+  "rule_id": "SV-268120r1039248_rule",
+  "stig_id": "ANIX-00-000660",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS system configuration files must have a mode of \"0644\" or less permissive.",
+  "group_title": "SRG-OS-000063-GPOS-00032",
+  "idents": {
+    "cci": [
+      "CCI-000171"
+    ]
+  },
+  "check_id": "C-72044r1039246_chk",
+  "check_content": "Verify that the NixOS system configuration files have a mode of \"0644\" or less permissive with the following command:\n\n$ sudo find /etc/nixos -type f -exec stat -c \"%a %n\" {} \\;\n\n644 /etc/nixos/configuration.nix\n644 /etc/nixos/hardware-configuration.nix\n\nIf the system configuration files have a mode more permissive than \"0644\", this is a finding.",
+  "fixtext": "Configure the NixOS system configuration files to have a mode of \"0644\" or less permissive by using the following command:\n\n$ sudo find /etc/nixos -type f -exec chmod -R 644 {} \\;\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71947r1039247_fix",
+  "VulnDiscussion": "Without the capability to restrict the roles and individuals that can select which events are audited, unauthorized personnel may be able to prevent the auditing of critical events. Misconfigured audits may degrade the system's performance by overwhelming the audit log. Misconfigured audits may also make it more difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-224779",
+  "rule_id": "SV-224779r1013850_rule",
+  "stig_id": "ISEC-06-002700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ISEC7 SPHERE must use a FIPS 140-2-validated cryptographic module to implement encryption services for unclassified information requiring confidentiality, generate cryptographic hashes, and to configure web management tools with FIPS-validated Advanced Encryption Standard (AES) cipher block algorithm to protect the confidentiality of maintenance and diagnostic communications for nonlocal maintenance sessions.",
+  "group_title": "SRG-APP-000635",
+  "idents": {
+    "legacy": [
+      "SV-106509",
+      "V-97405"
+    ],
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-26470r1013848_chk",
+  "check_content": "Log in to the ISEC7 SPHERE Console.\nConfirm that the browser session is secured using a DOD issued certificate.\n\nAlternately, log in to the ISEC7 SPHERE Console.\nNavigate to Administration >> Configuration >> Apache Tomcat Settings.\nIdentify which type of Keystore is being used.\n\nWindows MY: \nOpen the Microsoft Management Console.\nAdd the Certificates Snap-In for the ISEC7 Service Account.\nNavigate to the Personal Certificates Store.\nVerify the certificate is issued by a DOD Trusted Certificate Authority.\n\nJavaKeystore PKCS12:\nUsing a Keystore browser such as Portecle, open the ISEC7 SPHERE keystore.\nEnter the Keystore password when prompted.\nOpen the installed certificate and verify it was issued by a DOD Trusted Certificate Authority.\n\nIf certificates used by the server are not DOD issued certificates, this is a finding.",
+  "fixtext": "Submit a CSR for a DOD Issued Certificate with the private key.\nRetrieve the approved certificate from the issuing Certificate Authority.\nSet the friendly name on the certificate to https.\n\nWindows-MY:\nOpen the Microsoft Management Console.\nAdd the Certificates Snap-In for the ISEC7 Service Account.\nNavigate to the Personal Certificates Store.\nImport the certificate with Private key.\nLog in to the ISEC7 SPHERE Console.\nNavigate to Administration >> Configuration >> Apache Tomcat Settings.\nSet the Keystore Type to Windows-MY.\nRestart the ISEC7 SPHERE Web service.\n\nJavaKeystore:\nUsing a Keystore browser such as Portecle, open the ISEC7 SPHERE keystore.\nEnter the Keystore password when prompted.\nDelete the self-signed certificate in the keystore.\nImport the DOD issued certificate with the private key.\nEnter the key password when prompted.\nEnter the certificate alias as https when prompted.\nSave the keystore with the same keystore password.\nLog in to the ISEC7 SPHERE Console.\nNavigate to Administration >> Configuration >> Apache Tomcat Settings.\nVerify the Keystore type is set to JavaKeystore PKCS12.\nRestart the ISEC7 SPHERE Web service.",
+  "fix_id": "F-26458r1013849_fix",
+  "VulnDiscussion": "FIPS 140-2 precludes the use of invalidated cryptography for the cryptographic protection of sensitive or valuable data within Federal systems. Unvalidated cryptography is viewed by NIST as providing no protection to the information or data. In effect, the data would be considered unprotected plaintext. If the agency specifies that the information or data be cryptographically protected, then FIPS 140-2 is applicable. In essence, if cryptography is required, it must be validated. Cryptographic modules that have been approved for classified use may be used in lieu of modules that have been validated against the FIPS 140-2 standard. \n\nThe cryptographic module used must have one FIPS-validated encryption algorithm (i.e., validated Advanced Encryption Standard [AES]). This validated algorithm must be used for encryption for cryptographic security function within the product being evaluated.\n\nSPHERE is using the standard JCE module coming with OpenJDK 17 (included in installer) or Oracle JRE either legacy 1.8 or latest release.\nsee https://openjdk.java.net/groups/security/ There are two module providers, IBM and RSA. The check/fix are written assuming the RSA module is used.\nAny FIPS 140-2 compliant JCE module (.jar) can be replaced and configured and used with SPHERE.",
+  "Documentable": "false"
+}

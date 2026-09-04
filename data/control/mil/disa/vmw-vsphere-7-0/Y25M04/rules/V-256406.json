@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256406",
+  "rule_id": "SV-256406r970703_rule",
+  "stig_id": "ESXI-70-000042",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must terminate shell services after 10 minutes.",
+  "group_title": "SRG-OS-000163-VMM-000700",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-60081r885997_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"UserVars.ESXiShellTimeOut\" value and verify it is set to \"600\" (10 minutes).\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name UserVars.ESXiShellTimeOut\n\nIf the \"UserVars.ESXiShellTimeOut\" setting is not set to \"600\", this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"UserVars.ESXiShellTimeOut\" value and configure it to \"600\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\nGet-VMHost | Get-AdvancedSetting -Name UserVars.ESXiShellTimeOut | Set-AdvancedSetting -Value 600",
+  "fix_id": "F-60024r885998_fix",
+  "VulnDiscussion": "When the ESXi Shell or Secure Shell (SSH) services are enabled on a host, they will run indefinitely. To avoid having these services left running, set the \"ESXiShellTimeOut\". The \"ESXiShellTimeOut\" defines a window of time after which the ESXi Shell and SSH services will be stopped automatically.",
+  "Documentable": "false"
+}

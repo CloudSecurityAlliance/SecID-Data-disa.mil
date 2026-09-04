@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-94253",
+  "rule_id": "SV-104207r1_rule",
+  "stig_id": "SYMP-AG-000190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Symantec ProxySG must produce audit records containing information to establish the outcome of the events.",
+  "group_title": "SRG-NET-000078-ALG-000047",
+  "idents": {
+    "cci": [
+      "CCI-000134"
+    ]
+  },
+  "check_id": "C-93439r1_chk",
+  "check_content": "Verify that the ProxySG is configured to log user web traffic for auditing that includes information about the outcome of the event.\n\n1. Log on to the Web Management Console.\n2. Browse to \"Configuration\" and click \"Access Logging\". Verify that \"Enable Access Logging\" is checked.\n3. Browse to \"Access Logging\", click \"General\", and note which Default Log is indicated for the HTTP protocol (\"main\" by default).\n4. Click \"Formats\", select the Default Log from step 3, and click \"Edit/View\".\n5. Review the log format string and verify that at least the following variables are included:\n  s-action\n  rs-response-line\n  rs-status\n  sc-status\n  x-exception-reason\n  duration\n\nIf Access Logging is not enabled and/or the specified log variables are not included, this is a finding.",
+  "fixtext": "Configure the ProxySG to log user web traffic for auditing that includes information about the outcome of the event.\n\n1. Log on to the Web Management Console.\n2. Browse to \"Configuration\" and click \"Access Logging\". Check \"Enable Access Logging\" and click \"Apply\".\n3. Browse to \"Access Logging\", click \"General\", and note which Default Log is indicated for the HTTP protocol (\"main\" by default).\n4. Click \"Formats\", select the Default Log from step 3, and click \"Edit/View\".\n5. Edit the log format string to include at least the following variables:\n  s-action\n  rs-response-line\n  rs-status\n  sc-status\n  x-exception-reason\n duration\n6. Click OK >> Apply.",
+  "fix_id": "F-100369r1_fix",
+  "VulnDiscussion": "Without information about the outcome of events, security personnel cannot make an accurate assessment as to whether an attack was successful or if changes were made to the security state of the network.\n\nEvent outcomes can include indicators of event success or failure and event-specific results (e.g., the security state of the network after the event occurred). They also provide a means to measure the impact of an event and help authorized personnel to determine the appropriate response.\n\nThis requirement does not apply to audit logs generated on behalf of the device itself (management).",
+  "Documentable": "false"
+}

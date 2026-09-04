@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213538",
+  "rule_id": "SV-213538r961281_rule",
+  "stig_id": "JBOS-AS-000470",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Network access to HTTP management must be disabled on domain-enabled application servers not designated as the domain controller.",
+  "group_title": "SRG-APP-000316-AS-000199",
+  "idents": {
+    "legacy": [
+      "SV-76793",
+      "V-62303"
+    ],
+    "cci": [
+      "CCI-002322"
+    ]
+  },
+  "check_id": "C-14761r296280_chk",
+  "check_content": "Log on to each of the JBoss domain member servers.\n\nNote: Sites that manage systems using the JBoss Operations Network client require HTTP interface access.  It is acceptable that the management console alone be disabled rather than disabling the entire interface itself.\n\nRun the <JBOSS_HOME>/bin/jboss-cli command line interface utility and connect to the JBoss server.\nRun the following command:\nls /core-service=management/management-interface=httpinterface/\n\nIf \"console-enabled=true\", this is a finding.",
+  "fixtext": "Run the <JBOSS_HOME>/bin/jboss-cli command line interface utility. \nConnect to the JBoss server and run the following command.\n/core-service=management/management-interface=httpinterface/:write-attribute(name=console-enabled,value=false)\n\nSuccessful command execution returns\n{\"outcome\" => \"success\"}, and future attempts to access the management console via web browser at <SERVERNAME>:9990 will result in no access to the admin console.",
+  "fix_id": "F-14759r296281_fix",
+  "VulnDiscussion": "When configuring JBoss application servers into a domain configuration, HTTP management capabilities are not required on domain member servers as management is done via the server that has been designated as the domain controller. \n\nLeaving HTTP management capabilities enabled on domain member servers increases the attack surfaces; therefore, management services on domain member servers must be disabled and management services performed via the domain controller.",
+  "Documentable": "false"
+}

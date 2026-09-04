@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221869",
+  "rule_id": "SV-221869r991589_rule",
+  "stig_id": "OL07-00-040530",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must display the date and time of the last successful account logon upon logon.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-99477",
+      "SV-108581"
+    ],
+    "cci": [
+      "CCI-000052"
+    ]
+  },
+  "check_id": "C-23584r419679_chk",
+  "check_content": "Verify users are provided with feedback on when account accesses last occurred.\n\nCheck that \"pam_lastlog\" is used and not silent with the following command:\n\n# grep pam_lastlog /etc/pam.d/postlogin\nsession required pam_lastlog.so showfailed\n\nIf \"pam_lastlog\" is missing from \"/etc/pam.d/postlogin\" file, or the silent option is present, this is a finding.",
+  "fixtext": "Configure the operating system to provide users with feedback on when account accesses last occurred by setting the required configuration options in \"/etc/pam.d/postlogin\". \n\nAdd the following line to the top of \"/etc/pam.d/postlogin\":\n\nsession required pam_lastlog.so showfailed",
+  "fix_id": "F-23573r419680_fix",
+  "VulnDiscussion": "Providing users with feedback on when account accesses last occurred facilitates user recognition and reporting of unauthorized account use.",
+  "Documentable": "false"
+}

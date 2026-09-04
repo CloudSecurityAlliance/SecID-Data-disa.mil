@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215193",
+  "rule_id": "SV-215193r991589_rule",
+  "stig_id": "AIX7-00-001034",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AIX root account must not have world-writable directories in its executable search path.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101719",
+      "V-91621"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16391r294030_chk",
+  "check_content": "Check for world-writable permissions on all directories in the root user's executable search path:\n\n# ls -ld `echo $PATH | sed \"s/:/ /g\"` \ndrwxr-xr-x   33 root     system         8192 Nov 29 14:45 /etc\ndrwxr-xr-x    3 bin      bin             256 Aug 11 2017  /sbin\ndrwxr-xr-x    4 bin      bin           45056 Oct 31 12:59 /usr/bin\ndrwxr-xr-x    1 bin      bin             16 Aug 11 2017  /usr/bin/X11\ndrwxr-xr-x    2 bin      bin            4096 Aug 11 2017  /usr/java7_64/bin\ndrwxr-xr-x    4 bin      bin            4096 Feb 17 2017  /usr/java7_64/jre/bin\ndrwxr-xr-x    8 bin      bin           49152 Oct 31 12:59 /usr/sbin\ndrwxrwxr-x    2 bin      bin            4096 Aug 11 2017  /usr/ucb\n\nIf any of the directories in the \"PATH\" variable are world-writable, this is a finding.",
+  "fixtext": "For each world-writable path in root's executable search path, perform one of the following. \n\nRemove the world-writable permission on the directory. \n\nRun command: \n# chmod o-w <path> \n\n-OR-\nRemove the world-writable directory from the executable search path. Identify and edit the initialization file referencing the world-writable directory and remove it from the PATH variable.",
+  "fix_id": "F-16389r294031_fix",
+  "VulnDiscussion": "If the root search path contains a world-writable directory, malicious software could be placed in the path by intruders and/or malicious users and inadvertently run by root with all of root's privileges.",
+  "Documentable": "false"
+}

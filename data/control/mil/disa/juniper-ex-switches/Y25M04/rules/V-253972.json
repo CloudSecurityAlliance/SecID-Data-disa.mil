@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253972",
+  "rule_id": "SV-253972r843949_rule",
+  "stig_id": "JUEX-L2-000250",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must not have any access interfaces assigned to a VLAN configured as native for any trunked interface.",
+  "group_title": "SRG-NET-000512-L2S-000013",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-57424r843947_chk",
+  "check_content": "Review the switch configurations and examine all access interfaces. Verify that they do not belong to any VLAN configured as native for any trunked interface.\n\nExample trunked interface with native VLAN ID 30 and an access interface configured for vlan_name:\n[edit interfaces]\n<trunk interface name> {\n    native-vlan-id 30;\n    unit 0 {\n        family ethernet-switching {\n            interface-mode trunk;\n            vlan {\n                members [ <vlan name> ... <vlan name> ];\n            }\n        }\n    }\n}\n<access interface name> {\n    unit 0 {\n        family ethernet-switching {\n            interface-mode access;\n            vlan {\n                members vlan_name;\n            }\n        }\n    }\n}\n\nExample VLANs (vlan-id 30 is configured on a trunked interface as native and must not be assigned to access interfaces):\n[edit vlans]\nvlan_30 {\n    vlan-id 30;\n}\nvlan_name {\n    vlan-id <VLAN ID not 30>;\n}\n\nIf trunked interfaces are not configured with a native VLAN ID, this is not a finding.\n\nIf any trunked interface is configured with a native VLAN ID, and any access interfaces have been assigned to the same VLAN, this is a finding.",
+  "fixtext": "Configure all access interfaces with a VLAN separate from any VLAN configured as native on any trunked interface.\n\nset interfaces <interface name> unit 0 family ethernet-switching interface-mode access\nset interfaces <interface name> unit 0 family ethernet-switching vlan members vlan_name \n\nset vlans <vlan_name> vlan-id <VLAN ID not assigned as native to any trunked interface>",
+  "fix_id": "F-57375r843948_fix",
+  "VulnDiscussion": "Trunked interfaces without an assigned native VLAN do not accept untagged data packets. Allowing trunked interfaces to accept untagged data packets may unintentionally expose VLANs to unauthorized devices that could result in network exploration, unauthorized resource access, or a DoS condition. If a network function requires a native VLAN, and access interfaces are members of the assigned VLAN, authorized devices connected to those interfaces may gain unauthorized access to protected resources.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217278",
+  "rule_id": "SV-217278r991589_rule",
+  "stig_id": "SLES-12-030240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system SSH daemon must use privilege separation.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-92165",
+      "V-77469"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-18506r369990_chk",
+  "check_content": "Determine the version of SSH using the following command:\n\n# ssh -V\nOpenSSH_7.9p1\n\nIf the version of SSH is 7.5 or newer, this is Not Applicable.\n\nVerify the SUSE operating system SSH daemon is configured to use privilege separation.\n\nCheck that the SUSE operating system SSH daemon performs privilege separation with the following command:\n\n# sudo grep -i usepriv /etc/ssh/sshd_config \n\nUsePrivilegeSeparation yes\n\nIf the \"UsePrivilegeSeparation\" keyword is not set to \"yes\" or \"sandbox\", is missing, or the returned line is commented out, this is a finding.",
+  "fixtext": "Configure the SUSE operating system SSH daemon is configured to use privilege separation.\n\nUncomment the \"UsePrivilegeSeparation\" keyword in \"/etc/ssh/sshd_config\" and set the value to \"yes\" or \"sandbox\":\n\nUsePrivilegeSeparation yes",
+  "fix_id": "F-18504r369991_fix",
+  "VulnDiscussion": "SSH daemon privilege separation causes the SSH process to drop root privileges when not needed, which would decrease the impact of software vulnerabilities in the unprivileged section.",
+  "Documentable": "false"
+}

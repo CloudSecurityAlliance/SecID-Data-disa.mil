@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253724",
+  "rule_id": "SV-253724r961359_rule",
+  "stig_id": "MADB-10-006900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Execution of software modules (to include stored procedures, functions, and triggers) with elevated privileges must be restricted to necessary cases only.",
+  "group_title": "SRG-APP-000342-DB-000302",
+  "idents": {
+    "cci": [
+      "CCI-002233"
+    ]
+  },
+  "check_id": "C-57176r841695_chk",
+  "check_content": "Functions and Procedures in MariaDB all have DEFINER and SECURITY_TYPE options.\n\nIf SECURITY_TYPE = DEFINER then the function or procedure is run using the privileges of the DEFINER account. \n\nIf SECURITY_TYPE = INVOKER, then they will be run using the privileges of the user invoking the function or procedure.\n\nTo list the values of the DEFINER and SECURITY_TYPE in functions and procedures as the database administrator, run the following SQL:\n\nMariaDB> SELECT ROUTINE_NAME, ROUTINE_SCHEMA, ROUTINE_TYPE, DEFINER, SECURITY_TYPE FROM information_schema.routines WHERE ROUTINE_SCHEMA NOT IN ('sys','mysql');\n\nTriggers in MariaDB have a DEFINER option.\n\nFor Triggers the value of the DEFINER determines the privileges to be used at trigger activation time.\n\nTo list the values of the DEFINER in Triggers, as the database administrator, run the following SQL:\n\nMariaDB> SELECT trigger_schema, trigger_name, action_statement, definer FROM information_schema.triggers;\n\nIf elevation of MariaDB privileges is utilized but not documented, this is a finding.\n\nIf elevation of MariaDB privileges is documented, but not implemented as described in the documentation, this is a finding.\n\nIf the privilege-elevation logic can be invoked in ways other than intended, or in contexts other than intended, or by subjects/principals other than intended, this is a finding.",
+  "fixtext": "Determine where, when, how, and by what principals/subjects elevated privilege is needed. \n\nTo change the values of the SECURITY_TYPE for functions and procedures:\n\nMariaDB> USE <database>;\nMariaDB> ALTER FUNCTION  procedure_name | function_name  sql security  INVOKER | DEFINER ;\n\nTo change the values of the DEFINER for functions, procedures, and triggers, run the following SQL as the database administrator:\n\nMariaDB> SHOW CREATE  function | procedure ;\nMariaDB> DROP  function | procedure ;\n\nRecreate the function or procedure using the results of the create statement (from the SHOW CREATE results above), with the definer set to the desired user.",
+  "fix_id": "F-57127r841696_fix",
+  "VulnDiscussion": "In certain situations, to provide required functionality, MariaDB needs to execute internal logic (stored procedures, functions, triggers, etc.) and/or external code modules with elevated privileges. However, if the privileges required for execution are at a higher level than the privileges assigned to organizational users invoking the functionality applications/programs, those users are indirectly provided with greater privileges than assigned by organizations.\n\nPrivilege elevation must be used only where necessary and protected from misuse.\n\nThis calls for inspection of application source code, which will require collaboration with the application developers. It is recognized that in many cases, the database administrator (DBA) is organizationally separate from the application developers, and may have limited, if any, access to source code. Nevertheless, protections of this type are so important to the secure operation of databases that they must not be ignored. At a minimum, the DBA must attempt to obtain assurances from the development organization that this issue has been addressed and must document what has been discovered.",
+  "Documentable": "false"
+}

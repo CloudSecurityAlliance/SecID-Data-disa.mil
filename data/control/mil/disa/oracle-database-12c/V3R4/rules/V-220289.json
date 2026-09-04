@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220289",
+  "rule_id": "SV-220289r1043177_rule",
+  "stig_id": "O121-C2-011900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DBMS must support the organizational requirements to specifically prohibit or restrict the use of unauthorized functions, ports, protocols, and/or services.",
+  "group_title": "SRG-APP-000142-DB-000094",
+  "idents": {
+    "legacy": [
+      "SV-76177",
+      "V-61687"
+    ],
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-22004r822473_chk",
+  "check_content": "Review the DBMS settings for functions, ports, protocols, and services that are not approved.\n\nIf any are found, this is a finding.\n\n(For definitive information on Ports, Protocols, and Services Management [PPSM], refer to https://cyber.mil/ppsm/)\n\n- - - - -\nIn the Oracle database, the communications with the database and incoming requests are performed by the Oracle Listener. The Oracle Listener listens on a specific port or ports for connections to a specific database. The Oracle Listener has configuration files located in the $ORACLE_HOME/network/admin directory. To check the ports and protocols in use, go to  that directory and review the SQLNET.ora, LISTENER.ora, and the TNSNAMES.ora. If protocols or ports are in use that are not authorized, this is a finding.",
+  "fixtext": "Disable functions, ports, protocols, and services that are not approved.\n\n- - - - -\nChange the SQLNET.ora, LISTENER.ora, and TNSNAMES.ora files to reflect the proper use of ports, protocols, and services that are approved at the site.\n\nIf changes to the Listener are made, the files associated with the Listener must be reloaded. Do that by issuing the following commands at the UNIX/Linux or Windows prompt.\nIssue the command to see what the current status is:\n$ lsnrctl stat\nLoad the new file that was corrected to reflect site-specific requirements.\n$ lsnrctl reload\nCheck the status again to see that the changes have taken place.\n$ lsnrctl stat",
+  "fix_id": "F-21996r822474_fix",
+  "VulnDiscussion": "Information systems are capable of providing a wide variety of functions and services. Some of the functions and services, provided by default, may not be necessary to support essential organizational operations (e.g., key missions, functions).\n\nAdditionally, it is sometimes convenient to provide multiple services from a single component of an information system (e.g., email and web services), but doing so increases risk by constraining the ability to restrict the use of functions, ports, protocols, and/or services.\n\nTo support the requirements and principles of least functionality, the application must support the organizational requirements providing only essential capabilities and limiting the use of ports, protocols, and/or services to only those required, authorized, and approved to conduct official business or to address authorized quality of life issues.\n\nDatabase Management Systems using ports, protocols, and services deemed unsafe are open to attack through those ports, protocols, and services. This can allow unauthorized access to the database and through the database to other components of the information system.",
+  "Documentable": "false"
+}

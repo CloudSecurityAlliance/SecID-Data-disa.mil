@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-251395",
+  "rule_id": "SV-251395r806140_rule",
+  "stig_id": "NET2013",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Internet Group Management Protocol (IGMP) and Multicast Listener Discovery (MLD) report messages must be filtered to allow hosts to join only those multicast groups that have been approved by the organization.",
+  "group_title": "NET2013",
+  "idents": {
+    "legacy": [
+      "V-66381",
+      "SV-80871"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-54830r806138_chk",
+  "check_content": "Review the configuration of the DR to verify that it is filtering IGMP or MLD report messages allowing hosts to only join those groups that have been approved by the organization.\n\nIf the DR is not filtering IGMP or MLD report messages, this is a finding.\n\nThe following is a PIM sparse mode configuration example filtering specific multicast groups as defined in access-list 11 on the LAN-facing interface.\n\nip multicast-routing\n! \ninterface FastEthernet 0/0 \ndescription link to core\nip address 192.168.123.2 255.255.255.0\nip pim sparse-mode \n! \ninterface FastEthernet 0/1\ndescription User LAN\nip address 192.168.122.1 255.255.255.0\nip pim sparse-mode \nip igmp access-group 11\n!\naccess-list 11 permit 224.10.10.0 0.0.0.255\naccess-list 11 permit 224.11.11.0 0.0.0.255\naccess-list 11 permit 224.20.20.0 0.0.0.255",
+  "fixtext": "Configure the Designated Router (DR) to filter the Internet Group Management Protocol (IGMP) and Multicast Listener Discovery (MLD) report messages to allow tenant hosts to join only those multicast groups that have been approved by the organization.",
+  "fix_id": "F-54783r806139_fix",
+  "VulnDiscussion": "Real-time multicast traffic can entail multiple large flows of data. Large unicast flows tend to be fairly isolated (e.g., someone doing a file download here or there), whereas multicast can have broader impact on bandwidth consumption resulting in extreme network congestion. Hence, it is imperative that there is multicast admission control to restrict which multicast groups that hosts are allowed to join via IGMP (IPv4) or MLD (IPv6).",
+  "Documentable": "false"
+}

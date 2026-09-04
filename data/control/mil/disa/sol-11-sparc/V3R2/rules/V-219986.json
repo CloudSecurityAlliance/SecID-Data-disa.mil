@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-219986",
+  "rule_id": "SV-219986r1016282_rule",
+  "stig_id": "SOL-11.1-090020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The operating system must synchronize internal information system clocks with a server that is synchronized to one of the redundant United States Naval Observatory (USNO) time servers or a time server designated for the appropriate DOD network (NIPRNet/SIPRNet), and/or the Global Positioning System (GPS).",
+  "group_title": "SRG-OS-000356",
+  "idents": {
+    "legacy": [
+      "V-47985",
+      "SV-60857"
+    ],
+    "cci": [
+      "CCI-004926",
+      "CCI-002046"
+    ]
+  },
+  "check_id": "C-21696r986412_chk",
+  "check_content": "NTP must be used and used only in the global zone. Determine the zone to be secured.\n\n# zonename\n\nIf the command output is not \"global\", then NTP must be disabled. Check the system for a running NTP daemon.\n\n# svcs -Ho state ntp\n\nIf NTP is online, this is a finding.\n\nIf the output from \"zonename\" is \"global\", then NTP must be enabled. Check the system for a running NTP daemon.\n\n# svcs -Ho state ntp\n\nIf NTP is not online, this is a finding.\n\nIf NTP is running, confirm the servers and peers or multicast client (as applicable) are local or an authoritative DOD source.\n\nFor the NTP daemon:\n\n# more /etc/inet/ntp.conf\n\nIf a nonlocal/nonauthoritative (non-DOD source, non-USNO-based, or non-GPS) time server is used, this is a finding.\n\nDetermine if the time synchronization frequency is correct.\n\n# grep \"maxpoll\" /etc/inet/ntp.conf\n\nIf the command returns \"File not found\" or any value for maxpoll, this is a finding.\n\nDetermine if the running NTP server is configured properly.\n\n# ntpq -p | awk '($6 ~ /[0-9]+/ && $6 > 86400) { print $1\" \"$6 }'\n\nThis will print out the name of any time server whose current polling time is greater than 24 hours (along with the actual value). If there is any output, this is a finding.",
+  "fixtext": "The root role is required.\n\nDetermine the zone to be secured.\n\n# zonename\n\nIf the command output is not \"global\", then NTP must be disabled.\n\n# svcadm disable ntp\n\nIf the output from \"zonename\" is \"global\", then NTP must be enabled.\n\nTo activate the ntpd daemon, the ntp.conf file must first be created.\n\n# cp /etc/inet/ntp.client /etc/inet/ntp.conf\n\n# pfedit /etc/inet/ntp.conf\n\nMake site-specific changes to this file as needed in the form.\n\nserver [ntpserver]\n\nLocate the line containing maxpoll (if it exists).\n\nDelete the line.\n\nStart the ntpd daemon.\n\n# svcadm enable ntp\n\nUse a local authoritative time server synchronizing to an authorized DOD time source, a USNO-based time server, or a GPS. Ensure all systems in the facility feed from one or more local time servers that feed from the authoritative time server.\n\nEdit the NTP configuration files and make the necessary changes to add the approved time servers per Solaris documentation.",
+  "fix_id": "F-21695r986413_fix",
+  "VulnDiscussion": "To assure the accuracy of the system clock, it must be synchronized with an authoritative time source within DOD. Many system functions, including time-based login and activity restrictions, automated reports, system logs, and audit records depend on an accurate system clock. If there is no confidence in the correctness of the system clock, time-based functions may not operate as intended and records may be of diminished value.",
+  "Documentable": "false"
+}

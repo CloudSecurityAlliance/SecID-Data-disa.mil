@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256435",
+  "rule_id": "SV-256435r959010_rule",
+  "stig_id": "ESXI-70-000083",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host OpenSLP service must be disabled.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-60110r886084_chk",
+  "check_content": "From the vSphere Client go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Services.\n\nLocate the \"slpd\" service and verify that the \"Daemon\" is \"Stopped\" and the \"Startup Policy\" is set to \"Start and stop manually\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-VMHostService | Where {$_.Label -eq \"slpd\"}\n\nIf the slpd service does not have a \"Policy\" of \"off\" or is running, this is a finding.",
+  "fixtext": "From the vSphere Client go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Services.\n\nSelect the \"slpd\" service. If the service is started, click \"Stop\". \n\nClick \"Edit Startup Policy...\". Select \"Start and stop manually\". Click \"OK\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-VMHostService | Where {$_.Label -eq \"slpd\"} | Set-VMHostService -Policy Off\nGet-VMHost | Get-VMHostService | Where {$_.Label -eq \"slpd\"} | Stop-VMHostService",
+  "fix_id": "F-60053r886085_fix",
+  "VulnDiscussion": "OpenSLP implements the Service Location Protocol to help CIM clients discover CIM servers over TCP 427. This service is not widely needed and has had vulnerabilities exposed in the past. To reduce attack surface area and following the minimum functionality principal, the OpenSLP service must be disabled unless explicitly needed and approved. \n\nNote: Disabling the OpenSLP service may affect monitoring and third-party systems that use the WBEM DTMF protocols.",
+  "Documentable": "false"
+}

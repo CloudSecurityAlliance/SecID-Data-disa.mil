@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-251690",
+  "rule_id": "SV-251690r992050_rule",
+  "stig_id": "SPLK-CL-000450",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Splunk Enterprise must only allow the use of DOD-approved certificate authorities for cryptographic functions.",
+  "group_title": "SRG-APP-000427-AU-000040",
+  "idents": {
+    "cci": [
+      "CCI-002470",
+      "CCI-004909",
+      "CCI-004910"
+    ]
+  },
+  "check_id": "C-55128r992048_chk",
+  "check_content": "On the host OS of the server, verify the properties of the certificate used by Splunk to ensure that the Issuer is the DOD trusted CA.\n\nThis can be verified by the command:\n\nopenssl x509 -text -inform PEM -in <name of cert>\n\nIf the certificate issuer is not a DOD trusted CA, then this is a finding.",
+  "fixtext": "Request a DOD-approved certificate and a copy of the DOD root CA public certificate, and place the files in a location for Splunk use.\n\nConfigure the certificate files to the PEM format, using the Splunk Enterprise system documentation.",
+  "fix_id": "F-55082r992049_fix",
+  "VulnDiscussion": "Untrusted Certificate Authorities (CA) can issue certificates, but they may be issued by organizations or individuals that seek to compromise DOD systems or by organizations with insufficient security controls. If the CA used for verifying the certificate is not a DOD-approved CA, trust of this CA has not been established.\n\nThe DOD will only accept PKI certificates obtained from a DOD-approved internal or external certificate authority. \n\nSplunk Enterprise contains built-in certificates that are common across all Splunk installations, and are for initial deployment. These should not be used in any production environment.\n\nIt is also recommended that the production certificates be stored in another location away from the Splunk default certificates, as that folder gets replaced on any upgrade of the application. An example would be to use a folder named /etc/system/DODcerts under the Splunk installation root folder.",
+  "Documentable": "false"
+}

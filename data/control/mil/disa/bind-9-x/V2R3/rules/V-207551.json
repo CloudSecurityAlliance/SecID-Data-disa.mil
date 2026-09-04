@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207551",
+  "rule_id": "SV-207551r879511_rule",
+  "stig_id": "BIND-9X-001052",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BIND 9.x server implementation must limit the number of concurrent session client connections to the number of allowed dynamic update clients.",
+  "group_title": "SRG-APP-000001-DNS-000115",
+  "idents": {
+    "legacy": [
+      "SV-87025",
+      "V-72401"
+    ],
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-7806r283707_chk",
+  "check_content": "Verify the name server is configured to limit the number of concurrent client connections to the number of allowed dynamic update clients:\n\nInspect the \"named.conf\" file for the following:\n\noptions {\ntransfers-out 10;\n};\n\nIf the \"options\" statement does not contain a \"transfers-out\" sub statement, this is a finding.",
+  "fixtext": "Edit the \"named.conf\" file.\n\nAdd the \"transfers-out\" sub statement to the \"options\" statement block.\n\nThe value of the \"transfers-out\" will be based on organizational requirements needed to support DNS operations.\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-7806r283708_fix",
+  "VulnDiscussion": "Limiting the number of concurrent sessions reduces the risk of Denial of Service (DoS) to the DNS implementation. \n\nName servers do not have direct user connections but accept client connections for queries. Original restriction on client connections should be high enough to prevent a self-imposed denial of service, after which the connections are monitored and fine-tuned to best meet the organization's specific requirements.",
+  "Documentable": "false"
+}

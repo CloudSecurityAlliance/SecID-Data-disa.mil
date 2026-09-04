@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-228840",
+  "rule_id": "SV-228840r557387_rule",
+  "stig_id": "PANW-AG-000038",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Palo Alto Networks security platform must be configured to prohibit or restrict the use of functions, ports, protocols, and/or services, as defined in the PPSM CAL and vulnerability assessments.",
+  "group_title": "SRG-NET-000132-ALG-000087",
+  "idents": {
+    "legacy": [
+      "V-62563",
+      "SV-77053"
+    ],
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-31075r513815_chk",
+  "check_content": "Review the list of authorized applications, endpoints, services, and protocols that has been added to the PPSM database.\nGo to Policies >> Security\nReview each of the configured security policies in turn.\nIf any of the policies allows traffic that is prohibited by the PPSM CAL, this is a finding.",
+  "fixtext": "To configure a security policy:\nGo to Policies >> Security\nSelect \"Add\".\nIn the \"Security Policy Rule\" window, complete the required fields.\nIn the \"General\" tab, complete the \"Name\" and \"Description\" fields.\nIn the \"Source\" tab, complete the \"Source Zone\" and \"Source Address\" fields.  \nIn the \"User\" tab, select \"Any\" or complete the \"Source User\" field; this is completed if the policy performs the defined actions based on an individual user or group of users.  If using GlobalProtect with Host Information Profile (HIP) enabled, select the \"HIP Profiles\" check box, and add the HIP Object or HIP Profile.\nIn the \"Destination\" tab, complete the \"Destination Zone\" and \"Destination Address\" fields. \nIn the \"Applications\" tab, select the authorized applications.\nIn the \"Service/URL Category\" tab, select application-default. To add a service, select the \"Service\" check box, select \"Add\", and select a listed service or add a new service or service group.\nIn the \"Actions\" tab, select either \"Deny\" or \"Allow\" (as required) as the resulting action.  Select the required Log Setting and Profile Settings as necessary.\nCommit changes by selecting \"Commit\" in the upper-right corner of the screen.\nSelect \"OK\" when the confirmation dialog appears.",
+  "fix_id": "F-31052r513816_fix",
+  "VulnDiscussion": "In order to prevent unauthorized connection of devices, unauthorized transfer of information, or unauthorized tunneling (i.e., embedding of data types within data types); organizations must disable or restrict unused or unnecessary physical and logical ports/protocols on information systems.\n\nThe DoD continually assesses the ports, protocols, and services that can be used for network communications. Some ports, protocols, or services have known exploits or security weaknesses. Network traffic using these ports, protocols, and services must be prohibited or restricted in accordance with DoD policy. It is the responsibility of the enclave owner to have the applications the enclave uses registered in the PPSM database.\n\nThe Palo Alto Networks security platform must be configured to prevent or restrict the use of prohibited ports, protocols, and services throughout the network by filtering the network traffic and disallowing or redirecting traffic as necessary.  If the device is in a Deny-by-Default posture and what is allowed through the filter is IAW DoD Instruction 8551, and if the permit rule is explicitly defined with explicit ports and protocols allowed, then all requirements related to PPS being blocked are satisfied. \n\nSince the enclave or system may support custom applications, it may be necessary to configure a Custom Application.  This requires detailed analysis of the application traffic and requires validation testing before deployment.",
+  "Documentable": "false"
+}

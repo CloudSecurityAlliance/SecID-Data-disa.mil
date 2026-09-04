@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254598",
+  "rule_id": "SV-254598r959010_rule",
+  "stig_id": "AIOS-16-007600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Apple iOS/iPadOS 16 must not display notifications (calendar information) when the device is locked.",
+  "group_title": "PP-MDF-323080",
+  "idents": {
+    "cci": [
+      "CCI-000060"
+    ]
+  },
+  "check_id": "C-58209r862048_chk",
+  "check_content": "Review configuration settings to confirm \"Show Today view in Lock screen\" is disabled.\n\nThis check procedure is performed on both the Apple iOS/iPadOS management tool and the iPhone and iPad. \n\nNote: If an organization has multiple configuration profiles, the check procedure must be performed on the relevant configuration profiles applicable to the scope of the review. \n\nIn the Apple iOS/iPadOS management tool, verify \"Show Today view in Lock screen\" is unchecked.\n\nAlternatively, verify the text \"<key>allowLockScreenTodayView</key><false/>\" appears in the configuration profile (.mobileconfig file).\n\nOn the iPhone and iPad:\n1. Open the Settings app.\n2. Tap \"General\".\n3. Tap \"Profiles & Device Management\" or Profiles\".\n4. Tap the Configuration Profile from the iOS management tool containing the management policy.\n5. Tap \"Restrictions\".\n6. Verify \"Today view on lock screen not allowed\" is present.\n\nIf \"Show Today view in Lock screen\" is checked in the Apple iOS/iPadOS management tool, \"<key>allowLockScreenTodayView</key><true/>\" appears in the configuration profile, or the restrictions policy on the iPhone and iPad does not list \"Today view on lock screen not allowed\", this is a finding.",
+  "fixtext": "Install a configuration profile to disable \"Show Today view in Lock screen\" from the device Lock screen.",
+  "fix_id": "F-58155r862049_fix",
+  "VulnDiscussion": "Many mobile devices display notifications on the lock screen so users can obtain relevant information in a timely manner without having to frequently unlock the phone to determine if there are new notifications. However, in many cases, these notifications can contain sensitive information. When they are available on the lock screen, an adversary can see them merely by being in close physical proximity to the device. Configuring the MOS to not send notifications to the lock screen mitigates this risk.\n\nSFR ID: FMT_SMF_EXT.1.1 #18",
+  "Documentable": "false"
+}

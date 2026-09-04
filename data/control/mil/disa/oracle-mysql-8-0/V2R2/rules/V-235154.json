@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235154",
+  "rule_id": "SV-235154r961119_rule",
+  "stig_id": "MYS8-00-007000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must maintain the authenticity of communications sessions by guarding against man-in-the-middle attacks that guess at Session ID values.",
+  "group_title": "SRG-APP-000224-DB-000384",
+  "idents": {
+    "cci": [
+      "CCI-001188"
+    ]
+  },
+  "check_id": "C-38373r623582_chk",
+  "check_content": "Determine if MySQL is configured to require SSL.  \n\nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables\nWHERE VARIABLE_NAME like 'require_secure_transport';\n\nIf require_secure_transport is not \"ON\", this is a finding.\n\nDetermine if MySQL is configured to require the use of FIPS compliant algorithms. \n\nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables\nWHERE VARIABLE_NAME = 'ssl_fips_mode';\n\nIf ssl_fips_mode is not \"ON\", this is a finding.",
+  "fixtext": "Connect as a mysql administrator \nmysql> set persist require_secure_transport=ON;\n\nTurn on MySQL FIPS mode (ON or STRICT)  and restart mysqld\nEdit my.cnf\n[mysqld]\nssl_fips_mode=ON\nor\nssl_fips_mode=STRICT",
+  "fix_id": "F-38336r623583_fix",
+  "VulnDiscussion": "One class of man-in-the-middle, or session hijacking, attack involves the adversary guessing at valid session identifiers based on patterns in identifiers already known.\n\nThe preferred technique for thwarting guesses at Session IDs is the generation of unique session identifiers using a FIPS 140-2 or 140-3 approved random number generator.\n\nHowever, it is recognized that available DBMS products do not all implement the preferred technique yet may have other protections against session hijacking. Therefore, other techniques are acceptable, provided they are demonstrated to be effective.",
+  "Documentable": "false"
+}

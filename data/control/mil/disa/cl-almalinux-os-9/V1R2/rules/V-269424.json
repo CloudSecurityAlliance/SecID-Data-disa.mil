@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269424",
+  "rule_id": "SV-269424r1050307_rule",
+  "stig_id": "ALMA-09-040940",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must restrict usage of ptrace to descendant processes.",
+  "group_title": "SRG-OS-000132-GPOS-00067",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-73455r1049682_chk",
+  "check_content": "Verify AlmaLinux OS 9 restricts usage of ptrace to descendant processes (1), admins only (2), or disables ptrace entirely (3) with the following command:\n\n$ sysctl kernel.yama.ptrace_scope\n\nkernel.yama.ptrace_scope = 1\n\nIf the returned line has a value of \"0\" or a line is not returned, this is a finding.\n\nCheck that the configuration files are present to enable this kernel parameter.\n\n$ /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' | grep -F kernel.yama.ptrace_scope | tail -1\n\nkernel.yama.ptrace_scope = 1\n\nIf \"kernel.yama.ptrace_scope\" is equal to \"0\" or nothing is returned, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to restrict usage of ptrace to with the following command:\n\n$ echo \"kernel.yama.ptrace_scope = 1\" > /etc/sysctl.d/60-ptrace.conf\n\nLoad settings from all system configuration files with the following command:\n\n$ sysctl --system",
+  "fix_id": "F-73356r1049683_fix",
+  "VulnDiscussion": "Unrestricted usage of ptrace allows compromised binaries to run ptrace on other processes of the user. Like this, the attacker can steal sensitive information from the target processes (e.g. SSH sessions, web browser etc.) without any additional assistance from the user (i.e. without resorting to phishing).",
+  "Documentable": "false"
+}

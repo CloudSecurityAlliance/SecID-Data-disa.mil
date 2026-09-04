@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251571",
+  "rule_id": "SV-251571r960963_rule",
+  "stig_id": "FFOX-00-000027",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Firefox deprecated ciphers must be disabled.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-55006r820760_chk",
+  "check_content": "Type \"about:policies\" in the browser address bar.\n\nIf \"DisabledCiphers\" is not displayed under Policy Name or the Policy Value is not \"TLS_RSA_WITH_3DES_EDE_CBC_SHA\" with a value of  \"true\", this is a finding.",
+  "fixtext": "Windows group policy:\n1. Open the group policy editor tool with \"gpedit.msc\".\n2. Navigate to Policy Path: Computer Configuration\\Administrative Templates\\Mozilla\\Firefox\\Disabled Ciphers\nPolicy Name: TLS_RSA_WITH_3DES_EDE_CBC_SHA\nPolicy State: Enabled\n\nmacOS \"plist\" file:\nAdd the following:\n<key>DisabledCiphers</key>\n  <dict>\n    <key>TLS_RSA_WITH_3DES_EDE_CBC_SHA</key>\n    <true/>\n  </dict>\n\nLinux \"policies.json\" file:\nAdd the following in the policies section:\n\"DisabledCiphers\": {\n  \"TLS_RSA_WITH_3DES_EDE_CBC_SHA\": true\n}",
+  "fix_id": "F-54960r820761_fix",
+  "VulnDiscussion": "A weak cipher is defined as an encryption/decryption algorithm that uses a key of insufficient length. Using an insufficient length for a key in an encryption/decryption algorithm opens up the possibility (or probability) that the encryption scheme could be broken.",
+  "Documentable": "false"
+}

@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-258734",
+  "rule_id": "SV-258734r1015918_rule",
+  "stig_id": "ESXI-80-000035",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must enforce password complexity by configuring a password quality policy.",
+  "group_title": "SRG-OS-000069-VMM-000360",
+  "idents": {
+    "cci": [
+      "CCI-004066",
+      "CCI-000192",
+      "CCI-000193",
+      "CCI-000194",
+      "CCI-000195",
+      "CCI-000205",
+      "CCI-001619"
+    ]
+  },
+  "check_id": "C-62474r933261_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"Security.PasswordQualityControl\" value and verify it is set to \"similar=deny retry=3 min=disabled,disabled,disabled,disabled,15\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Security.PasswordQualityControl\n\nIf the \"Security.PasswordQualityControl\" setting is set to a value other than \"similar=deny retry=3 min=disabled,disabled,disabled,disabled,15\", this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"Security.PasswordQualityControl\" value and configure it to \"similar=deny retry=3 min=disabled,disabled,disabled,disabled,15\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Security.PasswordQualityControl | Set-AdvancedSetting -Value \"similar=deny retry=3 min=disabled,disabled,disabled,disabled,15\"",
+  "fix_id": "F-62383r933262_fix",
+  "VulnDiscussion": "To enforce the use of complex passwords, minimum numbers of characters of different classes are mandated.\n\nThe use of complex passwords reduces the ability of attackers to successfully obtain valid passwords using guessing or exhaustive search techniques. Complexity requirements increase the password search space by requiring users to construct passwords from a larger character set than they may otherwise use.\n\nSatisfies: SRG-OS-000069-VMM-000360, SRG-OS-000070-VMM-000370, SRG-OS-000071-VMM-000380, SRG-OS-000072-VMM-000390, SRG-OS-000072-VMM-000390, SRG-OS-000078-VMM-000450, SRG-OS-000266-VMM-000940",
+  "Documentable": "false"
+}

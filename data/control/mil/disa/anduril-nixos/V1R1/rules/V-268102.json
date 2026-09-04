@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268102",
+  "rule_id": "SV-268102r1039601_rule",
+  "stig_id": "ANIX-00-000410",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must notify the system administrator (SA) and information system security officer (ISSO) (at a minimum) when allocated audit record storage volume reaches 90 percent utilization.",
+  "group_title": "SRG-OS-000046-GPOS-00022",
+  "idents": {
+    "cci": [
+      "CCI-000139"
+    ]
+  },
+  "check_id": "C-72026r1039600_chk",
+  "check_content": "Verify NixOS notifies the SA and ISSO (at a minimum) when allocated audit record storage volume reaches 90 percent of the repository maximum audit record storage capacity with the following command:\n\n$ sudo grep -w admin_space_left_action /etc/audit/auditd.conf\n\nadmin_space_left_action = syslog\n\nIf the \"admin_space_left_action\" parameter is missing, commented out, or set to blanks, this is a finding.\n\nIf the \"admin_space_left_action\" is set to \"syslog\", the system logs the event, but does not generate a notification, this is a finding.\n\nIf the \"admin_space_left_action\" is set to \"exec\", the system executes a designated script. If this script does not inform the SA of the event, this is a finding.\n\nIf the \"admin_space_left_action\" is set to \"email\" check the value of the \"action_mail_acct\" parameter with the following command:\n\n$ sudo grep action_mail_acct /etc/audit/auditd.conf\n\naction_mail_acct root@localhost\n\nThe \"action_mail_acct\" parameter, if missing, defaults to \"root\". If the \"action_mail_acct\" parameter is not set to the email address of the SA and/or ISSO, this is a finding. \n\nNote: If the email address of the SA is on a remote system, a mail package must be available.",
+  "fixtext": "Configure NixOS to initiate an action to notify the SA and ISSO (at a minimum) when allocated audit record storage volume reaches 90 percent of the repository maximum audit record storage capacity.\n\nIf the space_left_action parameter is set to \"syslog\", make sure the event being logged generates a notification to the SA and ISSO.\n\nIf the space_left_action parameter is set to \"exec\", make sure the command being execute notifies the SA and ISSO.\n\nIf the space_left_action parameter is set to \"email\" set the action_mail_acct parameter to an email address for the SA and ISSO.\n\nAdd or update the 'environment.etc.\"audit/auditd.conf\".text' configuration in /etc/nixos/configuration.nix to include the following:\n\n  admin_space_left_action = syslog\n\nFor example, an updated configuration of 'environment.etc.\"audit/auditd.conf\".text' would look like the following in /etc/nixos/configuration.nix ('...' denoting that the 'environment.etc.\"audit/auditd.conf\".text' configuration may have other options configured):\n\n environment.etc.\"audit/auditd.conf\".text = [\n  ''\n   ...\n   admin_space_left_action = syslog\n   ...\n  \n ''\n];\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71929r1039570_fix",
+  "VulnDiscussion": "If security personnel are not notified immediately when storage volume reaches 90 percent utilization, they are unable to plan for audit record storage capacity expansion.",
+  "Documentable": "false"
+}

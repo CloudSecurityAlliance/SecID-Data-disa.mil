@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-256897",
+  "rule_id": "SV-256897r960759_rule",
+  "stig_id": "APAS-AT-000011",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Automation Controller must use encryption strength in accordance with the categorization of the management data during remote access management sessions.",
+  "group_title": "SRG-APP-000014-AS-000009",
+  "idents": {
+    "cci": [
+      "CCI-000068",
+      "CCI-000197",
+      "CCI-000382",
+      "CCI-002420",
+      "CCI-002422"
+    ]
+  },
+  "check_id": "C-60572r903510_chk",
+  "check_content": "As an unauthenticated user, open a new web browser and go to http://<Automation Controller HOST>\n\nIf not redirected to https://<Automation Controller HOST>, this is a finding.",
+  "fixtext": "Enable HTTPS by running the following command:\n\n./setup.sh -e nginx_disable_https=false\n\nThe \"nginx_disable_https\" variable disables HTTPS traffic through NGINX, this is useful if offloading HTTPS to a load balancer.\n\nBy default, this variable is set to false in the installers \"roles/nginx/defaults/main.yml\" file. If a load balancer is not needed, ensure this value has not been set to true.",
+  "fix_id": "F-60514r902260_fix",
+  "VulnDiscussion": "Remote management access is accomplished by leveraging common communication protocols and establishing a remote connection to the application server via a network for the purposes of managing Automation Controller. If cryptography is not used, then the session data traversing the remote connection could be intercepted and compromised.\n\nAutomation Controller is accessed via standard HTTP (redirect)/HTTPS on standard ports, provided by NGINX. A self-signed certificate/key is installed by default; however, a user can provide a locally appropriate certificate and key per their organizational policy. SSL/TLS algorithm support is configured in the /etc./nginx/nginx.conf configuration file.\n\nSatisfies: SRG-APP-000014-AS-000009, SRG-APP-000142-AS-000014, SRG-APP-000172-AS-000120, SRG-APP-000441-AS-000258, SRG-APP-000442-AS-000259",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255320",
+  "rule_id": "SV-255320r962034_rule",
+  "stig_id": "ASQL-00-003200",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Azure SQL Database must use NSA-approved cryptography to protect classified information in accordance with the data owners requirements.",
+  "group_title": "SRG-APP-000416-DB-000380",
+  "idents": {
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-58993r877278_chk",
+  "check_content": "Use the TSQL query below to determine database encryption state:\n\nSELECT DB_NAME(database_id) AS DatabaseName, \nencryption_state_desc AS EncryptionState,\nkey_algorithm+CAST(key_length AS nvarchar(128)) AS EncryptionAlgorithm,\nencryptor_type\nFROM sys.dm_database_encryption_keys\n\nValidate that for each database the [EncryptionState] is \"ENCRYPTED\" and the [EncryptionAlgorithm] returns one of the following values: [AES128], [AES192], or [AES256]. \n\nIf any other value is returned for either the [EncryptionState] or [EncryptionAlgorithm], this is a finding.",
+  "fixtext": "Use the ALTER DATABASE command to enable encryption on the database.\n\nALTER DATABASE [Database Name Between Brackets] SET ENCRYPTION ON",
+  "fix_id": "F-58937r871085_fix",
+  "VulnDiscussion": "Use of weak or untested encryption algorithms undermines the purposes of utilizing encryption to protect data. The application must implement cryptographic modules adhering to the higher standards approved by the federal government since this provides assurance they have been tested and validated.\nIt is the responsibility of the data owner to assess the cryptography requirements in light of applicable federal laws, Executive Orders, directives, policies, regulations, and standards.\n\nNSA-approved cryptography for classified networks is hardware based. This requirement addresses the compatibility of Azure SQL Database with the encryption devices.",
+  "Documentable": "false"
+}

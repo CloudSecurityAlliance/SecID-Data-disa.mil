@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-94267",
+  "rule_id": "SV-104221r1_rule",
+  "stig_id": "SYMP-AG-000260",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Symantec ProxySG providing intermediary services for HTTP must inspect inbound HTTP traffic for protocol compliance and protocol anomalies.",
+  "group_title": "SRG-NET-000512-ALG-000066",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-001125"
+    ]
+  },
+  "check_id": "C-93453r1_chk",
+  "check_content": "Check 1 (This is an uncommon configuration. If it is found, it has been deliberately done by the Proxy administrator and cannot/should not be removed without consultation with/advice from the administrator.)\n1. Browse to Configuration >> Policy >> Policy Files and click the button to view the installed policy.\n2. Using \"<Ctrl>-F\", perform a search for the exact terms \"detect_protocol(no)\". \n\nIf this phrase appears in the policy file, this is a finding. \n\nDiscuss with the ProxySG administrator to determine why this was configured and whether an exception must be approved.\n\nCheck 2\n1. Browse to Configuration >> Services >> Proxy Services, select each HTTP proxy service to be reviewed, and click \"Edit Service\". \n2. Verify that the \"Detect Protocol\" checkbox is selected.\n\nIf Symantec ProxySG providing intermediary services for HTTP does not inspect inbound HTTP traffic for protocol compliance and protocol anomalies, this is a finding.",
+  "fixtext": "Configure the ProxySG to perform inbound and outbound HTTP traffic protocol compliance inspection/enforcement.\n\nFix 1 (This is an uncommon configuration. If it is found, it has been deliberately done by the Proxy administrator and cannot/should not be removed without consultation with/advice from the administrator.)\n1. Browse to Configuration >> Policy >> Policy Files and click the button to view the installed policy. \n2. Using \"<Ctrl>-F\", perform a search for the exact terms \"detect_protocol(no)\". \n3. If this phrase appears in the policy, work with the ProxySG administrator to determine why this was configured, whether it can be disabled and if so, how to disable it. \n\nFix 2\n1. Browse to Configuration >> Services >> Proxy Services, select each HTTP proxy service to be reviewed, and click \"Edit Service\". \n2. Select the \"Detect Protocol\" checkbox and click \"OK\".\n3. Once all services have been modified, click \"Apply\".",
+  "fix_id": "F-100383r1_fix",
+  "VulnDiscussion": "Application protocol anomaly detection examines application layer protocols such as HTTP to identify attacks based on observed deviations in the normal RFC behavior of a protocol or service. This type of monitoring allows for the detection of known and unknown exploits that exploit weaknesses of commonly used protocols.\n\nSince protocol anomaly analysis examines the application payload for patterns or anomalies, an HTTP proxy must be included in the ALG. This ALG will be configured to inspect inbound and outbound HTTP communications traffic to detect protocol anomalies such as malformed message and command insertion attacks. \n\nAll inbound and outbound traffic, including HTTPS, must be inspected. However, the intention of this policy is not to mandate HTTPS inspection by the ALG. Typically, HTTPS traffic is inspected either at the source or destination and/or is directed for inspection by an organization-defined network termination point.",
+  "Documentable": "false"
+}

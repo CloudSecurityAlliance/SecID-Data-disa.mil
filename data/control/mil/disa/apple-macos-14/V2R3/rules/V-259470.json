@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-259470",
+  "rule_id": "SV-259470r1009588_rule",
+  "stig_id": "APPL-14-001044",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must configure the system to audit all authorization and authentication events.",
+  "group_title": "SRG-OS-000365-GPOS-00152",
+  "idents": {
+    "cci": [
+      "CCI-000172",
+      "CCI-003938",
+      "CCI-002884",
+      "CCI-001814"
+    ]
+  },
+  "check_id": "C-63209r941030_chk",
+  "check_content": "Verify the macOS system is configured to audit logon events with the following command:\n\n/usr/bin/awk -F':' '/^flags/ { print $NF }' /etc/security/audit_control | /usr/bin/tr ',' '\\n' | /usr/bin/grep -Ec 'aa'\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Configure the macOS system to audit logon events with the following command:\n\n/usr/bin/grep -qE \"^flags.*[^-]aa\" /etc/security/audit_control || /usr/bin/sed -i.bak '/^flags/ s/$/,aa/' /etc/security/audit_control; /usr/sbin/audit -s",
+  "fix_id": "F-63117r941031_fix",
+  "VulnDiscussion": "The auditing system must be configured to flag authorization and authentication (aa) events.\n\nAuthentication events contain information about the identity of a user, server, or client. Authorization events contain information about permissions, rights, and rules. If audit records do not include aa events, it is difficult to identify incidents and to correlate incidents to subsequent events.\n\nAudit records can be generated from various components within the information system (e.g., via a module or policy filter).\n\nSatisfies: SRG-OS-000365-GPOS-00152,SRG-OS-000392-GPOS-00172,SRG-OS-000458-GPOS-00203,SRG-OS-000463-GPOS-00207,SRG-OS-000465-GPOS-00209,SRG-OS-000466-GPOS-00210,SRG-OS-000467-GPOS-00211,SRG-OS-000468-GPOS-00212,SRG-OS-000471-GPOS-00215,SRG-OS-000471-GPOS-00216,SRG-OS-000475-GPOS-00220,SRG-OS-000477-GPOS-00222",
+  "Documentable": "false"
+}

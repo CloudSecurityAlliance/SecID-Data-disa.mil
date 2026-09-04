@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255947",
+  "rule_id": "SV-255947r960735_rule",
+  "stig_id": "ARST-ND-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Arista network device must limit the number of concurrent sessions to an organization-defined number for each administrator account and/or administrator account type.",
+  "group_title": "SRG-APP-000001-NDM-000200",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-59623r882181_chk",
+  "check_content": "Verify the device is configured to limit the number of concurrent management sessions with the following commands:\n\nswitch#sh run | section management ssh\nmanagement ssh\n   connection limit 5\n!\n\nIf the Arista network device is not configured to limit the number of SSH concurrent sessions, this is a finding.",
+  "fixtext": "Configure the switch to limit SSH concurrent connections to the device with the following commands:\n\nswitch#configure\nswitch(config)#management ssh\nswitch(config-mgmt-ssh)#connection limit 5\nswitch(config-mgmt-ssh)#exit\nswitch#wr\n!",
+  "fix_id": "F-59566r882182_fix",
+  "VulnDiscussion": "Device management includes the ability to control the number of administrators and management sessions that manage a device. Limiting the number of allowed administrators and sessions per administrator based on account type, role, or access type is helpful in limiting risks related to denial-of-service (DoS) attacks.\n\nThis requirement addresses concurrent sessions for administrative accounts and does not address concurrent sessions by a single administrator via multiple administrative accounts. The maximum number of concurrent sessions must be defined based upon mission needs and the operational environment for each system. At a minimum, limits must be set for SSH, HTTPS, account of last resort, and root account sessions.",
+  "Documentable": "false"
+}

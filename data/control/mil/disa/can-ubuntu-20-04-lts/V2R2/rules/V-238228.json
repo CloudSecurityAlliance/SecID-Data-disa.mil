@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-238228",
+  "rule_id": "SV-238228r991587_rule",
+  "stig_id": "UBTU-20-010057",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Ubuntu operating system must be configured so that when passwords are changed or new passwords are established, pwquality must be used.",
+  "group_title": "SRG-OS-000480-GPOS-00225",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-41438r653857_chk",
+  "check_content": "Verify the Ubuntu operating system has the \"libpam-pwquality\" package installed by running the following command: \n \n$ dpkg -l libpam-pwquality \n \nii  libpam-pwquality:amd64            1.4.0-2               amd64             PAM module to check password strength \n \nIf \"libpam-pwquality\" is not installed, this is a finding. \n \nVerify that the operating system uses \"pwquality\" to enforce the password complexity rules.  \n \nVerify the pwquality module is being enforced by the Ubuntu operating system by running the following command: \n \n$ grep -i enforcing /etc/security/pwquality.conf \n \nenforcing = 1 \n \nIf the value of \"enforcing\" is not \"1\" or the line is commented out, this is a finding. \n \nCheck for the use of \"pwquality\" with the following command: \n \n$ cat /etc/pam.d/common-password | grep requisite | grep pam_pwquality \n \npassword requisite pam_pwquality.so retry=3 \n \nIf no output is returned or the line is commented out, this is a finding. \n \nIf the value of \"retry\" is set to \"0\" or greater than \"3\", this is a finding.",
+  "fixtext": "Configure the operating system to use \"pwquality\" to enforce password complexity rules. \n \nInstall the \"pam_pwquality\" package by using the following command: \n \n$ sudo apt-get install libpam-pwquality -y \n \nAdd the following line to \"/etc/security/pwquality.conf\" (or modify the line to have the required value): \n \nenforcing = 1 \n \nAdd the following line to \"/etc/pam.d/common-password\" (or modify the line to have the required value): \n \npassword requisite pam_pwquality.so retry=3 \n \nNote: The value of \"retry\" should be between \"1\" and \"3\".",
+  "fix_id": "F-41397r653858_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. \"pwquality\" enforces complex password construction configuration and has the ability to limit brute-force attacks on the system.",
+  "Documentable": "false"
+}

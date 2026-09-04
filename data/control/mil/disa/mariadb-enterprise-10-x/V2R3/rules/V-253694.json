@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253694",
+  "rule_id": "SV-253694r1051115_rule",
+  "stig_id": "MADB-10-003600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must uniquely identify and authenticate organizational users (or processes acting on behalf of organizational users).",
+  "group_title": "SRG-APP-000148-DB-000103",
+  "idents": {
+    "cci": [
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-57146r841605_chk",
+  "check_content": "All users should have individual accounts with appropriate privileges. The root users should be removed after administrative accounts with SUPER privilege are created. Query all users and determine if any are suspected shared accounts. Document any necessary shared accounts.\n\nMariaDB> SELECT user, host FROM mysql.user;\n\nDetermine if any accounts are shared. A shared account is defined as a username, hostname, and password that are used by multiple individuals to log in to MariaDB. An example of a shared account is the MariaDB root account – root@localhost.\n\nIf accounts are determined to be shared, determine if individuals are first individually authenticated. \n\nIf individuals are not individually authenticated before using the shared account (e.g., by the operating system or possibly by an application making calls to the database), this is a finding. \n\nThe key is individual accountability. If this can be traced, this is not a finding.\n\nIf accounts are determined to be shared, determine if they are directly accessible to end users. If so, this is a finding.\n\nReview contents of audit logs, traces, and data tables to confirm the identity of the individual user performing the action is captured.\n\nIf shared identifiers are found, and not accompanied by individual identifiers, this is a finding.",
+  "fixtext": "Remove shared accounts which are not documented and have been determined to not be necessary.\n\nMariaDB> DROP USER 'user'@'hostname';",
+  "fix_id": "F-57097r841606_fix",
+  "VulnDiscussion": "To ensure accountability and prevent unauthenticated access, organizational users must be identified and authenticated to prevent potential misuse and compromise of the system. \n\nOrganizational users include organizational employees or individuals the organization deems to have equivalent status of employees (e.g., contractors). Organizational users (and any processes acting on behalf of users) must be uniquely identified and authenticated for all accesses, except the following:\n\n(i) Accesses explicitly identified and documented by the organization. Organizations document specific user actions that can be performed on the information system without identification or authentication; and \n(ii) Accesses that occur through authorized use of group authenticators without individual authentication. Organizations may require unique identification of individuals using shared accounts, for detailed accountability of individual activity.\n\nIt is recommended to not allow shared accounts, including root. The root user is known by all attackers, and often used in attempted attacks on the database servers.",
+  "Documentable": "false"
+}

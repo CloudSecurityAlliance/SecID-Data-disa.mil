@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234164",
+  "rule_id": "SV-234164r879528_rule",
+  "stig_id": "FGFW-ND-000020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate device must automatically audit account removal actions.",
+  "group_title": "SRG-APP-000029-NDM-000211",
+  "idents": {
+    "cci": [
+      "CCI-001405"
+    ]
+  },
+  "check_id": "C-37349r611679_chk",
+  "check_content": "If the System category of Event Logging is enabled, then account removal is audited. To check that System and Event Logging is configured, log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Log and Report.\n2. Click Log Settings.\n3. Scroll down to Log Settings.\n4. Verify Event Logging is set to \"All\" (for most verbose logging) or \"Customize\" and include at least the System activity event.\n\nIf the Event Logging is not set to \"All\" or \"Customize\" with System enabled, then account removal is not audited, and this is a finding.\n\nor \n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n\n     # show full-configuration log eventfilter | grep -i 'event\\|system'\nThe output should be:   \n     set event enable\n     set system enable\n\nIf event and system parameters are set to disable, then account removal is not audited, and this is a finding.",
+  "fixtext": "This fix can be performed on the FortiGate GUI or on the CLI. \nLog in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Log and Report.\n2. Click Log Settings.\n3. Scroll down to Log Settings.\n4. For Event Logging options, click \"All\" (for most verbose logging) or \"Customize\" and include at least System activity event.\n5. Click Apply.\n\nor\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config log eventfilter\n     #    set event enable\n     #    set system enable\n     #    set endpoint enable\n     #    set user enable\n     # end",
+  "fix_id": "F-37314r611680_fix",
+  "VulnDiscussion": "Account management, as a whole, ensures access to the network device is being controlled in a secure manner by granting access to only authorized personnel. Auditing account removal actions will support account management procedures. When device management accounts are terminated, user or service accessibility may be affected. Auditing also ensures authorized active accounts remain enabled and available for use when required.",
+  "Documentable": "false"
+}

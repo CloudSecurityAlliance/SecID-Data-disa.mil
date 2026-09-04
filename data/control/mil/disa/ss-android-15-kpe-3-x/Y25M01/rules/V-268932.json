@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268932",
+  "rule_id": "SV-268932r1036364_rule",
+  "stig_id": "KNOX-15-005700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Samsung Android 15 allowlist must be configured to not include artificial intelligence (AI) applications that process device data in the cloud, including Google Gemini.",
+  "group_title": "PP-MDF-333070",
+  "idents": {
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-72962r1035890_chk",
+  "check_content": "Review managed Samsung Android 15 device configuration settings to determine if the mobile device has an AI application that processes device data in the cloud, including Google Gemini.\n\nVerify requirement KNOX-15-009200 (disallow modify accounts) has been implemented.\n\nThe following validation procedure is performed on the management tool Administration Console.\n\nVerify that the KPE API \"isIntelligenceOnlineProcessingAllowed()\" returns false or that the KSP configuration has the restriction \"Allow process data only on device\" set to true.\n\nIf \"disallow modify accounts\" is not set to \"enable\" (KNOX-15-009200) and the KPE API \"isIntelligenceOnlineProcessingAllowed()\" returns true and the KSP configuration does not have the restriction \"Allow process data only on device\" set to true, this is a finding.",
+  "fixtext": "On the EMM console:\n\n1. Review the list of selected Managed Google Play apps.\n2. Verify no AI applications that process device data in the cloud, including Google Gemini, are included.\n\nNote: This restriction does not include Galaxy on device AI. Galaxy on device API is a \"built-in\" capability of Android 15 and processes device data on the device.\n\nDisallow modify accounts (refer to requirement KNOX-15-009200).\n\nApply the \"Disallow Intelligence Online Processing\" using the KPE API or KSP. The KPE API is allowIntelligenceOnlineProcessing(false), and the KSP restriction is \"Allow process data only on device\", which should be set to \"true\".",
+  "fix_id": "F-72863r1036363_fix",
+  "VulnDiscussion": "Sensitive DOD data could be exposed when an AI app processes device data in the cloud.\n\nSFRID: FMT_SMF.1.1 #8",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251227",
+  "rule_id": "SV-251227r961044_rule",
+  "stig_id": "RD6X-00-009300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Redis Enterprise DBMS must map the PKI-authenticated identity to an associated user account.",
+  "group_title": "SRG-APP-000177-DB-000069",
+  "idents": {
+    "cci": [
+      "CCI-000187"
+    ]
+  },
+  "check_id": "C-54662r804869_chk",
+  "check_content": "Review the Redis Enterprise configuration to verify user accounts are being mapped directly to unique identifying information within the validated PKI certificate.\n\nTo test, have the user log in to the database and verify that the unique certificate to the authenticating user is used or prompted. If user accounts are not being mapped to authenticated identities, this is a finding.",
+  "fixtext": "Configure Redis Enterprise settings to meet organizationally defined requirements. Redis Enterprise uses LDAP to map authenticated identity directly to the DBMS user account.\n\n1. Before enabling LDAP in Redis Software, it is important to verify:\n- Confirmation of the LDAP groups that correspond to the levels of access on which to authorize. Each LDAP group will be mapped to a Redis Software access control role.\n- Confirmation of Redis Software access control role for each LDAP group. If role-based access controls (RBAC) have not already been set up, do so before enabling LDAP.\n\n2. The following LDAP info is needed:\n- Server URI, including host, port, and protocol details.\n- Certificate details for secure protocols.\n- Bind credentials, including Distinguished Name, password, and (optionally) client public and private keys for certificate authentication.\n- Authentication query details, whether template or query.\n- Authorization query details, whether attribute or query.\n- The Distinguished Names of LDAP groups that will be used to authorize access to Redis Software resources.\n\n3. Use Settings | LDAP to enable LDAP access.\n\n4. Map LDAP groups to access control roles.\n\n5. Update database access control lists (ACLs) to authorize role access. \nIf appropriate roles are already established, update them to include LDAP groups.\n\nFor additional information:\nhttps://docs.redislabs.com/latest/rs/security/ldap/",
+  "fix_id": "F-54616r804870_fix",
+  "VulnDiscussion": "The DoD standard for authentication is DoD-approved PKI certificates. Once a PKI certificate has been validated, it must be mapped to a DBMS user account for the authenticated identity to be meaningful to the DBMS and useful for authorization decisions.",
+  "Documentable": "false"
+}

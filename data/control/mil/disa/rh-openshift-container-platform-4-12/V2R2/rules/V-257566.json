@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-257566",
+  "rule_id": "SV-257566r961620_rule",
+  "stig_id": "CNTR-OS-000810",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must protect against or limit the effects of all types of Denial-of-Service (DoS) attacks by defining resource quotas on a namespace.",
+  "group_title": "SRG-APP-000435-CTR-001070",
+  "idents": {
+    "cci": [
+      "CCI-001094",
+      "CCI-002385",
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-61301r921639_chk",
+  "check_content": "Note: CNTR-OS-000140 is a prerequisite to this control. A Network Policy must exist to run this check.\n\nVerify that each user namespace has a ResourceQuota defined by executing the following:\n\nfor ns in $(oc get namespaces -ojson | jq -r '.items[] | select((.metadata.name | startswith(\"openshift\") | not) and (.metadata.name | startswith(\"kube-\") | not) and .metadata.name != \"default\") | .metadata.name '); do oc get resourcequota -n$ns; done\n\nIf the above returns any lines saying \"No resources found in <PROJECT> namespace.\", this is a finding. Empty output is not a finding.",
+  "fixtext": "Add a resource quota to an existing project namespace by performing the following steps:\n\n1. Create <YOURFILE>.yaml and insert the desired resource quota content. The following is an example resource quota definition.\n\napiVersion: v1\nkind: ResourceQuota\nmetadata:\n  name: compute-resources\n  namespace: <NAMESPACE>\nspec:\n  hard:\n    pods: \"4\" \n    requests.cpu: \"1\" \n    requests.memory: 1Gi \n    requests.ephemeral-storage: 2Gi \n    limits.cpu: \"2\" \n    limits.memory: 2Gi \n    limits.ephemeral-storage: 4Gi \n\n2. Apply the ResourceQuota definition to the project namespace by executing the following:\n\noc apply -f <YOURFILE>.yaml -n <NAMESPACE>\n\nDetails regarding the configuration of resource quotas can be reviewed at https://docs.openshift.com/container-platform/4.8/applications/quotas/quotas-setting-per-project.html.",
+  "fix_id": "F-61225r921640_fix",
+  "VulnDiscussion": "OpenShift allows administrators to define resource quotas on a namespace basis. This allows tailoring of the shared resources based on a project needs. However, when a new project is created, unless a default project resource quota is configured, that project will not have any limits or quotas defined. This could allow someone to create a new project and then deploy services that exhaust or overuse the shared cluster resources.\n\nIt is necessary to ensure that all existing namespaces with user-defined workloads have an applied resource quota configured.\n\nUsing resource quotas will help to mitigate a DoS attack by limiting how much CPU, memory, and pods may be consumed in a project. This helps protect other projects (namespaces) from being denied resources to process.\n\nhttps://docs.openshift.com/container-platform/4.8/applications/quotas/quotas-setting-per-project.html\n\nSatisfies: SRG-APP-000435-CTR-001070, SRG-APP-000246-CTR-000605, SRG-APP-000450-CTR-001105",
+  "Documentable": "false"
+}

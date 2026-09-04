@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215238",
+  "rule_id": "SV-215238r958418_rule",
+  "stig_id": "AIX7-00-002004",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must produce audit records containing information to establish the source and the identity of any individual or process associated with an event.",
+  "group_title": "SRG-OS-000040-GPOS-00018",
+  "idents": {
+    "legacy": [
+      "V-91251",
+      "SV-101351"
+    ],
+    "cci": [
+      "CCI-000133",
+      "CCI-001487"
+    ]
+  },
+  "check_id": "C-16436r294165_chk",
+  "check_content": "Verify the audit event \"process id\" is displayed:\n\nThe log file can be set by the \"trail\" variable in /etc/security/audit/config.\n\n# grep trail /etc/security/audit/config\n        trail = /audit/trail\n\nNote: The default log file is /audit/trail.\n\nUse the following command to display the audit events:\n\n# /usr/sbin/auditpr -i <audit log file> -helRtcp \n\nevent           login    status      time                     command           \n              process  \n--------------- -------- ----------- ------------------------ ------------------\n------------- -------- \nPROC_Delete     root     OK          Wed Oct 31 23:01:37 2018 audit             \n              9437656  \nFILE_Close      root     OK          Wed Oct 31 23:01:37 2018 auditbin          \n              12255562 \nFILE_Open       root     OK          Wed Oct 31 23:01:37 2018 auditbin          \n              12255562 \nFILE_Read       root     OK          Wed Oct 31 23:01:37 2018 auditbin          \n              12255562 \nFILE_Close      root     OK          Wed Oct 31 23:01:37 2018 auditbin          \n              12255562 \nPROC_Create     root     OK          Wed Oct 31 23:01:44 2018 ksh               \n              12976466 \nFILE_Close      root     OK          Wed Oct 31 23:01:44 2018 ksh               \n              9437658  \nFILE_Open       root     OK          Wed Oct 31 23:01:44 2018 ksh               \n              9437658  \nFILE_Read       root     OK          Wed Oct 31 23:01:44 2018 ksh               \n              9437658  \nFILE_Close      root     OK          Wed Oct 31 23:01:44 2018 ksh               \n              9437658  \nPROC_Execute    root     OK          Wed Oct 31 23:01:44 2018 ls                \n              9437658  \nFILE_Open       root     OK          Wed Oct 31 23:01:44 2018 ls                \n              9437658  \n\nIf user id  or process id is not displayed, this is a finding.\n\nMore information on the command options used above:\n            -e the audit event.\n            -l the login name of the user.\n            -R the audit status.\n            -t the time the record was written.\n            -c the command name.\n            -p the process ID.",
+  "fixtext": "Reset the audit system with the following command:\n# /usr/sbin/audit shutdown\n\nStart the audit system with the following command:\n# /usr/sbin/audit start",
+  "fix_id": "F-16434r294166_fix",
+  "VulnDiscussion": "Without establishing the source of the event, it is impossible to establish, correlate, and investigate the events leading up to an outage or attack.\n\nWithout information that establishes the identity of the subjects (i.e., users or processes acting on behalf of users) associated with the events, security personnel cannot determine responsibility for the potentially harmful event.\nIn addition to logging where events occur within AIX, AIX must also generate audit records that identify sources of events. Sources of operating system events include, but are not limited to, processes and services.\n\nIn order to compile an accurate risk assessment and provide forensic analysis, it is essential for security personnel to know the source of the event.\n\nSatisfies: SRG-OS-000040-GPOS-00018, SRG-OS-000255-GPOS-00096",
+  "Documentable": "false"
+}

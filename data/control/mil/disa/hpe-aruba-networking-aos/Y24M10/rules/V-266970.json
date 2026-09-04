@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-266970",
+  "rule_id": "SV-266970r1039931_rule",
+  "stig_id": "ARBA-ND-000336",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AOS must be configured to use at least two authentication servers for the purpose of authenticating users prior to granting administrative access.",
+  "group_title": "SRG-APP-000516-NDM-000336",
+  "idents": {
+    "cci": [
+      "CCI-000370"
+    ]
+  },
+  "check_id": "C-70894r1039929_chk",
+  "check_content": "Verify the AOS configuration using the web interface: \n  \n1. Navigate to Configuration >> System >> Admin and expand \"Admin Authentication Options\".  \n2. Verify what \"Server group\" is handling admin authentication.  \n3. Expand \"Admin Authentication Servers\".  \n4. Select the Server Group identified from the \"Options\" section.  \n5. Verify that at least two authentication servers are configured in the Server Group.  \n \nIf the admin authentication server group does not have at least two configured authentication servers, this is a finding.",
+  "fixtext": "Configure AOS using the web interface:  \n \n1. Navigate to Configuration >> System >> Admin and expand \"Admin Authentication Servers\".  \n2. Click on the plus sign (+) under \"All Servers\" and configure the type of authentication server. Provide the Name, Type, and IP address. Click \"Submit\".  \n3. Select the created authentication server and configure the required attributes for LDAP: \n \nAdmin-dn <username> \nAdmin-passwd <password> \nRe-type admin-passwd <password> \nAuth port: 636 \nBase-dn: cn/ou=<container>,dc=<level>,dc=<mil> \nKey-attribute: userPrincipalName \n \n4. Click \"Submit\".  \n5. Repeat this process and configure a second authentication server.  \n6. Click Pending Changes >> Deploy Changes.  \n7. Click on the plus sign (+) under \"Server Groups\" and add a server group. Click \"Submit\".  \n8. Select the created server group and click the plus sign (+) in the Server Group <server group name> box.  \n9. Add the first configured authentication server.  \n10. Reselect the created server group and click the plus sign (+) in the Server Group <server group name> box. Click \"Submit\".  \n11. Expand \"Admin Authentication Options\" and select the created server group under \"Server group:\".  \n12. Click Submit >> Pending Changes >> Deploy Changes.",
+  "fix_id": "F-70797r1039930_fix",
+  "VulnDiscussion": "Centralized management of authentication settings increases the security of remote and nonlocal access methods. This control is particularly important protection against the insider threat.  \n \nWith robust centralized management, audit records for administrator account access to the organization's network devices can be more readily analyzed for trends and anomalies. The alternative method of defining administrator accounts on each device exposes the device configuration to remote access authentication attacks and system administrators with multiple authenticators for each network device.",
+  "Documentable": "false"
+}

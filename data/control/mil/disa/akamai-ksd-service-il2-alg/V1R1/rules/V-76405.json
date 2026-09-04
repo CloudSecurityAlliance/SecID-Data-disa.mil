@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-76405",
+  "rule_id": "SV-91101r1_rule",
+  "stig_id": "AKSD-WF-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "To protect against data mining, Kona Site Defender providing content filtering must prevent code injection attacks launched against application objects including, at a minimum, application URLs and application code.",
+  "group_title": "SRG-NET-000318-ALG-000151",
+  "idents": {
+    "cci": [
+      "CCI-002346"
+    ]
+  },
+  "check_id": "C-76061r1_chk",
+  "check_content": "Confirm Kona Site Defender is configured to block traffic for organizationally defined HTTP protocol violations, HTTP policy violations, SQL injection, remote file inclusion, cross-site scripting, command injection attacks, and any applicable custom rules:\n\n1. Log in to the Akamai Luna Portal (https://control.akamai.com).\n2. Click the \"Configure\" tab.\n3. Under the \"Security\" section, select \"Security Configuration\".\n4. If prompted for which product to use, select \"Site Defender\" and then \"Continue\".\n5. Under the \"Security Configurations\" section, click on the most recent version under the \"Production\" column for the security configuration being reviewed.\n6. The detailed \"Security Configuration\" page will load listing the protected host names and applicable policies.\n7. Select the policy being reviewed. \n8. Verify the \"Application Layer Controls\" checkbox is enabled.\n9. Verify the following \"KRS Rule Set\" rules are set to \"Deny\".\n   - SQL Injection\n   - Cross Site Scripting (XSS)\n   - Command Injection\n   - Invalid HTTP\n   - Remote File Inclusion\n   - PHP Injection (when PHP is used)\n   - Trojan\n   - Total Request Scor4e (Inbound)\n   - Total Response Score (Outbound)\n   - DDOS\n10. Verify the \"Enabled Slow POST Protection\" section appears.\n\nIf the application layer controls are not set to \"Deny\" mode or slow POST protection does not appear, this is a finding.",
+  "fixtext": "Configure the Kona Site Defender to block traffic for organizationally defined HTTP protocol violations, HTTP policy violations, SQL injection, remote file inclusion, cross-site scripting, command injection attacks, and any applicable custom rules.\n\nThe Akamai Professional Services team should be consulted to implement this Fix content due to the complexities involved. In most cases, this should be included in the SLA.\n\n1. Log in to the Akamai Luna Portal (https://control.akamai.com).\n2. Click the \"Configure\" tab.\n3. Under the \"Security\" section, select \"Security Configuration\".\n4. If prompted for which product to use, select \"Site Defender\" and then \"Continue\".\n5. Under the \"Security Configurations\" section, click on the most recent version under the \"Production\" column for the security configuration being reviewed.\n6. The detailed \"Security Configuration\" page will load listing the protected host names and applicable policies.\n7. Select the policy being reviewed and click the \"Edit\" button. \n8. Enable the \"Application Layer Controls\" box and the \"Slow POST Protection\" box. \n9. Click the \"Next\" button and set each of the following \"KRS Rule Set\" rules to \"Deny\".\n   - SQL Injection\n   - Cross Site Scripting (XSS)\n   - Command Injection\n   - Invalid HTTP\n   - Remote File Inclusion\n   - PHP Injection (when PHP is used)\n   - Trojan\n   - Total Request Score (Inbound)\n   - Total Response Score (Outbound)\n   - DDOS\n10. Click the \"Next\" button and follow the prompts to complete the process.",
+  "fix_id": "F-83081r1_fix",
+  "VulnDiscussion": "Data mining is the analysis of large quantities of data to discover patterns and is used in intelligence gathering. Failure to prevent attacks launched against organizational information from unauthorized data mining may result in the compromise of information.\n\nInjection attacks allow an attacker to inject code into a program or query or inject malware onto a computer to execute remote commands that can read or modify a database or change data on a website. These attacks include buffer overrun, XML, JavaScript, and HTML injections.\n \nCompliance requires the ALG to have the capability to prevent code injections. Examples include web application firewalls (WAFs) or database application gateways.",
+  "Documentable": "false"
+}

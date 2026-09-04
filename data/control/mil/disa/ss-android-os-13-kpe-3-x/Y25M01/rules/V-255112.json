@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255112",
+  "rule_id": "SV-255112r958388_rule",
+  "stig_id": "KNOX-13-110060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Samsung Android must be configured to not allow more than 10 consecutive failed authentication attempts.",
+  "group_title": "PP-MDF-323040",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-58725r867271_chk",
+  "check_content": "Review the configuration to determine if the Samsung Android devices are allowing only 10 or fewer consecutive failed authentication attempts.\n\nThis validation procedure is performed on both the management tool and the Samsung Android device.\n\nOn the management tool, in the device password policies, verify \"max password failures for local wipe\" is set to \"10\" attempts or less.\n\nOn the Samsung Android device: \n1. Open Settings >> Lock screen.\n2. Verify \"Secure lock settings\" is present and tap it.\n3. Enter current password.\n4. Verify that \"Auto factory reset\" is greyed out, and cannot be configured.\nNote: When \"Auto factory reset\" is greyed out, this indicates the Administrator (MDM) is in control of the setting to wipe the device after 10 or fewer consecutive failed authentication attempts.\n\nIf on the management tool \"max password failures for local wipe\" is not set to \"10\" attempts or less, or on the Samsung Android device the \"Auto factory reset\" menu can be configured, this is a finding.",
+  "fixtext": "Configure the Samsung Android devices to allow only 10 or fewer consecutive failed authentication attempts.\n\nOn the management tool, in the device password policies, set \"max password failures for local wipe\" to \"10\" attempts or less.\n\nA device password must be set for \"max password failures for local wipe\" to become active.",
+  "fix_id": "F-58669r867272_fix",
+  "VulnDiscussion": "The more attempts an adversary has to guess a password, the more likely the adversary will enter the correct password and gain access to resources on the device. Setting a limit on the number of attempts mitigates this risk. Setting the limit at 10 or less gives authorized users the ability to make a few mistakes when entering the password but still provides adequate protection against dictionary or brute force attacks on the password.\n\nSFR ID: FMT_SMF_EXT.1.1 #2c, FIA_AFL_EXT.1.5",
+  "Documentable": "false"
+}

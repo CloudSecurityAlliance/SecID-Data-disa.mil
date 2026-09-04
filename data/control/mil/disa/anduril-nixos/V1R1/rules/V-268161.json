@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268161",
+  "rule_id": "SV-268161r1039371_rule",
+  "stig_id": "ANIX-00-001670",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must implement address space layout randomization to protect its memory from unauthorized code execution.",
+  "group_title": "SRG-OS-000433-GPOS-00193",
+  "idents": {
+    "cci": [
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-72085r1039369_chk",
+  "check_content": "Verify NixOS enables address space layout randomization with the following command:\n\n$ sudo sysctl kernel.randomize_va_space\n\nkernel.randomize_va_space = 2\n\nIf \"kernel.randomize_va_space\" does not have a value of \"2\" or is missing, this is a finding.",
+  "fixtext": "Configure /etc/nixos/configuration.nix to enable ASLR by adding the following configuration settings:\n\n boot.kernel.sysctl = {\n\"kernel.randomize_va_space\" = 2;\n};\n\nRebuild the system with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71988r1039370_fix",
+  "VulnDiscussion": "Some adversaries launch attacks with the intent of executing code in nonexecutable regions of memory or in memory locations that are prohibited. Security safeguards employed to protect memory include, for example, data execution prevention and address space layout randomization. Data execution prevention safeguards can either be hardware-enforced or software-enforced with hardware providing the greater strength of mechanism.\n\nExamples of attacks are buffer overflow attacks.",
+  "Documentable": "false"
+}

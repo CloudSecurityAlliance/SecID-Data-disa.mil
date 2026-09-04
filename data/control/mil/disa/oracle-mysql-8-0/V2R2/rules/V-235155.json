@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235155",
+  "rule_id": "SV-235155r961128_rule",
+  "stig_id": "MYS8-00-007200",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must protect the confidentiality and integrity of all information at rest.",
+  "group_title": "SRG-APP-000231-DB-000154",
+  "idents": {
+    "cci": [
+      "CCI-001199"
+    ]
+  },
+  "check_id": "C-38374r810830_chk",
+  "check_content": "If the application owner and Authorizing Official have determined that encryption of data at rest is NOT required, this is not a finding.\n\nReview settings to ensure appropriate controls are applied to protect the confidentiality and integrity of data at rest in the database.\n\nUsing SQL determine if all data-at-rest is encrypted.\n\nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables where variable_name = 'audit_log_encryption';\n\nIf \"audit_log_encryption\" is not set to \"AES\", this is a finding.\n\nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables where variable_name = 'binlog_encryption';\n\nIf \"binlog_encrypt\" is not set to \"ON\", this is a finding.\n\nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables where variable_name = 'innodb_redo_log_encrypt';\n\nIf \"innodb_redo_log_encrypt\" is not set to \"ON\", this is a finding.\n\nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables where variable_name = 'innodb_undo_log_encrypt';\n\nIf \"innodb_undo_log_encrypt\" is not set to \"ON\", this is a finding.\n\nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables\nWHERE VARIABLE_NAME like 'general_log';\n\nIf \"general_log\"is not \"OFF\", this is a finding.\n\nFind encryption status for all mysql table and tablespaces.\nSELECT\n    `INNODB_TABLESPACES`.`NAME`,\n    `INNODB_TABLESPACES`.`ENCRYPTION`\nFROM `information_schema`.`INNODB_TABLESPACES`;\n\nIf any tablespace other than innodb_temporary does not have ENCRYPTION set to \"Y (yes)\", this is a finding.\n\nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables where variable_name = 'table_encryption_privilege_check';\n\nIf \"innodb_redo_log_encrypt\" is not set to \"ON\", this is a finding.",
+  "fixtext": "Apply appropriate MySQL Database 8.0 controls to protect the confidentiality and integrity of data at rest in the database.\n\nsudo vi /etc/my.cnf\n[mysqld]\naudit-log=FORCE_PLUS_PERMANENT\naudit-log-format=JSON\naudit-log-encryption=AES\n\nTurn on binlog encryption\nset persist binlog_encryption=ON;\n\nTurn on undo and redo log encryption\nset persist innodb_redo_log_encrypt=ON;\nset persist innodb_undo_log_encrypt=ON;\n\nEnable encryption for a new file-per-table tablespace, specify the ENCRYPTION option in a CREATE TABLE statement. \nThe following example assumes that innodb_file_per_table is enabled.\nmysql> CREATE TABLE t1 (c1 INT) ENCRYPTION='Y';\n\nTo enable encryption for an existing file-per-table tablespace, specify the ENCRYPTION option in an ALTER TABLE statement.\nmysql> ALTER TABLE t1 ENCRYPTION='Y';\n\nTo disable encryption for file-per-table tablespace, set ENCRYPTION='N' using ALTER TABLE.\nmysql> ALTER TABLE t1 ENCRYPTION='N';\n\nDisable the general_log\nSET PERSIST general_log = 'OFF';",
+  "fix_id": "F-38337r623586_fix",
+  "VulnDiscussion": "This control is intended to address the confidentiality and integrity of information at rest in non-mobile devices and covers user information and system information. Information at rest refers to the state of information when it is located on a secondary storage device (e.g., disk drive, tape drive) within an organizational information system. Applications and application users generate information throughout the course of their application use. \n\nUser data generated, as well as application-specific configuration data, needs to be protected. Organizations may choose to employ different mechanisms to achieve confidentiality and integrity protections, as appropriate. \n\nIf the confidentiality and integrity of application data is not protected, the data will be open to compromise and unauthorized modification.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219833",
+  "rule_id": "SV-219833r1018565_rule",
+  "stig_id": "O121-BP-022200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle password file ownership and permissions should be limited and the REMOTE_LOGIN_PASSWORDFILE parameter must be set to EXCLUSIVE or NONE.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "legacy": [
+      "SV-75921",
+      "V-61431"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-21544r1018564_chk",
+  "check_content": "From SQL*Plus:\n\nSelect value from v$parameter where upper(name) = 'REMOTE_LOGIN_PASSWORDFILE';\n\nIf the value returned does not equal \"EXCLUSIVE\" or \"NONE\", this is a finding.\n\nOn UNIX Systems:\n\nls -ld $ORACLE_HOME/dbs/orapw${ORACLE_SID}\n\nSubstitute ${ORACLE_SID} with the name of the ORACLE_SID for the database.\n\nIf permissions are granted for world access, this is a finding.\n\nOn Windows Systems (From Windows Explorer):\n\nNavigate to the %ORACLE_HOME%\\database\\directory.\n\nSelect and right-click on the PWD%ORACLE_SID%.ora file, select Properties >> Security tab.\nSubstitute %ORACLE_SID% with the name of the ORACLE_SID for the database.\n\nIf permissions are granted to everyone, this is a finding.\nIf any account other than the DBMS software installation account is listed, this is a finding.",
+  "fixtext": "Disable use of the REMOTE_LOGIN_PASSWORDFILE where remote administration is not authorized by specifying a value of NONE.\n\nIf authorized, restrict use of a password file to exclusive use by each database by specifying a value of EXCLUSIVE.\n\nFrom SQL*Plus:\n\nalter system set REMOTE_LOGIN_PASSWORDFILE = 'EXCLUSIVE' scope = spfile;\n\nOR\n\nalter system set REMOTE_LOGIN_PASSWORDFILE = 'NONE' scope = spfile;\n\nThe above SQL*Plus command will set the parameter to take effect at next system startup.\n\nRestrict ownership and permissions on the Oracle password file to exclude world (Unix) or everyone (Windows).\n\nMore information regarding the ORAPWD file and the REMOTE_LOGIN_PASSWORDFILE parameter, can be found here:\nhttps://docs.oracle.com/database/121/ADMIN/dba.htm#ADMIN12478",
+  "fix_id": "F-21543r533039_fix",
+  "VulnDiscussion": "It is critically important to the security of your system that you protect your password file and the environment variables that identify the location of the password file. Any user with access to these could potentially compromise the security of the connection. \nThe REMOTE_LOGIN_PASSWORDFILE setting of \"NONE\" disallows remote administration of the database. The REMOTE_LOGIN_PASSWORDFILE setting of \"EXCLUSIVE\" allows for auditing of individual DBA logons to the SYS account. If not set to \"EXCLUSIVE\", remote connections to the database as \"internal\" or \"as SYSDBA\" are not logged to an individual account.",
+  "Documentable": "false"
+}

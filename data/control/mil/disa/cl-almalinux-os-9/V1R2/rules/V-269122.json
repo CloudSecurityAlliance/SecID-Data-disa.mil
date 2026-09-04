@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269122",
+  "rule_id": "SV-269122r1050004_rule",
+  "stig_id": "ALMA-09-003870",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 IP tunnels must use FIPS 140-3 approved cryptographic algorithms.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-73153r1047742_chk",
+  "check_content": "Note: If the Libreswan package is not installed, this requirement is Not Applicable.\n\nVerify that the IPsec service uses the system crypto policy with the following command:\n\n$ grep -rE '^include ' /etc/ipsec.conf /etc/ipsec.d/\n\n/etc/ipsec.conf:include /etc/crypto-policies/back-ends/libreswan.config\n/etc/ipsec.conf:include /etc/ipsec.d/*.conf\n\nIf the IPsec configuration file does not contain \"include /etc/crypto-policies/back-ends/libreswan.config\", this is a finding.",
+  "fixtext": "Configure Libreswan to use the systemwide cryptographic policy.\n\nAdd the following line to \"/etc/ipsec.conf\":\n\ninclude /etc/crypto-policies/back-ends/libreswan.config",
+  "fix_id": "F-73054r1049135_fix",
+  "VulnDiscussion": "Overriding the system crypto policy makes the behavior of the Libreswan service violate expectations and makes the system configuration more fragmented.",
+  "Documentable": "false"
+}

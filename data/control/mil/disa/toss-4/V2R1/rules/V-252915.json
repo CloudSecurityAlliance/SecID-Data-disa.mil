@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-252915",
+  "rule_id": "SV-252915r986573_rule",
+  "stig_id": "TOSS-04-010040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must not permit direct logons to the root account using remote access from outside of the system via SSH.",
+  "group_title": "SRG-OS-000109-GPOS-00056",
+  "idents": {
+    "cci": [
+      "CCI-004045"
+    ]
+  },
+  "check_id": "C-56368r986572_chk",
+  "check_content": "Verify remote access from outside the system using SSH prevents users from logging on directly as \"root.\"\n\nCheck that SSH prevents users from logging on directly as \"root\" with the following command:\n\n$ sudo grep -i PermitRootLogin /etc/ssh/sshd_config\n\nPermitRootLogin no\n\nIf the \"PermitRootLogin\" keyword is set to \"yes\", is missing, or is commented out, and is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure TOSS to stop users from logging on remotely from outside of the cluster as the \"root\" user via SSH.\n\nEdit the appropriate \"/etc/ssh/sshd_config\" file to uncomment or add the line for the \"PermitRootLogin\" keyword and set its value to \"no\":\n\nPermitRootLogin no\n\nThe SSH daemon must be restarted for the changes to take effect. To restart the SSH daemon, run the following command:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-56318r824068_fix",
+  "VulnDiscussion": "Even though the communications channel may be encrypted, an additional layer of security is gained by extending the policy of not logging on directly as root. In addition, logging on with a user-specific account provides individual accountability of actions performed on the system.",
+  "Documentable": "false"
+}

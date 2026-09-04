@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-248581",
+  "rule_id": "SV-248581r1050789_rule",
+  "stig_id": "OL08-00-010380",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must require users to provide a password for privilege escalation.",
+  "group_title": "SRG-OS-000373-GPOS-00156",
+  "idents": {
+    "cci": [
+      "CCI-004895",
+      "CCI-002038"
+    ]
+  },
+  "check_id": "C-52015r986336_chk",
+  "check_content": "Verify that \"/etc/sudoers\" has no occurrences of \"NOPASSWD\".\n\nCheck that the \"/etc/sudoers\" file has no occurrences of \"NOPASSWD\" by running the following command:\n\n$ sudo grep -ir nopasswd /etc/sudoers /etc/sudoers.d\n\n%admin ALL=(ALL) NOPASSWD: ALL\n\nIf any occurrences of \"NOPASSWD\" are returned from the command and have not been documented with the information system security officer (ISSO) as an organizationally defined administrative group using multifactor authentication (MFA), this is a finding.",
+  "fixtext": "Configure the operating system to require users to supply a password for privilege escalation.\n\nCheck the configuration of the \"/etc/sudoers\" file with the following command:\n$ sudo visudo\n\nRemove any occurrences of \"NOPASSWD\" tags in the file.\n\nCheck the configuration of the /etc/sudoers.d/* files with the following command:\n$ sudo grep -ir nopasswd /etc/sudoers.d\n\nRemove any occurrences of \"NOPASSWD\" tags in the file.",
+  "fix_id": "F-51969r860914_fix",
+  "VulnDiscussion": "Without reauthentication, users may access resources or perform tasks for which they do not have authorization.\n\nWhen operating systems provide the capability to escalate a functional capability, it is critical the user reauthenticate.\n\nSatisfies: SRG-OS-000373-GPOS-00156, SRG-OS-000373-GPOS-00157, SRG-OS-000373-GPOS-00158",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234221",
+  "rule_id": "SV-234221r879607_rule",
+  "stig_id": "FGFW-ND-000311",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate device must require that when a password is changed, the characters are changed in at least eight of the positions within the password.",
+  "group_title": "SRG-APP-000170-NDM-000329",
+  "idents": {
+    "cci": [
+      "CCI-000195"
+    ]
+  },
+  "check_id": "C-37406r628891_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # show full-configuration system password-policy | grep -i change\n    The output should be:\n      # set change-4-characters enable\n\nIf the change-4-characters parameter is set to disable, this is a finding.\n\nIf the change-4-characters parameter is set to enable, this mitigates to a CAT III finding, as this is a mitigation to at least changing four characters when changing the account of last resort. This is a limitation of the device. It is not possible to mitigate to \"Not A Finding\".",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config system password-policy\n           # set change-4-characters enable\n     # end\n\nNote that this setting only mitigates the requirement to a CAT III finding, as this is a mitigation to change at least four characters when changing the account of last resort. This is a limitation of the device. It is not possible to mitigate to \"Not A Finding\".",
+  "fix_id": "F-37371r611851_fix",
+  "VulnDiscussion": "If the application allows the user to consecutively reuse extensive portions of passwords, this increases the chances of password compromise by increasing the window of opportunity for attempts at guessing and brute-force attacks.\n\nThe number of changed characters refers to the number of changes required with respect to the total number of positions in the current password. In other words, characters may be the same within the two passwords; however, the positions of the like characters must be different.\n\nMultifactor authentication (MFA) is required for all administrative and user accounts on network devices, except for an account of last resort and (where applicable) a root account. Passwords should only be used when MFA using PKI is not available, and for the account of last resort and root account.",
+  "Documentable": "false"
+}

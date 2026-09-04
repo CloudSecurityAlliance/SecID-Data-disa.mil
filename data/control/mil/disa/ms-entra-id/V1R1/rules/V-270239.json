@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270239",
+  "rule_id": "SV-270239r1085663_rule",
+  "stig_id": "ENTR-ID-000610",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Microsoft Entra ID must enforce a 60-day maximum password lifetime restriction.",
+  "group_title": "SRG-APP-000174",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-74272r1085661_chk",
+  "check_content": "Verify the Entra ID password expiration time period has been changed to 60 days.\n\nInterview the site Entra ID system administrator and verify the script shown in the Fix has been run.\n\nIf the Entra ID password expiration time period is not 60 days or less, this is a finding.\n\nNote: It is not possible to view the current value for the password expiration time (the Entra ID default is 90). An administrator can check the maximum password age of their Entra ID tenant by using the Graph PowerShell SDK module and the \"Get-MgDomain\" command by using the script located here: \nhttps://learn.microsoft.com/en-us/powershell/module/microsoft.graph.identity.directorymanagement/get-mgdomain?view=graph-powershell-1.0\n\nNote: For any PowerShell scripts that are Graph, note that Graph endpoints differ depending on where the tenant is located.\n- For commercial tenants, graph endpoints are graph.microsoft.com.\n- For GCC High tenants (IL4), graph endpoints are graph.microsoft.us.\n- For DOD tenants (IL5), graph endpoints are dod-graph.microsoft.us.",
+  "fixtext": "Change the default Entra ID password expiration time period to 60 days by using the Graph script located here: \nhttps://learn.microsoft.com/en-us/powershell/module/microsoft.graph.users/update-mguser \n\nUse the \"Get-MgDomain\" command, and update it to 60 days using the \"Update-MgDomain -DomainId <DomainName> \n-PasswordValidityPeriodInDays 60\" command.\n\nNote: For any PowerShell scripts that are Graph, note that Graph endpoints differ depending on where the tenant is located.\n- For commercial tenants, graph endpoints are graph.microsoft.com.\n- For GCC High tenants (IL4), graph endpoints are graph.microsoft.us.\n- For DOD tenants (IL5), graph endpoints are dod-graph.microsoft.us.",
+  "fix_id": "F-74173r1085662_fix",
+  "VulnDiscussion": "Any password, no matter how complex, can eventually be cracked. Therefore, passwords need to be changed at specific intervals.\n\nOne method of minimizing this risk is to use complex passwords and periodically change them. If the application does not limit the lifetime of passwords and force users to change their passwords, there is the risk that the system and/or application passwords could be compromised.\n\nThis requirement does not include emergency administration accounts, which are meant for access to the application in case of failure. These accounts are not required to have maximum password lifetime restrictions.",
+  "Documentable": "false"
+}

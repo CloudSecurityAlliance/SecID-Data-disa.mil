@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223633",
+  "rule_id": "SV-223633r958480_rule",
+  "stig_id": "ACF2-US-000180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS UNIX security parameters for restricted network service(s) in /etc/inetd.conf must be properly specified.",
+  "group_title": "SRG-OS-000096-GPOS-00050",
+  "idents": {
+    "legacy": [
+      "V-97971",
+      "SV-107075"
+    ],
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-25306r695455_chk",
+  "check_content": "From the UNIX System Services ISPF Shell enter:\n/etc/inetd.conf\n\nIf any Restricted Network Services that are listed below are specified or not commented out unless justified and documented with the ISSO, this is a finding.\n\nRESTRICTED NETWORK SERVICES/PORTS\nService Port\nChargen 19\nDaytime 13\nDiscard 9\nEcho 7\nExec 512\nfinger 79\nshell 514\ntime 37\nlogin 513\nsmtp 25\ntimed 525\nnameserver 42\nsystat 11\nuucp 540\nnetstat 15\ntalk 517\nqotd 17\ntftp 69",
+  "fixtext": "Review the settings in The /etc/inetd.conf file determine if every entry in the file represents a service that is actually in use. Services that are not in use must be disabled to reduce potential security exposures.\n\nThe following services must be disabled in /etc/inetd.conf unless justified and documented with the ISSO:\n\nRESTRICTED NETWORK SERVICES\n\nService Port\nChargen 19\nDaytime 13\nDiscard 9\nEcho 7\nExec 512\nfinger 79\nshell 514\ntime 37\nlogin 513\nsmtp 25\ntimed 525\nnameserver 42\nsystat 11\nuucp 540\nnetstat 15\ntalk 517\nqotd 17\ntftp 69\n\n/etc/inetd.conf\n\nThe /etc/inetd.conf file is used by the INETD daemon. It specifies how INETD is to handle service requests on network sockets. Specifically, there is one entry in inetd.conf for each service. Each service entry specifies several parameters. The login_name parameter is of special interest. It specifies the userid under which the forked daemon is to execute. This userid is defined to the ESM and it may require a UID(0) (i.e., superuser authority) value.",
+  "fix_id": "F-25294r695456_fix",
+  "VulnDiscussion": "In order to prevent unauthorized connection of devices, unauthorized transfer of information, or unauthorized tunneling (i.e., embedding of data types within data types), organizations must disable or restrict unused or unnecessary physical and logical ports/protocols on information systems.\n\nOperating systems are capable of providing a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., VPN and IPS); however, doing so increases risk over limiting the services provided by any one component.\n\nTo support the requirements and principles of least functionality, the operating system must support the organizational requirements, providing only essential capabilities and limiting the use of ports, protocols, and/or services to only those required, authorized, and approved to conduct official business or to address authorized quality of life issues.",
+  "Documentable": "false"
+}

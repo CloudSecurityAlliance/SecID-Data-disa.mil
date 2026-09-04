@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258731",
+  "rule_id": "SV-258731r958402_rule",
+  "stig_id": "ESXI-80-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host client must be configured with an idle session timeout.",
+  "group_title": "SRG-OS-000029-VMM-000100",
+  "idents": {
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-62471r933252_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"UserVars.HostClientSessionTimeout\" value and verify it is set to \"900\" or less.\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name UserVars.HostClientSessionTimeout\n\nIf the \"UserVars.HostClientSessionTimeout\" setting is not set to \"900\" or less, this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"UserVars.HostClientSessionTimeout\" value and configure it to \"900\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name UserVars.HostClientSessionTimeout | Set-AdvancedSetting -Value \"900\"",
+  "fix_id": "F-62380r933253_fix",
+  "VulnDiscussion": "The ESXi host client is the UI served up by the host itself, outside of vCenter. It is accessed at https://<ESX FQDN>/ui. ESXi is not usually administered via this interface for long periods, and all users will be highly privileged. Implementing a mandatory session idle limit will ensure that orphaned, forgotten, or ignored sessions will be closed promptly.",
+  "Documentable": "false"
+}

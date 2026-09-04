@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-217310",
+  "rule_id": "SV-217310r991980_rule",
+  "stig_id": "JUNI-ND-000140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured to enforce approved authorizations for controlling the flow of management information within the device based on control policies.",
+  "group_title": "SRG-APP-000038-NDM-000213",
+  "idents": {
+    "legacy": [
+      "SV-101203",
+      "V-91103"
+    ],
+    "cci": [
+      "CCI-001368",
+      "CCI-004192"
+    ]
+  },
+  "check_id": "C-18537r296508_chk",
+  "check_content": "Review the router configuration to verify that it is compliant with this requirement. \n\nStep 1: Verify that an input filter has been configured for the loopback interfaces as shown in the example below.\n\ninterfaces {\n    …\n    …\n    …\n    }\n    lo0 {\n        unit 0 {\n            family inet {\n                filter {\n                    input RESTRICT_MGMT_ACCESS;\n                }\n                address 2.2.2.2/32;\n            }\n         }\n    }\n}\n\nStep 2: Verify that the filter restricts management traffic. The configuration example below restricts management access to specific IP addresses via SSH. \n\nfilter RESTRICT_MGMT_ACCESS {\n    term ALLOW_SSH {\n        from {\n            source-address {\n                x.x.x.x/24;\n            }\n            protocol tcp;\n            port ssh;\n        }\n        then accept;\n    }\n    term DENY_SSH {\n        from {\n            protocol tcp;\n            port ssh;\n        }\n        then {\n            log;\n            discard;\n        }\n    }\n} \n\nNote: Management and control plane traffic destined to the router is punted to the routing engine. Hence, applying the filter to the loopback ensures that this traffic can be monitored regardless of the ingress physical interface. \n\nIf the Juniper router is not configured to enforce approved authorizations for controlling the flow of management information within the device based on control policies, this is a finding.",
+  "fixtext": "Step 1: Configure the router to restrict management access to specific IP addresses via SSH as shown in the example below.\n\n[edit firewall family inet]\nset filter RESTRICT_MGMT_ACCESS term ALLOW_SSH from source-address x.x.x.x/24\nset filter RESTRICT_MGMT_ACCESS term ALLOW_SSH from protocol tcp\nset filter RESTRICT_MGMT_ACCESS term ALLOW_SSH from port ssh\nset filter RESTRICT_MGMT_ACCESS term ALLOW_SSH then accept\nset filter RESTRICT_MGMT_ACCESS term DENY_SSH from protocol tcp\nset filter RESTRICT_MGMT_ACCESS term DENY_SSH from port ssh\nset filter RESTRICT_MGMT_ACCESS term DENY_SSH then log\nset filter RESTRICT_MGMT_ACCESS term DENY_SSH then discard\n\nStep 2:  Apply the filter to the loopback interface.\n\n[edit interfaces lo0 unit 0 family inet]\nset filter input RESTRICT_MGMT_ACCESS\n\nNote: Management and control plane traffic destined to the router is punted to the routing engine. Hence, applying the filter to the loopback ensures that this traffic can be monitored regardless of the ingress physical interface. \n\nStep 1: Configure the router to restrict management access to specific IP addresses via SSH as shown in the example below.\n\n[edit firewall family inet]\nset filter RESTRICT_MGMT_ACCESS term ALLOW_SSH from source-address x.x.x.x/24\nset filter RESTRICT_MGMT_ACCESS term ALLOW_SSH from protocol tcp\nset filter RESTRICT_MGMT_ACCESS term ALLOW_SSH from port ssh\nset filter RESTRICT_MGMT_ACCESS term ALLOW_SSH then accept\nset filter RESTRICT_MGMT_ACCESS term DENY_SSH from protocol tcp\nset filter RESTRICT_MGMT_ACCESS term DENY_SSH from port ssh\nset filter RESTRICT_MGMT_ACCESS term DENY_SSH then log\nset filter RESTRICT_MGMT_ACCESS term DENY_SSH then discard\n\nStep 2:  Apply the filter to the loopback interface.\n\n[edit interfaces lo0 unit 0 family inet]\nset filter input RESTRICT_MGMT_ACCESS\n\nNote: Management and control plane traffic destined to the router is punted to the routing engine. Hence, applying the filter to the loopback ensures that this traffic can be monitored regardless of the ingress physical interface.",
+  "fix_id": "F-18535r296509_fix",
+  "VulnDiscussion": "A mechanism to detect and prevent unauthorized communication flow must be configured or provided as part of the system design. If management information flow is not enforced based on approved authorizations, the network device may become compromised. Information flow control regulates where management information is allowed to travel within a network device. The flow of all management information must be monitored and controlled so it does not introduce any unacceptable risk to the network device or data. \n\nApplication-specific examples of enforcement occur in systems that employ rule sets or establish configuration settings that restrict information system services or message-filtering capability based on message content (e.g., implementing key word searches or using document characteristics).\n\nApplications providing information flow control must be able to enforce approved authorizations for controlling the flow of management information within the system in accordance with applicable policy.",
+  "Documentable": "false"
+}

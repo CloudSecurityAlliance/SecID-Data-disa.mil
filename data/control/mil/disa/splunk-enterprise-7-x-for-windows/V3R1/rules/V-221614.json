@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221614",
+  "rule_id": "SV-221614r961863_rule",
+  "stig_id": "SPLK-CL-000170",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Splunk Enterprise must use TCP for data transmission.",
+  "group_title": "SRG-APP-000516-AU-000340",
+  "idents": {
+    "legacy": [
+      "SV-111325",
+      "V-102375"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23329r416299_chk",
+  "check_content": "Select Settings >> Data Inputs, and verify there are zero inputs configured under UDP. Splunk supports UDP, but it is not permissible to use. \n\nIf any exist, this is a finding.\n\nIf the Web UI is disabled, open an OS command prompt and type:\n\nnetstat -a -p UDP\n\nIf a UDP connection is displayed for 0.0.0.0:514, the instance is listening for Syslog port 514 in UDP, and this is a finding.",
+  "fixtext": "Select Settings >> Data Inputs, and verify there are zero inputs configured under UDP. Remove any that exist and recreate using TCP.\n\nIt is recommended to set these settings before disabling the web UI of the instance in a distributed environment.",
+  "fix_id": "F-23318r416300_fix",
+  "VulnDiscussion": "If the UDP protocol is used for communication, then data packets that do not reach the server are not detected as a data loss. The use of TCP to transport data improves delivery reliability, adds data integrity, and gives the option to encrypt the traffic.",
+  "Documentable": "false"
+}

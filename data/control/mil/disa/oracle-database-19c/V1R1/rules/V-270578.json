@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270578",
+  "rule_id": "SV-270578r1065012_rule",
+  "stig_id": "O19C-00-017600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to Oracle Database files must be limited to relevant processes and to authorized, administrative users.",
+  "group_title": "SRG-APP-000243-DB-000374",
+  "idents": {
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-74611r1065010_chk",
+  "check_content": "Review the permissions granted to users on the database files, database log files and database backup files. \n\nTo obtain a list of users and roles that have been granted access to any dictionary table, run the query:\nSELECT unique grantee from dba_tab_privs where table_name in\n(select table_name from dictionary)\norder by grantee;\n\nTo obtain a list of dictionary tables and assigned privileges granted to a specific user or role, run the query:\nSELECT grantee, table_name, privilege from dba_tab_privs where table_name in\n(select table_name from dictionary)\nand grantee = '<applicable account>';\n\nIf any user/role who is not an authorized system administrator with a need to know or database administrator with a need to know, or a system account for running DBMS processes, is permitted to read/view any of these files, this is a finding.",
+  "fixtext": "Configure the permissions of the database files, database log files, and database backup files so that only relevant system accounts and authorized system administrators and database administrators with a need to know are permitted to read/view these files.",
+  "fix_id": "F-74512r1065011_fix",
+  "VulnDiscussion": "Applications, including database management systems (DBMSs), must prevent unauthorized and unintended information transfer via shared system resources. Permitting only DBMS processes and authorized, administrative users to have access to the files where the database resides helps ensure that those files are not shared inappropriately and are not open to backdoor access and manipulation.",
+  "Documentable": "false"
+}

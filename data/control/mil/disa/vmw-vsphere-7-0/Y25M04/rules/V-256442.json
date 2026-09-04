@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256442",
+  "rule_id": "SV-256442r958408_rule",
+  "stig_id": "ESXI-70-000090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host rhttpproxy daemon must use FIPS 140-2 validated cryptographic modules to protect the confidentiality of remote access sessions.",
+  "group_title": "SRG-OS-000033-VMM-000140",
+  "idents": {
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-60117r886105_chk",
+  "check_content": "From an ESXi shell, run the following command:\n\n# esxcli system security fips140 rhttpproxy get\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$esxcli.system.security.fips140.rhttpproxy.get.invoke()\n\nExpected result:\n\nEnabled: true\n\nIf the output does not match the expected result, this is a finding.",
+  "fixtext": "From an ESXi shell, run the following command:\n\n# esxcli system security fips140 rhttpproxy set -e true\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$arguments = $esxcli.system.security.fips140.rhttpproxy.set.CreateArgs()\n$arguments.enable = $true\n$esxcli.system.security.fips140.rhttpproxy.set.Invoke($arguments)",
+  "fix_id": "F-60060r886106_fix",
+  "VulnDiscussion": "ESXi runs a reverse proxy service called rhttpproxy that front ends internal services and application programming interfaces (APIs) over one HTTPS port by redirecting virtual paths to localhost ports. \n\nThis proxy implements a FIPS 140-2 validated OpenSSL cryptographic module that is in FIPS mode by default. This configuration must be validated and maintained to protect the traffic that rhttpproxy manages.",
+  "Documentable": "false"
+}

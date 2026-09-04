@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207597",
+  "rule_id": "SV-207597r879887_rule",
+  "stig_id": "BIND-9X-001620",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "On a BIND 9.x server all root name servers listed in the local root zone file hosted on a BIND 9.x authoritative name server must be valid for that zone.",
+  "group_title": "SRG-APP-000516-DNS-000102",
+  "idents": {
+    "legacy": [
+      "SV-87135",
+      "V-72511"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-7852r283845_chk",
+  "check_content": "If this is an authoritative name server, this is Not Applicable.\n\nIdentify the local root zone file in named.conf:\n\nzone \".\" IN {\ntype hint;\nfile \"<file_name>\"\n};\n\nExamine the local root zone file.\n\nIf the local root zone file lists domains outside of the name server’s primary domain, this is a finding.",
+  "fixtext": "Edit the local root zone file.\n\nRemove any reference to a domain that is outside of the name server’s primary domain.\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-7852r283846_fix",
+  "VulnDiscussion": "All caching name servers must be authoritative for the root zone because, without this starting point, they would have no knowledge of the DNS infrastructure and thus would be unable to respond to any queries. The security risk is that an adversary could change the root hints and direct the caching name server to a bogus root server. At that point, every query response from that name server is suspect, which would give the adversary substantial control over the network communication of the name servers' clients.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-251386",
+  "rule_id": "SV-251386r806113_rule",
+  "stig_id": "NET2004",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Rapid Spanning Tree Protocol (STP) must be implemented at the access and distribution layers where Virtual Local Area Networks (VLANs) span multiple switches.",
+  "group_title": "NET2004",
+  "idents": {
+    "legacy": [
+      "V-66361",
+      "SV-80851"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-54821r806111_chk",
+  "check_content": "In cases where VLANs do not span multiple switches it is a best practice to not implement STP. Avoiding the use of STP will provide the most deterministic and highly available network topology.  If STP is required, then review the switch configuration to verify that RSTP or MSTP has been implemented. Following are example configurations:\n\nRSTP\n\nspanning-tree mode rapid-pvst\n\nMST\n\nspanning-tree mode mst\nspanning-tree mst configuration\n name Region1\n revision 1\n instance 1 vlan 10, 11, 12\n instance 2 vlan 13, 14\n\nIf RSTP or MSTP has not been implemented where STP is required, this is a finding.\n\nNote: Note: Cisco has implemented RSTP as part of MSTP and Rapid-PVST+.",
+  "fixtext": "Configure Rapid STP be implemented at the access and distribution layers where VLANs span multiple switches.",
+  "fix_id": "F-54774r806112_fix",
+  "VulnDiscussion": "Spanning Tree Protocol (STP) is implemented on bridges and switches to prevent Layer 2 loops when a broadcast domain spans multiple bridges and switches and when redundant links are provisioned to provide high availability in case of link failures. Convergence time can be significantly reduced using Rapid STP (802.1w) instead of STP (802.1d), resulting in improved availability. Rapid STP should be deployed by implementing either Rapid Per-VLAN-Spanning-Tree (Rapid-PVST) or Multiple Spanning-Tree Protocol (MSTP), the later scales much better when there are many VLANs.",
+  "Documentable": "false"
+}

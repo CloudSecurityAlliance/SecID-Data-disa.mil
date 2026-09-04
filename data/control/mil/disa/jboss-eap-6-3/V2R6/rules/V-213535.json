@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213535",
+  "rule_id": "SV-213535r961095_rule",
+  "stig_id": "JBOS-AS-000355",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The JBoss server must separate hosted application functionality from application server management functionality.",
+  "group_title": "SRG-APP-000211-AS-000146",
+  "idents": {
+    "legacy": [
+      "SV-76787",
+      "V-62297"
+    ],
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-14758r296271_chk",
+  "check_content": "If JBoss is not started with separate management and public interfaces, this is a finding.\n\nReview the network design documents to identify the IP address space for the management network.  \n\nUse relevant OS commands and administrative techniques to determine how the system administrator starts the JBoss server.  This includes interviewing the system admin, using the \"ps -ef|grep\" command for UNIX like systems or checking command line flags and properties on batch scripts for Windows systems.  \n\nEnsure the startup syntax used to start JBoss specifies a management network address and a public network address.\n\nThe \"-b\" flag specifies the public address space.\nThe \"-bmanagement\" flag specifies the management address space.\n\nExample:\n<JBOSS_HOME>/bin/standalone.sh -bmanagement 10.10.10.35 -b 192.168.10.25\n\nIf JBoss is not started with separate management and public interfaces, this is a finding.",
+  "fixtext": "Start the application server with a -bmanagement and a -b flag so that admin management functionality and hosted applications are separated.\n\nRefer to section 4.9 in the JBoss EAP 6.3 Installation Guide for specific instructions on how to start the JBoss server as a service.",
+  "fix_id": "F-14756r296272_fix",
+  "VulnDiscussion": "The application server consists of the management interface and hosted applications.  By separating the management interface from hosted applications, the user must authenticate as a privileged user to the management interface before being presented with management functionality.  This prevents non-privileged users from having visibility to functions not available to the user.  By limiting visibility, a compromised non-privileged account does not offer information to the attacker or functionality and information needed to further the attack on the application server.\n\nJBoss is designed to operate with separate application and management interfaces.\nThe JBoss server is started via a script.  To start the JBoss server in domain mode, the admin will execute the <JBOSS_HOME>/bin/domain.sh or domain.bat script.\n\nTo start the JBoss server in standalone mode, the admin will execute <JBOSS_HOME>/bin/standalone.bat or standalone.sh.\n\nCommand line flags are used to specify which network address is used for management and which address is used for public/application access.",
+  "Documentable": "false"
+}

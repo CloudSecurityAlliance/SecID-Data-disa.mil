@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256376",
+  "rule_id": "SV-256376r959010_rule",
+  "stig_id": "ESXI-70-000002",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must verify the DCUI.Access list.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-60051r885907_chk",
+  "check_content": "For environments that do not use vCenter server to manage ESXi, this is not applicable.\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"DCUI.Access\" value and verify only the root user is listed.\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name DCUI.Access and verify it is set to root.\n\nIf the \"DCUI.Access\" is not restricted to \"root\", this is a finding.\n\nNote: This list is only for local user accounts and should only contain the root user.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"DCUI.Access\" value and configure it to \"root\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name DCUI.Access | Set-AdvancedSetting -Value \"root\"",
+  "fix_id": "F-59994r885908_fix",
+  "VulnDiscussion": "Lockdown mode disables direct host access, requiring that administrators manage hosts from vCenter Server. However, if a host becomes isolated from vCenter, the administrator is locked out and can no longer manage the host. \n\nThe \"DCUI.Access\" advanced setting allows specified users to exit lockdown mode in such a scenario. If the Direct Console User Interface (DCUI) is running in strict lockdown mode, this setting is ineffective.",
+  "Documentable": "false"
+}

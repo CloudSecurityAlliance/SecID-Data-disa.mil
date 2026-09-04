@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261307",
+  "rule_id": "SV-261307r996392_rule",
+  "stig_id": "SLEM-05-232110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The sticky bit must be set on all SLEM 5 world-writable directories.",
+  "group_title": "SRG-OS-000138-GPOS-00069",
+  "idents": {
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-65036r996390_chk",
+  "check_content": "Verify SLEM 5 prevents unauthorized and unintended information transfer via the shared system resources with the following command:\n\n     > sudo find / \\( -path /.snapshots -o -path /sys -o -path /proc \\) -prune -o -perm -002 -type d -exec ls -lLd {} \\;\n     256 0 drwxrwxrwt 1 root root 4096 Jun 14 06:45 /tmp\n\nIf any of the returned directories do not have the sticky bit set, or are not documented as having the write permission for the other class, this is a finding.",
+  "fixtext": "Configure SLEM 5 shared system resources to prevent any unauthorized and unintended information transfer by setting the sticky bit for all world-writable directories.\n\nAn example of a world-writable directory is \"/tmp\" directory. Set the sticky bit on all of the world-writable directories (using the \"/tmp\" directory as an example) with the following command:\n\n     > sudo chmod 1777 /tmp\n\nFor every world-writable directory, replace \"/tmp\" in the command above with the world-writable directory that does not have the sticky bit set.",
+  "fix_id": "F-64944r996391_fix",
+  "VulnDiscussion": "Preventing unauthorized information transfers mitigates the risk of information, including encrypted representations of information, produced by the actions of prior users/roles (or the actions of processes acting on behalf of prior users/roles) from being available to any current users/roles (or current processes) that obtain access to shared system resources (e.g., registers, main memory, and hard disks) after those resources have been released back to information systems. The control of information in shared resources is also commonly referred to as object reuse and residual information protection.\n\nThis requirement generally applies to the design of an information technology product, but it can also apply to the configuration of particular information system components that are, or use, such products. This can be verified by acceptance/validation processes in DOD or other government agencies.\n\nThere may be shared resources with configurable protections (e.g., files in storage) that may be assessed on specific information system components.",
+  "Documentable": "false"
+}

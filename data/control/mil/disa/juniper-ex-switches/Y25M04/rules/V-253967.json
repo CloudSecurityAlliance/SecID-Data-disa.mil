@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253967",
+  "rule_id": "SV-253967r997518_rule",
+  "stig_id": "JUEX-L2-000200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must not be configured with VLANs used for L2 control traffic assigned to any host-facing access interface.",
+  "group_title": "SRG-NET-000512-L2S-000008",
+  "idents": {
+    "cci": [
+      "CCI-004891"
+    ]
+  },
+  "check_id": "C-57419r843932_chk",
+  "check_content": "Review the switch configurations and verify all access interfaces are assigned to a configured VLAN not used for L2 control traffic.\n\nIf assigning via interface-range, the configuration will be similar to the example.\n[edit interfaces]\ninterface-range <name> {\n    member <interface name>;\n    member-range <starting interface name> to <ending interface name>; <<< Member ranges are contiguous from <start interface> to <end interface> inclusive\n    unit 0 {\n        family ethernet-switching {\n            vlan {\n                members <vlan name>;\n            }\n        }\n    }\n}\n\nIf assigning individually, the configuration will be similar to the example.\n[edit interfaces]\n<interface name> {\n    unit 0 {\n        family ethernet-switching {\n            vlan {\n                members <vlan name>;\n            }\n        }\n    }\n}\n\nVerify the assigned VLANs are configured. \n[edit vlans]\n<vlan name> {\n    vlan-id <VLAN ID>;\n}\nNote: Assigning interfaces to a VLAN automatically removes them from the default VLAN.\n\nIf there are access interfaces assigned to the VLANs used for L2 control traffic, this is a finding.",
+  "fixtext": "Assign all access interfaces to a VLAN not used for L2 control traffic.\n\nInterface range configuration:\nset interfaces interface-range name member <interface name>\nset interfaces interface-range name member-range <starting interface name> to <ending interface name>\nset interfaces interface-range name unit 0 family ethernet-switching vlan members <vlan name>\n\nIndividual interface configuration:\nset interfaces <interface name> unit 0 family ethernet-switching vlan members <vlan name>\n\nConfigure the VLAN:\nset vlans <vlan name> vlan-id <VLAN ID>",
+  "fix_id": "F-57370r843933_fix",
+  "VulnDiscussion": "In a switched Ethernet network, some protocols use L2 Protocol Data Units (PDU) to communicate in-band management or other control information. This control traffic is inappropriate for host-facing access interfaces because those devices are not part of the switching infrastructure. Juniper switches do not automatically carry this L2 control traffic in the default VLAN or automatically assign the default VLAN to all trunks, reducing the scope of potential misuse. Preventing host-facing access interfaces from participating in the L2 control traffic communications further reduces the risk of inadvertent (or malicious) interference.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230401",
+  "rule_id": "SV-230401r1017207_rule",
+  "stig_id": "RHEL-08-030120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 audit log directory must have a mode of 0700 or less permissive to prevent unauthorized read access.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162"
+    ]
+  },
+  "check_id": "C-33070r567949_chk",
+  "check_content": "Verify the audit log directories have a mode of \"0700\" or less permissive by first determining where the audit logs are stored with the following command:\n\n$ sudo grep -iw log_file /etc/audit/auditd.conf\n\nlog_file = /var/log/audit/audit.log\n\nUsing the location of the audit log, determine the directory where the audit logs are stored (ex: \"/var/log/audit\"). Run the following command to determine the permissions for the audit log folder:\n\n$ sudo stat -c \"%a %n\" /var/log/audit\n\n700 /var/log/audit\n\nIf the audit log directory has a mode more permissive than \"0700\", this is a finding.",
+  "fixtext": "Configure the audit log directory to be protected from unauthorized read access by setting the correct permissive mode with the following command:\n\n$ sudo chmod 0700 [audit_log_directory]\n\nReplace \"[audit_log_directory]\" to the correct audit log directory path, by default this location is \"/var/log/audit\".",
+  "fix_id": "F-33045r567950_fix",
+  "VulnDiscussion": "Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.\n\nAudit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit RHEL 8 system activity.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029",
+  "Documentable": "false"
+}

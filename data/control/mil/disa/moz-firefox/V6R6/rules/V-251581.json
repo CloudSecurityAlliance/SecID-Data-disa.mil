@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251581",
+  "rule_id": "SV-251581r960963_rule",
+  "stig_id": "FFOX-00-000037",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Firefox encrypted media extensions must be disabled.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-55016r807213_chk",
+  "check_content": "Type \"about:policies\" in the browser address bar. \n\nIf \"EncryptedMediaExtensions\" is not displayed under Policy Name or the Policy Value does not have \"Enabled\" set to \"false\" or the Policy Value does not have \"Locked\" set to \"true\", this is a finding.",
+  "fixtext": "Windows group policy:\n1. Open the group policy editor tool with \"gpedit.msc\".\n2. Navigate to Policy Path: Computer Configuration\\Administrative Templates\\Mozilla\\Firefox\\Encrypted Media Extensions\nPolicy Name: Enable Encrypted Media Extensions\nPolicy State: Disabled\nPolicy Name: Lock Encrypted Media Extensions\nPolicy State: Enabled\n\nmacOS \"plist\" file:\n<key>EncryptedMediaExtensions</key>\n  <dict>\n    <key>Enabled</key>\n    <false/>\n    <key>Locked</key>\n    <true/> \n\nLinux \"policies.json\" file:\nAdd the following in the policies section:\n\"EncryptedMediaExtensions\": {\n  \"Enabled\": false,\n  \"Locked\": true\n}",
+  "fix_id": "F-54970r807214_fix",
+  "VulnDiscussion": "Enable or disable Encrypted Media Extensions and optionally lock it.\n\nIf \"Enabled\" is set to \"false\", Firefox does not download encrypted media extensions (such as Widevine) unless the user consents to installing them.\n\nIf \"Locked\" is set to \"true\" and \"Enabled\" is set to \"false\", Firefox will not download encrypted media extensions (such as Widevine) or ask the user to install them.\n\nIt is detrimental for applications to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nApplications are capable of providing a wide variety of functions and services. Some of the functions and services, provided by default, may not be necessary to support essential organizational operations (e.g., key missions, functions). \n\nExamples of non-essential capabilities include but are not limited to advertising software or browser plug-ins that are not related to requirements or provide a wide array of functionality not required for every mission but that cannot be disabled.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-65231",
+  "rule_id": "SV-79721r1_rule",
+  "stig_id": "WSDP-AG-000045",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DataPower Gateway providing content filtering must not have a front side handler configured facing an internal network.",
+  "group_title": "SRG-NET-000192-ALG-000121",
+  "idents": {
+    "cci": [
+      "CCI-001094"
+    ]
+  },
+  "check_id": "C-65859r1_chk",
+  "check_content": "From the initial Web interface screen (the Control Panel), select Objects >> Protocol Handlers >>HTTPS Front Side Handler.\n\nClick on each of the Handlers in the list that appears >> Click the Advanced tab of the Handler configuration >> Verify that there is an Access Control List selected >> Click the ellipses (…) button beside the list.\n\nOn the Access Control List page, click the Entry tab >> Verify that the network segments representing internal networks are denied.\n\nIf these items are not configured, this is a finding.",
+  "fixtext": "From the initial Web interface screen (the Control Panel), select Objects >> Protocol Handlers >> HTTPS Front Side Handler. \n \nClick on each of the Handlers in the list that appears >> Click the Advanced tab of the Handler configuration.\n \nFor the Access Control List field, click “+” to create a new ACL >> Enter a name for the List >> Click the Entry tab >> Click Add >> Select Deny and set the Address Range to network segments representing internal networks >> Click Apply.",
+  "fix_id": "F-71171r1_fix",
+  "VulnDiscussion": "DoS attacks can take multiple forms but have the common objective of overloading or blocking a network or host to deny or seriously degrade performance. If the network does not provide safeguards against DoS attack, network resources will be unavailable to users.\n\nInstallation of an ALG at key boundaries in the architecture mitigates the risk of DoS attacks. These attacks can be detected by matching observed communications traffic with patterns of known attacks and monitoring for anomalies in traffic volume/type.\n\nThe ALG must include protection against DoS attacks that originate from inside the enclave which can affect either internal or external systems. These attacks may use legitimate or rogue endpoints from inside the enclave. These attacks can be simple \"floods\" of traffic to saturate circuits or devices, malware that consumes CPU and memory on a device or causes it to crash, or a configuration issue that disables or impairs the proper function of a device. For example, an accidental or deliberate misconfiguration of a routing table can misdirect traffic for multiple networks.\n\nTo comply with this requirement, the ALG must monitor outbound traffic for indications of known and unknown DoS attacks. Audit log capacity management along with techniques which prevent the logging of redundant information during an attack also guard against DoS attacks.",
+  "Documentable": "false"
+}

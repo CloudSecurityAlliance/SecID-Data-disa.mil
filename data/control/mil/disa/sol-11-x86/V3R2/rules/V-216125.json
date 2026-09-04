@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216125",
+  "rule_id": "SV-216125r987814_rule",
+  "stig_id": "SOL-11.1-040450",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The operating system, upon successful logon, must display to the user the date and time of the last logon (access).",
+  "group_title": "SRG-OS-000025",
+  "idents": {
+    "legacy": [
+      "V-48131",
+      "SV-61003"
+    ],
+    "cci": [
+      "CCI-000052"
+    ]
+  },
+  "check_id": "C-17363r372757_chk",
+  "check_content": "Determine if last login will be printed for SSH users.\n\n# grep PrintLastLog /etc/ssh/sshd_config\n\nIf PrintLastLog is found, not preceded with a \"#\" sign, and is set to \"no\", this is a finding.\n\nPrintLastLog should either not exist (defaulting to yes) or exist and be set to yes.",
+  "fixtext": "The root role is required for this action.\n\n# pfedit /etc/ssh/sshd_config\n\nLocate the line containing:\n\nPrintLastLog no\n\nand place a comment sign (\"# \")at the beginning of the line or delete the line\n\n# PrintLastLog no\n\nRestart the ssh service\n\n# pfexec svcadm restart svc:/network/ssh",
+  "fix_id": "F-17361r372758_fix",
+  "VulnDiscussion": "Users need to be aware of activity that occurs regarding their account. Providing users with information regarding the date and time of their last successful login allows the user to determine if any unauthorized activity has occurred and gives them an opportunity to notify administrators.",
+  "Documentable": "false"
+}

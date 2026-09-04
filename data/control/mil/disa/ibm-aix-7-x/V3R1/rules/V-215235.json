@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215235",
+  "rule_id": "SV-215235r991589_rule",
+  "stig_id": "AIX7-00-001139",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX removable media, remote file systems, and any file system not containing approved device files must be mounted with the nodev option.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101799",
+      "V-91701"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16433r294156_chk",
+  "check_content": "Identify any file system mounted from removable media, network shares, or file systems not containing any approved device files:\n\n# cat /etc/filesystems\n\n/:\n\n        dev             = /dev/hd4\n        vfs             = jfs2\n        log             = /dev/hd8\n        mount           = automatic\n        check           = false\n        type            = bootfs\n        vol             = root\n        free            = true\n\n/home:\n\n        dev       = /dev/hd1\n        vol       = \"/home\"\n        mount     = true\n        check     = true\n        free      = false\n        vfs       = jfs2\n        log       = /dev/hd8\n\n10.17.76.74:/opt/nfs /home/doejohn\n\n        vfs             = nfs\n        log             = /dev/hd8\n        mount           = true\n        options        = nodev \n        account         = false\n\nIf any file system mounted from removable media, network shares, or file systems not containing any approved device files is not using the \"nodev\" option, this is a finding.",
+  "fixtext": "Edit \"/etc/filesystems\" and add the \"options = nodev\" to all entries for remote or removable media file systems, and file systems containing no approved device files.",
+  "fix_id": "F-16431r294157_fix",
+  "VulnDiscussion": "The nodev (or equivalent) mount option causes the system to not handle device files as system devices. This option must be used for mounting any file system not containing approved device files. Device files can provide direct access to system hardware and can compromise security if not protected.",
+  "Documentable": "false"
+}

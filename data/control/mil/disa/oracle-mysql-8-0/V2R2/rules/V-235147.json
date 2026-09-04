@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235147",
+  "rule_id": "SV-235147r960969_rule",
+  "stig_id": "MYS8-00-006100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must uniquely identify and authenticate organizational users (or processes acting on behalf of organizational users).",
+  "group_title": "SRG-APP-000148-DB-000103",
+  "idents": {
+    "cci": [
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-38366r623561_chk",
+  "check_content": "Review MySQL Database Server 8.0 settings to determine whether organizational users are uniquely identified and authenticated when logging on/connecting to the system. \n\nUsing SQL, search for external authentication plugins:\nSELECT PLUGIN_NAME, PLUGIN_STATUS\n       FROM INFORMATION_SCHEMA.PLUGINS\n       WHERE PLUGIN_NAME LIKE '%ldap%' OR PLUGIN_NAME LIKE '%ldap%' OR PLUGIN_NAME LIKE '%pam%';\n\nThis listing will show what is enabled. \n\nIn addition to MySQL password-based internal accounts, there is also support for external accounts:\nLinux PAM (Pluggable Authentication Modules)\nWindows Active Directory (only for Windows MySQL servers)\nNative LDAP \nauth_socket\n\nReview the configuration of the plugin; for link of accounts and permissions to organizational level, run this SQL:\nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables\nWHERE VARIABLE_NAME LIKE 'auth%' ;\n\nThis will show external configuration setup for authentication using an organizational authentication source.\n\nReview users using organizational authentication.  Review the \"authentication_string\" for proper mapping:\nSELECT `user`.`Host`,\n    `user`.`user`,\n    `user`.`plugin`,\n    `user`.`authentication_string`\n    from mysql.user where plugin like 'auth%';\n\nIf organizational users are not uniquely identified and authenticated, this is a finding.\n\nIf accounts are determined to be shared, determine if they are directly accessible to end users. If so, this is a finding.",
+  "fixtext": "Configure MySQL Database Server 8.0 settings to uniquely identify and authenticate all organizational users who log on/connect to the system.\n\nRemove user-accessible shared accounts and use individual user names. \n\nConfigure applications to ensure successful individual authentication prior to shared account access. \n\nEnsure each user's identity is received and used in audit data in all relevant circumstances.\n\nInstall appropriate auth plugin, for example LDAP.\nINSTALL PLUGIN authentication_ldap_sasl\n  SONAME 'authentication_ldap_sasl.so';\nINSTALL PLUGIN authentication_ldap_simple\n  SONAME 'authentication_ldap_simple.so';\n\nConfigure\nSET PERSIST authentication_ldap_sasl_server_host='127.0.0.1';\nSET PERSIST authentication_ldap_sasl_bind_base_dn='dc=example,dc=com';\nSET PERSIST authentication_ldap_simple_server_host='127.0.0.1';\nSET PERSIST authentication_ldap_simple_bind_base_dn='dc=example,dc=com';\n\nCreate users with proper organizational mapping, for example:\nCREATE USER 'betsy'@'localhost'\n  IDENTIFIED WITH authentication_ldap_simple\n  BY 'uid=betsy_ldap,ou=People,dc=example,dc=com';\n\nAssign appropriate roles and grants.",
+  "fix_id": "F-38329r623562_fix",
+  "VulnDiscussion": "To ensure accountability and prevent unauthenticated access, organizational users must be identified and authenticated to prevent potential misuse and compromise of the system. \n\nOrganizational users include organizational employees or individuals the organization deems to have equivalent status of employees (e.g., contractors). Organizational users (and any processes acting on behalf of users) must be uniquely identified and authenticated for all accesses, except the following:\n\n(i) Accesses explicitly identified and documented by the organization. Organizations document specific user actions that can be performed on the information system without identification or authentication; and \n(ii) Accesses that occur through authorized use of group authenticators without individual authentication. Organizations may require unique identification of individuals in group accounts (e.g., shared privilege accounts) or for detailed accountability of individual activity.",
+  "Documentable": "false"
+}

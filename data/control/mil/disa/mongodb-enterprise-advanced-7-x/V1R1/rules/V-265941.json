@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-265941",
+  "rule_id": "SV-265941r1028609_rule",
+  "stig_id": "MD7X-00-007700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MongoDB must prohibit user installation of logic modules (stored procedures, functions, triggers, views, etc.) without explicit privileged status.",
+  "group_title": "SRG-APP-000378-DB-000365",
+  "idents": {
+    "cci": [
+      "CCI-001812"
+    ]
+  },
+  "check_id": "C-69859r1028607_chk",
+  "check_content": "If MongoDB supports only software development, experimentation and/or developer-level testing (that is, excluding production systems, integration testing, stress testing, and user acceptance testing), this is not a finding.\n\nMongoDB can control nonadministrative users' ability to create, alter, or replace logic modules by defining specific roles and permissions. While MongoDB does not directly support stored procedures, functions, triggers, and views in the way relational databases do, similar functionalities can be implemented using various features. \n\nA organizational- or site-specific document should exist and be reviewed to determine what built-in MongoDB roles and associated privileges may be considered authorized and what users are administrative users.\n\nFor each database, run the following commands in MongoDB as an administrative user to determine what users and roles they are assigned:\n\n> use <database>\n> db.getUsers()\n\nFor any nonadministrative user in a database, check if any roles are not compliant with the site-specific documentation for users. If any user in any database is found to have a role that is not allowed, this is a finding.\n\nMongoDB allows users to store JavaScript functions on the server. Javascript should be disabled for all users.\n\nReview the Mongodb configuration file (default location: /etc/mongod.conf) and ensure the following is set to disable JavaScript:\n\nsecurity:\n  javascriptEnabled: false\n\nIf this is not set in the MongoDB configuration file, this is a finding.",
+  "fixtext": "Revoke unapproved roles from nonadministrative users as per the site-specific document by executing db.revokeRolesFromUser for each user and database:\n\n> use <database>\n> db.revokeRolesFromUser( \"<username>\", [ <roles> ], { <writeConcern> } )\n\nhttps://www.mongodb.com/docs/v7.0/reference/method/db.revokeRolesFromUser/\n\nEdit the MongoDB configuration file (default location: /etc/mongod.conf) to include the following:\n\nsecurity:\n  javascriptEnabled: false",
+  "fix_id": "F-69763r1028608_fix",
+  "VulnDiscussion": "Allowing regular users to install software without explicit privileges creates the risk that untested or potentially malicious software will be installed on the system. Explicit privileges (escalated or administrative privileges) provide the regular user with explicit capabilities and control that exceed the rights of a regular user.\n\nDBMS functionality and the nature and requirements of databases will vary; so while users are not permitted to install unapproved software, there may be instances where the organization allows the user to install approved software packages such as from an approved software repository. The requirements for production servers will be more restrictive than those used for development and research.\n\nMongoDB must enforce software installation by users based upon what types of software installations are permitted (e.g., updates and security patches to existing software) and what types of installations are prohibited (e.g., software whose pedigree with regard to being potentially malicious is unknown or suspect) by the organization.\n\nIn the case of a database management system, this requirement covers stored procedures, functions, triggers, views, etc.",
+  "Documentable": "false"
+}

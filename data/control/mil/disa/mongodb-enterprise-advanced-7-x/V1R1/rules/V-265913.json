@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-265913",
+  "rule_id": "SV-265913r1028525_rule",
+  "stig_id": "MD7X-00-002900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Database objects (including but not limited to tables, indexes, storage, stored procedures, functions, triggers, links to software external to MongoDB, etc.) must be owned by database/DBMS principals authorized for ownership.",
+  "group_title": "SRG-APP-000133-DB-000200",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-69831r1028523_chk",
+  "check_content": "For each database in MongoDB, run the following commands:\n\nuse <database>\ndb.getUsers()\n\nExample output: \n\n{\n      _id: 'admin.user1',\n      userId: UUID('b78e490a-4661-491f-8197-c3251934e785'),\n      user: 'user1',\n      db: 'admin',\n      roles: [\n        { role: 'readWrite', db: 'myDatabase' },\n        { role: 'dbOwner', db: 'myDatabase' },\n        { role: 'dbOwner', db: 'anotherDatabase' }\n      ]\n\nHere, the user named \"user1\" in the \"admin\" database has a role of \"dbOwner\" for the database (db:) \"myDatabase\" and the database (db:) \"anotherDatabase\".\n\nFor users where the role of \"dbOwner\" is found, verify with the organization or site-specific documentation whether the user is authorized for the \"dbOwner\" role on the database resources listed.\n\nIf the user account has the role of \"dbOwner\" but is not authorized for the role for any database listed in their output, this is a finding.",
+  "fixtext": "For each user identified as having a \"dbOwner\" role on a database they are not authorized for, revoke the \"dbOwner\" role from that user on that database by running the following commands:\n\nuse <database>\ndb.revokeRolesFromUser() command\n\nhttps://www.mongodb.com/docs/v7.0/reference/command/revokeRolesFromUser/\n\nExample to revoke \"dbOwner\" role from \"user1\" on the \"anotherDatabase\" in the \"admin\" database:\n\nuse admin\ndb.revokeRolesFromUser(\n    \"user1\",\n    [\n        { role: \"dbOwner\", db: \"anotherDatabase\" }\n    ]\n)",
+  "fix_id": "F-69735r1028524_fix",
+  "VulnDiscussion": "Within the database, object ownership implies full privileges to the owned object, including the privilege to assign access to the owned objects to other subjects. Database functions and procedures can be coded using definer's rights. This allows anyone who uses the object to perform the actions if they were the owner. If not properly managed, this can lead to privileged actions being taken by unauthorized individuals.\n\nConversely, if critical tables or other objects rely on unauthorized owner accounts, these objects may be lost when an account is removed.",
+  "Documentable": "false"
+}

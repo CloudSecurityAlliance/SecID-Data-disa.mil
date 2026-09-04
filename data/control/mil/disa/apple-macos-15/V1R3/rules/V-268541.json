@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268541",
+  "rule_id": "SV-268541r1034563_rule",
+  "stig_id": "APPL-15-003014",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must remove password hints from user accounts.",
+  "group_title": "SRG-OS-000079-GPOS-00047",
+  "idents": {
+    "cci": [
+      "CCI-000206"
+    ]
+  },
+  "check_id": "C-72571r1034561_chk",
+  "check_content": "Verify the macOS system is configured to remove password hints from user accounts with the following command:\n\nHINT=$(/usr/bin/dscl . -list /Users hint | /usr/bin/awk '{ print $2 }')\n\nif [ -z \"$HINT\" ]; then\n  echo \"PASS\"\nelse\n  echo \"FAIL\"\nfi\n\nIf the result is not \"PASS\", this is a finding.",
+  "fixtext": "Configure the macOS system to remove password hints from user accounts with the following command:\n\nfor u in $(/usr/bin/dscl . -list /Users UniqueID | /usr/bin/awk '$2 > 500 {print $1}'); do\n  /usr/bin/dscl . -delete /Users/$u hint\ndone",
+  "fix_id": "F-72472r1034562_fix",
+  "VulnDiscussion": "User accounts must not contain password hints.\n\nPassword hints leak information about passwords in use and can lead to loss of confidentiality.",
+  "Documentable": "false"
+}

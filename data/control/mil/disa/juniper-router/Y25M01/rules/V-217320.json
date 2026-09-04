@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217320",
+  "rule_id": "SV-217320r1050856_rule",
+  "stig_id": "JUNI-ND-000470",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured to prohibit the use of all unnecessary and nonsecure functions and services.",
+  "group_title": "SRG-APP-000142-NDM-000245",
+  "idents": {
+    "legacy": [
+      "SV-101225",
+      "V-91125"
+    ],
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-18547r296538_chk",
+  "check_content": "Review the services that have been enabled as shown in the following configuration example:\n    services {\n        finger;\n        telnet;\n        xnm-clear-text;\n        netconf {\n            ssh;\n        }\n    }\n\nServices such as finger, telnet, and clear text-based JUNOScript connections should never be enabled. Other services such as Netconf, FTP, DHCP, and SSL-based JUNOScript connections should only be enabled if operationally required.\n\nIf the router is not configured to prohibit the use of all unnecessary and non-secure functions and services, this is a finding.",
+  "fixtext": "Disable the following services if enabled as shown in the example below.\n\n[edit system services]\ndelete telnet\ndelete finger\ndelete xnm-clear-text",
+  "fix_id": "F-18545r296539_fix",
+  "VulnDiscussion": "Network devices are capable of providing a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., email and web services); however, doing so increases risk over limiting the services provided by any one component. \n\nTo support the requirements and principles of least functionality, the network device must support the organizational requirements providing only essential capabilities and limiting the use of ports, protocols, and/or services to only those required, authorized, and approved. Some network devices have capabilities enabled by default; if these capabilities are not necessary, they must be disabled. If a particular capability is used, then it must be documented and approved.",
+  "Documentable": "false"
+}

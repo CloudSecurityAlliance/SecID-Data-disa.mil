@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207595",
+  "rule_id": "SV-207595r879887_rule",
+  "stig_id": "BIND-9X-001612",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "On a BIND 9.x server all authoritative name servers for a zone must be located on different network segments.",
+  "group_title": "SRG-APP-000516-DNS-000087",
+  "idents": {
+    "legacy": [
+      "SV-87131",
+      "V-72507"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-7850r283839_chk",
+  "check_content": "Verify that each name server listed on the BIND 9.x server is on a separate network segment.\n\nInspect the \"named.conf\" file and identify all of the zone files that the BIND 9.x server is using.\n\nzone \"example.com\" {\nfile \"zone_file\";\n};\n\nInspect each zone file and identify each A record for each NS record listed:\n\nns1.example.com 86400 IN A 192.168.1.4\nns2.example.com 86400 IN A 192.168.2.4\n\nIf there are name servers listed in the zone file that are not on different network segments for the specified domain, this is a finding.",
+  "fixtext": "Edit the zone file and configure each name server on a separate network segment.",
+  "fix_id": "F-7850r283840_fix",
+  "VulnDiscussion": "Most enterprises have an authoritative primary server and a host of authoritative secondary name servers. It is essential that these authoritative name servers for an enterprise be located on different network segments. This dispersion ensures the availability of an authoritative name server not only in situations in which a particular router or switch fails but also during events involving an attack on an entire network segment.",
+  "Documentable": "false"
+}

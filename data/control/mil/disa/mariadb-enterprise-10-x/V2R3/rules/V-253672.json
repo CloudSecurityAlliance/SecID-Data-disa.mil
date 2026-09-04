@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253672",
+  "rule_id": "SV-253672r960885_rule",
+  "stig_id": "MADB-10-000700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must be able to generate audit records when privileges/permissions are retrieved.",
+  "group_title": "SRG-APP-000091-DB-000066",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-57124r841539_chk",
+  "check_content": "Verify the MariaDB Enterprise Audit plugin is loaded and actively logging:\n\nMariaDB> SHOW GLOBAL STATUS LIKE 'Server_audit_active';\n\nIf the MariaDB Enterprise Audit is not active, this is a finding. \n\nCheck what filters are in place by running the following as an administrative user: \n\nMariaDB> SELECT * FROM mysql.server_audit_filters;\n\nVerify query_events ALL is included in corresponding audit filters. If not, this is a finding.\n\nMariaDB> SHOW GLOBAL VARIABLES LIKE 'server_audit_file_path';\n\nAs a Linux user with sufficient privileges to view logs, tail the audit log file.\n\n$ tail -f /var/log/mysql/server_audit.log (default location)\n\nIn another terminal run: \n\nMariaDB> SHOW GRANTS;\n\nIf an audit record is not produced in the first terminal, this is a finding.",
+  "fixtext": "The MariaDB Enterprise Audit plugin can be configured to audit these changes. \n\nUpdate necessary audit filters to include query_event ALL. Example: \n\nMariaDB> DELETE FROM mysql.server_audit_filters WHERE filtername = 'default';\n\nMariaDB> INSERT INTO mysql.server_audit_filters (filtername, rule)\n   VALUES ('default',\n      JSON_COMPACT(\n         '{\n            \"connect_event\": [\n               \"CONNECT\",\n               \"DISCONNECT\"\n            ],\n            \"query_event\": [\n                \"ALL\"\n            ]\n         }'\n      ));",
+  "fix_id": "F-57075r841540_fix",
+  "VulnDiscussion": "Under some circumstances, it may be useful to monitor who/what is reading privilege/permission/role information. Therefore, it must be possible to configure auditing to do this. MariaDB makes such information available through an audit log file.\n\nThis requirement addresses explicit requests for privilege/permission/role membership information. It does not refer to the implicit retrieval of privileges/permissions/role memberships that MariaDB continually performs to determine if any and every action on the database is permitted.",
+  "Documentable": "false"
+}

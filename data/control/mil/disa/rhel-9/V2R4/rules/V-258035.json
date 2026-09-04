@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-258035",
+  "rule_id": "SV-258035r1045125_rule",
+  "stig_id": "RHEL-09-291015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must have the USBGuard package installed.",
+  "group_title": "SRG-OS-000378-GPOS-00163",
+  "idents": {
+    "cci": [
+      "CCI-001958",
+      "CCI-003959"
+    ]
+  },
+  "check_id": "C-61776r1014858_chk",
+  "check_content": "Verify USBGuard is installed on the operating system with the following command:\n\n$ sudo dnf list installed usbguard\n\nExample output:\n\nInstalled Packages\nusbguard.x86_64          1.0.0-10.el9_1.2          @rhel-9-for-x86_64-appstream-rpms\n\nIf the USBGuard package is not installed, ask the SA to indicate how unauthorized peripherals are being blocked.\n\nIf there is no evidence that unauthorized peripherals are being blocked before establishing a connection, this is a finding.\n\nIf the system is virtual machine with no virtual or physical USB peripherals attached, this is not a finding.",
+  "fixtext": "Install the usbguard package with the following command:\n\n$ sudo dnf install usbguard\n\nEnable the service to start on boot and then start it with the following commands:\n$ sudo systemctl enable usbguard\n$ sudo systemctl start usbguard\n\nVerify the status of the service with the following command:\n$ sudo systemctl status usbguard\n\nNote: usbguard will need to be configured to allow authorized devices once it is enabled on RHEL 9.",
+  "fix_id": "F-61700r1045124_fix",
+  "VulnDiscussion": "The USBguard-daemon is the main component of the USBGuard software framework. It runs as a service in the background and enforces the USB device authorization policy for all USB devices. The policy is defined by a set of rules using a rule language described in the usbguard-rules.conf file. The policy and the authorization state of USB devices can be modified during runtime using the usbguard tool.\n\nThe system administrator (SA) must work with the site information system security officer (ISSO) to determine a list of authorized peripherals and establish rules within the USBGuard software framework to allow only authorized devices.",
+  "Documentable": "false"
+}

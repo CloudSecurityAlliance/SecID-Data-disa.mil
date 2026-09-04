@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259352",
+  "rule_id": "SV-259352r961863_rule",
+  "stig_id": "WDNS-22-000021",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "For zones split between the external and internal sides of a network, the resource records (RRs) for the external hosts must be separate from the RRs for the internal hosts.",
+  "group_title": "SRG-APP-000516-DNS-000091",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-63091r939759_chk",
+  "check_content": "Log on to the DNS server using the Domain Admin or Enterprise Admin account or Local Administrator account.\n\nPress the Windows key + R and execute \"dnsmgmt.msc\".\n\nOn the opened DNS Manager snap-in from the left pane, expand the server name for the DNS server and then expand \"Forward Lookup Zones\".\n\nFrom the expanded list, click to select the zone.\n\nFor each zone, review the records.\n\nIf any RRs on an internal DNS server resolve to IP addresses located outside the internal DNS server's network, this is a finding.\n\nIf any RRs on an external DNS server resolve to IP addresses located inside the network, this is a finding.",
+  "fixtext": "Remove any RRs from the internal zones for which the resolution is for an external IP address.\n\nRemove any RRs from the external zones for which the resolution is for an internal IP address.",
+  "fix_id": "F-62999r939760_fix",
+  "VulnDiscussion": "Authoritative name servers for an enterprise may be configured to receive requests from both external and internal clients. \n\nExternal clients need to receive RRs that pertain only to public services (public web server, mail server, etc.). \n\nInternal clients need to receive RRs pertaining to public services as well as internal hosts. \n\nThe zone information that serves the RRs on both the inside and the outside of a firewall should be split into different physical files for these two types of clients (one file for external clients and one file for internal clients).",
+  "Documentable": "false"
+}

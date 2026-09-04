@@ -1,0 +1,30 @@
+{
+  "vuln_id": "V-259452",
+  "rule_id": "SV-259452r1009583_rule",
+  "stig_id": "APPL-14-001001",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must be configured to audit all administrative action events.",
+  "group_title": "SRG-OS-000004-GPOS-00004",
+  "idents": {
+    "cci": [
+      "CCI-000018",
+      "CCI-000172",
+      "CCI-001403",
+      "CCI-001404",
+      "CCI-001405",
+      "CCI-003938",
+      "CCI-002234",
+      "CCI-002884",
+      "CCI-004188",
+      "CCI-001814"
+    ]
+  },
+  "check_id": "C-63191r940976_chk",
+  "check_content": "Verify the macOS system is configured to audit privileged access with the following command:\n\n/usr/bin/awk -F':' '/^flags/ { print $NF }' /etc/security/audit_control | /usr/bin/tr ',' '\\n' | /usr/bin/grep -Ec 'ad'\n\nIf \"ad\" is not listed in the output, this is a finding.",
+  "fixtext": "Configure the macOS system to audit privileged access with the following command:\n\n/usr/bin/grep -qE \"^flags.*[^-]ad\" /etc/security/audit_control || /usr/bin/sed -i.bak '/^flags/ s/$/,ad/' /etc/security/audit_control; /usr/sbin/audit -s\n\nA text editor may also be used to implement the required updates to the \"/etc/security/audit_control\" file.",
+  "fix_id": "F-63099r940977_fix",
+  "VulnDiscussion": "Administrative action events include changes made to the system (e.g., modifying authentication policies). If audit records do not include \"ad\" events, it is difficult to identify incidents and to correlate incidents to subsequent events. Audit records can be generated from various components within the information system (e.g., via a module or policy filter).\n\nAdministrative and privileged access, including administrative use of the command line tools \"kextload\" and \"kextunload\" and changes to configuration settings, are logged by way of the \"ad\" flag.\n\nSatisfies: SRG-OS-000004-GPOS-00004,SRG-OS-000239-GPOS-00089,SRG-OS-000240-GPOS-00090,SRG-OS-000241-GPOS-00091,SRG-OS-000327-GPOS-00127,SRG-OS-000365-GPOS-00152,SRG-OS-000392-GPOS-00172,SRG-OS-000458-GPOS-00203,SRG-OS-000471-GPOS-00215,SRG-OS-000471-GPOS-00216,SRG-OS-000476-GPOS-00221",
+  "Documentable": "false"
+}

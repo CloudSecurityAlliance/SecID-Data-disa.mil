@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-268079",
+  "rule_id": "SV-268079r1039591_rule",
+  "stig_id": "ANIX-00-000020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS emergency or temporary user accounts must be provisioned with an expiration time of 72 hours or less.",
+  "group_title": "SRG-OS-000002-GPOS-00002",
+  "idents": {
+    "cci": [
+      "CCI-000016",
+      "CCI-001682"
+    ]
+  },
+  "check_id": "C-72003r1039123_chk",
+  "check_content": "Verify that emergency or temporary accounts have been provisioned with an expiration date of 72 hours.\n\nFor every existing emergency or temporary account, run the following command to obtain its account expiration information.\n\n$ sudo chage -l system_account_name\n\nIf any emergency or temporary accounts have no expiration date set or do not expire within 72 hours, this is a finding.",
+  "fixtext": "Configure the system to terminate emergency or temporary accounts after a 72-hour time period with the following command. Substitute \"system_account_name\" with the account to be created.\n\n$ sudo chage -E \"date -d \"+3 days\" +%Y-%m-%d\" system_account_name",
+  "fix_id": "F-71906r1039124_fix",
+  "VulnDiscussion": "If emergency or temporary user accounts remain active when no longer needed or for an excessive period, these accounts may be used to gain unauthorized access. To mitigate this risk, automated termination of all emergency or temporary accounts must be set upon account creation.\n\nTemporary accounts are established as part of normal account activation procedures when there is a need for short-term accounts without the demand for immediacy in account activation.\n\nEmergency accounts are privileged accounts that are established in response to crisis situations where the need for rapid account activation is required. Therefore, emergency account activation may bypass normal account authorization processes. If these accounts are automatically disabled, system maintenance during emergencies may not be possible, thus adversely affecting system availability. \n\nEmergency accounts are different from infrequently used accounts (i.e., local login accounts used by the organization's system administrators when network or normal login/access is not available). Infrequently used accounts are not subject to automatic termination dates. Emergency accounts are accounts created in response to crisis situations, usually for use by maintenance personnel. The automatic expiration or disabling time period may be extended as needed until the crisis is resolved; however, it must not be extended indefinitely. A permanent account should be established for privileged users who need long-term maintenance accounts.\n\nSatisfies: SRG-OS-000002-GPOS-00002, SRG-OS-000123-GPOS-00064",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221767",
+  "rule_id": "SV-221767r958754_rule",
+  "stig_id": "OL07-00-030201",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured to off-load audit logs onto a different system or storage media from the system being audited.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "legacy": [
+      "SV-108377",
+      "V-99273"
+    ],
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-36288r602458_chk",
+  "check_content": "Verify the \"au-remote\" plugin is configured to always off-load audit logs using the audisp-remote daemon:\n\n# cat /etc/audisp/plugins.d/au-remote.conf | grep -v \"^#\"\n\nactive = yes\ndirection = out\npath = /sbin/audisp-remote\ntype = always\nformat = string\n\nIf \"active\" is not set to \"yes\", \"direction\" is not set to \"out\", \"path\" is not set to \"/sbin/audisp-remote\", \"type is not set to \"always\", or any of the lines are commented out, ask the System Administrator to indicate how the audit logs are off-loaded to a different system or storage media.\n\nIf there is no evidence that the system is configured to off-load audit logs to a different system or storage media, this is a finding.",
+  "fixtext": "Edit the /etc/audisp/plugins.d/au-remote.conf file and add or update the following values:\n\nactive = yes\ndirection = out\npath = /sbin/audisp-remote\ntype = always\n\nThe audit daemon must be restarted for changes to take effect:\n\n# service auditd restart",
+  "fix_id": "F-36252r858453_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.\n\nOne method of off-loading audit logs in Oracle Linux is with the use of the audisp-remote dameon.  Without the configuration of the \"au-remote\" plugin, the audisp-remote daemon will not off load the logs from the system being audited.\n\nSatisfies: SRG-OS-000342-GPOS-00133, SRG-OS-000479-GPOS-00224",
+  "Documentable": "false"
+}

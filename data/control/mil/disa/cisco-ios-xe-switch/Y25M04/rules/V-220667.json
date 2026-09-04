@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220667",
+  "rule_id": "SV-220667r991904_rule",
+  "stig_id": "CISC-L2-000210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must have all disabled switch ports assigned to an unused VLAN.",
+  "group_title": "SRG-NET-000512-L2S-000007",
+  "idents": {
+    "legacy": [
+      "SV-110309",
+      "V-101205"
+    ],
+    "cci": [
+      "CCI-004891"
+    ]
+  },
+  "check_id": "C-22382r507549_chk",
+  "check_content": "Step 1: Review the switch configurations and examine all access switch ports. Each access switch port not in use should have membership to an inactive VLAN. \n\ninterface GigabitEthernet0/0\n switchport access vlan 999\n shutdown\n!\ninterface GigabitEthernet0/1\n switchport access vlan 999\n shutdown\n…\n…\n…\ninterface GigabitEthernet0/9\n switchport access vlan 999\n shutdown\n\nStep 2: Verify that traffic from the inactive VLAN is not allowed on any trunk links as shown in the example below:\n\ninterface GigabitEthernet1/1\n switchport trunk allowed vlan 1-998,1000-4094\n switchport trunk encapsulation dot1q\n switchport mode trunk\n\nNote: Switch ports configured for 802.1x are exempt from this requirement.\n\nIf there are any access switch ports not in use and not in an inactive VLAN, this is a finding.",
+  "fixtext": "Assign all switch ports not in use to an inactive VLAN.\n\nStep 1: Assign the disabled interfaces to an inactive VLAN.\n\nSW3(config)#int range g0/0 – 9\nSW3(config-if-range)# switchport access vlan 999\n\nStep 2: Configure trunk links to not allow traffic from the inactive VLAN.\n\nSW3(config)#int g1/1\nSW3(config-if)#switchport trunk allowed vlan except 999",
+  "fix_id": "F-22371r507550_fix",
+  "VulnDiscussion": "It is possible that a disabled port that is assigned to a user or management VLAN becomes enabled by accident or by an attacker and as a result gains access to that VLAN as a member.",
+  "Documentable": "false"
+}

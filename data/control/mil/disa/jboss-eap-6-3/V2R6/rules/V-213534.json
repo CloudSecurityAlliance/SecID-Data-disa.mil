@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213534",
+  "rule_id": "SV-213534r961041_rule",
+  "stig_id": "JBOS-AS-000320",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The JBoss server must be configured to restrict access to the web servers private key to authenticated system administrators.",
+  "group_title": "SRG-APP-000176-AS-000125",
+  "idents": {
+    "legacy": [
+      "SV-76785",
+      "V-62295"
+    ],
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-14757r296268_chk",
+  "check_content": "The default location for the keystore used by the JBoss vault is the <JBOSS_HOME>/vault/ folder.\n\nIf a vault keystore has been created, by default it will be in the file: <JBOSS_HOME>/vault/vault.keystore.  The file stores a single key, with the default alias vault, which will be used to store encrypted strings, such as passwords, for JBoss EAP.\n\nBrowse to the JBoss vault folder using the relevant OS commands.\nReview the file permissions and ensure only system administrators and JBoss users are allowed access.\n\nOwner can be full access\nGroup can be full access\nAll others must be restricted to execute access or no permission.\n\nIf non-system administrators are allowed to access the <JBOSS_HOME>/vault/\nfolder, this is a finding.",
+  "fixtext": "Configure the application server OS file permissions on the corresponding private key to restrict access to authorized accounts or roles.",
+  "fix_id": "F-14755r296269_fix",
+  "VulnDiscussion": "The cornerstone of the PKI is the private key used to encrypt or digitally sign information.\n\nIf the private key is stolen, this will lead to the compromise of the authentication and non-repudiation gained through PKI because the attacker can use the private key to digitally sign documents and can pretend to be the authorized user.\n\nBoth the holders of a digital certificate and the issuing authority must protect the computers, storage devices, or whatever they use to keep the private keys. Java-based application servers utilize the Java keystore, which provides storage for cryptographic keys and certificates. The keystore is usually maintained in a file stored on the file system.",
+  "Documentable": "false"
+}

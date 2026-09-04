@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-250347",
+  "rule_id": "SV-250347r961632_rule",
+  "stig_id": "IBMW-LS-001110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The WebSphere Liberty Server must remove all export ciphers to protect the confidentiality and integrity of transmitted information.",
+  "group_title": "SRG-APP-000439-AS-000274",
+  "idents": {
+    "cci": [
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-53782r795092_chk",
+  "check_content": "Review the ${server.config.dir}/server.xml file and check the \"enabledCiphers\" setting. If any of the ciphers specified in the enabledCiphers setting contains the word \"EXPORT\", this is a finding. \n\n<ssl id=\"myDefaultSSLConfig\"\n       keyStoreRef=\"defaultKeyStore\"\n       trustStoreRef=\"defaultTrustStore\"\n       clientAuthentication=\"true\"\n       sslProtocol=\"TLS\" \n       enabledCiphers=\"SSL_xxx_yyy_zzz\"/>",
+  "fixtext": "Review the ${server.config.dir}/server.xml file and if needed, modify the \"enabledCiphers\" setting for each affected SSL configuration.\n\n<ssl id=\"myDefaultSSLConfig\"\n       keyStoreRef=\"defaultKeyStore\"\n       trustStoreRef=\"defaultTrustStore\"\n       clientAuthentication=\"true\"\n       sslProtocol=\"TLS\" \n       enabledCiphers=\"SSL_xxx_yyy_zzz\"/> \n\nwhere xxx, yyy, and zzz do not contain \"EXPORT\".",
+  "fix_id": "F-53736r795093_fix",
+  "VulnDiscussion": "Export grade encryption suites are not strong and do not meet DoD requirements. The encryption for the session becomes easy for the attacker to break. Do not use export grade encryption.",
+  "Documentable": "false"
+}

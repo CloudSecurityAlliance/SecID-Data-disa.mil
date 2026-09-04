@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-265358",
+  "rule_id": "SV-265358r994297_rule",
+  "stig_id": "NMGR-4X-000102",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The NSX Manager must be configured as a cluster.",
+  "group_title": "SRG-APP-000435-NDM-000315",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-69275r994295_chk",
+  "check_content": "From the NSX Manager web interface, go to System >> Configuration >> Appliances.\n\nVerify three NSX Managers are deployed, a VIP or external load balancer is configured, and the cluster is in a healthy state.\n\nIf three NSX Managers are not deployed, a VIP or external load balancer is not configured, and the cluster is not in a healthy state, this is a finding.",
+  "fixtext": "To add additional NSX Manager appliances do the following:\n\nFrom the NSX Manager web interface, go to System >> Configuration >> Appliances, and then click \"Add NSX Appliance\".\n\nSupply the required information to add additional nodes as needed, up to three total.\n\nTo configure NSX with a cluster VIP or external load balancer, do the following:\n\nFrom the NSX Manager web interface, go to System >> Configuration >> Appliances, and then click \"Set Virtual IP\", enter a VIP that is part of the same subnet as the other management nodes, and then click \"Save\".\n\nTo configure NSX with an external load balancer, setup an external load balancer with the following requirements:\n\n- Configure the external load balancer to control traffic to the NSX Manager nodes.\n- Configure the external load balancer to use the round robin method and configure source persistence for the load balancer's virtual IP.\n- Create or import a signed certificate and apply the same certificate to all the NSX Manager nodes. The certificate must have the FQDN of the virtual IP and each of the nodes in the SAN.\n\nNote: An external load balancer will not work with the NSX Manager VIP. Do not configure an NSX Manager VIP if using an external load balancer.\n\nIf the cluster status is not in a healthy state, identify the degraded component on the appliance and troubleshoot the issue with the error information provided.",
+  "fix_id": "F-69183r994296_fix",
+  "VulnDiscussion": "Failure in a known state can address safety or security in accordance with the mission needs of the organization. Failure to a known secure state helps prevent a loss of confidentiality, integrity, or availability in the event of a failure of the SDN controller. Preserving network element state information helps to facilitate continuous network operations minimal or no disruption to mission-essential workload processes and flows.",
+  "Documentable": "false"
+}

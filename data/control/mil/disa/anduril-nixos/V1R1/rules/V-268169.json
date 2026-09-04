@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268169",
+  "rule_id": "SV-268169r1039395_rule",
+  "stig_id": "ANIX-00-001860",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must prevent the use of dictionary words for passwords.",
+  "group_title": "SRG-OS-000480-GPOS-00225",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-72093r1039393_chk",
+  "check_content": "Verify NixOS prevents the use of dictionary words for passwords with the following command:\n\n$ grep dict /etc/security/pwquality.conf\n\n dictcheck=1\n\nIf the value of \"ocredit\" is a positive number or is commented out, this is a finding.",
+  "fixtext": "Configure NixOS to check password change attempts against a dictionary.\n\nAdd/modify /etc/nixos/configuration.nix to include the following lines:\n\nenvironment.etc.\"/security/pwquality.conf\".text = ''\ndictcheck=1\n'';\n\nRebuild the system with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71996r1039394_fix",
+  "VulnDiscussion": "If the operating system allows the user to select passwords based on dictionary words, then this increases the chances of password compromise by increasing the opportunity for successful guesses and brute-force attacks.",
+  "Documentable": "false"
+}

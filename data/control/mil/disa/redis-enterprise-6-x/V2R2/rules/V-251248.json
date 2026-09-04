@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251248",
+  "rule_id": "SV-251248r961638_rule",
+  "stig_id": "RD6X-00-011600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Redis Enterprise DBMS must maintain the confidentiality and integrity of information during preparation for transmission.",
+  "group_title": "SRG-APP-000441-DB-000378",
+  "idents": {
+    "cci": [
+      "CCI-002420"
+    ]
+  },
+  "check_id": "C-54683r863374_chk",
+  "check_content": "Redis has optional support for TLS on all communication channels, including client connections, replication links, and the Redis Cluster bus protocol.\n\nBy default, each cluster node has a different set of self-signed certificates. These certificates can be replaced with a DoD-acceptable certificate, preferably a certificate issued by an intermediate certificate authority (CA).\n\nFor security reasons, Redis Enterprise only supports only the TLS protocol. Therefore, verify that the Redis client or secured tunnel solution is TLS v1.2 or above.\n\nFirst, verify that the host operating system is encrypted. \n\nIf the host operating system is not encrypted, this is a finding.\n\nIf the host operating system is encrypted, run the following commands and verify that only DoD-approved PKI certificates are present:\n# cd /etc/opt/redislabs\n# ls \n\nVerify the proxy_cert.pem file is present.\n\nIf no certificates are found, this is a finding.\n\nVerify that TLS is configured to be used. To check this:\n1. Log in to the Redis Enterprise web UI as an admin user.\n2. Navigate to the Databases tab and select the database and then configuration.\n3. Review the configuration and verify that TLS is enabled for all communications.\n\nIf TLS is not configured to be used, this is a finding.\n\nTo check the current TLS version, run the following commands on one of the servers that is hosting Redis Enterprise as a privileged user:\n# ccs-cli\n# hgetall min_control_tls_version\n\nIf TLS is not FIPS compliant, this is a finding.",
+  "fixtext": "To configure TLS and configure only organizationally defined CA-signed certificates, refer to the following document: \nhttps://docs.redislabs.com/latest/rs/administering/cluster-operations/updating-certificates/",
+  "fix_id": "F-54637r804933_fix",
+  "VulnDiscussion": "Information can be either unintentionally or maliciously disclosed or modified during preparation for transmission, including, for example, during aggregation, at protocol transformation points, and during packing/unpacking. These unauthorized disclosures or modifications compromise the confidentiality or integrity of the information.\n\nUse of this requirement will be limited to situations where the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process.\n\nWhen transmitting data, the DBMS, associated applications, and infrastructure must leverage transmission protection mechanisms.\n\nFor more detailed information, refer to:\nhttps://docs.redislabs.com/latest/rs/administering/designing-production/security/",
+  "Documentable": "false"
+}

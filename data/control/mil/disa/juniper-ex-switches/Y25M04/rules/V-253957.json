@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253957",
+  "rule_id": "SV-253957r843904_rule",
+  "stig_id": "JUEX-L2-000100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to enable STP Loop Protection on all non-designated STP switch ports.",
+  "group_title": "SRG-NET-000362-L2S-000023",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-57409r843902_chk",
+  "check_content": "Review the switch configuration to verify that STP Loop Protection is enabled on all non-designated STP switch ports.\n\nVerify STP Loop Protection for RSTP and VSTP.\n[edit protocols]\nrstp {\n    interface <interface name> {\n        bpdu-timeout-action {\n            block;\n        }\n    }\n}\nvstp {\n    interface <interface name> {\n        bpdu-timeout-action {\n            block;\n        }\n    }\n}\n\nVerify Loop Protection for all instances on an MSTP interface:\n[protocols]\nmstp {\n    interface <interface name> {\n        bpdu-timeout-action {\n            block;\n        }\n    }\n}\n\nNote: Loop Protection and Root Protection are mutually exclusive and cannot be simultaneously configured on the same interface.\n\nIf STP Loop Protection is not configured on non-designated STP ports, this is a finding.",
+  "fixtext": "Configure the switch to have STP Loop Protection enabled on all non-designated STP interfaces.\n\nRSTP or VSTP non-designated interface loop protection:\nset protocols rstp interface <interface name> bpdu-timeout-action block\nset protocols vstp interface <interface name> bpdu-timeout-action block\n\nAll instances on an MSTP interface:\nset protocols mstp interface <interface name> bpdu-timeout-action block\n\nNote: Loop Protection and Root Protection are mutually exclusive and cannot be simultaneously configured on the same interface.",
+  "fix_id": "F-57360r843903_fix",
+  "VulnDiscussion": "The Spanning Tree Protocol (STP) Loop Protection feature provides additional protection against STP loops. An STP loop is created when an STP blocking port in a redundant topology erroneously transitions to the forwarding state. In its operation, STP relies on continuous reception and transmission of BPDUs based on the port role. The designated port transmits BPDUs, and the non-designated port receives BPDUs. When one of the ports in a physically redundant topology no longer receives BPDUs, the STP conceives that the topology is loop free. Eventually, the blocking port from the alternate or backup port becomes a designated port and moves to a forwarding state. This situation creates a loop. The loop protection feature makes additional checks. If BPDUs are not received on a non-designated port and loop protection is enabled, that port is moved into the STP loop-inconsistent blocking state.",
+  "Documentable": "false"
+}

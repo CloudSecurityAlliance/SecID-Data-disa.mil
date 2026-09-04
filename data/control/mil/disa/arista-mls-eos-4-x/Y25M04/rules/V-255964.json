@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255964",
+  "rule_id": "SV-255964r961863_rule",
+  "stig_id": "ARST-ND-000820",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The network device must be configured to conduct backups of system level information contained in the information system when changes occur.",
+  "group_title": "SRG-APP-000516-NDM-000340",
+  "idents": {
+    "cci": [
+      "CCI-000537"
+    ]
+  },
+  "check_id": "C-59640r882232_chk",
+  "check_content": "Verify the Arista network device is configured with an “event-handler” to complete an incremental backup of the running configuration, which can be maintained in the switch flash memory stored in /mnt/flash/startup-config_directory (filetime):\n\nswitch#show run | section event-handler\nevent-handler CFG_BACKUP\n   trigger on-startup-config\n   action bash buf () { filetime=$(date +%Y%m%d); cp /mnt/flash/startup-config /mnt/flash/startup-config_${filetime}; }; buf\n!\n\nIf the Arista network device is not configured to conduct backups of system-level data when changes occur, this is a finding.",
+  "fixtext": "Configure the Arista network device with an “event-handler” to complete an incremental backup of the running configuration, which can be maintained in the switch flash memory stored in /mnt/flash/startup-config_directory (filetime):\n\nswitch#config\nswitch(config)#event-handler CFG_BACKUP\nswitch(config-handler-CFG_BACKUP)#trigger on-startup-config\nswitch(config-handler-CFG_BACKUP)#action bash buf () { filetime=$(date +%Y%m%d); cp /mnt/flash/startup-config /mnt/flash/startup-config_${filetime}; }; buf\nswitch(config-handler-CFG_BACKUP)#exit\nswitch(config)#exit\n!",
+  "fix_id": "F-59583r882233_fix",
+  "VulnDiscussion": "System-level information includes default and customized settings and security attributes, including ACLs that relate to the network device configuration, as well as software required for the execution and operation of the device. Information system backup is a critical step in ensuring system integrity and availability. If the system fails and there is no backup of the system-level information, a denial of service condition is possible for all who utilize this critical network component.\n\nThis control requires the network device to support the organizational central backup process for system-level information associated with the network device. This function may be provided by the network device itself; however, the preferred best practice is a centralized backup rather than each network device performing discrete backups.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269376",
+  "rule_id": "SV-269376r1050259_rule",
+  "stig_id": "ALMA-09-034780",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must not permit direct logons to the root account using remote access via SSH.",
+  "group_title": "SRG-OS-000109-GPOS-00056",
+  "idents": {
+    "cci": [
+      "CCI-004045"
+    ]
+  },
+  "check_id": "C-73407r1049579_chk",
+  "check_content": "Verify AlmaLinux OS 9 prevents users from logging on directly as \"root\" over SSH with the following command:\n\n$ sshd -T |grep -I permitrootlogin\n\npermitrootlogin no\n\nIf the \"PermitRootLogin\" keyword is set to \"yes\" or \"without-password\", this is a finding.",
+  "fixtext": "To configure the system to prevent users from logging on directly as root over SSH, add or modify the following line in \"/etc/ssh/sshd_config\":\n\nPermitRootLogin no\n\nAlternatively, add the setting to an include file if the line \"Include /etc/ssh/sshd_config.d/*.conf\" is found at the top of the \"/etc/ssh/sshd_config\" file:\n\n$ echo \"PermitRootLogin no\" > /etc/ssh/sshd_config.d/root.conf\n\nRestart the SSH daemon for the settings to take effect:\n\n$ systemctl restart sshd.service",
+  "fix_id": "F-73308r1048505_fix",
+  "VulnDiscussion": "Even though the communications channel may be encrypted, an additional layer of security is gained by extending the policy of not logging directly on as root.\n\nIn addition, logging in with a user-specific account provides individual accountability of actions performed on the system.\n\nThe root account is a known default username, so should not allow direct login as half of the username/password combination is known, making it vulnerable to brute-force password guessing attacks.",
+  "Documentable": "false"
+}

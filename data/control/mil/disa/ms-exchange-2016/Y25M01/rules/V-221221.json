@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221221",
+  "rule_id": "SV-221221r961155_rule",
+  "stig_id": "EX16-ED-000200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange Outbound Connection Limit per Domain Count must be controlled.",
+  "group_title": "SRG-APP-000247",
+  "idents": {
+    "legacy": [
+      "SV-95233",
+      "V-80523"
+    ],
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-22936r411789_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP).\n\nDetermine the value for Maximum Domain Connections.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-TransportService | Select Name, Identity, MaxPerDomainOutboundConnections\n\nIf the value of \"MaxPerDomainOutboundConnections\" is not set to \"20\", this is a finding.\n\nor\n\nIf the value of \"MaxPerDomainOutboundConnections\" is set to a value other than \"20\" and has signoff and risk acceptance in the EDSP, this is not a finding.",
+  "fixtext": "Update the EDSP to reflect the value for Maximum Domain Connections.\n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-TransportService -Identity <'IdentityName'> -MaxPerDomainOutboundConnections 20\n\nNote: The <IdentityName> value must be in single quotes.\n\nor\n\nThe value as identified by the EDSP that has obtained a signoff with risk acceptance.",
+  "fix_id": "F-22925r411790_fix",
+  "VulnDiscussion": "Email system availability depends in part on best practice strategies for setting tuning configurations. This configuration controls the maximum number of simultaneous outbound connections from a domain and works in conjunction with the Maximum Outbound Connections Count setting as a delivery tuning mechanism. If the limit is too low, connections may be dropped. If the limit is too high, some domains may use a disproportionate resource share, denying access to other domains. Appropriate tuning reduces the risk of data delay or loss. \n\nBy default, a limit of 20 simultaneous outbound connections from a domain should be sufficient. The value may be adjusted if justified by local site conditions.",
+  "Documentable": "false"
+}

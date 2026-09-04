@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234219",
+  "rule_id": "SV-234219r917462_rule",
+  "stig_id": "FGFW-ND-000300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate device must limit the number of logon and user sessions.",
+  "group_title": "SRG-APP-000001-NDM-000200",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-37404r917460_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege and open a CLI console available from the GUI.\nor\nConnect via SSH.\n\nRun the following command:\nshow full-configuration sys global | grep -i admin\n\nCheck the output of the following lines:\nset admin-concurrent disable\nset admin-login-max <number as defined by the organization>     \n\nIf set admin-concurrent is not set to disable, this is a finding.\nIf set admin-login-max is not set to a number defined by the organization, this is a finding. The default setting is 100.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege and open a CLI console available from the GUI.\nor\nConnect via SSH.\n\nExecute the following commands:\nconfig system global\nset admin-concurrent disable\nset admin-login-max <number defined by the organization>    \nend\n\nWith the implementation of this requirement, the organization can limit each administrator to one active session and limit the total number of concurrent administrator sessions to a value deemed appropriate.",
+  "fix_id": "F-37369r917461_fix",
+  "VulnDiscussion": "Device management includes the ability to control the number of administrators and management sessions that manage a device. Limiting the number of allowed administrators and sessions per administrator based on account type, role, or access type is helpful in limiting risks related to DoS attacks.\n\nThis requirement addresses concurrent sessions for administrative accounts and does not address concurrent sessions by a single administrator via multiple administrative accounts. The maximum number of concurrent sessions should be defined based upon mission needs and the operational environment for each system. At a minimum, limits must be set for SSH, HTTPS, account of last resort, and root account sessions.",
+  "Documentable": "false"
+}

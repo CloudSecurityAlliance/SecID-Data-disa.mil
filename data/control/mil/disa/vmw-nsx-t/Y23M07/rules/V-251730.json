@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251730",
+  "rule_id": "SV-251730r863248_rule",
+  "stig_id": "TDFW-3X-000026",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The NSX-T Distributed Firewall must be configured to send traffic log entries to a central audit server for management and configuration of the traffic log entries.",
+  "group_title": "SRG-NET-000333-FW-000014",
+  "idents": {
+    "cci": [
+      "CCI-001844"
+    ]
+  },
+  "check_id": "C-55167r810042_chk",
+  "check_content": "Verify NSX-T Distributed Firewall is configured to send traffic log entries to a central audit server for management and configuration of the traffic log entries.\n\nLog in to vSphere vCenter https interface with credentials authorized for administration. Navigate to Browse to the host in the vSphere Client inventory >> Configure >> System >> Advanced System Settings >> Edit >> Syslog.global.LogHost.\n\nVerify a STIG compliant events server is configured.\n\nIf Syslog.global.LogHost is not configured with a STIG compliant events server, this is a finding.",
+  "fixtext": "Change configuration of NSX-T Distributed Firewall to send traffic log entries to a central audit server for management and configuration of the traffic log entries.\n\nLog in to vSphere vCenter https interface with credentials authorized for administration, navigate to Browse to the host in the vSphere Client inventory >> Configure >> System >> Advanced System Settings >> Edit >> Syslog.global.LogHost >> value >> ssl://hostName1:1514 >> OK.\n\nNote: Configure the syslog or SNMP server to send an alert if the events server is unable to receive events from the NSX-T and also if denial-of-service (DoS) incidents are detected. This is true if the events server is STIG compliant.",
+  "fix_id": "F-55121r810043_fix",
+  "VulnDiscussion": "Without the ability to centrally manage the content captured in the traffic log entries, identification, troubleshooting, and correlation of suspicious behavior would be difficult and could lead to a delayed or incomplete analysis of an ongoing attack.\n\nThe DoD requires centralized management of all network component audit record content. Network components requiring centralized traffic log management must have the ability to support centralized management. The content captured in traffic log entries must be managed from a central location (necessitating automation). Centralized management of traffic log records and logs provides for efficiency in maintenance and management of records, as well as the backup and archiving of those records. \n\nEnsure at least one syslog server is configured on the firewall.\n\nIf the product inherently has the ability to store log records locally, the local log must also be secured. However, this requirement is not met since it calls for a use of a central audit server.",
+  "Documentable": "false"
+}

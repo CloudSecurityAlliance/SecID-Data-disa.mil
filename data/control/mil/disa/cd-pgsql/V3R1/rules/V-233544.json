@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233544",
+  "rule_id": "SV-233544r961656_rule",
+  "stig_id": "CD12-00-003700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "When invalid inputs are received, PostgreSQL must behave in a predictable and documented manner that reflects organizational and system objectives.",
+  "group_title": "SRG-APP-000447-DB-000393",
+  "idents": {
+    "cci": [
+      "CCI-002754"
+    ]
+  },
+  "check_id": "C-36738r606855_chk",
+  "check_content": "Review system documentation to determine how input errors from application to PostgreSQL are to be handled in general and if any special handling is defined for specific circumstances.\n\nIf it does not implement the documented behavior, this is a finding.\n\nAs the database administrator (shown here as \"postgres\"), make a small SQL syntax error in psql by running the following:\n\n$ sudo su - postgres\n$ psql -c \"CREAT TABLEincorrect_syntax(id INT)\"\nERROR: syntax error at or near \"CREAT\"\n\nNote: The following instructions use the PGVER and PGLOG environment variables. See supplementary content APPENDIX-H for instructions on configuring PGVER and APPENDIX-I for PGLOG.\n\nAs the database administrator (shown here as \"postgres\"), verify the syntax error was logged (change the log file name and part to suit the circumstances):\n\n$ sudo su - postgres\n$ cat ~/${PGVER?}/data/${PGLOG?}/<latest log>\n2016-03-30 16:18:10.772 EDT postgres postgres 5706bb87.90dERROR: syntax error at or near \"CREAT\" at character 1\n2016-03-30 16:18:10.772 EDT postgres postgres 5706bb87.90dSTATEMENT: CREAT TABLE incorrect_syntax(id INT);\n\nIf no matching log entry containing the 'ERROR: syntax error' is present, this is a finding.",
+  "fixtext": "Enable logging.\n\nTo ensure that logging is enabled, review supplementary content APPENDIX-C for instructions on enabling logging.\n\nAll errors and denials are logged if logging is enabled.",
+  "fix_id": "F-36703r606856_fix",
+  "VulnDiscussion": "A common vulnerability is unplanned behavior when invalid inputs are received. This requirement guards against adverse or unintended system behavior caused by invalid inputs, where information system responses to the invalid input may be disruptive or cause the system to fail into an unsafe state.\n\nThe behavior will be derived from the organizational and system requirements and includes, but is not limited to, notification of the appropriate personnel, creating an audit record, and rejecting invalid input.",
+  "Documentable": "false"
+}

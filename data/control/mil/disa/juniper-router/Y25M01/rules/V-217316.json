@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217316",
+  "rule_id": "SV-217316r960909_rule",
+  "stig_id": "JUNI-ND-000330",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured to generate audit records containing the full-text recording of privileged commands.",
+  "group_title": "SRG-APP-000101-NDM-000231",
+  "idents": {
+    "legacy": [
+      "SV-101217",
+      "V-91117"
+    ],
+    "cci": [
+      "CCI-000135"
+    ]
+  },
+  "check_id": "C-18543r296526_chk",
+  "check_content": "Review the router configuration to verify that it is compliant with this requirement. The configuration example below will log all configuration changes.\n\n   syslog {\n        file LOG_FILE {\n            change-log info;\n        }\n    }\n\nNote: The parameter \"any\" can be in place of \"change-log\" as this will log everything. Also, a syslog server can be configured in addition to or in lieu of logging to a file as shown in the example below.\n\nsystem {\n   syslog {\n        host 10.1.58.2 {\n            any info;\n        }\n    }\n}\n\nIf the router is not configured to generate audit records of configuration changes, this is a finding.",
+  "fixtext": "Configure the router to log all configuration changes as shown in the example below.\n\n[edit system]\nset syslog file LOG_FILE change-log info\n\nNote: The parameter \"any\" can be in place of \"change-log\" as this will log everything. Also, a syslog server can be configured in addition to or in lieu of logging to a file as shown in the example below.\n\nset syslog host 10.1.58.2 any info",
+  "fix_id": "F-18541r296527_fix",
+  "VulnDiscussion": "Reconstruction of harmful events or forensic analysis is not possible if audit records do not contain enough information. \n\nOrganizations consider limiting the additional audit information to only that information explicitly needed for specific audit requirements. The additional information required is dependent on the type of information (i.e., sensitivity of the data and the environment within which it resides). At a minimum, the organization must audit full-text recording of privileged commands. The organization must maintain audit trails in sufficient detail to reconstruct events to determine the cause and impact of compromise.",
+  "Documentable": "false"
+}

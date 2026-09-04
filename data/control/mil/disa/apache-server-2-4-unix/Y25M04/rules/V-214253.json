@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-214253",
+  "rule_id": "SV-214253r1043181_rule",
+  "stig_id": "AS24-U1-000520",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Apache web server must generate a session ID using as much of the character set as possible to reduce the risk of brute force.",
+  "group_title": "SRG-APP-000224-WSR-000138",
+  "idents": {
+    "legacy": [
+      "V-92689",
+      "SV-102777"
+    ],
+    "cci": [
+      "CCI-001188",
+      "CCI-001664"
+    ]
+  },
+  "check_id": "C-15467r881436_chk",
+  "check_content": "Determine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nNote: The apachectl front end is the preferred method for locating the Apache httpd file. For some Linux distributions, \"apache2ctl -V\" or  \"httpd -V\" can also be used. \n\nVerify the \"unique_id_module\" is loaded:\n\nrun httpd -M | grep unique_id \nIf no unique_id is returned, this is a finding.",
+  "fixtext": "Determine the location of the \"HTTPD_ROOT\" directory and the \"httpd.conf\" file:\n\n# apachectl -V | egrep -i 'httpd_root|server_config_file'\n-D HTTPD_ROOT=\"/etc/httpd\"\n-D SERVER_CONFIG_FILE=\"conf/httpd.conf\"\n\nLoad the \"unique_id_module\". \n\nExample: LoadModule unique_id_module modules/mod_unique_id.so\n\nRestart Apache: apachectl restart",
+  "fix_id": "F-15465r881437_fix",
+  "VulnDiscussion": "Generating a session identifier (ID) that is not easily guessed through brute force is essential to deter several types of session attacks. By knowing the session ID, an attacker can hijack a user session that has already been user-authenticated by the hosted application. The attacker does not need to guess user identifiers and passwords or have a secure token since the user session has already been authenticated.\n\nBy generating session IDs that contain as much of the character set as possible, i.e., A-Z, a-z, and 0-9, the session ID becomes exponentially harder to guess.\n\nSatisfies: SRG-APP-000223-WSR-000145, SRG-APP-000224-WSR-000135, SRG-APP-000224-WSR-000136, SRG-APP-000224-WSR-000138",
+  "Documentable": "false"
+}

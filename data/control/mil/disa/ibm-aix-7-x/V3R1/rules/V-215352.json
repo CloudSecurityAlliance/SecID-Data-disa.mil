@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215352",
+  "rule_id": "SV-215352r958478_rule",
+  "stig_id": "AIX7-00-003046",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If NFS is not required on AIX, the NFS daemon must be disabled.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "V-91329",
+      "SV-101427"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-16550r294507_chk",
+  "check_content": "From the command prompt, execute the following command:\n# lsitab rcnfs\n\nIf the command yields any output, this is a finding.",
+  "fixtext": "In \"/etc/inittab\", remove the \"rcnfs\" entry by running the following command:\n# rmitab rcnfs\n\nTo request the init command to re-examine the \"/etc/inittab\" file, enter: \n# telinit q",
+  "fix_id": "F-16548r294508_fix",
+  "VulnDiscussion": "The rcnfs entry starts the NFS daemons during system boot.\n\nNFS is a service with numerous historical vulnerabilities and should not be enabled unless there is no alternative. If NFS serving is required, then read-only exports are recommended and no filesystem or directory should be exported with root access. Unless otherwise required the NFS daemons (rcnfs) will be disabled.",
+  "Documentable": "false"
+}

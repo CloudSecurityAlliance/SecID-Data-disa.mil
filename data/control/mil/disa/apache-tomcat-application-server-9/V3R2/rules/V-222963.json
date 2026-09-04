@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222963",
+  "rule_id": "SV-222963r960972_rule",
+  "stig_id": "TCAT-AS-000610",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "JMX authentication must be secured.",
+  "group_title": "SRG-APP-000149-AS-000102",
+  "idents": {
+    "legacy": [
+      "SV-111451",
+      "V-102509"
+    ],
+    "cci": [
+      "CCI-000765"
+    ]
+  },
+  "check_id": "C-24635r426333_chk",
+  "check_content": "From the Tomcat server run the following command:\n\nsudo grep -I jmxremote.authenticate /etc/systemd/system/tomcat.service\nsudo ps -ef |grep -i jmxremote\n\nIf the results are blank, this is not a finding.\n\nIf the results include:\n\n-Dcom.sun.management.jmxremote.authenticate=false, this is a finding.",
+  "fixtext": "If using JMX for management of the Tomcat server, start the Tomcat server by adding the following command line flags to the systemd startup scripts in /etc/systemd/system/tomcat.service.\n\nEnvironment='CATALINA_OPTS -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=true -Dcom.sun.management.jmxremote.ssl=true'\n\nsudo systemctl start tomcat\nsudo systemctl daemon-reload",
+  "fix_id": "F-24624r426334_fix",
+  "VulnDiscussion": "Java Management Extensions (JMX) provides the means to remotely manage the Java VM. When enabling the JMX agent for remote monitoring, the user must enable authentication.",
+  "Documentable": "false"
+}

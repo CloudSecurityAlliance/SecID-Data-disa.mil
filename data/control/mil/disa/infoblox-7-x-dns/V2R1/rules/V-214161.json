@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214161",
+  "rule_id": "SV-214161r612370_rule",
+  "stig_id": "IDNS-7X-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Infoblox system must limit the number of concurrent client connections to the number of allowed dynamic update clients.",
+  "group_title": "SRG-APP-000001-DNS-000115",
+  "idents": {
+    "legacy": [
+      "SV-83009",
+      "V-68519"
+    ],
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-15376r295749_chk",
+  "check_content": "Infoblox Systems can be configured in two ways to limit DDNS client updates.\n\nFor clients that support GSS-TSIG, navigate to Data Management >> DNS >> Members/Servers tab.\n\nReview each server with the DNS service enabled. Select each server, click \"Edit\", toggle Advanced Mode and select GSS-TSIG.\nVerify that \"Enable GSS-TSIG authentication of clients\" is enabled.\n\nFor clients that do not support GSS-TSIG, navigate to Data Management >> DNS >> Members/Servers tab.\n\nReview each server with the DNS service enabled.\nSelect each server, click \"Edit\".\nSelect the \"Updates\" tab. \nVerify that either a Named ACL or Set of ACEs are defined to limit client DDNS.\nWhen complete, click \"Cancel\" to exit the \"Properties\" screen.\n\nIf \"Enable GSS-TSIG authentication of clients\" is disabled for clients supporting GSS-TSIG or a Named ACL or Set of ACEs are not defined to limit DDNS for clients without GSS-TSIG support, this is a finding.",
+  "fixtext": "Infoblox Systems can be configured in two ways to limit DDNS client updates.\n\nFor clients that support GSS-TSIG, navigate to Data Management >> DNS >> Members/Servers tab.\n\nReview each server with the DNS service enabled.\nSelect each server, click \"Edit\", toggle Advanced Mode and select GSS-TSIG.\nConfigure the option \"Enable GSS-TSIG authentication of clients\".\nUpload the required keys.\nRefer to the Administration Guide for detailed instructions.\n\nFor clients that do not support GSS-TSIG, navigate to Data Management >> DNS >> Members/Servers tab.\n\nReview each server with the DNS service enabled.\nSelect each server, click \"Edit\".\nSelect the Updates tab. \nSelect either an existing Named ACL or configure a new Set of ACEs to limit client DDNS.\nWhen complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen.\n\nPerform a service restart if necessary.",
+  "fix_id": "F-15374r295750_fix",
+  "VulnDiscussion": "Limiting the number of concurrent sessions reduces the risk of Denial of Service (DoS) to the DNS implementation.\n\nName servers do not have direct user connections but accept client connections for queries. Original restriction on client connections should be high enough to prevent a self-imposed denial of service, after which the connections are monitored and fine-tuned to best meet the organization's specific requirements.\n\nPrimary name servers also make outbound connections to secondary name servers to provide zone transfers and accept inbound connection requests from clients wishing to provide a dynamic update. Primary name servers should explicitly limit zone transfers to only be made to designated secondary name servers. Because zone transfers involve the transfer of entire zones and use TCP connections, they place substantial demands on network resources relative to normal DNS queries. Errant or malicious frequent zone transfer requests on the name servers of the enterprise can overload the master zone server and result in DoS to legitimate users. Primary name servers should be configured to limit the hosts from which they will accept dynamic updates.\n\nAdditionally the number of concurrent clients, especially TCP clients, needs to be kept to a level that does not risk placing the system in a DoS state.",
+  "Documentable": "false"
+}

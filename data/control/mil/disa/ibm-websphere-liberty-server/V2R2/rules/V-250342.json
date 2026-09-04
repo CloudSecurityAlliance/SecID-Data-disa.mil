@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-250342",
+  "rule_id": "SV-250342r961353_rule",
+  "stig_id": "IBMW-LS-000790",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Users in a reader-role must be authorized.",
+  "group_title": "SRG-APP-000340-AS-000185",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-53777r862990_chk",
+  "check_content": "As a user with access to the ${server.config.dir}/server.xml file. Review the contents and identify if users have been granted the reader-role.\n\ngrep -i reader-role ${server.config.dir}/server.xml\n\nIf the reader-role has been created, users in that role must be documented and approved. \n\nIf users in the reader-role are not approved, this is a finding.\n\nEXAMPLE:\n<featureManager><feature>appSecurity-2.0</feature></featureManager>\n\n<reader-role>\n<group>group</group>\n<group-access-id>group:realmName/groupUniqueId</group-access-id>\n<user>user</user>\n<user-access-id>user:realmName/userUniqueId</user-access-id>\n</reader-role>",
+  "fixtext": "Edit the ${server.config.dir}/server.xml file. If unauthorized users have been added to the reader-role, remove those users. \n\nOtherwise, document the users who are granted the reader-role access.\n\nTo allow read-only access to select administrative REST APIs, the ${server.config.dir}/server.xml must be configured as follows. Additionally, the users and groups they are a part of must be defined within LDAP.\n\nEXAMPLE:\n<featureManager>\n<feature>appSecurity-2.0</feature>\n</featureManager>\n\n<reader-role>\n<group>group</group><group-access-id> group:realmName/groupUniqueId</group-access-id><user>user</user><user-access-id>user:realmName/userUniqueId</user-access-id>\n</reader-role>\n\n<ldapRegistry id=\"ldap\" realm=\"SampleLdapRealm\" host=\"${ldap.server.name}\" port=\"${ldap.server.port}\" ignoreCase=\"true\"\nbaseDN=\"${ldap.server.base.dn}\"\nldapType=\"${ldap.vendor.type}\"\nsearchTimeout=\"8m\">\n</ldapRegistry>",
+  "fix_id": "F-53731r862991_fix",
+  "VulnDiscussion": "The reader role is a management role that allows read-only access to select administrative REST APIs as well as the Admin Center UI (adminCenter-1.0). Preventing non-privileged users from viewing privileged functions mitigates the risk that unauthorized individuals or processes may gain unnecessary access to information or privileges.\n\nUsers granted reader role access must be authorized.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221593",
+  "rule_id": "SV-221593r960879_rule",
+  "stig_id": "DTBC-0061",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Chrome Cleanup reporting must be disabled.",
+  "group_title": "SRG-APP-000089",
+  "idents": {
+    "legacy": [
+      "SV-96307",
+      "V-81593"
+    ],
+    "cci": [
+      "CCI-000169"
+    ]
+  },
+  "check_id": "C-23308r415906_chk",
+  "check_content": "Universal method: \n 1. In the omnibox (address bar) type chrome://policy\n 2. If \"ChromeCleanupReportingEnabled\" is not displayed under the \"Policy Name\" column or it is not set to \"False\", this is a finding.\nWindows method:\n 1. Start regedit\n 2. Navigate to HKLM\\Software\\Policies\\Google\\Chrome\\\n 3. If the \"ChromeCleanupReportingEnabled\" value name does not exist or its value data is not set to \"0\", this is a finding.",
+  "fixtext": "Windows group policy:\n1. Open the “group policy editor” tool with gpedit.msc\n2. Navigate to Policy Path: Computer Configuration\\Administrative Templates\\Google\\Google Chrome\nPolicy Name: Control how Chrome Cleanup reports data to Google\nPolicy State: Disabled\nPolicy Value: N/A",
+  "fix_id": "F-23297r415907_fix",
+  "VulnDiscussion": "If unset, should Chrome Cleanup detect unwanted software, it may report metadata about the scan to Google in accordance with policy set by “SafeBrowsingExtendedReportingEnabled”. Chrome Cleanup will then ask the user if they wish to clean up the unwanted software. The user can choose to share results of the cleanup with Google to assist with future unwanted software detection. These results contain file metadata and registry keys as described by the Chrome Privacy Whitepaper.\nIf set to “false”, should Chrome Cleanup detect unwanted software, it will not report metadata about the scan to Google, overriding any policy set by “SafeBrowsingExtendedReportingEnabled”. Chrome Cleanup will ask the user if they wish to clean up the unwanted software. Results of the cleanup will not be reported to Google and the user will not have the option to do so.\nIf set to “true”, should Chrome Cleanup detect unwanted software, it may report metadata about the scan to Google in accordance with policy set by “SafeBrowsingExtendedReportingEnabled”. Chrome Cleanup will ask the user if they wish to clean up the unwanted software. Results of the cleanup will be reported to Google and the user will not have the option to prevent it.\nThis policy is available only on Windows instances that are joined to a Microsoft Active Directory domain.",
+  "Documentable": "false"
+}

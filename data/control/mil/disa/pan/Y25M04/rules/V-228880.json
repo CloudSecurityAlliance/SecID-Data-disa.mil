@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-228880",
+  "rule_id": "SV-228880r864182_rule",
+  "stig_id": "PANW-AG-000148",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Palo Alto Networks security platform must inspect inbound and outbound FTP and FTPS communications traffic (if authorized) for protocol compliance and protocol anomalies.",
+  "group_title": "SRG-NET-000512-ALG-000065",
+  "idents": {
+    "legacy": [
+      "SV-77131",
+      "V-62641"
+    ],
+    "cci": [
+      "CCI-001125",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-31115r864180_chk",
+  "check_content": "If the protocol is not used in the implementation, this is not a finding.\n\nGo to Policies >> Decryption\nIf there are no configured Decryption Policies, this is a finding.\n\nAsk the Administrator which Security Policy inspects authorized FTP traffic.\nGo to Policies >> Security\nSelect the identified Security Policy.\n\nIf the \"Profile\" column does not display the \"Antivirus Profile\" symbol, this is a finding.\n\nIf the \"Profile\" column does not display the \"Vulnerability Protection Profile\" symbol, this is a finding.",
+  "fixtext": "If FTP and FTPS is authorized for use in the site's System Security Plan (SSP), configure a security policy to allow it and inspect it.\n\nSince Secure File Transfer Protocol is a form of FTP that adds TLS and SSL cryptographic protocols, it is necessary to decrypt TLS in order for the device to inspect the FTP stream.\nGo to Policies >> Decryption\nSelect \"Add\".\nIn the \"Decryption Policy Rule\" window, complete the required fields.\nIn the \"Name\" tab, complete the \"Name\" and \"Description\" fields.\nIn the \"Source\" tab, complete the \"Source Zone\" and \"Source Address\" or \"Source User\" fields.\nIn the \"Destination\" tab, complete the \"Destination Zone\" and \"Destination Address\" or \"Destination User\" fields.\nIn the \"Option\" tab, select \"Decrypt\" as the Action.  Select the decryption profile.\nIn the \"Type\" field, there are three options; \nSelect \"SSL Forward Proxy to decrypt and inspect SSL/TLS traffic from internal users to outside networks\".\nSelect \"SSH Proxy to decrypt inbound and outbound SSH connections passing through the device\".\nSelect \"SSL Inbound Inspection to decrypt and inspect incoming SSL traffic\".  Note: This decryption mode can only work if you have control on the internal server certificate to import the Key Pair on Palo Alto Networks Device.\nGo to Policies >> Security\nSelect \"Add\" to create a new security policy or select the name of the security policy to edit it.\nIn the \"Security Policy Rule\" window, complete the required fields.\nIn the \"Name\" tab, complete the \"Name\" and \"Description\" fields.\nIn the \"Source\" tab, complete the \"Source Zone\" and \"Source Address\" fields.\nIn the \"User\" tab, complete the \"Source User\" and \"HIP Profile\" fields.\nIn the \"Destination\" tab, complete the \"Destination Zone\" and \"Destination Address\" fields.\nIn the \"Applications\" tab, either select the \"Any\" check box or add \"ftp\", \"tftp\", and \"gridftp\".  Configured filters and groups can be selected if the group includes these protocols.\nIn the \"Actions\" tab, select \"allow\".  \nIn the \"Actions\" tab in the \"Profile Setting\" section; in the \"Profile Type\" field, select \"Profiles\".  The window will change to display the different categories of Profiles.  \nIn the \"Profile Setting\" section; in each of the Profile fields, select the configured Profile.\nNote: An Antivirus Profile and an Antispyware Profile are required.",
+  "fix_id": "F-31092r864181_fix",
+  "VulnDiscussion": "Application protocol anomaly detection examines application layer protocols such as FTP to identify attacks based on observed deviations in the normal RFC behavior of a protocol or service. This type of monitoring allows for the detection of known and unknown exploits that exploit weaknesses of commonly used protocols. The device must be configured to inspect inbound and outbound FTP communications traffic to detect protocol anomalies such as malformed message and command insertion attacks.",
+  "Documentable": "false"
+}

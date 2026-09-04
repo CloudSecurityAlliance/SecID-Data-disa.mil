@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220405",
+  "rule_id": "SV-220405r961818_rule",
+  "stig_id": "ML09-00-010800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MarkLogic Server must generate audit records when unsuccessful attempts to delete security objects occur.",
+  "group_title": "SRG-APP-000501-DB-000337",
+  "idents": {
+    "legacy": [
+      "SV-110159",
+      "V-101055"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-22120r401666_chk",
+  "check_content": "Check MarkLogic audit configurations to verify that audit records are produced when the system denies attempts, or when other errors prevent attempts to drop security objects.\n\nPerform the check from the MarkLogic Server Admin Interface with a user that holds administrative-level privileges.\n\n1. Click the Groups icon.\n2. Click the group in which the configuration to be checked resides (e.g., Default).\n3. Click the Auditing icon on the left tree menu.\n4. Inspect the audit enabled field. A value of false means auditing is not enabled and this is a finding. \n5. If audit enabled field is true, but the user-role-removal and security-access events are not selected, this is a finding.\n6. Under the Audit Restrictions - Outcome section, verify the security-access event for auditing is set to \"both\". If the setting is not \"both\", this is a finding.\n7. If any roles, URIs, or users are identified in audit restrictions, and not documented in the System Security Plan, this is a finding.",
+  "fixtext": "Configure MarkLogic to produce audit records when the system denies attempts, or when other errors prevent attempts to drop security objects.\n\nPerform the fix from the MarkLogic Server Admin Interface with a user that holds administrative-level privileges.\n\n1. Click the Groups icon.\n2. Click the group in which the configuration to check resides (e.g., Default).\n3. Click the Auditing icon on the left tree menu.\n4. Set the audit enabled field to true.\n5. Enable user-role-removal event for auditing.\n6. Enable \"both\" for the audit restriction under the outcome selection.\n7. Ensure no roles, URIs, or users are identified in the audit restrictions, unless documented in the System Security Plan.",
+  "fix_id": "F-22109r401667_fix",
+  "VulnDiscussion": "The removal of security objects from the database/DBMS would seriously degrade a system's information assurance posture. If such an action is attempted, it must be logged.\n\nTo aid in diagnosis, it is necessary to keep track of failed attempts in addition to the successful ones.",
+  "Documentable": "false"
+}

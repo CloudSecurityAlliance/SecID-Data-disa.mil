@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-266910",
+  "rule_id": "SV-266910r1039751_rule",
+  "stig_id": "ARBA-ND-000213",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AOS must enforce approved authorizations for controlling the flow of management information within the network device based on information flow control policies.",
+  "group_title": "SRG-APP-000097-NDM-000227",
+  "idents": {
+    "cci": [
+      "CCI-000132",
+      "CCI-001368"
+    ]
+  },
+  "check_id": "C-70834r1039749_chk",
+  "check_content": "Verify the AOS configuration with the following command: \nshow running-config | begin \"interface gigabit\" \n \nNote the configured IP access-group session Access Control List (ACL) for each active interface.  \n \nFor each configured ACL: \nshow ip access-list <ACL name> \n \nIf each ACL does not end in an \"any any deny log\" for both IPv4 and IPv6, this is a finding.",
+  "fixtext": "Configure AOS with the following commands:  \nconfigure terminal \nip access-list session <name> \nnetwork <A.B.C.D> <netmask A.B.C.D> any any permit \nany any any deny log \nipv6 network <X:X:X:X::X/<0-128> any any permit \nipv6 any any any deny log \nexit \nwrite memory \ninterface gigabit <#/#/#> \nip access-group session <ACL name> \nexit \nwrite mem",
+  "fix_id": "F-70737r1039750_fix",
+  "VulnDiscussion": "A mechanism to detect and prevent unauthorized communication flow must be configured or provided as part of the system design. If management information flow is not enforced based on approved authorizations, the network device may become compromised. Information flow control regulates where management information is allowed to travel within a network device. The flow of all management information must be monitored and controlled so it does not introduce any unacceptable risk to the network device or data.  \n \nApplication-specific examples of enforcement occur in systems that employ rule sets or establish configuration settings that restrict information system services or message-filtering capability based on message content (e.g., implementing key word searches or using document characteristics). \n \nApplications providing information flow control must be able to enforce approved authorizations for controlling the flow of management information within the system in accordance with applicable policy.\n\nSatisfies: SRG-APP-000097-NDM-000227, SRG-APP-000038-NDM-000213",
+  "Documentable": "false"
+}

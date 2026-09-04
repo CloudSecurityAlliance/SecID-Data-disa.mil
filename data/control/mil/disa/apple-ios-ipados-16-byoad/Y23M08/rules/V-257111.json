@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257111",
+  "rule_id": "SV-257111r904233_rule",
+  "stig_id": "AIOS-16-706900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Apple iOS/iPadOS 16 must be configured to not allow more than 10 consecutive failed authentication attempts.",
+  "group_title": "PP-MDF-333040",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-60796r904231_chk",
+  "check_content": "Review configuration settings to confirm consecutive failed authentication attempts is set to 10 or fewer.\n\nThis procedure is performed in the Apple iOS/iPadOS management tool and on the iPhone and iPad. \n\nNote: If an organization has multiple configuration profiles, the check procedure must be performed on the relevant configuration profiles applicable to the scope of the review. \n\nFor User Enrollment, check a sample of user phones to verify compliance:\n1. Open the Settings app.\n2. Tap \"Face ID & Passcode\".\n3. When prompted, enter Passcode.\n4. Scroll down and verify \"Erase Data\" is turned on.\nNote: The number of failed attempts is automatically set to \"10\".\n\nFor Device Enrollment:\nIn the Management tool, verify the \"Maximum number of failed attempts\" value is set to \"10\" or fewer.\n\nOn the iPhone and iPad: \n1. Open the Settings app. \n2. Tap \"General\".\n3. Tap \"VPN & Device Management\".\n4. Tap the Configuration Profile from the iOS management tool containing the password policy.\n5. Tap \"Restrictions\".\n6. Tap \"Passcode\".\n7. Verify \"Max failed attempts\" is listed as \"10\" or fewer.\n\nFor User Enrollment, if \"Erase Data\" is not turned on for sample devices, this is a finding.\n\nFor Device Enrollment, if the \"Maximum number of failed attempts\" is more than \"10\" in the iOS management tool or the password policy on the iPhone and iPad does not list \"Max failed attempts\" of \"10\" or fewer, this is a finding.",
+  "fixtext": "For User Enrollment, this is a User-Based Enforcement (UBE) control. The device user must configure setting on their personal phone.\n1. Open the Settings app.\n2. Tap \"Face ID & Passcode\".\n3. When prompted, enter Passcode.\n4. Scroll down and turn on \"Erase Data\".\nNote: The number of failed attempts is automatically set to \"10\".\n\nFor Device Enrollment, install a configuration profile to allow only \"10\" or fewer consecutive failed authentication attempts.",
+  "fix_id": "F-60737r904232_fix",
+  "VulnDiscussion": "The more attempts an adversary has to guess a password, the more likely the adversary will enter the correct password and gain access to resources on the device. Setting a limit on the number of attempts mitigates this risk. Setting the limit at 10 or less gives authorized users the ability to make a few mistakes when entering the password but still provides adequate protection against dictionary or brute force attacks on the password.\n\nSFR ID: FMT_SMF_EXT.1.1 #2c, FIA_AFL_EXT.1.5",
+  "Documentable": "false"
+}

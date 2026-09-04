@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253734",
+  "rule_id": "SV-253734r961470_rule",
+  "stig_id": "MADB-10-008100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must disable network functions, ports, protocols, and services deemed by the organization to be nonsecure, in accord with the Ports, Protocols, and Services Management (PPSM) guidance.",
+  "group_title": "SRG-APP-000383-DB-000364",
+  "idents": {
+    "cci": [
+      "CCI-001762"
+    ]
+  },
+  "check_id": "C-57186r841725_chk",
+  "check_content": "Check the ports in use by running the following command as the administrator user:\n\nMariaDB > SHOW GLOBAL VARIABLES LIKE 'port';\n\nIf the currently defined port configuration is deemed prohibited, this is a finding.",
+  "fixtext": "To verify that mariadb system denies specific network functions, locate cnf file and specifically bind ip address to deny (or port):\n        $ ls -la /etc | grep my.cnf\n-rw-r--r--.   1 root root      301 Aug 25 12:45 my.cnf\n      bind-address = 127.0.0.1 #just an example\n   \nTo specifically change default port (3306) is something different:  port = 1234\nbind = 10.10.10.10      #as an example \n\nAfter making changes to the .cnf file, stop and restart the database service.",
+  "fix_id": "F-57137r841726_fix",
+  "VulnDiscussion": "Use of nonsecure network functions, ports, protocols, and services exposes the system to avoidable threats.",
+  "Documentable": "false"
+}

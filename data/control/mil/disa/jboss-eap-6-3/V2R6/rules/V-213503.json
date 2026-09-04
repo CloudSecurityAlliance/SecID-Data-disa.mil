@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213503",
+  "rule_id": "SV-213503r1028283_rule",
+  "stig_id": "JBOS-AS-000080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The JBoss server must generate log records for access and authentication events to the management interface.",
+  "group_title": "SRG-APP-000089-AS-000050",
+  "idents": {
+    "legacy": [
+      "SV-76721",
+      "V-62231"
+    ],
+    "cci": [
+      "CCI-000169"
+    ]
+  },
+  "check_id": "C-14726r955985_chk",
+  "check_content": "Log on to the OS of the JBoss server with OS permissions that allow access to JBoss.\nUsing the relevant OS commands and syntax, cd to the <JBOSS_HOME>/bin/ folder.\nRun the jboss-cli script to start the Command Line Interface (CLI). \nConnect to the server and authenticate.\nRun the command:\n\nFor a Managed Domain configuration:\n\"ls host=master/server=<SERVERNAME>/core-service=management/access=audit/logger=audit-log:write-attribute(name=enabled,value=true)\"\n\nFor a Standalone configuration:\n\"ls /core-service=management/access=audit/logger=audit-log:write-attribute(name=enabled,value=true)\"\n\nIf \"enabled\" = false, this is a finding.",
+  "fixtext": "Launch the jboss-cli management interface.\nConnect to the server by typing \"connect\", authenticate as a user in the Superuser role, and run the following command:\n\nFor a managed domain configuration:\n\"host=master/server=<SERVERNAME>/core-service=management/access=audit/logger=audit-log:write-attribute(name=enabled,value=true)\"\n\nFor a standalone configuration:\n\"/core-service=management/access=audit/logger=audit-log:write-attribute(name=enabled,value=true)\"",
+  "fix_id": "F-14724r1028282_fix",
+  "VulnDiscussion": "Log records can be generated from various components within the JBoss application server.  The minimum list of logged events should be those pertaining to access and authentication events to the management interface as well as system startup and shutdown events.\n\nBy default, JBoss does not log management interface access but does provide a default file handler.  This handler needs to be enabled.  Configuring this setting meets several STIG auditing requirements.",
+  "Documentable": "false"
+}

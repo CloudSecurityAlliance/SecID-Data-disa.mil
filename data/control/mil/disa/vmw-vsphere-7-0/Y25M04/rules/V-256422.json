@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256422",
+  "rule_id": "SV-256422r959010_rule",
+  "stig_id": "ESXI-70-000061",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All port groups on standard switches must be configured to reject guest promiscuous mode requests.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-60097r886045_chk",
+  "check_content": "Note: This control addresses ESXi standard switches. Distributed switches are addressed in the vCenter STIG. If there is no standard switch on the ESXi host, this is not applicable.\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> Networking >> Virtual Switches.\n\nOn each standard switch, click the \"...\" button next to each port group. Click View Settings >> Policies tab. \n\nVerify \"Promiscuous Mode\" is set to \"Reject\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\nGet-VirtualSwitch -Standard | Get-SecurityPolicy\nGet-VirtualPortGroup -Standard | Get-SecurityPolicy\n\nIf the \"Promiscuous Mode\" policy is set to \"Accept\" (or \"true\", via PowerCLI), this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> Networking >> Virtual Switches.\n\nOn each standard switch, click the \"...\" button next to each port group. Click Edit Settings >> Security tab. \n\nSet \"Promiscuous Mode\" to \"Reject\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\nGet-VirtualSwitch -Standard | Get-SecurityPolicy | Set-SecurityPolicy -AllowPromiscuous $false\nGet-VirtualPortGroup -Standard | Get-SecurityPolicy | Set-SecurityPolicy -AllowPromiscuousInherited $true",
+  "fix_id": "F-60040r886046_fix",
+  "VulnDiscussion": "When promiscuous mode is enabled for a virtual switch, all virtual machines (VMs) connected to the Portgroup have the potential to read all packets across that network (only the virtual machines connected to that Portgroup).\n\nPromiscuous mode is disabled by default on the ESXi Server, and this is the recommended setting. Promiscuous mode can be set at the vSwitch and/or the Portgroup level. Switch-level settings can be overridden at the Portgroup level.",
+  "Documentable": "false"
+}

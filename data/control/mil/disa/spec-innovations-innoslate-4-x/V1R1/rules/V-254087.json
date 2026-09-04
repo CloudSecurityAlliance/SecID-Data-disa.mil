@@ -1,0 +1,29 @@
+{
+  "vuln_id": "V-254087",
+  "rule_id": "SV-254087r845265_rule",
+  "stig_id": "SPEC-IN-000030",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Innoslate must use TLS 1.2, at a minimum, to protect the confidentiality of sensitive data during electronic dissemination using remote access.",
+  "group_title": "SRG-APP-000014",
+  "idents": {
+    "cci": [
+      "CCI-000068",
+      "CCI-000185",
+      "CCI-000382",
+      "CCI-000803",
+      "CCI-001184",
+      "CCI-001453",
+      "CCI-001941",
+      "CCI-002422",
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-57572r845235_chk",
+  "check_content": "1. Consult the System Administrator if needed to determine the location of the Apache Tomcat server.xml file and the network port that was specified during installation for use with Innoslate. The default is 8443; other AO-approved ports may be used.\n2. Open the server.xml file with a text editor, and locate the <Connector/> element.  The following is an example:\n\nConnector port=\"8443\" protocol=\"org.apache.coyote.http11.Http11NioProtocol\"\n               maxThreads=\"150\" SSLEnabled=\"true\" scheme=\"https\" secure=\"true\"\n               clientAuth=\"false\" SSLProtocol=\"TLSv1.2\" \n               keystoreFile=\"$keystorepath\"\n               keystorePass=\"123456\"\n               keyAlias=\"tomcatssl\"\n               /\n\nIf \"port\" is not set to 8443, or other AO-approved port, this is a finding.\nIf \"protocol\" is not set to \"org.apache.coyote.http11.Http11NioProtocol\", this is a finding.\nIf \"SSLEnabled\" is not set to \"true\", this is a finding.\nIf \"scheme\" is not set to \"https\", this is a finding.\nIf \"secure\" is not set to \"true\", this is a finding.\nIf \"SSLProtocol\"or \"SSLEnabledProtocols\" is not set to \"TLSv1.2\", this is a finding. The name of this flag varies with Tomcat versions.",
+  "fixtext": "1. Open the server.xml file inside the conf folder of the tomcat installation (IE \"C:\\Innoslate4\\apache-tomcat\\conf\" or \"$CATALINA_BASE/conf/server.xml\"). Add a connector tag for HTTPS scheme with PORT 8443 (or other AO-approved port) using the following example:\n\nConnector port=\"8443\" protocol=\"org.apache.coyote.http11.Http11NioProtocol\"\n               maxThreads=\"150\" SSLEnabled=\"true\" scheme=\"https\" secure=\"true\"\n               clientAuth=\"false\" sslProtocol=\"TLSv1.2\" \n               keystoreFile=\"C:\\Innoslate4\\apache-tomcat-8.5.30\\conf\\keystore.jks\"\n               keystorePass=\"123456\"\n               keyAlias=\"tomcatssl\"\n               /\n\n2. Set \"port\" to 8443, or other AO-approved port.\nSet \"protocol\" to \"org.apache.coyote.http11.Http11NioProtocol\".\nSet \"SSLEnabled\" to \"true\".\nSet \"scheme\" to \"https\".\nSet \"secure\" to \"true\".\nSet \"SSLProtocol\" or \"SSLEnabledProtocols\" to \"TLSv1.2\".  The name of this flag varies with Tomcat versions.\nSet \"keystoreFile\" to the path of the keystore utilized by the system, and set the associated password with \"keystorePass\".\n\n3. Save the server.xml file.",
+  "fix_id": "F-57523r845236_fix",
+  "VulnDiscussion": "Using older unauthorized versions or incorrectly configuring protocol negotiation makes the gateway vulnerable to known and unknown attacks that exploit vulnerabilities in this protocol.\n\nThis requirement applies to Transport Layer Security (TLS) gateways (also known as Secure Sockets Layer [SSL] gateways), web servers, and web applications and is not applicable to virtual private network (VPN) devices. Application protocols such as HTTPS and DNSSEC use TLS as the underlying security protocol and thus are in scope for this requirement. NIST SP 800-52 provides guidance for client negotiation on either DoD-only or on public-facing servers.\n\nSatisfies: SRG-APP-000014, SRG-APP-000156, SRG-APP-000179, SRG-APP-000442, SRG-APP-000555, SRG-APP-000560, SRG-APP-000565, SRG-APP-000605, SRG-APP-000635, SRG-APP-000645, SRG-APP-000219",
+  "Documentable": "false"
+}

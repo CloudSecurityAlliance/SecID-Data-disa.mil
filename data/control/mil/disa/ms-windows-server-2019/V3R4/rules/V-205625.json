@@ -1,0 +1,30 @@
+{
+  "vuln_id": "V-205625",
+  "rule_id": "SV-205625r958368_rule",
+  "stig_id": "WN19-AU-000100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2019 must be configured to audit Account Management - Security Group Management successes.",
+  "group_title": "SRG-OS-000004-GPOS-00004",
+  "idents": {
+    "legacy": [
+      "SV-103067",
+      "V-92979"
+    ],
+    "cci": [
+      "CCI-000018",
+      "CCI-000172",
+      "CCI-001403",
+      "CCI-001404",
+      "CCI-001405",
+      "CCI-002130"
+    ]
+  },
+  "check_id": "C-5890r354793_chk",
+  "check_content": "Security Option \"Audit: Force audit policy subcategory settings (Windows Vista or later) to override audit policy category settings\" must be set to \"Enabled\" (WN19-SO-000050) for the detailed auditing subcategories to be effective. \n\nUse the \"AuditPol\" tool to review the current Audit Policy configuration:\n\nOpen \"PowerShell\" or a \"Command Prompt\" with elevated privileges (\"Run as administrator\").\n\nEnter \"AuditPol /get /category:*\"\n\nCompare the \"AuditPol\" settings with the following:\n\nIf the system does not audit the following, this is a finding.\n\nAccount Management >> Security Group Management - Success",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Advanced Audit Policy Configuration >> System Audit Policies >> Account Management >> \"Audit Security Group Management\" with \"Success\" selected.",
+  "fix_id": "F-5890r354794_fix",
+  "VulnDiscussion": "Maintaining an audit trail of system activity logs can help identify configuration errors, troubleshoot service disruptions, and analyze compromises that have occurred, as well as detect attacks. Audit logs are necessary to provide a trail of evidence in case the system or network is compromised. Collecting this data is essential for analyzing the security of information assets and detecting signs of suspicious and unexpected behavior.\n\nSecurity Group Management records events such as creating, deleting, or changing security groups, including changes in group members.\n\nSatisfies: SRG-OS-000004-GPOS-00004, SRG-OS-000239-GPOS-00089, SRG-OS-000240-GPOS-00090, SRG-OS-000241-GPOS-00091, SRG-OS-000303-GPOS-00120, SRG-OS-000476-GPOS-00221",
+  "Documentable": "false"
+}

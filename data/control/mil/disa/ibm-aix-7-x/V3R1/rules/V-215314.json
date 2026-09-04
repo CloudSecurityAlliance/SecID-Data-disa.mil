@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215314",
+  "rule_id": "SV-215314r1009552_rule",
+  "stig_id": "AIX7-00-002133",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must be configured to use syslogd to log events by TCPD.",
+  "group_title": "SRG-OS-000365-GPOS-00152",
+  "idents": {
+    "legacy": [
+      "SV-101631",
+      "V-91533"
+    ],
+    "cci": [
+      "CCI-003938",
+      "CCI-001814"
+    ]
+  },
+  "check_id": "C-16512r294393_chk",
+  "check_content": "Normally, TCPD logs to the \"mail\" facility in \"/etc/syslog.conf\". Determine if syslog is configured to log events by TCPD. \n\nProcedure: \n# more /etc/syslog.conf \n\nLook for entries similar to the following: \nmail.debug  /var/adm/maillog \nmail.none  /var/adm/maillog \nmail.*  /var/log/mail \nauth.info  /var/log/messages \n\nThe above entries would indicate mail alerts are being logged. \n\nIf no entries for \"mail\" exist, then TCPD is not logging and this is a finding.",
+  "fixtext": "Configure the access restriction program to log every access attempt. Ensure the implementation instructions for TCP_WRAPPERS are followed, so system access attempts are logged into the system log files. If an alternate application is used, it must support this function. Edit the \"/etc/syslog.conf\" file by writing the following to the file.\nauth.info /var/log/messages\n\n# touch /var/log/messages\n# refresh -s yslogd",
+  "fix_id": "F-16510r294394_fix",
+  "VulnDiscussion": "Without auditing the enforcement of access restrictions against changes to the application configuration, it will be difficult to identify attempted attacks and an audit trail will not be available for forensic investigation for after-the-fact actions.\n\nEnforcement actions are the methods or mechanisms used to prevent unauthorized changes to configuration settings. Enforcement action methods may be as simple as denying access to a file based on the application of file permissions (access restriction). Audit items may consist of lists of actions blocked by access restrictions or changes identified after the fact.",
+  "Documentable": "false"
+}

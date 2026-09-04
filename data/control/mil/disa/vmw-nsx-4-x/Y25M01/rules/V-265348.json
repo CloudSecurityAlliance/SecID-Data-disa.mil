@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-265348",
+  "rule_id": "SV-265348r994267_rule",
+  "stig_id": "NMGR-4X-000087",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The NSX Manager must be configured to send logs to a central log server.",
+  "group_title": "SRG-APP-000515-NDM-000325",
+  "idents": {
+    "cci": [
+      "CCI-001851",
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-69265r994265_chk",
+  "check_content": "From the NSX Manager web interface, go to System >> Fabric >> Profiles >> Node Profiles.\n\nClick \"All NSX Nodes\" and verify the Syslog servers listed.\n\nor\n\nFrom an NSX Manager shell, run the following command:\n\n> get logging-servers\n\nNote: This command must be run from each NSX Manager as they are configured individually.\n\nIf no logging severs are configured or unauthorized logging servers are configured, this is a finding.\n\nIf the log level is not set to INFO, this is a finding.",
+  "fixtext": "To configure a profile to apply syslog servers to all NSX Manager nodes, do the following:\n\nFrom the NSX Manager web interface, go to System >> Fabric >> Profiles >> Node Profiles.\n\nClick \"All NSX Nodes\" and then under \"Syslog Servers\" click \"Add\".\n\nEnter the syslog server details and choose \"Information\" for the log level and click \"Add\".\n\nor\n\n(Optional) From an NSX Manager shell, run the following command to clear any existing incorrect logging-servers:\n\n> clear logging-servers\n\nFrom an NSX Manager shell, run the following command to configure a udp/tcp syslog server:\n\n> set logging-server <server-ip or server-name> proto <tcp or udp> level info\n\nFrom an NSX Manager shell, run the following command to configure a TLS syslog server:\n\n> set logging-server <server-ip or server-name> proto tls level info serverca ca.pem clientca ca.pem certificate cert.pem key key.pem\n\nFrom an NSX Manager shell, run the following command to configure an LI-TLS syslog server:\n\n> set logging-server <server-ip or server-name> proto li-tls level info serverca root-ca.crt\n\nNote: If using the protocols TLS or LI-TLS to configure a secure connection to a log server, the server and client certificates must be stored in /image/vmware/nsx/file-store on each NSX-T Manager appliance.",
+  "fix_id": "F-69173r994266_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.\n\nSatisfies: SRG-APP-000515-NDM-000325, SRG-APP-000357-NDM-000293, SRG-APP-000516-NDM-000350",
+  "Documentable": "false"
+}

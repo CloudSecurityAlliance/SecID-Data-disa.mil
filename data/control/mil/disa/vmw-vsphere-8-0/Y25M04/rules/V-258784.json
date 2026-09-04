@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258784",
+  "rule_id": "SV-258784r1067575_rule",
+  "stig_id": "ESXI-80-000229",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must use DOD-approved certificates.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62524r1067574_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Certificate.\n\nIf the issuer is not a DOD-approved certificate authority, or other AO-approved certificate authority, this is a finding.\n\nIf the host will never be accessed directly (virtual machine console connections bypass vCenter), this is not a finding.",
+  "fixtext": "Join the ESXi host to vCenter before replacing the certificate.\n\nObtain a DOD-issued certificate and private key for the host following the requirements below:\n\nKey size: 2048 bits or more (PEM encoded)\n\nKey format: PEM\nVMware supports PKCS8 and PKCS1 (RSA keys)\nx509 version 3\n\nSubjectAltName must contain DNS Name=<machine_FQDN>\n\nCRT (Base-64) format\n\nContains the following Key Usages: Digital Signature, Non Repudiation, Key Encipherment\n\nStart time of one day before the current time\n\nCN (and SubjectAltName) set to the host name (or IP address) that the ESXi host has in the vCenter Server inventory\n\nFrom the vSphere Web Client, select the ESXi host's vCenter Server >> Configure >> System >> Advanced Settings.\n\nSelect the \"vpxd.certmgmt.mode\" value and ensure it is set to \"custom\".\n\nPut the host into maintenance mode.\n\nTemporarily enable Secure Shell (SSH) on the host. Use Secure Copy Protocol (SCP) to transfer the new certificate and key to /tmp. SSH to the host. Back up the existing certificate and key:\n\n# mv /etc/vmware/ssl/rui.crt /etc/vmware/ssl/rui.crt.bak\n# mv /etc/vmware/ssl/rui.key /etc/vmware/ssl/rui.key.bak\n\nCopy the new certificate and key to \"/etc/vmware/ssl/\" and rename them to \"rui.crt\" and \"rui.key\" respectively.\n\nRestart management agents to implement the new certificate:\n\n# services.sh restart",
+  "fix_id": "F-62433r933412_fix",
+  "VulnDiscussion": "The default self-signed host certificate issued by the VMware Certificate Authority (VMCA) must be replaced with a DOD-approved certificate when the host will be accessed directly, such as during a virtual machine (VM) console connection.\n\nThe use of a DOD certificate on the host assures clients the service they are connecting to is legitimate and properly secured.",
+  "Documentable": "false"
+}

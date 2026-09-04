@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251032",
+  "rule_id": "SV-251032r1028198_rule",
+  "stig_id": "MOIS-AL-000950",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Sentry providing mobile device authentication intermediary services using PKI-based mobile device authentication must only accept end entity certificates issued by DoD PKI or DoD-approved PKI Certification Authorities (CAs) for the establishment of protected sessions.",
+  "group_title": "SRG-NET-000355-ALG-000117",
+  "idents": {
+    "cci": [
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-54467r802316_chk",
+  "check_content": "Verify Sentry only accepts end entity certificates issued by DoD PKI or DoD-approved PKI CAs for the establishment of protected sessions.\n\nVerify the MobileIron Core has a device-level password policy enforcing password or biometric and is applied to managed devices. This should be done by default.\n\nVerify the Sentry is configured for certificate-based authentication:\n\nVerify the Sentry is set up to provide user authentication intermediary services:\n1. In the MobileIron Core Portal, select Services >> Sentry.\n2. Click the \"Edit\" icon for the Standalone Sentry entry.\n3. In the \"Device Authentication Configuration\" section, select an option appropriate for this implementation.\n4. Depending on the option selected, follow the instructions in one of the following sections to complete the configuration:\n- Group Certificate\n- Identity Certificate\n- Identity Certificate with Kerberos constrained delegation \n5. Select \"View Certificate\" and verify DoD and/or DoD-approved CA certificates are presented.\n\nIf non-DoD-approved certificates are used, this is a finding.",
+  "fixtext": "If PKI-based user authentication intermediary services are provided, configure Sentry to only accept end entity certificates issued by DoD PKI or DoD-approved PKI CAs for the establishment of protected sessions.\n\n1. In the MobileIron Core Portal, select Services >> Sentry.\n2. Click the \"Edit\" icon for the Standalone Sentry entry.\n3. In the \"Device Authentication Configuration\" section, select an option appropriate for your implementation.\n4. Depending on the option selected, follow the instructions in one of the following sections to complete the configuration: \n- Group Certificate \nRefer to \"Configuring authentication using a group certificate\" for next steps.\n- Identity Certificate\nRefer to \"Configuring authentication using an identity certificate and Pass Through\" for next steps.\nOR \nRefer to \"Configuring authentication using an identity certificate and Kerberos constrained delegation\" for next steps. \n\nFor more information, in the \"Sentry 9.8.0 Guide for Core\", refer to the main section \"Device and Server Authentication\", which contains the subsection \"Configuring device and server authentication\".\n\n5. From the \"Upload Certificate\" option, load the DoD and/or DoD-approved CA certificates.",
+  "fix_id": "F-54421r1004808_fix",
+  "VulnDiscussion": "Non-DoD-approved PKIs have not been evaluated to ensure they have security controls and identity vetting procedures in place that are sufficient for DoD systems to rely on the identity asserted in the certificate. PKIs lacking sufficient security controls and identity vetting procedures risk being compromised and issuing certificates that enable adversaries to impersonate legitimate users.\n\nThe authoritative list of DoD-approved PKIs is published at https://cyber.mil/pki-pke/interoperability. DoD-approved PKI CAs may include Category I, II, and III certificates. Category I DoD-approved External PKIs are PIV issuers. Category II DoD-approved External PKIs are Non-Federal Agency PKIs cross-certified with the Federal Bridge Certification Authority (FBCA). Category III DoD-approved External PKIs are Foreign, Allied, or Coalition Partner PKIs.\n\nDeploying the ALG with TLS enabled will require the installation of DoD and/or DoD-approved CA certificates in the trusted root certificate store of each proxy to be used for TLS traffic. \n\nThis requirement focuses on communications protection for the application session rather than for the network packet.",
+  "Documentable": "false"
+}

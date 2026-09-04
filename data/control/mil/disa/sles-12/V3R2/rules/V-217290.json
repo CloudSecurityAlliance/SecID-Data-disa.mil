@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217290",
+  "rule_id": "SV-217290r991589_rule",
+  "stig_id": "SLES-12-030380",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must not respond to Internet Protocol version 4 (IPv4) Internet Control Message Protocol (ICMP) echoes sent to a broadcast address.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-77491",
+      "SV-92187"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-18518r370026_chk",
+  "check_content": "Verify the SUSE operating system does not accept IPv4 source-routed packets.\n\nCheck the value of the accept source route variable with the following command:\n\n# sysctl net.ipv4.icmp_echo_ignore_broadcasts\nnet.ipv4.icmp_echo_ignore_broadcasts = 1\n\nIf the returned line does not have a value of \"1\" this is a finding.",
+  "fixtext": "Configure the SUSE operating system to the required kernel parameter by adding the following line to \"/etc/sysctl.conf\" (or modify the line to have the required value):\n\nnet.ipv4.icmp_echo_ignore_broadcasts = 1\n\nRun the following command to apply this value:\n\n# sysctl --system",
+  "fix_id": "F-18516r370027_fix",
+  "VulnDiscussion": "Responding to broadcast (ICMP) echoes facilitates network mapping and provides a vector for amplification attacks.",
+  "Documentable": "false"
+}

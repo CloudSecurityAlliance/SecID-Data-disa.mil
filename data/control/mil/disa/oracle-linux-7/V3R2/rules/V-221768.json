@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221768",
+  "rule_id": "SV-221768r958754_rule",
+  "stig_id": "OL07-00-030210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must take appropriate action when the remote logging buffer is full.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "legacy": [
+      "SV-108379",
+      "V-99275"
+    ],
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-36289r602461_chk",
+  "check_content": "Verify the audisp daemon is configured to take an appropriate action when the internal queue is full:\n\n# grep \"overflow_action\" /etc/audisp/audispd.conf\n\noverflow_action = syslog\n\nIf the \"overflow_action\" option is not \"syslog\", \"single\", or \"halt\", or the line is commented out, ask the System Administrator to indicate how the audit logs are off-loaded to a different system or storage media, and to indicate what action the system takes when the internal queue is full.\n\nIf there is no evidence that the system is configured to off-load audit logs to a different system or storage media, or if the configuration does not take appropriate action when the internal queue is full, this is a finding.",
+  "fixtext": "Edit the /etc/audisp/audispd.conf file and add or update the \"overflow_action\" option:\n\noverflow_action = syslog\n\nThe audit daemon must be restarted for changes to take effect:\n\n# service auditd restart",
+  "fix_id": "F-36253r602462_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.\n\nOne method of off-loading audit logs in Oracle Linux is with the use of the audisp-remote dameon.  When the remote buffer is full, audit logs will not be collected and sent to the central log server.\n\nSatisfies: SRG-OS-000342-GPOS-00133, SRG-OS-000479-GPOS-00224",
+  "Documentable": "false"
+}

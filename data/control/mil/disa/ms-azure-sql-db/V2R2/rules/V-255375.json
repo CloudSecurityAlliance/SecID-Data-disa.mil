@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255375",
+  "rule_id": "SV-255375r961836_rule",
+  "stig_id": "ASQL-00-015400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Database must generate audit records when unsuccessful accesses to objects occur.",
+  "group_title": "SRG-APP-000507-DB-000357",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-59048r871249_chk",
+  "check_content": "Review Azure SQL Database configuration to verify that audit records are produced when unsuccessful accesses to objects occur.\n\nTo determine if an audit is configured, execute the following script. \nRun this TSQL command to determine if SQL Auditing AuditActionGroups are configured:\n  SELECT DISTINCT sd.audit_action_name \n  FROM sys.database_audit_specification_details sd\n  JOIN sys.database_audit_specifications s \n  ON s.database_specification_id = sd.database_specification_id\n  WHERE (name = 'SqlDbAuditing_ServerAuditSpec' /*Server Audit*/\n      OR name = 'SqlDbAuditing_AuditSpec') /*Database Audit*/\n  AND s.is_state_enabled = 1\n  ORDER BY sd.audit_action_name\n\nIf no values exist for AuditActionGroup, this is a finding. \n\nVerify the following AuditActionGroup(s) are configured:\nSCHEMA_OBJECT_ACCESS_GROUP\n\nIf any listed AuditActionGroups do not exist in the configuration, this is a finding.",
+  "fixtext": "Deploy an Azure SQL Database audit.\n\nRefer to the supplemental file \"AzureSQLDatabaseAudit.txt\" PowerShell script.\n\nReference: \nhttps://docs.microsoft.com/en-us/powershell/module/az.sql/set-azsqlserveraudit\">https://docs.microsoft.com/en-us/powershell/module/az.sql/set-azsqlserveraudit",
+  "fix_id": "F-58992r871250_fix",
+  "VulnDiscussion": "Without tracking all or selected types of access to all or selected objects (tables, views, procedures, functions, etc.), it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. \n\nIn an SQL environment, types of access include, but are not necessarily limited to:\nSELECT\nINSERT\nUPDATE\nDELETE\nEXECUTE\n\nTo aid in diagnosis, it is necessary to keep track of failed attempts in addition to the successful ones.",
+  "Documentable": "false"
+}

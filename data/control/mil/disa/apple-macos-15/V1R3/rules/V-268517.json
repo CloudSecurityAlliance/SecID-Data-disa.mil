@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268517",
+  "rule_id": "SV-268517r1034491_rule",
+  "stig_id": "APPL-15-002100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable Media Sharing.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-72547r1034489_chk",
+  "check_content": "Verify the macOS system is configured to disable Media Sharing with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n  $.NSUserDefaults.alloc.initWithSuiteName('com.apple.applicationaccess')\\\n  .objectForKey('allowMediaSharing').js\n  EOS\n\nIf the result is not \"false\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable Media Sharing by installing the \"com.apple.applicationaccess\" configuration profile.",
+  "fix_id": "F-72448r1034490_fix",
+  "VulnDiscussion": "Media Sharing must be disabled.\n\nWhen Media Sharing is enabled, the computer starts a network listening service that shares the contents of the user's music collection with other users in the same subnet.\n\nThe information system must be configured to provide only essential capabilities. Disabling Media Sharing helps prevent the unauthorized connection of devices and unauthorized transfer of information. Disabling Media Sharing mitigates this risk.\n\nNOTE: The Media Sharing preference panel will still allow \"Home Sharing\" and \"Share media with guests\" to be checked, but the service will not be enabled.",
+  "Documentable": "false"
+}

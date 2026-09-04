@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258764",
+  "rule_id": "SV-258764r959010_rule",
+  "stig_id": "ESXI-80-000209",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host Secure Shell (SSH) daemon must not permit tunnels.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62504r933351_chk",
+  "check_content": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config list -k permittunnel\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$esxcli.system.ssh.server.config.list.invoke() | Where-Object {$_.Key -eq 'permittunnel'}\n\nExample result:\n\npermittunnel no\n\nIf \"permittunnel\" is not configured to \"no\", this is a finding.",
+  "fixtext": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config set -k permittunnel -v no\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$arguments = $esxcli.system.ssh.server.config.set.CreateArgs()\n$arguments.keyword = 'permittunnel'\n$arguments.value = 'no'\n$esxcli.system.ssh.server.config.set.Invoke($arguments)",
+  "fix_id": "F-62413r933352_fix",
+  "VulnDiscussion": "OpenSSH has the ability to create network tunnels (layer 2 and layer 3) over an SSH connection. This function can provide similar convenience to a virtual private network (VPN) with the similar risk of providing a path to circumvent firewalls and network Access Control Lists (ACLs).",
+  "Documentable": "false"
+}

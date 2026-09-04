@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235161",
+  "rule_id": "SV-235161r960942_rule",
+  "stig_id": "MYS8-00-008100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must protect its audit configuration from unauthorized modification.",
+  "group_title": "SRG-APP-000122-DB-000203",
+  "idents": {
+    "cci": [
+      "CCI-001494"
+    ]
+  },
+  "check_id": "C-38380r623603_chk",
+  "check_content": "Check users with permissions to administer MySQL Auditing.\n\nselect * from information_schema.user_privileges where privilege_type = 'AUDIT_ADMIN';\n\nIf unauthorized accounts have the AUDIT_ADMIN privilege, this is a finding.\n\nCheck that a keyring plugin is installed.\nSELECT * FROM information_schema.PLUGINS where plugin_name like 'keyring%';\n\nIf no keyring is installed, this is a finding.\n\nCheck if the audit files are encrypted.\n\nTo check for data encryption at rest settings in MySQL:\nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables where variable_name = 'audit_log_encryption';\n\nIf \"audit_log_encryption\" is not set to \"AES\", this is a finding.",
+  "fixtext": "Remove audit-related permissions from individuals and roles not authorized to have them. \n\nREVOKE AUDIT_ADMIN on *.* FROM <user>;\n\nSet audit log format to use AES encryption.\nsudo vi /etc/my.cnf\n[mysqld]\nearly-plugin-load=keyring_file.so\naudit-log=FORCE_PLUS_PERMANENT\naudit-log-format=JSON\naudit-log-encryption=AES\n\nNote: First instantiate the keyring plugin which is needed to store the audit encryption key.\nThe example above has an \"early-plugin-load=keyring_file.so\" entry in the my.cnf file.  \nA keyring plugin must be present before adding the \"audit-log-encryption=AES\" entry or the database will not start.\n\nBelow are valid key ring plugins: \n\nFor dev test - not encrypted\nearly-plugin-load=keyring_file.so\n\nEncrypted file\nearly-plugin-load=keyring_encrypted_file.so\nkeyring_encrypted_file_data=/usr/local/mysql/mysql-keyring/keyring-encrypted\nkeyring_encrypted_file_password=password\n\nKMIP\nearly-plugin-load=keyring_okv.so\nkeyring_okv_conf_dir=/usr/local/mysql/mysql-keyring-okv\n\nOracle Cloud Vault\nearly-plugin-load=keyring_oci.so\nkeyring_oci_user=ocid1.user.oc1..longAlphaNumericString\nkeyring_oci_tenancy=ocid1.tenancy.oc1..longAlphaNumericString\nkeyring_oci_compartment=ocid1.compartment.oc1..longAlphaNumericString\nkeyring_oci_virtual_vault=ocid1.vault.oc1.iad.shortAlphaNumericString.longAlphaNumericString\nkeyring_oci_master_key=ocid1.key.oc1.iad.shortAlphaNumericString.longAlphaNumericString\nkeyring_oci_encryption_endpoint=shortAlphaNumericString-crypto.kms.us-ashburn-1.oraclecloud.com\nkeyring_oci_management_endpoint=shortAlphaNumericString-management.kms.us-ashburn-1.oraclecloud.com\nkeyring_oci_vaults_endpoint=vaults.us-ashburn-1.oci.oraclecloud.com\nkeyring_oci_secrets_endpoint=secrets.vaults.us-ashburn-1.oci.oraclecloud.com\nkeyring_oci_key_file=file_name\nkeyring_oci_key_fingerprint=12:34:56:78:90:ab:cd:ef:12:34:56:78:90:ab:cd:ef\n\nHashicorp\nearly-plugin-load=keyring_hashicorp.so\nkeyring_hashicorp_role_id='ee3b495c-d0c9-11e9-8881-8444c71c32aa'\nkeyring_hashicorp_secret_id='0512af29-d0ca-11e9-95ee-0010e00dd718'\nkeyring_hashicorp_store_path='/v1/kv/mysql'",
+  "fix_id": "F-38343r623604_fix",
+  "VulnDiscussion": "Protecting audit data also includes identifying and protecting the tools used to view and manipulate log data. Therefore, protecting audit tools is necessary to prevent unauthorized operation on audit data.\n\nApplications providing tools to interface with audit data will leverage user permissions and roles identifying the user accessing the tools and the corresponding rights the user enjoys in order make access decisions regarding the modification of audit tools.\n\nAudit tools include, but are not limited to, vendor-provided and open source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.",
+  "Documentable": "false"
+}

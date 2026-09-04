@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253698",
+  "rule_id": "SV-253698r961029_rule",
+  "stig_id": "MADB-10-003900",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "If passwords are used for authentication, MariaDB must transmit only encrypted representations of passwords.",
+  "group_title": "SRG-APP-000172-DB-000075",
+  "idents": {
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-57150r841617_chk",
+  "check_content": "MariaDB by default only sends passwords encrypted. However, when authenticating via the PAM Authentication Plugin, the password is sent in cleartext. Thus when using PAM authentication, it is recommended to use TLS/SSL encryption for all database connections. \n\nIf using PAM authentication, verify TLS/SSL is in use. \n\nRun the following database command: \n\nMariaDB> STATUS; \n\nVerify the line which starts with \"SSL:\" is as expected. If it returns \"Not in use\", this is a finding.",
+  "fixtext": "As the administrator locate the MariaDB configuration file to change. This varies depending on setup and how configuration files are managed but should be in /etc/my.cnf.d/. It is recommended to have a separate configuration file within this directory for SSL connection information.\n\nIn the [server] section add the lines for SSL:\n\nssl\nssl-ca=/path/to/ssl/ca-cert.pem\nssl-cert=/path/to/ssl/server-cert.pem\nssl-key=/path/to/ssl/server-key.pem\n\nRestart of the MariaDB Server and verify SSL is being used.\n\nMariaDB> STATUS; \n\nVerify line beginning with \"SSL:\".",
+  "fix_id": "F-57101r841618_fix",
+  "VulnDiscussion": "The DoD standard for authentication is DoD-approved PKI certificates.\n\nAuthentication based on User ID and Password may be used only when it is not possible to employ a PKI certificate and requires AO approval.\n\nIn such cases, passwords need to be protected at all times, and encryption is the standard method for protecting passwords during transmission.\n\nDBMS passwords sent in clear text format across the network are vulnerable to discovery by unauthorized users. Disclosure of passwords may easily lead to unauthorized access to the database.",
+  "Documentable": "false"
+}

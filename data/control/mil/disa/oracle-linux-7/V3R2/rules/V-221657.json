@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-221657",
+  "rule_id": "SV-221657r1015162_rule",
+  "stig_id": "OL07-00-010060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must enable a user session lock until that user re-establishes access using established identification and authentication procedures.",
+  "group_title": "SRG-OS-000028-GPOS-00009",
+  "idents": {
+    "legacy": [
+      "SV-108159",
+      "V-99055"
+    ],
+    "cci": [
+      "CCI-000056",
+      "CCI-000058",
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-23372r880598_chk",
+  "check_content": "Verify the operating system enables a user's session lock until that user re-establishes access using established identification and authentication procedures.\n\nNote: If the system does not have GNOME installed, this requirement is Not Applicable.\n\nCheck to see if the screen lock is enabled with the following command:\n\n     # grep -i lock-enabled /etc/dconf/db/local.d/*\n     lock-enabled=true\n\nIf the \"lock-enabled\" setting is missing or is not set to \"true\", this is a finding.",
+  "fixtext": "Configure the operating system to enable a user's session lock until that user re-establishes access using established identification and authentication procedures.\n\nCreate a database to contain the system-wide screensaver settings (if it does not already exist) with the following example:\n\n     # touch /etc/dconf/db/local.d/00-screensaver\n\nEdit the \"[org/gnome/desktop/screensaver]\" section of the database file and add or update the following lines:\n\n     # Set this to true to lock the screen when the screensaver activates\n     lock-enabled=true\n\nUpdate the system databases:\n\n     # dconf update\n\nUsers must log out and then log in again before the system-wide settings take effect.",
+  "fix_id": "F-23361r880599_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.\n\nThe session lock is implemented at the point where session activity can be determined.\n\nRegardless of where the session lock is determined and implemented, once invoked, the session lock must remain in place until the user reauthenticates. No other activity aside from reauthentication must unlock the system.\n\nSatisfies: SRG-OS-000028-GPOS-00009, SRG-OS-000030-GPOS-00011",
+  "Documentable": "false"
+}

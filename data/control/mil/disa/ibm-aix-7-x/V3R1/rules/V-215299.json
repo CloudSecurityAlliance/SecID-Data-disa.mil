@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215299",
+  "rule_id": "SV-215299r991589_rule",
+  "stig_id": "AIX7-00-002116",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX SSH daemon must perform strict mode checking of home directory configuration files.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101827",
+      "V-91729"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16497r294348_chk",
+  "check_content": "Check the SSH daemon configuration for the \"StrictModes\" setting using command: \n\n# grep -i StrictModes /etc/ssh/sshd_config | grep -v '^#' \nStrictModes yes\n\nIf the setting is missing or is set to \"no\", this is a finding.",
+  "fixtext": "Edit the \"/etc/sshd/sshd_config\" file and add or change the \"StrictModes\"  setting to \"yes\".\n\nRestart the SSH daemon:\n# stopsrc -s sshd\n# startsrc -s sshd",
+  "fix_id": "F-16495r294349_fix",
+  "VulnDiscussion": "If other users have access to modify user-specific SSH configuration files, they may be able to log into the system as another user.",
+  "Documentable": "false"
+}

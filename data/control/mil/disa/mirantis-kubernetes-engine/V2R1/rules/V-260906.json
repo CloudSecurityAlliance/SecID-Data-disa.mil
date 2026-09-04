@@ -1,0 +1,28 @@
+{
+  "vuln_id": "V-260906",
+  "rule_id": "SV-260906r1015768_rule",
+  "stig_id": "CNTR-MK-000110",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Least privilege access and need to know must be required to access MKE runtime and instantiate container images.",
+  "group_title": "SRG-APP-000033-CTR-000095",
+  "idents": {
+    "cci": [
+      "CCI-000213",
+      "CCI-001499",
+      "CCI-001094",
+      "CCI-003980",
+      "CCI-001813",
+      "CCI-001764",
+      "CCI-002385",
+      "CCI-001812"
+    ]
+  },
+  "check_id": "C-64635r966073_chk",
+  "check_content": "Access to use the docker CLI must be limited to root only.\n\n1. Log on to the host CLI and execute the following:\n\nstat -c %U:%G /var/run/docker.sock | grep -v root:docker\n\nIf any output is present, this is a finding.\n\n2. Verify that the docker group has only the required users by executing:\n\ngetent group docker\n\nIf any users listed are not required to have direct access to MCR, this is a finding.\n\n3. Execute the following command to verify the Docker socket file has permissions of 660 or more restrictive:\n stat -c %a /var/run/docker.sock\n\nIf permissions are not set to \"660\", this is a finding.",
+  "fixtext": "To remove unauthorized users from the docker group, access the host CLI and run:\n\ngpasswd -d docker [username to remove]\n\nTo ensure that docker.socket is group owned, execute the following:\n\nchown root:docker /var/run/docker.sock\n\nSet the file permissions of the Docker socket file to \"660\" execute the following:\n\nchmod 660 /var/run/docker.sock",
+  "fix_id": "F-64543r966074_fix",
+  "VulnDiscussion": "To control what is instantiated within MKE, it is important to control access to the runtime. Without this control, container platform specific services and customer services can be introduced without receiving approval and going through proper testing. Only those individuals and roles approved by the organization can have access to the container platform runtime.",
+  "Documentable": "false"
+}

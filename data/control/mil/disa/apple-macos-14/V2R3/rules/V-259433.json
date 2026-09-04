@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-259433",
+  "rule_id": "SV-259433r958434_rule",
+  "stig_id": "APPL-14-000031",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must configure audit log folders to not contain access control lists.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164",
+      "CCI-001493",
+      "CCI-001494",
+      "CCI-001495"
+    ]
+  },
+  "check_id": "C-63172r940919_chk",
+  "check_content": "Verify the macOS system is configured without ACLs applied to log folders with the following command:\n\n/bin/ls -lde /var/audit | /usr/bin/awk '{print $1}' | /usr/bin/grep -c \":\"\n\nIf the result is not \"0\", this is a finding.",
+  "fixtext": "Configure the macOS system without ACLs applied to log folders with the following command:\n\n/bin/chmod -N /var/audit",
+  "fix_id": "F-63080r940920_fix",
+  "VulnDiscussion": "The audit log folder must not contain access control lists (ACLs).\n\nAudit logs contain sensitive data about the system and users. This rule ensures that the audit service is configured to create log folders that are readable and writable only by system administrators in order to prevent normal users from reading audit logs.\n\nSatisfies: SRG-OS-000057-GPOS-00027,SRG-OS-000058-GPOS-00028,SRG-OS-000059-GPOS-00029,SRG-OS-000256-GPOS-00097,SRG-OS-000257-GPOS-00098,SRG-OS-000258-GPOS-00099",
+  "Documentable": "false"
+}

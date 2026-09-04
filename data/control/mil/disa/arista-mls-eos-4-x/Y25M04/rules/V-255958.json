@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-255958",
+  "rule_id": "SV-255958r1015711_rule",
+  "stig_id": "ARST-ND-000600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Arista network device must be configured to synchronize internal system clocks using redundant authenticated time sources.",
+  "group_title": "SRG-APP-000373-NDM-000298",
+  "idents": {
+    "cci": [
+      "CCI-001889",
+      "CCI-001890",
+      "CCI-004928",
+      "CCI-001967",
+      "CCI-004922",
+      "CCI-004923",
+      "CCI-001893"
+    ]
+  },
+  "check_id": "C-59634r882214_chk",
+  "check_content": "Determine if the network device is configured to synchronize internal information system clocks with authenticated primary and secondary time sources.\n\nVerify the Arista network device configuration with the following example:\n\nswitch# show running-config | section ntp\n\nntp authentication-key 12 sha1 7 06131C2058470A58\nntp trusted-key 12\nntp authenticate servers\nntp local-interface Management1\nntp server 192.168.16.36 prefer key 12\nntp server 192.168.16.37 key 12\n\nIf the Arista network device is not configured to synchronize internal system clocks with the primary and secondary time sources, this is a finding.\n\nIf the Arista network device does not authenticate Network Time Protocol sources using authentication that is cryptographically based, this is a finding.",
+  "fixtext": "Configure the Arista network device for at least two trusted time sources and to use cryptographic authentication with the following command example:\n\nswitch#config\nswitch(config)#ntp authentication-key 12 sha1 0 <key>\nswitch(config)#ntp trusted-key 12\nswitch(config)#ntp authenticate servers\nswitch(config)#ntp local-interface Management1\nswitch(config)#ntp server 192.168.16.36 prefer key 12\nswitch(config)#ntp server 192.168.16.37 key 12\nswitch(config)#exit\n\nConfigure the local time zone for the device.\n\nswitch#config\nswitch(config)#clock timezone <timezone>\nswitch(config)#exit",
+  "fix_id": "F-59577r882215_fix",
+  "VulnDiscussion": "The loss of connectivity to a particular authoritative time source will result in the loss of time synchronization (free-run mode) and increasingly inaccurate time stamps on audit events and other functions.\n\nMultiple time sources provide redundancy by including a secondary source. Time synchronization is usually a hierarchy; clients synchronize time to a local source while that source synchronizes its time to a more accurate source. The network device must utilize an authoritative time server and/or be configured to use redundant authoritative time sources. This requirement is related to the comparison done in CCI-001891.\n\nDOD-approved solutions consist of a combination of a primary and secondary time source using a combination or multiple instances of the following: a time server designated for the appropriate DOD network (NIPRNet/SIPRNet); United States Naval Observatory (USNO) time servers; and/or the Global Positioning System (GPS). The secondary time source must be located in a different geographic region than the primary time source.\n\nSatisfies: SRG-APP-000373-NDM-000298, SRG-APP-000374-NDM-000299, SRG-APP-000375-NDM-000300, SRG-APP-000395-NDM-000347",
+  "Documentable": "false"
+}

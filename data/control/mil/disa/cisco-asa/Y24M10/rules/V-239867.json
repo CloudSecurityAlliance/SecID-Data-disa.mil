@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-239867",
+  "rule_id": "SV-239867r891331_rule",
+  "stig_id": "CASA-FW-000250",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco ASA perimeter firewall must be configured to block all outbound management traffic.",
+  "group_title": "SRG-NET-000364-FW-000035",
+  "idents": {
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-43100r891329_chk",
+  "check_content": "Review the ASA configuration to determine if it blocks outbound management traffic.\n\nStep 1: Verify that an ingress ACL has been applied to all internal interfaces as shown in the example below.\n\n interface GigabitEthernet0/0\n nameif INSIDE\n security-level 100\n ip address x.1.11.1 255.255.255.0\n…\n…\n…\naccess-group INSIDE_IN in interface INSIDE\n\nStep 2: Verify that the ingress ACL blocks outbound management traffic as shown in the example below.\n\naccess-list INSIDE_IN extended deny udp any any eq snmp \naccess-list INSIDE_IN extended deny udp any any eq snmptrap\naccess-list INSIDE_IN extended deny udp any any eq ntp \naccess-list INSIDE_IN extended deny udp any any eq syslog\naccess-list INSIDE_IN extended deny tcp any any eq 22 \naccess-list INSIDE_IN extended deny tcp any any eq tacacs\naccess-list INSIDE_IN extended permit ip any any \n\nNote: An exception is to allow management traffic destined to perimeter devices. In those cases, configure permit statements for that traffic before the deny statements in the example above.\n\nIf the ASA is not configured to block outbound management traffic, this is a finding.",
+  "fixtext": "Step 1: Configure the ingress ACL similar to the example below.\n\nASA(config)# access-list INSIDE_IN extended deny udp any any eq snmp \nASA(config)# access-list INSIDE_IN extended deny udp any any eq snmptrap\nASA(config)# access-list INSIDE_IN extended deny udp any any eq ntp \nASA(config)# access-list INSIDE_IN extended deny udp any any eq syslog\nASA(config)# access-list INSIDE_IN extended deny tcp any any eq 22 \nASA(config)# access-list INSIDE_IN extended deny tcp any any eq tacacs\nASA(config)# access-list INSIDE_IN extended permit ip any any \n\nStep 2: Apply the ACL inbound on the internal interfaces as shown in the example below.\n\nASA(config)# access-group INSIDE_IN out interface INSIDE \nASA(config)# end",
+  "fix_id": "F-43059r891330_fix",
+  "VulnDiscussion": "The management network must still have its own subnet in order to enforce control and access boundaries provided by Layer 3 network nodes such as routers and firewalls. Management traffic between the managed network elements and the management network is routed via the same links and nodes as that used for production or operational traffic. \n\nSafeguards must be implemented to ensure that the management traffic does not leak past the managed network's premise equipment. If a firewall is located behind the premise router, all management traffic must be blocked at that point, with the exception of management traffic destined to premise equipment.",
+  "Documentable": "false"
+}

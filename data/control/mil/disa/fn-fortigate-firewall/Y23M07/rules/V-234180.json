@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234180",
+  "rule_id": "SV-234180r879730_rule",
+  "stig_id": "FGFW-ND-000105",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate device must allocate audit record storage capacity in accordance with organization-defined audit record storage requirements.",
+  "group_title": "SRG-APP-000357-NDM-000293",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-37365r860665_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # show full-configuration log disk setting | grep -i max-log-file-size\n\nThe output should be: \n          set max-log-file-size {INTEGER}\n\nIf max-log-file-size for local disk storage is not set to the organization-defined audit record storage, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config log disk setting\n     #    set max-log-file-size {INTEGER 1 - 100 MB}\n     #    set diskfull overwrite\n     # end",
+  "fix_id": "F-37330r835183_fix",
+  "VulnDiscussion": "To ensure network devices have a sufficient storage capacity in which to write the audit logs, they need to be able to allocate audit record storage capacity. The task of allocating audit record storage capacity is usually performed during initial device setup if it is modifiable.\n\nThe value for the organization-defined audit record storage requirement will depend on the amount of storage available on the network device, the anticipated volume of logs, the frequency of transfer from the network device to centralized log servers, and other factors.",
+  "Documentable": "false"
+}

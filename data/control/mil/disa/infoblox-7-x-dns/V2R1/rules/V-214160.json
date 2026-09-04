@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214160",
+  "rule_id": "SV-214160r612370_rule",
+  "stig_id": "IDNS-7X-000020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Primary authoritative name servers must be configured to only receive zone transfer requests from specified secondary name servers.",
+  "group_title": "SRG-APP-000516-DNS-000095",
+  "idents": {
+    "legacy": [
+      "V-68517",
+      "SV-83007"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-15375r295746_chk",
+  "check_content": "Infoblox grid members do not utilize DNS zone transfers to exchange DNS data. Communication between grid members is via a distributed database over a secure Virtual Private Network (VPN).\n\nIf configured to utilize zone transfers to external DNS servers, ensure Access Control Lists are configured to restrict data flow.\n\nIf Access Controls Lists are not configured for zone transfers to external non-Grid servers, this is a finding.",
+  "fixtext": "Navigate to Data Management >> DNS >> Members/Servers tab and configure access control (ACL or ACE) on each grid member which communicates with an external secondary.\n\nWhen complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen.\n\nPerform a service restart if necessary.",
+  "fix_id": "F-15373r295747_fix",
+  "VulnDiscussion": "Authoritative name servers (especially primary name servers) should be configured with an allow-transfer access control substatement designating the list of hosts from which zone transfer requests can be accepted. These restrictions address the denial-of-service threat and potential exploits from unrestricted dissemination of information about internal resources. Based on the need-to-know, the only name servers that need to refresh their zone files periodically are the secondary name servers. Zone transfer from primary name servers should be restricted to secondary name servers. The zone transfer should be completely disabled in the secondary name servers. The address match list argument for the allow-transfer substatement should consist of IP addresses of secondary name servers and stealth secondary name servers.",
+  "Documentable": "false"
+}

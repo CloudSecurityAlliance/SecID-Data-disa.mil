@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235167",
+  "rule_id": "SV-235167r961470_rule",
+  "stig_id": "MYS8-00-009000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The MySQL Database Server 8.0 must disable network functions, ports, protocols, and services deemed by the organization to be nonsecure, in accord with the Ports, Protocols, and Services Management (PPSM) guidance.",
+  "group_title": "SRG-APP-000383-DB-000364",
+  "idents": {
+    "cci": [
+      "CCI-001762"
+    ]
+  },
+  "check_id": "C-38386r623621_chk",
+  "check_content": "The server must only use approved network communication libraries, ports, and protocols. \n\nObtain a list of all approved network libraries, communication ports, and protocols from the server documentation. \n\nVerify that the protocols are enabled for the instance. \n\nRun the following SQL to list ports:\nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables\nWHERE VARIABLE_NAME in ('port', 'mysqlx_port', 'admin_port');\n\nThe default ports for MySQL for organizational connects are:\nClassic MySQL Protocol - 3306, MySQL X Protocol 33060, MySQL Admin Port (disabled by default)\n\nIf these are in conflict with guidance, and not explained and approved in the system documentation, this is a finding.\n\nRun the following to determine if a local socker/pipe are in use:\nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables where \nVARIABLE_NAME like '%pipe%' or  VARIABLE_NAME = 'socket' or  VARIABLE_NAME = 'mysqlx_socket';\n\nValues are for classic and xprotocol will be returned.\nFor example on Linux\n'socket','/tmp/mysql.sock'\n'mysqlx_socket','/tmp/mysqlx.sock'\n Windows\n'named_pipe', 'ON';\n\nIf these are in conflict with guidance, and not explained and approved in the system documentation, this is a finding.\n\nRun the following statement to inspect port settings:\nSELECT VARIABLE_NAME, VARIABLE_VALUE\nFROM performance_schema.global_variables\nWHERE VARIABLE_NAME LIKE '%port%' or VARIABLE_NAME LIKE '%port' order by  VARIABLE_NAME;\n\nLinux local socket \nselect @@socket;\n\nWindows local pipe\nselect @@named_pipe;\n\nIf any ports or protocols are used that are not specifically approved in the server documentation, this is a finding.",
+  "fixtext": "Disable each prohibited network function, port, protocol, or service prohibited by the PPSM guidance.\n\nChange mysql options related to network, ports, and protocols for the server and additionally consider refining further at user account level.\n\nTo set ports properly, edit the mysql configuration file and change ports or protocol settings.\n\nvi my.cnf\n[mysqld]\nport=<port value>\nadmin_port=<port value>\nmysqlx_port=<port value>\nsocket=/path/to/socket\n\nTo turn off TCP/IP:\n\nskip_networking=ON\n\nIf admin_address is not defined then access via the admin port is disabled. \n\nAdditionally the X Plugin can be disabled at startup/restart by either setting mysqlx=0 in the MySQL configuration file, or by passing in either \"--mysqlx=0\" or \"--skip-mysqlx\" when starting the MySQL server.",
+  "fix_id": "F-38349r623622_fix",
+  "VulnDiscussion": "Use of nonsecure network functions, ports, protocols, and services exposes the system to avoidable threats.",
+  "Documentable": "false"
+}

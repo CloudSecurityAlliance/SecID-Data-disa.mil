@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222534",
+  "rule_id": "SV-222534r961506_rule",
+  "stig_id": "APSC-DV-001660",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Service-Oriented Applications handling non-releasable data must authenticate endpoint devices via mutual SSL/TLS.",
+  "group_title": "SRG-APP-000395",
+  "idents": {
+    "legacy": [
+      "SV-84173",
+      "V-69551"
+    ],
+    "cci": [
+      "CCI-001967"
+    ]
+  },
+  "check_id": "C-24204r493510_chk",
+  "check_content": "Review application documentation and interview application administrator.\n\nIdentify application data elements and determine if the application is handling/processing non-releasable data.\n\nReview the application architecture and design documents.\n\nIdentify endpoint devices that interact with the application. These can be SOA gateways, VOIP phones, or other devices that are used to connect to and exchange data with the application.\n\nIf the design documentation specifies it, this could also include remote client workstations. However, this requirement is usually reserved for system-oriented endpoints rather than client workstations.\n\nIn order for two way SSL/TLS mutual authentication to work properly, the server must be configured to request client certificates.\n\nAccess the applications management console and navigate to the SSL/TLS management utility or web page that is used to configure two-way mutual authentication.\n\nVerify endpoints are configured for client authentication (mutual authentication).\n\nSome application architectures configure their settings in text/xml formatted files; in that case, have the application administrator identify the configuration files used by the application (e.g., web.xml stored in WEB-INF/ sub directory of the application root folder).\n\nOpen the web.xml file using a text editor and verify the application deployment descriptor for the application and the resource requiring protection under the \"login-config\" element is set to CLIENT-CERT.\n\nIf SSL/TLS mutual authentication is required due to the application processing non-releasable data and SSL/TLS mutual authentication not being utilized, this is a finding.",
+  "fixtext": "Configure the application to utilize mutual authentication when the application is processing non-releasable data.",
+  "fix_id": "F-24193r493511_fix",
+  "VulnDiscussion": "Without identifying devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity.\n\nOne way SSL/TLS authentication is the typical form of  authentication done between a web browser client and a web server. The client requests the server certificate to validate the server's identity and establish a secure connection.\n\nWhen SSL/TLS mutual authentication is used, the server is configured to request the client’s certificate as well so the server can also identify the client. This form of authentication is normally chosen for system to system communications that leverage HTTP as the transport.\n\nIt should be noted that SSL is being deprecated and replaced with TLS.\n\nFor distributed architectures (e.g., service-oriented architectures), the decisions regarding the validation of identification claims may be made by services separate from the services acting on those decisions. In such situations, it is necessary to provide the identification decisions (as opposed to the actual identifiers) to the services that need to act on those decisions.\n\nThis requirement applies to applications that connect either locally, remotely, or through a network to an endpoint device (including but not limited to: workstations, printers, servers (outside a datacenter), VoIP Phones, VTC CODECs). Gateways and SOA applications are examples of where this requirement would apply.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215287",
+  "rule_id": "SV-215287r991589_rule",
+  "stig_id": "AIX7-00-002102",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "On AIX, the SSH server must not permit root logins using remote access programs.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91577",
+      "SV-101675"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16485r294312_chk",
+  "check_content": "Determine if the SSH daemon is configured to disable root logins:\n# grep -iE \"PermitRootLogin[[:blank:]]*no\" /etc/ssh/sshd_config | grep -v \\#\n\nIf the above command displays a line, the root login is disabled.\n\nIf the root login is not disabled, this is a finding.",
+  "fixtext": "Edit the \"/etc/ssh/sshd_config\" file to have the following line and save the change: \nPermitRootLogin no\n\nRestart SSH daemon:\n# stopsrc -s sshd\n# startsrc -s sshd",
+  "fix_id": "F-16483r294313_fix",
+  "VulnDiscussion": "Permitting direct root login reduces auditable information about who ran privileged commands on the system and also allows direct attack attempts on root's password.",
+  "Documentable": "false"
+}

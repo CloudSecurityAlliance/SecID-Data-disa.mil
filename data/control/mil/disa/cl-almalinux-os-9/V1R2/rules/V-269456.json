@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-269456",
+  "rule_id": "SV-269456r1050339_rule",
+  "stig_id": "ALMA-09-045340",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must have the Advanced Intrusion Detection Environment (AIDE) package installed.",
+  "group_title": "SRG-OS-000445-GPOS-00199",
+  "idents": {
+    "cci": [
+      "CCI-002696",
+      "CCI-002699",
+      "CCI-001744"
+    ]
+  },
+  "check_id": "C-73487r1049742_chk",
+  "check_content": "Verify that AlmaLinux OS 9 has the AIDE package installed with the following command:\n\n$ dnf list --installed aide\n\naide.x86_64     0.16-100.el9     @AppStream\n\nIf AIDE is not installed, ask the system administrator (SA) how file integrity checks are performed on the system. \n\nIf there is no application installed to perform integrity checks, this is a finding.\n\nIf AIDE is installed, check if it has been initialized with the following command:\n\n$ /usr/sbin/aide --check\n\nIf the output is \"Couldn't open file /var/lib/aide/aide.db.gz for reading\", this is a finding.",
+  "fixtext": "Install AIDE, initialize it, and perform a manual check.\n\nInstall AIDE:\n\n$ dnf install aide\n\nInitialize AIDE:\n\n$ /usr/sbin/aide --init\n\nExample output:\n\nStart timestamp: 2024-01-26 09:59:41 +0000 (AIDE 0.16)\nAIDE initialized database at /var/lib/aide/aide.db.new.gz\n\nNumber of entries: 27922\n\n---------------------------------------------------\nThe attributes of the (uncompressed) database(s):\n---------------------------------------------------\n\n/var/lib/aide/aide.db.new.gz\n  MD5      : p2o2MgLyXqLfsHGmHWR9nQ==\n  SHA1     : C5R2JcZCSv3KRz0dMrcQ0JZdZV4=\n  SHA256   : tUAG19G4gskBEfN+Z9pyVJi13rHA9f7P\n             d9R5OivGk40=\n  SHA512   : u26Um0w9hzsMmwZHNssCsmuxVqr9kBx+\n             Qx+9UBNQCBXlmWFCbq2Yx88BPCU5s/qy\n             njPIODmPRg4I09jxs5KYjw==\n\n\nEnd timestamp: 2024-01-26 09:59:49 +0000 (run time: 0m 8s)\n\nThe new database will need to be renamed to be read by AIDE:\n\n$ mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz\n\nPerform a manual check:\n\n$ /usr/sbin/aide --check\n\nExample output:\n\nStart timestamp: 2024-01-26 10:00:50 +0000 (AIDE 0.16)\nAIDE found NO differences between database and filesystem. Looks okay!!",
+  "fix_id": "F-73388r1048745_fix",
+  "VulnDiscussion": "Without verification of the security functions, security functions may not operate correctly and the failure may go unnoticed. Security function is defined as the hardware, software, and/or firmware of the information system responsible for enforcing the system security policy and supporting the isolation of code and data on which the protection is based. Security functionality includes, but is not limited to, establishing system accounts, configuring access authorizations (i.e., permissions, privileges), setting events to be audited, and setting intrusion detection parameters.\n\nThis requirement applies to operating systems performing security function verification/testing and/or systems and environments that require this functionality.\n\nSatisfies: SRG-OS-000445-GPOS-00199, SRG-OS-000446-GPOS-00200, SRG-OS-000363-GPOS-00150",
+  "Documentable": "false"
+}

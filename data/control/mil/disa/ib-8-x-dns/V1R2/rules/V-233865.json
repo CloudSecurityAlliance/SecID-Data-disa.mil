@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233865",
+  "rule_id": "SV-233865r1082621_rule",
+  "stig_id": "IDNS-8X-400007",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All authoritative DNS service members for a zone must have the same version of zone information.",
+  "group_title": "SRG-APP-000516-DNS-000088",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-37050r1082619_chk",
+  "check_content": "Review DNS zone data to validate the SOA on all authoritative DNS service members. Remote DNS service members that do not have the same serial number as the primary DNS service member may have network issues or misconfiguration blocking updates.  \n\nUse either the \"nslookup\" or \"dig\" utility to review the serial number returned from each DNS service member. \n\nExample: \nUsing the \"dig\" utility, enter the command line as follows: \"dig @NAMESERVER-IP ZONE SOA\".   $ dig @192.168.0.1 blue.org SOA  ;; ANSWER SECTION: blue.org.  28800 IN SOA ns.blue.org. postmaster.blue.org. 20200922 10800 3600 2419200 900  \n\nThe SOA RR specifies the serial number as the third RDATA field. In this example, it is 20200922.  \n\nIf any serial numbers for the same zone do not match, this is a finding.",
+  "fixtext": "Serial numbers are updated automatically when changes are made to a zone through the Infoblox Grid, as well as through the notify process for external DNS service members. If a serial number mismatch is discovered, troubleshooting of both server configurations and network will be required. Protocol configuration issues will be logged in the Infoblox Grid Members SYSLOG.\n\n1. Navigate to Administration >> Logs >> Syslog.\n2. Infoblox Grid Members can be selected using the drop-down menu.\n3. Stand-alone systems will not display a drop-down menu; the log data will be displayed automatically.\n4. Review the SYSLOG data and resolve the issue that is preventing updates.",
+  "fix_id": "F-37015r1082620_fix",
+  "VulnDiscussion": "The only protection approach for content control of DNS zone file is the use of a zone file integrity checker. The effectiveness of integrity checking using a zone file integrity checker depends on the database of constraints built into the checker. The deployment process consists of developing these constraints with the right logic, and the only determinant of the truth value of these logical predicates is the parameter values for certain key fields in the format of various RRTypes.\n\nThe serial number in the SOA RDATA is used to indicate to secondary name servers that a change to the zone has occurred and a zone transfer should be performed. It should always be increased whenever a change is made to the zone data. DNS NOTIFY must be enabled on the master authoritative name server.",
+  "Documentable": "false"
+}

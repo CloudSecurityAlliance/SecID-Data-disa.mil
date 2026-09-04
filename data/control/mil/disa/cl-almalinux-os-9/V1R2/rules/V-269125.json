@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-269125",
+  "rule_id": "SV-269125r1069343_rule",
+  "stig_id": "ALMA-09-004310",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must use the TuxCare FIPS repository.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "cci": [
+      "CCI-000068",
+      "CCI-000877",
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-73156r1069123_chk",
+  "check_content": "Verify that AlmaLinux OS 9 is using the TuxCare FIPS repositories with the following command:\n\n$ dnf repolist | grep tuxcare\ntuxcare-base TuxCare Enterprise Support for AlmaLinux OS 9.2 - Base\ntuxcare-esu  TuxCare Enterprise Support for AlmaLinux OS 9.2 - ESU\ntuxcare-fips TuxCare Enterprise Support for AlmaLinux OS 9.2 - FIPS Compliance Extension\n\nIf the three tuxcare-* repositories above are not enabled, this is a finding.",
+  "fixtext": "FIPS-validated packages are available from TuxCare as part of the Enterprise Support for AlmaLinux product line. Access the packages by purchasing an ESU license key.\n\nConfigure the operating system to implement FIPS mode with the following commands:\n\n$ dnf -y install https://repo.tuxcare.com/tuxcare/tuxcare-release-latest-9.2.$(uname -i).rpm\n\n$ tuxctl ---fips --license-key ESU-XXXXXXXXXXXXXXXXXXX\n\n$ dnf -y install openssl-3.0.7-20.el9_2.tuxcare.1 kernel-5.14.0-284.11.1.el9_2.tuxcare.5 gnutls-3.7.6-23.el9_2.tuxcare.3 nettle-3.8-3.el9_2.tuxcare.1 libgcrypt-1.10.0-10.el9_2.tuxcare.3 nss-3.90.0-6.el9_2.tuxcare.1\n\n$ grubby --set-default=/boot/vmlinuz-5.14.0-284.11.1.el9_2.tuxcare.5.$(uname -i)\n\n$ fips-mode-setup --enable\n\n$ reboot",
+  "fix_id": "F-73057r1069124_fix",
+  "VulnDiscussion": "FIPS 140-3 validated packages are available from TuxCare.\n\nThe TuxCare repositories provide the packages and updates not found in the community repositories.\n\nSatisfies: SRG-OS-000033-GPOS-00014, SRG-OS-000125-GPOS-00065, SRG-OS-000396-GPOS-00176, SRG-OS-000478-GPOS-00223",
+  "Documentable": "false"
+}

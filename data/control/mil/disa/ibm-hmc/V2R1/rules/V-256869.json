@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-256869",
+  "rule_id": "SV-256869r1001084_rule",
+  "stig_id": "HMC0030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Dial-out access from the Hardware Management Console Remote Support Facility (RSF) must be restricted to an authorized vendor site.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-24348",
+      "SV-30007"
+    ],
+    "cci": [
+      "CCI-002883"
+    ]
+  },
+  "check_id": "C-60544r890951_chk",
+  "check_content": "Whenever dial-out hardware is present, have the System Administrator or Systems Programmer validate that dial-out access from the Hardware Management Console is enabled for any non-classified system.\n\nNote: This is accomplished by going to Hardware Management Console and selecting Customize Remote Services. Then verify that Enable Remote Services is active.\n\nIf automatic dial-out access from the Hardware Management Console is enabled, have the Systems Administrator or Systems Programmer validate that remote phone number and remote service parameters values are valid authorized venders in the remote Service Panel of the Hardware Management Console. \n\nIf all the above values are not correct, this is a finding.",
+  "fixtext": "When this feature is turned on for non-classified systems, the site must verify that the remote site information is valid.\n\nThe RSF, which is also commonly referred to as call home, is one of the key components that contributes to zero downtime on System z hardware.\n\nThe Hardware Management Console RSF provides communication to an IBM support network, known as RETAIN for hardware problem reporting and service.\nWhen a Hardware Management Console enables RSF, the Hardware Management Console then becomes a call home server. \nThe types of communication that are provided are:\n\n- Problem reporting and repair data.\n- Fix delivery to the service processor and Hardware Management Console.\n- Hardware inventory data.\n- System updates that are required to activate Capacity on Demand changes.\n\nThe following call home security characteristics are in effect regardless of the connectivity method that is chosen:\nRSF requests are always initiated from the Hardware Management Console to IBM. An inbound connection is never initiated from the IBM Service Support System.\nAll data that is transferred between the Hardware Management Console and the IBM Service Support System is encrypted in a high-grade Secure Sockets Layer (SSL) encryption.\nWhen initializing the SSL-encrypted connection, the Hardware Management Console validates the trusted host by its digital signature issued for the IBM Service Support system. Data sent to the IBM Service Support System consists solely of hardware problems and configuration data. No application or customer data is transmitted to IBM.",
+  "fix_id": "F-60487r890952_fix",
+  "VulnDiscussion": "Dial-out access from the Hardware Management Console could impact the integrity of the environment, by enabling the possible introduction of spyware or other malicious code. It is important to note that it should be properly configured to only go to an authorized vendor site. Note: This feature will  be activated for Non-Classified Systems only.  Also, many newer processors (e.g., zEC12/zBC12 processors) will not have modems.  If there is no modem, this check is not applicable.",
+  "Documentable": "false"
+}

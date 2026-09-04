@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254285",
+  "rule_id": "SV-254285r958736_rule",
+  "stig_id": "WN22-AC-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2022 account lockout duration must be configured to 15 minutes or greater.",
+  "group_title": "SRG-OS-000329-GPOS-00128",
+  "idents": {
+    "cci": [
+      "CCI-002238"
+    ]
+  },
+  "check_id": "C-57770r848669_chk",
+  "check_content": "Verify the effective setting in Local Group Policy Editor.\n\nRun \"gpedit.msc\".\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Account Policies >> Account Lockout Policy.\n\nIf the \"Account lockout duration\" is less than \"15\" minutes (excluding \"0\"), this is a finding.\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas SecurityPolicy /CFG C:\\Path\\FileName.Txt\n\nIf \"LockoutDuration\" is less than \"15\" (excluding \"0\") in the file, this is a finding.\n\nConfiguring this to \"0\", requiring an administrator to unlock the account, is more restrictive and is not a finding.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Account Policies >> Account Lockout Policy >> Account lockout duration to \"15\" minutes or greater.\n\nA value of \"0\" is also acceptable, requiring an administrator to unlock the account.",
+  "fix_id": "F-57721r848670_fix",
+  "VulnDiscussion": "The account lockout feature, when enabled, prevents brute-force password attacks on the system. This parameter specifies the period of time that an account will remain locked after the specified number of failed logon attempts.",
+  "Documentable": "false"
+}

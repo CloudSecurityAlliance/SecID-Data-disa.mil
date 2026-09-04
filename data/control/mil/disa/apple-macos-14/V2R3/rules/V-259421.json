@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-259421",
+  "rule_id": "SV-259421r1009577_rule",
+  "stig_id": "APPL-14-000005",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must configure user session lock when a smart token is removed.",
+  "group_title": "SRG-OS-000030-GPOS-00011",
+  "idents": {
+    "cci": [
+      "CCI-000057",
+      "CCI-000058"
+    ]
+  },
+  "check_id": "C-63160r940883_chk",
+  "check_content": "Verify the macOS system is configured to lock the user session when a smart token is removed with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.security.smartcard')\\\n.objectForKey('tokenRemovalAction').js\nEOS\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Configure the macOS system to lock the user session when a smart token is removed by installing the \"com.apple.security.smartcard\" configuration profile.\n\nNote: To ensure continued access to the operating system, consult the supplemental guidance provided with the STIG before applying the configuration profile.",
+  "fix_id": "F-63068r940884_fix",
+  "VulnDiscussion": "The screen lock must be configured to initiate automatically when the smart token is removed from the system.\n\nSession locks are temporary actions taken when users stop work and move away from the immediate vicinity of the information system but do not want to log out because of the temporary nature of their absence. While a session lock is not an acceptable substitute for logging out of an information system for longer periods of time, they prevent a malicious user from accessing the information system when a user has removed their smart token.",
+  "Documentable": "false"
+}

@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-259550",
+  "rule_id": "SV-259550r1038909_rule",
+  "stig_id": "APPL-14-003060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must require passwords contain a minimum of one lowercase character and one uppercase character.",
+  "group_title": "SRG-OS-000069-GPOS-00037",
+  "idents": {
+    "cci": [
+      "CCI-004066",
+      "CCI-004064",
+      "CCI-000192",
+      "CCI-000193"
+    ]
+  },
+  "check_id": "C-63289r1038908_chk",
+  "check_content": "Verify the macOS system is configured to require passwords contain a minimum of one lowercase character and one uppercase character with the following command:\n\n/usr/bin/pwpolicy -getaccountpolicies 2> /dev/null | /usr/bin/tail +2 | /usr/bin/xmllint --xpath 'boolean(//*[contains(text(),\"policyAttributePassword matches '\\''^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*$'\\''\")])' -\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to require at least one lowercase character and one uppercase character in password complexity by installing the \"com.apple.mobiledevice.passwordpolicy\" configuration profile.",
+  "fix_id": "F-63197r941271_fix",
+  "VulnDiscussion": "The macOS be configured to require at least one lowercase character and one uppercase character be used when a password is created.\n\nThis rule enforces password complexity by requiring users to set passwords that are less vulnerable to malicious users.\n\nNote: The guidance for password-based authentication in NIST 800-53 (Rev 5) and NIST 800-63B state that complexity rules should be organizationally defined. The values defined are based on common complexity values, but an organization may define its own password complexity rules.\n\nNote: The configuration profile generated must be installed from an MDM server.\n\nSatisfies: SRG-OS-000069-GPOS-00037,SRG-OS-000070-GPOS-00038",
+  "Documentable": "false"
+}

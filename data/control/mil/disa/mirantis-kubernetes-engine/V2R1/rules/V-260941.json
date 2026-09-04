@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260941",
+  "rule_id": "SV-260941r966180_rule",
+  "stig_id": "CNTR-MK-001360",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The network ports on all running containers must be limited to required ports.",
+  "group_title": "SRG-APP-000383-CTR-000910",
+  "idents": {
+    "cci": [
+      "CCI-001762"
+    ]
+  },
+  "check_id": "C-64670r966178_chk",
+  "check_content": "Verify that only needed ports are open on all running containers. If an ingress controller is configured for the cluster, this check is not applicable.\n\nVia CLI: As a remote MKE admin, execute the following command using a client bundle:\n\ndocker ps -q | xargs docker inspect --format '{{ .Id }}: Ports={{ .NetworkSettings.Ports }}'\n\nReview the list and ensure that the ports mapped are the ones really needed for the containers per the requirements set forth by the System Security Plan (SSP).\n\nIf ports are not documented and approved in the SSP, this is a finding.",
+  "fixtext": "Configuring an ingress controller is the preferred method to manage external ports. If an ingress controller is not used and unnecessary ports are in use, the container or pod network configurations must be updated.\n\nTo update a pod's configuration, log in to the MKE UI as an administrator. \n\nNavigate to Kubernetes >> Pods and click the pod with an open port that is not allowed.\n\nClick the three dots in the upper right corner (edit).\n\nModify the .yaml file to remove the port. Example:\n\nspec: \n   container:\n   - name: [pod name]\n     ports:\n      - containerPort: 80 [replace with 443]\n\nClick \"Save\".\n\nFor a Swarm service, navigate to Swarm >> Services and click on the service with unauthorized port.\n\nClick the three dots in the top left corner.\n\nSelect \"Network\" in the pop-up and remove the unauthorized port.\n\nClick \"Save\".",
+  "fix_id": "F-64578r966179_fix",
+  "VulnDiscussion": "To validate that the services are using only the approved ports and protocols, the organization must perform a periodic scan/review of MKE and disable functions, ports, protocols, and services deemed to be unneeded or nonsecure.",
+  "Documentable": "false"
+}

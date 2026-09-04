@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268267",
+  "rule_id": "SV-268267r1038760_rule",
+  "stig_id": "HYCU-ND-000590",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must require that when a password is changed, the characters are changed in at least eight of the positions within the password.",
+  "group_title": "SRG-APP-000170-NDM-000329",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-72288r1038759_chk",
+  "check_content": "Verify the value of the \"difok\" option with the following command:\n$ sudo grep -r difok /etc/security/pwquality.conf*\n\n/etc/security/pwquality.conf:difok = 8\n\nIf the value of \"difok\" is set to less than \"8\" or is commented out, this is a finding.\n\nIf conflicting results are returned, this is a finding.",
+  "fixtext": "Configure the operating system to require the change of at least eight of the total number of characters when passwords are changed by setting the \"difok\" option.\n\nAdd the following line to \"/etc/security/pwquality.conf\" (or modify the line to have the required value):\ndifok = 8\n\nRemove any configurations that conflict with the above value.",
+  "fix_id": "F-72191r1038500_fix",
+  "VulnDiscussion": "If the application allows the user to consecutively reuse extensive portions of passwords, this increases the chances of password compromise by increasing the window of opportunity for attempts at guessing and brute-force attacks.\n\nThe number of changed characters refers to the number of changes required with respect to the total number of positions in the current password. In other words, characters may be the same within the two passwords; however, the positions of the like characters must be different.\n\nMultifactor authentication (MFA) is required for all administrative and user accounts on network devices, except for an account of last resort and (where applicable) a root account. Passwords should only be used when MFA using PKI is not available, and for the account of last resort and root account.",
+  "Documentable": "false"
+}

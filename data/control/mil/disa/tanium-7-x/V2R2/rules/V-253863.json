@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253863",
+  "rule_id": "SV-253863r1067670_rule",
+  "stig_id": "TANS-SV-000045",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Tanium \"max_soap_sessions_total\" setting must be explicitly enabled to limit the number of simultaneous sessions.",
+  "group_title": "SRG-APP-000001",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-57315r1067668_chk",
+  "check_content": "1. Using a web browser on a system that has connectivity to the Tanium application, access the Tanium application web user interface (UI) and log on with multifactor authentication.\n \n2. Click \"Administration\" on the top navigation banner.\n \n3. Under \"Configuration\", select \"Settings\".\n\n4. Click the \"Advanced Settings\" tab.\n \n5. In the \"Filter items\" search box, type \"max_soap_sessions_total\".\n \n6. Click \"Enter\".\n \nIf no results are returned, this is a finding.\n \nIf results are returned for \"max_soap_sessions_total\" but the value does not follow {(Number of Users) * 1024} formula, this is a finding.",
+  "fixtext": "1. Using a web browser on a system that has connectivity to the Tanium application, access the Tanium application web UI and log on with multifactor authentication. \n\n2. Click \"Administration\" on the top navigation banner.\n \n3. Under \"Configuration\", select \"Settings\".\n\n4. Click the \"Advanced Settings\" tab.\n \n5. Click \"Create Setting\". \n\n6. Select \"Server\" box for \"Setting Type\".\n\n7. In \"Create Platform Setting\" dialog box, enter \"max_soap_sessions_total\" for \"Name\".\n\n8. Select \"Numeric\" radio button from \"Value Type\". \n\n9. Use this formula for determining \"Setting Value\": {(Number of Users) * 1024 = max_soap_sessions_total} \n\n10. Click \"Save\".\n \n11. Add this setting to the system documentation for validation.",
+  "fix_id": "F-57266r1067669_fix",
+  "VulnDiscussion": "Application management includes the ability to control the number of users and user sessions that utilize an application. Limiting the number of allowed users and sessions per user is helpful in limiting risks related to denial-of-service attacks.\n \nThis requirement may be met via the application or by using information system, session control provided by a web server with specialized session management capabilities. If it has been specified that this requirement will be handled by the application, the capability to limit the maximum number of concurrent single user sessions must be designed and built into the application.\n \nThis requirement addresses concurrent sessions for information system accounts and does not address concurrent sessions by single users via multiple system accounts. The maximum number of concurrent sessions must be defined based on mission needs and the operational environment for each system.",
+  "Documentable": "false"
+}

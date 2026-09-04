@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-259494",
+  "rule_id": "SV-259494r958564_rule",
+  "stig_id": "APPL-14-002021",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable sending diagnostic and usage data to Apple.",
+  "group_title": "SRG-OS-000205-GPOS-00083",
+  "idents": {
+    "cci": [
+      "CCI-001312",
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-63233r941102_chk",
+  "check_content": "Verify the macOS system is configured to disable sending diagnostic and usage data to Apple with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\nfunction run() {\nlet pref1 = $.NSUserDefaults.alloc.initWithSuiteName('com.apple.SubmitDiagInfo')\\\n.objectForKey('AutoSubmit').js\nlet pref2 = $.NSUserDefaults.alloc.initWithSuiteName('com.apple.applicationaccess')\\\n.objectForKey('allowDiagnosticSubmission').js\nif ( pref1 == false && pref2 == false ){\n    return(\"true\")\n} else {\n    return(\"false\")\n}\n}\nEOS\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable sending diagnostic and usage data to Apple by installing the \"com.apple.applicationaccess\" configuration profile.",
+  "fix_id": "F-63141r941103_fix",
+  "VulnDiscussion": "The ability to submit diagnostic data to Apple must be disabled.\n\nThe information system must be configured to provide only essential capabilities. Disabling the submission of diagnostic and usage information will mitigate the risk of unwanted data being sent to Apple.\n\nSatisfies: SRG-OS-000205-GPOS-00083,SRG-OS-000206-GPOS-00084",
+  "Documentable": "false"
+}

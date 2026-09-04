@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233879",
+  "rule_id": "SV-233879r1082653_rule",
+  "stig_id": "IDNS-8X-400021",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The private keys corresponding to both the Zone Signing Key (ZSK) and the Key Signing Key (KSK) must not be kept on the DNSSEC-aware primary authoritative DNS service member when the DNS service member does not support dynamic updates.",
+  "group_title": "SRG-APP-000516-DNS-000112",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-37064r1082651_chk",
+  "check_content": "Note: For Infoblox DNS systems on a classified network, this requirement is Not Applicable.  \n\nBy default, KSK and ZSK private keys are stored on the Grid Master within the Infoblox database. No clients should be permitted to use the Grid Master DNS service.  \n\n1. Navigate to Data Management >> DNS >> Zones.  \n2. Review each zone by selecting the zone and clicking \"Edit\" and selecting the \"DNSName Servers\" tab. \n\nIf the Grid Master is a listed DNS service member and not marked \"Stealth\", this is a finding.\n\nIf a Hardware Security Module (HSM) is configured, KSK and ZSK private keys are encrypted and stored on the HSM, this is not a finding.",
+  "fixtext": "For each zone that is not in compliance:  \n\n1. Navigate to Data Management >> DNS >> Zones.\n2. Select and edit the zone. \n3. Select the \"DNS service members\" tab and modify the Grid Master by selecting \"Stealth\". \n4. When complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen. \n5. Perform a service restart if necessary.",
+  "fix_id": "F-37029r1082652_fix",
+  "VulnDiscussion": "The private keys in the KSK and ZSK key pairs must be protected from unauthorized access. If possible, the private keys should be stored offline (with respect to the internet-facing, DNSSEC-aware name server) in a physically secure, non-network-accessible machine along with the zone file master copy. \n\nThis strategy is not feasible in situations in which the DNSSEC-aware name server has to support dynamic updates. To support dynamic update transactions, the DNSSEC-aware name server (which usually is a primary authoritative name server) must have both the zone file master copy and the private key corresponding to the zone-signing key (ZSK-private) online to immediately update the signatures for the updated RRSets. The private key corresponding to the key-signing key (KSK-private) can still be kept offline.",
+  "Documentable": "false"
+}

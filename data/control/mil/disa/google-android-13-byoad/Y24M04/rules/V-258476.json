@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258476",
+  "rule_id": "SV-258476r929466_rule",
+  "stig_id": "GOOG-13-706000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Google Android 13 must be configured to enforce a minimum password length of six characters and not allow passwords that include more than four repeating or sequential characters.",
+  "group_title": "PP-MDF-333024",
+  "idents": {
+    "cci": [
+      "CCI-000205"
+    ]
+  },
+  "check_id": "C-62216r929464_chk",
+  "check_content": "Review managed Google Android 13 device configuration settings to determine if the mobile device is enforcing a high password quality for the device and standard DOD password complexity rules for the Work Profile (at least six-character length and prevent passwords from containing more than four repeating or sequential characters).\n\n1. Verify the device password configuration:\n\nOn the EMM console:\na. Open \"Lock screen\" settings.\nb. Open \"Set required password complexity on parent\".\nc. Verify \"High\" is selected.\n\n2. Verify the Work Profile password configuration:\n\nOn the EMM console (for the work profile):\n1. Open \"Lock screen\" settings.\n2. Open \"Password constraints\".\n3. Open \"Minimum password quality\".\n4. Verify Numeric Complex, Alphabetic, Alphanumeric, or Complex is selected.\n5. Open \"Minimum password length\".\n6. Verify \"6\" is set for number of characters.\n\nIf the device password quality is not set to High or the Work Profile password length is not set to six characters or the password quality is not set as required, this is a finding.\n\nNote: verifying the OneLock configuration is not required because the use of OneLock is optional.",
+  "fixtext": "Configure the Google Android 13 device to enforce high password quality for the device and standard DOD password complexity rules for the Work Profile (at least six-character length and prevent passwords from containing more than four repeating or sequential characters). In addition, enable OneLock so the user only must enter their device password to unlock the Work Profile. Note: enabling OneLock is optional and is a two-step process: configuration on the EMM and configuration by the user on the phone. If OneLock is not used, the user will always need to enter separate passwords to unlock the device and to unlock the Work Profile.\n\n1. Set the password on the whole device:\nSet device password complexity to \"HIGH\" (requires (at minimum) an eight numeric character password, or six alphabetic character password, or a six alphanumeric character password)\n\nOn the EMM console:\na. Open \"Lock screen\" settings.\nb. Open \"Set required password complexity on parent\".\nc. Select \"High\".\n\n2. Set DOD password for the Work Profile.\n\nOn the EMM console:\na. Open \"Lock screen\" settings.\nb. Open \"Password constraints\".\nc. Open \"Minimum password quality\".\nd. Choose Numeric Complex, Alphabetic, Alphanumeric, or Complex.\ne. Open \"Minimum password length\".\nf. Enter in the number of characters as \"6\".\n\n3. Enable OneLock on the EMM.\n\nOn the MDM console:\na. Disable the following Android API: \"DISALLOW_UNIFIED_PASSWORD\". The exact procedure will depend on the EMM product.\nNote: this control may be called \"Require separate challenge\".\n\n4. Train users to implement OneLock with the following User Based Enforcement (UBE): procedure:\n\na. Open Settings >> Security & privacy >> More security settings.\nb. Enable \"Use one lock\".",
+  "fix_id": "F-62125r929465_fix",
+  "VulnDiscussion": "Password strength is a measure of the effectiveness of a password in resisting guessing and brute force attacks. The ability to crack a password is a function of how many attempts an adversary is permitted, how quickly an adversary can do each attempt, and the size of the password space. The longer the minimum length of the password is, the larger the password space. Having a too-short minimum password length significantly reduces password strength, increasing the chance of password compromise and resulting device and data compromise.\n\nSatisfies: PP-MDF-333024, PP-MDF-333025\n\nSFR ID: FMT_SMF_EXT.1.1 #1a",
+  "Documentable": "false"
+}

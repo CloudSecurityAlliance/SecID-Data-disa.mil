@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-255953",
+  "rule_id": "SV-255953r1051115_rule",
+  "stig_id": "ARST-ND-000350",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Arista network device must be configured with only one local account to be used as the account of last resort in the event the authentication server is unavailable.",
+  "group_title": "SRG-APP-000148-NDM-000346",
+  "idents": {
+    "cci": [
+      "CCI-001358",
+      "CCI-002111"
+    ]
+  },
+  "check_id": "C-59629r882199_chk",
+  "check_content": "Step 1: Verify on the Arista network device that an account of last resort is configured using the following command:\n\nswitch#sh running-config | section username\nusername Emergency-Admin privilege 15 role network-admin secret sha512 $6$ObuWg.Eu7DwGD8k/$EgT0uI.hLrStrmxUvJijecxDXr.Zy.imi1UrDzDP38q8Erqgkfe0IhHzIhYmR3ekW74XdAFf7I6SgzAoUFd0\n\nStep 2: Verify the Arista network device default account has been overwritten with the local account of last resort.\n\nswitch#sh running-config | section username\nusername Emergency-Admin privilege 15 role network-admin secret sha512 $6$ObuWg.Eu7DwGD8k/$EgT0uI.hLrStrmxUvJijecxDXr.Zy.imi1UrDzDP38q8Erqgkfe0IhHzIhYmR3ekW74XdAFf7I6SgzAoUFd0\n\nIf one local account on the Arista network device does not exist for use as the account of last resort in the event the authentication server is unavailable, this is a finding.\n\nIf the default admin account exists on the device, this is a finding.",
+  "fixtext": "Step 1: Configure the Arista network device for a username \"Emergency-Admin\" account of last resort using the following command:\n\nswitch#configure\nswitch(config)#username Emergency-Admin privilege 15 role network-admin secret 0  <plain-text password> \n\nStep 2: Ensure the Arista network device default account has been overwritten with the local account of last resort.\n\nswitch#sh running-config | section username\nusername Emergency-Admin privilege 15 role network-admin secret sha512 $6$ObuWg.Eu7DwGD8k/$EgT0uI.hLrStrmxUvJijecxDXr.Zy.imi1UrDzDP38q8Erqgkfe0IhHzIhYmR3ekW74XdAFf7I6SgzAoUFd0\n!\n\nUse the following command to remove the default admin account if necessary:\n\nswitch(config)#no username admin\n\nStep 3: As a final step in the case all administrative accounts are locked out of the device, ensure the username and password created for the account of last resort is contained within a sealed envelope and kept in a safe or secure network location.",
+  "fix_id": "F-59572r882200_fix",
+  "VulnDiscussion": "Authentication for administrative (privileged level) access to the device is required at all times. An account can be created on the device's local database for use when the authentication server is down or connectivity between the device and the authentication server is not operable. This account is referred to as the account of last resort since it is intended to be used as a last resort and when immediate administrative access is absolutely necessary.\n\nThe account of last resort logon credentials must be stored in a sealed envelope and kept in a safe. The safe must be periodically audited to verify the envelope remains sealed. The signature of the auditor and the date of the audit should be added to the envelope as a record. Administrators should secure the credentials and disable the root account (if possible) when not needed for system administration functions.",
+  "Documentable": "false"
+}

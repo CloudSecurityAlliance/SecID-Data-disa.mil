@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-224789",
+  "rule_id": "SV-224789r1013876_rule",
+  "stig_id": "ISEC-06-551300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Apache Tomcat shutdown port must be disabled.",
+  "group_title": "SRG-APP-000380",
+  "idents": {
+    "legacy": [
+      "SV-106397",
+      "V-97293"
+    ],
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-26480r1013874_chk",
+  "check_content": "Verify the shutdown port is disabled.\n\nLog in to the SPHERE server.\nBrowse to Program Files\\Isec7 SPHERE\\Tomcat\\Conf.\nOpen the server.xml with Notepad.exe.\nSelect Edit >> Find, and then search for \"Shutdown\".\nVerify that the shutdown port has been disabled with entry below:\n\nshutdown=\"-1\"\n\nIf the shutdown port has not been disabled, this is a finding.",
+  "fixtext": "Log in to the SPHERE server.\nBrowse to Program Files\\Isec7 SPHERE\\Tomcat\\Conf.\nOpen the server.xml with Notepad.exe.\nSelect Edit >> Find, and then search for \"Shutdown\".\nChange the shutdown to \"-1\".\n\nexample:  shutdown=-1\n\nSave the file and restart the Isec7 SPHERE Web service with the services.msc.",
+  "fix_id": "F-26468r1013875_fix",
+  "VulnDiscussion": "Tomcat uses a port (defaults to 8005) as a shutdown port. Someone could Telnet to the machine using this port and send the default command SHUTDOWN. Tomcat and all web apps would shut down in that case, which is a denial-of-service attack and would cause an unwanted service interruption.",
+  "Documentable": "false"
+}

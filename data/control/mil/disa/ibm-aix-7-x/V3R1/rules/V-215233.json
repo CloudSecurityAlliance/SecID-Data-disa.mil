@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215233",
+  "rule_id": "SV-215233r958672_rule",
+  "stig_id": "AIX7-00-001137",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AIX must be able to control the ability of remote login for users.",
+  "group_title": "SRG-OS-000297-GPOS-00115",
+  "idents": {
+    "legacy": [
+      "SV-101601",
+      "V-91503"
+    ],
+    "cci": [
+      "CCI-002314"
+    ]
+  },
+  "check_id": "C-16431r294150_chk",
+  "check_content": "For users who are authorized to remote login through SSH, etc., this is Not Applicable.\n\nAsk ISSO/SA to obtain a list of users who are not authorized to remotely log in to AIX system.\n\nFrom the command prompt, run the following command to check if remote login is disabled for all individual users who are not authorized to remotely login to AIX:\n# lsuser -a rlogin ALL\nroot rlogin=true\ndaemon rlogin=true\nbin rlogin=true\nsys rlogin=true\nadm rlogin=true\n\nIf \"rlogin=true\" for any user who should not login remotely, this is a finding.",
+  "fixtext": "From the command prompt, run the following command to set \"rlogin=false\" for all users (user_name) who are not authorized to login remotely:\n# chsec -f /etc/security/user -s [user_name] -a rlogin=false",
+  "fix_id": "F-16429r294151_fix",
+  "VulnDiscussion": "Remote access services, such as those providing remote access to network devices and information systems, which lack automated control capabilities, increase risk and make remote user access management difficult at best.\n\nRemote access is access to DoD nonpublic information systems by an authorized user (or an information system) communicating through an external, non-organization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nOperating system functionality (e.g., RDP) must be capable of taking enforcement action if the audit reveals unauthorized activity. Automated control of remote access sessions allows organizations to ensure ongoing compliance with remote access policies by enforcing connection rules of remote access applications on a variety of information system components (e.g., servers, workstations, notebook computers, smartphones, and tablets).",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223102",
+  "rule_id": "SV-223102r879627_rule",
+  "stig_id": "DTBI592-IE11",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Internet Explorer Processes for MIME handling must be enforced (Explorer).",
+  "group_title": "SRG-APP-000206",
+  "idents": {
+    "legacy": [
+      "SV-59575",
+      "V-46711"
+    ],
+    "cci": [
+      "CCI-001166"
+    ]
+  },
+  "check_id": "C-24775r428856_chk",
+  "check_content": "The policy value for Computer Configuration -> Administrative Templates -> Windows Components -> Internet Explorer -> Security Features -> Consistent Mime Handling -> 'Internet Explorer Processes' must be 'Enabled'. Procedure: Use the Windows Registry Editor to navigate to the following key: HKLM\\Software\\Policies\\Microsoft\\Internet Explorer\\Main\\FeatureControl\\FEATURE_MIME_HANDLING Criteria: If the value \"explorer.exe\" is REG_SZ = 1, this is not a finding.",
+  "fixtext": "Set the policy value for Computer Configuration -> Administrative Templates -> Windows Components -> Internet Explorer -> Security Features -> Consistent Mime Handling -> 'Internet Explorer Processes' to 'Enabled'.",
+  "fix_id": "F-24763r428857_fix",
+  "VulnDiscussion": "Internet Explorer uses Multipurpose Internet Mail Extensions (MIME) data to determine file handling procedures for files received through a web server. The Consistent MIME Handling\\Internet Explorer Processes policy setting determines whether Internet Explorer requires all file-type information provided by web servers to be consistent. For example, if the MIME type of a file is text/plain but the MIME data indicates the file is really an executable file, Internet Explorer changes its extension to reflect this executable status. This capability helps ensure executable code cannot masquerade as other types of data that may be trusted. If you enable this policy setting, Internet Explorer examines all received files and enforces consistent MIME data for them. If you disable or do not configure this policy setting, Internet Explorer does not require consistent MIME data for all received files and will use the MIME data provided by the file. MIME file-type spoofing is a potential threat to the organization. Ensuring these files are consistent and properly labeled helps prevent malicious file downloads from infecting the network. This guide recommends configuring this policy as \"Enabled\" for all environments specified in this guide.",
+  "Documentable": "false"
+}

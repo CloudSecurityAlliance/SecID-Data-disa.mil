@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-238191",
+  "rule_id": "SV-238191r953843_rule",
+  "stig_id": "DTOO304",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Warning Bar settings for VBA macros must be configured.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "legacy": [
+      "SV-85657",
+      "V-71033"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-41401r953841_chk",
+  "check_content": "Verify the policy value for User Configuration >> Administrative Templates >> Microsoft Excel 2016 >> Excel Options >> Security >> Trust Center >> Macro Notification Settings is set to \"Enabled: Disable VBA macros with notification\". The options \"Enabled: Disable VBA macros except digitally signed macros\" and \"Enabled: Disable VBA macros without notification\" are more restrictive and also acceptable values. \n\nUse the Windows Registry Editor to navigate to the following key: \n\nHKCU\\software\\policies\\Microsoft\\office\\16.0\\excel\\security\n\nIf the value \"vbawarnings\" is \"REG_DWORD = 2\", this is not a finding. Values of \"REG_DWORD = 3\" or \"REG_DWORD = 4\" are also acceptable.\n\nIf the registry key does not exist or the value is \"REG_DWORD = 1\", this is a finding.",
+  "fixtext": "Set the policy value for User Configuration >> Administrative Templates >> Microsoft Excel 2016 >> Excel Options >> Security >> Trust Center \"Macro Notification Settings\" to \"Enabled: Disable VBA macros with notification\".",
+  "fix_id": "F-41360r953842_fix",
+  "VulnDiscussion": "This policy setting controls how the specified applications warn users when Visual Basic for Applications (VBA) macros are present. If this policy setting is enabled, four options are available for determining how the specified applications will warn the user about macros: \n- Disable all with notification: The application displays the Trust Bar for all macros, whether signed or unsigned. This option enforces the default configuration in Office. \n- Disable all except digitally signed macros: The application displays the Trust Bar for digitally signed macros, allowing users to enable them or leave them disabled. Any unsigned macros are disabled, and users are not notified. \n- Disable all without notification: The application disables all macros, whether signed or unsigned, and does not notify users. \n- Enable all macros (not recommended): All macros are enabled, whether signed or unsigned. This option can significantly reduce security by allowing dangerous code to run undetected. \n\nIf this policy setting is disabled, \"Disable all with notification\" will be the default setting. If this policy setting is not configured, when users open files in the specified applications that contain VBA macros, the applications open the files with the macros disabled and display the Trust Bar with a warning that macros are present and have been disabled. Users can inspect and edit the files if appropriate but cannot use any disabled functionality until they enable it by clicking \"Enable Content\" on the Trust Bar. \n\nIf the user clicks \"Enable Content\", the document is added as a trusted document. Important: If \"Disable all except digitally signed macros\" is selected, users will not be able to open unsigned Access databases. Note that Microsoft Office stores certificates for trusted publishers in the Internet Explorer trusted publisher store. Earlier versions of Microsoft Office stored trusted publisher certificate information (specifically, the certificate thumbprint) in a special Office trusted publisher store. Microsoft Office still reads trusted publisher certificate information from the Office trusted publisher store, but it does not write information to this store. Therefore, if the organization created a list of trusted publishers in a previous version of Microsoft Office and upgraded to Office, the trusted publisher list will still be recognized. However, any trusted publisher certificates that are added to the list will be stored in the Internet Explorer trusted publisher store.",
+  "Documentable": "false"
+}

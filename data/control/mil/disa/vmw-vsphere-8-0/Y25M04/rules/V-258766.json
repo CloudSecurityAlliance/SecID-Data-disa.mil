@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258766",
+  "rule_id": "SV-258766r959010_rule",
+  "stig_id": "ESXI-80-000211",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The ESXi host Secure Shell (SSH) daemon must set a timeout interval on idle sessions.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62506r933357_chk",
+  "check_content": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config list -k clientaliveinterval\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$esxcli.system.ssh.server.config.list.invoke() | Where-Object {$_.Key -eq 'clientaliveinterval'}\n\nExample result:\n\nclientaliveinterval 200\n\nIf \"clientaliveinterval\" is not configured to \"200\", this is a finding.",
+  "fixtext": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config set -k clientaliveinterval -v 200\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$arguments = $esxcli.system.ssh.server.config.set.CreateArgs()\n$arguments.keyword = 'clientaliveinterval'\n$arguments.value = '200'\n$esxcli.system.ssh.server.config.set.Invoke($arguments)",
+  "fix_id": "F-62415r933358_fix",
+  "VulnDiscussion": "Automatically logging out idle users guards against compromises via hijacked administrative sessions.",
+  "Documentable": "false"
+}

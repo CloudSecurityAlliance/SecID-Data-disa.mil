@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257816",
+  "rule_id": "SV-257816r1014825_rule",
+  "stig_id": "RHEL-09-213105",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must disable the use of user namespaces.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61557r1014823_chk",
+  "check_content": "Verify RHEL 9 disables the use of user namespaces with the following commands:\n\n$ sudo sysctl user.max_user_namespaces\n\nuser.max_user_namespaces = 0\n\nIf the returned line does not have a value of \"0\", or a line is not returned, this is a finding.\n\nCheck that the configuration files are present to enable this kernel parameter.\n\n$ sudo /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' | grep -F user.max_user_namespaces | tail -1\nuser.max_user_namespaces = 0\n\nIf the network parameter \"user.max_user_namespaces\" is not equal to \"0\", or nothing is returned, this is a finding.\n\nIf the use of namespaces is operationally required and documented with the information system security manager (ISSM), this is not a finding.",
+  "fixtext": "Configure RHEL 9 to disable the use of user namespaces by adding the following line to a file, in the \"/etc/sysctl.d\" directory:\n\nuser.max_user_namespaces = 0\n\nThe system configuration files need to be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-61481r1014824_fix",
+  "VulnDiscussion": "User namespaces are used primarily for Linux containers. The value \"0\" disallows the use of user namespaces.",
+  "Documentable": "false"
+}

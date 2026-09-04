@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221936",
+  "rule_id": "SV-221936r961863_rule",
+  "stig_id": "SPLK-CL-000175",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Splunk Enterprise forwarders must be configured with Indexer Acknowledgement enabled.",
+  "group_title": "SRG-APP-000516-AU-000340",
+  "idents": {
+    "legacy": [
+      "SV-111327",
+      "V-102377"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23650r420276_chk",
+  "check_content": "If the server being reviewed is not a forwarder, this check is N/A.\n\nIn the Splunk installation folder, check the following file in the $SPLUNK_HOME/etc/system/local folder:\n\noutputs.conf\n\nLocate the section similar to: \n\n[tcpout:group1]\nuseACK=true\n\nNote that group1 may be named differently depending on how tcpout was configured.\n\nIf the useACK=true statement is missing or set to false, this is a finding.",
+  "fixtext": "If the server is not a forwarder, this check is N/A.\n\nIn the Splunk installation folder, edit the following file in the $SPLUNK_HOME/etc/system/local folder:\n\noutputs.conf\n\nLocate the section similar to: \n\n[tcpout:group1]\n\nNote that group1 may be named differently depending on how tcpout was configured.\n\nAdd the following line under the group stanza above:\n\nuseACK=true",
+  "fix_id": "F-23639r420277_fix",
+  "VulnDiscussion": "To prevent the loss of data during transmission, a handshake acknowledgement between the sender and the recipient may need configured.",
+  "Documentable": "false"
+}

@@ -1,0 +1,18 @@
+{
+  "vuln_id": "V-13727",
+  "rule_id": "SV-36645r2_rule",
+  "stig_id": "WA000-WWA026 A22",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The httpd.conf StartServers directive must be set properly.",
+  "group_title": "WA000-WWA026",
+  "idents": {},
+  "check_id": "C-10979r2_chk",
+  "check_content": "Locate the Apache httpd.conf file.  If you cannot locate the file, you can do a search of the drive to find the location of the file.  \n\nOpen the httpd.conf file with an editor and search for the following directive:\n\nStartServers\n\nThe value needs to be between 5 and 10 \n\nIf the directive is set improperly, this is a finding.\n\nIf the directive does not exist, this is NOT a finding because it will default to 5.  It is recommended that the directive be explicitly set to prevent unexpected results if the defaults change with updated software.\n\nNOTE: This vulnerability can be documented locally with the ISSM/ISSO if the site has operational reasons for the use of increased or decreased value. If the site has this documentation, this should be marked as Not a Finding.",
+  "fixtext": "Open the httpd.conf file with an editor and search for the following directive:\n\nStartServer\n\nSet the directive to a value between 5 and 10, add the directive if it does not exist.\n\nIt is recommended that the directive be explicitly set to prevent unexpected results if the defaults change with updated software.",
+  "fix_id": "F-13175r1_fix",
+  "VulnDiscussion": "These requirements are set to mitigate the effects of several types of denial of service attacks. Although there is some latitude concerning the settings themselves, the requirements attempt to provide reasonable limits for the protection of the web server. If necessary, these limits can be adjusted to accommodate the operational requirement of a given system.\n\nFrom Apache.org: The StartServers directive sets the number of child server processes created on startup. As the number of processes is dynamically controlled depending on the load, there is usually little reason to adjust this parameter.\n\nThe default value differs from MPM to MPM. For worker the default is StartServers 3. For prefork defaults to 5 and for mpmt_os2 to 2.",
+  "Documentable": "false",
+  "Responsibility": "Web Administrator"
+}

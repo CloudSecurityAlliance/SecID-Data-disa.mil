@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-73073",
+  "rule_id": "SV-87725r1_rule",
+  "stig_id": "NET-SDN-001",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Southbound API control plane traffic between the SDN controller and SDN-enabled network elements must be mutually authenticated using a FIPS-approved message authentication code algorithm.",
+  "group_title": "NET-SDN-001",
+  "idents": {
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-73207r1_chk",
+  "check_content": "Review the components within the SDN framework that send and receive southbound API messages and verify that the messages are authenticated using a FIPS-approved message authentication code algorithm. \n\nFIPS-approved algorithms for authentication are the cipher-based message authentication code (CMAC) and the keyed-hash message authentication code (HMAC). \n\nAES and 3DES are NIST-approved CMAC algorithms. The following are NIST-approved HMAC algorithms: SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224, and SHA-512/256. \n\nIf the SDN controller or SDN-enabled network elements do not authenticate received southbound API messages using a FIPS-approved message authentication code algorithm, this is a finding.",
+  "fixtext": "Ensure that all components within the SDN framework authenticate southbound API messages using a FIPS-approved message authentication code algorithm. \n\nFIPS-approved algorithms for authentication are the CMAC and the HMAC. \n\nAES and 3DES are NIST-approved CMAC algorithms. The following are NIST-approved HMAC algorithms: SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224, and SHA-512/256.",
+  "fix_id": "F-79519r1_fix",
+  "VulnDiscussion": "Southbound APIs such as OpenFlow provide the forwarding tables to network devices such as switches and routers, both physical and virtual (hypervisor-based). The SDN controllers use the concept of flows to identify network traffic based on predefined rules that can be statically or dynamically programmed by the SDN control software, thereby determining how traffic should flow through network devices based on usage patterns, applications, and policy that can optimize traffic paths based on business requirements and not network infrastructure design. \n\nIf an SDN-aware router or switch received erroneous forwarding information from a rogue controller, traffic could be black-holed or even forwarded to a malicious user to sniff traffic and perform a man-in-the-middle attack. Hence, it is imperative that mutual authentication is enabled between the SDN controller and the SDN-aware network elements for all southbound API traffic.",
+  "Documentable": "false"
+}

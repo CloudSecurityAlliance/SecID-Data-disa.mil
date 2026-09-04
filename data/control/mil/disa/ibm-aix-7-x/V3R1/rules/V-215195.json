@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215195",
+  "rule_id": "SV-215195r991589_rule",
+  "stig_id": "AIX7-00-001036",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "UIDs reserved for system accounts must not be assigned to non-system accounts on AIX systems.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101763",
+      "V-91665"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16393r294036_chk",
+  "check_content": "Check the UID assignments of all accounts using: \n\n# more /etc/passwd \nroot:!:0:0::/root:/usr/bin/ksh\ndaemon:!:1:1::/etc:\nbin:!:2:2::/bin:\nsys:!:3:3::/usr/sys:\nadm:!:4:4::/var/adm:\nnobody:!:4294967294:4294967294::/:\ninvscout:*:6:12::/var/adm/invscout:/usr/bin/ksh\nsrvproxy:*:203:0:Service Proxy Daemon:/home/srvproxy:/usr/bin/ksh\nesaadmin:*:7:0::/var/esa:/usr/bin/ksh\nsshd:*:212:203::/var/empty:/usr/bin/ksh\ndoej:*:704:1776::/home/doej:/usr/bin/ksh\n\nConfirm all accounts with a UID of 128 and below are used by a system account. \n\nIf a UID reserved for system accounts (0-128) is used by a non-system account, this is a finding.",
+  "fixtext": "Using the \"usermod\" command, change the UID numbers for non-system accounts with reserved UIDs (those less or equal to 128): \n# usermod -u <uid> [user_name]",
+  "fix_id": "F-16391r294037_fix",
+  "VulnDiscussion": "Reserved UIDs are typically used by system software packages. If non-system accounts have UIDs in this range, they may conflict with system software, possibly leading to the user having permissions to modify system files.",
+  "Documentable": "false"
+}

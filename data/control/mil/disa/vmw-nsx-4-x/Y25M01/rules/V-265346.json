@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-265346",
+  "rule_id": "SV-265346r994261_rule",
+  "stig_id": "NMGR-4X-000079",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The NSX Manager must be configured to protect against denial-of-service (DoS) attacks by limit the number of concurrent sessions to an organization-defined number.",
+  "group_title": "SRG-APP-000435-NDM-000315",
+  "idents": {
+    "cci": [
+      "CCI-002385",
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-69263r994259_chk",
+  "check_content": "From an NSX Manager shell, run the following command:\n\n> get service http | find limit\n\nExpected result:\nClient API concurrency limit: 40 connections\nGlobal API concurrency limit: 199 connections\n\nIf the NSX does not limit the number of concurrent sessions to an organization-defined number, this is a finding.",
+  "fixtext": "From an NSX Manager shell, run the following commands:\n\n> set service http client-api-concurrency-limit 40\n> set service http global-api-concurrency-limit 199\n\nNote: The limit numbers in this example, while not mandatory, are the vendor recommend options. Setting the limits to lower numbers in a large environment that is very busy may cause operational issues. Setting the limits higher may cause resource contention so should be tested and monitored.",
+  "fix_id": "F-69171r994260_fix",
+  "VulnDiscussion": "DoS is a condition when a resource is not available for legitimate users. When this occurs, the organization either cannot accomplish its mission or must operate at degraded capacity.\n\nLimiting the number of concurrent open sessions helps limit the risk of DoS attacks.\n\nOrganizations may define the maximum number of concurrent sessions for system accounts globally or by connection type. By default, the NSX Manager has a protection mechanism in place to prevent the API from being overloaded. This setting also addresses concurrent sessions for integrations into NSX API to monitor or configure NSX.\n\nSatisfies: SRG-APP-000435-NDM-000315, SRG-APP-000001-NDM-000200",
+  "Documentable": "false"
+}

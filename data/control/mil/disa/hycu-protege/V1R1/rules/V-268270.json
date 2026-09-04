@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268270",
+  "rule_id": "SV-268270r1038745_rule",
+  "stig_id": "HYCU-ND-000630",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must use FIPS-validated Keyed-Hash Message Authentication Code (HMAC) to protect the integrity of nonlocal maintenance and diagnostic communications.",
+  "group_title": "SRG-APP-000411-NDM-000330",
+  "idents": {
+    "cci": [
+      "CCI-002890"
+    ]
+  },
+  "check_id": "C-72291r1038508_chk",
+  "check_content": "When FIPS mode is enabled, the HYCU application will use FIPS-compliant behavior. Validate the FIPS status using the following command:\n'cat /proc/sys/crypto/fips_enabled' \n\nIf command output does not show \"1\", this is a finding.\n\n'fips-mode-setup --check'\n\nIf command output does not show \"FIPS mode is enabled\", this is a finding.\n\n'update-crypto-policies --show'\n\nIf command output does not show \"FIPS\", this is a finding.",
+  "fixtext": "Stop the HYCU web server: \nsudo systemctl stop grizzly.service\n\nEnable FIPS-compliant mode: \nsudo /opt/grizzly/bin/enable_fips.sh\n\nReboot the HYCU virtual appliance:\nshutdown -r now",
+  "fix_id": "F-72194r1038509_fix",
+  "VulnDiscussion": "Unapproved mechanisms that are used for authentication to the cryptographic module are not verified and therefore cannot be relied on to provide confidentiality or integrity, and DOD data may be compromised.\n\nNonlocal maintenance and diagnostic activities are those activities conducted by individuals communicating through a network, either an external network (e.g., the internet) or an internal network. \n\nCurrently, HMAC is the only FIPS-approved algorithm for generating and verifying message/data authentication codes in accordance with FIPS 198-1. Products that are FIPS 140-2-validated will have an HMAC that meets specification; however, the option must be configured for use as the only message authentication code used for authentication to cryptographic modules.\n\nSeparate requirements for configuring applications and protocols used by each application (e.g., SNMPv3, SSHv2, NTP, HTTPS, and other protocols and applications that require server/client authentication) are required to implement this requirement. Where SSH is used, the SSHv2 protocol suite is required because it includes Layer 7 protocols such as SCP and SFTP, which can be used for secure file transfers.",
+  "Documentable": "false"
+}

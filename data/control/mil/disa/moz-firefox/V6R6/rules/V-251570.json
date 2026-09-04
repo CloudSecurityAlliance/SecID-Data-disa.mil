@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251570",
+  "rule_id": "SV-251570r1067563_rule",
+  "stig_id": "FFOX-00-000026",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Firefox extension recommendations must be disabled.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-55005r1067562_chk",
+  "check_content": "Type \"about:policies\" in the browser address bar. \n\nIf \"Preferences\" is not displayed under Policy Name and the Policy Value does not include \"extensions.htmlaboutaddons.recommendations.enabled\" with a value of  \"false\" and status of \"locked\", this is a finding.",
+  "fixtext": "Windows group policy:\n1. Open the group policy editor tool with \"gpedit.msc\".\n2. Navigate to Policy Path: Computer Configuration\\Administrative Templates\\Mozilla\\Firefox\\\nPolicy Name: Preferences\nPolicy State: Enabled\nPolicy Value:\n{\n  \"extensions.htmlaboutaddons.recommendations.enabled\": {\n    \"Value\": false,\n    \"Status\": \"locked\"\n  }\n}\n\nmacOS \"plist\" file:\nAdd the following:\n<key>Preferences</key>\n<dict>\n  <key>extensions.htmlaboutaddons.recommendations.enabled</key>\n  <dict>\n    <key>Value</key>\n    <false/>\n    <key>Status</key>\n    <string>locked</string>\n  </dict>\n</dict>\n\nLinux \"policies.json\" file:\nAdd the following in the policies section:\n\"Preferences\": {\n\"extensions.htmlaboutaddons.recommendations.enabled\": {\n\"Value\": false,\n\"Status\": \"locked\"\n},",
+  "fix_id": "F-54959r820758_fix",
+  "VulnDiscussion": "The Recommended Extensions program makes it easier for users to discover extensions that have been reviewed for security, functionality, and user experience. Allowed extensions are to be centrally managed.",
+  "Documentable": "false"
+}

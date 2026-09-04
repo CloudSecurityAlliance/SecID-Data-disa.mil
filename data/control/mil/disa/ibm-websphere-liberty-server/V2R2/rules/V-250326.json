@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-250326",
+  "rule_id": "SV-250326r960792_rule",
+  "stig_id": "IBMW-LS-000050",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Users in the REST API admin role must be authorized.",
+  "group_title": "SRG-APP-000033-AS-000024",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-53761r795029_chk",
+  "check_content": "As a user with access to ${server.config.dir}/server.xml, review the file and look for the admin role settings.\n\ngrep -i administrator-role ${server.config.dir}/server.xml\ngrep -i quickstartsecurity ${server.config.dir}/server.xml\n\nIf the admin role has been created, users in that role must be documented and approved. However, using the basic registry or the quickstartsecurity methods are not acceptable. The preferred user registry method is to use a centralized access control method via LDAP. \n\nIf no admin users exist at all, this is not a finding.\n\nIf admin users in an LDAP user registry configuration are not documented and approved, this is a finding.\n\nIf admin users exist in a basic user registry configuration, or in a quickstartsecurity user configuration, this is a finding.\n\nLDAP EXAMPLE:\n<administrator-role>\n     <user>cn=bob,o=ibm,c=us</user>\n </administrator-role>\n\nBASIC REGISTRY EXAMPLE:\n<basicRegistry>\n     <user name=\"bob\" password=\"bobpassword\"/>\n     <user name=\"joe\" password=\"joepassword\"/>\n     <group name=\"group1\" ...>\n     </group>\n </basicRegistry>\n\n<administrator-role>\n     <user>bob</user>\n     <group>group1</group>\n </administrator-role>\n\nQUICKSTARTSECURITY EXAMPLE:\n<featureManager>\n     <feature>restConnector-2.0</feature>\n </featureManager>\n <quickStartSecurity userName=\"bob\" userPassword=\"bobpassword\" />\n <keyStore id=\"defaultKeyStore\" password=\"keystorePassword\"/>",
+  "fixtext": "If an admin user exists in either a basic user registry or a quickstartsecurity registry, edit the ${server.config.dir}/server.xml file and remove the basic registry and/or quickstartsecurity registry settings.\n\nIf an admin user exists via an LDAP user registry setting, document and approve the user(s) or group that have been assigned to the admin role and ensure anyone granted REST API admin rights is authorized.\n\nLDAP EXAMPLE:\n<administrator-role>\n     <user>cn=bob,o=ibm,c=us</user>\n </administrator-role>\n\nBASIC REGISTRY EXAMPLE:\n<basicRegistry>\n     <user name=\"bob\" password=\"bobpassword\"/>\n     <user name=\"joe\" password=\"joepassword\"/>\n     <group name=\"group1\" ...>\n     </group>\n </basicRegistry>\n\n<administrator-role>\n     <user>bob</user>\n     <group>group1</group>\n </administrator-role>\n\nQUICKSTARTSECURITY EXAMPLE:\n<featureManager>\n     <feature>restConnector-2.0</feature>\n </featureManager>\n <quickStartSecurity userName=\"bob\" userPassword=\"bobpassword\" />\n <keyStore id=\"defaultKeyStore\" password=\"keystorePassword\"/>",
+  "fix_id": "F-53715r795030_fix",
+  "VulnDiscussion": "Users with console access and OS permissions to the folders where the Liberty Server is installed can make changes to the server. In addition, REST API calls that execute server management tasks are available and can be executed remotely. Adding a user to the admin role will allow that user to make changes to the server via the REST API calls.\n\nThe admin role must be controlled and users who are in that role must be authorized.",
+  "Documentable": "false"
+}

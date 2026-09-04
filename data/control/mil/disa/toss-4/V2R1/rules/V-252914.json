@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-252914",
+  "rule_id": "SV-252914r958472_rule",
+  "stig_id": "TOSS-04-010030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must require authentication upon booting into emergency or rescue modes.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-56367r824064_chk",
+  "check_content": "Check to see if the system requires authentication for rescue or emergency mode with the following command:\n\n$ sudo grep sulogin-shell /usr/lib/systemd/system/rescue.service\n\nExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue\n\nIf the \"ExecStart\" line is configured for anything other than \"/usr/lib/systemd/systemd-sulogin-shell rescue\", commented out, or missing, this is a finding.",
+  "fixtext": "Configure the system to require authentication upon booting into emergency or rescue mode by adding the following line to the \"/usr/lib/systemd/system/rescue.service\" file.\n\nExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue",
+  "fix_id": "F-56317r824065_fix",
+  "VulnDiscussion": "To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DoD-approved PKIs, all DoD systems (e.g., web servers and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. Successful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement.\n\nAccess control policies include: identity-based policies, role-based policies, and attribute-based policies. Access enforcement mechanisms include: access control lists, access control matrices, and cryptography. These policies and mechanisms must be employed by the application to control access between users (or processes acting on behalf of users) and objects (e.g., devices, files, records, processes, programs, and domains) in the information system.",
+  "Documentable": "false"
+}

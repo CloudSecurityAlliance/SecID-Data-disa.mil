@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-268089",
+  "rule_id": "SV-268089r1039597_rule",
+  "stig_id": "ANIX-00-000150",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "NixOS must implement DOD-approved encryption to protect the confidentiality of remote access sessions.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "cci": [
+      "CCI-000068",
+      "CCI-001453",
+      "CCI-003123"
+    ]
+  },
+  "check_id": "C-72013r1039153_chk",
+  "check_content": "Verify NixOS is configured to only use ciphers employing FIPS 140-3 approved algorithms with the following command:\n\n$ grep -R -A 4 openssh.setting.Ciphers\n /etc/nixos/configuration.nix:services.openssh.setting.Ciphers = [\n/etc/nixos/configuration.nix-  \"aes256-ctr\"\n/etc/nixos/configuration.nix-  \"aes192-ctr\"\n/etc/nixos/configuration.nix-  \"aes128-ctr\"\n/etc/nixos/configuration.nix- ];\n   \nIf the cipher entries in the \"configuration.nix\" file have any ciphers other than \"aes256-ctr,aes192-ctr,aes128-ctr\", the order differs from the example above, they are missing, or commented out, this is a finding.",
+  "fixtext": "Configure NixOS to use only ciphers employing FIPS 140-3 approved algorithms.\n\nTo configure OpenSSH, add the following Nix code to the NixOS Configuration usually located in /etc/nixos/configuration.nix:\n\n services.openssh.setting.Ciphers = [\n  \"aes256-ctr\"\n  \"aes192-ctr\"\n  \"aes128-ctr\"   \n ];\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch\n\nA reboot is required for the changes to take effect.",
+  "fix_id": "F-71916r1039154_fix",
+  "VulnDiscussion": "Without confidentiality protection mechanisms, unauthorized individuals may gain access to sensitive information via a remote access session. \n\nRemote access is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nEncryption provides a means to secure the remote connection to prevent unauthorized access to the data traversing the remote access connection (e.g., RDP), thereby providing a degree of confidentiality. The encryption strength of a mechanism is selected based on the security categorization of the information.\n\nSatisfies: SRG-OS-000033-GPOS-00014, SRG-OS-000250-GPOS-00093, SRG-OS-000394-GPOS-00174",
+  "Documentable": "false"
+}

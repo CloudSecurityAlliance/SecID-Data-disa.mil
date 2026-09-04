@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269148",
+  "rule_id": "SV-269148r1050030_rule",
+  "stig_id": "ALMA-09-007610",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must automatically lock the root account until the root account is released by an administrator when three unsuccessful logon attempts occur during a 15-minute time period.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-73179r1049203_chk",
+  "check_content": "Verify AlmaLinux OS 9 is configured to lock the root account after three unsuccessful logon attempts with the command:\n\n$ grep even_deny_root /etc/security/faillock.conf\n\neven_deny_root\n\nIf the \"even_deny_root\" option is not set, is missing, or is commented out, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to lock the root account after a number of incorrect login attempts using pam_faillock.\n\nFirst, enable the feature using the following command:\n\n$ authselect enable-feature with-faillock\n\nThen, add or uncomment the following line in the \"/etc/security/faillock.conf\" file:\n\neven_deny_root",
+  "fix_id": "F-73080r1049204_fix",
+  "VulnDiscussion": "By limiting the number of failed logon attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-force attacks, is reduced. Limits are imposed by locking the account.",
+  "Documentable": "false"
+}

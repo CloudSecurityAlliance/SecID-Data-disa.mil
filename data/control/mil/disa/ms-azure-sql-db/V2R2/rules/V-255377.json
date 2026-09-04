@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255377",
+  "rule_id": "SV-255377r961860_rule",
+  "stig_id": "ASQL-00-015900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Database must offload audit data to a separate log management facility; this must be continuous and in near real time for systems with a network connection to the storage facility and weekly or more often for stand-alone systems.",
+  "group_title": "SRG-APP-000515-DB-000318",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-59050r877254_chk",
+  "check_content": "Review the system documentation for a description of how audit records are stored. \n \n1. Review the Auditing link in the Azure Portal for the SQL Database. Ensure audit logs are written to more than one storage system. If not, navigate to the Storage Container where the audits are stored via the Portal. \n2. Select \"Containers\". \n3. Select the ellipsis on the container for the audit storage. \n4. Select \"Access Policy\". \n\nVerify that an Immutable Blob Storage policy has been added to the audit container. If Azure audit logs are written to only one storage system or immutable storage is not enabled, this is a finding.",
+  "fixtext": "Enable immutable storage so that audit logs cannot be modified or deleted accidently.\nhttps://docs.microsoft.com/en-us/azure/storage/blobs/immutable-policy-configure-container-scope?tabs=azure-portal\n\nTo configure a time-based retention policy on a container with the Azure portal, follow these steps:\n\n1. Navigate to the desired container.\n2. Select \"More\" on the right, then select \"Access policy\".\n3. In the Immutable blob storage section, select \"Add policy\".\n4. In the Policy type field, select \"Time-based retention\", and specify the retention period in days.\n5. To create a policy with container scope, do not check the box for \"Enable\" version-level immutability.\n6. If desired, select \"Allow additional protected appends\" to enable writes to append blobs that are protected by an immutability policy.\n\nPowerShell:\nSet-AzRmStorageContainerImmutabilityPolicy -ResourceGroupName <resource-group> `\n    -StorageAccountName <storage-account> `\n    -ContainerName <container> `\n    -ImmutabilityPeriod 10\n\nAlternatively, enable at least two types of audit storage for the Azure SQL Database.\nIn the Azure Portal, select \"Auditing\".\nCheck at least two of the available storage types and select \"Save\".",
+  "fix_id": "F-58994r871256_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOffloading is a common process in information systems with limited audit storage capacity. \n\nAzure SQL Database may write audit records blob storage, log analytics, or event hub. Multiple methods should be used to ensure audit files are retained, or immutable storage should be used.",
+  "Documentable": "false"
+}

@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-222929",
+  "rule_id": "SV-222929r960762_rule",
+  "stig_id": "TCAT-AS-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TLS 1.2 must be used on secured HTTP connectors.",
+  "group_title": "SRG-APP-000015-AS-000010",
+  "idents": {
+    "legacy": [
+      "SV-111547",
+      "V-102433"
+    ],
+    "cci": [
+      "CCI-000197",
+      "CCI-001453",
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-24601r426231_chk",
+  "check_content": "From the Tomcat server console, run the following command:\n\nsudo cat $CATALINA_BASE/conf/server.xml.\n\nExamine each <Connector/> element.\n\nFor every HTTP protocol connector:\nVerify the SSLEnabledProtocols=\"TLSv1.2\" flag is set on each connector.\n\nIf the SSLEnabledProtocols setting is not set to TLSv1.2 or greater, this is a finding.",
+  "fixtext": "As a privileged user on the Tomcat server, edit the $CATALINA_BASE/conf/server.xml and modify the <Connector/> element.\n\nAdd the \"SSLEnabledProtocols=\" flag to the connector or modify the existing flag.\n\nSet SSLEnabledProtocols=\"TLSv1.2\". Save the server.xml file and restart Tomcat:\nsudo systemctl restart tomcat\nsudo systemctl reload-daemon",
+  "fix_id": "F-24590r426232_fix",
+  "VulnDiscussion": "Using older versions of TLS introduces security vulnerabilities that exist in the older versions of the protocol. Tomcat by default will use all available versions of the SSL/TLS protocols unless the version is explicitly defined in the SSL configuration attribute for the associated connector. This introduces the opportunity for the client to negotiate the use of an older protocol version and increases the risk of compromise of the Tomcat server.\n\nAll connectors must use TLS 1.2. While this check specifically verifies the use of TLSv1.2, it does not provide all of the steps required to successfully configure a secured TLS connection. That task involves multiple additional steps that are not included here. Refer to Tomcat documentation for all of the steps needed to create a TLS protected connector.\n\nSatisfies: SRG-APP-000015-AS-000010, SRG-APP-000172-AS-000120, SRG-APP-000439-AS-000155",
+  "Documentable": "false"
+}

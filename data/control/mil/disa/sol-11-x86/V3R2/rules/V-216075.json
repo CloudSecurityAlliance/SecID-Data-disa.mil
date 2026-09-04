@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-216075",
+  "rule_id": "SV-216075r959010_rule",
+  "stig_id": "SOL-11.1-020520",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The .Xauthority files must not have extended ACLs.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-61023",
+      "SV-75491"
+    ],
+    "cci": [
+      "CCI-000225",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17313r372607_chk",
+  "check_content": "If X Display Manager (XDM) is not used on the system, this is not applicable.\n\nDetermine if XDM is running. \n\nProcedure:\n# ps -ef | grep xdm\n\nCheck the file permissions for the .Xauthority files. \n# ls -lL .Xauthority\n\nIf the permissions include a \"+\", the file has an extended ACL and this is a finding.",
+  "fixtext": "Remove the extended ACL from the file.\n\n# chmod A- .Xauthority",
+  "fix_id": "F-17311r372608_fix",
+  "VulnDiscussion": ".Xauthority files ensure the user is authorized to access the specific X Windows host. Extended ACLs may permit unauthorized modification of these files, which could lead to Denial of Service to authorized access or allow unauthorized access to be obtained.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-205860",
+  "rule_id": "SV-205860r991589_rule",
+  "stig_id": "WN19-CC-000050",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Windows Server 2019 must be configured to prevent Internet Control Message Protocol (ICMP) redirects from overriding Open Shortest Path First (OSPF)-generated routes.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-103325",
+      "V-93237"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-6125r355942_chk",
+  "check_content": "If the following registry value does not exist or is not configured as specified, this is a finding:\n\nRegistry Hive: HKEY_LOCAL_MACHINE \nRegistry Path: \\SYSTEM\\CurrentControlSet\\Services\\Tcpip\\Parameters\\\n\nValue Name: EnableICMPRedirect\n\nValue Type: REG_DWORD\nValue: 0x00000000 (0)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Administrative Templates >> MSS (Legacy) >> \"MSS: (EnableICMPRedirect) Allow ICMP redirects to override OSPF generated routes\" to \"Disabled\".\n\nThis policy setting requires the installation of the MSS-Legacy custom templates included with the STIG package. \"MSS-Legacy.admx\" and \"MSS-Legacy.adml\" must be copied to the \\Windows\\PolicyDefinitions and \\Windows\\PolicyDefinitions\\en-US directories respectively.",
+  "fix_id": "F-6125r355943_fix",
+  "VulnDiscussion": "Allowing ICMP redirect of routes can lead to traffic not being routed properly. When disabled, this forces ICMP to be routed via the shortest path first.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-224375",
+  "rule_id": "SV-224375r604136_rule",
+  "stig_id": "BUEM-00-000500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BlackBerry UEM server must be configured to transfer BlackBerry UEM server logs to another server for storage, analysis, and reporting. \n\nNote: BlackBerry UEM server logs include logs of MDM events and logs transferred to the BlackBerry UEM server by MDM agents of managed devices.",
+  "group_title": "PP-MDM-411054",
+  "idents": {
+    "legacy": [
+      "SV-111867",
+      "V-102905"
+    ],
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-26052r539025_chk",
+  "check_content": "Review the Syslog audit records from the syslog audit management server and verify UEM logs are included.\n\nIf UEM logs are not found on the Syslog server, this is a finding.",
+  "fixtext": "The Admin must access the UEM server.\nConfiguring trust: \n1. Get the CA that signs the Syslog server cert.\n2. Upload the CA into the UEM server.\n - From the CMD prompt on the UEM server follow the instructions found on page 70-71 of the Admin Guide, \"Setup export of server audit records to a syslog server\".\n3. Configure UEM to send audit data to the Syslog server.\n - Copy the script in Appendix A of the Admin Guide.\n - In the script, change the hostname and port number to match your environment.\n - Set the host name and port number, for example:\n SET @v_hostname = 'localhost';\n SET @v_port = '31000';\n4. Execute the SQL script against the BlackBerry UEM database. \n5. Restart the BlackBerry UEM Core service.",
+  "fix_id": "F-26040r539026_fix",
+  "VulnDiscussion": "Audit logs enable monitoring of security-relevant events and subsequent forensics when breaches occur. Since the BlackBerry UEM server has limited capability to store mobile device log files and perform analysis and reporting of mobile device log files, the BlackBerry UEM server must have the capability to transfer log files to an audit log management server.\n\nSFR ID: FMT_SMF.1.1(2) c.8, FAU_STG_EXT.1.1(1)",
+  "Documentable": "false"
+}

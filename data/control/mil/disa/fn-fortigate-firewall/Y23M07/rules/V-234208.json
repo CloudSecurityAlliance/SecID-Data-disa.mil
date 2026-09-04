@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234208",
+  "rule_id": "SV-234208r879609_rule",
+  "stig_id": "FGFW-ND-000245",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The FortiGate device must use LDAPS for the LDAP connection.",
+  "group_title": "SRG-APP-000172-NDM-000259",
+  "idents": {
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-37393r611811_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # show full-configuration user ldap | grep -i ldaps\nThe output should be:         \n          set secure ldaps\n\nIf set secure is not set to ldaps, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config user ldap\n           # edit {ldap_server_name}\n           # set server {server_ip}\n           # set cnid {cn} \n           # set dn {dc=XYZ,dc=fortinet,dc=COM} \n           # set type regular \n           # set username {cn=Administrator,dc=XYA, dc=COM} \n           # set password {bind password}\n           # set secure ldaps\n           #    set ca-cert {CA certificate name}\n      # next \n  # end",
+  "fix_id": "F-37358r611812_fix",
+  "VulnDiscussion": "Passwords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nNetwork devices can accomplish this by making direct function calls to encryption modules or by leveraging operating system encryption capabilities.",
+  "Documentable": "false"
+}

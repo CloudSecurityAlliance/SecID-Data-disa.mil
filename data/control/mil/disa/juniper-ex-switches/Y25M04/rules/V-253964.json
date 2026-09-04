@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253964",
+  "rule_id": "SV-253964r843925_rule",
+  "stig_id": "JUEX-L2-000170",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If STP is used, the Juniper EX switch must be configured to implement Rapid STP, or Multiple STP, where VLANs span multiple switches with redundant links.",
+  "group_title": "SRG-NET-000512-L2S-000003",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-57416r843923_chk",
+  "check_content": "If STP is required, then review the switch configuration to verify that Rapid STP or Multiple STP has been implemented. RSTP and MSTP are similar, except MSTP is more granular, flexible, and scalable. RTSP and MSTP can be enabled simultaneously, but in general only one STP is configured.\n\nRSTP:\n[edit protocols rstp]\nrstp {\n    bridge-priority (0..61440 in 4k increments); << e.g. 0, 4k, 8k...60k\n    interface <interface name> {\n        edge;\n    }\n    interface <interface name-1> {\n        mode point-to-point;\n    }\n    bpdu-block-on-edge;\n}\n\n-OR-\n\nMSTP:\n[edit protocols mstp]\nconfiguration-name <name>;\nrevision-level (0..65535);\nmax-age (6..40 seconds);\nhello-time (1..10 seconds);\nforward-delay (4..30 seconds);\nbridge-priority (0..61440 in 4k increments); << e.g. 0, 4k, 8k...60k\nbpdu-block-on-edge;\ninterface <interface name> {\n    edge;\n}\ninterface <interface name-1> {\n    mode point-to-point;\n}\nmsti 3 {\n    bridge-priority (0..61440 in 4k increments); << e.g. 0, 4k, 8k...60k\n    vlan [ vlan-id-1 vlan-id-2 ];\n}\n \nIf Rapid STP or Multiple STP has not been implemented where an STP is required, this is a finding.",
+  "fixtext": "Configure Rapid STP to be implemented at the access and distribution layers where VLANs span multiple switches.\n\nRSTP:\nset protocols rstp bridge-priority (0..61440 in 4k increments) << e.g. 0, 4k, 8k...60k\nset protocols rstp interface <interface name> edge\nset protocols rstp interface <interface name-1> mode point-to-point\nset protocols rstp bpdu-block-on-edge\n\nMSTP:\nset protocols mstp configuration-name <name>\nset protocols mstp revision-level (0..65535)\nset protocols mstp max-age (6..40 seconds)\nset protocols mstp hello-time (1..10 seconds)\nset protocols mstp forward-delay (4..30 seconds)\nset protocols mstp bridge-priority (0..61440 in 4k increments) << e.g. 0, 4k, 8k...60k\nset protocols mstp bpdu-block-on-edge\nset protocols mstp interface <interface name> edge\nset protocols mstp interface <interface name-1> mode point-to-point\nset protocols mstp msti 3 bridge-priority (0..61440 in 4k increments) << e.g. 0, 4k, 8k...60k\nset protocols mstp msti 3 vlan <VLAN ID 1>\nset protocols mstp msti 3 vlan <VLAN ID 2>",
+  "fix_id": "F-57367r843924_fix",
+  "VulnDiscussion": "Spanning Tree Protocol (STP) is implemented on bridges and switches to prevent layer 2 loops when a broadcast domain spans multiple bridges and switches and when redundant links are provisioned to provide high availability in case of link failures. Convergence time can be significantly reduced using Rapid STP (802.1w) instead of STP (802.1d), resulting in improved availability. Rapid STP should be deployed by implementing either Rapid Spanning-Tree Protocol (RSTP) or Multiple Spanning-Tree Protocol (MSTP), the latter scales much better when there are many VLANs.\n\nIn cases where VLANs do not span multiple switches, it is a best practice to not implement STP. Avoiding the use of STP will provide the most deterministic and highly available network topology. If STP is required, then review the switch configuration to verify that Rapid STP or Multiple STP has been implemented. RSTP and MSTP are similar, except MSTP is more granular, flexible, and scalable. RTSP and MSTP can be enabled simultaneously, but in general only one STP is configured.",
+  "Documentable": "false"
+}

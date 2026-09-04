@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255370",
+  "rule_id": "SV-255370r961827_rule",
+  "stig_id": "ASQL-00-014900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Database must generate audit records for all privileged activities or other system-level access.",
+  "group_title": "SRG-APP-000504-DB-000354",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-59043r871234_chk",
+  "check_content": "Review Azure SQL Database configuration to verify that audit records are produced for all privileged activities or other system-level access.\n\nTo determine if an audit is configured, execute the following script. \nRun this TSQL command to determine if SQL Auditing AuditActionGroups are configured:\n  SELECT DISTINCT sd.audit_action_name \n  FROM sys.database_audit_specification_details sd\n  JOIN sys.database_audit_specifications s \n  ON s.database_specification_id = sd.database_specification_id\n  WHERE (name = 'SqlDbAuditing_ServerAuditSpec' /*Server Audit*/\n      OR name = 'SqlDbAuditing_AuditSpec') /*Database Audit*/\n  AND s.is_state_enabled = 1\n  ORDER BY sd.audit_action_name\n\nIf no values exist for AuditActionGroup, this is a finding.  \n\nVerify the following AuditActionGroup(s) are configured:\nAPPLICATION_ROLE_CHANGE_PASSWORD_GROUP \nBACKUP_RESTORE_GROUP \nDATABASE_CHANGE_GROUP\nDATABASE_OBJECT_CHANGE_GROUP \nDATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP \nDATABASE_OBJECT_PERMISSION_CHANGE_GROUP \nDATABASE_OPERATION_GROUP \nDATABASE_OWNERSHIP_CHANGE_GROUP \nDATABASE_PERMISSION_CHANGE_GROUP\nDATABASE_PRINCIPAL_CHANGE_GROUP \nDATABASE_PRINCIPAL_IMPERSONATION_GROUP \nDATABASE_ROLE_MEMBER_CHANGE_GROUP \nDBCC_GROUP \nSCHEMA_OBJECT_CHANGE_GROUP \nSCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP \nSCHEMA_OBJECT_PERMISSION_CHANGE_GROUP \nUSER_CHANGE_PASSWORD_GROUP\n\nIf any listed AuditActionGroups do not exist in the configuration, this is a finding.",
+  "fixtext": "Deploy an Azure SQL Database audit.\n\nRefer to the supplemental file \"AzureSQLDatabaseAudit.txt\" PowerShell script.\n\nReference: \nhttps://docs.microsoft.com/en-us/powershell/module/az.sql/set-azsqlserveraudit\">https://docs.microsoft.com/en-us/powershell/module/az.sql/set-azsqlserveraudit",
+  "fix_id": "F-58987r871235_fix",
+  "VulnDiscussion": "Without tracking privileged activity, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. \n\nSystem documentation should include a definition of the functionality considered privileged.\n\nA privileged function in this context is any operation that modifies the structure of the database, its built-in logic, or its security settings. This would include all Data Definition Language (DDL) statements and all security-related statements. In an SQL environment, it encompasses, but is not necessarily limited to:\nCREATE\nALTER\nDROP\nGRANT\nREVOKE\nDENY\n\nThere may also be Data Manipulation Language (DML) statements that, subject to context, should be regarded as privileged. Possible examples in SQL include:\n\nTRUNCATE TABLE;\nDELETE, or\nDELETE affecting more than n rows, for some n, or\nDELETE without a WHERE clause;\n\nUPDATE or\nUPDATE affecting more than n rows, for some n, or\nUPDATE without a WHERE clause;\n\nany SELECT, INSERT, UPDATE, or DELETE to an application-defined security table executed by other than a security principal.\n\nDepending on the capabilities of Azure SQL Database and the design of the database and associated applications, audit logging may be achieved by means of Azure SQL Database auditing features, database triggers, other mechanisms, or a combination of these.\n\nNote that it is particularly important to audit, and tightly control, any action that weakens the implementation of this requirement itself, since the objective is to have a complete audit trail of all administrative activity.",
+  "Documentable": "false"
+}

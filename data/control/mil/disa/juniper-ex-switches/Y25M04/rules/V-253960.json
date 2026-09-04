@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253960",
+  "rule_id": "SV-253960r843913_rule",
+  "stig_id": "JUEX-L2-000130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to enable IP Source Guard on all user-facing or untrusted access VLANs.",
+  "group_title": "SRG-NET-000362-L2S-000026",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-57412r843911_chk",
+  "check_content": "Review the switch configuration to verify that IP Source Guard is enabled on all user-facing or untrusted VLANs. Configuring IP Source Guard automatically enables DHCP snooping.\n\nDevices like printers, servers, and VoIP phones are under enterprise control and connected to controlled access interfaces (802.1x, Static MAC Bypass, or MAC RADIUS), making them trusted sources in non-user-facing VLANs.\n\nVerify IP Source Guard on user-facing or untrusted VLANs.\n[edit vlans]\n<untrusted VLAN name> {\n    vlan-id <VLAN ID>;\n    forwarding-options {\n        dhcp-security {\n            ip-source-guard;\n        }\n    }\n}\nNote: IP Source Guard depends upon DHCP snooping or static MAC address bindings.\n\nIf the switch does not have IP Source Guard enabled on all user-facing or untrusted VLANs, this is a finding.",
+  "fixtext": "Configure the switch to have IP Source Guard enabled on all user-facing or untrusted VLANs.\n\nset vlans <untrusted VLAN name> vlan-id <VLAN ID>\nset vlans <untrusted VLAN name> forwarding-options dhcp-security ip-source-guard",
+  "fix_id": "F-57363r843912_fix",
+  "VulnDiscussion": "IP Source Guard provides source IP address filtering on an untrusted layer 2 interface to prevent a malicious host from impersonating a legitimate host by assuming the legitimate host's IP address. The feature uses dynamic DHCP snooping and static IP source binding to match IP addresses to hosts on untrusted layer 2 access interfaces. Initially, all IP traffic on the protected interface is blocked except for DHCP packets. After a client receives an IP address from the DHCP server, or after static IP source binding is configured by the administrator, all traffic with that IP source address is permitted from that client. Traffic from other hosts is denied. This filtering limits a host's ability to attack the network by claiming a neighbor host's IP address.",
+  "Documentable": "false"
+}

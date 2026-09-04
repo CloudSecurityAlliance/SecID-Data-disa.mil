@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220631",
+  "rule_id": "SV-220631r856225_rule",
+  "stig_id": "CISC-L2-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must have Spanning Tree Protocol (STP) Loop Guard enabled.",
+  "group_title": "SRG-NET-000362-L2S-000023",
+  "idents": {
+    "legacy": [
+      "SV-110233",
+      "V-101129"
+    ],
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-22346r507939_chk",
+  "check_content": "Review the switch configuration to verify that STP Loop Guard is enabled as shown in the configuration example below:\n\nhostname SW2\n…\n…\n…\nspanning-tree mode pvst\nspanning-tree loopguard default\n\nIf STP Loop Guard is not enabled, this is a finding.",
+  "fixtext": "Configure the switch to have STP Loop Guard enabled via the spanning-tree loopguard default global command.",
+  "fix_id": "F-22335r507940_fix",
+  "VulnDiscussion": "The STP loop guard feature provides additional protection against STP loops. An STP loop is created when an STP blocking port in a redundant topology erroneously transitions to the forwarding state. In its operation, STP relies on continuous reception and transmission of BPDUs based on the port role. \n\nThe designated port transmits BPDUs, and the non-designated port receives BPDUs. When one of the ports in a physically redundant topology no longer receives BPDUs, the STP conceives that the topology is loop free. Eventually, the blocking port from the alternate or backup port becomes a designated port and moves to a forwarding state. This situation creates a loop. The Loop Guard feature makes additional checks. If BPDUs are not received on a non-designated port and loop guard is enabled, that port is moved into the STP loop-inconsistent blocking state.",
+  "Documentable": "false"
+}

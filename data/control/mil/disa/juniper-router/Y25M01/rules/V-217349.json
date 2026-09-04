@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-217349",
+  "rule_id": "SV-217349r1050859_rule",
+  "stig_id": "JUNI-ND-001340",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured to generate log records for a locally developed list of auditable events.",
+  "group_title": "SRG-APP-000516-NDM-000334",
+  "idents": {
+    "legacy": [
+      "SV-101287",
+      "V-91187"
+    ],
+    "cci": [
+      "CCI-000366",
+      "CCI-000169"
+    ]
+  },
+  "check_id": "C-18576r1050857_chk",
+  "check_content": "Review the router configuration to verify that it is compliant with this requirement. The example below illustrates how selected events can be logged.\n\n   syslog {\n        file LOG_FILE {\n            authorization info;\n            any info;\n            change-log info;\n        }\n    }\n\nNote: A syslog server can be configured in lieu of logging to a file as shown in the example below.\n\nsystem {\n   syslog {\n        host x.x.x.x {\n            authorization info;\n            any info; \n           change-log info;\n        }\n    }\n\nIf the router is not configured to generate log records for a locally developed list of auditable events, this is a finding.",
+  "fixtext": "Configure the router to generate log records for a locally developed list of auditable events as shown in the example below.\n\n[edit system]\nset syslog file LOG_FILE authorization info\nset syslog file LOG_FILE any info\nset syslog file LOG_FILE change-log info\n\nNote: A syslog server can be configured in lieu of logging to a file as shown in the example below.\n\nset syslog host x.x.x.x authorization info\nset syslog host x.x.x.x any info\nset syslog host x.x.x.x change-log info",
+  "fix_id": "F-18574r1050858_fix",
+  "VulnDiscussion": "Auditing and logging are key components of any security architecture. Logging the actions of specific events provides a means to investigate an attack, recognize resource utilization or capacity thresholds, or identify an improperly configured network device. If auditing is not comprehensive, it will not be useful for intrusion monitoring, security investigations, and forensic analysis.",
+  "Documentable": "false"
+}

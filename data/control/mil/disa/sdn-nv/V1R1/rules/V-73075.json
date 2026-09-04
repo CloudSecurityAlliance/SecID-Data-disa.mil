@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-73075",
+  "rule_id": "SV-87727r1_rule",
+  "stig_id": "NET-SDN-002",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Northbound API traffic received by the SDN controller must be authenticated using a FIPS-approved message authentication code algorithm.",
+  "group_title": "NET-SDN-002",
+  "idents": {
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-73209r1_chk",
+  "check_content": "Review the configuration of the SDN controllers and verify that the northbound API messages received are authenticated using a FIPS-approved message authentication code algorithm. \n\nFIPS-approved algorithms for authentication are the cipher-based message authentication code (CMAC) and the keyed-hash message authentication code (HMAC). \n\nAES and 3DES are NIST-approved CMAC algorithms. The following are NIST-approved HMAC algorithms: SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224, and SHA-512/256. \n\nIf the SDN controllers do not authenticate received northbound API messages using a FIPS-approved message authentication code algorithm, this is a finding.",
+  "fixtext": "Configure all SDN controllers to authenticate received northbound API messages using a FIPS-approved message authentication code algorithm. \n\nFIPS-approved algorithms for authentication are the CMAC and the HMAC. \n\nAES and 3DES are NIST-approved CMAC algorithms. The following are NIST-approved HMAC algorithms: SHA-1, SHA-224, SHA-256, SHA-384, SHA-512, SHA-512/224, and SHA-512/256.",
+  "fix_id": "F-79521r1_fix",
+  "VulnDiscussion": "The SDN controller determines how traffic should flow through physical and virtual network devices based on application profiles, network infrastructure resources, security policies, and business requirements that it receives via the northbound API. It also receives network service requests from orchestration and management systems to deploy and configure network elements via this API. In turn, the northbound API presents a network abstraction to these orchestration and management systems. \n\nIf attackers could leverage a vulnerable northbound API, they would have control over the SDN infrastructure through the controller by inserting polices. If the SDN controller were to receive fictitious information from a rogue application or orchestration system, non-optimized network paths would be produced that could disrupt network operations, resulting in inefficient application and business processes. Hence, it is imperative that all northbound API traffic received by the SDN controller is authenticated.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216120",
+  "rule_id": "SV-216120r959010_rule",
+  "stig_id": "SOL-11.1-040390",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Host-based authentication for login-based services must be disabled.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48113",
+      "SV-60985"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17358r372742_chk",
+  "check_content": "Note: This is the location for Solaris 11.1. For earlier versions, the information is in /etc/pam.conf.\n\nDetermine if host-based authentication services are enabled.\n\n# grep 'pam_rhosts_auth.so.1' /etc/pam.conf /etc/pam.d/*| grep -vc '^#'\n\nIf the returned result is not 0 (zero), this is a finding.",
+  "fixtext": "Note: This is the location for Solaris 11.1. For earlier versions, the information is in /etc/pam.conf.\n\nThe root role is required.\n\n# ls -l /etc/pam.d\nto identify the various configuration files used by PAM.\n\nSearch each file for the pam_rhosts_auth.so.1 entry.\n\n# grep pam_rhosts_auth.so.1 [filename]\n\nIdentify the file with the line pam_hosts_auth.so.1 in it.\n\n# pfedit [filename]\n\nInsert a comment character (#) at the beginning of the line containing \"pam_hosts_auth.so.1\".",
+  "fix_id": "F-17356r372743_fix",
+  "VulnDiscussion": "The use of .rhosts authentication is an insecure protocol and can be replaced with public-key authentication using Secure Shell. As automatic authentication settings in the .rhosts files can provide a malicious user with sensitive system credentials, the use of .rhosts files should be disabled.",
+  "Documentable": "false"
+}

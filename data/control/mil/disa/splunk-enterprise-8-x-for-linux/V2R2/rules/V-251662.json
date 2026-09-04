@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251662",
+  "rule_id": "SV-251662r960864_rule",
+  "stig_id": "SPLK-CL-000090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Splunk Enterprise must be configured to protect the log data stored in the indexes from alteration.",
+  "group_title": "SRG-APP-000080-AU-000010",
+  "idents": {
+    "cci": [
+      "CCI-000166"
+    ]
+  },
+  "check_id": "C-55100r835281_chk",
+  "check_content": "This check is performed on the machine used as an indexer, which may be a separate machine in a distributed environment.\n\nIf the instance being reviewed is not used as an indexer, this check is N/A.\n\nExamine the configuration.\n\nNavigate to the $SPLUNK_HOME/etc/system/local/ directory. View the indexes.conf file.\n \nIf the indexes.conf file does not exist, this is a finding.\n\nIf the \"enableDataIntegrityControl\" is missing or is configured to 0 or false for each index, this is a finding.",
+  "fixtext": "If the indexes.conf file does not exist, copy the file from $SPLUNK_HOME/etc/system/default to the $SPLUNK_HOME/etc/system/local directory.\n\nModify the following lines in the indexes.conf file under each index:\n\nenableDataIntegrityControl = 1 or True",
+  "fix_id": "F-55054r835282_fix",
+  "VulnDiscussion": "Without non-repudiation, it is impossible to positively attribute an action to an individual (or process acting on behalf of an individual).\n\nThe records stored by Splunk Enterprise must be protected against alteration. A hash is one way of performing this function. The server must not allow the removal of identifiers or date/time, or it must severely restrict the ability to do so.",
+  "Documentable": "false"
+}

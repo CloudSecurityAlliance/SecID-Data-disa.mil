@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217338",
+  "rule_id": "SV-217338r961506_rule",
+  "stig_id": "JUNI-ND-001130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured to encrypt SNMP messages using a FIPS 140-2 approved algorithm.",
+  "group_title": "SRG-APP-000395-NDM-000310",
+  "idents": {
+    "legacy": [
+      "SV-101265",
+      "V-91165"
+    ],
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-18565r296592_chk",
+  "check_content": "Review the router configuration to verify that it is compliant with this requirement as shown in the example below.\n\nsnmp {\n    v3 {\n        usm {\n            local-engine {\n                user R5_NMS {\n                    authentication-sha {\n                        authentication-key \"$8$vOiLX-Vb2oaUwsJDiHmPz3690BcSevM\"; ## SECRET-DATA\n                    }\n                    privacy-aes128 {\n                        privacy-key \"$8$3Q4T9CuOBESyK1IrvW87NwYgoDiPfz3nCs24Z\"; ## SECRET-DATA\n                    }\n                }\n            }\n        }\n        target-address NMS_HOST {\n            address 10.1.58.2;\n            address-mask 255.255.255.0;\n            tag-list NMS;\n            target-parameters TP1;\n        }\n        target-parameters TP1 {\n            parameters {\n                message-processing-model v3;\n                security-model usm;\n                security-level privacy;\n                security-name R5_NMS;\n            }\n        }\n        notify SEND_TRAPS {\n            type trap;\n            tag NMS;\n        }\n        snmp-community index1 {\n            security-name R5_NMS;\n            tag NMS;\n        }\n    }\n} \n\nNote: SNMPv3 security level privacy also authenticates the messages using the configured HMAC.\n\nIf the router is not configured to encrypt SNMP messages using a FIPS 140-2 approved algorithm, this is a finding.",
+  "fixtext": "Configure the router to encrypt SNMP messages using a FIPS 140-2 approved algorithm as shown in the example below.\n\n[edit snmp]\nset v3 usm local-engine user R5_NMS authentication-sha authentication-password xxxxxxxxxx\nset v3 usm local-engine user R5_NMS privacy-aes128 privacy-password xxxxxxxxxx\nset v3 target-address NMS_HOST address 10.1.58.2\nedit v3 target-address NMS_HOST\n\n[edit snmp v3 target-address NMS_HOST]\nset address-mask 255.255.255.0\nset tag-list NMS\nset target-parameters TP1\nexit\n\n[edit snmp]\nset v3 target-parameters TP1 parameters message-processing-model v3\nset v3 target-parameters TP1 parameters security-model usm\nset v3 target-parameters TP1 parameters security-name R5_NMS\nset v3 target-parameters TP1 parameters security-level privacy\nset v3 snmp-community index1 security-name R5_NMS tag NMS\nset v3 notify SEND_TRAPS type trap tag NMS\n\nNote: SNMPv3 security level privacy also authenticates the messages using the configured HMAC; hence, the authentication key must also be configured as shown in the example above.",
+  "fix_id": "F-18563r296593_fix",
+  "VulnDiscussion": "Without the strong encryption that is provided by the SNMP Version 3 User-based Security Model (USM), an unauthorized user can gain access to network management information that can be used to create a network outage.",
+  "Documentable": "false"
+}

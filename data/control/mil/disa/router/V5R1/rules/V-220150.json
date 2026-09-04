@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220150",
+  "rule_id": "SV-220150r856669_rule",
+  "stig_id": "SRG-NET-000364-RTR-000203",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The perimeter router must be configured to drop IPv6 packets containing a Destination Option header with invalid option type values.",
+  "group_title": "SRG-NET-000364",
+  "idents": {
+    "legacy": [
+      "V-101095",
+      "SV-110199"
+    ],
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-21865r856668_chk",
+  "check_content": "This requirement is not applicable for the DODIN Backbone. \n\nReview the router configuration and determine if filters are bound to the external interfaces to drop IPv6 packets containing a Destination Option header with option type values of 0x05 (Router Alert) or 0xC2 (Jumbo Payload). \n\nNote: Because Hop-by-Hop and destination options have the same exact header format, they are combined under the dest-option-type keyword. According to Cisco, since Hop-by-Hop and Destination Option headers have non-overlapping types, dest-option-type to match either can be used. The Hop-by-Hop and Destination Option headers can be filtered via protocol 0 and 60 respectively. \n\nIf the router is not configured to drop IPv6 packets containing a Destination Option header with invalid option type values, this is a finding.",
+  "fixtext": "Configure the router to drop IPv6 packets containing a Destination Option header with option type values of 0x05 (Router Alert) or 0xC2 (Jumbo Payload).",
+  "fix_id": "F-21858r457780_fix",
+  "VulnDiscussion": "These options are intended to be for the Hop-by-Hop header only. The optional and extensible natures of the IPv6 extension headers require higher scrutiny since many implementations do not always drop packets with headers that it cannot recognize. Hence, this could cause a Denial-of-Service on the target device. In addition, the type, length, value (TLV) formatting provides the ability for headers to be very large.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251240",
+  "rule_id": "SV-251240r961122_rule",
+  "stig_id": "RD6X-00-010600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Redis Enterprise DBMS must fail to a secure state if system initialization fails, shutdown fails, or aborts fail.",
+  "group_title": "SRG-APP-000225-DB-000153",
+  "idents": {
+    "cci": [
+      "CCI-001190"
+    ]
+  },
+  "check_id": "C-54675r804908_chk",
+  "check_content": "1. In the console UI, click the databases tab.\n2. For each listed database, click it and select configuration.\n3. Verify that \"Persistence\" is set to: \"Append Only File (AOF) - fsync every write\".\n\nIf the setting is not configured or not documented to be set differently, this is a finding.\n\n4. For each listed database, click it and select configuration.\n5. Verify \"Replication\" is set enabled.\n\nIf the setting is not configured or not documented to be set differently, this is a finding.",
+  "fixtext": "To enable persistence and replication in the Redis Enterprise UI, click the databases tab. For each database that requires reconfiguration, click it and select configuration. Ensure that the replication box is checked as well as the desired persistence level.\n\nEdit the parameters necessary to meet the desired organizational needs.",
+  "fix_id": "F-54629r804909_fix",
+  "VulnDiscussion": "Failure to a known state can address safety or security in accordance with the mission/business needs of the organization. \n\nDatabases must fail to a known consistent state. Transactions must be successfully completed or rolled back.\n\nAll data is stored and managed exclusively in either RAM or RAM + Flash Memory (Redis on Flash) and therefore, is at risk of being lost upon a process or server failure. As Redis Enterprise Software is not just a caching solution, but also a full-fledged database, persistence to disk is critical. Therefore, Redis Enterprise Software supports persisting data to disk on a per-database basis.\n\nAppend Only File (AOF) is a continuous writing of data to disk Snapshot. It is not a replacement for backups but should be done in addition to backups. \n\nAOF writes the latest \"write\" commands into a file either every second or during every write. It resembles a traditional RDBMS's redo log. This file can later be replayed to recover from a crash.\n\nTo ensure data availability, Redis Enterprise Software must be implemented in, at a minimum, a three-node cluster. A three-node cluster can withstand one node failure without data loss. If more than one node is lost in a three-node cluster and persistence is not enabled, then data loss is to be expected.\n\nThe Append Only File is a persistence mode that provides much better durability. For instance, using the default data fsync policy, Redis can lose just one second of writes in a dramatic event like a server power outage, or a single write if something goes wrong with the Redis process itself, but the operating system is still running correctly. AOF and RDB persistence can be enabled at the same time without problems. If the AOF is enabled on startup Redis will load the AOF, that is the file with the better durability guarantees. Check http://redis.io/topics/persistence for more information.\n\nRedis Labs additionally recommends using the wait command. Review the wait command at: https://redis.io/commands/wait and determine if this meets organizational needs.",
+  "Documentable": "false"
+}

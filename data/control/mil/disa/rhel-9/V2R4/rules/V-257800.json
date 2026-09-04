@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-257800",
+  "rule_id": "SV-257800r1044851_rule",
+  "stig_id": "RHEL-09-213025",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must restrict exposed kernel pointer addresses access.",
+  "group_title": "SRG-OS-000132-GPOS-00067",
+  "idents": {
+    "cci": [
+      "CCI-001082",
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-61541r942970_chk",
+  "check_content": "Verify the runtime status of the kernel.kptr_restrict kernel parameter with the following command:\n\n$ sudo sysctl kernel.kptr_restrict \n\nkernel.kptr_restrict = 1\n\nVerify the configuration of the kernel.kptr_restrict kernel parameter with the following command:\n\n$ sudo /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' |  grep -F kernel.kptr_restrict | tail -1\n\nkernel.kptr_restrict =1\n\nIf \"kernel.kptr_restrict\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Add or edit the following line in a system configuration file in the \"/etc/sysctl.d/\" directory:\n\nkernel.kptr_restrict = 1\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-61465r925386_fix",
+  "VulnDiscussion": "Exposing kernel pointers (through procfs or \"seq_printf()\") exposes kernel writeable structures, which may contain functions pointers. If a write vulnerability occurs in the kernel, allowing write access to any of this structure, the kernel can be compromised. This option disallows any program without the CAP_SYSLOG capability to get the addresses of kernel pointers by replacing them with \"0\".\n\nSatisfies: SRG-OS-000132-GPOS-00067, SRG-OS-000433-GPOS-00192, SRG-OS-000480-GPOS-00227",
+  "Documentable": "false"
+}

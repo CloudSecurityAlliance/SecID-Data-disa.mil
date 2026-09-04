@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253970",
+  "rule_id": "SV-253970r1082976_rule",
+  "stig_id": "JUEX-L2-000230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to set all enabled user-facing or untrusted ports as access interfaces.",
+  "group_title": "SRG-NET-000512-L2S-000011",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-57422r1082974_chk",
+  "check_content": "Review the switch configuration and examine all enabled user-facing or untrusted interfaces configured with family ethernet-switching. \n\n1. Interfaces implicitly configured with \"interface-mode\" access and family ethernet-switching. Note: The default interface-mode is \"access\".\nuser@host> show configuration interfaces\n<interface name> {\n    unit 0 {\n        family ethernet-switching {\n        }\n    }\n}\n\n\n2. Interfaces explicitly configured with \"interface-mode\" access and family ethernet-switching.\nuser@host> show configuration interfaces\n<interface name> {\n    unit 0 {\n        family ethernet-switching {\n            interface-mode access;\n        }\n    }\n}\n\nIf any of the enabled user-facing access interfaces are configured as a trunk, this is a finding.",
+  "fixtext": "Disable trunking on all enabled user-facing or untrusted access interfaces.\n\nDelete \"interface-mode\" from an enabled user-facing or untrusted interface to inherit the default access mode.\nuser@host> configure\nuser@host# delete interfaces <interface name> unit 0 family ethernet-switching interface-mode\n\nAlternatively, explicitly set the enabled user-facing or untrusted interface mode to access.\nuser@host> configure\nuser@host# set interfaces <interface name> unit 0 family ethernet-switching interface-mode access",
+  "fix_id": "F-57373r1082975_fix",
+  "VulnDiscussion": "By default, unconfigured (or expressly disabled) Junos interfaces are unusable. Any enabled interface configured with the family ethernet-switching uses interface-mode access by default, which meets this requirement. Trunked interfaces must be explicitly configured for operational requirements (e.g., interswitch links), which makes them trusted and not user-facing.\n\nConfiguring enabled user-facing or untrusted interfaces as trunked may expose network traffic to an unauthorized, or unintended, connected endpoint. Access interfaces can belong to a single VLAN rather than the multiple VLANs supported by trunks, which limits potential exposure to a smaller subset of the total network traffic.\n\nAccess interfaces also behave differently than trunked interfaces, especially with respect to control plane traffic. For example, access interfaces can be marked as \"edge\" for protocols like Rapid Spanning Tree (RSTP) or Multiple Spanning Tree (MSTP) where specific protections can be applied to prevent the switch from accepting Bridge Protocol Data Units (BPDU) from unauthorized sources and causing a network topology change or disruption. Additionally, network level protection mechanisms, like 802.1x or sticky-mac, are applied to access interfaces and these protection mechanisms help prevent unauthorized network access.",
+  "Documentable": "false"
+}

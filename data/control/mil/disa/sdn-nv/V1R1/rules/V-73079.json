@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-73079",
+  "rule_id": "SV-87731r1_rule",
+  "stig_id": "NET-SDN-004",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Southbound API control plane traffic must traverse an out-of-band path or be encrypted using a FIPS-validated cryptographic module.",
+  "group_title": "NET-SDN-004",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73213r1_chk",
+  "check_content": "Determine if the southbound API control plane traffic between the SDN controllers and the SDN-enabled network elements traverses an out-of-band path. \n\nIf not, verify that the southbound API traffic is encrypted using a FIPS-validated cryptographic module.\n\nIf the southbound API traffic does not traverse an out-of-band path or is not encrypted using a FIPS-validated cryptographic module, this is a finding.\n\nNote: An out-of-band path would be a path between two nodes that traverses one or more links on an out-of-band network; that is, a dedicated layer 2 infrastructure separate from a production network.",
+  "fixtext": "Deploy an out-of-band network to provision paths between the SDN controllers and the SDN-enabled network elements for providing transport for southbound API control plane traffic.\n\nAn alternative is to encrypt all southbound API control plane traffic using a FIPS-validated cryptographic module. Implement a cryptographic module which has a validation certification and is listed on the NIST Cryptographic Module Validation Program's (CMVP) validation list.",
+  "fix_id": "F-79525r1_fix",
+  "VulnDiscussion": "Southbound APIs such as OpenFlow provide the forwarding tables to network devices such as switches and routers, both physical and virtual (hypervisor-based). The SDN controllers use the concept of flows to identify network traffic based on predefined rules that can be statically or dynamically programmed by the SDN control software, thereby determining how traffic should flow through network devices based on usage patterns, applications, and policy that can optimize traffic paths based on business requirements and not network infrastructure design. \n\nIf an SDN-aware router or switch received erroneous forwarding information from a rogue controller, traffic could be black-holed or even forwarded to a malicious user to sniff traffic and perform a man-in-the-middle attack. Hence, it is imperative to secure flow table updates by encrypting all southbound API traffic or deploying an out-of-band network for this traffic to traverse.",
+  "Documentable": "false"
+}

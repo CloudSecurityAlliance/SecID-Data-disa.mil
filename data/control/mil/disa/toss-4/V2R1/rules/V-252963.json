@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-252963",
+  "rule_id": "SV-252963r991589_rule",
+  "stig_id": "TOSS-04-020240",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The x86 Ctrl-Alt-Delete key sequence in TOSS must be disabled if a graphical user interface is installed.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56416r824211_chk",
+  "check_content": "Verify TOSS is not configured to reboot the system when Ctrl-Alt-Delete is pressed when using a graphical user interface with the following command:\n\nNote: This requirement assumes the use of the TOSS default graphical user interface, Gnome Shell. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\n$ sudo grep logout /etc/dconf/db/local.d/*\n\nlogout=''\n\nIf the \"logout\" key is bound to an action, is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure the system to disable the Ctrl-Alt-Delete sequence when using a graphical user interface by creating or editing the /etc/dconf/db/local.d/00-disable-CAD file.\n\nAdd the setting to disable the Ctrl-Alt-Delete sequence for a graphical user interface:\n\n[org/gnome/settings-daemon/plugins/media-keys]\nlogout=''\n\nNote: The value above is set to two single quotations.\n\nThen update the dconf settings:\n\n$ sudo dconf update",
+  "fix_id": "F-56366r824212_fix",
+  "VulnDiscussion": "A locally logged-on user, who presses Ctrl-Alt-Delete when at the console, can reboot the system. If accidentally pressed, as could happen in the case of a mixed OS environment, this can create the risk of short-term loss of availability of systems due to unintentional reboot. In a graphical user environment, risk of unintentional reboot from the Ctrl-Alt-Delete sequence is reduced because the user will be prompted before any action is taken.",
+  "Documentable": "false"
+}

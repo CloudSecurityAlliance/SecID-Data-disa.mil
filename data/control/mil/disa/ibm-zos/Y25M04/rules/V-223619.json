@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-223619",
+  "rule_id": "SV-223619r958472_rule",
+  "stig_id": "ACF2-US-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS UNIX resources must be protected in accordance with security requirements.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "legacy": [
+      "SV-107047",
+      "V-97943"
+    ],
+    "cci": [
+      "CCI-000213",
+      "CCI-002233"
+    ]
+  },
+  "check_id": "C-25292r767071_chk",
+  "check_content": "From the ISPF Command Shell enter:\nACF\nSET RESOURCE(SUR)\nSET VERBOSE\nLIST LIKE(BPX-)\n\nIf the ACF2 rules for all BPX.SRV.user TYPE(SUR) resources specify a default access of NONE, this is not a finding.\n\nIf the ACF2 rules for all BPX.SRV.user TYPE(SUR) resources restrict access to system software processes (e.g., web servers) that act as servers under z/OS UNIX, this is not a finding.\n\nIf the ACF2 rules for all BPX.SRV.user SURROGAT resources restrict access to authorized users identified in the  Site Security Plan, this is not a finding.",
+  "fixtext": "Configure BPX. SRV.userid resources to be properly protected and access restricted to appropriate system tasks or systems programming personnel.\n\nSURROGAT class BPX resources are used in conjunction with server applications that are performing tasks on behalf of client users that may not supply an authenticator to the server. This can be the case when clients are otherwise validated or when the requested service is performed from userids representing groups.\n\nThe default access for each BPX.SRV.userid resource must be no access. Access can be permitted only to system software processes that act as servers under OS/390 UNIX (e.g., web servers) and users whose access an approval are identified in the Site Security Plan.\n\nExample:\nSET R(SUR)\n$KEY(BPX) TYPE(SUR) \nSRV.INTERNAL UID(FJB****STC******IMWEBSRV) SERVICE(READ) LOG\nSRV.PRIVATE UID(FJB****STC******IMWEBSRV) SERVICE(READ) LOG \nSRV.PUBLIC UID(FJB****STC******IMWEBSRV) SERVICE(READ) LOG \nSRV.WEBADM UID(FJB****STC******IMWEBSRV) SERVICE(READ) LOG \n- UID(*) PREVENT",
+  "fix_id": "F-25280r767072_fix",
+  "VulnDiscussion": "To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DoD-approved PKIs, all DoD systems (e.g., web servers and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. Successful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement.",
+  "Documentable": "false"
+}

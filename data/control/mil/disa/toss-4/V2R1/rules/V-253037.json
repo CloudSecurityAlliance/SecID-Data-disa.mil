@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253037",
+  "rule_id": "SV-253037r991577_rule",
+  "stig_id": "TOSS-04-031110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Successful/unsuccessful uses of the \"lremovexattr\" system call in TOSS must generate an audit record.",
+  "group_title": "SRG-OS-000468-GPOS-00212",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-56490r824781_chk",
+  "check_content": "Verify if TOSS is configured to audit the execution of the \"lremovexattr\" system call, by running the following command:\n\n$ sudo grep -w lremovexattr /etc/audit/audit.rules\n\n-a always,exit -F arch=b32 -S lremovexattr -F auid>=1000 -F auid!=unset -k perm_mod\n-a always,exit -F arch=b64 -S lremovexattr -F auid>=1000 -F auid!=unset -k perm_mod\n\n-a always,exit -F arch=b32 -S lremovexattr -F auid=0 -k perm_mod\n-a always,exit -F arch=b64 -S lremovexattr -F auid=0 -k perm_mod\n\nIf the command does not return all lines, or the lines are commented out, this is a finding.",
+  "fixtext": "Configure TOSS to audit the execution of the \"lremovexattr\" system call, by adding or updating the following lines to \"/etc/audit/rules.d/audit.rules\":\n\n-a always,exit -F arch=b32 -S lremovexattr -F auid>=1000 -F auid!=unset -k perm_mod\n-a always,exit -F arch=b64 -S lremovexattr -F auid>=1000 -F auid!=unset -k perm_mod\n\n-a always,exit -F arch=b32 -S lremovexattr -F auid=0 -k perm_mod\n-a always,exit -F arch=b64 -S lremovexattr -F auid=0 -k perm_mod\n\nThe audit daemon must be restarted for the changes to take effect.",
+  "fix_id": "F-56440r824782_fix",
+  "VulnDiscussion": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter). \"Lremovexattr\" is a system call that removes extended attributes. This is used for removal of extended attributes from symbolic links.\n\nWhen a user logs on, the AUID is set to the UID of the account that is being authenticated. Daemons are not user sessions and have the loginuid set to \"-1.\" The AUID representation is an unsigned 32-bit integer, which equals \"4294967295.\" The audit system interprets \"-1\", \"4294967295\", and \"unset\" in the same way.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-225228",
+  "rule_id": "SV-225228r1043178_rule",
+  "stig_id": "APPNET0060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Remoting Services HTTP channels must utilize authentication and encryption.",
+  "group_title": "SRG-APP-000219",
+  "idents": {
+    "legacy": [
+      "SV-7453",
+      "V-7070"
+    ],
+    "cci": [
+      "CCI-001184"
+    ]
+  },
+  "check_id": "C-26927r956031_chk",
+  "check_content": "If .NET remoting with HTTP channel is not used, this check is Not Applicable.\n\nReview the machine.config file and the [application name].exe.config file.\n\nFor 32-bit systems, the \"machine.config\" file is contained in the following folder: %SYSTEMROOT%\\Microsoft.NET\\Framework\\v4.0.30319\\Config \n\nFor 64-bit systems, the \"machine.config\" file is contained in the following folder: %SYSTEMROOT%\\Microsoft.NET\\Framework64\\v4.0.30319\\Config.\n\nMicrosoft specifies locating the [application].config file in the same folder as the application executable (.exe) file. However, the developer does have the capability to specify a different location when the application is compiled.  Therefore, if the file is not found in the application home folder, a search of the system is required. If the [application name].exe.config file is not found on the system, then only a check of the machine.config file is required.\n\nSample machine/application config file:\n\n<application name=“remoteserver”> \n  <service> \n    <activated type=“sample.my.object, myobjects”/> \n  </service> \n  <channels> \n    <channel ref=“http server” port=“80”/> \n  </channels> \n</application>\n\n<serverProviders>\n  <provider ref=\"wsdl\" />\n  <formatter ref=\"soap\" typeFilterLevel=\"Low\" /> \n  <formatter ref=\"binary\" typeFilterLevel=\"Low\" /> \n</serverProviders> \n\nMicrosoft provides three \"channels\" that are used for remoting connectivity. They are the HTTP, TCP, and IPC channels. The channel that is used is specified via the <channels> element in the config file.  \n\nHTTP channel example:\n<channel ref=“http server” port=“80”/> \n\nThe HTTP channel only supports encryption and message integrity when the remote object is hosted in Internet Information Services (IIS) using TLS.\n\nThe above example shows the well-known TLS port of 443 is not being used. \n\nIf the HTTP remoting channel is not configured to protect the channel by using TLS encryption, this is a finding.",
+  "fixtext": "If .NET remoting with HTTP channel is not used, this fix is Not Applicable.\n\nEnsure encryption and message integrity are used for HTTP remoting channels.\n\nThe HTTP channel only supports encryption and message integrity when the remote object is hosted in Internet Information Services (IIS) using TLS.\n\nHTTP channels are protected via TLS (HTTPS). \n<channels> \n   <channel ref=“http server” port=“443”/> \n</channels> \n\nChange the channel ref parameter to utilize a TLS port and leverage TLS on the remote IIS server.",
+  "fix_id": "F-26915r956032_fix",
+  "VulnDiscussion": "Note: Microsoft recommends using the Windows Communication Framework (WCF) rather than using .Net remoting. New development projects should refrain from using .Net remoting capabilities whenever possible.\n\n.NET remoting provides the capability to build widely distributed applications. The application components may reside all on one computer or they may be spread out across the enclave. .NET client applications can make remoting calls to use objects in other processes on the same computer or on any other computer that is reachable over the network. .NET remoting can also be used to communicate with other application domains within the same process. Remoting is achieved via the exposure of endpoints that can be used to establish remote connectivity.\n\nNormally when application code attempts to access a protected resource, a stack walk is performed to ensure that all stack frames have permission to access the resource. However, with .Net 4.0, when a call is made on a remote object, this stack walk is not performed across the remoting boundary. The .Net remoting infrastructure requires FullTrust permission to execute on either the client or the server. \n\nDue to the fact that FullTrust permission is required, Remoting endpoints should be authenticated and encrypted in order to protect the system and the data. \n\nMicrosoft provides three different \"channels\" that are used for remoting. They are HTTP, TCP, and IPC.\n\nAny unauthorized use of a remoting application provides unauthorized access with FullTrust permissions to the system. This can potentially result in a loss of system integrity or confidentiality.",
+  "Documentable": "false"
+}

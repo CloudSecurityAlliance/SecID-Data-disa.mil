@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-76419",
+  "rule_id": "SV-91115r1_rule",
+  "stig_id": "AKSD-WF-000018",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Kona Site Defender must not strip origin-defined HTTP session headers.",
+  "group_title": "SRG-NET-000169-ALG-000102",
+  "idents": {
+    "cci": [
+      "CCI-000804"
+    ]
+  },
+  "check_id": "C-76077r1_chk",
+  "check_content": "Confirm Kona Site Defender is not stripping origin-defined HTTP session headers:\n\n1. Log in to the Akamai Luna Portal (Caution-https://control.akamai.com).\n2. Click the \"Configure\" tab and select \"Site\" under the \"Property\" section.\n3. If prompted for which product to use, select \"Site Defender\" and then \"Continue\".\n4. Click on the applicable configuration.\n5. Click on the applicable version of the configuration.\n6. Click the \"View XML\" button.\n7. Search the XML text for the following fields and confirm that no origin session headers are being added or removed:\n\"edgeservices:modify-incoming-request.remove-header\"\n\"edgeservices:modify-incoming-request.add-header\"\n\"edgeservices:modify-incoming-response.remove-header\"\n\"edgeservices:modify-incoming-response.add-header\"\n\"edgeservices:modify-outgoing-request.remove-header\"\n\"edgeservices:modify-outgoing-request.add-header\"\n\"edgeservices:modify-outgoing-response.remove-header\"\n\"edgeservices:modify-outgoing-response.add-header\"\n\nIf Kona Site Defender is stripping origin-defined HTTP session headers, this is a finding.",
+  "fixtext": "Configure Kona Site Defender to not modify origin-defined HTTP session headers:\n\n1. Log in to the Akamai Luna Portal (Caution-https://control.akamai.com).\n2. Click the \"Configure\" tab and select \"Site\" under the \"Property\" section.\n3. If prompted for which product to use, select \"Site Defender\" and then \"Continue\".\n4. Click on the applicable configuration.\n5. Click on the applicable version of the configuration.\n6. Search the \"Property Configuration Settings\" and remove any of the following behaviors that are modifying origin-defined HTTP session headers:\n\"Modify Incoming Request Header\"\n\"Modify Incoming Response Header\"\n\"Modify Outgoing Request Header\"\n\"Modify Outgoing Response Header\"\nOR\nContact the Akamai Professional Services team to implement the changes at 1-877-4-AKATEC (1-877-425-2832).",
+  "fix_id": "F-83095r1_fix",
+  "VulnDiscussion": "Lack of authentication enables anyone to gain access to the network or possibly a network element that provides the opportunity for intruders to compromise resources within the network infrastructure. By identifying and authenticating non-organizational users, their access to network resources can be restricted accordingly.\n\nNon-organizational users will be uniquely identified and authenticated for all accesses other than accesses explicitly identified and documented by the organization when related to the use of anonymous access. Authorization requires an individual account identifier that has been approved, assigned, and configured on an authentication server. Authentication of user identities is accomplished through the use of passwords, tokens, biometrics, or in the case of multifactor authentication, some combination thereof.\n\nThis control applies to application layer gateways that provide content filtering and proxy services on network segments (e.g., DMZ) that allow access by non-organizational users. It focuses on authentication requests to the proxied application for access to destination resources and policy filtering decisions rather than administrator and management functions.",
+  "Documentable": "false"
+}

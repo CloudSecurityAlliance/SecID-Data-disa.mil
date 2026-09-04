@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260916",
+  "rule_id": "SV-260916r966105_rule",
+  "stig_id": "CNTR-MK-000480",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MSR's self-signed certificates must be replaced with DOD trusted, signed certificates.",
+  "group_title": "SRG-APP-000141-CTR-000315",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-64645r966103_chk",
+  "check_content": "If MSR is not being utilized, this is Not Applicable.\n\nCheck that MSR has been integrated with a trusted certificate authority (CA). \n\n1. In one terminal window execute the following:\nkubectl port-forward service/msr 8443:443\n\n2. In a second terminal window execute the following:\nopenssl s_client -connect localhost:8443 -showcerts </dev/null\n\nIf the certificate chain in the output is not valid and does not match that of the trusted CA, then this is a finding.",
+  "fixtext": "If MSR is not being utilized, this is Not Applicable.\n\nEnsure the certificates are from a trusted DOD CA.\n\n1. Add the secret to the cluster by executing the following:\n\nkubectl create secret tls <secret-name> --key <keyfile>.pem --cert <certfile>.pem\n\n2. Update MSR with the custom certificate by executing the following:\n\nhelm upgrade msr [REPO_NAME]/msr --version <helm-chart-version> --set-file license=path/to/file/license.lic --set\nnginx.webtls.create=false --set nginx.webtls.secretName=\"<secret-name>\"",
+  "fix_id": "F-64553r966104_fix",
+  "VulnDiscussion": "Self-signed certificates pose security risks, as they are not issued by a trusted third party. DOD trusted, signed certificates have undergone a validation process by a trusted CA, reducing the risk of man-in-the-middle attacks and unauthorized access. Using these certificates enhances the trust and authenticity of the communication between clients and the MSR server.",
+  "Documentable": "false"
+}

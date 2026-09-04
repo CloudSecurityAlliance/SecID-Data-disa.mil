@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214541",
+  "rule_id": "SV-214541r971533_rule",
+  "stig_id": "JUSX-AG-000150",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper SRX Services Gateway Firewall must generate an alert that can be forwarded to, at a minimum, the ISSO and ISSM when DoS incidents are detected.",
+  "group_title": "SRG-NET-000392-ALG-000148",
+  "idents": {
+    "legacy": [
+      "SV-80837",
+      "V-66347"
+    ],
+    "cci": [
+      "CCI-002664"
+    ]
+  },
+  "check_id": "C-15747r297307_chk",
+  "check_content": "Verify a security policy with an associated screen that denies or mitigates the threat of DoS attacks includes the log or syslog option. Verify a log event, SNMP trap, or SNMP notification is generated and sent to be forwarded to, at a minimum, the ISSO and ISSM when threats identified by authoritative sources are detected.\n\n[edit]\nshow security zones\nshow security polices\n\nIf an alert is not generated that can be forwarded to, at a minimum, the ISSO and ISSM when DoS incidents are detected, this is a finding.",
+  "fixtext": "Configure the Juniper SRX to generate for DoS attacks detected in CCI-002385. DoS attacks are detected using screens. The alert sends a notification or log message that can be forwarded via an event monitoring system (e.g., via Syslog configuration, SNMP trap, manned console message, or other events monitoring system). The NSM, Syslog, or SNMP server must then be configured to send the message.\n\nThe following example configures the zone security policy to include the log and/or syslog action in all terms to log packets matching each firewall term to ensure the term results are recorded in the firewall log and Syslog. To get traffic logs from permitted sessions, add \"then log session-close\" to each policy. To get traffic logs from denied sessions, add \"then log session-init\" to the policy.\n\nApply policy or screen to a zone example:\n\nset security zones security-zone trust interfaces ge-0/0/2.0\nset security zones security-zone untrust screen untrust-screen\nset security policies from-zone untrust to-zone trust policy default-deny then log session-init",
+  "fix_id": "F-15745r297308_fix",
+  "VulnDiscussion": "Without an alert, security personnel may be unaware of major detection incidents that require immediate action and this delay may result in the loss or compromise of information.\n\nThe ALG generates an alert that notifies designated personnel of the Indicators of Compromise (IOCs) which require real-time alerts. These messages should include a severity level indicator or code as an indicator of the criticality of the incident. These indicators reflect the occurrence of a compromise or a potential compromise.\n\nSince these incidents require immediate action, these messages are assigned a critical or level 1 priority/severity, depending on the system's priority schema.\n\nCJCSM 6510.01B, \"Cyber Incident Handling Program\", lists nine Cyber Incident and Reportable Event Categories. DoD has determined that categories identified by CJCSM 6510.01B Major Indicators (category 1, 2, 4, or 7 detection events) will require an alert when an event is detected.\n\nAlerts may be transmitted, for example, telephonically, by electronic mail messages, or by text messaging. The ALG must either send the alert to a management console that is actively monitored by authorized personnel or use a messaging capability to send the alert directly to designated personnel.",
+  "Documentable": "false"
+}

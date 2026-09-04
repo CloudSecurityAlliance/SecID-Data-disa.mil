@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269120",
+  "rule_id": "SV-269120r1050610_rule",
+  "stig_id": "ALMA-09-003650",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must force a frequent session key renegotiation for SSH connections to the server.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-73151r1047736_chk",
+  "check_content": "Verify the SSH server is configured to force frequent session key renegotiation with the following command:\n\n$ sshd -T | grep rekeylimit\n\nrekeylimit 1073741824 3600\n\nIf \"RekeyLimit\" does not have a maximum data amount and maximum time defined, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to force a frequent session key renegotiation for SSH connections to the server by running the following command:\n\n$ echo \"RekeyLimit 1G 1h\" > /etc/ssh/sshd_config.d/40-rekeylimit.conf",
+  "fix_id": "F-73052r1049131_fix",
+  "VulnDiscussion": "Without confidentiality protection mechanisms, unauthorized individuals may gain access to sensitive information via a remote access session.\n\nRemote access is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nEncryption provides a means to secure the remote connection to prevent unauthorized access to the data traversing the remote access connection (e.g., RDP), thereby providing a degree of confidentiality. The encryption strength of a mechanism is selected based on the security categorization of the information.\n\nSession key regeneration limits the chances of a session key becoming compromised.",
+  "Documentable": "false"
+}

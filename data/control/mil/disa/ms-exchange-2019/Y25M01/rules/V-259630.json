@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259630",
+  "rule_id": "SV-259630r1043182_rule",
+  "stig_id": "EX19-ED-000159",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange must limit the Receive connector timeout.",
+  "group_title": "SRG-APP-000295",
+  "idents": {
+    "cci": [
+      "CCI-002361"
+    ]
+  },
+  "check_id": "C-63369r942202_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP), or Organizations applicable documentation.\n\nDetermine the connection Timeout value.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-ReceiveConnector | Select-Object -Property Name, Identity, ConnectionTimeout\n\nFor each Receive connector, if the value of \"ConnectionTimeout\" is not set to \"00:05:00\", this is a finding.\n\nIf \"ConnectionTimeout\" is set to another value other than \"00:05:00\" and has signoff and risk acceptance in the EDSP, this is not a finding.",
+  "fixtext": "Update the EDSP, or the applicable documentation.\n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-ReceiveConnector -Identity <'IdentityName'> -ConnectionTimeout 00:05:00\n\nNote: The <IdentityName> value must be in quotes.\n\nor\n\nThe value as identified by the EDSP that has obtained a signoff with risk acceptance.\n\nRepeat the procedures for each Receive connector.",
+  "fix_id": "F-63277r942203_fix",
+  "VulnDiscussion": "Email system availability depends in part on best practices strategies for setting tuning. This configuration controls the number of idle minutes before the connection is dropped. It works in conjunction with the Maximum Inbound Connections Count setting.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253765",
+  "rule_id": "SV-253765r961824_rule",
+  "stig_id": "MADB-10-011300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must generate audit records when unsuccessful logons or connection attempts occur.",
+  "group_title": "SRG-APP-000503-DB-000351",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-57217r841818_chk",
+  "check_content": "Check what filters are in place by running the following as an administrative user: \n\nMariaDB> SELECT * FROM mysql.server_audit_filters;\n\nVerify connect_events include connect in audit filters. If not, this is a finding. \n\nLog in to and out of the MariaDB database server with both valid and invalid users. Verify the connect and disconnect are logged in the audit logfile or syslog depending on how it is configured. \n\nIf connect/disconnect and invalid logins are not logged, this is a finding.",
+  "fixtext": "Edit the necessary filters to include  connect_events connect. Example:\n\nMariaDB> DELETE FROM mysql.server_audit_filters WHERE filtername = 'default';\n\nMariaDB> INSERT INTO mysql.server_audit_filters (filtername, rule)\n   VALUES ('default',\n      JSON_COMPACT(\n         '{\n            \"connect_event\": [\n               \"CONNECT\",\n               \"DISCONNECT\"\n            ]\n         }'\n      ));",
+  "fix_id": "F-57168r841819_fix",
+  "VulnDiscussion": "For completeness of forensic analysis, it is necessary to track failed attempts to log on to MariaDB. While positive identification may not be possible in a case of failed authentication, as much information as possible about the incident must be captured.",
+  "Documentable": "false"
+}

@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-268081",
+  "rule_id": "SV-268081r1039549_rule",
+  "stig_id": "ANIX-00-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must enforce the limit of three consecutive invalid login attempts by a user during a 15-minute time period.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044",
+      "CCI-002238",
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-72005r1039547_chk",
+  "check_content": "Verify that NixOS locks an account after three unsuccessful login attempts within 15 minutes with the following commands:\n\n$ cat /etc/pam.d/login\n\nauth required pam_faillock.so preauth deny=3 even_deny_root fail_interval=900 unlock_time=0 dir=/var/log/faillock\n\nIf the \"fail_interval\" option is not set to \"900\" or less (but not \"0\") on the \"preauth\" lines with the \"pam_faillock\" module, or is missing from this line, this is a finding.",
+  "fixtext": "Configure NixOS to lock an account when three unsuccessful login attempts occur within 15 minutes. \n\nModify /etc/nixos/configuration.nix to include the following lines:\n\n security.pam.services = let pamfile = ''\n  auth required pam_faillock.so preauth silent audit deny=3 fail_interval=900 unlock_time=0\n  auth sufficient pam_unix.so nullok try_first_pass\n  auth [default=die] pam_faillock.so authfail audit deny=3 fail_interval=900 unlock_time=0\n  auth sufficient pam_faillock.so authsucc\n\n  account required pam_faillock.so\n '';\n in {\n  login.text = pkgs.lib.mkDefault pamfile;\n  sshd.text = pkgs.lib.mkDefault pamfile;\n };\n\nNote that the entire pam file must be entered as this pamfile string.\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71908r1039548_fix",
+  "VulnDiscussion": "By limiting the number of failed login attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-force attacks, is reduced. Limits are imposed by locking the account.\n\nSatisfies: SRG-OS-000021-GPOS-00005, SRG-OS-000329-GPOS-00128, SRG-OS-000470-GPOS-00214",
+  "Documentable": "false"
+}

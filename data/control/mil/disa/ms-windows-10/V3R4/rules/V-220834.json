@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220834",
+  "rule_id": "SV-220834r991589_rule",
+  "stig_id": "WN10-CC-000205",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Telemetry must not be configured to Full.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-63683",
+      "SV-78173"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-22549r930671_chk",
+  "check_content": "If the following registry value does not exist or is not configured as specified, this is a finding.\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\Windows\\DataCollection\\\n\nValue Name: AllowTelemetry\n\nType: REG_DWORD\nValue: 0x00000000 (0) (Security)\n0x00000001 (1) (Basic)\n\nIf an organization is using v1709 or later of Windows 10, this may be configured to \"Enhanced\" to support Windows Analytics. V-220833 must also be configured to limit the Enhanced diagnostic data to the minimum required by Windows Analytics. This registry value will then be 0x00000002 (2).",
+  "fixtext": "Configure the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Data Collection and Preview Builds >> \"Allow Telemetry\" to \"Enabled\" with \"0 - Security [Enterprise Only]\" or \"1 - Basic\" selected in \"Options:\". \n\nIf an organization is using v1709 or later of Windows 10, this may be configured to \"2 - Enhanced\" to support Windows Analytics. V-220833 must also be configured to limit the Enhanced diagnostic data to the minimum required by Windows Analytics.",
+  "fix_id": "F-22538r930672_fix",
+  "VulnDiscussion": "Some features may communicate with the vendor, sending system information or downloading data or components for the feature. Limiting this capability will prevent potentially sensitive information from being sent outside the enterprise. The \"Security\" option for Telemetry configures the lowest amount of data, effectively none outside of the Malicious Software Removal Tool (MSRT), Defender, and telemetry client settings. \"Basic\" sends basic diagnostic and usage data and may be required to support some Microsoft services. \"Enhanced\" includes additional information on how Windows and apps are used and advanced reliability data. Windows Analytics can use a \"limited enhanced\" level to provide information such as health data for devices. This requires the configuration of an additional setting available with v1709 and later of Windows 10.",
+  "Documentable": "false"
+}

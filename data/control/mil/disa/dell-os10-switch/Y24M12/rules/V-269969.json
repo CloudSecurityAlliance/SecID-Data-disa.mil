@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269969",
+  "rule_id": "SV-269969r1052293_rule",
+  "stig_id": "OS10-L2S-000240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Dell OS10 Switch must not use the default VLAN for management traffic.",
+  "group_title": "SRG-NET-000512-L2S-000010",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-74002r1052291_chk",
+  "check_content": "Review the OS10 switch configuration and verify that the default VLAN is not used to access the switch for management:\n\ninterface vlan30\n description \"Management VLAN\"\n no shutdown\n ip address 10.10.1.1/24\n\nIf the default VLAN is being used to access the switch, this is a finding.",
+  "fixtext": "Configure the switch for management access to use a VLAN other than the default VLAN:\n\nOS10(config)# interface vlan 30\nOS10(conf-if-vl-30)# description \"Management VLAN\"\nOS10(conf-if-vl-30)# ip address 10.10.1.1/24\nOS10(conf-if-vl-30)# no shutdown",
+  "fix_id": "F-73903r1052292_fix",
+  "VulnDiscussion": "Switches use the default VLAN (i.e., VLAN 1) for in-band management and to communicate with directly connected switches using Spanning-Tree Protocol (STP), Dynamic Trunking Protocol (DTP), VLAN Trunking Protocol (VTP), and Port Aggregation Protocol (PAgP)—all untagged traffic. Therefore, the default VLAN may unwisely span the entire network if not appropriately pruned. If its scope is large enough, the risk of compromise can increase significantly.",
+  "Documentable": "false"
+}

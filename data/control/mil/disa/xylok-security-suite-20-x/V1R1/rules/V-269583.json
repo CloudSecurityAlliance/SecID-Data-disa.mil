@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269583",
+  "rule_id": "SV-269583r1053524_rule",
+  "stig_id": "XYLK-20-000162",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Xylok Security Suite must audit the enforcement actions used to restrict access associated with changes to it.",
+  "group_title": "SRG-APP-000381",
+  "idents": {
+    "cci": [
+      "CCI-003938"
+    ]
+  },
+  "check_id": "C-73616r1053522_chk",
+  "check_content": "From the host machine as a normal user, verify the host OS generates audit records for all account creations, modifications, disabling, and termination events that affect \"/etc/xylok.conf\" with the following command:\n\nNote: Directions are for Red Hat Enterprise Linux (RHEL) 8 and similar. If using a different OS, the steps may vary.\n\n$ sudo grep /etc/xylok.conf /etc/audit/audit.rules\n\n-w /etc/xylok.conf -p warx -k xylok_config\n\nIf the command does not return a line, or the line is commented out, this is a finding",
+  "fixtext": "Setting up auditing of a file in RHEL 8 involves using the auditd service and creating specific audit rules. Below are the steps to set up auditing for /etc/xylok.conf:\n\n1. Ensure that the audit package is installed on your system by running the following: \nsudo dnf install audit\n\n2. Start the auditd service if it is not already running:\nsudo systemctl start auditd\n\n3. Enable the service to start automatically on boot:\nsudo systemctl enable auditd\n\n4. Create an Audit Rule for the /etc/xylok.conf File:\nsudo auditctl -w /etc/xylok.conf -p warx -k xylok_config\n\n5. Make the Audit Rule Persistent (optional):\nThe rule set using auditctl will be active only until the next reboot. To make it persistent, add it to the /etc/audit/rules.d/audit.rules file.\nOpen the file in a text editor:\nsudo vi /etc/audit/rules.d/audit.rules\n\nAdd the rule at the end of the file:\n-w /etc/xylok.conf -p warx -k xylok_config\n\n6. After making the rule persistent, restart the audit service to apply the changes:\nsudo systemctl restart auditd\n\n7. The events related to the audited file will be recorded in /var/log/audit/audit.log.\nTo view the logs, use the ausearch command:\nsudo ausearch -k xylok_config\n\n8. To confirm that the rule is in place, list all current audit rules with:\nsudo auditctl -l",
+  "fix_id": "F-73517r1053523_fix",
+  "VulnDiscussion": "By default, auditing is not set up. Verifying that the host operating system generates audit records for events affecting /etc/xylok.conf is a critical security practice for Xylok. It enhances security monitoring, ensures accountability, supports compliance, maintains operational integrity, mitigates risks, and improves integration with security monitoring tools. \n\nWithout auditing the enforcement of access restrictions against changes to the Xylok Security Suite configuration, it will be difficult to identify attempted attacks and an audit trail will not be available for forensic investigation for after-the-fact actions.",
+  "Documentable": "false"
+}

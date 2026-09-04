@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-251390",
+  "rule_id": "SV-251390r806125_rule",
+  "stig_id": "NET2008",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The multicast domain must block inbound and outbound administratively-scoped multicast traffic at the edge.",
+  "group_title": "NET2008",
+  "idents": {
+    "legacy": [
+      "V-66369",
+      "SV-80859"
+    ],
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-54825r806123_chk",
+  "check_content": "The administratively-scoped IPv4 multicast address space is 239.0.0.0 through 239.255.255.255. Packets addressed to administratively-scoped multicast addresses must not cross administrative boundaries. This can be accomplished by applying a multicast boundary statement to all COI-facing interfaces as shown in the following example:\n\nip multicast-routing\n!\ninterface FastEthernet0/0\nip address 199.36.92.1 255.255.255.252\nip pim sparse-mode\nip multicast boundary 1\n!\naccess-list 1 deny 239.0.0.0 0.255.255.255 \naccess-list 1 permit any\n\nIf inbound and outbound administratively-scoped multicast traffic is not blocked, this is a finding.",
+  "fixtext": "Configure a multicast boundary statement at all COI-facing interfaces that has PIM enabled to block inbound and outbound administratively-scoped multicast traffic.",
+  "fix_id": "F-54778r806124_fix",
+  "VulnDiscussion": "A multicast boundary must be established to ensure that administratively-scoped multicast traffic does not flow into or out of the IP core. The multicast boundary can be created by ensuring that COI-facing interfaces on all PIM routers are configured to block inbound and outbound administratively-scoped multicast traffic.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214536",
+  "rule_id": "SV-214536r557389_rule",
+  "stig_id": "JUSX-AG-000132",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper SRX Services Gateway Firewall must configure ICMP to meet DoD requirements.",
+  "group_title": "SRG-NET-000273-ALG-000129",
+  "idents": {
+    "legacy": [
+      "SV-80827",
+      "V-66337"
+    ],
+    "cci": [
+      "CCI-001312"
+    ]
+  },
+  "check_id": "C-15742r297292_chk",
+  "check_content": "Verify ICMP messages are configured to meet DoD requirements.\n\n[edit]\nshow firewall family inet\n\nIf ICMP messages are not configured in compliance with DoD requirements, this is a finding.",
+  "fixtext": "Configure ICMP to meet DoD requirements. The following is an example which uses the filter name \"protect_re\" as the filter name with pre-configured address books (source-prefix-lists).\n\n[edit]\nset firewall family inet filter protect_re term permit-icmp from source-prefix-list ssh-addresses\nset firewall family inet filter protect_re term permit-icmp from source-prefix-list bgp-addresses\nset firewall family inet filter protect_re term permit-icmp from source-prefix-list loopback-addresses\nset firewall family inet filter protect_re term permit-icmp from source-prefix-list local-addresses\nset firewall family inet filter protect_re term permit-icmp from source-prefix-list ixiav4\nset firewall family inet filter protect_re term permit-icmp from icmp-type echo-request\nset firewall family inet filter protect_re term permit-icmp from icmp-type echo-reply\nset firewall family inet filter protect_re term permit-icmp then log\nset firewall family inet filter protect_re term permit-icmp then syslog\nset firewall family inet filter protect_re term permit-icmp then accept\nset firewall family inet6 filter protect_re-v6 term permit-ar from icmp-type neighboradvertisement\nset firewall family inet6 filter protect_re-v6 term permit-ar from icmp-type neighborsolicit\nset firewall family inet6 filter ingress-v6 term permit-ar from icmp-type neighboradvertisement\nset firewall family inet6 filter ingress-v6 term permit-ar from icmp-type neighborsolicit\nset firewall family inet6 filter ingress-v6 term permit-ar from icmp-type 134\nset firewall family inet6 filter ingress-v6 term permit-ar then accept\nset firewall family inet6 filter egress-v6 term permit-lr from icmp-type neighboradvertisement\nset firewall family inet6 filter egress-v6 term permit-lr from icmp-type neighbor-solicit\nset firewall family inet6 filter egress-v6 term permit-lr from icmp-type 134\nset firewall family inet6 filter egress-v6 term permit-lr then accept",
+  "fix_id": "F-15740r297293_fix",
+  "VulnDiscussion": "Providing too much information in error messages risks compromising the data and security of the application and system.\n\nOrganizations carefully consider the structure/content of error messages. The required information within error messages will vary based on the protocol and error condition. Information that could be exploited by adversaries includes ICMP messages that reveal the use of firewalls or access-control lists.",
+  "Documentable": "false"
+}

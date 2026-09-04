@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217346",
+  "rule_id": "SV-217346r961827_rule",
+  "stig_id": "JUNI-ND-001260",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured to generate log records for privileged activities.",
+  "group_title": "SRG-APP-000504-NDM-000321",
+  "idents": {
+    "legacy": [
+      "SV-101281",
+      "V-91181"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-18573r296616_chk",
+  "check_content": "Review the router configuration to verify that it is compliant with this requirement as shown in the example configurations below.\n\nsyslog {\n        file LOG_FILE {\n            change-log info;\n            interactive-commands info;\n        }\n    }\n\nNote: The parameter \"any\" can be in place of \"change-log\" and “interactive-commands” as this will log everything. Also, a syslog server can be configured in addition to or in lieu of logging to a file as shown in the example below.\n\nsystem {\n   syslog {\n        host x.x.x.x {\n            any info;\n        }\n    }\n\nIf the router is not configured to generate log records for privileged activities, this is a finding.",
+  "fixtext": "Configure the router to generate log records for privileged activities as shown in the example below.\n\n[edit system]\nset syslog file LOG_FILE change-log info\nset syslog file LOG_FILE interactive-commands info\n\nNote: The parameter \"any\" can be in place of \"change-log\" and “interactive-commands” as this will log everything. Also, a syslog server can be configured in addition to or in lieu of logging to a file as shown in the example below.\n\nset syslog host x.x.x.x any info",
+  "fix_id": "F-18571r296617_fix",
+  "VulnDiscussion": "Without generating audit records that are specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the network device (e.g., module or policy filter).",
+  "Documentable": "false"
+}

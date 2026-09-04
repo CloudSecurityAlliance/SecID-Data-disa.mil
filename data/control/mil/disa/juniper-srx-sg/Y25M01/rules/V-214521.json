@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214521",
+  "rule_id": "SV-214521r997542_rule",
+  "stig_id": "JUSX-AG-000057",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper SRX Services Gateway Firewall must be configured to support centralized management and configuration of the audit log.",
+  "group_title": "SRG-NET-000333-ALG-000049",
+  "idents": {
+    "legacy": [
+      "SV-80797",
+      "V-66307"
+    ],
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-15727r297247_chk",
+  "check_content": "To verify that traffic logs are being sent to the syslog server, check the syslog server files. \n\nIf traffic logs are not being sent to the syslog server, this is a finding.",
+  "fixtext": "Logging for security-related sources such as screens and security policies must be configured separately. \n\nThe following example specifies that security log messages in structured-data format (syslog format) are sent from the source <MGT IP address> (e.g., the SRX's loopback or other interface IP address) to an external syslog server.\n\n[edit]\nset security log cache\nset security log format syslog\nset security log source-address <MGT IP Address>\nset security log stream <stream name> host <syslog server IP Address>\n\nTo get traffic logs from permitted sessions, add \"then log session-close\" to the policy.\nTo get traffic logs from denied sessions, add \"then log session-init\" to the policy. Enable Logging on Security Policies:\n\n[edit]\nset security policies from-zone <zone-name> to-zone <zone-name> policy <policy-name> then log <event>\n\nExample to log session init and session close events:\nset security policies from-zone trust to-zone untrust policy default-permit then log session-init\nset security policies from-zone trust to-zone untrust policy default-permit then log session-close",
+  "fix_id": "F-15725r297248_fix",
+  "VulnDiscussion": "Without the ability to centrally manage the content captured in the audit records, identification, troubleshooting, and correlation of suspicious behavior would be difficult and could lead to a delayed or incomplete analysis of an ongoing attack.\n\nThe DOD requires centralized management of all network component audit record content. Network components requiring centralized audit log management must have the capability to support centralized management. The content captured in audit records must be managed from a central location (necessitating automation). Centralized management of audit records and logs provides for efficiency in maintenance and management of records, as well as the backup and archiving of those records. Ensure at least one Syslog server and local files are configured to support requirements. However, the Syslog itself must also be configured to filter event records so it is not overwhelmed. A best practice when configuring the external Syslog server is to add similar log-prefixes to the log file names to help and researching of central Syslog server. Another best practice is to add a match condition to limit the recorded events to those containing the regular expression (REGEX). This requirement does not apply to audit logs generated on behalf of the device itself (management).\n\nWhile the Juniper SRX inherently has the capability to generate log records, by default only the high facility levels are captured and only to local files.",
+  "Documentable": "false"
+}

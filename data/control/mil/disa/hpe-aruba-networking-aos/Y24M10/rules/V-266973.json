@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-266973",
+  "rule_id": "SV-266973r1039940_rule",
+  "stig_id": "ARBA-ND-000344",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AOS must obtain its public key certificates from an appropriate certificate policy through an approved service provider.",
+  "group_title": "SRG-APP-000516-NDM-000344",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-001159"
+    ]
+  },
+  "check_id": "C-70897r1039938_chk",
+  "check_content": "Interview the system administrator and determine if the network device obtains public key certificates from an appropriate certificate policy through an approved service provider. \n \nIf the network device does not obtain its public key certificates from an appropriate certificate policy through an approved service provider, this is a finding.",
+  "fixtext": "Configure AOS with the following commands: \ncrypto pki csr rsa key_len 2048 common_name <common_name> country <US> state_or_province <state> city <city> organization <org> unit <unit> email <email> \nshow crypto pki csr \n \n1. Use DOD PKI to generate a public certificate based on the CSR. \n2. Using the web GUI, navigate to Configuration >> System >> Certificates > Import Certificates.  \n3. Click the plus sign (+) and enter \"Certificate name:\", browse to the public certificate file, choose the appropriate format, select Certificate type: \"ServerCert\", and click \"Submit\". \n4. Click Pending Changes >> Deploy Changes. \n5. Navigate to Configuration >> System >> Admin >> Admin Authentication Options and choose the imported certificate under \"Server Certificate\".  \n6. Click Submit >> Pending Changes >> Deploy Changes.",
+  "fix_id": "F-70800r1039939_fix",
+  "VulnDiscussion": "For user certificates, each organization obtains certificates from an approved, shared service provider, as required by Office of Management and Budget policy. For federal agencies operating a legacy public key infrastructure cross-certified with the Federal Bridge Certification Authority at medium assurance or higher, this certificate authority will suffice.",
+  "Documentable": "false"
+}

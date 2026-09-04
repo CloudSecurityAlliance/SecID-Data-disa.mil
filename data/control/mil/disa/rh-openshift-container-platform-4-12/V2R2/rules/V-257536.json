@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257536",
+  "rule_id": "SV-257536r960951_rule",
+  "stig_id": "CNTR-OS-000340",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must use FIPS-validated cryptographic mechanisms to protect the integrity of log information.",
+  "group_title": "SRG-APP-000126-CTR-000275",
+  "idents": {
+    "cci": [
+      "CCI-001350"
+    ]
+  },
+  "check_id": "C-61271r921549_chk",
+  "check_content": "Verify the Cluster Log Forwarder is using an encrypted transport by executing the following:\n\noc get clusterlogforwarder -n openshift-logging\n\nFor each Cluster Log Forwarder, run the following command to display the configuration.\n\noc describe clusterlogforwarder <name> -n openshift-logging\n\nReview the configuration and determine if the transport is secure, such as tls:// or https://. If there are any transports configured that are not secured by TLS, this is a finding.",
+  "fixtext": "Edit the Cluster Log Forwarder configuration to configure TLS on the transport by executing the following:\n\noc edit clusterlogforwarder <name> -n openshift-logging\n\nFor any output->url value that is not using a secure transport, edit the url to use a secure (https:// or tls://) transport.\n\nFor detailed information regarding configuration of the Cluster Log Forwarder, refer to https://docs.openshift.com/container-platform/4.8/logging/cluster-logging-external.html.",
+  "fix_id": "F-61195r921550_fix",
+  "VulnDiscussion": "To fully investigate an incident and to have trust in the audit data that is generated, it is important to put in place data protections. Without integrity protections, unauthorized changes may be made to the audit files and reliable forensic analysis and discovery of the source of malicious system activity may be degraded. Although digital signatures are one example of protecting integrity, this control is not intended to cause a new cryptographic hash to be generated every time a record is added to a log file. \n\nIntegrity protections can also be implemented by using cryptographic techniques for security function isolation and file system protections to protect against unauthorized changes.",
+  "Documentable": "false"
+}

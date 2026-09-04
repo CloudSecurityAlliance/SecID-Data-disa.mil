@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254611",
+  "rule_id": "SV-254611r959010_rule",
+  "stig_id": "AIOS-16-010900",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Apple iOS/iPadOS 16 must implement the management setting: require the user to enter a password when connecting to an AirPlay-enabled device for the first time.",
+  "group_title": "PP-MDF-990000",
+  "idents": {
+    "cci": [
+      "CCI-000063"
+    ]
+  },
+  "check_id": "C-58222r862087_chk",
+  "check_content": "Review configuration settings to confirm \"Require passcode on first AirPlay pairing\" is enabled.\n\nThis check procedure is performed on both the Apple iOS/iPadOS management tool and the iPhone and iPad. \n\nNote: If an organization has multiple configuration profiles, the check procedure must be performed on the relevant configuration profiles applicable to the scope of the review. \n\nIn the Apple iOS/iPadOS management tool, verify \"Require passcode on first AirPlay pairing\" is checked.\n\nAlternatively, verify the text \"<key>forceAirPlayOutgoingRequestsPairingPassword</key><false/>\" appears in the configuration profile (.mobileconfig file).\n\nOn the iPhone and iPad:\n1. Open the Settings app.\n2. Tap \"General\".\n3. Tap \"Profiles & Device Management\" or \"Profiles\".\n4. Tap the Configuration Profile from the Apple iOS/iPadOS management tool containing the restrictions policy.\n5. Tap \"Restrictions\".\n6. Verify \"AirPlay outgoing requests pairing password enforced\" is listed.\n\nIf \"Require passcode on first AirPlay pairing\" is unchecked in the Apple iOS/iPadOS management tool, \"<key>forceAirPlayOutgoingRequestsPairingPassword</key><true/>\" appears in the configuration profile, or the restrictions policy on the iPhone and iPad does not list \"AirPlay outgoing requests pairing password enforced\", this is a finding.",
+  "fixtext": "Install a configuration profile to require the user to enter a password when connecting to an AirPlay-enabled device for the first time.",
+  "fix_id": "F-58168r862088_fix",
+  "VulnDiscussion": "When a user is allowed to use AirPlay without a password, it may mistakenly associate the iPhone and iPad with an AirPlay-enabled device other than the one intended (i.e., by choosing the wrong one from the AirPlay list displayed). This creates the potential for someone in control of a mistakenly associated device to obtain DoD sensitive information without authorization. Requiring a password before such an association mitigates this risk. Passwords do not require any administration and are not required to comply with any complexity requirements.\n\nSFR ID: FMT_SMF_EXT.1.1 #40",
+  "Documentable": "false"
+}

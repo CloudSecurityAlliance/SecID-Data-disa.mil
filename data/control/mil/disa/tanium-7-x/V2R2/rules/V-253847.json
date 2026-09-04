@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253847",
+  "rule_id": "SV-253847r997269_rule",
+  "stig_id": "TANS-SV-000016",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All installation files originally downloaded to the Tanium Server must be configured to download to a location other than the Tanium Server directory.",
+  "group_title": "SRG-APP-000133",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-57299r842567_chk",
+  "check_content": "1. Access the Tanium Server.\n\n2. Log on to the server with an account that has administrative privileges.\n\n3. Run regedit as Administrator.\n\n4. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> WOW6432Node >> Tanium >> Tanium Server. \n\n5. Validate the value name \"DownloadPath\" with value type \"REG_SZ\" does not point to a location within the Tanium Server directory.\n\nIf the value name \"DownloadPath\" with value type \"REG_SZ\" does not exist or points to a location within the Tanium Server directory, this is a finding.\n\nIf the \"DownloadPath REG_SZ\" value points to a location within the Tanium Server directory, this is a finding.",
+  "fixtext": "1. Access the Tanium Server.\n\n2. Log on to the server with an account that has administrative privileges.\n\n3. Create a new folder outside of the Tanium Server directory (e.g., E:\\Stage\\Downloads).\n\n4. Run regedit as Administrator.\n\n5. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> WOW6432Node >> Tanium >> Tanium Server.\n\n6. Add or change the value name \"DownloadPath\" with value type \"REG_SZ\" to point to the location of the relocated installation package files (e.g., E:\\Stage\\Downloads).\n\n7. Move the files from the original directory (E:\\Program Files\\Tanium\\Tanium Server\\Downloads) to the location created for the installation package files.\n\n8. Move the files from the original directory (E:\\Program Files\\Tanium\\Tanium Server\\Downloads) to the location created for the installation package files.",
+  "fix_id": "F-57250r842568_fix",
+  "VulnDiscussion": "Typically, the Tanium Server stores the Package Source Files that it downloads from the internet and server shares or files uploaded through the Tanium Console in a subdirectory of the server's installation directory called \"Downloads\". To ensure package files are not accessible to nonauthorized functions, the files must be relocated to outside of the server's installation directory.",
+  "Documentable": "false"
+}

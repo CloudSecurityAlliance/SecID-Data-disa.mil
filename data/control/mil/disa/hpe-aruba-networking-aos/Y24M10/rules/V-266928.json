@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-266928",
+  "rule_id": "SV-266928r1039805_rule",
+  "stig_id": "ARBA-ND-000245",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AOS must be configured to prohibit the use of all unnecessary and/or nonsecure functions, ports, protocols, and/or services.",
+  "group_title": "SRG-APP-000142-NDM-000245",
+  "idents": {
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-70852r1039803_chk",
+  "check_content": "Verify the AOS configuration with the following commands: \nshow firewall-cp \nshow running-config | include ospf \n \nVerify that OSPF is not enabled and only unnecessary and/or nonsecure functions, ports, protocols, and/or services are denied.  \n \nIf OSPF is enabled or any unnecessary and/or nonsecure functions, ports, protocols, and/or services are allowed, this is a finding.",
+  "fixtext": "Configure AOS with the following commands: \nconfigure terminal \nfirewall cp \nipv4 deny any proto 6 ports 17 17 \nipv4 deny any proto 6 ports 8080 8080 \nipv4 deny any proto 6 ports 8081 8081 \nipv4 deny any proto 6 ports 8082 8082 \nipv4 deny any proto 6 ports 8088 8088 \nipv6 deny any proto 6 ports 17 17 \nipv6 deny any proto 6 ports 8080 8080 \nipv6 deny any proto 6 ports 8081 8081 \nipv6 deny any proto 6 ports 8082 8082 \nipv6 deny any proto 6 ports 8088 8088 \nexit \nwrite memory \n \nFor any OSPF entries found: \nno router ospf \nno router ospf router-id <IP address> \nno router ospf redistribute vlan <#> \nno <any other ospf entries> \nwrite memory \n \nBlock any other ports as desired using the following example:  \nconfigure terminal \nfirewall cp \n<ipv4/ipv6> deny any proto <ftp, http, telnet, tftp, protocol #> ports <start port 0-65535> <end port 0-65535>  \nexit \nwrite memory",
+  "fix_id": "F-70755r1039804_fix",
+  "VulnDiscussion": "To prevent unauthorized connection of devices, unauthorized transfer of information, or unauthorized tunneling (i.e., embedding of data types within data types), organizations must disable unused or unnecessary physical and logical ports/protocols on information systems. \n \nNetwork devices are capable of providing a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., email and web services); however, doing so increases risk over limiting the services provided by any one component.  \n \nTo support the requirements and principles of least functionality, the network device must support the organizational requirements providing only essential capabilities and limiting the use of ports, protocols, and/or services to only those required, authorized, and approved. Some network devices have capabilities enabled by default; if these capabilities are not necessary, they must be disabled. If a particular capability is used, it must be documented and approved.",
+  "Documentable": "false"
+}

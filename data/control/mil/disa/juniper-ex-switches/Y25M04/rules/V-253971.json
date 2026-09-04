@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253971",
+  "rule_id": "SV-253971r843946_rule",
+  "stig_id": "JUEX-L2-000240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must not have a native VLAN ID assigned, or have a unique native VLAN ID, for all 802.1q trunk links.",
+  "group_title": "SRG-NET-000512-L2S-000012",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-57423r843944_chk",
+  "check_content": "Review the switch configuration and examine all trunked interfaces to verify no native VLAN ID is assigned. If a native VLAN has been assigned, verify the VLAN is unique.\n\nBy default, there are no native VLANs assigned to any trunked interface.\n\nVerify trunked interface do not have a native VLAN ID configured.\n[edit interfaces]\n<interface name> {\n    unit 0 {\n        family ethernet-switching {\n            interface-mode trunk;\n            vlan {\n                members [ vlan_name ... vlan_name ];\n            }\n        }\n    }\n}\n\nIf trunked interfaces require a native VLAN, verify it is unique.\n[edit interfaces]\n<interface name> {\n    native-vlan-id <unique VLAN ID>;\n    unit 0 {\n        family ethernet-switching {\n            interface-mode trunk;\n            vlan {\n                members [ vlan_name ... vlan_name ];\n            }\n        }\n    }\n}\nNote: By default, Juniper switches do not automatically assign a native VLAN. Configuring an interface with \"interface-mode trunk\" does not automatically assign the default VLAN.\n\nVerify any VLAN assigned as native for any trunked interface has been configured.\n[edit vlans]\nnative_vlan_name {\n    vlan-id <VLAN ID>;\n}\n\nIf trunked interfaces do not have a native VLAN ID configured, this is not a finding.\n\nIf a native VLAN is configured and does not have a unique VLAN ID, this is a finding.",
+  "fixtext": "To ensure the integrity of the trunk link, either remove the native VLAN ID or configure the native VLAN ID with a unique value. If used, the native VLAN ID must be the same on both ends of the trunk link. \n\nExample deleting a native VLAN ID:\ndelete interfaces <interface name> native-vlan-id\n\nExample configuring a native VLAN ID:\nset interfaces <interface name> native-vlan-id <VLAN ID not 1>\n\nExample configuring a VLAN used as native for any trunked interface:\nset vlans vlan_name vlan-id 30",
+  "fix_id": "F-57374r843945_fix",
+  "VulnDiscussion": "By default, Juniper switches do not assign a native VLAN to any trunked interface. Allowing trunked interfaces to accept untagged data packets may unintentionally expose VLANs to unauthorized devices that could result in network exploration, unauthorized resource access, or a DoS condition. If a network function requires a native VLAN it must be unique.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255343",
+  "rule_id": "SV-255343r961392_rule",
+  "stig_id": "ASQL-00-010900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Database must be able to allocate audit record storage capacity in accordance with organization-defined audit record storage requirements.",
+  "group_title": "SRG-APP-000357-DB-000316",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-59016r917651_chk",
+  "check_content": "Refer to the online documentation for the Azure SQL Database Audit configuration or the online documentation for the PowerShell cmdlet Get-AzSQLServerAudit using the links provided below. \n\nhttps://docs.microsoft.com/en-us/azure/azure-sql/database/auditing-overview#manage-auditing\n\nhttps://docs.microsoft.com/en-us/powershell/module/az.sql/get-azsqlserveraudit?view=azps-6.4.0\n\nUse the following PowerShell script to check for the proper configuration settings:\n\n$FormatEnumerationLimit=-1\nGet-AzSqlServerAudit -ResourceGroupName \"Resource Group Name\" -ServerName \"Azure SQL Server Name\" | Format-List -Property ServerName, *TargetState\n \nIf the BlobStorageTargetState, EventHubTargetState, or LogAnalyticsTargetState is disabled, this is a finding.",
+  "fixtext": "Review the Azure SQL Database Audit file configuration information. \nhttps://docs.microsoft.com/en-us/azure/azure-sql/database/auditing-overview#manage-auditing\n\nThere are multiple options for configuring where audit logs will be written. Logs can be written to an Azure Blob Storage with Azure storage account, to a Log Analytics workspace, or to Event Hub. Any combination of these options can be configured, and audit logs will be written to each. \n\nWhen writing logs to an Azure Storage account, the default value for retention period is \"0\" (unlimited retention).",
+  "fix_id": "F-58960r871154_fix",
+  "VulnDiscussion": "To ensure sufficient storage capacity for the audit logs, the Azure SQL Database must be able to allocate audit record storage capacity. Although another requirement (SRG-APP-000515-DB-000318) mandates that audit data be offloaded to a centralized log management system, it remains necessary to provide space to serve as a buffer against outages and capacity limits of the offloading mechanism.\n\nThe task of allocating audit record storage capacity is usually performed during initial setup of Azure SQL Database and is closely associated with the DBA and system administrator roles. \nThe DBA or system administrator will usually coordinate the allocation of physical drive space with the application owner/installer and the application will prompt the installer to provide the capacity information, the physical location of the disk, or both.\n\nIn determining the capacity requirements, consider such factors as the maximum storage account size for blob data is 5PB, the total number of users; expected number of concurrent users during busy periods; number and type of events being monitored; types and amounts of data being captured; the frequency/speed with which audit records are offloaded to the central log management system; and any limitations that exist on the Azure storage accounts ability to reuse the space formerly occupied by offloaded records.",
+  "Documentable": "false"
+}

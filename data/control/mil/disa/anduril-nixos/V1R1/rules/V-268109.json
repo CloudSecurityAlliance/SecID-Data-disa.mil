@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-268109",
+  "rule_id": "SV-268109r1039595_rule",
+  "stig_id": "ANIX-00-000490",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must authenticate the remote logging server for off-loading audit logs.",
+  "group_title": "SRG-OS-000051-GPOS-00024",
+  "idents": {
+    "cci": [
+      "CCI-000154",
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-72033r1039213_chk",
+  "check_content": "Verify the operating system authenticates the remote logging server for off-loading audit logs.\n\nList the configured destinations with the following command:\n\n$ cat $(egrep -o 'cfgfile=.*\\.conf' $(nix-store --query --requisites /run/current-system | grep syslog-ng.service)/syslog-ng.service | awk -F '=' '{print $2}')\n\n@version: 4.4\n@include \"scl.conf\"\n\noptions {\n keep-hostname(yes);\n create_dirs(yes);\n owner(root);\n group(root);\n perm(0644);\n dir_owner(root);\n dir_group(root);\n dir_perm(0755);\n};\n\nsource s_local { system(); internal(); };\n\ndestination d_local { file(\"/var/log/messages\"); };\ndestination d_network {\n syslog(\n  \"<remote-logging-server>\" port(<port>)\n  transport(tls)\n  tls(\n   cert-file(\"/var/syslog-ng/certs.d/certificate.crt\")\n   key-file(\"/var/syslog-ng/certs.d/certificate.key\")\n   ca-file(\"/var/syslog-ng/certs.d/cert-bundle.crt\")\n   peer-verify(yes)\n  )\n );\n};\n\nlog { source(s_local); destination(d_local); destination(d_network); };\n\nIf the remote destination does not specify \"transport(tls)\", the remote destination tls configuration does not specify \"peer-verify(yes)\" or \"peer-verify(required-trusted)\", or the lines are commented out, ask the system administrator (SA) to indicate how the audit logs are off-loaded to a different system or media. \n\nIf there is no evidence that the transfer of the audit logs being off-loaded to another system or media is encrypted, this is a finding.",
+  "fixtext": "Configure the operating system to authenticate the remote logging server for off-loading audit logs.\n\nAdd or update the \"services.syslog-ng.extraConfig\" configuration in /etc/nixos/configuration.nix to include the following:\n\n  destination d_network {\n   syslog(\n    \"<remote-logging-server>\" port(<port>)\n    transport(tls)\n    tls(\n     cert-file(\"/var/syslog-ng/certs.d/certificate.crt\")\n     key-file(\"/var/syslog-ng/certs.d/certificate.key\")\n     ca-file(\"/var/syslog-ng/certs.d/cert-bundle.crt\")\n     peer-verify(yes)\n    )\n   );\n  };\n\n  log { source(s_local); destination(d_local); destination(d_network); };\n\nFor example, an updated configuration of 'services.rsyslogd.extraConfig' would look like the following in /etc/nixos/configuration.nix ('...' denoting that the 'services.rsyslogd.extraConfig' configuration may have other options configured):\n\n services.rsyslogd.extraConfig = ''\n   ...\n   destination d_network {\n    syslog(\n     \"<remote-logging-server>\" port(<port>)\n     transport(tls)\n     tls(\n      cert-file(\"/var/syslog-ng/certs.d/certificate.crt\")\n      key-file(\"/var/syslog-ng/certs.d/certificate.key\")\n      ca-file(\"/var/syslog-ng/certs.d/cert-bundle.crt\")\n      peer-verify(yes)\n     )\n    );\n   };\n\n   log { source(s_local); destination(d_local); destination(d_network); };\n   ...\n  '';\n\nRebuild the NixOS configuration with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71936r1039214_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.\n\nNixOS supports \"syslog-ng\". \"syslog-ng\" is a common system utility providing support for message logging. Support for both internet and Unix domain sockets enables this utility to support both local and remote logging. This utility also natively supports TLS to securely encrypt and off-load auditing.\n\nSatisfies: SRG-OS-000051-GPOS-00024, SRG-OS-000342-GPOS-00133, SRG-OS-000479-GPOS-00224",
+  "Documentable": "false"
+}

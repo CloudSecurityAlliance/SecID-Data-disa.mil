@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215337",
+  "rule_id": "SV-215337r991588_rule",
+  "stig_id": "AIX7-00-003029",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must enforce a delay of at least 4 seconds between login prompts following a failed login attempt.",
+  "group_title": "SRG-OS-000480-GPOS-00226",
+  "idents": {
+    "legacy": [
+      "SV-101667",
+      "V-91569"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16535r294462_chk",
+  "check_content": "From the command prompt, run the following command to check the default \"logindelay\" value:\n# lssec -f /etc/security/login.cfg -s default -a logindelay\n\nThe above command should yield the following output:\ndefault logindelay=4\n\nIf the above command displays the \"logindelay\" value less than \"4\", this is a finding.",
+  "fixtext": "From the command prompt, run the following command to set \"logindelay=4\" for the default stanza in \"/etc/security/login.cfg\":\n# chsec -f /etc/security/login.cfg -s default -a logindelay=4",
+  "fix_id": "F-16533r294463_fix",
+  "VulnDiscussion": "Limiting the number of login attempts over a certain time interval reduces the chances that an unauthorized user may gain access to an account.",
+  "Documentable": "false"
+}

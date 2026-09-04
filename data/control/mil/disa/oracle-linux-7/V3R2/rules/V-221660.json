@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221660",
+  "rule_id": "SV-221660r958402_rule",
+  "stig_id": "OL07-00-010070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must initiate a screensaver after a 15-minute period of inactivity for graphical user interfaces.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "legacy": [
+      "V-99061",
+      "SV-108165"
+    ],
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-23375r880604_chk",
+  "check_content": "Verify the operating system initiates a screensaver after a 15-minute period of inactivity for graphical user interfaces.\n\nNote: If the system does not have GNOME installed, this requirement is Not Applicable.\n\nCheck to see if GNOME is configured to display a screensaver after a 15 minute delay with the following command:\n\n     # grep -i idle-delay /etc/dconf/db/local.d/*\n     idle-delay=uint32 900\n\nIf the \"idle-delay\" setting is missing or is not set to \"900\" or less, this is a finding.",
+  "fixtext": "Configure the operating system to initiate a screensaver after a 15-minute period of inactivity for graphical user interfaces.\n\nCreate a database to contain the system-wide screensaver settings (if it does not already exist) with the following command:\n\n     # touch /etc/dconf/db/local.d/00-screensaver\n\nEdit /etc/dconf/db/local.d/00-screensaver and add or update the following lines:\n\n     [org/gnome/desktop/session]\n     # Set the lock time out to 900 seconds before the session is considered idle\n     idle-delay=uint32 900\n\nYou must include the \"uint32\" along with the integer key values as shown.\n\nUpdate the system databases:\n\n     # dconf update\n\nUsers must log out and then log in again before the system-wide settings take effect.",
+  "fix_id": "F-23364r880605_fix",
+  "VulnDiscussion": "A session time-out lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system, but does not log out because of the temporary nature of the absence. Rather than relying on the user to lock the operating system session manually prior to leaving the workstation, operating systems must be able to identify when a user's session has idled, and take action to initiate the session lock.\n\nThe session lock is implemented at the point where session activity can be determined and/or controlled.",
+  "Documentable": "false"
+}

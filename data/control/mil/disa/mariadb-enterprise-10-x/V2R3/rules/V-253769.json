@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253769",
+  "rule_id": "SV-253769r961833_rule",
+  "stig_id": "MADB-10-011700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must generate audit records when concurrent logons/connections by the same user from different workstations occur.",
+  "group_title": "SRG-APP-000506-DB-000353",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-57221r841830_chk",
+  "check_content": "Check what filters are in place by running the following as an administrative user: \n\nMariaDB> SELECT * FROM mysql.server_audit_filters;\n\nVerify connect_events include connect in audit filters. If not, this is a finding.",
+  "fixtext": "Edit the necessary filters to include  connect_events connect. Example:\n\nMariaDB> DELETE FROM mysql.server_audit_filters WHERE filtername = 'default';\n\nMariaDB> INSERT INTO mysql.server_audit_filters (filtername, rule)\n   VALUES ('default',\n      JSON_COMPACT(\n         '{\n            \"connect_event\":\"CONNECT\"\n         }'\n      ));",
+  "fix_id": "F-57172r841831_fix",
+  "VulnDiscussion": "For completeness of forensic analysis, it is necessary to track who logs on to MariaDB.\n\nConcurrent connections by the same user from multiple workstations may be valid use of the system; or such connections may be due to improper circumvention of the requirement to use the CAC for authentication; or they may indicate unauthorized account sharing; or they may be because an account has been compromised.\n\n(If the fact of multiple, concurrent logons by a given user can be reliably reconstructed from the log entries for other events (logons/connections; voluntary and involuntary disconnections), then it is not mandatory to create additional log entries specifically for this.)",
+  "Documentable": "false"
+}

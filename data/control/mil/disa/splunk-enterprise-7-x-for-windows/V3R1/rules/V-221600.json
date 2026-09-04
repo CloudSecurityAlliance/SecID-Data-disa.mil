@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221600",
+  "rule_id": "SV-221600r961857_rule",
+  "stig_id": "SPLK-CL-000010",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Splunk Enterprise must be installed with FIPS mode enabled, to implement NIST FIPS 140-2 approved ciphers for all cryptographic functions.",
+  "group_title": "SRG-APP-000514-AU-002890",
+  "idents": {
+    "legacy": [
+      "SV-111305",
+      "V-102349"
+    ],
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-23315r416257_chk",
+  "check_content": "Select the Search and Reporting App.\n\nExecute a search query using the following:\n\n| rest splunk_server=local /services/server/info | fields fips_mode\n\nVerify that the report returns fips_mode = 1.\n\nIf the query returns 0, this is a finding.",
+  "fixtext": "FIPS 140-2 mode MUST be enabled during installation. If not enabled, it requires a reinstall or upgrade of the application.\n\nThe installer must be executed from the command line so that it can be passed the LAUNCHSPLUNK=0 parameter.\n\nThis allows Splunk to install and not automatically start up after install.\n\nExample: msiexec /i <splunkinstaller.msi> LAUNCHSPLUNK=0\n\nUsing a text editor, edit $SPLUNK_HOME/etc/splunk-launch.conf file, add the line SPLUNK_FIPS=1 to it, restart the server, and then recheck this requirement.",
+  "fix_id": "F-23304r416258_fix",
+  "VulnDiscussion": "FIPS 140-2 precludes the use of unvalidated cryptography for the cryptographic protection of sensitive or valuable data within Federal systems. Unvalidated cryptography is viewed by NIST as providing no protection to the information or data. In effect, the data would be considered unprotected plaintext. If the agency specifies that the information or data be cryptographically protected, then FIPS 140-2 is applicable. In essence, if cryptography is required, it must be validated. Cryptographic modules that have been approved for classified use may be used in lieu of modules that have been validated against the FIPS 140-2 standard.",
+  "Documentable": "false"
+}

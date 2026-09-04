@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-256375",
+  "rule_id": "SV-256375r958398_rule",
+  "stig_id": "ESXI-70-000001",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to the ESXi host must be limited by enabling lockdown mode.",
+  "group_title": "SRG-OS-000027-VMM-000080",
+  "idents": {
+    "cci": [
+      "CCI-000054",
+      "CCI-001682"
+    ]
+  },
+  "check_id": "C-60050r885904_chk",
+  "check_content": "For environments that do not use vCenter server to manage ESXi, this is not applicable.\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Security Profile.\n\nScroll down to \"Lockdown Mode\" and verify it is set to \"Enabled\" (Normal or Strict).\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Select Name,@{N=\"Lockdown\";E={$_.Extensiondata.Config.LockdownMode}}\n\nIf \"Lockdown Mode\" is disabled, this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Security Profile >> Lockdown Mode.\n\nClick \"Edit...\". Select the \"Normal\" or \"Strict\" radio buttons.\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$level = \"lockdownNormal\" OR \"lockdownStrict\"\n$vmhost = Get-VMHost -Name <hostname> | Get-View\n$lockdown = Get-View $vmhost.ConfigManager.HostAccessManager\n$lockdown.ChangeLockdownMode($level)\n\nNote: In strict lockdown mode, the Direct Console User Interface (DCUI) service is stopped. If the connection to vCenter Server is lost and the vSphere Client is no longer available, the ESXi host becomes inaccessible.",
+  "fix_id": "F-59993r885905_fix",
+  "VulnDiscussion": "Enabling lockdown mode disables direct access to an ESXi host, requiring the host to be managed remotely from vCenter Server. This is done to ensure the roles and access controls implemented in vCenter are always enforced and users cannot bypass them by logging on to a host directly. \n\nBy forcing all interaction to occur through vCenter Server, the risk of someone inadvertently attaining elevated privileges or performing tasks that are not properly audited is greatly reduced.\n\nSatisfies: SRG-OS-000027-VMM-000080, SRG-OS-000123-VMM-000620",
+  "Documentable": "false"
+}

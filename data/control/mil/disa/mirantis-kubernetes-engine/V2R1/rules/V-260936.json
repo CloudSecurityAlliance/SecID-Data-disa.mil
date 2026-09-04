@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260936",
+  "rule_id": "SV-260936r966165_rule",
+  "stig_id": "CNTR-MK-001160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All containers must be restricted to mounting the root filesystem as read only.",
+  "group_title": "SRG-APP-000342-CTR-000775",
+  "idents": {
+    "cci": [
+      "CCI-002233"
+    ]
+  },
+  "check_id": "C-64665r966163_chk",
+  "check_content": "When using Kubernetes orchestration, this check is Not Applicable.\n\nFor Swarm orchestration, check via CLI:\n\nLinux: As an MKE Admin, execute the following command using a Universal Control Plane (MKE) client bundle:\n\ndocker ps --quiet --all | xargs -L 1 docker inspect --format '{{ .Name }}: ReadonlyRootfs={{ .HostConfig.ReadonlyRootfs }}' \n\nIf ReadonlyRootfs=false, it means the container's root filesystem is writable and this is a finding.",
+  "fixtext": "When using Kubernetes orchestration, this check is Not Applicable.\n\nWhen using Swarm orchestration, review and remove nonsystem containers previously created by these users with read write permissions using:\n\ndocker container rm [container]\n\nAdd a --read-only flag at a container's runtime to enforce the container's root filesystem to be mounted as read only:\n\ndocker run <Run arguments> --read-only <Container Image Name or ID> <Command>\n\nEnabling the --read-only option at a container's runtime must be used by administrators to force a container's executable processes to only write container data to explicit storage locations during the container's runtime.\n\nExamples of explicit storage locations during a container's runtime include, but are not limited to:\n\n1. Use the --tmpfs option to mount a temporary file system for nonpersistent data writes. Example:\n\ndocker run --interactive --tty --read-only --tmpfs \"/run\" --tmpfs \"/tmp\" [image] [command]\n\n2. Enabling Docker rw mounts at a container's runtime to persist container data directly on the Docker host filesystem. Example:\n\ndocker run --interactive --tty --read-only -v /opt/app/data:/run/app/data:rw [image] [command]\n\n3. Utilizing Docker shared-storage volume plugins for Docker data volume to persist container data.\n\ndocker volume create -d convoy --opt o=size=20GB my-named-volume\n\ndocker run --interactive --tty --read-only -v my-named-volume:/run/app/data [image] [command]",
+  "fix_id": "F-64573r966164_fix",
+  "VulnDiscussion": "The container's root filesystem must be treated as a \"golden image\" by using Docker run's --read-only option. This prevents any writes to the container's root filesystem at container runtime and enforces the principle of immutable infrastructure.\n\nEnabling this option forces containers at runtime to explicitly define their data writing strategy to persist or not persist their data. This also reduces security attack vectors since the container instance's filesystem cannot be tampered with or written to unless it has explicit read-write permissions on its filesystem folder and directories.",
+  "Documentable": "false"
+}

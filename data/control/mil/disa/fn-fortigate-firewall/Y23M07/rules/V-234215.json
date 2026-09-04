@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234215",
+  "rule_id": "SV-234215r879639_rule",
+  "stig_id": "FGFW-ND-000280",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate device must generate unique session identifiers using a FIPS 140-2-approved random number generator.",
+  "group_title": "SRG-APP-000224-NDM-000270",
+  "idents": {
+    "cci": [
+      "CCI-001188"
+    ]
+  },
+  "check_id": "C-37400r628883_chk",
+  "check_content": "Session IDs are generated using the FIPS random generator if the device is in FIPS mode.\n\nTo verify login to the FortiGate GUI with Super-Admin privilege:\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # get system status | grep -i fips\nThe output should be:         \n             FIPS-CC mode: enable\n\nIf FIPS-CC mode parameter is not set to enable, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n      # config system fips-cc\n            # set status enable\n     # end",
+  "fix_id": "F-37365r611833_fix",
+  "VulnDiscussion": "Sequentially generated session IDs can be easily guessed by an attacker. Employing the concept of randomness in the generation of unique session identifiers helps to protect against brute-force attacks to determine future session identifiers.\n\nUnique session IDs address man-in-the-middle attacks, including session hijacking or insertion of false information into a session. If the attacker is unable to identify or guess the session information related to pending application traffic, they will have more difficulty in hijacking the session or otherwise manipulating valid sessions.\n\nThis requirement is applicable to devices that use a web interface for device management.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259627",
+  "rule_id": "SV-259627r961161_rule",
+  "stig_id": "EX19-ED-000141",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange must have anti-spam filtering enabled.",
+  "group_title": "SRG-APP-000261",
+  "idents": {
+    "cci": [
+      "CCI-001308"
+    ]
+  },
+  "check_id": "C-63366r942193_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP) for an installed anti-spam product.\n\nNote: If using another DOD-approved anti-spam product for email or a DOD-approved Email Gateway spamming device, such as Enterprise Email Security Gateway (EEMSG), this is not applicable.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-ContentFilterConfig | Format-Table Name, Enabled; Get-SenderFilterConfig | Format-Table Name, Enabled; Get-SenderIDConfig | Format-Table Name, Enabled; Get-SenderReputationConfig | Format-Table Name, Enabled\n\nIf any of the following values returned are not set to \"True\", this is a finding:\n\nSet-ContentFilterConfig \nSet-SenderFilterConfig \nSet-SenderIDConfig \nSet-SenderReputationConfig",
+  "fixtext": "Open the Exchange Management Shell and enter the following command for any values that were not set to True:\n\nSet-ContentFilterConfig -Enabled $true\n\nSet-SenderFilterConfig -Enabled $true\n\nSet-SenderIDConfig -Enabled $true\n\nSet-SenderReputationConfig -Enabled $true",
+  "fix_id": "F-63274r942194_fix",
+  "VulnDiscussion": "Originators of spam messages are constantly changing their techniques to defeat spam countermeasures; therefore, spam software must be constantly updated to address the changing threat. Spam protection mechanisms include, for example, signature definitions, rule sets, and algorithms.\n\nExchange 2019 provides both anti-spam and anti-malware protection out of the box. The Exchange 2019 anti-spam and anti-malware product capabilities are limited but still provide some protection.",
+  "Documentable": "false"
+}

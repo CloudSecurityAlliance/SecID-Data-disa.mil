@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207567",
+  "rule_id": "SV-207567r879885_rule",
+  "stig_id": "BIND-9X-001120",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "A BIND 9.x server must implement NIST FIPS-validated cryptography for provisioning digital signatures and generating cryptographic hashes.",
+  "group_title": "SRG-APP-000514-DNS-000075",
+  "idents": {
+    "legacy": [
+      "SV-87069",
+      "V-72445"
+    ],
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-7822r283755_chk",
+  "check_content": "Verify that the DNSSEC and TSIG keys used by the BIND 9.x implementation are FIPS 180-3 compliant.\n\nIf the server is in a classified network, the DNSSEC portion of the requirement is Not Applicable.\nDNSSEC KEYS:\n\nInspect the \"named.conf\" file and identify all of the DNSSEC signed zone files:\n\nzone \"example.com\" {\nfile \"signed_zone_file\";\n};\n\nFor each signed zone file identified, inspect the file for the \"DNSKEY\" records: \n\n86400 DNSKEY 257 3 8 (\n<KEY HASH>\n) ; KSK; \n86400 DNSKEY 256 3 8 (\n<KEY HASH>\n) ; ZSK; \n\nThe fifth field in the above example identifies what algorithm was used to create the DNSKEY. \n\nIf the fifth field the KSK DNSKEY is less than “8” (SHA256), this is a finding.\n\nIf the algorithm used to create the ZSK is less than “8” (SHA256), this is a finding.\n\nTSIG KEYS: \n\nInspect the \"named.conf\" file and identify all of the TSIG key statements: \n\nkey tsig_example. {\nalgorithm hmac-SHA256;\ninclude \"tsig-example.key\";\n};\n\nIf each key statement does not use \"hmac-SHA256\" or a stronger algorithm, this is a finding.",
+  "fixtext": "Create new DNSSEC and TSIG keys using a FIPS 180-3 approved cryptographic algorithm that meets or exceeds the strength of SHA256",
+  "fix_id": "F-7822r283756_fix",
+  "VulnDiscussion": "The use of weak or untested encryption algorithms undermines the purposes of utilizing encryption to protect data. The application must implement cryptographic modules adhering to the higher standards approved by the federal government since this provides assurance they have been tested and validated.\n\nThe choice of digital signature algorithm will be based on recommended algorithms in well-known standards. NIST's Digital Signature Standard (DSS) [FIPS186] provides three algorithm choices:\n\n- Digital Signature Algorithm (DSA)\n- RSA\n- Elliptic Curve DSA (ECDSA)\n\nOf these three algorithms, RSA and DSA are more widely available and hence are considered candidates of choice for DNSSEC. In terms of performance, both RSA and DSA have comparable signature generation speeds, but DSA is much slower for signature verification. Hence, RSA is the recommended algorithm as far as this guideline is concerned. It can be expected that name servers and clients will be able to use the RSA algorithm at the minimum.\n\nNIST's Secure Hash Standard (SHS) (FIPS 180-3) specifies SHA-1, SHA-224, SHA-256, SHA-384, and SHA-512 as approved hash algorithms to be used as part of the algorithm suite for generating digital signatures using the digital signature algorithms in NIST's DSS[FIPS186].\n\nSatisfies: SRG-APP-000514-DNS-000075, SRG-APP-000516-DNS-000090",
+  "Documentable": "false"
+}

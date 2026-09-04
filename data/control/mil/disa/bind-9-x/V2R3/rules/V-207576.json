@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207576",
+  "rule_id": "SV-207576r879613_rule",
+  "stig_id": "BIND-9X-001150",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The BIND 9.x server signature generation using the KSK must be done off-line, using the KSK-private key stored off-line.",
+  "group_title": "SRG-APP-000176-DNS-000096",
+  "idents": {
+    "legacy": [
+      "SV-87093",
+      "V-72469"
+    ],
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-7831r283782_chk",
+  "check_content": "If the server is in a classified network, this is Not Applicable.\n\nEnsure that there are no private KSKs stored on the name sever. \n\nWith the assistance of the DNS Administrator, obtain a list of all DNSSEC private keys that are stored on the name server. \n\nInspect the signed zone files(s) and look for the KSK key id:\n\nDNSKEY 257 3 8 ( <hash_algorithm) ; KSK ; alg = ECDSAP256SHA256; key id = 52807\n\nVerify that none of the identified private keys, are KSKs.\n\nAn example private KSK would look like the following:\n\nKexample.com.+008+52807.private\n\nIf there are private KSKs stored on the name server, this is a finding.",
+  "fixtext": "Remove all private KSKs from the name server and ensure that they are stored offline in a secure location.",
+  "fix_id": "F-7831r283783_fix",
+  "VulnDiscussion": "The private key in the KSK key pair must be protected from unauthorized access. The private key should be stored off-line (with respect to the Internet-facing, DNSSEC-aware name server) in a physically secure, non-network-accessible machine along with the zone file master copy. \n\nFailure to protect the private KSK may have significant effects on the overall security of the DNS infrastructure. A compromised KSK could lead to an inability to detect unauthorized DNS zone data resulting in network traffic being redirected to a rogue site.",
+  "Documentable": "false"
+}

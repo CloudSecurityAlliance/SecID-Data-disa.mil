@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259618",
+  "rule_id": "SV-259618r961161_rule",
+  "stig_id": "EX19-ED-000132",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Exchange Block List service provider must be identified.",
+  "group_title": "SRG-APP-000261",
+  "idents": {
+    "cci": [
+      "CCI-001308"
+    ]
+  },
+  "check_id": "C-63357r942166_chk",
+  "check_content": "If not using a service provider, this requirement is not applicable. \n\nReview the Email Domain Security Plan (EDSP).\n\nDetermine the name and information for the Block List provider. \n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-IPBlockListProvider | Select-Object -Property Name, Identity, LookupDomain\n\nIf the values for \"Name\", GUID, and \"LookupDomain\" are not configured, this is a finding.",
+  "fixtext": "Update the EDSP to reflect the name and information for the Block List provider.\n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-IPBlockListProvider -Name <Provider Name> [Additional optional parameters as required by the service provider]",
+  "fix_id": "F-63265r942167_fix",
+  "VulnDiscussion": "Block List filtering is a sanitization process performed on email messages prior to their arrival at the destination mailbox. By performing this process at the email perimeter, threats can be eliminated outside the enclave, where there is less risk for them to do harm.\n\nBlock List services (sometimes called Reputation Data services) are fee-based data providers that collect the IP addresses of known spammers and other malware purveyors. Block List service subscribers benefit from more effective spam elimination. (Spam is estimated to compose up to 90 percent of inbound mail volume.) Failure to specify a Block List provider risks that manual email administration effort would be needed to maintain and update larger Block Lists than a single email site administrator could conveniently or accurately maintain.\n\nThe Block List service vendor provides a value for this field, usually the Domain Name System (DNS) suffix for its domain.",
+  "Documentable": "false"
+}

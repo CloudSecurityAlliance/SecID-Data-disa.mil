@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216451",
+  "rule_id": "SV-216451r959010_rule",
+  "stig_id": "SOL-11.1-080090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The kernel core dump data directory must be owned by root.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48011",
+      "SV-60883"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17687r371441_chk",
+  "check_content": "The root role is required.\n\nThis check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nDetermine the location of the system dump directory.\n\n# dumpadm | grep directory\n\nCheck the ownership of the kernel core dump data directory.\n# ls -ld [savecore directory]\n\nIf the kernel core dump data directory is not owned by root, this is a finding. \n\nIn Solaris 11, /var/crash is linked to /var/share/crash.",
+  "fixtext": "The root role is required.\n\nThis action applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this action applies.\n\nDetermine the location of the system dump directory.\n\n# dumpadm | grep directory\n\nChange the owner of the kernel core dump data directory to root.\n\n# chown root [savecore directory]\n\nIn Solaris 11, /var/crash is linked to /var/share/crash.",
+  "fix_id": "F-17685r371442_fix",
+  "VulnDiscussion": "Kernel core dumps may contain the full contents of system memory at the time of the crash. As the system memory may contain sensitive information, it must be protected accordingly. If the kernel core dump data directory is not owned by root, the core dumps contained in the directory may be subject to unauthorized access.",
+  "Documentable": "false"
+}

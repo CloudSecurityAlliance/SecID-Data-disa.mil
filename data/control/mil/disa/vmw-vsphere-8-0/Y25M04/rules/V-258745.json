@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-258745",
+  "rule_id": "SV-258745r1038976_rule",
+  "stig_id": "ESXI-80-000124",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must synchronize internal information system clocks to an authoritative time source.",
+  "group_title": "SRG-OS-000355-VMM-001330",
+  "idents": {
+    "cci": [
+      "CCI-004923",
+      "CCI-004926",
+      "CCI-001891",
+      "CCI-002046"
+    ]
+  },
+  "check_id": "C-62485r933294_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Time Configuration.\n\nVerify NTP or PTP are configured, and one or more authoritative time sources are listed.\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Services.\n\nVerify the NTP or PTP service is running and configured to start and stop with the host.\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\nGet-VMHost | Get-VMHostNTPServer\nGet-VMHost | Get-VMHostService | Where {$_.Label -eq \"NTP Daemon\" -or $_.Label -eq \"PTP Daemon\"}\n\nIf the NTP service is not configured with authoritative DOD time sources or the service is not configured to start and stop with the host (\"Policy\" of \"on\" in PowerCLI) or is stopped, this is a finding.\n\nIf PTP is used instead of NTP, this is not a finding.",
+  "fixtext": "To configure NTP, perform the following:\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Time Configuration.\n\nClick \"Add Service\" and select \"Network Time Protocol\".\n\nEnter or update the NTP servers listed with a comma-separated list of authoritative time servers. Click \"OK\".\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Services.\n\nSelect the \"NTP Daemon\" service and click \"Edit Startup Policy\".\n\nSelect \"Start and stop with host\". Click \"OK\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$NTPServers = \"ntpserver1\",\"ntpserver2\"\nGet-VMHost | Add-VMHostNTPServer $NTPServers\nGet-VMHost | Get-VMHostService | Where {$_.Label -eq \"NTP Daemon\"} | Set-VMHostService -Policy On\nGet-VMHost | Get-VMHostService | Where {$_.Label -eq \"NTP Daemon\"} | Start-VMHostService\n\nTo configure PTP, perform the following:\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Time Configuration.\n\nClick \"Add Service\" and select \"Precision Time Protocol\".\n\nSelect the network adapter that can receive the PTP traffic.\n\nIf NTP servers are available, select \"Enable fallback\" and enter or update the NTP servers listed with a comma separate list of authoritative time servers. Click \"OK\".\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Services.\n\nSelect the \"PTP Daemon\" service and click \"Edit Startup Policy\".\n\nSelect \"Start and stop with host\". Click \"OK\".",
+  "fix_id": "F-62394r933295_fix",
+  "VulnDiscussion": "To ensure the accuracy of the system clock, it must be synchronized with an authoritative time source within DOD. Many system functions, including time-based logon and activity restrictions, automated reports, system logs, and audit records, depend on an accurate system clock. If there is no confidence in the correctness of the system clock, time-based functions may not operate as intended and records may be of diminished value.\n\nSatisfies: SRG-OS-000355-VMM-001330, SRG-OS-000356-VMM-001340",
+  "Documentable": "false"
+}

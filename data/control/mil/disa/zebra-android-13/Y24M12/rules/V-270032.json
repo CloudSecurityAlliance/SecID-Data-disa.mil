@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270032",
+  "rule_id": "SV-270032r1052836_rule",
+  "stig_id": "ZEBR-13-006300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Zebra Android 13 must be configured to lock the display after 15 minutes (or less) of inactivity.",
+  "group_title": "PP-MDF-333030",
+  "idents": {
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-74065r1052834_chk",
+  "check_content": "Review managed Zebra Android device configuration settings to determine if the mobile device is enforcing a screen-lock policy that will lock the display after a period of 15 minutes or less of inactivity.\n\nNote: Zebra Android 13 does not support the 15-minute increment. The available allowable selection is 10 mins then increases to 30 minutes. Therefore, the control should be set to 10 minutes.\n\nThis validation procedure is performed on both the EMM Administration Console and the Android 13 device. \n\nOn the EMM Console:\n\nCOBO:\n\n1. Open \"Lock screen restrictions\".\n2. Verify that \"Max time to screen lock\" is set to \"600\".\nNote: The units are in seconds.\n\nCOPE:\n\n1. Open \"Lock screen restrictions\".\n2. Select \"Personal Profile\".\n3. Verify that \"Max time to screen lock\" is set to \"600\".\nNote: The units are in seconds.\n\nOn the managed Zebra Android 13 device:\n\nCOBO and COPE:\n\n1. Open Settings >> Display.\n2. Tap \"Screen timeout\".\n3. Ensure the Screen timeout value is set to \"600\" seconds.\n\nIf the EMM console device policy is not set to enable a screen-lock policy that will lock the display after a period of inactivity of 600 seconds, this is a finding.",
+  "fixtext": "Configure the Zebra Android 13 device to enable a screen-lock policy of 15 minutes for the max period of inactivity. \n\nNote: Zebra Android 13 does not support the 15-minute increment. The available allowable selection is 10 mins then increases to 30 minutes. Therefore, the control will be set to 10 minutes.\n\nOn the EMM Console:\n\nCOBO:\n\n1. Open \"Lock screen restrictions\".\n2. Set \"Max time to screen lock\" to \"600\".\nNote: The units are in seconds.\n\nCOPE:\n\n1. Open \"Lock screen restrictions\".\n2. Select \"Personal Profile\".\n3. Set \"Max time to screen lock\" to \"600\".\nNote: The units are in seconds.",
+  "fix_id": "F-73966r1052835_fix",
+  "VulnDiscussion": "The screen lock timeout must be set to a value that helps protect the device from unauthorized access. Having a too-long timeout would increase the window of opportunity for adversaries who gain physical access to the mobile device through loss, theft, etc. Such devices are much more likely to be in an unlocked state when acquired by an adversary, thus granting immediate access to the data on the mobile device. The maximum timeout period of 15 minutes has been selected to balance functionality and security; shorter timeout periods may be appropriate depending on the risks posed to the mobile device.\n\nSFR ID: FMT_SMF_EXT.1.1 #2a, #2b",
+  "Documentable": "false"
+}

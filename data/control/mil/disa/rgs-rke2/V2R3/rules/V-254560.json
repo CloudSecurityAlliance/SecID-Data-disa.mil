@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254560",
+  "rule_id": "SV-254560r960792_rule",
+  "stig_id": "CNTR-R2-000140",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Kubernetes API server must have the insecure bind address not set.",
+  "group_title": "SRG-APP-000033-CTR-000095",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-58044r918229_chk",
+  "check_content": "If running rke2 Kubernetes version > 1.20, this requirement is not applicable (NA).\n\nEnsure insecure-bind-address is set correctly. \n\nRun the command:\nps -ef | grep kube-apiserver\n\nIf the setting insecure-bind-address is found and set to \"localhost\", this is a finding.",
+  "fixtext": "If running rke2 Kubernetes version > 1.20, this requirement is NA.\n\nUpgrade to a supported version of RKE2 Kubernetes.",
+  "fix_id": "F-57993r918230_fix",
+  "VulnDiscussion": "By default, the API server will listen on two ports and addresses. One address is the secure address and the other address is called the \"insecure bind\" address and is set by default to localhost. Any requests to this address bypass authentication and authorization checks. If this insecure bind address is set to localhost, anyone who gains access to the host on which the master is running can bypass all authorization and authentication mechanisms put in place and have full control over the entire cluster.\n\nClose or set the insecure bind address by setting the API server's --insecure-bind-address flag to an IP or leave it unset and ensure that the --insecure-bind-port is not set.",
+  "Documentable": "false"
+}

@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-221680",
+  "rule_id": "SV-221680r1015176_rule",
+  "stig_id": "OL07-00-010220",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that user and group account administration utilities are configured to store only encrypted representations of passwords.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "legacy": [
+      "SV-108203",
+      "V-99099"
+    ],
+    "cci": [
+      "CCI-000196",
+      "CCI-004062"
+    ]
+  },
+  "check_id": "C-23395r419112_chk",
+  "check_content": "Verify the user and group account administration utilities are configured to store only encrypted representations of passwords. The strength of encryption that must be used to hash passwords for all accounts is \"SHA512\".\n\nCheck that the system is configured to create \"SHA512\" hashed passwords with the following command:\n\n# grep -i sha512 /etc/libuser.conf \n\ncrypt_style = sha512\n\nIf the \"crypt_style\" variable is not set to \"sha512\", is not in the defaults section, is commented out, or does not exist, this is a finding.",
+  "fixtext": "Configure the operating system to store only SHA512 encrypted representations of passwords.\n\nAdd or update the following line in \"/etc/libuser.conf\" in the [defaults] section: \n\ncrypt_style = sha512",
+  "fix_id": "F-23384r419113_fix",
+  "VulnDiscussion": "Passwords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised. Passwords encrypted with a weak algorithm are no more protected than if they are kept in plain text.",
+  "Documentable": "false"
+}

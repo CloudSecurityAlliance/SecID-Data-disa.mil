@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251187",
+  "rule_id": "SV-251187r961317_rule",
+  "stig_id": "RD6X-00-000950",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Redis Enterprise DBMS must enforce access control lists, as defined by the data owner, over defined subjects and objects.",
+  "group_title": "SRG-APP-000328-DB-000301",
+  "idents": {
+    "cci": [
+      "CCI-002165"
+    ]
+  },
+  "check_id": "C-54622r804749_chk",
+  "check_content": "Review the system documentation to determine what organizationally defined Access Control permissions should be in place. Compare these settings with the settings on the actual DB.\n\n1. Log in to Redis Enterprise.\n2. Navigate to the access controls tab >> redis acls\n3. Review ACLs for appropriate rules. If ACL rules are not defined as appropriate in system documentation, this is a finding.\n4. Review roles.\n5. Verify that each role is assigned an appropriate ACL. If a role is not assigned an appropriate ACL, this is a finding.\n6. Review users.\n7. Verify that each user is assigned a role. If a user is not assigned an appropriate role, this is a finding.\n\nIf any user accounts implicitly gain “Full Access” through the user/role/ACL relationship and are not authorized, this is a finding.",
+  "fixtext": "To configure a Redis ACL rule that can be assigned to a user role:\n1. Navigate to access control >> redis acls.\n2. Edit an existing Redis ACL by hovering over a Redis ACL and clicking \"Edit\".\n3. Create a new Redis ACL by clicking \"Add\".\n4. Enter a descriptive name for the Redis ACL. This will be used to reference the ACL rule to the role.\n5. Define the ACL rule.\n6. Click \"Save\".\n\nAssign ACLs to roles and roles to users as appropriate.\n\nFor more information: \nhttps://docs.redislabs.com/latest/rs/security/passwords-users-roles/",
+  "fix_id": "F-54576r804750_fix",
+  "VulnDiscussion": "Discretionary Access Control (DAC) is based on the notion that individual users are \"owners\" of objects and therefore have discretion over who should be authorized to access the object and in which mode (e.g., read or write). Ownership is usually acquired as a consequence of creating the object or via specified ownership assignment. DAC allows the owner to determine who will have access to objects they control. An example of DAC includes user-controlled table permissions.\n\nWhen discretionary access control policies are implemented, subjects are not constrained with regard to what actions they can take with information for which they have already been granted access. Thus, subjects that have been granted access to information are not prevented from passing (i.e., the subjects have the discretion to pass) the information to other subjects or objects. \n\nA subject that is constrained in its operation by Mandatory Access Control policies is still able to operate under the less rigorous constraints of this requirement. Thus, while Mandatory Access Control imposes constraints preventing a subject from passing information to another subject operating at a different sensitivity level, this requirement permits the subject to pass the information to any subject at the same sensitivity level. \n\nThe policy is bounded by the information system boundary. Once the information is passed outside of the control of the information system, additional means may be required to ensure the constraints remain in effect. While the older, more traditional definitions of discretionary access control require identity-based access control, that limitation is not required for this use of discretionary access control.",
+  "Documentable": "false"
+}

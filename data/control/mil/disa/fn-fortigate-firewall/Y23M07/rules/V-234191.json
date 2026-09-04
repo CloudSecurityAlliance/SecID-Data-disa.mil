@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-234191",
+  "rule_id": "SV-234191r879887_rule",
+  "stig_id": "FGFW-ND-000160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate device must enforce access restrictions associated with changes to the system components.",
+  "group_title": "SRG-APP-000516-NDM-000335",
+  "idents": {
+    "cci": [
+      "CCI-000345",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-37376r611760_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click System.\n2. Click Administrators.\n3. Identify the administrator who is authorized to access System Settings and hover over the profile assigned to the role.\n4. Click Edit.\n5. Verify that the permission to System is set to Read/Write.\n\nIf the authorized administrator does not have Read/Write access to System, this is a finding.\n\nThen, \n1. Click System.\n2. Click Administrators.\n3. Click other administrators and hover over the profile assigned to the role.\n4. Click Edit.\n5. Verify that the permission to System is set to Read or None.\n\nIf any low-privileged administrator has Read/Write access to System, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\nSet one admin profile with full System access.\n\n1. Click System.\n2. Click Admin Profiles.\n3. Click +Create New (Admin Profile).\n4. Assign a meaningful name to the Profile.\n5. Set System Access Permissions to Read/Write.\n6. Click OK to save this Profile.\n\nThen, \n1. Click System.\n2. Click Administrators.\n3. Click on +Create New (Administrator).\n4. Configure Administrator settings with unique Username, Type, and Password.\n5. While assigning the Administrator Profile, use the Admin profile configured above with limited access to System settings.\n6. Go to Restrict login to trusted hosts.\n7. Add appropriate IP address in the field Trusted Host 1.\n8. Click OK to save.\n \nNote: Do not assign this admin profile to any users other than designated administrator that can have full access to System Settings.\n\nTo limit the System access to existing low-privilege administrators: \n\n1. Click System.\n2. Click Administrators.\n3. Identify the admin role that has unauthorized access to System settings.\n4. Select the admin role and hover over the profile assigned to the role.\n5. Click Edit.\n6. On System access permission, click None or Read only.\n7. Go to Restrict login to trusted hosts.\n8. Add appropriate IP address in the field Trusted Host 1.\n9. Click OK to save.\n\nRepeat this process to define all the Administrators needed to meet privilege separation requirements for the organization.",
+  "fix_id": "F-37341r628870_fix",
+  "VulnDiscussion": "Changes to the hardware or software components of the network device can have significant effects on the overall security of the network. Therefore, only qualified and authorized individuals should be allowed administrative access to the network device for implementing any changes or upgrades. This requirement applies to updates of the application files, configuration, ACLs, and policy filters.",
+  "Documentable": "false"
+}

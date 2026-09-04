@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213541",
+  "rule_id": "SV-213541r961395_rule",
+  "stig_id": "JBOS-AS-000505",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The JBoss server must be configured to utilize syslog logging.",
+  "group_title": "SRG-APP-000358-AS-000064",
+  "idents": {
+    "legacy": [
+      "SV-76799",
+      "V-62309"
+    ],
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-14764r296289_chk",
+  "check_content": "Log on to the OS of the JBoss server with OS permissions that allow access to JBoss.\nUsing the relevant OS commands and syntax, cd to the <JBOSS_HOME>/bin/ folder.\nRun the jboss-cli script.\nConnect to the server and authenticate.\nRun the command:\n\nStandalone configuration:\n\"ls /subsystem=logging/syslog-handler=\"\n\nDomain configuration:\n\"ls /profile=<specify>/subsystem=logging/syslog-handler=\"\nWhere <specify> = the selected application server profile of; default,full, full-ha or ha.\n\nIf no values are returned, this is a finding.",
+  "fixtext": "Log on to the OS of the JBoss server with OS permissions that allow access to JBoss.\n\nUsing the relevant OS commands and syntax, cd to the “<JBOSS_HOME>/bin/” folder.\n\nRun the “jboss-cli” script.\nConnect to the server and authenticate.\nTo add a syslog handler:\nStandalone configuration: \"/subsystem=logging/syslog-handler=<HANDLER_NAME:add>\"\nDomain configuration: \"/profile=default/subsystem=logging/syslog-handler=<HANDLER_NAME:add>\"\n\nTo configure a syslog handler:\nStandalone configuration. \"/subsystem=logging/syslog-handler=<HANDLER_NAME:write-attribute(name=ATTRIBUTE_NAME, value=ATTRIBUTE_VALUE)\" Domain configuration. \"/profile=default/subsystem=logging/syslog-handler=<HANDLER_NAME:write-attribute(name=ATTRIBUTE_NAME, value=ATTRIBUTE_VALUE)\"\n\n*reference the RedHat web-site for the list of syslog handler attributes and corresponding values. Sample attributes include but are not limited to: port, enabled, app-name, level, server-address, hostname, etcetera.",
+  "fix_id": "F-14762r296290_fix",
+  "VulnDiscussion": "Information system logging capability is critical for accurate forensic analysis. Log record content that may be necessary to satisfy the requirement of this control includes, but is not limited to, time stamps, source and destination IP addresses, user/process identifiers, event descriptions, application-specific events, success/fail indications, filenames involved, access control or flow control rules invoked.\n\nOff-loading is a common process in information systems with limited log storage capacity.\n\nCentralized management of log records provides for efficiency in maintenance and management of records, as well as the backup and archiving of those records. Application servers and their related components are required to off-load log records onto a different system or media than the system being logged.",
+  "Documentable": "false"
+}

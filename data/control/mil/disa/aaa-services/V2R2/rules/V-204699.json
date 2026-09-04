@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-204699",
+  "rule_id": "SV-204699r961863_rule",
+  "stig_id": "SRG-APP-000516-AAA-000620",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AAA Services must not be configured with shared accounts.",
+  "group_title": "SRG-APP-000516",
+  "idents": {
+    "legacy": [
+      "SV-95645",
+      "V-80935"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-4822r389378_chk",
+  "check_content": "If AAA Services rely on directory services for user account management, this is not applicable and the connected directory services must perform this function.\n\nVerify AAA Services are not configured with shared accounts. Identify group profile definitions that do not meet the accounts user-id naming convention. \n\nBelow is a super-user example of how an SA profile may be associated.\n\nGroup Profile Information\ngroup = super-user{\nprofile_id = 40\nprofile_cycle = 1\nservice=shell {\ndefault cmd=permit\ncmd=debug {\ndeny all\npermit .*\n}\n}\n}\n\nBelow is an example of the user definition that should be assigned with a valid ID (not rtr-geek). Look for group accounts here:\n\nuser = rtr-geek{\nprofile_id = 45\nprofile_cycle = 1\nmember = rtr_super\npassword = des \"********\"\n}\n\nIf AAA Services are configured with shared accounts (group profiles), this is a finding.",
+  "fixtext": "Configure AAA Services with no shared accounts. Remove all group profiles.",
+  "fix_id": "F-4822r389379_fix",
+  "VulnDiscussion": "Shared accounts configured for use on a network device do not allow for accountability or repudiation of individuals using them. If shared accounts are not changed when someone leaves the group, that person could possibly gain control of the network device. Having shared accounts does not allow for proper auditing of who is accessing or changing the network. For this reason, shared accounts are not permitted.",
+  "Documentable": "false"
+}

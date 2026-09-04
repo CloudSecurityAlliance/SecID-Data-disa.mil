@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-255345",
+  "rule_id": "SV-255345r1018607_rule",
+  "stig_id": "ASQL-00-011800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Database must produce audit records of its enforcement of access restrictions associated with changes to the configuration of Azure SQL Database(s).",
+  "group_title": "SRG-APP-000381-DB-000361",
+  "idents": {
+    "cci": [
+      "CCI-003938",
+      "CCI-001814"
+    ]
+  },
+  "check_id": "C-59018r871159_chk",
+  "check_content": "Review Azure SQL Database configuration to verify that audit records are produced when denied actions occur.\n\nTo determine if an audit is configured, execute the following script. \nRun this TSQL command to determine if SQL Auditing AuditActionGroups are configured:\n  SELECT DISTINCT sd.audit_action_name \n  FROM sys.database_audit_specification_details sd\n  JOIN sys.database_audit_specifications s \n  ON s.database_specification_id = sd.database_specification_id\n  WHERE (name = 'SqlDbAuditing_ServerAuditSpec' /*Server Audit*/\n      OR name = 'SqlDbAuditing_AuditSpec') /*Database Audit*/\n  AND s.is_state_enabled = 1\n  ORDER BY sd.audit_action_name\n\nIf no values exist for AuditActionGroup, this is a finding. \n\nVerify the following AuditActionGroup(s) are configured:\nAPPLICATION_ROLE_CHANGE_PASSWORD_GROUP\nBACKUP_RESTORE_GROUP\nDATABASE_OBJECT_CHANGE_GROUP\nDATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP\nDATABASE_OBJECT_PERMISSION_CHANGE_GROUP\nDATABASE_OPERATION_GROUP\nDATABASE_PERMISSION_CHANGE_GROUP\nDATABASE_PRINCIPAL_CHANGE_GROUP\nDATABASE_PRINCIPAL_IMPERSONATION_GROUP\nDATABASE_ROLE_MEMBER_CHANGE_GROUP\nDBCC_GROUP\nSCHEMA_OBJECT_CHANGE_GROUP\nSCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP\nSCHEMA_OBJECT_PERMISSION_CHANGE_GROUP\n\nIf any listed AuditActionGroups do not exist in the configuration, this is a finding.",
+  "fixtext": "Deploy an Azure SQL Database audit.\n\nRefer to the supplemental file \"AzureSQLDatabaseAudit.txt\" PowerShell script.\n\nReference: https://docs.microsoft.com/en-us/powershell/module/az.sql/set-azsqlserveraudit\">https://docs.microsoft.com/en-us/powershell/module/az.sql/set-azsqlserveraudit",
+  "fix_id": "F-58962r998238_fix",
+  "VulnDiscussion": "Without auditing the enforcement of access restrictions against changes to configuration, it would be difficult to identify attempted attacks and an audit trail would not be available for forensic investigation for after-the-fact actions. \n\nEnforcement actions are the methods or mechanisms used to prevent unauthorized changes to configuration settings. Enforcement action methods may be as simple as denying access to a file based on the application of file permissions (access restriction). Audit items may consist of lists of actions blocked by access restrictions or changes identified after the fact.",
+  "Documentable": "false"
+}

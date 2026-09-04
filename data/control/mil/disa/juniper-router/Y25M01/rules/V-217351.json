@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-217351",
+  "rule_id": "SV-217351r961863_rule",
+  "stig_id": "JUNI-ND-001400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured to support organizational requirements to conduct backups of the configuration when changes occur.",
+  "group_title": "SRG-APP-000516-NDM-000340",
+  "idents": {
+    "legacy": [
+      "SV-101291",
+      "V-91191"
+    ],
+    "cci": [
+      "CCI-000537",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-18578r296631_chk",
+  "check_content": "Review the router configuration to verify that it is compliant with this requirement. The example configuration below will send the router configuration to an SCP server upon the commit command.\n\nsystem {\n…\n…\n…\n    archival {\n        configuration {\n            transfer-on-commit;\n            archive-sites {\n                  \"scp://scpuser@1.2.3.4:/configs\" password \"$9$CMJKpu1LX-bwgBIYo\"; ## SECRET-DATA\n            }\n        }\n    }\n}\n\nIf the router is not configured to conduct backups of the configuration when changes occur, this is a finding.",
+  "fixtext": "Configure the router to send the configuration to an SCP server up a commit command as shown in the example below.\n\nset archival configuration transfer-on-commit archive-sites scp://scpuser@1.2.3.4:/configs\" password \"xxxxxxxx\"",
+  "fix_id": "F-18576r296632_fix",
+  "VulnDiscussion": "System-level information includes default and customized settings and security attributes, including ACLs that relate to the network device configuration, as well as software required for the execution and operation of the device. Information system backup is a critical step in ensuring system integrity and availability. If the system fails and there is no backup of the system-level information, a denial of service condition is possible for all who utilize this critical network component.\n\nThis control requires the network device to support the organizational central backup process for system-level information associated with the network device. This function may be provided by the network device itself; however, the preferred best practice is a centralized backup rather than each network device performing discrete backups.",
+  "Documentable": "false"
+}

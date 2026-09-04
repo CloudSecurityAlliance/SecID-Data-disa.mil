@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-237708",
+  "rule_id": "SV-237708r961149_rule",
+  "stig_id": "O121-C2-003900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DBMS must restrict access to system tables and other configuration information or metadata to DBAs or other authorized users.",
+  "group_title": "SRG-APP-000243-DB-000374",
+  "idents": {
+    "legacy": [
+      "V-61589",
+      "SV-76079"
+    ],
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-40927r667154_chk",
+  "check_content": "Review user privileges to system tables and configuration data stored in the Oracle database.\n\nIf non-DBA users are assigned privileges to access system tables and tables containing configuration data, this is a finding.\n\nTo obtain a list of users and roles that have been granted access to any dictionary table, run the query:\nSELECT unique grantee from dba_tab_privs where table_name in\n(select table_name from dictionary)\norder by grantee;\n\nTo obtain a list of dictionary tables and assigned privileges granted to a specific user or role, run the query:\nSELECT grantee, table_name, privilege from dba_tab_privs where table_name in\n(select table_name from dictionary)\nand grantee = '<applicable account>';",
+  "fixtext": "Restrict accessibility of Oracle system tables and other configuration information or metadata to DBAs or other authorized users.",
+  "fix_id": "F-40890r667155_fix",
+  "VulnDiscussion": "Applications employ the concept of least privilege for specific duties and information systems (including specific functions, ports, protocols, and services). The concept of least privilege is also applied to information system processes, ensuring that the processes operate at privilege levels no higher than necessary to accomplish required organizational missions and/or functions. Organizations consider the creation of additional processes, roles, and information system accounts as necessary to achieve least privilege. Organizations also apply least privilege concepts to the design, development, implementation, and operations of information systems.\n\nAdministrative data includes DBMS metadata and other configuration and management data.  Unauthorized access to this data could result in unauthorized changes to database objects, access controls, or DBMS configuration.",
+  "Documentable": "false"
+}

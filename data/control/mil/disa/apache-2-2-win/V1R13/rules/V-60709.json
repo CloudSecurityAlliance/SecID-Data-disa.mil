@@ -1,0 +1,18 @@
+{
+  "vuln_id": "V-60709",
+  "rule_id": "SV-75161r1_rule",
+  "stig_id": "WG345 W22",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The web server must remove all export ciphers from the cipher suite.",
+  "group_title": "WG345",
+  "idents": {},
+  "check_id": "C-61653r2_chk",
+  "check_content": "Locate the Apache httpd.conf and ssl.conf file if available.\nOpen the httpd.conf and ssl.conf file with an editor and search for the following uncommented directive: SSLCipherSuite\nFor all enabled SSLCipherSuite directives, ensure the cipher specification string contains the kill cipher from list option for all export cipher suites, i.e., !EXPORT, which may be abbreviated !EXP.  If the SSLCipherSuite directive does not contain !EXPORT or there are no enabled SSLCipherSuite directives, this is a finding.",
+  "fixtext": "Update the cipher specification string for all enabled SSLCipherSuite directives to include !EXPORT.",
+  "fix_id": "F-66389r1_fix",
+  "VulnDiscussion": "During the initial setup of a Transport Layer Security (TLS) connection to the web server, the client sends a list of supported cipher suites in order of preference.  The web server will reply with the cipher suite it will use for communication from the client list.  If an attacker can intercept the submission of cipher suites to the web server and place, as the preferred cipher suite, a weak export suite, the encryption used for the session becomes easy for the attacker to break, often within minutes to hours.",
+  "Documentable": "false",
+  "Responsibility": "Web Administrator"
+}

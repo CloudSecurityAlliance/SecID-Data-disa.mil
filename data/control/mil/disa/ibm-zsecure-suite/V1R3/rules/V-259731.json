@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259731",
+  "rule_id": "SV-259731r1051324_rule",
+  "stig_id": "ZSEC-00-000100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Started tasks for IBM Security zSecure products must be properly defined.",
+  "group_title": "SRG-APP-000148-MFP-000206",
+  "idents": {
+    "cci": [
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-63470r1050751_chk",
+  "check_content": "If user IDs assigned to zSecure started tasks and scheduled batch jobs are not assigned the PROTECTED attribute and/or defined as an STC, this is a finding.\n\nThe default zSecure STC names (that may be changed by installation) are as follows:\n\n- STC C2PACMON runs program C2PACMON.\n- STC C2POLICE runs program C2POLICE.\n- STC C2PCOLL runs program CKFCOLL. (CKFCOLL is also run as a step in batch jobs.)\n- STC C2RSERVE runs program BPXBATCH.\n- STC CKCS1154 runs program CKCS1154.\n- STC CKNSERVE runs program CKNSERVE.\n- STC CKCCEF runs program CKRCARLX.\n- STC CKQCLEEF runs program CKRCARLX.\n- STC CKQEXSMF runs program CKQEXSMF.\n- STC CKQRADAR runs program CKRCARLA.\n- STC CKXLOG runs program CKXLOG.\n\nVerify the naming conventions for the zSecure STCs and batch jobs with the responsible systems programmers.\n\nCheck which user IDs are assigned in the STDATA segment of the zSecure STCs. For these user IDs, verify they are assigned the PROTECTED attribute.",
+  "fixtext": "Ensure user IDs assigned to zSecure started tasks and scheduled batch jobs are assigned the PROTECTED attribute and/or defined as an STC.\n\nThe following command is provided as a sample for adding the PROTECTED attribute. Convert this command for any other ESM:\n\n- ALTUSER <stuser> NOPASSWORD NOPHRASE\n- ALTUSER <batch user ID> NOPASSWORD NOPHRASE",
+  "fix_id": "F-63377r1051324_fix",
+  "VulnDiscussion": "Started tasks and batch job IDs can be automatically revoked accidentally if not properly protected. When properly protected STCs prevent any attempts to log on with a password, it eliminates the possibility of revocation due to excessive invalid password attempts (denial of service).",
+  "Documentable": "false"
+}

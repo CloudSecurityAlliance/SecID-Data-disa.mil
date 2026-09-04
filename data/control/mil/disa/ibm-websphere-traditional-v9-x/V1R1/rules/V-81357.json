@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-81357",
+  "rule_id": "SV-96071r1_rule",
+  "stig_id": "WBSP-AS-001230",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The WebSphere Application Server default keystore passwords must be changed.",
+  "group_title": "SRG-APP-000176-AS-000125",
+  "idents": {
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-81063r2_chk",
+  "check_content": "Review System Security Plan documentation.\n\nInterview the system administrator.\n\nIdentify installation folders and DMGR info.\n\nAccess the DMGR system via the OS.\n\nStop the DMGR processes. This will shut down the application server so plan outages accordingly. \n\nThe default file paths and DefaultMgr installation names are provided below, adjust paths, and dmgr name if your installation differs from the default.\n\nFor UNIX systems:\ncd /opt/IBM/Websphere/Profiles/<DefaultDmgr01>/logs/dmgr/\n\n-stopManager.sh -user [admin user name] - password [admin user password]\n-archive the SystemOut*.log files. (Copy to another location)\n-startManager.sh\n-grep -i cwpki0041w SystemOut.log\n\nFor Windows:\ncd C:\\program files\\IBM\\Websphere\\Profiles\\<DefaultDmgr01>\\logs\\dmgr\\\n\n-stopManager.exe -user [admin user name] - password [admin user password]\n-archive the SystemOut*.log files. (Copy to another location)\n-startManager.exe\n-findstr -I cwpki0041w systemout.log\n\nIf the results include: \n\"CWPKI0041W: One or more keystores are using the default password\", this is a finding.",
+  "fixtext": "Navigate to Security >> SSL Certificate and Key Management >> Key stores and certificates.\n\nSelect a keystore from the list.\n\nClick \"Change Password\".\n\nEnter the new password and password confirmation.\n\nClick \"OK\".\n\nRepeat for every keystore in the list.\n\nSynchronize changes to all nodes.",
+  "fix_id": "F-88143r2_fix",
+  "VulnDiscussion": "The cornerstone of the PKI is the private key used to encrypt or digitally sign information. \n\nIf the private key is stolen, this will lead to the compromise of the authentication and non-repudiation gained through PKI because the attacker can use the private key to digitally sign documents and can pretend to be the authorized user. \n\nBoth the holders of a digital certificate and the issuing authority must protect the computers, storage devices, or whatever they use to keep the private keys. Java-based application servers utilize the Java keystore, which provides storage for cryptographic keys and certificates. The keystore is usually maintained in a file stored on the file system.",
+  "Documentable": "false"
+}

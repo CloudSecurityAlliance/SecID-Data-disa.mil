@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-239859",
+  "rule_id": "SV-239859r665863_rule",
+  "stig_id": "CASA-FW-000130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco ASA must be configured to disable or remove unnecessary network services and functions that are not used as part of its role in the architecture.",
+  "group_title": "SRG-NET-000131-FW-000025",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-43092r665861_chk",
+  "check_content": "Features such as telnet should never be enabled, while other features should only be enabled if required for operations. In the example below, http and telnet service is enabled.\n\nhttp server enable\n…\n…\n…\ntelnet 10.1.22.2 255.255.255.255 INSIDE\n\nNote: The command http server actually enables https and is required for ASDM.\n\nIf any unnecessary or non-secure ports, protocols, or services are enabled, this is a finding.",
+  "fixtext": "Disable features that should not be enabled unless required for operations.\n\nASA(config)# no http server enable\nASA(config)# no telnet 10.1.22.2 255.255.255.255 INSIDE\nASA(config)# end\n\nNote: Telnet must always be disabled.",
+  "fix_id": "F-43051r665862_fix",
+  "VulnDiscussion": "Network devices are capable of providing a wide variety of functions (capabilities or processes) and services. Some of these functions and services are installed and enabled by default. The organization must determine which functions and services are required to perform the content filtering and other necessary core functionality for each component of the firewall. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nSome services may be security related but, based on the firewall’s role in the architecture, must not be installed on the same hardware. For example, the device may serve as a router, VPN, or other perimeter services. However, if these functions are not part of the documented role of the firewall in the enterprise or branch architecture, the software and licenses should not be installed on the device. This mitigates the risk of exploitation of unconfigured services or services that are not kept updated with security fixes. If left unsecured, these services may provide a threat vector.\n\nSome services are not authorized for combination with the firewall and individual policy must be in place to instruct the administrator to remove these services. Examples of these services are Network Time Protocol (NTP), domain name server (DNS), email server, FTP server, web server, and Dynamic Host Configuration Protocol (DHCP). \n\nOnly remove unauthorized services. This control is not intended to restrict the use of firewalls with multiple authorized roles.",
+  "Documentable": "false"
+}

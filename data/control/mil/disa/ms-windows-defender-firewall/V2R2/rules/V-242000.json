@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-242000",
+  "rule_id": "SV-242000r922950_rule",
+  "stig_id": "WNFWA-000018",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Windows Defender Firewall with Advanced Security must log dropped packets when connected to a private network.",
+  "group_title": "SRG-OS-000327-GPOS-00127",
+  "idents": {
+    "legacy": [
+      "V-17436",
+      "SV-54904"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-45275r698239_chk",
+  "check_content": "If the firewall's Private Profile is not enabled (see V-17416), this requirement is also a finding.\n\nIf the following policy-based registry value exists and is not configured as specified, this is a finding.\n\nRegistry Hive:  HKEY_LOCAL_MACHINE\nRegistry Path:  \\SOFTWARE\\Policies\\Microsoft\\WindowsFirewall\\PrivateProfile\\Logging\\\n\nValue Name:  LogDroppedPackets\n\nType:  REG_DWORD\nValue:  0x00000001 (1)\n\nIf the policy-based registry value does not exist, verify the following registry value. If it is not configured as specified, this is a finding.\n\nRegistry Hive:  HKEY_LOCAL_MACHINE\nRegistry Path:  \\SYSTEM\\CurrentControlSet\\Services\\SharedAccess\\Parameters\\FirewallPolicy\\StandardProfile\\Logging\\\n\nValue Name:  LogDroppedPackets\n\nType:  REG_DWORD\nValue:  0x00000001 (1)",
+  "fixtext": "The preferred method of configuring the firewall settings is with a policy, particularly in a domain environment.\n\nConfigure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Windows Defender Firewall with Advanced Security >> Windows Defender Firewall with Advanced Security >> Windows Defender Firewall Properties (this link will be in the right pane) >> Private Profile tab >> Logging (select Customize), \"Log dropped packets\" to \"Yes\".\n\nIn addition to using policies, systems may also be configured using the firewall GUI or Netsh commands. These methods may be more appropriate for standalone systems.\n\nThe configuration settings in the GUI are the same as those specified in the policy above. Microsoft Defender Firewall Properties will be a link in the center pane after opening Microsoft Defender Firewall with Advanced Security.\n\nThe following Netsh commands may also be used to configure this setting:\n\n\"Netsh advfirewall set privateprofile logging droppedconnections enable\".\nor\n\"Netsh advfirewall set allprofiles logging droppedconnections enable\".",
+  "fix_id": "F-45234r922949_fix",
+  "VulnDiscussion": "A firewall provides a line of defense against attack. To be effective, it must be enabled and properly configured. Logging of dropped packets for a private network connection will be enabled to maintain an audit trail of potential issues.",
+  "Documentable": "false"
+}

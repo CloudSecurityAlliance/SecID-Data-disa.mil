@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251192",
+  "rule_id": "SV-251192r961839_rule",
+  "stig_id": "RD6X-00-004400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Redis Enterprise DBMS must generate audit records for all direct access to the database(s).",
+  "group_title": "SRG-APP-000508-DB-000358",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-54627r804764_chk",
+  "check_content": "All local access to the server is handled by the underlying RHEL OS server that hosts the Redis Enterprise DBMS and is viewable in syslog. Additionally, RHEL can be configured to audit direct access to Redis Enterprise by modifying the rule set in /etc/audit/audit.rules to include the redis-cli and rladmin command found in /opt/redislabs/bin. \n\nTo determine if the OS is auditing direct and privileged access/execution of the database and database configuration options on the server:\ncat to /etc/audit/audit.rules \n\nExamine the audit rules defined for rules that specify that command calls for /opt/redislabs/bin/redis-cli and /opt/redislabs/bin/rladmin are audited, if not present, this is a finding.",
+  "fixtext": "Configure the host RHEL OS to generate audit records whenever a user calls the redis-cli command. This can be done by adding a rule to the /etc/audit/audit.rules to generate records when /opt/redislabs/bin/redis-cli and /opt/redislabs/bin/rladmin is called.\n\nExample Linux commands:\n-a always,exit -F path=/opt/redislabs/bin/redis-cli -F perm=x -F auid>=1000 -F auid!=unset -k privileged-priv_change\n-a always,exit -F path=/opt/redislabs/bin/rladmin -F perm=x -F auid>=1000 -F auid!=unset -k privileged-priv_change\n\nThe audit daemon must be restarted for the changes to take effect.",
+  "fix_id": "F-54581r804765_fix",
+  "VulnDiscussion": "In this context, direct access is any query, command, or call to the DBMS that comes from any source other than the application(s) that it supports. Examples would be the command line or a database management utility program. The intent is to capture all activity from administrative and non-standard sources.",
+  "Documentable": "false"
+}

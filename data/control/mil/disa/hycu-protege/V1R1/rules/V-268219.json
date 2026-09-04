@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268219",
+  "rule_id": "SV-268219r1038638_rule",
+  "stig_id": "HYCU-ND-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must limit the number of concurrent sessions to an organization-defined number for each administrator account and/or administrator account type.",
+  "group_title": "SRG-APP-000001-NDM-000200",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-72240r1038637_chk",
+  "check_content": "In the HYCU Web UI, only one login can be used at a time. \n\nIf the user is still logged into the HYCU Web UI upon logging in to the Web UI again, in a different browser tab, with the same credentials, this is a finding.\n\nLog in to the HYCU VM console. To check the number of allowed concurrent session connections, grep file \"/etc/security/limits.conf\" by executing the following command:\ngrep maxlogins /etc/security/limits.conf\n\nVerify the following line exists:\nhycu            hard    maxlogins       1\n\nIf the \"maxlogins\" value is not set to 1 or is missing, this is a finding.",
+  "fixtext": "The Web UI will only always allow one user session at a time.\n\nFor CLI, configure the operating system to limit the max number of concurrent sessions to 1 by adding the following line to \"/etc/security/limits.conf\":\n\nhycu            hard    maxlogins       1",
+  "fix_id": "F-72143r1038356_fix",
+  "VulnDiscussion": "Device management includes the ability to control the number of administrators and management sessions that manage a device. Limiting the number of allowed administrators and sessions per administrator based on account type, role, or access type is helpful in limiting risks related to denial-of-service (DoS) attacks.\n\nThis requirement addresses concurrent sessions for administrative accounts and does not address concurrent sessions by a single administrator via multiple administrative accounts. The maximum number of concurrent sessions should be defined based upon mission needs and the operational environment for each system. At a minimum, limits must be set for SSH, HTTPS, account of last resort, and root account sessions.",
+  "Documentable": "false"
+}

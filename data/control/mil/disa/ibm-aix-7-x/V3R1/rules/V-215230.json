@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215230",
+  "rule_id": "SV-215230r991589_rule",
+  "stig_id": "AIX7-00-001134",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The password hashes stored on AIX system must have been generated using a FIPS 140-2 approved cryptographic hashing algorithm.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101671",
+      "V-91573"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16428r294141_chk",
+  "check_content": "Verify that the system wide password algorithm is set to {ssha256} or {ssha512} by running the following command:\n\n# lssec -f /etc/security/login.cfg -s usw -a pwd_algorithm\nusw pwd_algorithm=ssha512\n\nIf the \"pwd_algorithm\" is not set to \"ssha256\" or \"ssha512\", this is a finding.\n\nVerify no password hashes in /etc/passwd by running the following command: \n\n# cat /etc/passwd | cut -f2,2 -d\":\" \n!\n!\n!\n!\n*\n*\n*\n*\n\nIf there are password hashes present, this is a finding. \n\nVerify all password hashes in \"/etc/security/passwd\" begin with {ssha256} or {ssha512} by running commands: \n \n# cat /etc/security/passwd | grep password \n        password = {ssha512}06$e58YOawe/7UhChqh$hZEWlP4040jarX1NeOujmcxd.7qerUvjW9lM9djJsDITtdjFvVpLX.r04xieOWrbH0qb0SJJ98a0tmgZBzPP..\n        password = {ssha512}06$Y6ztvMxKGdITxPex$B81/GDTEPt0xwp.BX1VhY9mAPaWHXdNoLI9D0T6dBExgo6r87X0etnfjxWODT73.udrbAY.F4HzaBR68lN5/..\n        password = {ssha512}06$iIXQQqs.mdGpC9Wu$cXSajikWYKAUacbF50FNlFgYYSgTklGf4uhXb1J/GyBGF5j5aWa4YG5Ah2uaAHv/Jmbmx.7yBm8iXz9Pz1LM..\n        password = {ssha512}06$3Sw24rPVdqDFFCIl$d1dZs7GYmTXnD9i270SxozIBxN0pqq/bNn0YbyKeDq0o6Y.j9qfkeH373DwkHBWgrifNcgj/K0pVyzjMg6QN..\n\nIf any password hashes are present not beginning with {ssha256} or {ssha512}, this is a finding.",
+  "fixtext": "Set the system wide password algorithm to \"ssha256\" or \"ssha512\" by running the following command:\n\n# chsec -f /etc/security/login.cfg -s usw -a pwd_algorithm=ssha512\n\nChange the passwords for all accounts using non-compliant password hashes by running the following command: \n\n$ passwd [user_name]",
+  "fix_id": "F-16426r294142_fix",
+  "VulnDiscussion": "Systems must employ cryptographic hashes for passwords using the SHA-2 family of algorithms or FIPS 140-2 approved successors. The use of unapproved algorithms may result in weak password hashes that are more vulnerable to compromise.",
+  "Documentable": "false"
+}

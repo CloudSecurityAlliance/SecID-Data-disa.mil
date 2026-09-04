@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214332",
+  "rule_id": "SV-214332r1043180_rule",
+  "stig_id": "AS24-W1-000470",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Cookies exchanged between the Apache web server and client, such as session cookies, must have security settings that disallow cookie access outside the originating Apache web server and hosted application.",
+  "group_title": "SRG-APP-000223-WSR-000011",
+  "idents": {
+    "legacy": [
+      "SV-102495",
+      "V-92407"
+    ],
+    "cci": [
+      "CCI-001664"
+    ]
+  },
+  "check_id": "C-15544r277499_chk",
+  "check_content": "Review the <'INSTALL PATH'>\\conf\\httpd.conf file.\n\nIf \"HttpOnly;secure\" is not configured, this is a finding.\n\nReview the code. If when creating cookies, the following is not occurring, this is a finding:\n\nfunction setCookie() { document.cookie = \"ALEPH_SESSION_ID = $SESS; path = /; secure\"; }",
+  "fixtext": "Add this line to \"httpd.conf\" file:\n\nHeader always edit Set-Cookie ^(.*)$ $1;HttpOnly;secure\n\nAdd the secure attribute to the JavaScript set cookie:\n\nfunction setCookie() { document.cookie = \"ALEPH_SESSION_ID = $SESS; path = /; secure\"; } \n\nHttpOnly cannot be used since by definition this is a cookie set by JavaScript.\n\nRestart the Apache service.",
+  "fix_id": "F-15542r277500_fix",
+  "VulnDiscussion": "Cookies are used to exchange data between the web server and the client. Cookies, such as a session cookie, may contain session information and user credentials used to maintain a persistent connection between the user and the hosted application since HTTP/HTTPS is a stateless protocol.\n\nWhen the cookie parameters are not set properly (i.e., domain and path parameters), cookies can be shared within hosted applications residing on the same web server or to applications hosted on different web servers residing on the same domain.",
+  "Documentable": "false"
+}

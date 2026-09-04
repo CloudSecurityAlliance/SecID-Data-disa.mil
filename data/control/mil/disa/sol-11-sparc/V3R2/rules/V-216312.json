@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-216312",
+  "rule_id": "SV-216312r959010_rule",
+  "stig_id": "SOL-11.1-020540",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": ".Xauthority or X*.hosts (or equivalent) file(s) must be used to restrict access to the X server.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-75495",
+      "V-61027"
+    ],
+    "cci": [
+      "CCI-000297",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17548r622320_chk",
+  "check_content": "If X Display Manager (XDM) is not used on the system, this is not applicable.\n\nDetermine if XDM is running. \n\nProcedure:\n# ps -ef | grep xdm\n\nDetermine if xauth is being used. \n\nProcedure:\n# xauth \nxauth> list\n\nIf the above command sequence does not show any host other than the localhost, then xauth is not being used.\n\nSearch the system for an X*.hosts files, where * is a display number that may be used to limit X window connections. \n\nIf no files are found, X*.hosts files are not being used. \n\nIf the X*.hosts files contain any unauthorized hosts, this is a finding.\n\nIf both xauth and X*.hosts files are not being used, this is a finding.",
+  "fixtext": "Create an X*.hosts file, where * is a display number that may be used to limit X window connections. \n\nAdd the list of authorized X clients to the file.",
+  "fix_id": "F-17546r371025_fix",
+  "VulnDiscussion": "If access to the X server is not restricted, a user's X session may be compromised.",
+  "Documentable": "false"
+}

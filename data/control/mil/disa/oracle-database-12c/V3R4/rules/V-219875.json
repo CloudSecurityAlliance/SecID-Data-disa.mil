@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219875",
+  "rule_id": "SV-219875r961863_rule",
+  "stig_id": "O121-BP-026600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Network client connections must be restricted to supported versions.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "legacy": [
+      "SV-76025",
+      "V-61535"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-21586r533134_chk",
+  "check_content": "Note: The SQLNET.ALLOWED_LOGON_VERSION parameter is deprecated in Oracle Database 12c. This parameter has been replaced with two new Oracle Net Services parameters:\n\nSQLNET.ALLOWED_LOGON_VERSION_SERVER\nSQLNET.ALLOWED_LOGON_VERSION_CLIENT\n\nView the SQLNET.ORA file in the ORACLE_HOME/network/admin directory or the directory specified in the TNS_ADMIN environment variable. (Please see the supplemental file \"Non-default sqlnet.ora configurations.pdf\" for how to find multiple and/or differently located sqlnet.ora files.)\n\nLocate the following entries:\n\nSQLNET.ALLOWED_LOGON_VERSION_SERVER = 12\nSQLNET.ALLOWED_LOGON_VERSION_CLIENT = 12\n\nIf the parameters do not exist, this is a finding.\n\nIf the parameters are not set to a value of 12 or 12a, this is a finding.\n\nNote: Attempting to connect with a client version lower than specified in these parameters may result in a misleading error:\nORA-01017: invalid username/password: logon denied",
+  "fixtext": "Edit the SQLNET.ORA file to add or edit the entries:\n\nSQLNET.ALLOWED_LOGON_VERSION_SERVER = 12\nSQLNET.ALLOWED_LOGON_VERSION_CLIENT = 12\n\nSet the value to 12 or higher.\nValid values for SQLNET.ALLOWED_LOGON_VERSION_SERVER are: 12 and 12a\n\nValid values for SQLNET.ALLOWED_LOGON_VERSION_CLIENT are: 12 and 12a\n\nFor more information on sqlnet.ora parameters refer to the following document:\n\"Database Net Services Reference\"\nhttp://docs.oracle.com/database/121/NETRF/sqlnet.htm#NETRF006\n\nFor more information on configuring authentication refer to the following document:\n\"Oracle Database 12C Password Version Configuration Guidelines\"\nhttps://docs.oracle.com/database/121/DBSEG/authentication.htm#GUID-E6EE45DD-1E3B-4028-B8DE-65D6AA373821",
+  "fix_id": "F-21585r533135_fix",
+  "VulnDiscussion": "Unsupported Oracle network client installations may introduce vulnerabilities to the database. Restriction to use of supported versions helps to protect the database and helps to enforce newer, more robust security controls.",
+  "Documentable": "false"
+}

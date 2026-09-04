@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253772",
+  "rule_id": "SV-253772r961839_rule",
+  "stig_id": "MADB-10-012000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must generate audit records for all direct access to the database(s).",
+  "group_title": "SRG-APP-000508-DB-000358",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-57224r841839_chk",
+  "check_content": "Check what filters are in place by running the following as an administrative user: \n\nMariaDB> SELECT * FROM mysql.server_audit_filters;\n\nVerify connect_events include connect in audit filters. If not, this is a finding.",
+  "fixtext": "Edit the necessary filters to include  connect_events connect. Example:\n\nMariaDB> DELETE FROM mysql.server_audit_filters WHERE filtername = 'default';\n\nMariaDB> INSERT INTO mysql.server_audit_filters (filtername, rule)\n   VALUES ('default',\n      JSON_COMPACT(\n         '{\n            \"connect_event\":\"CONNECT\"\n         }'\n      ));",
+  "fix_id": "F-57175r841840_fix",
+  "VulnDiscussion": "In this context, direct access is any query, command, or call to MariaDB that comes from any source other than the application(s) that it supports. Examples would be the command line or a database management utility program. The intent is to capture all activity from administrative and nonstandard sources.",
+  "Documentable": "false"
+}

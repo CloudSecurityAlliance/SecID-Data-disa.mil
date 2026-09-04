@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213698",
+  "rule_id": "SV-213698r917662_rule",
+  "stig_id": "DB2X-00-003800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DB2 must be configured to prohibit or restrict the use of organization-defined functions, ports, protocols, and/or services, as defined in the PPSM CAL and vulnerability assessments.",
+  "group_title": "SRG-APP-000142-DB-000094",
+  "idents": {
+    "legacy": [
+      "SV-89159",
+      "V-74485"
+    ],
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-14919r917660_chk",
+  "check_content": "Find out the communication protocol used by running the following command:\n\n$db2set DB2COMM\n\nIf DB2 is not set to SSL, this is a finding.\n\nRun the following command to find the service names/port numbers used by the database manager:\n\n$db2 get dbm cfg  \n\nFind the port numbers used by the TCP/IP and SSL services used by database manager (SVCNAME, SSL_SVCENAME) or match the service name in services file to find port numbers.\n\nDefault Location for services file\n\nWindows Service File: %SystemRoot%\\system32\\drivers\\etc\\services\nUNIX Services File: /etc/services\n\nIf ports used by the database manager are nonapproved or deemed unsafe, this is a finding.",
+  "fixtext": "Run the following command to set the value of the DB2COMM parameter to the organization-approved communication protocol:\n\n     $db2set DB2COMM=TCPIP,SSL\n\nSet the SSL version:\n\n     $db2 update DBM CFG using SSL_VERSIONS TLSV12    \n\nThe database manager can be set to a service name or an organization-approved port number directly for the SVCENAME parameter.\n\nUse the following command to change the database manager configuration: \n\n     $db2 update dbm cfg using svcename <svcename> \n       Or\n     $db2 update dbm cfg using svcename <port number>\n\nNote: Configuring Secure Sockets Layer (SSL) support in a DB2 instance:\nhttps://www.ibm.com/support/knowledgecenter/SSEPGG_10.5.0/com.ibm.db2.luw.admin.sec.doc/doc/t0025241.html",
+  "fix_id": "F-14917r917661_fix",
+  "VulnDiscussion": "In order to prevent unauthorized connection of devices, unauthorized transfer of information, or unauthorized tunneling (i.e., embedding of data types within data types), organizations must disable or restrict unused or unnecessary physical and logical ports/protocols/services on information systems.\n\nApplications are capable of providing a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., email and web services); however, doing so increases risk over limiting the services provided by any one component. \n\nTo support the requirements and principles of least functionality, the application must support the organizational requirements providing only essential capabilities and limiting the use of ports, protocols, and/or services to only those required, authorized, and approved to conduct official business or to address authorized quality of life issues.\n\nDatabase Management Systems using ports, protocols, and services deemed unsafe are open to attack through those ports, protocols, and services. This can allow unauthorized access to the database and through the database to other components of the information system.",
+  "Documentable": "false"
+}

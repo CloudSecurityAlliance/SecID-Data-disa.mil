@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215298",
+  "rule_id": "SV-215298r991589_rule",
+  "stig_id": "AIX7-00-002115",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must turn on SSH daemon reverse name checking.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-91727",
+      "SV-101825"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16496r294345_chk",
+  "check_content": "Check the SSH daemon configuration for the \"VerifyReverseMapping\" setting using command: \n\n# grep -i VerifyReverseMapping  /etc/ssh/sshd_config | grep -v '^#' \nVerifyReverseMapping yes\n\nIf the setting is not present or the setting is \"no\", this is a finding.",
+  "fixtext": "Edit the \"/etc/sshd/sshd_config\" file and add the following line:\nVerifyReverseMapping yes\n\nRestart the SSH daemon:\n# stopsrc -s sshd\n# startsrc -s sshd",
+  "fix_id": "F-16494r294346_fix",
+  "VulnDiscussion": "If reverse name checking is off, SSH may allow a remote attacker to circumvent security policies and attempt to or actually login from IP addresses that are not permitted to access resources.",
+  "Documentable": "false"
+}

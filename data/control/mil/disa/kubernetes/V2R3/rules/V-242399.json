@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242399",
+  "rule_id": "SV-242399r960792_rule",
+  "stig_id": "CNTR-K8-000460",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Kubernetes DynamicKubeletConfig must not be enabled.",
+  "group_title": "SRG-APP-000033-CTR-000095",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-45674r918162_chk",
+  "check_content": "This check is only applicable for Kubernetes versions 1.25 and older.  \n\nOn the Control Plane, change to the manifests' directory at /etc/kubernetes/manifests and run the command:\ngrep -i feature-gates *\n\nIn each manifest file, if the feature-gates does not exist, or does not contain the \"DynamicKubeletConfig\" flag, or sets the flag to \"true\", this is a finding.\n\nOn each Control Plane and Worker node, run the command:\nps -ef | grep kubelet\n\nVerify the \"feature-gates\" option is not present.\n\nNote the path to the config file (identified by --config).\n\nInspect the content of the config file:\nIf the \"featureGates\" setting is not present, or does not contain the \"DynamicKubeletConfig\", or sets the flag to \"true\", this is a finding.",
+  "fixtext": "This fix is only applicable to Kubernetes version 1.25 and older.\n\nOn the Control Plane, change to the manifests' directory at /etc/kubernetes/manifests and run the command:\ngrep -i feature-gates *\n\nEdit the manifest files so that every manifest has a \"--feature-gates\" setting with \"DynamicKubeletConfig=false\".\n\nOn each Control Plane and Worker Node, run the command:\nps -ef | grep kubelet\n\nRemove the \"feature-gates\" option if present.\n\nNote the path to the config file (identified by --config).\n\nEdit the config file: \nAdd a \"featureGates\" setting if one does not yet exist. Add the feature gate \"DynamicKubeletConfig=false\".\n\nRestart the kubelet service using the following command:\nsystemctl daemon-reload && systemctl restart kubelet",
+  "fix_id": "F-45632r918163_fix",
+  "VulnDiscussion": "Kubernetes allows a user to configure kubelets with dynamic configurations. When dynamic configuration is used, the kubelet will watch for changes to the configuration file. When changes are made, the kubelet will automatically restart. Allowing this capability bypasses access restrictions and authorizations. Using this capability, an attacker can lower the security posture of the kubelet, which includes allowing the ability to run arbitrary commands in any container running on that node.",
+  "Documentable": "false"
+}

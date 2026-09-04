@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-237714",
+  "rule_id": "SV-237714r961863_rule",
+  "stig_id": "O121-C2-005000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The DBMS must set the maximum number of consecutive invalid logon attempts to three.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "legacy": [
+      "V-61605",
+      "SV-76095"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-40933r667172_chk",
+  "check_content": "The limit on the number of consecutive failed logon attempts is defined in the profile assigned to a user.\n\nCheck the FAILED_LOGIN_ATTEMPTS value assigned to the profiles returned from this query:\nSQL>SELECT PROFILE, RESOURCE_NAME, LIMIT FROM DBA_PROFILES;\n\nCheck the setting for FAILED_LOGIN_ATTEMPTS - this is the number of consecutive failed logon attempts before locking the Oracle user account. If the value is greater than three on any of the profiles, this is a finding.",
+  "fixtext": "Configure the DBMS setting to specify the maximum number of consecutive failed logon attempts to three (or less):\nALTER PROFILE {PROFILE_NAME} LIMIT FAILED_LOGIN_ATTEMPTS 3;\n\n(ORA_STIG_PROFILE is available in DBA_PROFILES, starting with Oracle 12.1.0.2. Note: It remains necessary to create a customized replacement for the password validation function, ORA12C_STRONG_VERIFY_FUNCTION, if relying on this technique to verify password complexity.)",
+  "fix_id": "F-40896r667173_fix",
+  "VulnDiscussion": "Anytime an authentication method is exposed,  to allow for the utilization of an application, there is a risk that attempts will be made to obtain unauthorized access.\n\nTo defeat these attempts, organizations define the number of times a user account may consecutively fail a logon attempt. The organization also defines the period of time in which these consecutive failed attempts may occur.\n\nBy limiting the number of failed logon attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute forcing, is reduced. Limits are imposed by locking the account.\n\nMore recent brute force attacks make attempts over long periods of time to circumvent intrusion detection systems and system account lockouts based entirely on the number of failed logons that are typically reset after a successful logon.\n\nNote that user authentication and account management must be done via an enterprise-wide mechanism whenever possible.  Examples of enterprise-level authentication/access mechanisms include, but are not limited to, Active Directory and LDAP.  This requirement applies to cases where it is necessary to have accounts directly managed by Oracle.\n\nNote also that a policy that places no limit on the length of the timeframe (for counting consecutive invalid attempts) does satisfy this requirement.",
+  "Documentable": "false"
+}

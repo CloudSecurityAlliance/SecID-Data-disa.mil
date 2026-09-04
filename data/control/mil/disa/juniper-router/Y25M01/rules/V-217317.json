@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217317",
+  "rule_id": "SV-217317r960933_rule",
+  "stig_id": "JUNI-ND-000380",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured to protect audit information from unauthorized modification.",
+  "group_title": "SRG-APP-000119-NDM-000236",
+  "idents": {
+    "legacy": [
+      "SV-101219",
+      "V-91119"
+    ],
+    "cci": [
+      "CCI-000163"
+    ]
+  },
+  "check_id": "C-18544r296529_chk",
+  "check_content": "Review the router configuration to verify that it is compliant with this requirement. The configuration example below allows only users belonging to the AUDITOR class to configure the logging parameters.\n\nsystem {\n    login {\n        class AUDITOR {\n            permissions [configure view-configuration];\n            allow-configuration \"(system syslog)\";\n        }\n        class SR_ENGINEER {\n            permissions all;\n            deny-configuration \"(system syslog)\";\n        }\n    }\n}\n\nIf the router is not configured to protect audit information from unauthorized modification, this is a finding.",
+  "fixtext": "Create a login class that provides the permission to configure logging parameters as well as a classes that do not allow configuration of logging parameters as shown in the example below.\n\n[edit system]\nset login class AUDITOR permissions [configure view-configuration]\nset login class AUDITOR allow-configuration \"(system syslog)\"\n\nset login class SR_ENGINEER permissions all \nset login class SR_ENGINEER deny-configuration \"(system syslog)\"",
+  "fix_id": "F-18542r296530_fix",
+  "VulnDiscussion": "Audit information includes all information (e.g., audit records, audit settings, and audit reports) needed to successfully audit network device activity.\n\nIf audit data were to become compromised, then forensic analysis and discovery of the true source of potentially malicious system activity is impossible to achieve. \n\nTo ensure the veracity of audit data, the network device must protect audit information from unauthorized modification. \n\nThis requirement can be achieved through multiple methods, which will depend upon system architecture and design. Some commonly employed methods include ensuring log files receive the proper file system permissions and limiting log data locations. \n\nNetwork devices providing a user interface to audit data will leverage user permissions and roles identifying the user accessing the data and the corresponding rights that the user enjoys in order to make access decisions regarding the modification of audit data.",
+  "Documentable": "false"
+}

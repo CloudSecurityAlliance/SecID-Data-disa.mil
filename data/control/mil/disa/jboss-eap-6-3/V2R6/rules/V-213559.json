@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213559",
+  "rule_id": "SV-213559r961860_rule",
+  "stig_id": "JBOS-AS-000735",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "JBoss servers must be configured to roll over and transfer logs on a minimum weekly basis.",
+  "group_title": "SRG-APP-000515-AS-000203",
+  "idents": {
+    "legacy": [
+      "SV-76835",
+      "V-62345"
+    ],
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-14782r296343_chk",
+  "check_content": "If the JBoss server is configured to use a Syslog Handler, this is not a finding.\n\nLog on to the OS of the JBoss server with OS permissions that allow access to JBoss. \nUsing the relevant OS commands and syntax, cd to the <JBOSS_HOME>/bin/ folder. \nRun the jboss-cli script.  \nConnect to the server and authenticate. \n\nDetermine if there is a periodic rotating file handler.\n\nFor a domain configuration run the following command; where <SERVERNAME> is a variable for all of the servers in the domain.  Usually \"server-one\", \"server-two\", etc.:\n\n\"ls /host=master/server=<SERVERNAME>/subsystem=logging/periodic-rotating-file-handler=\"\n\nFor a standalone configuration run the command:\n\"ls /subsystem=logging/periodic-rotating-file-handler=\"\n\nIf the command does not return \"FILE\", this is a finding.\n\nReview the <JBOSS_HOME>/standalone/log folder for the existence of rotated logs, and ask the admin to demonstrate how rotated logs are packaged and transferred to another system on at least a weekly basis.",
+  "fixtext": "Open the web-based management interface by opening a browser and pointing it to HTTPS://<EAP_SERVER>:9990/\n\nAuthenticate as a user with Admin rights.\nNavigate to the \"Configuration\" tab.\nExpand + Subsystems.\nExpand + Core.\nSelect \"Logging\".\nSelect the \"Handler\" tab.\nSelect  \"Periodic\".\n\nIf a periodic file handler does not exist, reference JBoss admin guide for instructions on how to create a file handler that will rotate logs on a daily basis. \nCreate scripts that package and off-load log data at least weekly.",
+  "fix_id": "F-14780r296344_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.  Protecting log data is important during a forensic investigation to ensure investigators can track and understand what may have occurred.  Off-loading should be set up as a scheduled task but can be configured to be run manually, if other processes during the off-loading are manual.\n\nOff-loading is a common process in information systems with limited log storage capacity.",
+  "Documentable": "false"
+}

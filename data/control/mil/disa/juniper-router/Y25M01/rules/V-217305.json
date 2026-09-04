@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217305",
+  "rule_id": "SV-217305r1050884_rule",
+  "stig_id": "JUNI-ND-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured to limit the number of concurrent management sessions to an organization-defined number.",
+  "group_title": "SRG-APP-000001-NDM-000200",
+  "idents": {
+    "legacy": [
+      "SV-101193",
+      "V-91093"
+    ],
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-18532r1050882_chk",
+  "check_content": "Note: This requirement is not applicable to file transfer actions such as SCP and SFTP.\n\nReview the router configuration to determine if concurrent SSH sessions are limited as shown in the example below:\n\nsystem {\n    services {\n        ssh {\n            max-sessions-per-connection 3;\n            connection-limit 3;\n        }\n    }\n\nIf the router is not configured to limit the number of concurrent sessions, this is a finding.",
+  "fixtext": "Configure the router to limit the number of concurrent sessions as shown in the example below:\n\n[edit system services]\nset ssh connection-limit 3\nset ssh max-sessions-per-connection 3",
+  "fix_id": "F-18530r1050883_fix",
+  "VulnDiscussion": "Device management includes the ability to control the number of administrators and management sessions that manage a device. Limiting the number of allowed administrators and sessions per administrator based on account type, role, or access type is helpful in limiting risks related to denial-of-service (DoS) attacks.\n\nThis requirement addresses concurrent sessions for administrative accounts and does not address concurrent sessions by a single administrator via multiple administrative accounts. The maximum number of concurrent sessions should be defined based upon mission needs and the operational environment for each system. At a minimum, limits must be set for SSH, HTTPS, account of last resort, and root account sessions.",
+  "Documentable": "false"
+}

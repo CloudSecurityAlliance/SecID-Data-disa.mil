@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-252203",
+  "rule_id": "SV-252203r961860_rule",
+  "stig_id": "HPEN-NM-000300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HPE Nimble must configure a syslog server onto a different system or media than the system being audited.",
+  "group_title": "SRG-APP-000515-NDM-000325",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-55659r814087_chk",
+  "check_content": "Type \"group --info | grep -i syslog\" and review the output lines. The \"Syslogd enabled\" value should be \"Yes\", and the \"Syslogd server\" and \"Syslogd port\" values should contain the correct syslog server and port values. If not, this is a finding.",
+  "fixtext": "To specify and enable logging of alerts, type \"group --edit --syslog_enabled yes --syslog_server <server> --syslog_port <port>\", where <server> and <port> are the server DNS name or IP address, and <port> is the port to send syslog messages to.",
+  "fix_id": "F-55609r814088_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nUDP is used to communicate between the array group and the syslog server (SSL is not supported at this time). This is an issue because DoD requires the use of TCP. One syslog message is generated for each alert and audit log message. Alert severity types include INFO, WARN, and ERROR.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268301",
+  "rule_id": "SV-268301r1038739_rule",
+  "stig_id": "HYCU-ND-000950",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The HYCU virtual appliance must terminate all network connections associated with a device management session at the end of the session, or the session must be terminated after five minutes of inactivity except to fulfill documented and validated mission requirements.",
+  "group_title": "SRG-APP-000190-NDM-000267",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-72322r1038738_chk",
+  "check_content": "Log in to the HYCU VM console. For console connections, check for the value of the \"TMOUT\" option in \"/home/hycu/.bashrc\" with the following command:\ngrep TMOUT /home/hycu/.bashrc\n\nIf the \"TMOUT\" value is not set to \"300\" or less, this is a finding.\n\nFor SSH connections, check for the value of the \"ClientAliveInterval\" option in \"/etc/ssh/sshd_config\" with the following command:\ngrep ClientAliveInterval /etc/ssh/sshd_config\n\nIf the \"ClientAliveInterval\" value is not set to \"5\" or less, this is a finding.\n\nFor UI connections, run the following command to check configured HYCU session timeout:\ncat /opt/grizzly/config.properties | grep api.session.expiration.minutes\n\nIf not configured at \"5\" or less, this is a finding.",
+  "fixtext": "Configure the operating system to enforce timeout settings.\n\nAdd the following line to \"/home/hycu/.bashrc\" (or modify the line to have the required value):\nTMOUT=300\n\nAdd the following line to \"/etc/ssh/sshd_config\" (or modify the line to have the required value):\nClientAliveInterval 300\n\nEdit the \"/opt/grizzly/config.properties\" file by running the command:\nsudo vi /opt/grizzly/config.properties\n\nAdd the following line or modify the line to have the required value:\napi.session.expiration.minutes=5\n\nSave the file by typing:\n:wq!",
+  "fix_id": "F-72225r1038602_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle session will also free up resources committed by the managed network element.",
+  "Documentable": "false"
+}

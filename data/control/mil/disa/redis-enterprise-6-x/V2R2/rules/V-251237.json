@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251237",
+  "rule_id": "SV-251237r961116_rule",
+  "stig_id": "RD6X-00-010300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Redis Enterprise DBMS must recognize only system-generated session identifiers.",
+  "group_title": "SRG-APP-000223-DB-000168",
+  "idents": {
+    "cci": [
+      "CCI-001664"
+    ]
+  },
+  "check_id": "C-54672r804899_chk",
+  "check_content": "By default, each cluster node has a different set of self-signed certificates. These certificates can be replaced with a DoD-acceptable certificate, preferably a certificate issued by an intermediate certificate authority (CA).\n\nFor security reasons, Redis Enterprise only supports the TLS protocol. Therefore, verify that the Redis client or secured tunnel solution is TLS v1.2 or above.\n\nRun the following commands and verify that certificates are present:\n# cd /etc/opt/redislabs\n# ls \n\nVerify the proxy_cert.pem file is present.\n\nIf no certificates are present, this is a finding.",
+  "fixtext": "To configure TLS and configure only organizationally defined CA-signed certificates, refer to the following document: \nhttps://docs.redislabs.com/latest/rs/administering/cluster-operations/updating-certificates/",
+  "fix_id": "F-54626r804900_fix",
+  "VulnDiscussion": "This requirement focuses on communications protection for the DBMS session rather than for the network packet. The intent of this control is to establish grounds for confidence at each end of a communications session in the ongoing identity of the other party and in the validity of the information being transmitted. \n\nRedis Enterprise Software (RS) uses self-signed certificates out-of-the-box to make sure that sessions are secure by default. When using the default self-signed certificates, an untrusted connection notification is shown in the web UI. Depending on the browser used, the user can allow the connection for each session or add an exception to make the site trusted in future sessions.",
+  "Documentable": "false"
+}

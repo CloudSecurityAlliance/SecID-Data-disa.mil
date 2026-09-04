@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-253731",
+  "rule_id": "SV-253731r1018601_rule",
+  "stig_id": "MADB-10-007800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must prohibit user installation of logic modules (stored procedures, functions, triggers, views, etc.) without explicit privileged status.",
+  "group_title": "SRG-APP-000378-DB-000365",
+  "idents": {
+    "cci": [
+      "CCI-003980",
+      "CCI-001812"
+    ]
+  },
+  "check_id": "C-57183r998226_chk",
+  "check_content": "If MariaDB supports only software development, experimentation and/or developer-level testing (that is, excluding production systems, integration testing, stress testing, and user acceptance testing), this is not a finding.\n\nReview MariaDB and database security settings with respect to nonadministrative users ability to create, alter, or replace logic modules, to include but not necessarily only stored procedures, functions, triggers, and views.\n\n1. To list the privileges for all users on all tables and schemas, as the database administrator, do the following:\n \nGather a list of SHOW GRANTS commands. SHOW GRANTS will list the privileges granted to the account.\n\nRun this script to create the SHOW GRANTS script for each user: \nMariaDB> SELECT DISTINCT CONCAT( 'SHOW GRANTS FOR ', user,'@', host,';') AS grantQuery FROM mysql.user WHERE is_role = 'N';\n\nRun each SHOW GRANTS command for each user.\n \n2. Only DEFINERS of routines (functions and procedures) can change routines. To view the DEFINERS of all functions and procedures, as database administrator run the following SQL:\n \nMariaDB>  SELECT * FROM mysql.proc \\G\n \n3. Only DEFINERS of triggers can change triggers. To view all triggers and their DEFINERS, as database administrator run the following SQL: \n\nMariaDB>  SELECT * FROM information_schema.triggers \\G\n \n4. Views: At view definition time, the view creator must have the privileges needed to use the top-level objects accessed by the view. For example, if the view definition refers to table columns, the creator must have privileges for the columns, as described previously. If the definition refers to a stored function, only the privileges needed to invoke the function can be checked. The privileges required when the function runs can be checked only as it executes. For different invocations of the function, different execution paths within the function might be taken.\n\nIf any such permissions exist and are not documented and approved, this is a finding.",
+  "fixtext": "Document and obtain approval for any nonadministrative users who require the ability to create, alter, or replace logic modules.\n\nCheck the security guide to implement the approved permissions. Revoke any unapproved permissions.",
+  "fix_id": "F-57134r841717_fix",
+  "VulnDiscussion": "Allowing regular users to install software, without explicit privileges, creates the risk that untested or potentially malicious software will be installed on the system. Explicit privileges (escalated or administrative privileges) provide the regular user with explicit capabilities and control that exceed the rights of a regular user.\n\nDBMS functionality and the nature and requirements of databases will vary; so while users are not permitted to install unapproved software, there may be instances where the organization allows the user to install approved software packages such as from an approved software repository. The requirements for production servers will be more restrictive than those used for development and research.\n\nThe DBMS must enforce software installation by users based upon what types of software installations are permitted (e.g., updates and security patches to existing software) and what types of installations are prohibited (e.g., software whose pedigree with regard to being potentially malicious is unknown or suspect by the organization).\n\nIn the case of a database management system, this requirement covers stored procedures, functions, triggers, views, etc.",
+  "Documentable": "false"
+}

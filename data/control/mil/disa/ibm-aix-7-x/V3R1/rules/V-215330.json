@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215330",
+  "rule_id": "SV-215330r991589_rule",
+  "stig_id": "AIX7-00-003017",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX NFS server must be configured to restrict file system access to local hosts.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-101741",
+      "V-91643"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16528r294441_chk",
+  "check_content": "Check the permissions on exported NFS file systems by running command: \n\n# exportfs -v \n/export/shared -ro,access=10.17.76.74\n\nIf the exported file systems do not contain the \"rw\" or \"ro\" options specifying a list of hosts or networks, this is a finding.",
+  "fixtext": "Edit \"/etc/exports\" and add \"ro\" and/or \"rw\" options (as appropriate) specifying a list of hosts or networks which are permitted access. \n\nRe-export the file systems:\n# /usr/sbin/exportfs -a",
+  "fix_id": "F-16526r294442_fix",
+  "VulnDiscussion": "The NFS access option limits user access to the specified level. This assists in protecting exported file systems. If access is not restricted, unauthorized hosts may be able to access the system's NFS exports.",
+  "Documentable": "false"
+}

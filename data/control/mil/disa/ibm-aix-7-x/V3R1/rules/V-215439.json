@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215439",
+  "rule_id": "SV-215439r991589_rule",
+  "stig_id": "AIX7-00-003203",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must have the have the PowerSC Multi Factor Authentication Product configured.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-103035",
+      "V-92947"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-16637r294768_chk",
+  "check_content": "Verify /etc/security/pmfa/pam_pmfa.conf is configured correctly.\n\n# grep -i \"trustedcas\" /etc/security/pmfa/pam_pmfa.conf | grep -v '#'\n\nTRUSTEDCAS = /<path_to_file>/server_ca.pem\n\nNote: Verify with the SA/ISSO as to the location of the \"server_ca.pem\" file.\n\nIf \"TRUSTEDCAS\" is not configured to point to a valid \"server_ca.pem\" file or is missing, this is a finding.\n\n# grep -i \"mfa-url\" /etc/security/pmfa/pam_pmfa.conf | grep -v '#'\n\nMFA-URL = https://pmfa.example.com:6793/policyAuth/\n\nIf the \"MFA-URL\" is missing or does not point to a valid address, this is a finding.\n\n# grep -i \"server-version\" /etc/security/pmfa/pam_pmfa.conf | grep -v '#'\n\nSERVER-VERSION = 2\n\nIf \"SERVER-VERSION\" is missing or is not set to \"2\", this is a finding.\n\n# grep -i \"ctc-prompt\" /etc/security/pmfa/pam_pmfa.conf | grep -v '#'\n\nCTC-PROMPT-ONLY = Y\n\nIf \"CTC-PROMPT-ONLY\" is missing or is not set to \"Y\", this is a finding.",
+  "fixtext": "Add or update the following lines in the \"/etc/security/pmfa/pam_pmfa.conf\" file:\n\nTRUSTEDCAS = /<path_to_file>/server_ca.pem\n\nNote: Verify with the SA/ISSO as to the location of the \"server_ca.pem\" file.\n\nMFA-URL = https://pmfa.example.com:6793/policyAuth/\n\nSERVER-VERSION = 2\n\nCTC-PROMPT-ONLY = Y",
+  "fix_id": "F-16635r294769_fix",
+  "VulnDiscussion": "To assure accountability and prevent unauthenticated access, privileged and non-privileged users must utilize multifactor authentication to prevent potential misuse and compromise of the system. \nMultifactor authentication uses two or more factors to achieve authentication.\n\nFactors include: \n1. Something you know (e.g., password/PIN);\n2. Something you have (e.g., cryptographic identification device, token); and\n3. Something you are (e.g., biometric).\n\nThe DoD CAC with DoD-approved PKI is an example of multifactor authentication.",
+  "Documentable": "false"
+}

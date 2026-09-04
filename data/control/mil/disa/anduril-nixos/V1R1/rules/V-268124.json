@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-268124",
+  "rule_id": "SV-268124r1039260_rule",
+  "stig_id": "ANIX-00-000710",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS, for PKI-based authentication, must validate certificates by constructing a certification path (which includes status information) to an accepted trust anchor.",
+  "group_title": "SRG-OS-000066-GPOS-00034",
+  "idents": {
+    "cci": [
+      "CCI-000185",
+      "CCI-002470",
+      "CCI-004909"
+    ]
+  },
+  "check_id": "C-72048r1039258_chk",
+  "check_content": "Verify NixOS only allows the use of DOD PKI-established certificate authorities by running the following:\n\n$ nix-env -iA nixos.openssl\n$ openssl x509 -text -in /etc/sssd/pki/sssd_auth_ca_db.pem\nCertificate:\nData:\nVersion: 3 (0x2)\nSerial Number: 1 (0x1)\nSignature Algorithm: sha256WithRSAEncryption\nIssuer: C = US, O = U.S. Government, OU = DOD, OU = PKI, CN = DOD Root CA 3\nValidity\nNot Before: Mar 20 18:46:41 2012 GMT\nNot After : Dec 30 18:46:41 2029 GMT\nSubject: C = US, O = U.S. Government, OU = DOD, OU = PKI, CN = DOD Root CA 3\nSubject Public Key Info:\nPublic Key Algorithm: rsaEncryption\n\nIf the root CA file is not a DOD-issued certificate with a valid date and installed in the /etc/sssd/pki/sssd_auth_ca_db.pem location, this is a finding.",
+  "fixtext": "Configure /etc/nixos/configuration.nix to authenticate using DOD's root CA by adding the following configuration settings:\n\n services.sssd.enable = true;\n environment.etc.\"sssd/pki/sssd_auth_ca_db.pem\".source = let\n  certzip = pkgs.fetchzip {\n   url = \"https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/unclass-certificates_pkcs7_v5-6_dod.zip\";\n   sha256 = \"sha256-iwwJRXCnONk/LFddQlwy8KX9e9kVXW/QWDnX5qZFZjc=\";\n  };\n in \"${certzip}/DOD_PKE_CA_chain.pem\";\n\nRebuild the system with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71951r1039259_fix",
+  "VulnDiscussion": "Without path validation, an informed trust decision by the relying party cannot be made when presented with any certificate not already explicitly trusted.\n\nA trust anchor is an authoritative entity represented via a public key and associated data. It is used in the context of public key infrastructures, X.509 digital certificates, and DNSSEC.\n\nWhen there is a chain of trust, usually the top entity to be trusted becomes the trust anchor; it can be, for example, a Certification Authority (CA). A certification path starts with the subject certificate and proceeds through a number of intermediate certificates up to a trusted root certificate, typically issued by a trusted CA.\n\nThis requirement verifies that a certification path to an accepted trust anchor is used for certificate validation and that the path includes status information. Path validation is necessary for a relying party to make an informed trust decision when presented with any certificate not already explicitly trusted. Status information for certification paths includes certificate revocation lists or online certificate status protocol responses. Validation of the certificate status information is out of scope for this requirement.\n\nSatisfies: SRG-OS-000066-GPOS-00034, SRG-OS-000403-GPOS-00182, SRG-OS-000775-GPOS-00230",
+  "Documentable": "false"
+}

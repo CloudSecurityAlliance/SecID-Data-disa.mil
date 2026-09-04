@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-256410",
+  "rule_id": "SV-256410r984242_rule",
+  "stig_id": "ESXI-70-000047",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The ESXi Image Profile and vSphere Installation Bundle (VIB) acceptance levels must be verified.",
+  "group_title": "SRG-OS-000366-VMM-001430",
+  "idents": {
+    "cci": [
+      "CCI-001749",
+      "CCI-001774",
+      "CCI-002475"
+    ]
+  },
+  "check_id": "C-60085r886009_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Security Profile.\n\nUnder \"Host Image Profile Acceptance Level\", view the acceptance level.\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$esxcli.software.acceptance.get.Invoke()\n\nIf the acceptance level is \"CommunitySupported\", this is a finding.",
+  "fixtext": "From the vSphere Client, select the ESXi Host and go to Configure >> System >> Security Profile.\n\nUnder \"Host Image Profile Acceptance Level\", click \"Edit...\". \n\nUsing the drop-down selection, set the acceptance level as \"VMwareCertified\", \"VMwareAccepted\", or \"PartnerSupported\". The default is \"PartnerSupported\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$arguments = $esxcli.software.acceptance.set.CreateArgs()\n$arguments.level = \"PartnerSupported\"\n$esxcli.software.acceptance.set.Invoke($arguments)\n\nNote: \"VMwareCertified\" or \"VMwareAccepted\" may be substituted for \"PartnerSupported\", depending on local requirements. These are case sensitive.",
+  "fix_id": "F-60028r892863_fix",
+  "VulnDiscussion": "Verify the ESXi Image Profile to only allow signed VIBs. An unsigned VIB represents untested code installed on an ESXi host. The ESXi Image profile supports four acceptance levels: \n\n1. VMwareCertified - VIBs created, tested, and signed by VMware.\n2. VMwareAccepted - VIBs created by a VMware partner but tested and signed by VMware. \n3. PartnerSupported - VIBs created, tested, and signed by a certified VMware partner. \n4. CommunitySupported - VIBs that have not been tested by VMware or a VMware partner. \n\nCommunity Supported VIBs are not supported and do not have a digital signature. To protect the security and integrity of ESXi hosts, do not allow unsigned (CommunitySupported) VIBs to be installed on hosts.\n\nSatisfies: SRG-OS-000366-VMM-001430, SRG-OS-000370-VMM-001460, SRG-OS-000404-VMM-001650",
+  "Documentable": "false"
+}

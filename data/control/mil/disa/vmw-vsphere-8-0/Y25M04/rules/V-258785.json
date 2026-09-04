@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258785",
+  "rule_id": "SV-258785r959010_rule",
+  "stig_id": "ESXI-80-000230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host Secure Shell (SSH) daemon must disable port forwarding.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62525r933414_chk",
+  "check_content": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config list -k allowtcpforwarding\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$esxcli.system.ssh.server.config.list.invoke() | Where-Object {$_.Key -eq 'allowtcpforwarding'}\n\nExample result:\n\nallowtcpforwarding no\n\nIf \"allowtcpforwarding\" is not configured to \"no\", this is a finding.",
+  "fixtext": "From an ESXi shell, run the following command:\n\n# esxcli system ssh server config set -k allowtcpforwarding -v no\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following commands:\n\n$esxcli = Get-EsxCli -v2\n$arguments = $esxcli.system.ssh.server.config.set.CreateArgs()\n$arguments.keyword = 'allowtcpforwarding'\n$arguments.value = 'no'\n$esxcli.system.ssh.server.config.set.Invoke($arguments)",
+  "fix_id": "F-62434r933415_fix",
+  "VulnDiscussion": "While enabling Transmission Control Protocol (TCP) tunnels is a valuable function of sshd, this feature is not appropriate for use on the ESXi hypervisor.",
+  "Documentable": "false"
+}

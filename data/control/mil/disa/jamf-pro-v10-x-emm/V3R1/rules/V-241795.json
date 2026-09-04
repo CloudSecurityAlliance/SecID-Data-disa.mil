@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-241795",
+  "rule_id": "SV-241795r961863_rule",
+  "stig_id": "JAMF-10-000610",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Jamf Pro EMM server must be configured to have at least one user in the following Administrator roles: Server primary administrator, security configuration administrator, device user group administrator, auditor.",
+  "group_title": "PP-MDM-411058",
+  "idents": {
+    "legacy": [
+      "SV-108683",
+      "V-99579"
+    ],
+    "cci": [
+      "CCI-000366",
+      "CCI-002226",
+      "CCI-002227"
+    ]
+  },
+  "check_id": "C-45071r685137_chk",
+  "check_content": "Administrator and Audit level permission groups are configured by default within Jamf Pro server. \n\nVerify the additional group permissions by:\n\n1. Open Jamf Pro server.\n2. Open \"Settings\".\n3. Select \"Jamf Pro User Accounts and Groups\".\n4. View the necessary information for each group has been created with appropriate privilege sets.\n\nJamf Pro EMM server will have the appropriate group level permissions available for applying to individual user accounts or AD groups.\n\nIf required administrator roles have not been set up on the server, this is a finding.",
+  "fixtext": "Administrator and Audit level permission groups are configured by default within Jamf Pro server. \n\nConfigure the additional group permissions by:\n\n1. Open Jamf Pro server.\n2. Open \"Settings\".\n3. Select \"Jamf Pro User Accounts and Groups\".\n4. Select \"New\".\n5. Select \"Create Standard Group\", click \"Next\".\n6. Fill out all the necessary information for creating the group including the privilege set.\n7. Click \"Save\".\n8. Repeat for each group of permissions that are needed.\n\nOnce completed, Jamf Pro EMM server will have the appropriate group level permissions available for applying to individual user accounts or AD groups.",
+  "fix_id": "F-45030r685138_fix",
+  "VulnDiscussion": "Having several administrative roles for the Jamf Pro EMM server supports separation of duties. This allows administrator-level privileges to be granted granularly, such as giving application management privileges to one group and security policy privileges to another group. This helps prevent administrators from intentionally or inadvertently altering other settings and configurations they may not understand or approve of, which can weaken overall security and increase the risk of compromise.\n\n- Server primary administrator: Responsible for server installation, initial configuration, and maintenance functions. Responsible for the setup and maintenance of security configuration administrator and auditor accounts. Responsible for the maintenance of applications in the MAS.\n- Security configuration administrator: Responsible for security configuration of the server, defining device user groups, setup and maintenance of device user group administrator accounts, and defining privileges of device user group administrators.\n- Device user group administrator: Responsible for maintenance of mobile device accounts, including setup, change of account configurations, and account deletion. Responsible for defining which apps user groups or individual users have access to in the MAS. Can only perform administrative functions assigned by the security configuration administrator.\n- Auditor: Responsible for reviewing and maintaining server and mobile device audit logs.\n\nSFR ID: FMT_SMR.1.1(1)",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259467",
+  "rule_id": "SV-259467r958752_rule",
+  "stig_id": "APPL-14-001029",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The macOS system must configure audit retention to seven days.",
+  "group_title": "SRG-OS-000341-GPOS-00132",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-63206r941021_chk",
+  "check_content": "Verify the macOS system is configured audit retention to seven days with the following command:\n\n/usr/bin/awk -F: '/expire-after/{print $2}' /etc/security/audit_control\n\nIf the result is not \"7d\", this is a finding.",
+  "fixtext": "Configure the macOS system to set audit retention to seven days with the following command:\n\n/usr/bin/sed -i.bak 's/^expire-after.*/expire-after:7d/' /etc/security/audit_control; /usr/sbin/audit -s",
+  "fix_id": "F-63114r941022_fix",
+  "VulnDiscussion": "The audit service must be configured to require records be kept for an organizational defined value before deletion, unless the system uses a central audit record storage facility.\n\nWhen \"expire-after\" is set to \"7d\", the audit service will not delete audit logs until the log data criteria is met.",
+  "Documentable": "false"
+}

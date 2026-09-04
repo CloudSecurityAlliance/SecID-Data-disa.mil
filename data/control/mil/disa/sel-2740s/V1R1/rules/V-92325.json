@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-92325",
+  "rule_id": "SV-102413r1_rule",
+  "stig_id": "SELS-SW-000160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SEL-2740S must be configured with ARP flow rules that are statically created with valid IP-to-MAC address bindings.",
+  "group_title": "SRG-NET-000362-L2S-000027",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-91621r1_chk",
+  "check_content": "Review the SEL-2740S configuration to verify that Dynamic Address Resolution Protocol (ARP) flow rules have valid IP-to-MAC address bindings.\n\nIf the SEL-2740S Dynamic Address Resolution Protocol (ARP) flow rules are not configured with the valid IP-to-MAC address bindings, this is a finding.",
+  "fixtext": "To add ARP flow rules on all packet forwarding, do the following:\n1. Log on to OTSDN Controller using Permission Level 3.\n2. Click \"Flow Entries\" in Navigation Menu.\n3. Click \"Add Flow\" button.\n4. Enter General Setting values for \"Switch\", \"Enable\".  Optional: Enter General Settings for \"Table ID\", \"Priority\", \"Idle Timeout\", and \"Hard Timeout\".\n5. Depending on communication protocol behavior, enter appropriate Match Field values for \"ARP Opcode\" (\"Request\" or \"Reply\"), \"ARP Source\", \"ARP Target\", \"Communication Service Type (CST) Match\", \"Ethernet Destination\", \"Ethernet Source\", \"Ethernet Type\", \"InPort\", \"IP Proto\", \"IPv4 Destination\", \"IPv4 Source\", \"TCP Destination\", \"TCP Source\", \"UDP Destination\", \"UDP Source\", \"VLAN Priority\", and/or \"VLAN Virtually ID\".\n6. Enter appropriate Write-Actions for \"Pop VLAN ID\", \"Push VLAN ID\", \"Set VLAN ID\", \"Set VLAN Priority\", \"Set Queue\", \"Group by Alias or Value\", and/or \"Output by Alias or Value\".\n7. Click \"Submit\".",
+  "fix_id": "F-98563r1_fix",
+  "VulnDiscussion": "DAI intercepts Address Resolution Protocol (ARP) requests and verifies that each of these packets has a valid IP-to-MAC address binding before updating the local ARP cache and before forwarding the packet to the appropriate destination. Invalid ARP packets are dropped and logged. DAI determines the validity of an ARP packet based on valid IP-to-MAC address bindings stored in the DHCP snooping binding database. If the ARP packet is received on a trusted interface, the switch forwards the packet without any checks. On untrusted interfaces, the switch forwards the packet only if it is valid.",
+  "Documentable": "false"
+}

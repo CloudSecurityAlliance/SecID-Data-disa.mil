@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-265977",
+  "rule_id": "SV-265977r1003587_rule",
+  "stig_id": "ESXI-80-000250",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must disable virtual hardware management network interfaces.",
+  "group_title": "SRG-OS-000480-VMM-002000",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-69900r1003585_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nSelect the \"Net.BMCNetworkEnable\" value and verify it is set to \"0\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Net.BMCNetworkEnable\n\nIf the \"Net.BMCNetworkEnable\" setting is not set to \"0\", this is a finding.",
+  "fixtext": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> System >> Advanced System Settings.\n\nClick \"Edit\". Select the \"Net.BMCNetworkEnable\" value and configure it to \"0\".\n\nor\n\nFrom a PowerCLI command prompt while connected to the ESXi host, run the following command:\n\nGet-VMHost | Get-AdvancedSetting -Name Net.BMCNetworkEnable | Set-AdvancedSetting -Value 0",
+  "fix_id": "F-69803r1003586_fix",
+  "VulnDiscussion": "Hardware management controllers often present virtual or USB NICs to the ESXi host. These can be used as backdoors and should be deactivated both in the hardware configuration and in ESXi.",
+  "Documentable": "false"
+}

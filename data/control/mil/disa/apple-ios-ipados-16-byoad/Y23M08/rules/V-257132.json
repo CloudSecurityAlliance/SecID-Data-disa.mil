@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257132",
+  "rule_id": "SV-257132r904296_rule",
+  "stig_id": "AIOS-16-713400",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Apple iOS must be configured to disable automatic transfer of diagnostic data to an external device other than an MDM service with which the device has enrolled.",
+  "group_title": "PP-MDF-993300",
+  "idents": {
+    "cci": [
+      "CCI-001199"
+    ]
+  },
+  "check_id": "C-60817r904294_chk",
+  "check_content": "Review configuration settings to confirm \"Allow sending diagnostic and usage data to Apple\" is disabled.\n\nThis check procedure is performed on both the iOS management tool and the iOS device.\n\nNote: If an organization has multiple configuration profiles, the check procedure must be performed on the relevant configuration profiles applicable to the scope of the review. \n\nIn the iOS management tool, verify \"Allow sending diagnostic and usage data to Apple\" is unchecked.\n\nAlternatively, verify the text \"<key>allowDiagnosticSubmission</key><false/>\" appears in the configuration profile (.mobileconfig file).\n\nOn the Apple iOS device: \n1. Open the Settings app. \n2. Tap \"General\".\n3. Tap \"VPN & Device Management\".\n4. Tap the Configuration Profile from the iOS management tool containing the management policy.\n5. Tap \"Restrictions\".\n6. Verify \"Diagnostic submission not allowed\".\n\nNote: This setting also disables \"Share With App Developers\".\n\nIf \"Allow sending diagnostic and usage data to Apple\" is checked in the iOS management tool, \"<key>allowDiagnosticSubmission</key><true/>\" appears in the configuration profile, or the restrictions policy on the Apple iOS device from the Apple iOS management tool does not list \"Diagnostic submission not allowed\", this is a finding.",
+  "fixtext": "Install a configuration profile to disable sending diagnostic data to an organization other than DOD.",
+  "fix_id": "F-60758r904295_fix",
+  "VulnDiscussion": "Many software systems automatically send diagnostic data to the manufacturer or a third party. This data enables the developers to understand real-world field behavior and improve the product based on that information. Unfortunately, it can also reveal information about what DOD users are doing with the systems and what causes them to fail. An adversary embedded within the software development team or elsewhere could use the information acquired to breach mobile operating system security. Disabling automatic transfer of such information mitigates this risk.\n\nSFR ID: FMT_SMF_EXT.1.1 #47a",
+  "Documentable": "false"
+}

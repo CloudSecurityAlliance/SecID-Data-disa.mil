@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269965",
+  "rule_id": "SV-269965r1052281_rule",
+  "stig_id": "OS10-L2S-000190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Dell OS10 Switch must enable Far-End Failure Detection (FEFD) to protect against one-way connections.",
+  "group_title": "SRG-NET-000512-L2S-000004",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73998r1052279_chk",
+  "check_content": "Dell OS10 provides a proprietary protocol, FEFD, to protect against one-way connections.\n\nVerify that FEFD is configured on the appropriate ethernet interfaces by reviewing the FEFD status to verify the desired interfaces are in mode Normal or Aggressive.\n\nOS10# show fefd\nFEFD is globally 'OFF', interval is 15 seconds.\nINTERFACE      MODE          INTERVAL      STATE\n============================================================\neth1/1/1       NA            NA            Idle (Not running)\neth1/1/2       NA            NA            Idle (Not running)\neth1/1/3       NA            NA            Idle (Not running)\neth1/1/4       NA            NA            Idle (Not running)\neth1/1/5       NA            NA            Idle (Not running)\neth1/1/6       Normal        15            Unknown\neth1/1/7       Aggressive    15            Unknown\neth1/1/8       NA            NA            Idle (Not running)\n…\n\nIf FEFD is not configured on the appropriate interfaces, this is a finding.",
+  "fixtext": "Configure the OS10 switch to enable FEFD on appropriate interfaces connected to other OS10 peers.\n\nOS10(config)# interface ethernet 1/1/6\nOS10(conf-if-eth1/1/6)# fefd mode normal",
+  "fix_id": "F-73899r1052280_fix",
+  "VulnDiscussion": "In topologies where fiber-optic interconnections are used, physical misconnections can occur that allow a link to appear to be up when there is a mismatched set of transmit/receive pairs. When such a physical misconfiguration occurs, protocols such as STP can cause network instability. UDLD is a Layer 2 protocol that can detect these physical misconfigurations by verifying that traffic is flowing bidirectionally between neighbors. Ports with UDLD enabled periodically transmit packets to neighbor devices. If the packets are not echoed back within a specific time frame, the link is flagged as unidirectional and the interface is shut down.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-214159",
+  "rule_id": "SV-214159r612370_rule",
+  "stig_id": "IDNS-7X-000010",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Infoblox systems which perform zone transfers to non-Infoblox Grid DNS servers must be configured to limit the number of concurrent sessions for zone transfers.",
+  "group_title": "SRG-APP-000001-DNS-000001",
+  "idents": {
+    "legacy": [
+      "SV-83005",
+      "V-68515"
+    ],
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-15374r295743_chk",
+  "check_content": "Verify inbound and outbound zone transfer limits are configured. These values control the amount of concurrent zone transfers to non-Grid DNS servers.\n\nNavigate to Data Management >> DNS >> Members/Servers tab.\n\nReview each server with the DNS service enabled.\nSelect each server, click \"Edit\", toggle Advanced Mode and select General >> Advanced tab.\n\nVerify zone transfer limitations are configured. If all name servers for all zones utilize a single Infoblox Grid, zone data is transferred via the encrypted Infoblox Grid, this is not a finding.\n\nWhen complete, click \"Cancel\" to exit the \"Properties\" screen.",
+  "fixtext": "Navigate to Data Management >> DNS >> Members/Servers tab.\n\nClick \"Edit\" to review each member with the DNS service status of \"Running\".\n\nToggle Advanced Mode and select General >> Advanced tab.\n\nConfigure both inbound and outbound zone transfer to appropriate values.\n\nWhen complete, click \"Save & Close\" to save the changes and exit the \"Properties\" screen.\n\nPerform a service restart if necessary.",
+  "fix_id": "F-15372r295744_fix",
+  "VulnDiscussion": "Limiting the number of concurrent sessions reduces the risk of Denial of Service (DoS) to the DNS implementation.\n\nInfoblox DNS servers configured in a Grid do not utilize zone transfers; data is replicated using an encrypted management connection. However when a zone contains both Infoblox Grid DNS servers and non-Grid DNS servers a protocol compliant zone transfer is performed.\n\nName servers do not have direct user connections but accept client connections for queries. Original restriction on client connections should be high enough to prevent a self-imposed denial of service, after which the connections are monitored and fine-tuned to best meet the organization's specific requirements.\n\nPrimary name servers also make outbound connection to secondary name servers to provide zone transfers and accept inbound connection requests from clients wishing to provide a dynamic update. Primary name servers should explicitly limit zone transfers to only be made to designated secondary name servers. Because zone transfers involve the transfer of entire zones and use TCP connections, they place substantial demands on network resources relative to normal DNS queries. Errant or malicious frequent zone transfer requests on the name servers of the enterprise can overload the master zone server and result in DoS to legitimate users. Primary name servers should be configured to limit the hosts from which they will accept dynamic updates.\n\nAdditionally, the number of concurrent clients, especially TCP clients, needs to be kept to a level that does not risk placing the system in a DoS state.",
+  "Documentable": "false"
+}

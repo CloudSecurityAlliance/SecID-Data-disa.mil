@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-259561",
+  "rule_id": "SV-259561r958552_rule",
+  "stig_id": "APPL-14-005020",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The macOS system must enforce FileVault.",
+  "group_title": "SRG-OS-000185-GPOS-00079",
+  "idents": {
+    "cci": [
+      "CCI-001199",
+      "CCI-002475",
+      "CCI-002476"
+    ]
+  },
+  "check_id": "C-63300r941303_chk",
+  "check_content": "Verify the macOS system is configured to enforce FileVault with the following command:\n\ndontAllowDisable=$(/usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.MCX')\\\n.objectForKey('dontAllowFDEDisable').js\nEOS\n)\nfileVault=$(/usr/bin/fdesetup status | /usr/bin/grep -c \"FileVault is On.\")\nif [[ \"$dontAllowDisable\" == \"true\" ]] && [[ \"$fileVault\" == 1 ]]; then\n  echo \"1\"\nelse\n  echo \"0\"\nfi\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Note: Refer to the FileVault supplemental to implement this rule.",
+  "fix_id": "F-63208r941304_fix",
+  "VulnDiscussion": "FileVault must be enforced.\n\nThe information system implements cryptographic mechanisms to protect the confidentiality and integrity of information stored on digital media during transport outside of controlled areas.\n\nSatisfies: SRG-OS-000185-GPOS-00079,SRG-OS-000404-GPOS-00183,SRG-OS-000405-GPOS-00184",
+  "Documentable": "false"
+}

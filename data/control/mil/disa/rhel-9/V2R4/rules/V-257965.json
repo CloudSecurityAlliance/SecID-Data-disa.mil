@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257965",
+  "rule_id": "SV-257965r991589_rule",
+  "stig_id": "RHEL-09-253050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must use a reverse-path filter for IPv4 network traffic when possible by default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61706r925880_chk",
+  "check_content": "Verify RHEL 9 uses reverse path filtering on IPv4 interfaces with the following commands:\n\n$ sudo sysctl net.ipv4.conf.default.rp_filter\n\nnet.ipv4.conf.default.rp_filter = 1\n\nIf the returned line does not have a value of \"1\", or a line is not returned, this is a finding.\n\nCheck that the configuration files are present to enable this network parameter.\n\n$ sudo /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' | grep -F net.ipv4.conf.default.rp_filter | tail -1\n\nnet.ipv4.conf.default.rp_filter = 1\n\nIf \"net.ipv4.conf.default.rp_filter\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Configure RHEL 9 to use reverse path filtering on IPv4 interfaces by default.\n\nAdd or edit the following line in a single system configuration file, in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv4.conf.default.rp_filter = 1\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-61630r925881_fix",
+  "VulnDiscussion": "Enabling reverse path filtering drops packets with source addresses that should not have been able to be received on the interface on which they were received. It must not be used on systems that are routers for complicated networks, but is helpful for end hosts and routers serving small networks.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-241796",
+  "rule_id": "SV-241796r960768_rule",
+  "stig_id": "JAMF-10-000670",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Jamf Pro EMM server must be configured to leverage the MDM platform user accounts and groups for Jamf Pro EMM server user identification and CAC authentication.",
+  "group_title": "PP-MDM-414002",
+  "idents": {
+    "legacy": [
+      "SV-108685",
+      "V-99581"
+    ],
+    "cci": [
+      "CCI-000015"
+    ]
+  },
+  "check_id": "C-45072r685140_chk",
+  "check_content": "Interview the site ISSM. \n\nDetermine if the site has connected Jamf Pro EMM to an Authentication Gateway Service (AGS) which connects to the DoD Identity Access Management (IdAM) environment that uses CAC authentication. \n\n- If YES, verify the AGS implementation has been reviewed using the Application Layer Gateway SRG. Verify the Jamf Pro EMM server is configured to connect to the AGS:\n1. Go to the server console.\n2. Open \"Settings\".\n3. Select \"SSO\" (Single Sign-on).\n4. Verify Single Sign-on Authentication is enabled and connection to the AGS using SAML-based protocol is set up.\n\n- If NO, verify strong password controls for the administrator local accounts are in place. (Verified by JAMF-10-100700 to JAMF-10-100820.)\n\nIf Jamf Pro EMM is not connected Jamf Pro EMM to an Authentication Gateway Service (AGS) which connects to your DoD Identity Access Management (IdAM) environment that utilizes CAC authentication or has not been configured to use strong password controls for the administrator local accounts, this is a finding.",
+  "fixtext": "Implement one of the following options:\n\nOption #1. Connect Jamf Pro EMM to an Authentication Gateway Service (AGS) which connects to the DoD Identity Access Management (IdAM) environment that uses CAC authentication. Note: Jamf requires AGS to support SAML.\n\n- Set up AGS / IdAM environment.\n- Connect the Jamf pro EMM to the AGS:\n1. Open \"Settings\".\n2. Select \"SSO\" (Single Sign-on).\n3. Select \"Edit\".\n4. Enable Single Sign-on Authentication.\n5. Complete the appropriate settings to connect Jamf Pro EMM to the AGS using SAML-based protocol.\n6. Click \"Save\".\n\nNote: If Option #1 is used, requirements JAMF-10-100700 to JAMF-10-10820 are Not Applicable and requirement JAMF-10-200040 is Applicable - Configurable.\n\nOption #2. Implement strong password policy for admin local accounts. Configure the server password policy (JAMF-10-100700 to JAMF-10-10820).\n\nNote: If Option #2 is used, requirement JAMF-10-200040 is Not Applicable.",
+  "fix_id": "F-45031r685141_fix",
+  "VulnDiscussion": "A comprehensive account management process that includes automation helps to ensure the accounts designated as requiring attention are consistently and promptly addressed. If an attacker compromises an account, the entire Jamf Pro EMM server infrastructure is at risk. Providing automated support functions for the management of accounts will ensure only active accounts will be granted access with the proper authorization levels. These objectives are best achieved by configuring the Jamf Pro EMM server to leverage an enterprise authentication mechanism (e.g., Microsoft Active Directory Kerberos).\n\nSFR ID: FIA",
+  "Documentable": "false"
+}

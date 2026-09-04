@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213453",
+  "rule_id": "SV-213453r823075_rule",
+  "stig_id": "WNDF-AV-000029",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Microsoft Defender AV virus definition age must not exceed 7 days.",
+  "group_title": "SRG-APP-000276",
+  "idents": {
+    "legacy": [
+      "SV-89923",
+      "V-75243"
+    ],
+    "cci": [
+      "CCI-001240"
+    ]
+  },
+  "check_id": "C-14678r820206_chk",
+  "check_content": "Verify the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >>Security Intelligence Updates >> \"Define the number of days before virus security intelligence considered out of date\" is set to \"Enabled\" and \"7\" or less is selected in the drop-down box (excluding \"0\", which is unacceptable).\n\nIf third-party antivirus protection is installed and up to date, the Windows Defender Antivirus age requirement is NA.\n\nProcedure: Use the Windows Registry Editor to navigate to the following key: \nHKLM\\Software\\Policies\\Microsoft\\Windows Defender\\Signature Updates\n\nCriteria: If the value \"AVSignatureDue\" is REG_DWORD = 7, this is not a finding.\n\nA value of 1 - 6 is also acceptable and not a finding.\n\nA value of 0 is a finding.\n\nA value higher than 7 is a finding.",
+  "fixtext": "Set the policy value for Computer Configuration >> Administrative Templates >> Windows Components >> Microsoft Defender Antivirus >> Signature Updates >> \"Define the number of days before virus definitions are considered out of date\" to \"Enabled\" and select \"7\" or less in the drop-down box.\n\nDo not select a value of 0. This disables the option.",
+  "fix_id": "F-14676r823074_fix",
+  "VulnDiscussion": "This policy setting allows defining the number of days that must pass before virus definitions are considered out of date. If definitions are determined to be out of date, this state may trigger several additional actions, including falling back to an alternative update source or displaying a warning icon in the user interface. By default, this value is set to 14 days. \n\nIf this setting is enabled, virus definitions will be considered out of date after the number of days specified have passed without an update. If this setting is disabled or not configured, virus definitions will be considered out of date after the default number of days have passed without an update.",
+  "Documentable": "false"
+}

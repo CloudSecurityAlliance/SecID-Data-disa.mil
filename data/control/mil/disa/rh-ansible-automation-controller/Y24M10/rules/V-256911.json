@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256911",
+  "rule_id": "SV-256911r961683_rule",
+  "stig_id": "APAS-AT-000122",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Automation Controller must install security-relevant software updates within the time period directed by an authoritative source (e.g. IAVM, CTOs, DTMs, and STIGs).",
+  "group_title": "SRG-APP-000456-AS-000266",
+  "idents": {
+    "cci": [
+      "CCI-002605"
+    ]
+  },
+  "check_id": "C-60586r902301_chk",
+  "check_content": "As a system administrator for each Automation Controller host inspect the status of the DNF Automatic timer:\n\nsystemctl status dnf-automatic.timer\n\nIf \"Active: active\" is not included in the output, this is a finding.\n\nInspect the configuration of DNF Automatic:\n\n grep apply_updates /etc/dnf/automatic.conf\n\nIf \"apply_updates = yes\" is not displayed, this is a finding.",
+  "fixtext": "Install and enable DNF Automatic:\n\ndnf install dnf-automatic\n(run the install)\nsystemctl enable --now dnf-automatic.timer\n\nModify /etc/dnf/automatic.conf and set \"apply_updates = yes\".",
+  "fix_id": "F-60528r902302_fix",
+  "VulnDiscussion": "Security relevant software updates must be installed within the timeframes directed by an authoritative source in order to maintain the integrity and confidentiality of the system and its organizational assets.",
+  "Documentable": "false"
+}

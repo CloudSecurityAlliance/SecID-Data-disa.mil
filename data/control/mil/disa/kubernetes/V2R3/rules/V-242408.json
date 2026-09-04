@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-242408",
+  "rule_id": "SV-242408r960960_rule",
+  "stig_id": "CNTR-K8-000900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes manifest files must have least privileges.",
+  "group_title": "SRG-APP-000133-CTR-000310",
+  "idents": {
+    "cci": [
+      "CCI-001499",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-45683r918172_chk",
+  "check_content": "On both Control Plane and Worker Nodes, change to the /etc/kubernetes/manifest directory. Run the command:\nls -l *\n\nEach manifest file must have permissions \"644\" or more restrictive.\n\nIf any manifest file is less restrictive than \"644\", this is a finding.",
+  "fixtext": "On both Control Plane and Worker Nodes, change to the /etc/kubernetes/manifest directory. Run the command:\nchmod 644 *\n\nTo verify the change took place, run the command:\nls -l *\n\nAll the manifest files should now have privileges of \"644\".",
+  "fix_id": "F-45641r918173_fix",
+  "VulnDiscussion": "The manifest files contain the runtime configuration of the API server, scheduler, controller, and etcd. If an attacker can gain access to these files, changes can be made to open vulnerabilities and bypass user authorizations inherent within Kubernetes with RBAC implemented.\n\nSatisfies: SRG-APP-000133-CTR-000310, SRG-APP-000133-CTR-000295, SRG-APP-000516-CTR-001335",
+  "Documentable": "false"
+}

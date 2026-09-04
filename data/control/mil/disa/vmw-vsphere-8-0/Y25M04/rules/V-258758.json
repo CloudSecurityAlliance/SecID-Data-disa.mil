@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258758",
+  "rule_id": "SV-258758r958908_rule",
+  "stig_id": "ESXI-80-000198",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ESXi host must protect the confidentiality and integrity of transmitted information by isolating ESXi management traffic.",
+  "group_title": "SRG-OS-000423-VMM-001700",
+  "idents": {
+    "cci": [
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-62498r933333_chk",
+  "check_content": "From the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> Networking >> VMkernel adapters.\n\nReview each VMkernel adapter that is used for management traffic and view the \"Enabled services\".\n\nReview the VLAN associated with each VMkernel that is used for management traffic. Verify with the system administrator that they are dedicated for that purpose and are logically separated from other functions.\n\nIf any services other than \"Management\" are enabled on the Management VMkernel adapter, this is a finding.\n\nIf the network segment is accessible, except to networks where other management-related entities are located such as vCenter, this is a finding.\n\nIf there are any other systems or devices such as VMs on the ESXi management segment, this is a finding.",
+  "fixtext": "Configuration of the management VMkernel will be unique to each environment.\n\nFor example, to modify the IP address and VLAN information to the correct network on a distributed switch, do the following:\n\nFrom the vSphere Client, go to Hosts and Clusters.\n\nSelect the ESXi Host >> Configure >> Networking >> VMkernel adapters.\n\nSelect the Management VMkernel and click \"Edit\". On the Port properties tab, uncheck all services except for \"Management\". Click \"OK\".\n\nFrom the vSphere Client, go to Networking.\n\nSelect a distributed switch >> Select a port group >> Configure >> Settings >> Properties.\n\nClick \"Edit\" and select VLAN.\n\nChange the \"VLAN Type\" to \"VLAN\" and change the \"VLAN ID\" to a network allocated and dedicated to management traffic exclusively. Click \"OK\".",
+  "fix_id": "F-62407r933334_fix",
+  "VulnDiscussion": "The vSphere management network provides access to the vSphere management interface on each component. Services running on the management interface provide an opportunity for an attacker to gain privileged access to the systems. Any remote attack most likely would begin with gaining entry to this network.\n\nThe Management VMkernel port group can be on a standard or distributed virtual switch but must be on a dedicated VLAN. The Management VLAN must not be shared by any other function and must not be accessible to anything other than management-related functions such as vCenter.",
+  "Documentable": "false"
+}

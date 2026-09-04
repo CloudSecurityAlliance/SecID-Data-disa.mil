@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-266174",
+  "rule_id": "SV-266174r1024406_rule",
+  "stig_id": "F5BI-AP-300163",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The VPN Gateway must use Always On VPN connections for remote computing.",
+  "group_title": "SRG-NET-000512-ALG-000062",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-001184"
+    ]
+  },
+  "check_id": "C-70098r1023768_chk",
+  "check_content": "Verify at least one of these methods is configured.\n\nAlways Connected Mode:\nFrom the BIG-IP GUI:\n1. Access.\n2. Connectivity/VPN.\n3. Connectivity.\n4. Profiles.\n5. Click the name of the profile.\n6. At the bottom, click Customize Package >> Windows.\n7. Click \"BIG-IP Edge Client\" on the left.\n8. Verify \"Enable Always connected mode\" is enabled.\n\nMachine Tunnels:\nFrom the BIG-IP GUI:\n1. Access.\n2. Connectivity/VPN.\n3. Connectivity.\n4. Profiles.\n5. Click the name of the profile.\n6. At the bottom, click Customize Package >> Windows.\n7. Verify \"Machine Tunnel Service\" is checked.\n\nIf the BIG-IP VPN Gateway is not configured to use an Always On VPN connection for remote computing, this is a finding.",
+  "fixtext": "Configure at least one of these methods.\nAlways Connected Mode:\n\nFrom the BIG-IP GUI:\n1. Access.\n2. Connectivity/VPN.\n3. Connectivity.\n4. Profiles.\n5. Click the name of the profile.\n6. At the bottom, click Customize Package >> Windows.\n7. Click \"BIG-IP Edge Client\" on the left.\n8. Check the box next to \"Enable Always connected mode\".\nNote: Always connected mode requires at least one host be listed in the Server list of the Connectivity Profile. Edit the Connectivity Profile to add an entry, if necessary.\n9. Click \"Download\" to save the settings and download the installer.\n\nMachine Tunnels:\nFrom the BIG-IP GUI:\n1. Access.\n2. Connectivity/VPN.\n3. Connectivity.\n4. Profiles.\n5. Click the name of the profile.\n6. At the bottom, click Customize Package >> Windows.\n7. Check \"Machine Tunnel Service\".\n8. Optionally, click \"Machine Tunnel Service\" on the left and check \"Enable NLA for Machine Tunnel\".\nNote: To configure DNS Suffixes for NLA, edit the Connectivity Profile >> Win/Mac Edge Client > Location DNS List.\n9. Click \"Download\" to save the settings and download the installer.",
+  "fix_id": "F-70001r1023769_fix",
+  "VulnDiscussion": "Allowing remote users to manually toggle a VPN connection can create critical security risks. With Always On VPN, if a secured connection to the gateway is lost, hybrid-working users will simply be disconnected from the internet until the issue is solved.\n\n\"Always On\" is a term that describes a VPN connection that is secure and always on after the initial connection is established. An Always On VPN deployment establishes a VPN connection with the client without the need for user interaction (e.g., user credentials). The remote client must not be able to access the Internet without first established a VPN session with a DOD site.\n\nNote that device compliance checks are still required prior to connecting to DOD resources. Although out of scope for this requirement, the connection process must ensure that remote devices meet security standards before accessing DOD resources. Devices that fail to meet compliance requirements can be denied access, reducing the risk of compromised endpoints.",
+  "Documentable": "false"
+}

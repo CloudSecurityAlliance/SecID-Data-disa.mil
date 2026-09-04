@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-270233",
+  "rule_id": "SV-270233r1085634_rule",
+  "stig_id": "ENTR-ID-000440",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Microsoft Entra ID must be configured to use multifactor authentication (MFA).",
+  "group_title": "SRG-APP-000149",
+  "idents": {
+    "cci": [
+      "CCI-000765",
+      "CCI-000766",
+      "CCI-004046"
+    ]
+  },
+  "check_id": "C-74266r1085622_chk",
+  "check_content": "Verify user accounts require MFA.\n\n1. Sign in to the Microsoft Entra admin center as at least a Conditional Access Administrator.\n2. Browse to Identity >> Protection >> Conditional Access.\n3. Select \"Policies\" and find the MFA policy.\n4. Confirm the policy state is set to \"On\".\n5. Select the policy and confirm \"All users included\" is specified under the Users option of the policy.\n6. Confirm any exclusions listed under the \"Exclude\" section of the Users option are documented with the authorizing official (AO).\n\nIf the MFA policy is not set to \"On\" with \"All users included\" selected and any exclusions are not documented with the AO, this is a finding.",
+  "fixtext": "Account authentication is managed by Entra ID. The following steps will create a Conditional Access policy to require all users to use MFA:\n\n1. Sign in to the Microsoft Entra admin center as at least a Conditional Access Administrator.\n2. In the search bar, search for \"Conditional Access\".\n3. Select \"Create new policy\".\n4. Give the policy a name. It is recommended that organizations create a meaningful standard for the names of policies.\n5. Under \"Assignments\", select \"Users\" or \"workload identities\".\na. Under \"Include\", select \"All users\".\nb. Under \"Exclude\", select \"Users\" and \"groups\", and then choose the organization's emergency access or break-glass accounts.\n6. Navigate to Target resources >> Cloud apps >> Include. Select \"All cloud apps\".\na. Under \"Exclude\", select any applications that do not require MFA.\n7. Navigate to Access controls >> Grant. Select \"Grant access, Require multifactor authentication\", and then click \"Select\".\n8. Confirm the settings and set \"Enable policy\" to \"Report-only\".\n9. Select \"Create\" to enable the policy.\n10. After confirming the policy, deploy the policy by either moving the \"Enable\" policy toggle from \"Report-only\" to \"On\" or alternately, deploying the policy using a Conditional Access template.",
+  "fix_id": "F-74167r1085573_fix",
+  "VulnDiscussion": "Without the use of MFA, the ease of access to privileged functions is greatly increased. \n\nMFA requires the use of two or more factors to achieve authentication. \n\nFactors include: \n(i) Something a user knows (e.g., password/PIN); \n(ii) Something a user has (e.g., cryptographic identification device, token); or \n(iii) Something a user is (e.g., biometric). \n\nA privileged account is defined as an information system account with authorizations of a privileged user. \n\nNetwork access is defined as access to an information system by a user (or a process acting on behalf of a user) communicating through a network (e.g., local area network, wide area network, or the internet).\n\nSatisfies: SRG-APP-000149, SRG-APP-000150, SRG-APP-000154, SRG-APP-000155",
+  "Documentable": "false"
+}

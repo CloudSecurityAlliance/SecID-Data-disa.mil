@@ -1,0 +1,30 @@
+{
+  "vuln_id": "V-222968",
+  "rule_id": "SV-222968r961050_rule",
+  "stig_id": "TCAT-AS-000750",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Tomcat must use FIPS-validated ciphers on secured connectors.",
+  "group_title": "SRG-APP-000179-AS-000129",
+  "idents": {
+    "legacy": [
+      "V-102609",
+      "SV-111567"
+    ],
+    "cci": [
+      "CCI-000803",
+      "CCI-001188",
+      "CCI-002418",
+      "CCI-002421",
+      "CCI-002475",
+      "CCI-002476"
+    ]
+  },
+  "check_id": "C-24640r426348_chk",
+  "check_content": "From the Tomcat server console, run the following two commands to verify Tomcat server is configured to use FIPS:\n\nsudo grep -i fipsmode $CATALINA_BASE/conf/server.xml\n\nsudo grep -i fipsmode $CATALINA_BASE/logs/catalina.out\n\nIf server.xml  does not contain FIPSMode=\"on\", or if catalina.out contains the error \"failed to set property[FIPSMODE] to [on]\", this is a finding.",
+  "fixtext": "In addition to configuring Tomcat, the admin must also configure the underlying OS and Java engine to use FIPS validated encryption modules. This fix instructs how to enable FIPSMode within Tomcat, the OS and Java engine must be configured to use the FIPS validated modules according to the chosen OS and Java engine.\n \nFrom the Tomcat server as a privileged user:\n\nsudo nano $CATALINA_BASE/conf/server.xml.\n\nIn the <Listener/> element, locate the AprLifecycleListener. Either add or modify the FIPSMode setting and set it to FIPSMode=\"on\".\n\nEXAMPLE:\n<Listener\n   className=\"org.apache.catalina.core.AprLifecycleListener\"\n    SSLEngine=\"on\"\n    FIPSMode=\"on\"\n/>\n\nRestart the Tomcat server:\nsudo systemctl restart tomcat\nsudo systemctl daemon-reload",
+  "fix_id": "F-24629r426349_fix",
+  "VulnDiscussion": "Connectors are how Tomcat receives requests over a network port, passes them to hosted web applications via HTTP or AJP, and then sends the results back to the requestor. Cryptographic ciphers are associated with the connector to create a secured connector. To ensure encryption strength is adequately maintained, the ciphers used must be FIPS 140-2-validated.\n\nThe FIPS-validated crypto libraries are not provided by Tomcat; they are included as part of the Java instance and the underlying Operating System. The STIG checks to ensure the FIPSMode setting is enabled for the connector and also checks the logs for FIPS errors, which indicates FIPS non-compliance at the OS or Java layers. The administrator is responsible for ensuring the OS and Java instance selected for the Tomcat installation provide and enable these FIPS modules so Tomcat can be configured to use them.\n\nSatisfies: SRG-APP-000224-AS-000152, SRG-APP-000428-AS-000265, SRG-APP-000429-AS-000157, SRG-APP-000439-AS-000274, SRG-APP-000440-AS-000167",
+  "Documentable": "false"
+}

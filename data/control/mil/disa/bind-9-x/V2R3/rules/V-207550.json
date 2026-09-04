@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-207550",
+  "rule_id": "SV-207550r879511_rule",
+  "stig_id": "BIND-9X-001051",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The BIND 9.x secondary name server must limit the total number of zones the name server can request at any one time.",
+  "group_title": "SRG-APP-000001-DNS-000001",
+  "idents": {
+    "legacy": [
+      "SV-87023",
+      "V-72399"
+    ],
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-7805r283704_chk",
+  "check_content": "If this is not a secondary name server, this requirement is Not Applicable.\n\nVerify the name server is configured to limit the total number of zones that can be requested at one time:\n\nInspect the \"named.conf\" file for the following:\n\noptions {\ntransfers-in 10;\n};\n\nIf the \"options\" statement does not contain a \"transfers-in\" sub statement, this is a finding.",
+  "fixtext": "Edit the \"named.conf\" file.\n\nAdd the \"transfers-in\" sub statement to the \"options\" statement block.\n\nThe value of the \"transfers-in\" will be based on organizational requirements needed to support DNS operations.\n\nRestart the BIND 9.x process.",
+  "fix_id": "F-7805r283705_fix",
+  "VulnDiscussion": "Limiting the number of concurrent sessions reduces the risk of Denial of Service (DoS) to the DNS implementation.\n\nName servers do not have direct user connections but accept client connections for queries. Original restriction on client connections should be high enough to prevent a self-imposed denial of service, after which the connections are monitored and fine-tuned to best meet the organization's specific requirements.",
+  "Documentable": "false"
+}

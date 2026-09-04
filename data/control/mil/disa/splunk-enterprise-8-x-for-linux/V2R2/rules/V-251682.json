@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-251682",
+  "rule_id": "SV-251682r1015832_rule",
+  "stig_id": "SPLK-CL-000350",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Splunk Enterprise must be configured to enforce password complexity by requiring that at least one lowercase character be used.",
+  "group_title": "SRG-APP-000167-AU-002500",
+  "idents": {
+    "cci": [
+      "CCI-004066",
+      "CCI-000193"
+    ]
+  },
+  "check_id": "C-55120r819110_chk",
+  "check_content": "Examine the configuration.\n\nNavigate to the $SPLUNK_HOME/etc/system/local/ directory. View the authentication.conf file.\n \nIf the authentication.conf file does not exist, this is a finding.\n\nIf the \"minPasswordLowercase\" is missing or is configured to 0, this is a finding.",
+  "fixtext": "If the authentication.conf file does not exist, copy the file from $SPLUNK_HOME/etc/system/default to the $SPLUNK_HOME/etc/system/local directory.\n\nModify the following lines in the authentication.conf file under the [splunk_auth]:\n\nminPasswordLowercase = 1",
+  "fix_id": "F-55074r819111_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. \n\nPassword complexity is one factor of several that determine how long it takes to crack a password. The more complex the password, the greater the number of possible combinations that need to be tested before the password is compromised.\n\nIn most enterprise environments, this requirement is usually mitigated by a properly configured external authentication system, like LDAP. Splunk local authentication takes precedence over other forms of authentication, and cannot be disabled. The mitigation settings in this requirement apply in the event a local account is created.",
+  "Documentable": "false"
+}

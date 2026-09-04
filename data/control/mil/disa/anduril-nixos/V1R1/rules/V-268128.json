@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268128",
+  "rule_id": "SV-268128r1039272_rule",
+  "stig_id": "ANIX-00-000750",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NixOS must enforce password complexity by requiring that at least one numeric character be used.",
+  "group_title": "SRG-OS-000071-GPOS-00039",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-72052r1039270_chk",
+  "check_content": "Verify NixOS enforces password complexity by requiring at least one numeric character with the following command:\n\n$ grep dcredit /etc/security/pwquality.conf\n\n dcredit=-1\n\nIf the value of \"dcredit\" is a positive number or is commented out, this is a finding.",
+  "fixtext": "Configure NixOS to enforce password complexity. \n\nAdd/modify /etc/nixos/configuration.nix to include the following lines:\n\nenvironment.etc.\"/security/pwquality.conf\".text = ''\ndcredit=-1\n'';\n\nRebuild the system with the following command:\n\n$ sudo nixos-rebuild switch",
+  "fix_id": "F-71955r1039271_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks.",
+  "Documentable": "false"
+}

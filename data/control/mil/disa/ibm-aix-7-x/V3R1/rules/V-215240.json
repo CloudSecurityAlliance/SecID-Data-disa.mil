@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-215240",
+  "rule_id": "SV-215240r958422_rule",
+  "stig_id": "AIX7-00-002006",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AIX must produce audit records containing the full-text recording of privileged commands.",
+  "group_title": "SRG-OS-000042-GPOS-00020",
+  "idents": {
+    "legacy": [
+      "V-91255",
+      "SV-101355"
+    ],
+    "cci": [
+      "CCI-000135"
+    ]
+  },
+  "check_id": "C-16438r294171_chk",
+  "check_content": "Verify the audit daemon is configured for full-text recording of privileged commands: \n\nThe log file can be set by the \"trail\" variable in /etc/security/audit/config.\n\n# grep trail /etc/security/audit/config\n        trail = /audit/trail\n\nNote: The default log file is /audit/trail.\n\nUse the following command to display the audit events:\n\n# /usr/sbin/auditpr -i <audit log file> -v\n\nevent           login    status      time                     command           \n              wpar name                 \n--------------- -------- ----------- ------------------------ ------------------\n------------- ------------------------- \nS_PASSWD_READ   root     OK          Sat Aug 26 19:35:00 2017 cron\n              Global\n        audit object read event detected /etc/security/passwd\nS_PASSWD_READ   root     OK          Sat Aug 26 19:35:00 2017 cron\n              Global\n        audit object read event detected /etc/security/passwd\nCRON_Start      root     OK          Sat Aug 26 19:35:00 2017 cron\n              Global\n        event = start cron job cmd = /usr/sbin/dumpctrl -k >/dev/null 2>/dev/nul\nl time = Sat Aug 26 19:35:00 2017\nFS_Chdir        root     OK          Sat Aug 26 19:35:00 2017 cron\n              Global\n        change current directory to: /\n\nIf the  full-text recording of privileged command is not displayed, this is a finding. \n\nMore information on the command options used above:\n           - v detailed information for the event",
+  "fixtext": "Reset the audit system with the following command:\n# /usr/sbin/audit shutdown\n\nStart the audit system with the following command:\n# /usr/sbin/audit start",
+  "fix_id": "F-16436r294172_fix",
+  "VulnDiscussion": "Reconstruction of harmful events or forensic analysis is not possible if audit records do not contain enough information.\n\nAt a minimum, the organization must audit the full-text recording of privileged commands. The organization must maintain audit trails in sufficient detail to reconstruct events to determine the cause and impact of compromise.",
+  "Documentable": "false"
+}

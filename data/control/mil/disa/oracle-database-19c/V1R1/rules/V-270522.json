@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270522",
+  "rule_id": "SV-270522r1064844_rule",
+  "stig_id": "O19C-00-008700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Database links must be authorized for use.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-74555r1064842_chk",
+  "check_content": "Use the following query to get a list of database links.\nFrom SQL*Plus:\n\nselect owner||': '||db_link from dba_db_links;\n\nIf no records are returned, this is not a finding.\n\nConfirm all database links listed are documented and approved. If any are not, this is a finding.",
+  "fixtext": "Document all authorized connections from the database to remote databases.\n\nRemove all unauthorized remote database connection definitions from the database.\n\nFrom SQL*Plus:\n\ndrop database link [link name];\nOR\ndrop public database link [link name];\n\nReview remote database connection definitions periodically and confirm their use is still required and authorized.",
+  "fix_id": "F-74456r1064843_fix",
+  "VulnDiscussion": "Database links define connections that may be used by the local database to access remote Oracle databases. These links provide a means for a compromise to the local database to spread to remote databases in the distributed database environment. Limiting or eliminating use of database links where they are not required to support the operational system can help isolate compromises to the local or a limited number of databases.",
+  "Documentable": "false"
+}

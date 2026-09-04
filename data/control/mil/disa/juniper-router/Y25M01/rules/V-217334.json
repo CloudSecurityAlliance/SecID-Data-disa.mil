@@ -1,0 +1,28 @@
+{
+  "vuln_id": "V-217334",
+  "rule_id": "SV-217334r1015747_rule",
+  "stig_id": "JUNI-ND-001020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper router must be configured to synchronize its clock with the primary and secondary time sources using redundant authoritative time sources.",
+  "group_title": "SRG-APP-000373-NDM-000298",
+  "idents": {
+    "legacy": [
+      "SV-101257",
+      "V-91157"
+    ],
+    "cci": [
+      "CCI-004928",
+      "CCI-004922",
+      "CCI-004923",
+      "CCI-001893"
+    ]
+  },
+  "check_id": "C-18561r296580_chk",
+  "check_content": "Review the router configuration to verify that it is compliant with this requirement as shown in the configuration example below.\n\nsystem {\n…\n…\n…\n    }\n    ntp {\n        server x.x.x.x prefer;\n        server x.x.x.x; \n     }\n\nIf the router is not configured to synchronize its clock with redundant authoritative time sources, this is a finding.",
+  "fixtext": "Configure the router to synchronize its clock with redundant authoritative time sources as shown in the example below.\n\n[edit system ntp]\nset server x.x.x.x   \nset server x.x.x.x prefer",
+  "fix_id": "F-18559r296581_fix",
+  "VulnDiscussion": "The loss of connectivity to a particular authoritative time source will result in the loss of time synchronization (free-run mode) and increasingly inaccurate time stamps on audit events and other functions. \n\nMultiple time sources provide redundancy by including a secondary source. Time synchronization is usually a hierarchy; clients synchronize time to a local source while that source synchronizes its time to a more accurate source. The network device must utilize an authoritative time server and/or be configured to use redundant authoritative time sources. This requirement is related to the comparison done in CCI-001891.\n\nDoD-approved solutions consist of a combination of a primary and secondary time source using a combination or multiple instances of the following: a time server designated for the appropriate DoD network (NIPRNet/SIPRNet); United States Naval Observatory (USNO) time servers; and/or the Global Positioning System (GPS). The secondary time source must be located in a different geographic region than the primary time source.",
+  "Documentable": "false"
+}

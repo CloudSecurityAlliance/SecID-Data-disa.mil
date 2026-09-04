@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260486",
+  "rule_id": "SV-260486r991560_rule",
+  "stig_id": "UBTU-22-232015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must have system commands set to a mode of \"755\" or less permissive.",
+  "group_title": "SRG-OS-000259-GPOS-00100",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-64215r953269_chk",
+  "check_content": "Verify the system commands contained in the following directories have mode \"755\" or less permissive by using the following command:  \n  \n     $ sudo find /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin -perm /022 -type f -exec stat -c \"%n %a\" '{}' \\; \n  \nIf any files are found to be group-writable or world-writable, this is a finding.",
+  "fixtext": "Configure Ubuntu 22.04 LTS commands to be protected from unauthorized access. Run the following command:  \n  \n     $ sudo find /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin -perm /022 -type f -exec chmod 755 '{}' \\;",
+  "fix_id": "F-64123r953270_fix",
+  "VulnDiscussion": "If Ubuntu 22.04 LTS were to allow any user to make changes to software libraries, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.  \n  \nThis requirement applies to Ubuntu 22.04 LTS with software libraries that are accessible and configurable, as in the case of interpreted languages. Software libraries also include privileged programs that execute with escalated privileges. Only qualified and authorized individuals must be allowed to obtain access to information system components for purposes of initiating changes, including upgrades and modifications.",
+  "Documentable": "false"
+}

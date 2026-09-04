@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269232",
+  "rule_id": "SV-269232r1050114_rule",
+  "stig_id": "ALMA-09-017290",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must restrict privilege elevation to authorized personnel.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73263r1049346_chk",
+  "check_content": "Verify AlmaLinux OS 9 restricts privilege elevation to authorized personnel with the following command:\n\n$ grep -w ALL /etc/sudoers /etc/sudoers.d/* | grep -v '#'\n\n/etc/sudoers:root ALL=(ALL) ALL\n/etc/sudoers:%wheel ALL=(ALL) NOPASSWD: ALL\n\nIf the either of the following entries are returned, including their NOPASSWD equivalents, this is a finding:\nALL     ALL=(ALL) ALL\nALL     ALL=(ALL:ALL) ALL",
+  "fixtext": "Remove the following entries from the /etc/sudoers file or configuration files under /etc/sudoers.d/ (including NOPASSWD equivalents):\n\nALL     ALL=(ALL) ALL\nALL     ALL=(ALL:ALL) ALL",
+  "fix_id": "F-73164r1048073_fix",
+  "VulnDiscussion": "If the \"sudoers\" file is not configured correctly, any user defined on the system can initiate privileged actions on the target system.",
+  "Documentable": "false"
+}

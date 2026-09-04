@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234212",
+  "rule_id": "SV-234212r879785_rule",
+  "stig_id": "FGFW-ND-000265",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The FortiGate device must implement cryptographic mechanisms using a FIPS 140-2 approved algorithm to protect the confidentiality of remote maintenance sessions.",
+  "group_title": "SRG-APP-000412-NDM-000331",
+  "idents": {
+    "cci": [
+      "CCI-003123"
+    ]
+  },
+  "check_id": "C-37397r611823_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Network, Interfaces.\n2. Click the interface designated for device management traffic.\n3. On Administrative Access, verify HTTPS and SSH are selected.\n\nIf HTTPS and SSH are not selected for administrative access, this is a finding.\n\nor \n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command for all low privileged admin user:\n     # show full-configuration system interface port{Management Port Integer #} | grep -i allowaccess\n\nThe output should include: \n          set allowaccess ping https ssh\n\nIf https and ssh are not returned, this is a finding. If http is returned, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Network, Interfaces.\n2. Click the interface designated for device management traffic and pick Edit.\n3. On Administrative Access, select HTTPS and SSH. Deselect HTTP.\n4. Click OK.\n\nor \n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command for all low privileged admin users:\n     # config system interface \n     #    edit port{Management Port Integer #}\n     #    set allowaccess ping https ssh\n     # end\n\nNote: When a protocol is added or removed, the entire list of protocols must be typed in again. For example, to add PING to an access list of HTTPS and SSH, use the following CLI command: \n     #   set allowaccess https ssh ping",
+  "fix_id": "F-37362r850536_fix",
+  "VulnDiscussion": "This requires the use of secure protocols instead of their unsecured counterparts, such as SSH instead of telnet, SCP instead of FTP, and HTTPS instead of HTTP. If unsecured protocols (lacking cryptographic mechanisms) are used for sessions, the contents of those sessions will be susceptible to eavesdropping, potentially putting sensitive data (including administrator passwords) at risk of compromise and potentially allowing hijacking of maintenance sessions.",
+  "Documentable": "false"
+}

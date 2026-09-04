@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-259553",
+  "rule_id": "SV-259553r958564_rule",
+  "stig_id": "APPL-14-004001",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must configure Apple System Log files to be owned by root and group to wheel.",
+  "group_title": "SRG-OS-000205-GPOS-00083",
+  "idents": {
+    "cci": [
+      "CCI-001312",
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-63292r941279_chk",
+  "check_content": "Verify the macOS system is configured with Apple System Log files owned by root and group to wheel with the following command: \n\n/usr/bin/stat -f '%Su:%Sg:%N' $(/usr/bin/grep -e '^>' /etc/asl.conf /etc/asl/* | /usr/bin/awk '{ print $2 }') 2> /dev/null | /usr/bin/awk '!/^root:wheel:/{print $1}' | /usr/bin/wc -l | /usr/bin/tr -d ' '\n\nIf the result is not \"0\", this is a finding.",
+  "fixtext": "Configure the macOS system with Apple System Log files owned by root and group to wheel with the following command:\n\n/usr/sbin/chown root:wheel $(/usr/bin/stat -f '%Su:%Sg:%N' $(/usr/bin/grep -e '^>' /etc/asl.conf /etc/asl/* | /usr/bin/awk '{ print $2 }') 2> /dev/null | /usr/bin/awk '!/^root:wheel:/{print $1}' | /usr/bin/awk -F\":\" '!/^root:wheel:/{print $3}')",
+  "fix_id": "F-63200r941280_fix",
+  "VulnDiscussion": "The Apple System Logs (ASL) must be owned by root.\n\nASL logs contain sensitive data about the system and users. If ASL log files are set to only be readable and writable by system administrators, the risk is mitigated.\n\nSatisfies: SRG-OS-000205-GPOS-00083,SRG-OS-000206-GPOS-00084",
+  "Documentable": "false"
+}

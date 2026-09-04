@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260921",
+  "rule_id": "SV-260921r966120_rule",
+  "stig_id": "CNTR-MK-000530",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If MKE is deployed on a Red Hat or CentOS system, SELinux security must be enabled.",
+  "group_title": "SRG-APP-000141-CTR-000315",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-64650r966118_chk",
+  "check_content": "If using MKE on operating systems other than Red Hat Enterprise Linux or CentOS host operating systems where SELinux is in use, this check is Not Applicable.\n\nExecute on all nodes in a cluster.\n\nVerify that the appropriate security options are configured for all running containers:\n\nVia CLI:\nLinux: Execute the following command as a user on the host operating system:\n\ndocker info --format '{{.SecurityOptions}}'\n\nexpected output [name=seccomp, profile=default name=selinux name=fips]\n\nIf there is no output or name does not equal SELinux, this is a finding.",
+  "fixtext": "If using MKE on operating systems other than Red Hat Enterprise Linux or CentOS host operating systems where SELinux is in use, this check is Not Applicable.\n\nExecute on all nodes in a cluster.\n\nStart MKE with SELinux mode enabled. Run containers using appropriate security options.\n\nVia CLI:\nLinux: Set the SELinux state and policy. Create or import a SELinux policy template for MKE. Then, start MKE with SELinux mode enabled by setting the \"selinux-enabled\" property to \"true\" in the \"/etc/docker/daemon.json\" daemon configuration file.\n\nRestart MKE.",
+  "fix_id": "F-64558r966119_fix",
+  "VulnDiscussion": "SELinux provides a Mandatory Access Control (MAC) system on RHEL and CentOS that greatly augments the default Discretionary Access Control (DAC) model. The user can thus add an extra layer of safety by enabling SELinux on the RHEL or CentOS host. When applied to containers, SELinux helps isolate and restrict the actions that containerized processes can perform, reducing the risk of container escapes and unauthorized access.\n\nBy default, no SELinux security options are applied on containers.",
+  "Documentable": "false"
+}

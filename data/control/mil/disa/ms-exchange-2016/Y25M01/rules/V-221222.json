@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221222",
+  "rule_id": "SV-221222r961155_rule",
+  "stig_id": "EX16-ED-000230",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Exchange Send connector connections count must be limited.",
+  "group_title": "SRG-APP-000247",
+  "idents": {
+    "legacy": [
+      "SV-95235",
+      "V-80525"
+    ],
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-22937r411792_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP).\n\nDetermine the value for SMTP Server Maximum Outbound Connections.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-TransportService | Select Name, Identity, MaxOutboundConnections\n\nIf the value of \"MaxOutboundConnections\" is not set to \"1000\", this is a finding.\n\nor\n\nIf the value of \"MaxOutboundConnections\" is set to a value other than \"1000\" and has signoff and risk acceptance in the EDSP, this is not a finding.",
+  "fixtext": "Update the EDSP to reflect the value for SMTP Server Maximum Outbound Connections.\n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-TransportService -Identity <'IdentityName'> -MaxOutboundConnections 1000\n\nNote: The <IdentityName> value must be in single quotes.\n\nor\n\nThe value as identified by the EDSP that has obtained a signoff with risk acceptance.",
+  "fix_id": "F-22926r411793_fix",
+  "VulnDiscussion": "This setting controls the maximum number of simultaneous outbound connections allowed for a given SMTP Connector and can be used to throttle the SMTP service if resource constraints warrant it. If the limit is too low, connections may be dropped. If the limit is too high, some domains may use a disproportionate resource share, denying access to other domains. Appropriate tuning reduces the risk of data delay or loss.",
+  "Documentable": "false"
+}

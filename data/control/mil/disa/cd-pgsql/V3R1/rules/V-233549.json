@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-233549",
+  "rule_id": "SV-233549r960930_rule",
+  "stig_id": "CD12-00-004200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The audit information produced by PostgreSQL must be protected from unauthorized read access.",
+  "group_title": "SRG-APP-000118-DB-000059",
+  "idents": {
+    "cci": [
+      "CCI-000162"
+    ]
+  },
+  "check_id": "C-36743r606870_chk",
+  "check_content": "Note: The following instructions use the PGLOG environment variable. See supplementary content APPENDIX-I for instructions on configuring PGLOG.\n\nReview locations of audit logs, both internal to the database and database audit logs located at the operating system level.\n\nVerify there are appropriate controls and permissions to protect the audit information from unauthorized access.\n\n#### syslog Logging\n\nIf PostgreSQL is configured to use syslog for logging, consult organization location and permissions for syslog log files.\n\n#### stderr Logging\n\nAs the database administrator (shown here as \"postgres\"), check the current log_file_mode configuration by running the following:\n\nNote: Consult the organization's documentation on acceptable log privileges.\n\n$ sudo su - postgres\n$ psql -c \"SHOW log_file_mode\"\n\nIf log_file_mode is not 600, this is a finding.\n\nNext, verify the log files have the set permissions in ${PG_LOG?}:\n\n$ ls -l ${PGLOG?}/\ntotal 32\n-rw-------. 1 postgres postgres 0 Apr 8 00:00 postgresql-Fri.log\n-rw-------. 1 postgres postgres 8288 Apr 11 17:36 postgresql-Mon.log\n-rw-------. 1 postgres postgres 0 Apr 9 00:00 postgresql-Sat.log\n-rw-------. 1 postgres postgres 0 Apr 10 00:00 postgresql-Sun.log\n-rw-------. 1 postgres postgres 16212 Apr 7 17:05 postgresql-Thu.log \n-rw-------. 1 postgres postgres 1130 Apr 6 17:56 postgresql-Wed.log \n\nIf logs with 600 permissions do not exist in ${PG_LOG?}, this is a finding.",
+  "fixtext": "Note: The following instructions use the PGDATA and PGVER environment variables. See supplementary content APPENDIX-F for instructions on configuring PGDATA and APPENDIX-H for PGVER. \n\nTo ensure that logging is enabled, review supplementary content APPENDIX-C for instructions on enabling logging.\n\n#### syslog Logging\n\nIf PostgreSQL is configured to use syslog for logging, consult organization location and permissions for syslog log files.\n\n#### stderr Logging\n\nIf PostgreSQL is configured to use stderr for logging, permissions of the log files can be set in postgresql.conf.\n\nAs the database administrator (shown here as \"postgres\"), edit the following settings of logs in the postgresql.conf file:\n\nNote: Consult the organization's documentation on acceptable log privileges.\n\n$ sudo su - postgres\n$ vi ${PGDATA?}/postgresql.conf\nlog_file_mode = 0600\n\nNext, as the system administrator, reload the server with the new configuration:\n\n$ sudo systemctl reload postgresql-${PGVER?}",
+  "fix_id": "F-36708r606871_fix",
+  "VulnDiscussion": "If audit data were to become compromised, then competent forensic analysis and discovery of the true source of potentially malicious system activity is difficult, if not impossible, to achieve. In addition, access to audit records provides information an attacker could potentially use to their advantage.\n\nTo ensure the veracity of audit data, the information system and/or the application must protect audit information from any and all unauthorized access. This includes read, write, copy, etc.\n\nThis requirement can be achieved through multiple methods, which will depend upon system architecture and design. Some commonly employed methods include ensuring log files enjoy the proper file system permissions utilizing file system protections and limiting log data location.\n\nAdditionally, applications with user interfaces to audit records should not allow for the unfettered manipulation of or access to those records via the application. If the application provides access to the audit data, the application becomes accountable for ensuring that audit information is protected from unauthorized access.\n\nAudit information includes all information (e.g., audit records, audit settings, and audit reports) needed to successfully audit information system activity.",
+  "Documentable": "false"
+}

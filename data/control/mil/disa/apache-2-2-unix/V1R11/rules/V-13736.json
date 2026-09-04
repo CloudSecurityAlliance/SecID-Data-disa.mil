@@ -1,0 +1,18 @@
+{
+  "vuln_id": "V-13736",
+  "rule_id": "SV-32756r1_rule",
+  "stig_id": "WA000-WWA060 A22",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HTTP request message body size must be limited.",
+  "group_title": "WA000-WWA060",
+  "idents": {},
+  "check_id": "C-33618r1_chk",
+  "check_content": "To view the LimitRequestBody value enter the following command: \n\ngrep \"LimitRequestBody\" /usr/local/apache2/conf/httpd.conf.\n\nIf the value of LimitRequestBody is not set to 1 or greater or does not exist, this is a finding. \n\nNote: The default value is set to unlimited. It is recommended that the directive be explicitly set to prevent unexpected results should the defaults change with updated software.",
+  "fixtext": "Edit the httpd.conf file and specify a size for the LimitRequestBody directive.",
+  "fix_id": "F-29249r1_fix",
+  "VulnDiscussion": "Buffer overflow attacks are carried out by a malicious attacker sending amounts of data that the web server cannot store in a given size buffer. The eventual overflow of this buffer can overwrite system memory. Subsequently an attacker may be able to elevate privileges and take control of the server. The Apache directives listed below limit the size of the various HTTP header sizes thereby limiting the chances for a buffer overflow. \n\nThe LimitRequestBody directive allows the user to set a limit on the allowed size of an HTTP request message body within the context in which the directive is given (server, per-directory, per-file or per-location). If the client request exceeds that limit, the server will return an error response instead of servicing the request. The size of a normal request message body will vary greatly depending on the nature of the resource and the methods allowed on that resource. CGI scripts typically use the message body for retrieving form information. Implementations of the PUT method will require a value at least as large as any representation that the server wishes to accept for that resource.",
+  "Documentable": "false",
+  "Responsibility": "Web Administrator"
+}

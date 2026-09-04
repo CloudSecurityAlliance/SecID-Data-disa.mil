@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253806",
+  "rule_id": "SV-253806r997244_rule",
+  "stig_id": "TANS-CL-000002",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to Tanium logs on each endpoint must be restricted by permissions.",
+  "group_title": "SRG-APP-000119",
+  "idents": {
+    "cci": [
+      "CCI-000163"
+    ]
+  },
+  "check_id": "C-57258r842444_chk",
+  "check_content": "1. Using a web browser on a system that has connectivity to the Tanium application, access the Tanium application web user interface (UI) and log on with multifactor authentication.\n\n2. Click \"Administration\" on the top navigation banner.\n\n3. Under \"Actions\", select \"Scheduled Actions\".\n\n4. Look for a scheduled action titled \"Client Service Hardening - Set SYSTEM only permissions on Tanium Client directory\".\n\nIf a scheduled action titled \"Client Service Hardening - Set SYSTEM only permissions on Tanium Client directory\" does not exist, or there is a Scheduled Action contradicting the \"Client Service Hardening - Set SYSTEM only permissions on Tanium Client directory\" scheduled action, this is a finding.\n\nIf the scheduled action exists, select it. If it is not approved (the \"Approve\" button at the top of the section will be displayed if not approved), this is a finding.",
+  "fixtext": "1. Using a web browser on a system that has connectivity to the Tanium application, access the Tanium application web UI and log on with multifactor authentication.\n\n2. Click \"Modules\" on the top navigation banner. \n\n3. Click \"Interact\".\n\n4. Within \"Interact\", under \"Explore Data\", ask the question \"Get Tanium Client Directory Permissions from all machines\".\n\nTanium will parse the script and return a row for \"Restricted\" and a row for \"Not Restricted\", with their respective client counts.\n\n5. Click the \"Not Restricted\" row.\n\n6. Select \"Deploy Action\".\n\n- In the \"Deploy Action\" dialog box, the package \"Client Service Hardening - Set SYSTEM only permissions on Tanium Client directory\" will be selected.\n- The clients, which have their Tanium Client directory \"Not Restricted\", will be displayed in the bottom window.\n\n7. Choose a schedule to deploy the hardening.\n\n8. Under \"Targeting Criteria\", in the \"Action Group\", select \"All Computers\" from the drop-down menu.\n\n9. Click \"Deploy Action\".\n\n10. Verify settings.\n\n11. Click \"Show Client Status Details\".",
+  "fix_id": "F-57209r842445_fix",
+  "VulnDiscussion": "For the Tanium Client software to run without impact from external negligent or malicious changes, the permissions on the Tanium log files and their directory must be restricted.\n\nTanium is deployed with a Client Hardening Solution. This solution, when applied, will ensure directory permissions are in place.",
+  "Documentable": "false"
+}

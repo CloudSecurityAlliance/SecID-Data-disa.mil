@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257855",
+  "rule_id": "SV-257855r1044936_rule",
+  "stig_id": "RHEL-09-231070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9  must prevent code from being executed on file systems that are imported via Network File System (NFS).",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61596r1044935_chk",
+  "check_content": "Note: If no NFS mounts are configured, this requirement is Not Applicable.\n\nVerify RHEL 9 has the \"noexec\" option configured for all NFS mounts with the following command:\n\n$ grep nfs /etc/fstab\n\n192.168.22.2:/mnt/export /data nfs4 rw,nosuid,nodev,noexec,sync,soft,sec=krb5:krb5i:krb5p\n\nIf the system is mounting file systems via NFS and the \"noexec\" option is missing, this is a finding.",
+  "fixtext": "Update each NFS mounted file system to use the \"noexec\" option on file systems that are being imported via NFS.",
+  "fix_id": "F-61520r925551_fix",
+  "VulnDiscussion": "The \"noexec\" mount option causes the system not to execute binary files. This option must be used for mounting any file system not containing approved binary as they may be incompatible. Executing files from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

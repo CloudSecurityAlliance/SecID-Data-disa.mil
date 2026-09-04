@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-81393",
+  "rule_id": "SV-96107r1_rule",
+  "stig_id": "WBSP-AS-001620",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The WebSphere Application Server distribution and consistency services (DCS) transport links must be encrypted.",
+  "group_title": "SRG-APP-000440-AS-000166",
+  "idents": {
+    "cci": [
+      "CCI-002420"
+    ]
+  },
+  "check_id": "C-81103r1_chk",
+  "check_content": "From the admin console navigate to Servers >> Core groups.\n\nFor every Core Group listed, select the Core Group [CoreGroup Name]. \n\nUnder \"Transport Type\", select the \"Channel Framework\" button.\n\nIf the \"transport chain\" drop down box is not set to \"DCS-Secure\", this is a finding.",
+  "fixtext": "From the admin console navigate to Core groups >> for every Core Group listed.\n\nSelect the [Core Group Name].\n\nUnder \"Transport\" type, select \"CHANNEL_FRAMEWORK\" button.\n\nIn the \"Transport chain\" drop down box set to \"DCS-SECURE\".\n\nClick \"Save\".\n\nSync the configuration.",
+  "fix_id": "F-88179r1_fix",
+  "VulnDiscussion": "A Core Group (HA Domain) is a component of the high availability manager function. It can contain stand-alone servers, cluster members, node agents, administrative agents, and the deployment manager. \n\nCore groups rely on DCS, which uses a reliable multicast message (RMM) system for transport. RMM can use one of several wire transport technologies. Depending on your environment, sensitive information might be transmitted over DCS. For example, data in DynaCache and the security subject cache are transmitted using DCS. To ensure this, select a transport type of channel framework and DCS-Secure as channel chain for each core group.\n\nBe aware that DCS always authenticates messages when global security is enabled. Once the transport is encrypted, you then have a highly secure channel.\n\nOnce you have done this, all services that rely on DCS are now using an encrypted and authenticated transport. Those services are DynaCache, memory-to-memory session replication, core groups, Web services caching, and stateful session bean persistence.",
+  "Documentable": "false"
+}

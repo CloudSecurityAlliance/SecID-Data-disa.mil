@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-224784",
+  "rule_id": "SV-224784r1013864_rule",
+  "stig_id": "ISEC-06-550310",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The LockOutRealm must be configured with a login lockout time of 15 minutes.",
+  "group_title": "SRG-APP-000516",
+  "idents": {
+    "legacy": [
+      "SV-106389",
+      "V-97283"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-26475r1013862_chk",
+  "check_content": "Verify the lockOutTime parameter is set to 900 in the LockOutRealm configuration.\n\nLog in to the ISEC7 SPHERE server.\nNavigate to <Drive>:\\Program Files\\Isec7 SPHERE\\Tomcat\\Config.\nOpen the server.xml file with Notepad.\nSelect Edit >> Find and search for LockOutRealm.\nVerify the lockOutTime parameter is set to 900 in the following file:\n\n<Realm className=\"org.apache.catalina.realm.LockOutRealm\" failureCount=\"3\" lockOutTime=\"900\" >\n\nIf the lockOutTime parameter is not set to 900 in the LockOutRealm configuration, this is a finding.",
+  "fixtext": "Add lockOutTime parameter to the LockOutRealm configuration:\n\nLog in to the ISEC7 SPHERE server.\nNavigate to <Drive>:\\Program Files\\Isec7 SPHERE\\Tomcat\\Config.\nOpen the server.xml file with Notepad.\nSelect Edit>Find and search for LockOutRealm.\nAdd the following line in the server.xml file:\n\n<Realm className=\"org.apache.catalina.realm.LockOutRealm\" failureCount=\"3\" lockOutTime=\"900\" >\n\nRestart the ISEC7 SPHERE Web service in the services.msc.",
+  "fix_id": "F-26463r1013863_fix",
+  "VulnDiscussion": "LockOutRealm prevents brute force attacks against user passwords. Removal of unneeded or nonsecure functions, ports, protocols, and services mitigate the risk of unauthorized connection of devices, unauthorized transfer of information, or other exploitation of these resources. Access to LockOutRealm must be configured to control login attempts by local accounts.\n\nThe organization must perform a periodic scan/review of the application (as required by CCI-000384) and disable functions, ports, protocols, and services deemed to be unneeded or nonsecure.",
+  "Documentable": "false"
+}

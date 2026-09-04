@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269413",
+  "rule_id": "SV-269413r1050296_rule",
+  "stig_id": "ALMA-09-039290",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must use mechanisms meeting the requirements of applicable federal laws, executive orders, directives, policies, regulations, standards, and guidance for authentication to a cryptographic module.",
+  "group_title": "SRG-OS-000120-GPOS-00061",
+  "idents": {
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-73444r1048615_chk",
+  "check_content": "Verify that the symlink exists and targets the correct Kerberos crypto policy, with the following command:\n\n$ file /etc/crypto-policies/back-ends/krb5.config\n\n/etc/crypto-policies/back-ends/krb5.config: symbolic link to /usr/share/crypto-policies/FIPS/krb5.txt\n\nIf the symlink does not exist or points to a different target, this is a finding.",
+  "fixtext": "Configure Kerberos to use systemwide crypto policy.\n\nCreate a symlink pointing to system crypto policy in the Kerberos configuration using the following command:\n\n$ ln -s /etc/crypto-policies/back-ends/krb5.config /usr/share/crypto-policies/FIPS/krb5.txt",
+  "fix_id": "F-73345r1049659_fix",
+  "VulnDiscussion": "The key derivation function (KDF) in Kerberos is not FIPS compatible.\n\nOverriding the system crypto policy makes the behavior of Kerberos violate expectations, and makes system configuration more fragmented.",
+  "Documentable": "false"
+}

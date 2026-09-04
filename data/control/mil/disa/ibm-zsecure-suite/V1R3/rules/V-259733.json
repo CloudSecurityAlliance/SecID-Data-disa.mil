@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259733",
+  "rule_id": "SV-259733r1050755_rule",
+  "stig_id": "ZSEC-00-000140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM Security zSecure must prevent nonprivileged users from executing privileged zSecure functions.",
+  "group_title": "SRG-APP-000340-MFP-000088",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-63472r943231_chk",
+  "check_content": "If READ access to zSecure functional resources is not restricted to privileged users, this is a finding.\nIf the following high-level qualifier profiles are defined in the configured zSecure class, by default XFACILIT, with UACC (NONE) and not in WARNING mode, this is not a finding.\n\nCKF.**\nCKN*.**\nCKG.**\nCKR.**\nC2R.** (if you use zSecure Visual) \nC2X.**\n\nIf a minimum of all failed access is logged, this is not a finding.",
+  "fixtext": "Ensure that the following high-level qualifier profiles are defined in the configured zSecure class, by default XFACILIT, with UACC (NONE) and not in WARNING mode: \nCKF.**\nCKN*.** \nCKG.**\nCKR.**\nC2R.** (if you use zSecure Visual)\nC2X.**\n\nA minimum of all failed access must be logged. \n\nThe following is an example of RACF commands. Convert these commands for any other ESM:\nrdef xfacilit CKF.** uacc(none) owner(zSecure owner)\nrdef xfacilit CKN*.** uacc(none) owner(zSecure owner)\nrdef xfacilit CKG.** uacc(none) owner(zSecure owner)\nrdef xfacilit CKR.** uacc(none) owner(zSecure owner)\nrdef xfacilit C2R.** uacc(none) owner(zSecure owner)\nrdef xfacilit C2X.** uacc(none) owner(zSecure owner)",
+  "fix_id": "F-63379r1050754_fix",
+  "VulnDiscussion": "Preventing nonprivileged users from executing privileged zSecure functions mitigates the risk that unauthorized individuals or processes may gain unnecessary access to information or privileges.\n\nPrivileged functions include, for example, running COLLECT jobs, generating audit reports, and adjusting RACF security settings. Nonprivileged users are individuals who do not possess appropriate authorizations. \n\nCircumventing intrusion detection and prevention mechanisms or malicious code protection mechanisms are examples of privileged functions that require protection from nonprivileged users.",
+  "Documentable": "false"
+}

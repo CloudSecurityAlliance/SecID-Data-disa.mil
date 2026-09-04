@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269345",
+  "rule_id": "SV-269345r1050227_rule",
+  "stig_id": "ALMA-09-030050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must disable the Stream Control Transmission Protocol (SCTP) kernel module.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-73376r1049526_chk",
+  "check_content": "Verify that AlmaLinux OS 9 disables the ability to load the SCTP kernel module with the following command:\n\n$ grep -r sctp /etc/modprobe.conf /etc/modprobe.d/* \n\n/etc/modprobe.d/sctp.conf:install sctp /bin/false\n/etc/modprobe.d/sctp.conf:blacklist sctp\n\nIf the command does not return any output, or the line is commented out, and use of SCTP is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "To configure the system to prevent the SCTP kernel module from being loaded, run the following command:\n\n$ cat << EOF | tee /etc/modprobe.d/sctp.conf \ninstall sctp /bin/false\nblacklist sctp\nEOF",
+  "fix_id": "F-73277r1048412_fix",
+  "VulnDiscussion": "The SCTP is a transport layer protocol, designed to support the idea of message-oriented communication, with several streams of messages within one connection. \n\nDisabling SCTP protects the system against exploitation of any flaws in its implementation.",
+  "Documentable": "false"
+}

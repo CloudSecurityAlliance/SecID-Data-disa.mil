@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221858",
+  "rule_id": "SV-221858r991589_rule",
+  "stig_id": "OL07-00-040410",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that the SSH public host key files have mode 0644 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-99455",
+      "SV-108559"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23573r419646_chk",
+  "check_content": "Verify the SSH public host key files have mode 0644 or less permissive.\n\nNote: SSH public key files may be found in other directories on the system depending on the installation.\n\nThe following command will find all SSH public key files on the system:\n\n# find /etc/ssh -name '*.pub' -exec ls -lL {} \\;\n\n-rw-r--r-- 1 root root 618 Nov 28 06:43 ssh_host_dsa_key.pub\n-rw-r--r-- 1 root root 347 Nov 28 06:43 ssh_host_key.pub\n-rw-r--r-- 1 root root 238 Nov 28 06:43 ssh_host_rsa_key.pub\n\nIf any file has a mode more permissive than 0644, this is a finding.",
+  "fixtext": "Note: SSH public key files may be found in other directories on the system depending on the installation. \n\nChange the mode of public host key files under \"/etc/ssh\" to \"0644\" with the following command:\n\n# chmod 0644 /etc/ssh/*.key.pub",
+  "fix_id": "F-23562r419647_fix",
+  "VulnDiscussion": "If a public host key file is modified by an unauthorized user, the SSH service may be compromised.",
+  "Documentable": "false"
+}

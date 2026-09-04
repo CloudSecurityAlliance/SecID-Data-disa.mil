@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253722",
+  "rule_id": "SV-253722r961317_rule",
+  "stig_id": "MADB-10-006700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "MariaDB must enforce discretionary access control policies, as defined by the data owner, over defined subjects, and objects.",
+  "group_title": "SRG-APP-000328-DB-000301",
+  "idents": {
+    "cci": [
+      "CCI-002165"
+    ]
+  },
+  "check_id": "C-57174r841689_chk",
+  "check_content": "Review system documentation to identify the required DAC.\n\nReview the security configuration of the database and MariaDB. If applicable, review the security configuration of the application(s) using the database.\n\nIf the discretionary access control defined in the documentation is not implemented in the security configuration, this is a finding.\n \nTo check the permissions granted to a user use the following queries:\n \nAs the database administrator, run the following SQL:\n\n**For user privileges:\n\nRun this script to create the SHOW GRANTS script for each user: \n\nMariaDB> SELECT DISTINCT CONCAT( 'SHOW GRANTS FOR ', user,'@', host,';') AS grantQuery FROM mysql.user WHERE is_role = 'N';\n\nRun each SHOW GRANTS command for each user.\n\nVerify that all users have the correct privileges. If they do not, this is a finding.\n\n**For role privileges (except admin_option, whether the role can be granted by a particular use):\n\nMariaDB> SELECT CONCAT('SHOW GRANTS FOR ',Role,';' ) FROM mysql.roles_mapping;\n\nRun each SHOW GRANTS command for each role.\n\nVerify that all roles have the correct privileges. If they do not, this is a finding.\n \n**To determine if a role has admin_option (Whether the role can be granted by a particular user)\n \nMariaDB> SELECT * FROM mysql.roles_mapping;\n \nVerify that all privileges are correct. If they are not, this is a finding.",
+  "fixtext": "Implement the organization's DAC policy in the security configuration of the database and DBMS, and, if applicable, the security configuration of the application(s) using the database.\n \nTo grant and revoke privileges, as the database administrator, use the following SQL syntax:\n\n**To Grant User and Role privileges:\n \nMariaDB> GRANT  privilege  ON  database . table  TO  user|role ;\n \n**To Revoke User and Role privileges:\n \nMariaDB> REVOKE  privilege_type  ON   database . table  FROM  user|role ;",
+  "fix_id": "F-57125r841690_fix",
+  "VulnDiscussion": "Discretionary Access Control (DAC) is based on the notion that individual users are owners of objects and therefore have discretion over who should be authorized to access the object and in which mode (e.g., read or write). Ownership is usually acquired as a consequence of creating the object or via specified ownership assignment. DAC allows the owner to determine who will have access to objects they control. An example of DAC includes user-controlled table permissions.\n\nWhen discretionary access control policies are implemented, subjects are not constrained with regard to what actions they can take with information for which they have already been granted access. Thus, subjects that have been granted access to information are not prevented from passing (i.e., the subjects have the discretion to pass) the information to other subjects or objects. \n\nA subject that is constrained in its operation by Mandatory Access Control policies is still able to operate under the less rigorous constraints of this requirement. Thus, while Mandatory Access Control imposes constraints preventing a subject from passing information to another subject operating at a different sensitivity level, this requirement permits the subject to pass the information to any subject at the same sensitivity level. \n\nThe policy is bounded by the information system boundary. Once the information is passed outside of the control of the information system, additional means may be required to ensure the constraints remain in effect. While the older, more traditional definitions of discretionary access control require identity-based access control, that limitation is not required for this use of discretionary access control.",
+  "Documentable": "false"
+}

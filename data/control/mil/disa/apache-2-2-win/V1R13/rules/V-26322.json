@@ -1,0 +1,18 @@
+{
+  "vuln_id": "V-26322",
+  "rule_id": "SV-33178r2_rule",
+  "stig_id": "WA00535 W22",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ScoreBoard file must be properly secured.",
+  "group_title": "WA00535",
+  "idents": {},
+  "check_id": "C-33812r1_chk",
+  "check_content": "Locate the Apache httpd.conf file.\n\nOpen the httpd.conf file with an editor such as notepad, and search for the following uncommented directive: ScoreBoardFile\n\nIf the ScoreBoardFile directive is found uncommented note the directory specified in the directive statement that holds the Scoreboard file.  If the ScoreBoardFile directive is not found enabled in the conf file use \\logs as the directory containing the Scoreboard file.\n\nIf any users other than administrator or the account used to run the web server has permission to the scoreboard file directory, this is a finding. If the ScoreBoard file is located in the web server document root this is finding.",
+  "fixtext": "Modify the location and/or permissions for the ScoreBoard file and/or folder.",
+  "fix_id": "F-29463r1_fix",
+  "VulnDiscussion": "The ScoreBoardFile directive sets a file path which the server will use for Inter-Process Communication (IPC) among the Apache processes. If the directive is specified, then Apache will use the configured file for the inter-process communication. Therefore if it is specified it needs to be located in a secure directory. If the ScoreBoard file is placed in openly writable directory, other accounts could create a denial of service attack and prevent the server from starting by creating a file with the same name, and or users could monitor and disrupt the communication between the processes by reading and writing to the file.",
+  "Documentable": "false",
+  "Responsibility": "Web Administrator"
+}

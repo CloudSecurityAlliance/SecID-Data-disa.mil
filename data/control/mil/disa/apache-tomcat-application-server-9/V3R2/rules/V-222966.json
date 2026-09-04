@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-222966",
+  "rule_id": "SV-222966r985891_rule",
+  "stig_id": "TCAT-AS-000700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DOD root CA certificates must be installed in Tomcat trust store.",
+  "group_title": "SRG-APP-000175-AS-000124",
+  "idents": {
+    "legacy": [
+      "SV-111457",
+      "V-102515"
+    ],
+    "cci": [
+      "CCI-000185",
+      "CCI-004909"
+    ]
+  },
+  "check_id": "C-24638r985889_chk",
+  "check_content": "This is a mutual authentication requirement where both the Tomcat server and the client are required to authenticate themselves via mutual TLS. Review system security plan and other system documentation. If the system has no connections requiring mutual authentication (e.g., proxy servers or other hosts specified in the system documentation), this requirement is Not Applicable.\n\nFor the systemd Ubuntu OS, check the tomcat.service file to read the content of the JAVA_OPTS environment variable setting.\n\nsudo cat /etc/systemd/system/tomcat.service |grep -i truststore\n\nEXAMPLE output:\nset JAVA_OPTS=\"-Djavax.net.ssl.trustStore=/path/to/truststore\" \"-Djavax.net.ssl.trustStorePassword=************\"\n\nIf the variable is not set, use the default location command below. If the variable is set, use the alternate location command below and include the path and truststore file. \n\n-Default location:\nkeytool -list -cacerts -v | grep -i issuer\n\n-Alternate location:\nkeytool -list -keystore <location of trust store file> -v |grep -i issuer\n\nIf there are no CA certificates issued by a CA that are part of the DOD PKI/PKE, this is a finding.",
+  "fixtext": "Obtain and install the DOD PKI CA certificate bundles by accessing the DOD PKI office website at cyber.mil/pki-pke.\n\nImport the DOD CA certificates.",
+  "fix_id": "F-24627r985890_fix",
+  "VulnDiscussion": "Tomcat truststores are used to validate client certificates. On the Ubuntu OS, by default, Tomcat uses the \"cacerts\" file as the CA trust store. The file is located in the /etc/ssl/certs/java/ folder with a link to the file in $JAVA_HOME/lib/security/cacerts. However, this location can be modified by setting the value of the javax.net.ssl.trustStore system property. Setting this property within an OS environment variable will change the location to point to a different trust store. \n\nThe Java OS environment variables in the systemd Tomcat startup file must be checked in order to identify the location of the trust store on the file system. (The STIG uses the name tomcat.service as a reference, but technically this file can be called anything).\n\nIf the property is not set, then the default location is used for the truststore.",
+  "Documentable": "false"
+}

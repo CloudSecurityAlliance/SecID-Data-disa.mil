@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-222957",
+  "rule_id": "SV-222957r960963_rule",
+  "stig_id": "TCAT-AS-000550",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "xpoweredBy attribute must be disabled.",
+  "group_title": "SRG-APP-000141-AS-000095",
+  "idents": {
+    "legacy": [
+      "SV-111439",
+      "V-102497"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-24629r426315_chk",
+  "check_content": "From the Tomcat server run the following OS command:\n\nsudo cat $CATALINA_BASE/conf/server.xml |grep -i -C4 xpoweredby.\n\nIf any connector elements contain xpoweredBy=\"true\", this is a finding.",
+  "fixtext": "From the Tomcat server as a privileged user, edit the $CATALINA_BASE/conf/server.xml file.\n\nExamine each <Connector> </Connector> element, if the element contains xpoweredBy=\"true\", modify the statement to read \", xpoweredBy=\"false\".\n\nsudo systemctl restart tomcat\nsudo systemctl daemon-reload",
+  "fix_id": "F-24618r426316_fix",
+  "VulnDiscussion": "Individual connectors can be configured to display the Tomcat server info to clients. This information can be used to identify Tomcat versions which can be useful to attackers for identifying vulnerable versions of Tomcat. Individual connectors must be checked for the xpoweredBy attribute to ensure they do not pass Tomcat server info to clients.",
+  "Documentable": "false"
+}
