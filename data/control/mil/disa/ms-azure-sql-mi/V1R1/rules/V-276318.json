@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276318",
+  "rule_id": "SV-276318r1150020_rule",
+  "stig_id": "MSQL-D0-016300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance default [sa] account must have its name changed.",
+  "group_title": "SRG-APP-000141-DB-000092",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-80473r1149861_chk",
+  "check_content": "Verify the Azure SQL Managed Instance default [sa] account name has been changed by executing the following query: \n \nUSE master;\nGO\nSELECT name FROM sys.sql_logins WHERE UPPER(name) = 'SA' OR principal_id = 1;\n \nIf the name returned has the consecutive letters \"sa\" in the query output, this is a finding.",
+  "fixtext": "Modify the Azure SQL Managed Instance's [sa] account name by running the following example script:  \n\nUSE master; \nGO  \nALTER LOGIN [sa] WITH NAME = NewAccountName",
+  "fix_id": "F-80378r1149862_fix",
+  "VulnDiscussion": "Azure SQL Managed Instance's [sa] account has special privileges required to administer the database. The [sa] account is a well-known account name that is likely to be targeted by attackers and is thus, more prone to providing unauthorized access to the database. \n\nSince [sa] is administrative in nature, the compromise of a default account can have catastrophic consequences, including the complete loss of control over Azure SQL Managed Instance. Since SQL Server needs this account to exist and it must not be removed, one way to mitigate this risk is to change the [sa] account name.",
+  "Documentable": "false"
+}

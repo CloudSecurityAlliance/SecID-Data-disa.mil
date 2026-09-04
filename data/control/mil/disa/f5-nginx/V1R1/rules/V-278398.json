@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-278398",
+  "rule_id": "SV-278398r1171946_rule",
+  "stig_id": "NGNX-APP-001630",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must be configured with a deny-all, permit-by-exception policy to allow the execution of authorized software programs.",
+  "group_title": "SRG-APP-000386",
+  "idents": {
+    "cci": [
+      "CCI-001774",
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-82932r1171944_chk",
+  "check_content": "Determine the path to NGINX config file(s):\n\n# nginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nVerify allow/deny is set according to organizational policy:\n\nlocation / {\n  allow 192.168.0.0;\n  allow 10.0.0.0/16;\n  deny all;\n}\n\nIf allow or deny is not set to organizational policy, this is a finding.",
+  "fixtext": "Determine the path to NGINX config file(s):\n\n# nginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nSet allow/deny according to organizational policy.\n\nRestart NGINX after modifying the configuration.\n\n# nginx -s reload",
+  "fix_id": "F-82837r1171945_fix",
+  "VulnDiscussion": "Using an allowlist provides a configuration management method for allowing the execution of only authorized software. Using only authorized software decreases risk by limiting the number of potential vulnerabilities.\n\nThe organization must identify authorized software programs and permit execution of authorized software. The process used to identify software programs that are authorized to execute on organizational information systems is commonly referred to as allowlisting.\n\nVerification of allowlisted software can occur either prior to execution or at system startup.\n\nThis requirement applies to configuration management applications or similar types of applications designed to manage system processes and configurations (e.g., ESS and software wrappers).\n\nSatisfies: SRG-APP-000386, SRG-APP-000384",
+  "Documentable": "false"
+}

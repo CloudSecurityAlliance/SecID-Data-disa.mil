@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251553",
+  "rule_id": "SV-251553r960963_rule",
+  "stig_id": "FFOX-00-000009",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Firefox must be configured to block pop-up windows.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-54988r820748_chk",
+  "check_content": "Type \"about:policies\" in the browser address bar.\n\nIf \"PopupBlocking\" is not displayed under Policy Name or the Policy Value is not \"Default\" \"true\", this is a finding.\nIf \"PopupBlocking\" is not displayed under Policy Name or the Policy Value is not \"Locked\" \"true\", this is a finding.\n\n\"PopupBlocking\" \"Enabled\" may be used to specify an allowlist of sites where pop-ups are desired, this is optional.",
+  "fixtext": "Windows group policy:\n1. Open the group policy editor tool with \"gpedit.msc\".\n2. Navigate to Policy Path: Computer Configuration\\Administrative Templates\\Mozilla\\Firefox\\Popups\nPolicy Name: Block pop-ups from websites\nPolicy State: Enabled\n\nPolicy Name: Do not allow preferences to be changed\nPolicy State: Enabled\n\nOptional:\nPolicy Name: Allowed Sites\nPolicy State: Enabled\nClick \"Show...\" and enter a list of websites to be allowlisted.\n\nmacOS \"plist\" file:\nAdd the following:\n<key>PopupBlocking</key>\n  <dict>\n    <key>Allow</key>\n    <array>\n      <string>http://example.mil</string>\n      <string>http://example.gov</string>\n    </array>\n    <key>Default</key>\n    <true/>\n    <key>Locked</key>\n    <true/>\n  </dict>\n\nLinux \"policies.json\" file:\nAdd the following in the policies section:\n\"PopupBlocking\": {\n      \"Allow\": [\"http://example.mil/\",\n                \"http://example.gov/\"],\n      \"Default\": true,\n      \"Locked\": true}",
+  "fix_id": "F-54942r862957_fix",
+  "VulnDiscussion": "Pop-up windows may be used to launch an attack within a new browser window with altered settings. This setting blocks pop-up windows created while the page is loading.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274016",
+  "rule_id": "SV-274016r1120036_rule",
+  "stig_id": "AZLX-23-001020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must require users to provide a password for privilege escalation.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-78107r1120034_chk",
+  "check_content": "Verify Amazon Linux 2023 requires users to provide a password for privilege escalation.\n\nEnsure that \"/etc/sudoers\" has no occurrences of \"NOPASSWD\" with the following command:\n\n$ sudo grep -ri nopasswd /etc/sudoers /etc/sudoers.d/\n\nIf any occurrences of \"NOPASSWD\" are returned, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to not allow users to execute privileged actions without authenticating with a password.\n\nRemove any occurrence of \"NOPASSWD\" found in \"/etc/sudoers\" file or files in the \"/etc/sudoers.d\" directory.\n\n$ sudo sed -i '/NOPASSWD/ s/^/# /g' /etc/sudoers /etc/sudoers.d/*",
+  "fix_id": "F-78012r1120035_fix",
+  "VulnDiscussion": "Without reauthentication, users may access resources or perform tasks for which they do not have authorization.",
+  "Documentable": "false"
+}

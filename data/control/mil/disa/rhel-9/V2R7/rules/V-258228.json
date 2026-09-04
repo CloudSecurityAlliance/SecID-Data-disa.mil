@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-258228",
+  "rule_id": "SV-258228r991572_rule",
+  "stig_id": "RHEL-09-654270",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 audit system must protect logon UIDs from unauthorized change.",
+  "group_title": "SRG-OS-000462-GPOS-00206",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164",
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-61969r926669_chk",
+  "check_content": "Verify the audit system prevents unauthorized changes to logon UIDs with the following command:\n\n$ sudo grep -i immutable /etc/audit/audit.rules\n\n--loginuid-immutable\n\nIf the \"--loginuid-immutable\" option is not returned in the \"/etc/audit/audit.rules\", or the line is commented out, this is a finding.",
+  "fixtext": "Configure RHEL 9 auditing to prevent modification of login UIDs once they are set by adding the following line to /etc/audit/rules.d/audit.rules:\n\n--loginuid-immutable\n\nThe audit daemon must be restarted for the changes to take effect.",
+  "fix_id": "F-61893r926670_fix",
+  "VulnDiscussion": "If modification of login user identifiers (UIDs) is not prevented, they can be changed by nonprivileged users and make auditing complicated or impossible.\n\nSatisfies: SRG-OS-000462-GPOS-00206, SRG-OS-000475-GPOS-00220, SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-260540",
+  "rule_id": "SV-260540r986276_rule",
+  "stig_id": "UBTU-22-291010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must disable automatic mounting of Universal Serial Bus (USB) mass storage driver.",
+  "group_title": "SRG-OS-000378-GPOS-00163",
+  "idents": {
+    "cci": [
+      "CCI-001958",
+      "CCI-003959"
+    ]
+  },
+  "check_id": "C-64269r953431_chk",
+  "check_content": "Verify Ubuntu 22.04 LTS disables ability to load the USB storage kernel module by using the following command: \n \n     $ grep usb-storage /etc/modprobe.d/* | grep \"/bin/false\" \n     /etc/modprobe.d/stig.conf:install usb-storage /bin/false \n \nIf the command does not return any output, or the line is commented out, this is a finding. \n \nVerify Ubuntu 22.04 LTS disables the ability to use USB mass storage device. \n \n     $ grep usb-storage /etc/modprobe.d/* | grep -i \"blacklist\" \n     /etc/modprobe.d/stig.conf:blacklist usb-storage \n \nIf the command does not return any output, or the line is commented out, this is a finding.",
+  "fixtext": "Configure Ubuntu 22.04 LTS to disable using the USB storage kernel module.  \n \nCreate and/or append a custom file under \"/etc/modprobe.d/\" to contain the following: \n \n     $ sudo su -c \"echo install usb-storage /bin/false >> /etc/modprobe.d/stig.conf\" \n \nConfigure Ubuntu 22.04 LTS to disable the ability to use USB mass storage devices. \n \n     $ sudo su -c \"echo blacklist usb-storage >> /etc/modprobe.d/stig.conf\"",
+  "fix_id": "F-64177r953432_fix",
+  "VulnDiscussion": "Without authenticating devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity. \n \nPeripherals include, but are not limited to, such devices as flash drives, external storage, and printers.",
+  "Documentable": "false"
+}

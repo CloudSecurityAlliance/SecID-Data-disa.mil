@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-269579",
+  "rule_id": "SV-269579r1053512_rule",
+  "stig_id": "XYLK-20-000053",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Xylok Security Suite must disable nonessential capabilities.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "cci": [
+      "CCI-000381",
+      "CCI-001094",
+      "CCI-001095",
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-73612r1053510_chk",
+  "check_content": "Verify that Xylok's default ENABLE_PP_TEST_API status is disabled by using the following command:\n\n$ grep ENABLE_PP_TEST_API /etc/xylok.conf\n\nIf \"ENABLE_PP_TEST_API\" exists (case insensitive), this is a finding.",
+  "fixtext": "Revert Xylok to its default configuration, which disables the post-processing test API:\n\n1. As root, open /etc/xylok.conf in a text editor.\n\n2. Delete any ENABLE_PP_TEST_API lines from configuration file.\n\n3. Restart Xylok to apply settings:\n\n    # systemctl restart xylok",
+  "fix_id": "F-73513r1053511_fix",
+  "VulnDiscussion": "If Xylok has unnecessary functionality enabled, the server may allow arbitrary code to run within the Xylok container. This would allow the user to potentially launch malicious acts against other hosts from inside the Xylok container.\n\nENABLE_PP_TEST_API setting in the Xylok Security Suite refers to a configuration flag that enables a specific test API related to the policy processing (PP) functionalities of the suite. This setting is used primarily in development or testing environments to enable specific testing functionalities.\n\nSatisfies: SRG-APP-000141, SRG-APP-000246, SRG-APP-000247, SRG-APP-000384",
+  "Documentable": "false"
+}

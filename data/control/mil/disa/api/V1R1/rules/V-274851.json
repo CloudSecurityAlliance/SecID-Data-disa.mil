@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-274851",
+  "rule_id": "SV-274851r1143903_rule",
+  "stig_id": "SRG-APP-001025-API-001715",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The API must time-restrict access tokens in accordance with organization-defined identification and authentication policy.",
+  "group_title": "SRG-APP-001025",
+  "idents": {
+    "cci": [
+      "CCI-005168",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-78952r1143902_chk",
+  "check_content": "Examine the organization's identification and authentication policy required lifespan of access tokens. This includes default expiration times, any conditions for shorter or longer durations, and rules for different user roles or access levels.\n\nReview the code or configuration responsible for generating access tokens to ensure it sets the exp (expiration) and iat (issued at) claims according to policy. Confirm that tokens are not issued with excessively long lifetimes unless explicitly allowed.\n\nAuthenticate and obtain access tokens under various scenarios (e.g., user login, system-to-system access). Decode the tokens (e.g., if JWT) and check the exp and iat fields to verify the validity period aligns with the organization's defined rules.\n\nWait until a token expires and attempt to use it with the API. Confirm the API correctly rejects expired tokens with appropriate error responses (e.g., HTTP 401 Unauthorized or 403 Forbidden).\n\nDetermine whether the API adjusts token lifespans based on risk factors, user roles, or sensitivity of requested resources. This must also comply with the organizational policy.\n\nEnsure the API validates the exp claim on each request and denies access to expired tokens.\n\nLook into API or identity provider configuration files to confirm that token timeout values match policy-defined thresholds.\n\nIf any misconfigurations are identified, this is a finding.",
+  "fixtext": "Build or configure the API to revoke access tokens in accordance with organization-defined identification and authentication policy.",
+  "fix_id": "F-78857r1143364_fix",
+  "VulnDiscussion": "An API must time-restrict access tokens to enhance security by limiting the window of opportunity for unauthorized access. Access tokens typically have an expiration time to reduce the risks associated with token theft or misuse. \n\nWithout an API gateway to handle token expiration, the API itself must enforce token validity by ensuring tokens are only accepted for a limited period. This will mitigate the impact of a compromised token by preventing it from being used indefinitely. Time-restricting tokens also ensures that the API regularly re-validates user sessions, aligns with best security practices, and forces users to re-authenticate after a certain period, thereby reducing the chance of long-term unauthorized access.",
+  "Documentable": "false"
+}

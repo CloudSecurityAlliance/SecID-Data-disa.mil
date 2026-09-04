@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-270947",
+  "rule_id": "SV-270947r1155102_rule",
+  "stig_id": "DRAG-OT-000520",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Dragos Platforms must limit privileges and not allow the ability to run shell.",
+  "group_title": "SRG-APP-000133",
+  "idents": {
+    "cci": [
+      "CCI-001499",
+      "CCI-001166",
+      "CCI-001094",
+      "CCI-002235",
+      "CCI-002233",
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-74990r1155100_chk",
+  "check_content": "Verify shell environment:\n\nLog in to the Dragos Platform CLI. \n\nExecute the following command:\nelevate\n\nEnter the elevate (admin) password, then execute the following command:\nrun shell\n\nIf the option \"run shell\" executes successfully and places the terminal session into a shell environment, this is a finding.\n\nNote: A shell environment will be noticeable because the terminal line will be in the format \"user@dragos:~$\" compared to dragoscmd, which would be \"dragos>\". If shell is properly uninstalled, the return will be \"Error: No such command 'shell'.\" The shell can be enabled and disabled as needed for troubleshooting efforts with appropriate authentication as dragos_admin.",
+  "fixtext": "Uninstall shell environment:\n\nLog in to the Dragos Platform CLI. \n\nExecute the following command:\nelevate\n\nEnter the elevate password, then execute the following command:\ndisable shell\n\nOnce this has been executed, users cannot create interactive bash shell sessions. This command removes the shell from the Platform; it can only be enabled again if the dragos_admin user authenticates and changes the configuration for maintenance.\n\nNote: Access to the bash shell via the \"run shell\" command is disabled bu default.",
+  "fix_id": "F-74891r1155101_fix",
+  "VulnDiscussion": "If Dragos Platform were to allow any user to make changes to software libraries, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n\nThis requirement applies to applications with software libraries that are accessible and configurable, as in the case of interpreted languages. Software libraries also include privileged programs that execute with escalated privileges. Only qualified and authorized individuals must be allowed to obtain access to information system components for purposes of initiating changes, including upgrades and modifications.\n\nSatisfies: SRG-APP-000133, SRG-APP-000206, SRG-APP-000246, SRG-APP-000340, SRG-APP-000342, SRG-APP-000384",
+  "Documentable": "false"
+}

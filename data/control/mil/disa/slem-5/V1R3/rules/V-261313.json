@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261313",
+  "rule_id": "SV-261313r996409_rule",
+  "stig_id": "SLEM-05-253010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must not forward Internet Protocol version 4 (IPv4) source-routed packets.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65042r996407_chk",
+  "check_content": "Verify SLEM 5 does not accept IPv4 source-routed packets with the following command:\n\n     > sudo sysctl net.ipv4.conf.all.accept_source_route\n     net.ipv4.conf.all.accept_source_route = 0\n\nIf the network parameter \"ipv4.conf.all.accept_source_route\" is not equal to \"0\", or nothing is returned, this is a finding.",
+  "fixtext": "Configure SLEM 5 to disable IPv4 source routing by running the following command as an administrator:\n\n     > sudo sysctl -w net.ipv4.conf.all.accept_source_route=0\n\nIf \"0\" is not the system's default value, add or update the following line in \"/etc/sysctl.d/99-stig.conf\":\n\n     > sudo sh -c 'echo \"net.ipv4.conf.all.accept_source_route=0\" >> /etc/sysctl.d/99-stig.conf'\n\n     > sudo sysctl --system",
+  "fix_id": "F-64950r996408_fix",
+  "VulnDiscussion": "Source-routed packets allow the source of the packet to suggest that routers forward the packet along a different path than configured on the router, which can be used to bypass network security measures. This requirement applies only to the forwarding of source-routed traffic, such as when IPv4/IPv6 forwarding is enabled and the system is functioning as a router.",
+  "Documentable": "false"
+}

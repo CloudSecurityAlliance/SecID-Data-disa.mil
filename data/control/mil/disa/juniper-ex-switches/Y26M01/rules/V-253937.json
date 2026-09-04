@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253937",
+  "rule_id": "SV-253937r961860_rule",
+  "stig_id": "JUEX-NM-000600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to offload audit records onto a different system or media than the system being audited.",
+  "group_title": "SRG-APP-000515-NDM-000325",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-57389r944355_chk",
+  "check_content": "Mark as not a finding if the site has a solution in place to prevent the device from running out of audit storage.\n\nVerify the device is configured to send system events to external syslog. If the organization has a centralized repository (or repositories) for secure transfer of audit log files, verify each log file is configured to transfer files to the appropriate repository. Each log file must be configured separately.\n\n[edit system syslog]\nfile <file name> {\n    any info;\n    archive size <65536..1073741824 bytes> files <1..1000> transfer-interval <5..2880 minutes> start-time \"<yyyy-mm-dd.hh:mm>\" archive-sites {\n\"URL\" password \"hashed PSK\" } ## SECRET-DATA\n}\nNote: The  URL format is: <scp|sftp>://<username>@<address>/<path>. The trailing slash is omitted because Junos automatically adds that when it appends the filename.\nhost <external syslog address> {\n    any info;\n}\nNote: If using secure file transfer to offload log files, the Juniper device will immediately attempt to connect with the configured protocol, address, and credentials. If successful, Junos will prompt to accept an untrusted public key. If the administrator accepts that key, Junos adds it to [edit security ssh-known-hosts]. Alternately, configure the trusted public key at [edit security ssh-known-hosts] before configuring automatic file offload.\n\nIf the device does not offload audit records onto a different system or media, this is a finding.",
+  "fixtext": "Archiving is not required unless space is limited in the audit server. Configure the network device to offload audit records onto a different system or media than the system being audited.\n\nset file <file name> any info\nset system syslog file <file name> any info\nset system syslog file <file name> archive size <65536..1073741824 bytes>\nset system syslog file <file name> archive files <1..1000>\nset system syslog file <file name> archive transfer-interval <5..2880 minutes>\nset system syslog file <file name> archive start-time \"<yyyy-mm-dd.hh:mm>\"\nset system syslog file <file name> archive archive-sites \"<scp|sftp>://<username>@<repository address>/<path without trailing slash (/)>\" password \"<PSK>\"\nset system syslog host <external syslog address> any info",
+  "fix_id": "F-57340r944356_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOffloading is a common process in information systems with limited audit storage capacity. Archiving is not required unless space is limited in the audit server.",
+  "Documentable": "false"
+}

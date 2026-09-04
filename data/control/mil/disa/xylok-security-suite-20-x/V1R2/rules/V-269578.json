@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269578",
+  "rule_id": "SV-269578r1054098_rule",
+  "stig_id": "XYLK-20-000052",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Xylok Security Suite READONLY configuration must be True.",
+  "group_title": "SRG-APP-000133",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-73611r1053507_chk",
+  "check_content": "Verify that Xylok's default read-only status is disabled by using the following command:\n\n$ grep READONLY /etc/xylok.conf\n\nIf \"READONLY\" is set to False (case insensitive), is commented out or is missing, this is not a finding.",
+  "fixtext": "Revert Xylok to its default read-only configuration:\n\n1. As root, open /etc/xylok.conf in a text editor.\n\n2. Add/Amend \"READONLY=True\" to the configuration file.\n\n3. Restart Xylok to apply settings:\n\n    # systemctl restart xylok",
+  "fix_id": "F-73512r1053508_fix",
+  "VulnDiscussion": "By default, the Xylok container is created not allowing users to modify any files inside the container.\n\nThe only paths that can be altered are mounted from the host. Mount the database files from the host, so that the database server running inside the container can write data.\n\nIf READONLY=false, then a user could go into the container as root and change other files. This approach helps protect the application from both external attacks and internal threats.",
+  "Documentable": "false"
+}

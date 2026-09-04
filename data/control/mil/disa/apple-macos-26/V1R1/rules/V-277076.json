@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-277076",
+  "rule_id": "SV-277076r1148680_rule",
+  "stig_id": "APPL-26-001031",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must configure audit failure notification.",
+  "group_title": "SRG-OS-000344-GPOS-00135",
+  "idents": {
+    "cci": [
+      "CCI-001858"
+    ]
+  },
+  "check_id": "C-81231r1148678_chk",
+  "check_content": "Verify the macOS system is configured to produce audit failure notification with the following command:\n\n/usr/bin/grep -c \"logger -s -p\" /etc/security/audit_warn\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Configure the macOS system to produce audit failure notification with the following command:\n\n/usr/bin/sed -i.bak 's/logger -p/logger -s -p/' /etc/security/audit_warn; /usr/sbin/audit -s",
+  "fix_id": "F-81136r1148679_fix",
+  "VulnDiscussion": "The audit service must be configured to immediately print messages to the console or email administrator users when an auditing failure occurs.\n\nIt is critical for the appropriate personnel to be made aware immediately if a system is at risk of failing to process audit logs as required. Without a real-time alert, security personnel may be unaware of a potentially harmful failure in the auditing system's capability, and system operation may be adversely affected.",
+  "Documentable": "false"
+}

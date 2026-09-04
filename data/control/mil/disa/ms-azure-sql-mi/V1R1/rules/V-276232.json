@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276232",
+  "rule_id": "SV-276232r1149605_rule",
+  "stig_id": "MSQL-00-002800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must enforce discretionary access control policies, as defined by the data owner, over defined subjects and objects.",
+  "group_title": "SRG-APP-000328-DB-000301",
+  "idents": {
+    "cci": [
+      "CCI-002165"
+    ]
+  },
+  "check_id": "C-80387r1149603_chk",
+  "check_content": "Review system documentation to determine requirements for object ownership and authorization delegation.\n\nUse the following query to discover database object ownership:\n\nSchemas not owned by the schema or dbo:\n\nSELECT name AS schema_name, USER_NAME(principal_id) AS schema_owner\nFROM sys.schemas\nWHERE schema_id != principal_id\nAND principal_id != 1\n\nObjects owned by an individual principal:\n\nSELECT object_id, name AS securable, \nUSER_NAME(principal_id) AS object_owner,\ntype_desc\nFROM sys.objects\nWHERE is_ms_shipped = 0 AND principal_id IS NOT NULL\nORDER BY type_desc, securable, object_owner\n\nUse the following query to discover database users who have been delegated the right to assign additional permissions:\n\nSELECT U.type_desc, U.name AS grantee,\nDP.class_desc AS securable_type,\nCASE DP.class\nWHEN 0 THEN DB_NAME()\nWHEN 1 THEN OBJECT_NAME(DP.major_id) \nWHEN 3 THEN SCHEMA_NAME(DP.major_id)\nELSE CAST(DP.major_id AS nvarchar)\nEND AS securable,\npermission_name, state_desc\nFROM sys.database_permissions DP\nJOIN sys.database_principals U ON DP.grantee_principal_id = U.principal_id\nWHERE DP.state = 'W'\nORDER BY grantee, securable_type, securable\n\nIf any of these rights are not documented and authorized, this is a finding.",
+  "fixtext": "To correct object ownership:\n\nUse the ALTER AUTHORIZATION ON::[Object Name] TO [Database principal] \n\nFull ALTER AUTHORIZATION command syntax is described in this document:\nhttps://docs.microsoft.com/en-us/sql/t-sql/statements/revoke-transact-sql?view=azuresqldb-current\n\nTo remove unauthorized permissions:\n\nUse the REVOKE [Permission name] ON [Object name] TO [Database principal] to remove unauthorized permissions from a database principal on an object. \n\nFull REVOKE command syntax is described in this document: \nhttps://docs.microsoft.com/en-us/sql/t-sql/statements/alter-authorization-transact-sql?view=azuresqldb-current",
+  "fix_id": "F-80292r1149604_fix",
+  "VulnDiscussion": "Discretionary Access Control (DAC) is based on the notion that individual users are \"owners\" of objects and therefore have discretion over who should be authorized to access the object and in which mode (e.g., read or write). Ownership is usually acquired as a consequence of creating the object or via specified ownership assignment. DAC allows the owner to determine who will have access to objects they control. An example of DAC includes user-controlled table permissions.\n\nWhen discretionary access control policies are implemented, subjects are not constrained with regard to what actions they can take with information for which they have already been granted access. Thus, subjects that have been granted access to information are not prevented from passing (i.e., the subjects have the discretion to pass) the information to other subjects or objects. \n\nA subject that is constrained in its operation by Mandatory Access Control policies is still able to operate under the less rigorous constraints of this requirement. Thus, while Mandatory Access Control imposes constraints preventing a subject from passing information to another subject operating at a different sensitivity level, this requirement permits the subject to pass the information to any subject at the same sensitivity level. \n\nThe policy is bound by the information system boundary. Once the information is passed outside of the control of the information system, additional means may be required to ensure the constraints remain in effect. While the older, more traditional definitions of discretionary access control require identity-based access control, that limitation is not required for this use of discretionary access control.",
+  "Documentable": "false"
+}

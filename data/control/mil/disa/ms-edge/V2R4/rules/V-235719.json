@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235719",
+  "rule_id": "SV-235719r1156558_rule",
+  "stig_id": "EDGE-00-000001",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "User control of proxy settings must be disabled.",
+  "group_title": "SRG-APP-000039",
+  "idents": {
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-38938r1156556_chk",
+  "check_content": "The policy value for \"Computer Configuration/Administrative Templates/Microsoft Edge/Proxy server/Proxy Settings\" must be \"Enabled\", and have a \"Proxy Settings\" value defined for \"ProxyMode\".\n\n\"ProxyMode\" must be defined and set to one of the following: \"direct\", \"system\", \"auto_detect\", \"fixed_servers\", or \"pac_script\".\n\nConsult Microsoft documentation for proper configuration of the text string required to define the \"Proxy Settings\" value.\n\nExample:  {\"ProxyMode\": \"fixed_servers\", \"ProxyServer\": \"123.123.123.123:8080\"}\n\nValues for \"ProxyPacUrl\", \"ProxyServer\", or \"ProxyBypassList\" are optional.\n\nUse the Windows Registry Editor to navigate to the following key:\nHKLM\\SOFTWARE\\Policies\\Microsoft\\Edge\n\nIf the REG_SZ value for \"ProxySettings\" does not have \"ProxyMode\" configured, this is a finding.",
+  "fixtext": "Set the policy value for \"Computer Configuration/Administrative Templates/Microsoft Edge/Proxy server/Proxy Settings\" to \"Enabled\" and define a value for \"ProxyMode\".\n\n\"ProxyMode\" must be defined and set to one of the following: \"direct\", \"system\", \"auto_detect\", \"fixed_servers\", or \"pac_script\".\n\nConsult Microsoft documentation for proper configuration of the text string required to define the \"Proxy Settings\" value.\n\nExample:  {\"ProxyMode\": \"fixed_servers\", \"ProxyServer\": \"127.0.0.1:8080\"}\n\n\"ProxyPacUrl\", \"ProxyServer\", or \"ProxyBypassList\" are optional.",
+  "fix_id": "F-38901r1156557_fix",
+  "VulnDiscussion": "This action configures the proxy settings for Microsoft Edge.\n\nIf this policy is enabled, Microsoft Edge ignores all proxy-related options specified from the command line.\n\nIf this policy is not configured, users can choose their own proxy settings.\n\nThis policy overrides the following individual policies:\n- ProxyMode.\n- ProxyPacUrl. \n- ProxyServer. \n- ProxyBypassList.\n\nSetting the ProxySettings policy accepts the following fields:\n- ProxyMode, which allows for the proxy server used by Microsoft Edge to be specified and prevents users from changing proxy settings.\n- ProxyPacUrl, a URL to a proxy .pac file.\n- ProxyServer, a URL for the proxy server.\n- ProxyBypassList, a list of proxy hosts that Microsoft Edge bypasses.\n\nFor ProxyMode, the following values have the noted impact:\n- direct, a proxy is never used and all other fields are ignored.\n- system, the system's proxy is used and all other fields are ignored.\n- auto_detect, all other fields are ignored.\n- fixed_servers, the ProxyServer and ProxyBypassList fields are used.\n- pac_script, the ProxyPacUrl and ProxyBypassList fields are used.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234134",
+  "rule_id": "SV-234134r611402_rule",
+  "stig_id": "FNFG-FW-000015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate firewall must use organization-defined filtering rules that apply to the monitoring of remote access traffic for the traffic from the VPN access points.",
+  "group_title": "SRG-NET-000061-FW-000001",
+  "idents": {
+    "cci": [
+      "CCI-000067"
+    ]
+  },
+  "check_id": "C-37319r611400_chk",
+  "check_content": "If FortiGate is not configured to support VPN access, this requirement is Not Applicable.\n\nLog in to the FortiGate GUI with Super- or Firewall Policy-Admin privilege.\n\n1. Click Policy and Objects.\n2. Click IPv4 or IPv6 Policy.\n3. Verify all VPN-related policies are configured with organization-defined filtering rules.\n4. For each VPN-related policy, verify the logging option is configured to log All Sessions (for most verbose logging).\n\nIf there are no VPN policies configured with organization-defined filtering rules, this is a finding.",
+  "fixtext": "This fix can be performed on the FortiGate GUI or on the CLI. \nLog in to the FortiGate GUI with Super- or Firewall Policy-Admin privilege.\n\n1. Click Policy and Objects.\n2. Click IPv4 or IPv6 Policy.\n3. Click +Create New to configure new ingress and egress SSL-VPN- or IPSec-VPN-related policies that meet the organization-defined filtering rules.\n4. Configure Logging Options to log All Sessions (for most verbose logging).\n5. Confirm each created Policy is Enabled.\n6. Click OK.\n\nor\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config firewall policy\n     #   edit 0\n     #        set srcintf {vpn_interface}\n     #        set dstintf {interface_1}\n     #        set srcaddr {address_a}\n     #        set dstaddr {address_b}\n     #        set schedule {always}\n     #        set service {services required by site policy}\n     #        set action {accept}\n     #        set logtraffic enable\n     #    next\n     # end\n3. Create opposite (ingress or egress) policy as required.\n\nThe {} indicate the object is defined by the organization policy.",
+  "fix_id": "F-37284r611401_fix",
+  "VulnDiscussion": "Remote access devices (such as those providing remote access to network devices and information systems) that lack automated capabilities increase risk and make remote user access management difficult at best.\n\nRemote access is access to DoD non-public information systems by an authorized user (or an information system) communicating through an external, non-organization-controlled network.\n\nAutomated monitoring of remote access sessions allows organizations to detect cyberattacks and ensure ongoing compliance with remote access policies by auditing connection activities of remote access capabilities from a variety of information system components (e.g., servers, workstations, notebook computers, smart phones, and tablets).",
+  "Documentable": "false"
+}

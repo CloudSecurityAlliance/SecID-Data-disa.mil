@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253928",
+  "rule_id": "SV-253928r1167981_rule",
+  "stig_id": "JUEX-NM-000510",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Juniper EX switches must be configured to use FIPS-validated Keyed-Hash Message Authentication Code (HMAC) to protect the integrity of nonlocal maintenance and diagnostic communications.",
+  "group_title": "SRG-APP-000411-NDM-000330",
+  "idents": {
+    "cci": [
+      "CCI-002890"
+    ]
+  },
+  "check_id": "C-57380r1167979_chk",
+  "check_content": "Verify the network device uses FIPS-validated HMAC to protect the integrity of nonlocal maintenance and diagnostic communications.\n\nIf using SNMPv3, verify (minimally) that authentication-sha is configured. Juniper devices also support authentication-sha224/256/384/512. Verify the strongest mutually supported HMAC between the network device and the Network Management Server (NMS) is configured.\n\n[edit system snmp]\nv3 {\n    usm {\n        local-engine {\n            user <SNMPv3 user> {\n                authentication-sha {\n                    authentication-key \"PSK\"; ## SECRET-DATA\n                }\n            }\n        }\n    }\n}\n\nVerify SSHv2 is configured for protocol V2 only, ciphers [ aes256-ctr ], key-exchange [ ecdh-sha2-nistp521 ecdh-sha2-nistp384 ecdh-sha2-nistp256 ], and macs [ hmac-sha2-512 hmac-sha2-256].\n[edit system services ssh]\n:\nprotocol-version v2;\nciphers [ aes256-ctr];\nmacs [ hmac-sha2-512 hmac-sha2-256 ];\nkey-exchange [ ecdh-sha2-nistp521 ecdh-sha2-nistp384 ecdh-sha2-nistp256 ];\n\nIf the network device does not use FIPS-validated HMAC to protect the integrity of nonlocal maintenance and diagnostic communications, this is a finding.",
+  "fixtext": "Configure the network device to use FIPS-validated HMAC to protect the integrity of nonlocal maintenance and diagnostic communications.\n\nset snmp v3 usm local-engine user <SNMPv3 user> authentication-sha authentication-password \"PSK\"\nset snmp v3 usm local-engine user <SNMPv3 user> privacy-aes128 privacy-password \"PSK\"\nNote: Use the strongest HMAC mutually supported with the NMS (e.g., authentication-sha256, authentication-sha512)\n\nset system services ssh protocol-version v2\nset system services ssh ciphers aes256-ctr\nset system services ssh macs hmac-sha2-512\nset system services ssh macs hmac-sha2-256\nset system services ssh key-exchange ecdh-sha2-nistp521\nset system services ssh key-exchange ecdh-sha2-nistp384\nset system services ssh key-exchange ecdh-sha2-nistp256",
+  "fix_id": "F-57331r1167980_fix",
+  "VulnDiscussion": "Unapproved mechanisms that are used for authentication to the cryptographic module are not verified and therefore, cannot be relied upon to provide confidentiality or integrity, and DOD data may be compromised.\n\nNonlocal maintenance and diagnostic activities are those activities conducted by individuals communicating through a network, either an external network (e.g., the internet) or an internal network. \n\nCurrently, HMAC is the only FIPS-approved algorithm for generating and verifying message/data authentication codes in accordance with FIPS 198-1. Products that are FIPS 140-2 validated will have an HMAC that meets specification; however, the option must be configured for use as the only message authentication code used for authentication to cryptographic modules.\n\nSeparate requirements for configuring applications and protocols used by each application (e.g., SNMPv3, SSHv2, HTTPS, and other protocols and applications that require server/client authentication) are required to implement this requirement. Where SSH is used, the SSHv2 protocol suite is required because it includes layer 7 protocols such as SCP and SFTP, which can be used for secure file transfers.\n\nUse only AES Counter (CTR) cipher block chaining modes in compliance with CVE-2008-5161, plugin 70658 based on vendor guidance in KB20853. This prevents certain plaintext attacks in OpenSSH.",
+  "Documentable": "false"
+}

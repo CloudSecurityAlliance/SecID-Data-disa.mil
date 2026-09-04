@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276245",
+  "rule_id": "SV-276245r1150051_rule",
+  "stig_id": "MSQL-00-007600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Azure SQL Managed Instance audit storage account must be configured to prohibit public access.",
+  "group_title": "SRG-APP-000142-DB-000094",
+  "idents": {
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-80400r1150049_chk",
+  "check_content": "Azure SQL Managed Instance must only use approved firewall settings, including disabling public network access. This value is not allowed by default in Azure SQL Managed Instance and must be disabled if not otherwise documented and approved.\n\nObtain a list of all approved firewall settings from the database documentation. \n\nObtain the audit file location(s) by running the following SQL script:\n\nSELECT name AS AuditName, log_file_path AS AuditPath FROM sys.server_file_audits \n\nFor each audit, the AuditPath column will show the Azure Storage location of the audit files.\n \nReview the storage networking permissions for the audit: \n  \n1. From the Azure Portal, click the storage account.\n2. Click \"Networking\" under Security. \n3. Verify the public network endpoint option is set to disabled. \n\nIf the value is enabled and not specifically approved in the database documentation, this is a finding. \n\nVerify Network Security Groups (NSGs) are configured to restrict access only to the resources that require access to the storage account.\n\nIf access is not restricted, this is a finding.",
+  "fixtext": "Assign the approved policy to the audit storage account:\n  \n1. From the Azure Portal, click the audit storage account. \n2. Click \"Networking\" under security.  \n3. Review the public network access option.  \n4. Check the box to \"Disable\" public network access.  \n5. Click \"Save\".\n\nReview the audit storage account's NSG configuration for inbound and outbound rules to restrict access to specific ports and resources. \n\nFor more information about connection policies, refer to:\nhttps://learn.microsoft.com/en-us/azure/azure-sql/managed-instance/connectivity-architecture-overview?view=azuresql&amp;tabs=current",
+  "fix_id": "F-80305r1150050_fix",
+  "VulnDiscussion": "To prevent unauthorized connection of devices, unauthorized transfer of information, or unauthorized tunneling (i.e., embedding of data types within data types), organizations must disable or restrict unused or unnecessary physical and logical ports/protocols/services on information systems.\n\nApplications are capable of providing a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., email and web services); however, doing so increases risk over limiting the services provided by any one component. \n\nTo support the requirements and principles of least functionality, the application must support the organizational requirements providing only essential capabilities and limiting the use of ports, protocols, and/or services to only those required, authorized, and approved to conduct official business or to address authorized quality of life issues.\n\nDatabase management systems using ports, protocols, and services deemed unsafe are open to attack through those ports, protocols, and services. This can allow unauthorized access to the audit and through the database to other components of the information system.",
+  "Documentable": "false"
+}

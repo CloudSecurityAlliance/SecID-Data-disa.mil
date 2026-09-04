@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256950",
+  "rule_id": "SV-256950r960963_rule",
+  "stig_id": "APWS-AT-000340",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All Automation Controller NGINX web servers must have Web Distributed Authoring (WebDAV) disabled.",
+  "group_title": "SRG-APP-000141-WSR-000085",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-60625r902362_chk",
+  "check_content": "As a system administrator, for each Automation Controller NGINX web server host, check the Automation Controller NGINX web server configuration for WebDAV modules:\n\ndisallowed_modules=(nginx-dav-ext-module headers-more-nginx-module) ; echo \"${disallowed_modules[*]}\" | tr ' ' '\\n' >tempfile ; nginx -V 2>&1 | grep module | tr ' ' '\\n' | grep module | grep -v modules-path | grep -Ff tempfile && echo \"FAILED\"; rm -f tempfile\n\nIf \"FAILED\" is displayed, this is a finding.\n\nCheck the Automation Controller NGINX web server configuration for WebDAV modules for disallowed WebDAV verbs, COPY, MOVE, MKCOL, PROPFIND, PROPPATCH, LOCK, UNLOCK:\n\nNGINXCONF=`nginx -V 2>&1 | tr ' ' '\\n' | sed -ne '/conf-path/{s/.*conf-path=\\(.*\\)/\\1/;p}' ` ;\ngrep dev_(.*)methods $NGINXCONF | grep  'COPY|MOVE|MKCO|PROPFIND|PROPPATCH|LOCK|UNLOCK' && echo 'FAILED'\n\nIf \"FAILED\" is displayed, this is a finding.",
+  "fixtext": "As a system administrator, for each Automation Controller nginx web server host, remove all WebDAV modules from the NGINX configuration file (nominally /etc/nginx/nginx.conf).\n\nReload the NGINX server configurations for all NGINX processes:\n\n$ pkill -HUP nginx",
+  "fix_id": "F-60567r902363_fix",
+  "VulnDiscussion": "Automation Controller NGINX web servers can be installed with functionality that, just by its nature, is not secure. Web Distributed Authoring (WebDAV) is an extension to the HTTP protocol that, when developed, was meant to allow users to create, change, and move documents on a server, typically a web server or web share. Allowing this functionality, development, and deployment is much easier for web authors.\n\nWebDAV is not widely used and has serious security concerns because it may allow clients to modify unauthorized files on the web server.",
+  "Documentable": "false"
+}

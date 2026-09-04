@@ -1,0 +1,29 @@
+{
+  "vuln_id": "V-269573",
+  "rule_id": "SV-269573r1054093_rule",
+  "stig_id": "XYLK-20-000006",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Xylok Security Suite must prevent access except through HTTPS.",
+  "group_title": "SRG-APP-000014",
+  "idents": {
+    "cci": [
+      "CCI-000068",
+      "CCI-000382",
+      "CCI-001184",
+      "CCI-002890",
+      "CCI-003123",
+      "CCI-002418",
+      "CCI-002421",
+      "CCI-002422",
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-73606r1054093_chk",
+  "check_content": "Verify HTTP_ONLY is set to \"false\":\n$ grep HTTP_ONLY \n/etc/xylok.conf HTTP_ONLY=false\n\nIf \"HTTP_ONLY=true\" or is not configured, this is a finding.",
+  "fixtext": "Add/Amend HTTP_ONLY to the configuration files:\n1. As root, open /etc/xylok.conf in a text editor.\n\n2. Add/Amend the following to the configuration file:\nHTTP_ONLY=false\n\n3. Restart Xylok to apply settings by executing the following:\n    # systemctl restart xylok",
+  "fix_id": "F-73507r1053493_fix",
+  "VulnDiscussion": "Preventing access, except via HTTPS, ensures security and protects sensitive data. HTTP_ONLY: If true, disables listening on the HTTPS port and allows all calls to happen over HTTP. This must be set to false. HTTPS encrypts data transmitted between the client (browser) and the server. Sensitive information, such as login credentials, personal data, and session cookies, is protected from being intercepted by malicious actors (e.g., through man-in-the-middle attacks) during transmission. When data is sent over HTTP (unencrypted), it can be intercepted and altered. HTTPS mitigates this by encrypting the communication. HTTPS uses digital certificates (SSL/TLS certificates) to authenticate the server’s identity. This ensures that users are connecting to the legitimate server rather than a malicious entity attempting to impersonate the site. HTTPS-only policies enable the use of HSTS, which forces browsers to only interact with the site using HTTPS and prevents users from being redirected to an HTTP version of the site. This can defend against certain attacks, like SSL stripping, which downgrade connections to HTTP.\n\nSatisfies: SRG-APP-000014, SRG-APP-000142, SRG-APP-000219, SRG-APP-000411, SRG-APP-000412, SRG-APP-000439, SRG-APP-000440, SRG-APP-000442, SRG-APP-000514, SRG-APP-000555, SRG-APP-000645",
+  "Documentable": "false"
+}

@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-261284",
+  "rule_id": "SV-261284r996864_rule",
+  "stig_id": "SLEM-05-231040",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "All SLEM 5 persistent disk partitions must implement cryptographic mechanisms to prevent unauthorized disclosure or modification of all information that requires at-rest protection.",
+  "group_title": "SRG-OS-000185-GPOS-00079",
+  "idents": {
+    "cci": [
+      "CCI-001199",
+      "CCI-002475",
+      "CCI-002476"
+    ]
+  },
+  "check_id": "C-65013r996864_chk",
+  "check_content": "Verify SLEM 5 prevents unauthorized disclosure or modification of all information requiring at-rest protection by using disk encryption. \n\nVerify the system partitions are all encrypted with the following commands: \n\n     > sudo blkid\n     /dev/sda1:  \"UUID=26d4a101-7f48-4394-b730-56dc00e65f64\" TYPE=\"crypto_LUKS\"\n     /dev/sda2:  \"UUID=f5b8a790-14cb-4b82-882d-707d52f27765\" TYPE=\"crypto_LUKS\"\n     /dev/sda3:  \"UUID=f2d86128-f975-478d-a5b0-25806c900eac\" TYPE=\"crypto_LUKS\"\n\nEvery persistent disk partition present must be of type \"crypto_LUKS\". If any partitions other than the boot partition or pseudo file systems (such as /proc or /sys) or temporary file systems (that are tmpfs) are not type \"crypto_LUKS\", ask the administrator to indicate how the partitions are encrypted. If there is no evidence that these partitions are encrypted, this is a finding.\n\n     > sudo more /etc/crypttab\n     cr_root UUID=26d4a101-7f48-4394-b730-56dc00e65f64\n     cr_home UUID=f5b8a790-14cb-4b82-882d-707d52f27765\n     cr_swap UUID=f2d86128-f975-478d-a5b0-25806c900eac\n\nEvery persistent disk partition present on the system must have an entry in the /etc/crypttab file. \n\nIf any partitions other than pseudo file systems (such as /proc or /sys) are not listed or \"/etc/crypttab\" does not exist, this is a finding.\n\nVerify the system works in FIPS mode with the following command:\n\n     > sudo sysctl - a | grep fips\n     crypto.fips_enabled = 1",
+  "fixtext": "Configure SLEM 5 to prevent unauthorized modification of all information at rest by using disk encryption. \n\nEncrypting a partition in an already-installed system is more difficult because of the need to resize and change existing partitions. To encrypt an entire partition, dedicate a partition for encryption in the partition layout. The standard partitioning proposal as suggested by YaST (installation and configuration tool for Linux) does not include an encrypted partition by default. Add it manually in the partitioning dialog.\n\nThe following set of commands will switch SLEM 5 to work in FIPS mode:\n\n     >sudo transactional-update pkg install -t pattern microos-fips\n\n     >reboot\n\n Add of modify the following line in the \"/etc/default/grub\" file to include \"fips=1\":\n\nGRUB_CMDLINE_LINUX_DEFAULT=\"splash=silent swapaccount=1 apparmor=0 mitigations=auto quiet crashkernel=195M,high crashkernel=72M,low fips=1\"\n\n     >sudo transactional-update grub.cfg\n\n     >sudo reboot:",
+  "fix_id": "F-64921r996332_fix",
+  "VulnDiscussion": "SLEM 5 handling data requiring data-at-rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest.\n\nSelection of a cryptographic mechanism is based on the need to protect the integrity of organizational information. The strength of the mechanism is commensurate with the security category and/or classification of the information. Organizations have the flexibility to either encrypt all information on storage devices (i.e., full disk encryption) or encrypt specific data structures (e.g., files, records, or fields).",
+  "Documentable": "false"
+}

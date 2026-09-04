@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271861",
+  "rule_id": "SV-271861r1092295_rule",
+  "stig_id": "OL09-00-006003",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 systems using Domain Name Servers (DNS) resolution must have at least two name servers configured.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75911r1092293_chk",
+  "check_content": "Verify that OL 9 configures name servers used by the system with the following command:\n\n$ grep nameserver /etc/resolv.conf\nnameserver 192.168.1.2\nnameserver 192.168.1.3\n\nIf less than two lines are returned that are not commented out, this is a finding.",
+  "fixtext": "Configure the operating system to use two or more name servers for DNS resolution based on the DNS mode of the system.\n\nIf the NetworkManager DNS mode is set to \"none\", then add the following lines to \"/etc/resolv.conf\":\n\nnameserver [name server 1]\nnameserver [name server 2]\n\nReplace [name server 1] and [name server 2] with the IPs of two different DNS resolvers.\n\nIf the NetworkManager DNS mode is set to \"default\" then add two DNS servers to a NetworkManager connection. Using the following commands:\n\n$ sudo nmcli connection modify [connection name] ipv4.dns [name server 1]\n$ sudo nmcli connection modify [connection name] ipv4.dns [name server 2]\n\nReplace [name server 1] and [name server 2] with the IPs of two different DNS resolvers. Replace [connection name] with a valid NetworkManager connection name on the system. Replace ipv4 with ipv6 if IPv6 DNS servers are used.",
+  "fix_id": "F-75818r1092294_fix",
+  "VulnDiscussion": "To provide availability for name resolution services, multiple redundant name servers are mandated. A failure in name resolution could lead to the failure of security functions requiring name resolution, which may include time synchronization, centralized authentication, and remote system logging.",
+  "Documentable": "false"
+}

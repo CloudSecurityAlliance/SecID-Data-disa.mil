@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253032",
+  "rule_id": "SV-253032r958754_rule",
+  "stig_id": "TOSS-04-030900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The TOSS audit records must be offloaded onto a different system or storage media from the system being audited.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-56485r944958_chk",
+  "check_content": "Verify the audit system offloads audit records onto a different system or media from the system being audited with the following command:\n\n$ sudo grep @@ /etc/rsyslog.conf /etc/rsyslog.d/*.conf\n\n/etc/rsyslog.conf:*.* @@[remoteloggingserver]:[port]\n\nIf a remote server is not configured, or the line is commented out, ask the System Administrator to indicate how the audit logs are offloaded to a different system or media. \n\nIf there is no evidence that the audit logs are being offloaded to another system or media, this is a finding.",
+  "fixtext": "Multiple software applications other than rsyslog may be used by the system to accomplish this requirement. This Fix assumes rsyslog is used for offloading logs from the system.\n\nConfigure the operating system to offload audit records onto a different system or media from the system being audited by specifying the remote logging server in \"/etc/rsyslog.conf\" or \"/etc/rsyslog.d/[customfile].conf\" with the name or IP address of the log aggregation server.\n\n*.* @@[remoteloggingserver]:[port]",
+  "fix_id": "F-56435r944959_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOffloading is a common process in information systems with limited audit storage capacity.\n\nTOSS installation media provides \"rsyslogd.\" \"rsyslogd\" is a system utility providing support for message logging. Support for both internet and UNIX domain sockets enables this utility to support both local and remote logging. Couple this utility with \"gnutls\" (which is a secure communications library implementing the SSL, TLS, and DTLS protocols), and now there is a method to securely encrypt and offload auditing.\n\nRsyslog provides three ways to forward message: the traditional UDP transport, which is extremely lossy but standard; the plain TCP based transport, which loses messages only during certain situations but is widely available; and the RELP transport, which does not lose messages but is currently available only as part of the rsyslogd 3.15.0 and above.\nExamples of each configuration:\nUDP *.* @remotesystemname\nTCP *.* @@remotesystemname\nRELP *.* :omrelp:remotesystemname:2514\nNote that a port number was given as there is no standard port for RELP.\n\nSatisfies: SRG-OS-000342-GPOS-00133, SRG-OS-000479-GPOS-00224",
+  "Documentable": "false"
+}

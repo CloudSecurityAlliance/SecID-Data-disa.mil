@@ -1,0 +1,28 @@
+{
+  "vuln_id": "V-217240",
+  "rule_id": "SV-217240r958368_rule",
+  "stig_id": "SLES-12-020590",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/gshadow.",
+  "group_title": "SRG-OS-000004-GPOS-00004",
+  "idents": {
+    "legacy": [
+      "SV-92089",
+      "V-77393"
+    ],
+    "cci": [
+      "CCI-000172",
+      "CCI-000018",
+      "CCI-001403",
+      "CCI-002130"
+    ]
+  },
+  "check_id": "C-18468r369876_chk",
+  "check_content": "Verify the SUSE operating system generates an audit record when all modifications occur to the \"/etc/gshadow\" file.\n\nCheck that the following file is being watched by performing the following command on the system rules in \"/etc/audit/audit.rules\":\n\n# sudo grep /etc/gshadow /etc/audit/audit.rules\n\n-w /etc/gshadow -p wa -k account_mod\n\nIf the command does not return a line, or the line is commented out, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to generate an audit record when all modifications to the \"/etc/gshadow\" file occur.\n\nAdd or update the following rule to \"/etc/audit/rules.d/audit.rules\":\n\n-w /etc/gshadow -p wa -k account_mod\n\nThe audit daemon must be restarted for any changes to take effect.   \n\n# sudo systemctl restart auditd.service",
+  "fix_id": "F-18466r369877_fix",
+  "VulnDiscussion": "Once an attacker establishes initial access to a system, the attacker often attempts to create a persistent method of reestablishing access. One way to accomplish this is for the attacker to simply create a new account. Auditing of account creation mitigates this risk.\n\nTo address access requirements, many SUSE operating systems may be integrated with enterprise-level authentication/access/auditing mechanisms that meet or exceed access control policy requirements.\n\nSatisfies: SRG-OS-000004-GPOS-00004, SRG-OS-000239-GPOS-00089, SRG-OS-000240-GPOS-00090, SRG-OS-000241-GPOS-00091, SRG-OS-000303-GPOS-00120, SRG-OS-000476-GPOS-00221",
+  "Documentable": "false"
+}

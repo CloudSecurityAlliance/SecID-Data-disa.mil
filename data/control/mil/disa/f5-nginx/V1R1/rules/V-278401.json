@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278401",
+  "rule_id": "SV-278401r1171955_rule",
+  "stig_id": "NGNX-APP-001690",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must be configured to expire cached authenticators after an organization-defined time period.",
+  "group_title": "SRG-APP-000400",
+  "idents": {
+    "cci": [
+      "CCI-002007"
+    ]
+  },
+  "check_id": "C-82935r1171953_chk",
+  "check_content": "If a keyval store is not used to store tokens, this is not applicable.\n\nDetermine path to NGINX config file:\n\n# nginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nDetermine if a keyval store is used and no timeout is specified:\n\ngrep keyval <location of config>\n\nExample:\n\nkeyval_zone zone=oidc_access_tokens:1M state=/var/lib/nginx/state/oidc_access_tokens.json timeout=1h;\n\nIf a timeout is not specified to an organization defined timeout value, this is a finding.",
+  "fixtext": "Determine path to NGINX config file:\n\n# nginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nEdit the config and set a timeout on any keyval storing credentials:\n\nkeyval_zone zone=oidc_access_tokens:1M state=/var/lib/nginx/state/oidc_access_tokens.json timeout=1h;\n\nRestart NGINX:\n\nnginx -s reload",
+  "fix_id": "F-82840r1171954_fix",
+  "VulnDiscussion": "If cached authentication information is out of date, the validity of the authentication information may be questionable.",
+  "Documentable": "false"
+}

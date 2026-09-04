@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270496",
+  "rule_id": "SV-270496r1167727_rule",
+  "stig_id": "O19C-00-000200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Oracle Database must protect against or limit the effects of organization-defined types of denial-of-service (DoS) attacks.",
+  "group_title": "SRG-APP-000001-DB-000031",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-74529r1167725_chk",
+  "check_content": "Review database management system (DBMS) settings to verify the DBMS implements measures to limit the effects of a DoS event.\n\nRate Limit:\n\nCheck the $ORACLE_HOME/network/admin/listener.ora to verify a Rate Limit has been established. A rate limit is used to prevent DoS attacks on a database or to control a logon storm such as may be caused by an application server or pool restart.\n\nIf a rate limit has not been set similar to one of the two examples in Listing 1, this is a finding.\n \nListing 1\nCONNECTION_RATE_LISTENER=10\nLISTENER= (\n  ADDRESS_LIST=\n    (ADDRESS=(PROTOCOL=tcp)(HOST=)(PORT=1521)(RATE_LIMIT=yes))\n    (ADDRESS=(PROTOCOL=tcp)(HOST=)(PORT=1522)(RATE_LIMIT=yes))\n    (ADDRESS=(PROTOCOL=tcp)(HOST=)(PORT=1526))\n           )\nLISTENER=\n  (ADDRESS_LIST=\n    (ADDRESS=(PROTOCOL=tcp)(HOST=)(PORT=1521)(RATE_LIMIT=8))\n    (ADDRESS=(PROTOCOL=tcp)(HOST=)(PORT=1522)(RATE_LIMIT=12))\n    (ADDRESS=(PROTOCOL=tcp)(HOST=)(PORT=1526))\n           )\n\nDatabase Profiles:\nIf the database profiles, as shown in Listing 2 do not contain resource controls similar to those shown, but appropriate to the target database's infrastructure and utilization, that is a finding.\n\nListing 2\nSELECT cp.con_id, cp.profile, cp.resource_name, cp.limit\nFROM sys.cdb_profiles cp\nWHERE resource_name IN ('CPU_PER_CALL', 'IDLE_TIME', 'LOGICAL_READS_PER_CALL');\nORDER BY 1,2,3;\n\n\nTablespace Quota:\n\nListing 3\nSELECT ctq.con_id, ctq.tablespace_name, ctq.username, ctq.max_bytes, ctq.max_blocks\nFROM sys.cdb_ts_quotas ctq\nWHERE ((max_bytes = -1) OR (max_blocks = -1))\nAND (ctq.con_id, ctq.tablespace_name) IN (SELECT ct.con_id, ct.tablespace_name FROM sys.cdb_tablespaces ct)\nORDER BY 1;\n\nIf any rows returned have a MAX_BYTES or MAX_BLOCKS equal to minus one (-1) that is a finding.",
+  "fixtext": "Implement measures to limit the effects of organization-defined types of DoS attacks.\n\nFor each of the three queries in the Check, if there are findings, make the changes required to bring the environment into compliance.\n\nFor Listing 1:\nModify the $ORACLE_HOME/network/admin/listener.ora to establish a Rate Limit.\nRestart the listener for changes to take effect.\n\nFor Listing 2:\nSet limits on all profiles for CPU_PER_CALL, IDLE_TIME, and LOGICAL_READS_PER_CALL.\n\nFor Listing 3:\nEnforce reasonable limits for tablespace consumption sufficient to prevent a DOS attack from impacting multiple applications or multiple services.",
+  "fix_id": "F-74430r1167726_fix",
+  "VulnDiscussion": "DOS attacks, more correctly characterized as \"Denial-of-Service Events\" as they most often the result of run-away processes and accidents, are the result of an excessive demand for a limiting resource.\n\nA variety of technologies exist to limit, or in some cases, eliminate the effects of DoS attacks. For example, boundary protection devices can filter certain types of packets to protect devices on an organization's internal network from being directly affected by DoS attacks but within the database itself, Oracle provides the following mechanisms:\n\n1. Reduction of excessive concurrent connections from a single user (see STIG_ID O19C-00-000100).\n2. Limiting the database connection rate (LISTENER.ORA).\n3. Limiting the amount of CPU available to users with Profile kernel limits.\n4. Limiting the amount of I/O available to users with Profile kernel limits.\n5. Limiting the amount of storage space with tablespace quotas.\n6. Limiting idle time with profile kernel limits.\n\nOther best practices such as limiting the number of parallel handles available to users with Resource Manager Plans or using CMAN are also recommended as part of an overall plan for DoS prevention.",
+  "Documentable": "false"
+}

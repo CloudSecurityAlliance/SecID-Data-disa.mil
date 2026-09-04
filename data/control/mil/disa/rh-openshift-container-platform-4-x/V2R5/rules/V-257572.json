@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257572",
+  "rule_id": "SV-257572r1137650_rule",
+  "stig_id": "CNTR-OS-000900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift runtime must have updates installed within the period directed by an authoritative source (e.g., IAVM, CTOs, DTMs, and STIGs).",
+  "group_title": "SRG-APP-000456-CTR-001130",
+  "idents": {
+    "cci": [
+      "CCI-002605"
+    ]
+  },
+  "check_id": "C-61307r921657_chk",
+  "check_content": "To list all the imagestreams and identify which imagestream tags are configured to periodically check for updates (imagePolicy = { scheduled: true }), execute the following:\n\noc get imagestream  --all-namespaces -o jsonpath='{range .items[*]}{.metadata.name}{\"\\n\"}{range .spec.tags[*]}{\"\\t\"}{.name}{\": \"}{.importPolicy}{\"\\n\"}'\n\nThe output will be similar to:\n\nhttpd\n        2.4: {}\n        2.4-el7: {}\n        2.4-el8: {}\n        latest: {}\n        : \ninstaller\n        latest: {\"scheduled\":true}\n        : \ninstaller-artifacts\n        latest: {\"scheduled\":true}\n        : \n\nReview the listing, and for each imagestream tag version that does not have the value '{\"scheduled\":true}' that should otherwise check for updates, this is a finding.",
+  "fixtext": "For container images that are not scheduled to check for updates that otherwise should, update the imagestream to schedule updates for each tag by executing the following:\n\noc patch imagestream <NAME> -n NAMESPACE --type merge -p '{\"spec\":{\"tags\":[{\"name\":\"<TAG_NAME>\",\"importPolicy\":{\"scheduled\":true}}]}}' \n\nwhere,\n  NAME: The imagestream name to update\n  NAMESPACE: The namespace the imagestream is in. This will most often be 'openshift'.\n  TAG_NAME: The imagestream tag to update",
+  "fix_id": "F-61231r921658_fix",
+  "VulnDiscussion": "OpenShift runtime must be carefully monitored for vulnerabilities, and when problems are detected, they must be remediated quickly. A vulnerable runtime exposes all containers it supports, as well as the host itself, to potentially significant risk. Organizations must use tools to look for Common Vulnerabilities and Exposures (CVEs) in the runtimes deployed, to upgrade any instances at risk, and to ensure that orchestrators only allow deployments to properly maintained runtimes.\n\nSatisfies: SRG-APP-000456-CTR-001130, SRG-APP-000456-CTR-001125",
+  "Documentable": "false"
+}

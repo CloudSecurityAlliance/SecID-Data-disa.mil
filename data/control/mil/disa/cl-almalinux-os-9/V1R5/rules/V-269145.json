@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269145",
+  "rule_id": "SV-269145r1050027_rule",
+  "stig_id": "ALMA-09-007170",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must enable kernel parameters to enforce discretionary access control (DAC) on symlinks.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-73176r1049194_chk",
+  "check_content": "Verify AlmaLinux OS 9 is configured to enable DAC on symlinks with the following command:\n\n$ sysctl fs.protected_symlinks\n\nfs.protected_symlinks = 1\n\nIf \"fs.protected_symlinks \" is not set to \"1\" or is missing, this is a finding.\n\nCheck that the configuration files are present to enable this kernel parameter:\n\n$ /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' | grep -F fs.protected_symlinks | tail -1\n\nfs.protected_symlinks = 1\n\nIf \"fs.protected_symlinks\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to enable DAC on symlinks with the following command:\n\n$ echo \"fs.protected_symlinks = 1\" > /etc/sysctl.d/60-symlinks.conf\n\nLoad settings from all system configuration files with the following command:\n\n$ sysctl --system",
+  "fix_id": "F-73077r1049195_fix",
+  "VulnDiscussion": "By enabling the fs.protected_symlinks kernel parameter, symbolic links are permitted to be followed only when outside a sticky world-writable directory, or when the user identifier (UID) of the link and follower match, or when the directory owner matches the symlink's owner. \n\nDisallowing such symlinks helps mitigate vulnerabilities based on unsecure file systems accessed by privileged programs, avoiding an exploitation vector exploiting unsafe use of open() or creat().",
+  "Documentable": "false"
+}

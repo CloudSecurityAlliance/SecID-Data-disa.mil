@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276377",
+  "rule_id": "SV-276377r1146627_rule",
+  "stig_id": "AVOS-02-003300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Apple visionOS 2 must not allow backup to remote systems (iCloud Keychain).",
+  "group_title": "PP-MDF-333250",
+  "idents": {
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-80532r1146625_chk",
+  "check_content": "Note: This requirement is not applicable if the authorizing official (AO) has approved users' full access to the Apple App Store for downloading unmanaged (personal) apps and syncing personal data on the device with personal cloud data storage accounts. The site must have an AO-signed document showing the AO has assumed the risk for users' full access to the Apple App Store. \n\nThis is a supervised-only control. If the Vision Pro being reviewed is not supervised by the MDM, this control is automatically a finding.\n\nIf the Vision Pro being reviewed is supervised by the MDM, review configuration settings to confirm iCloud keychain is disabled.\n\nThis check procedure is performed on both the Apple visionOS management tool and the Vision Pro. \n\nNote: If an organization has multiple configuration profiles, the check procedure must be performed on the relevant configuration profiles applicable to the scope of the review.\n\nIn the Apple visionOS management tool, verify \"Allow iCloud keychain\" is unchecked.\n\nAlternatively, verify the text \"<key>allowCloudKeychainSync</key><false/>\" appears in the configuration profile (.mobileconfig file).\n\nOn the Vision Pro:\n1. Open the Settings app.\n2. Tap \"General\".\n3. Tap \"VPN & Device Management\".\n4. Tap the configuration profile from the visionOS management tool containing the management policy.\n5. Verify \"iCloud Keychain not allowed\" is listed.\n\nIf \"Allow iCloud keychain\" is checked in the Apple visionOS management tool, \"<key>allowCloudKeychainSync</key><true/>\" appears in the configuration profile, or \"iCloud Keychain not allowed\" is not listed on the Vision Pro, this is a finding.",
+  "fixtext": "Install a configuration profile to disable iCloud keychain. This is a supervised-only control.",
+  "fix_id": "F-80437r1146626_fix",
+  "VulnDiscussion": "If a user can configure the security setting, the user could inadvertently or maliciously set it to a value that poses unacceptable risk to DOD information systems. An adversary could exploit vulnerabilities created by the weaker configuration to compromise DOD sensitive information.\n\nSFR ID: FMT_MOF_EXT.1.2 #40",
+  "Documentable": "false"
+}

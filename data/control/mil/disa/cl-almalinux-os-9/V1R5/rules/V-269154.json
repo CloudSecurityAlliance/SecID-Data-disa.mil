@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269154",
+  "rule_id": "SV-269154r1050036_rule",
+  "stig_id": "ALMA-09-008270",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must ensure account locks persist across reboots.",
+  "group_title": "SRG-OS-000329-GPOS-00128",
+  "idents": {
+    "cci": [
+      "CCI-002238"
+    ]
+  },
+  "check_id": "C-73185r1047838_chk",
+  "check_content": "Verify the \"/etc/security/faillock.conf\" file is configured to use a nondefault faillock directory to ensure its contents persist after reboot with the following command:\n\n$ grep \"dir =\" /etc/security/faillock.conf\n\ndir = /var/log/faillock\n\nIf the \"dir\" option is set to the default /var/run/faillock directory, is missing, or is commented out, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to maintain the contents of the faillock directory after a reboot.\n\nAdd/modify the \"/etc/security/faillock.conf\" file to match the following line:\n\ndir = /var/log/faillock",
+  "fix_id": "F-73086r1049218_fix",
+  "VulnDiscussion": "By limiting the number of failed logon attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-forcing, is reduced. Limits are imposed by locking the account.\n\nHaving account locks persist across reboots ensures that a locked account is only unlocked by an administrator. \n\nIf the locks did not persist across reboots, an attacker could reboot the system to continue brute force attacks against the accounts on the system.\n\nThe default /var/run/faillock directory is cleared upon reboot and should not be used.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276267",
+  "rule_id": "SV-276267r1150098_rule",
+  "stig_id": "MSQL-00-018600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must implement the capability to centrally review and analyze audit records from multiple components within the system using a service such as Azure Log Analytics.",
+  "group_title": "SRG-APP-000745-DB-000120",
+  "idents": {
+    "cci": [
+      "CCI-003821"
+    ]
+  },
+  "check_id": "C-80422r1150097_chk",
+  "check_content": "Review the system documentation to determine whether a centralized repository of audit data is required by the data owner or organization. If this is not required, this finding is Not Applicable.\n\nRun the following query to return a listing of active Server Audits not used for auditing Microsoft Support activities:\n\nSELECT audit_guid, name, type_desc, is_operator_audit, is_state_enabled\nFROM sys.server_audits A\nWHERE type_desc = 'EXTERNAL MONITOR' \nAND is_operator_audit = 0 \nAND is_state_enabled = 1\n\nIf no audits are returned, this is a finding.\n\nDetermine whether the Azure SQL Managed Instance is configured to forward SQL Security Audit Events to a centralized repository such as Log Analytics.\n\n1. Connect to the Azure portal and navigate to the Azure SQL Managed Instance resource.\n2. In the left navigation pane, expand \"Monitoring\".\n3. Click \"Diagnostic settings\".\n\nIf no diagnostic settings are defined, this is a finding.\n\nLocate the diagnostic setting for SQL Security Audit Events by repeating the following steps for each setting defined:\n\n1. Click \"Edit settings\" on the right.\n2. Under \"Logs\", verify the \"SQL Security Audit Event\" category is flagged.\n3. Under \"Destination details\", verify \"Send to Log Analytics workspace\" is flagged.\n\nIf no Diagnostic setting meets both of these requirements, this is a finding.",
+  "fixtext": "Configure Azure SQL Managed Instance to implement the capability to centrally review and analyze audit records from multiple components within the system.\n\nOne option is to use Log Analytics to query data in the Azure Monitor Logs store.\n\nReference: https://learn.microsoft.com/en-us/azure/azure-sql/managed-instance/auditing-configure?#set-up-auditing-for-your-server-to-event-hubs-or-azure-monitor-logs\nhttps://learn.microsoft.com/en-us/azure/azure-monitor/logs/log-analytics-overview?tabs=simple",
+  "fix_id": "F-80327r1149709_fix",
+  "VulnDiscussion": "Automated mechanisms for centralized reviews and analyses include Security Information and Event Management products.",
+  "Documentable": "false"
+}

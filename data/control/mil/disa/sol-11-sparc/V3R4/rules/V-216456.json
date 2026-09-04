@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216456",
+  "rule_id": "SV-216456r959010_rule",
+  "stig_id": "SOL-11.1-080160",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "SNMP communities, users, and passphrases must be changed from the default.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-47995",
+      "SV-60867"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17692r793029_chk",
+  "check_content": "The root role is required.\n\nCheck the SNMP configuration for default passwords.\nLocate and examine the SNMP configuration.\n\nProcedure:\n\nFind any occurrences of the snmpd.conf file delivered with Solaris packages:\n\n# pkg search -l -Ho path snmpd.conf | awk '{ print \"/\"$1 }'\n\n# more [filename]\n\nIdentify any community names or user password configurations. If any community name or password is set to a default value, such as public, private, snmp-trap, or password, this is a finding.",
+  "fixtext": "The root role is required.\n\nChange the default snmpd.conf community passwords. To change them, locate the snmpd.conf file and edit it.\n\n# pfedit [filename]\n\nLocate the line system-group-read-community which has a default password of public and make the password something more random (less guessable). Make the same changes for the lines that read system- group-write-community, read-community, write-community, trap, and trap-community. Read the information in the file carefully. The trap is defining who to send traps to, for instance, by default. It is not a password, but the name of a host.",
+  "fix_id": "F-17690r371457_fix",
+  "VulnDiscussion": "Whether active or not, default SNMP passwords, users, and passphrases must be changed to maintain security. If the service is running with the default authenticators, then anyone can gather data about the system and the network and use the information to potentially compromise the integrity of the system or network(s).",
+  "Documentable": "false"
+}

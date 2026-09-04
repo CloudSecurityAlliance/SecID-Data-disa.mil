@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271169",
+  "rule_id": "SV-271169r1109188_rule",
+  "stig_id": "SQLD-22-001600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Database Master Key encryption password must meet DOD password complexity requirements.",
+  "group_title": "SRG-APP-000231-DB-000154",
+  "idents": {
+    "cci": [
+      "CCI-001199"
+    ]
+  },
+  "check_id": "C-75212r1108121_chk",
+  "check_content": "From the query prompt: \n\nSELECT name \nFROM [master].sys.databases \nWHERE state = 0 \n\nRepeat for each database: \nFrom the query prompt: \n\nUSE [database name] \nSELECT COUNT(name) \nFROM sys.symmetric_keys s, sys.key_encryptions k \nWHERE s.name = '##MS_DatabaseMasterKey##' \nAND s.symmetric_key_id = k.key_id \nAND k.crypt_type in ('ESKP', 'ESP2', 'ESP3')\n\nIf the value returned is zero, this is not applicable.\n\nIf the value returned is greater than zero, a Database Master Key exists and is encrypted with a password. \n\nReview procedures and evidence of password requirements used to encrypt Database Master Keys. \n\nIf the passwords do not meet DOD password standards, this is a finding.",
+  "fixtext": "Assign an encryption password to the Database Master Key that is a minimum of 15 characters with at least one uppercase character, one lowercase character, one special character, one numeric character, and at least eight characters changed from the previous password. To change the Database Master Key encryption password: \n\nUSE [database name];\nALTER MASTER KEY REGENERATE WITH ENCRYPTION BY PASSWORD = 'new password'; \n\nNote: Do not change the Database Master Key encryption method until the effects are thoroughly reviewed. Changing the master key encryption causes all encryption using the Database Master Key to be decrypted and reencrypted. This action should not be taken during a high-demand time. \n\nRefer to the SQL Server documentation found here prior to reencrypting the Database Master Key: \nhttps://learn.microsoft.com/en-us/sql/relational-databases/security/encryption/create-a-database-master-key?",
+  "fix_id": "F-75119r1109187_fix",
+  "VulnDiscussion": "Weak passwords may be easily guessed. When passwords are used to encrypt keys used for encryption of sensitive data, the confidentiality of all data encrypted using that key is at risk.\n\nCurrent DOD passwords require the following: \n- minimum of 15 characters;\n- at least one uppercase character;\n- one lowercase character;\n- one special character;\n- one numeric character, and\n- at least eight characters changed from the previous password.",
+  "Documentable": "false"
+}

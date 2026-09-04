@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253878",
+  "rule_id": "SV-253878r1028864_rule",
+  "stig_id": "JUEX-NM-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to limit the number of concurrent management sessions to 10 or an organization-defined value.",
+  "group_title": "SRG-APP-000001-NDM-000200",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-57330r1028862_chk",
+  "check_content": "If, based on operational needs, an organization defined number other than 1 is used, document the value in the SSP. View the SSH service configuration using the \"show configuration system services ssh\" command.\n\nSSH example.\nuser@host> show configuration system services ssh\n\nconnection-limit 1;\nrate-limit 1\n\nIf the device does not limit the number of concurrent management sessions to 1 or an organization-defined number, this is a finding.",
+  "fixtext": "Enter the CLI configuration mode and enter the following commands to set the connection-limit to 1 or an organization defined number. If, based on operational needs, an organization defined number other than 1 is used, document the value in the SSP.\n\nSSH example limiting connections to 1:\nuser@host> configure\nuser@host# set system services ssh connection-limit 1\nuser@host# commit",
+  "fix_id": "F-57281r1028863_fix",
+  "VulnDiscussion": "Device management includes the ability to control the number of administrators and management sessions that manage a device. Limiting the number of allowed administrators and sessions per administrator based on account type, role, or access type is helpful in limiting risks related to denial-of-service (DoS) attacks.\n\nThis requirement addresses concurrent sessions for administrative accounts and does not address concurrent sessions by a single administrator via multiple administrative accounts. The maximum number of concurrent sessions must be defined based upon mission needs and the operational environment for each system. At a minimum, limits must be set for SSH, HTTPS, account of last resort, and root account sessions.\n\nJuniper switches apply session limits per access method (e.g., web management, SSH), which means the limit is applicable to local, remote, and root account sessions. \n\nUnconfigured management access methods are disabled. For instance, if there is no [edit system services ssh] stanza, that service is unavailable and a connection-limit should not be configured because that will enable the service.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279194",
+  "rule_id": "SV-279194r1170667_rule",
+  "stig_id": "SYME-00-006600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Edge SWG must generate error messages that provide the information necessary for corrective actions without revealing information that could be exploited by adversaries.",
+  "group_title": "SRG-NET-000273-ALG-000129",
+  "idents": {
+    "cci": [
+      "CCI-001312"
+    ]
+  },
+  "check_id": "C-83742r1170665_chk",
+  "check_content": "1. Log in to the Edge SWG SSH CLI. \n2. Enter \"enable\".\n3. Enter \"show exceptions\". \n\nIf there are no user-define d exceptions, this is finding.\n\nIn the Edge SWG Web UI, navigate to the VPM. \n\nUnder the Web Access Layer, for the Action on disallowed content, if there is no User-Defined exception implemented, this is a finding.",
+  "fixtext": "These procedures will create a user-defined exception page that will show only necessary errors to the proxy user with specific contact information.\n1. Log in to the Edge SWG SSH CLI.\n2. Enter \"enable\" and \"configure terminal\".\n3. Enter \"exceptions\".\n4. Enter \"create DOD-BLOCKS\".\n5. Enter \"edit DOD-BLOCKS\".\n6. Enter \"inline format EOF\".\n7. Copy and paste the data below exactly as it appears and edit items such as Organization, email addresses, etc.:\n\n<!DOCTYPE html>\n<html> \n<head>\n<title>Denied Access Policy </title>\n<meta name= \"author\" content = \"SAMPLE ORGANIZATION\" >\n<meta name=\"description\" content = \"Denied Access Policy\" >\n<meta name=\"category\" content = \"$(exception.category)\">\n</head>\n<body>\n<center>\n<p>\n<font face = \"Arial, Helvetica, sans-serif\" size = \"4\" color = \"Red\" ><b>You have reached a website that is currently being blocked due to malicious activity and/or current acceptable use policies.</font><br>\n<font face= \"Arial, Helvetica, sans-serif\" size = \"4\" color = \"Red\">INTERNET USAGE IS MONITORED AND LOGGED.</font><br>\n<font face = \"Arial, Helvetica, sans-serif\" size = \"3\" color = \"Red\"><b>Your IP address: $(client.address) <br>Your username:  $(user.name) <br> Banned Website: $(url) <br> Website IP address: $(url.address)<br>Banned Category: $(category) <br> Rule Name: $(exception.id)</b></font><br>\n<br>\n<font face = \"Arial, Helvetica, sans-serif\" size = \"4\" color = \"red\" > This has been reported by:  $(proxy.name)<font><br>\n<A href='mailto:email@mail.mil?subject=Barred web page $(url),IP address: $(client.address)&body=IP address:$(client.address)%0DYour username:$(user.name)%0DBanned Website:$(url)%0DWebsite IP address:$(url.address)%0DBanned Category:$(category)%0DRule Name:$(exception.id)' > If you have further questions or require assistance click here to send an email <br> to your Information Management Office (IMO) or ORGANIZATION Cyber Security & Risk Management</a></font></a></font>\n</p>\n</center>\n</body>\n</html>\nEOF\n\n8. After the EOF, click \"Enter\".\n9. Enter \"http-code 403\".\n\n1. In the Edge SWG Web UI, navigate to the VPM.\n2. Under the Web Access Layer for the Action on disallowed content, click \"Set and Add New Object\".\n3. Select \"Return Exception\".\n4. Enter a name and select \"User-defined exception\".\n5. Select the previously created user-defined exception.\n6. Check the box for \"Force exception even if later policy would allow request\".\n7. Click \"Set\" and repeat steps for other services being proxied.\n8. Click \"Apply Policy\".",
+  "fix_id": "F-83647r1170666_fix",
+  "VulnDiscussion": "Providing too much information in error messages risks compromising the data and security of the application and system.\n\nOrganizations carefully consider the structure/content of error messages. The required information within error messages will vary based on the protocol and error condition. Information that could be exploited by adversaries includes, for example, ICMP messages that reveal the use of firewalls or access-control lists.",
+  "Documentable": "false"
+}

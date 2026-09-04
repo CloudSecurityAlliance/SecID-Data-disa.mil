@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230344",
+  "rule_id": "SV-230344r1017156_rule",
+  "stig_id": "RHEL-08-020022",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must include root when automatically locking an account until the locked account is released by an administrator when three unsuccessful logon attempts occur during a 15-minute time period.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-33013r646873_chk",
+  "check_content": "Check that the system includes the root account when locking an account after three unsuccessful logon attempts within a period of 15 minutes with the following commands:\n\nIf the system is RHEL version 8.2 or newer, this check is not applicable.\n\nNote: If the System Administrator demonstrates the use of an approved centralized account management method that locks an account after three unsuccessful logon attempts within a period of 15 minutes, this requirement is not applicable.\n\n$ sudo grep pam_faillock.so /etc/pam.d/password-auth\n\nauth required pam_faillock.so preauth dir=/var/log/faillock silent audit deny=3 even_deny_root fail_interval=900 unlock_time=0\nauth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0\naccount required pam_faillock.so\n\nIf the \"even_deny_root\" option is missing from the \"preauth\" line with the \"pam_faillock.so\" module, this is a finding.\n\n$ sudo grep pam_faillock.so /etc/pam.d/system-auth\n\nauth required pam_faillock.so preauth dir=/var/log/faillock silent audit deny=3 even_deny_root fail_interval=900 unlock_time=0\nauth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0\naccount required pam_faillock.so\n\nIf the \"even_deny_root\" option is missing from the \"preauth\" line with the \"pam_faillock.so\" module, this is a finding.",
+  "fixtext": "Configure the operating system to include root when locking an account after three unsuccessful logon attempts occur in 15 minutes.\n\nAdd/Modify the appropriate sections of the \"/etc/pam.d/system-auth\" and \"/etc/pam.d/password-auth\" files to match the following lines:\n\nauth required pam_faillock.so preauth dir=/var/log/faillock silent audit deny=3 even_deny_root fail_interval=900 unlock_time=0\nauth required pam_faillock.so authfail dir=/var/log/faillock unlock_time=0\naccount required pam_faillock.so\n\nThe \"sssd\" service must be restarted for the changes to take effect. To restart the \"sssd\" service, run the following command:\n\n$ sudo systemctl restart sssd.service",
+  "fix_id": "F-32988r567779_fix",
+  "VulnDiscussion": "By limiting the number of failed logon attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-force attacks, is reduced. Limits are imposed by locking the account.\n\nRHEL 8 can utilize the \"pam_faillock.so\" for this purpose. Note that manual changes to the listed files may be overwritten by the \"authselect\" program.\n\nFrom \"Pam_Faillock\" man pages: Note that the default directory that \"pam_faillock\" uses is usually cleared on system boot so the access will be reenabled after system reboot. If that is undesirable a different tally directory must be set with the \"dir\" option.\n\nIn RHEL 8.2 the \"/etc/security/faillock.conf\" file was incorporated to centralize the configuration of the pam_faillock.so module. Also introduced is a \"local_users_only\" option that will only track failed user authentication attempts for local users in /etc/passwd and ignore centralized (AD, IdM, LDAP, etc.) users to allow the centralized platform to solely manage user lockout.\n\nSatisfies: SRG-OS-000021-GPOS-00005, SRG-OS-000329-GPOS-00128",
+  "Documentable": "false"
+}

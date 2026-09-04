@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269466",
+  "rule_id": "SV-269466r1050349_rule",
+  "stig_id": "ALMA-09-046660",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must audit all uses of the delete_module, init_module and finit_module system calls.",
+  "group_title": "SRG-OS-000477-GPOS-00222",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-73497r1049766_chk",
+  "check_content": "Verify that AlmaLinux OS 9 is configured to audit the execution of the \"delete_module\", \"init_module\" and \"finit_module\" system calls with the following command:\n\n$ auditctl -l | grep module\n\n-a always,exit -F arch=b32 -S init_module,finit_module -F auid>=1000 -F auid!=unset -k module_chng\n-a always,exit -F arch=b64 -S init_module,finit_module -F auid>=1000 -F auid!=unset -k module_chng\n-a always,exit -F arch=b32 -S delete_module -F auid>=1000 -F auid!=unset -k module_chng\n-a always,exit -F arch=b64 -S delete_module -F auid>=1000 -F auid!=unset -k module_chng\n\nIf both the \"b32\" and \"b64\" audit rules are not defined for the \"delete_module\", \"init_module\" and \"finit_module\" system calls, or any of the lines returned are commented out, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to generate an audit event for any successful/unsuccessful use of the \"delete_module\", \"init_module\" and \"finit_module\" system calls.\n\nAdd the following lines to the \"/etc/audit/rules.d/audit.rules\" file:\n\n-a always,exit -F arch=b32 -S init_module,finit_module -F auid>=1000 -F auid!=unset -k module_chng\n-a always,exit -F arch=b64 -S init_module,finit_module -F auid>=1000 -F auid!=unset -k module_chng\n-a always,exit -F arch=b32 -S delete_module -F auid>=1000 -F auid!=unset -k module_chng\n-a always,exit -F arch=b64 -S delete_module -F auid>=1000 -F auid!=unset -k module_chng\n\nMerge the rules into /etc/audit/audit.rules:\n\n$ augenrules --load",
+  "fix_id": "F-73398r1049767_fix",
+  "VulnDiscussion": "Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).\n\nWhen a user logs on, the auid is set to the uid of the account being authenticated. Daemons are not user sessions and have the loginuid set to -1. The auid representation is an unsigned 32-bit integer, which equals 4294967295. The audit system interprets -1, 4294967295, and \"unset\" in the same way.\n\nThe system call rules are loaded into a matching engine that intercepts each system call made by all programs on the system. Therefore, it is very important to use system call rules only when absolutely necessary since these affect performance. The more rules, the bigger the performance hit. The performance can be helped, however, by combining system calls into one rule whenever possible.\n\nSatisfies: SRG-OS-000477-GPOS-00222, SRG-OS-000471-GPOS-00216",
+  "Documentable": "false"
+}

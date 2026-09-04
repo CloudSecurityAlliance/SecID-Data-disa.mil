@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-250315",
+  "rule_id": "SV-250315r1017356_rule",
+  "stig_id": "RHEL-08-020027",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 systems, versions 8.2 and above, must configure SELinux context type to allow the use of a non-default faillock tally directory.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044",
+      "CCI-002238"
+    ]
+  },
+  "check_id": "C-53749r793000_chk",
+  "check_content": "If the system does not have SELinux enabled and enforcing a targeted policy, or if the pam_faillock module is not configured for use, this requirement is not applicable.\n\nNote: This check applies to RHEL versions 8.2 or newer. If the system is RHEL version 8.0 or 8.1, this check is not applicable.\n\nVerify the location of the non-default tally directory for the pam_faillock module with the following command:\n\n$ sudo grep -w dir /etc/security/faillock.conf\n\ndir = /var/log/faillock\n\nCheck the security context type of the non-default tally directory with the following command:\n\n$ sudo ls -Zd /var/log/faillock\n\nunconfined_u:object_r:faillog_t:s0 /var/log/faillock\n\nIf the security context type of the non-default tally directory is not \"faillog_t\", this is a finding.",
+  "fixtext": "Configure RHEL 8 to allow the use of a non-default faillock tally directory while SELinux enforces a targeted policy.\n\nCreate a non-default faillock tally directory (if it does not already exist) with the following example:\n\n$ sudo mkdir /var/log/faillock\n\nUpdate the /etc/selinux/targeted/contexts/files/file_contexts.local with \"faillog_t\" context type for the non-default faillock tally directory with the following command:\n\n$ sudo semanage fcontext -a -t faillog_t \"/var/log/faillock(/.*)?\" \n\nNext, update the context type of the non-default faillock directory/subdirectories and files with the following command:\t\n\n$ sudo restorecon -R -v /var/log/faillock",
+  "fix_id": "F-53703r793001_fix",
+  "VulnDiscussion": "By limiting the number of failed logon attempts, the risk of unauthorized system access via user password guessing, otherwise known as brute-force attacks, is reduced. Limits are imposed by locking the account.\n\nFrom \"faillock.conf\" man pages: Note that the default directory that \"pam_faillock\" uses is usually cleared on system boot so the access will be re-enabled after system reboot. If that is undesirable, a different tally directory must be set with the \"dir\" option.\n\nSELinux, enforcing a targeted policy, will require any non-default tally directory's security context type to match the default directory's security context type. Without updating the security context type, the pam_faillock module will not write failed login attempts to the non-default tally directory.",
+  "Documentable": "false"
+}

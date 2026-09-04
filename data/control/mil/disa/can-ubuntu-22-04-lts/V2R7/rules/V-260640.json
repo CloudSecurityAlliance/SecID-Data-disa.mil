@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260640",
+  "rule_id": "SV-260640r991589_rule",
+  "stig_id": "UBTU-22-654190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must generate audit records for all events that affect the systemd journal files.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-64369r953731_chk",
+  "check_content": "Verify Ubuntu 22.04 LTS generates audit records for all events that affect \"/var/log/journal\" by using the following command:  \n  \n     $ sudo auditctl -l | grep journal  \n     -w /var/log/journal -p wa -k systemd_journal  \n  \nIf the command does not return a line that matches the example or the line is commented out, this is a finding.  \n  \nNote: The \"-k\" value is arbitrary and can be different from the example output above.",
+  "fixtext": "Configure Ubuntu 22.04 LTS to generate audit records for events that affect \"/var/log/journal\".  \n  \nAdd or modify the following line to \"/etc/audit/rules.d/stig.rules\":  \n  \n-w /var/log/journal -p wa -k systemd_journal  \n   \nTo reload the rules file, issue the following command:  \n  \n     $ sudo augenrules --load \n \nNote: The \"-k <keyname>\" at the end of the line gives the rule a unique meaning to help during an audit investigation. The <keyname> does not need to match the example above.",
+  "fix_id": "F-64277r953732_fix",
+  "VulnDiscussion": "Once an attacker establishes access to a system, the attacker often attempts to create a persistent method of reestablishing access. One way to accomplish this is for the attacker to modify system level binaries and their operation. Auditing the systemd journal files provides logging that can be used for forensic purposes. \n  \nTo address access requirements, many operating systems may be integrated with enterprise level authentication/access/auditing mechanisms that meet or exceed access control policy requirements.",
+  "Documentable": "false"
+}

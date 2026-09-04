@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253929",
+  "rule_id": "SV-253929r1167984_rule",
+  "stig_id": "JUEX-NM-000520",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to implement cryptographic mechanisms using a FIPS 140-2/140-3 approved algorithm to protect the confidentiality of remote maintenance sessions.",
+  "group_title": "SRG-APP-000412-NDM-000331",
+  "idents": {
+    "cci": [
+      "CCI-003123"
+    ]
+  },
+  "check_id": "C-57381r1167982_chk",
+  "check_content": "Review the network device configuration to determine if cryptographic mechanisms are implemented using a FIPS 140-2/FIPS 140-3 approved algorithm to protect the confidentiality of remote maintenance sessions.\n\nIf using SNMPv3, verify (minimally) that authentication-sha is configured. Juniper devices also support authentication-sha224/256/384/512. Verify the strongest mutually supported HMAC between the network device and the Network Management Server (NMS) is configured.\n\n[edit system snmp]\nv3 {\n    usm {\n        local-engine {\n            user <SNMPv3 user> {\n                authentication-sha {\n                    authentication-key \"PSK\"; ## SECRET-DATA\n                }\n            }\n        }\n    }\n}\n\nVerify SSHv2 is configured for protocol V2 only, ciphers [ aes256-ctr ], key-exchange [ ecdh-sha2-nistp521 ecdh-sha2-nistp384 ecdh-sha2-nistp256 ], and macs [ hmac-sha2-512 hmac-sha2-256 ].\n[edit system services ssh]\n:\nprotocol-version v2;\nciphers [ aes256-ctr];\nmacs [ hmac-sha2-512 hmac-sha2-256 ];\nkey-exchange [ ecdh-sha2-nistp521 ecdh-sha2-nistp384 ecdh-sha2-nistp256 ];\n\nIf the network device is not configured to implement cryptographic mechanisms to protect the confidentiality of remote maintenance sessions using a FIPS 140-2/FIPS 140-3 approved algorithm, this is a finding.",
+  "fixtext": "Configure the network device to implement cryptographic mechanisms to protect the confidentiality of remote maintenance sessions using a FIPS 140-2/FIPS 140-3 approved algorithm.\n\nset snmp v3 usm local-engine user <SNMPv3 user> authentication-sha authentication-password \"PSK\"\nset snmp v3 usm local-engine user <SNMPv3 user> privacy-aes128 privacy-password \"PSK\"\nNote: Use the strongest HMAC mutually supported with the NMS (e.g., authentication-sha256, authentication-sha512)\n\nset system services ssh protocol-version v2\nset system services ssh ciphers aes256-ctr\nset system services ssh macs hmac-sha2-512\nset system services ssh macs hmac-sha2-256\nset system services ssh key-exchange ecdh-sha2-nistp521\nset system services ssh key-exchange ecdh-sha2-nistp384\nset system services ssh key-exchange ecdh-sha2-nistp256",
+  "fix_id": "F-57332r1167983_fix",
+  "VulnDiscussion": "This requires the use of secure protocols instead of their unsecured counterparts, such as SSH instead of telnet, SCP instead of FTP, and HTTPS instead of HTTP. If unsecured protocols (lacking cryptographic mechanisms) are used for sessions, the contents of those sessions will be susceptible to eavesdropping, potentially putting sensitive data (including administrator passwords) at risk of compromise and potentially allowing hijacking of maintenance sessions.\n\nUse only CTR cipher block chaining modes in compliance with CVE-2008-5161, plugin 70658 based on vendor guidance in KB20853. This prevents certain plaintext attacks in OpenSSH.",
+  "Documentable": "false"
+}

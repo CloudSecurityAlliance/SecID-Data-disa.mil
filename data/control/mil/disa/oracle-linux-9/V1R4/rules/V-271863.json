@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271863",
+  "rule_id": "SV-271863r1092639_rule",
+  "stig_id": "OL09-00-006010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must not have unauthorized IP tunnels configured.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75913r1092638_chk",
+  "check_content": "Verify that OL 9 does not have unauthorized IP tunnels configured.\n\nDetermine if the IPsec service is active with the following command:\n\n$ systemctl status ipsec\nipsec.service - Internet Key Exchange (IKE) Protocol Daemon for IPsec\nLoaded: loaded (/usr/lib/systemd/system/ipsec.service; disabled)\nActive: inactive (dead)\n\nIf the IPsec service is active, check for configured IPsec connections (\"conn\"), with the following command:\n\n$ grep -rni conn /etc/ipsec.conf /etc/ipsec.d/ \n\nVerify any returned results are documented with the ISSO.\n\nIf the IPsec tunnels are active and not approved, this is a finding.",
+  "fixtext": "Remove all unapproved tunnels from the system, or document them with the ISSO.",
+  "fix_id": "F-75820r1092300_fix",
+  "VulnDiscussion": "IP tunneling mechanisms can be used to bypass network filtering. If tunneling is required, it must be documented with the information system security officer (ISSO).",
+  "Documentable": "false"
+}

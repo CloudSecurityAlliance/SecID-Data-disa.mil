@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-278396",
+  "rule_id": "SV-278396r1172699_rule",
+  "stig_id": "NGNX-APP-001400",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "NGINX must off-load audit records to a central log server.",
+  "group_title": "SRG-APP-000358",
+  "idents": {
+    "cci": [
+      "CCI-001851",
+      "CCI-001348"
+    ]
+  },
+  "check_id": "C-82930r1171938_chk",
+  "check_content": "Determine the path to NGINX config file(s):\n\n# nginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nVerify that \"syslog:server= prefix\" is included in any log directive:\n\n# cat <path to config>\n\nFind the \"error_log: or \"access_log\" directives and verify the syslog:server= prefix is included.\n\nIf \"error_log\" or \"access_log\" exists and does not include \"syslog:server=\", this is a finding.",
+  "fixtext": "Determine the path to NGINX config file(s):\n\n# nginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nInclude the \"syslog:server= prefix\" (which can be a domain name, an IP address, or a UNIX-domain socket path. A domain name or IP address can be specified with a port to override the default port, 514. A UNIX-domain socket path can be specified after the unix: prefix:) in any log directives and configure the optional parameters (facility, tag, severity).\n\nAfter saving the configuration, reload NGINX:\n\n# nginx -s reload",
+  "fix_id": "F-82835r1172698_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.\n\nSatisfies: SRG-APP-000358, SRG-APP-000125, SRG-APP-000515",
+  "Documentable": "false"
+}

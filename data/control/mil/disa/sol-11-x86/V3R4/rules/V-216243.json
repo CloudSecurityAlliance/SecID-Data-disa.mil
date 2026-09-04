@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216243",
+  "rule_id": "SV-216243r959010_rule",
+  "stig_id": "SOL-11.1-120410",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The operating system must monitor for unauthorized connections of mobile devices to organizational information systems.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-49635",
+      "SV-62559"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17481r373105_chk",
+  "check_content": "This check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\" this check applies.\n\nDetermine if USB mass storage devices are locked out by the kernel.\n\n# grep -h \"exclude: scsa2usb\" /etc/system /etc/system.d/*\n\nIf the output of this command is not:\n\nexclude: scsa2usb\n\nthis is a finding.",
+  "fixtext": "The root role is required.\n\nThis check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\" this check applies.\n\nModify the /etc/system file.\n\nDetermine the OS version you are currently securing.\n# uname –v\nFor Solaris 11GA and 11.1\n# pfedit /etc/system\n\nAdd a line containing:\n\nexclude: scsa2usb\n\nNote that the global zone will need to be rebooted for this change to take effect.   \n\nFor Solaris 11.2 or newer\n\nModify an /etc/system.d file.\n# pfedit /etc/system.d/USB:MassStorage\n\nAdd a line containing:\nexclude: scsa2usb\n\nNote that the global zone will need to be rebooted for this change to take effect.",
+  "fix_id": "F-17479r373106_fix",
+  "VulnDiscussion": "Mobile devices include portable storage media (e.g., USB memory sticks, external hard disk drives) and portable computing and communications devices with information storage capability (e.g., notebook/laptop computers, personal digital assistants, cellular telephones, digital cameras, audio recording devices). \n\nOrganization-controlled mobile devices include those devices for which the organization has the authority to specify and the ability to enforce specific security requirements.\n\nUsage restrictions and implementation guidance related to mobile devices include configuration management, device identification and authentication, implementation of mandatory protective software (e.g., malicious code detection, firewall), scanning devices for malicious code, updating virus protection software, scanning for critical software updates and patches, conducting primary operating system (and possibly other resident software) integrity checks, and disabling unnecessary hardware (e.g., wireless, infrared).\n\nIn order to detect unauthorized mobile device connections, organizations must first identify and document what mobile devices are authorized.",
+  "Documentable": "false"
+}

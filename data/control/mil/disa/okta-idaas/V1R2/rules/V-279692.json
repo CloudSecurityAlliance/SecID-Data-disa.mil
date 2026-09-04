@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279692",
+  "rule_id": "SV-279692r1155075_rule",
+  "stig_id": "OKTA-APP-003243",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Okta must be configured with Network Zones defined to block anonymized proxies according to organizationally defined policy.",
+  "group_title": "SRG-APP-000039",
+  "idents": {
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-84245r1155073_chk",
+  "check_content": "From the Admin Console:\n\n1. Select the \"Security\" menu, and then click the \"Networks' item.\n2. If the CSSP has provided a list of anonymizers to block, verify the \"IP Block list\" is configured with them.\n\ta. Click the pencil icon next to IP Block list.\n\tb. Verify the \"Gateway IPs\" section contains all of the IP ranges in the provided list.\n3. If the CSSP is not able to provide a list, then implement the Okta managed list.\n\ta. Verify the \"Enhanced dynamic zone blocklist\" is set to \"Active\".\n\nIf Network Zones are not configured to block anonymous proxies, this is a finding.",
+  "fixtext": "From the Admin Console:\n\n1. Select the \"Security\" menu, and then click the \"Networks\" item.\n2. If the CSSP has provided a list of anonymizers to block, add the IP ranges to the \"IP Block list\".\n\ta. Click the pencil icon next to IP Block list.\n\tb. Add the IP ranges to the \"Gateway IPs\" section and click \"Save\".\n3. If the CSSP is not able to provide a list, then implement the Okta managed list.\n\ta. Set the \"Enhanced dynamic zone blocklist\" to \"Active\".",
+  "fix_id": "F-84150r1155074_fix",
+  "VulnDiscussion": "A mechanism to detect and prevent unauthorized communication flow must be configured or provided as part of the system design. If information flow is not enforced based on approved authorizations, the system may become compromised. Information flow control regulates where information is allowed to travel within a system and between interconnected systems. The flow of all application information must be monitored and controlled so it does not introduce any unacceptable risk to the systems or data. \n\nApplication-specific examples of enforcement occurs in systems that employ rule sets or establish configuration settings that restrict information system services, or provide a message filtering capability based on message content (e.g., implementing key word searches or using document characteristics).\n\nApplications providing information flow control must be able to enforce approved authorizations for controlling the flow of information between interconnected systems in accordance with applicable policy.\n\nWorking with the organizational CSSP, the ISSM should obtain a list of known anonymizer proxies that exist on the commercial internet. If this is not available from the CSSP, then the Okta-provided \"Enhanced dynamic zone blocklist\" should be activated.",
+  "Documentable": "false"
+}

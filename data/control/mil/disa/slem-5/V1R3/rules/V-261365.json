@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261365",
+  "rule_id": "SV-261365r996541_rule",
+  "stig_id": "SLEM-05-412025",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must enforce a delay of at least five seconds between logon prompts following a failed logon attempt via pluggable authentication modules (PAM).",
+  "group_title": "SRG-OS-000480-GPOS-00226",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65094r996540_chk",
+  "check_content": "Verify SLEM 5 enforces a delay of at least five seconds between logon prompts following a failed logon attempt with the following command:\n\n     > grep pam_faildelay /etc/pam.d/common-auth\n     auth required pam_faildelay.so delay=5000000\n\nIf the value of \"delay\" is not set to \"5000000\" or greater, \"delay\" is missing, the line is commented out, or the \"pam_faildelay\" line is missing completely, this is a finding.",
+  "fixtext": "Configure SLEM 5 to enforce a delay of at least five seconds between logon prompts following a failed logon attempt.\n\nAdd or modify the following line in the \"/etc/pam.d/common-auth\" file:\n\nauth required pam_faildelay.so delay=5000000",
+  "fix_id": "F-65002r995961_fix",
+  "VulnDiscussion": "Limiting the number of logon attempts over a certain time interval reduces the chances that an unauthorized user may gain access to an account.",
+  "Documentable": "false"
+}

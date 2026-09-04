@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256956",
+  "rule_id": "SV-256956r961131_rule",
+  "stig_id": "APWS-AT-000590",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Automation Controller NGINX web server document directory must be in a separate partition from the web server's system files.",
+  "group_title": "SRG-APP-000233-WSR-000146",
+  "idents": {
+    "cci": [
+      "CCI-001084"
+    ]
+  },
+  "check_id": "C-60631r903529_chk",
+  "check_content": "Automation Controller serves static public content from the directory /var/lib/awx/public.\n\nAs a System Administrator for each Automation Controller NGINX web server host, verify that a separate file system/partition has been created for /var/lib/awx/public:\n\n[[ $(sudo awk '$0~\"/var/lib/awx/public\" {print $2}' /etc/fstab) == \"/var/lib/awx/public\" ]] || echo \"FAILED\"\n\nIf \"FAILED\" is displayed, this is a finding.",
+  "fixtext": "As a System Administrator for each Automation Controller NGINX web server host, migrate the \"/var/lib/awx/public\" path onto a separate file system. No automated fix is available for this action.",
+  "fix_id": "F-60573r902381_fix",
+  "VulnDiscussion": "It is important that Automation Controller NGINX web server restricts the ability of clients to launch denial-of-service (DoS) attacks against other information systems or networks by disallowing access to system files via document and system file partitioning. DoS attacks are an attempt to negatively affect the availability of the server to end users through directory traversal and URL manipulation. An attack could compromise the end user’s access to websites and applications, which could be critical.\n\nIf a client is allowed to enable a DoS attack through access to system files, it means that the whole server or network could be shut down. In a best-case scenario, it could deny the user access to required websites and applications, which poses a threat to productivity as well as the need to spend time researching and resolving the attack. This is why it is important that Automation Controller NGINX web server does not allow access to any system files.",
+  "Documentable": "false"
+}

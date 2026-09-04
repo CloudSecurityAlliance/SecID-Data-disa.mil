@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256954",
+  "rule_id": "SV-256954r1138072_rule",
+  "stig_id": "APWS-AT-000440",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All Automation Controller NGINX web server accounts accessing the directory tree, the shell, or other operating system functions and utilities must only be administrative accounts.",
+  "group_title": "SRG-APP-000211-WSR-000030",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-60629r903528_chk",
+  "check_content": "As a system administrator for each Automation Controller NGINX web server host, enumerate all (nonroot) privileged users on the system:\n\nallowed_privileged_users=('root') ; echo \"${allowed_privileged_users}\" | tr ' ' '\\n' >/tmp/allowed_privileged_users ; getent passwd | cut -f1 -d ':' | sudo xargs -L1 sudo -l -U | grep -v 'not allowed' | tail -n +3 | sed -n '/^User/s/User\\s*\\(\\w*\\).*/\\1/p' | grep -v -f /tmp/allowed_privileged_users 1>/dev/null && echo \"FAILED\" ; rm -f /tmp/allowed_privileged_users\n\nIf \"FAILED\" is displayed, this is a finding.",
+  "fixtext": "As a System Administrator for each Automation Controller NGINX web server host, enumerate all (nonroot) privileged users on the system:\n\ngetent passwd | cut -f1 -d ':' | sudo xargs -L1 sudo -l -U | grep -v 'not allowed' | tail -n +3 | sed -n '/^User/s/User\\s*\\(\\w*\\).*/\\1/p' | grep -v root\n\nFor each user shown, perform one of the following actions:\n- Remove the indicated user from the system;\n- Remove the indicated user from any privileged groups (wheel);\n- Remove login access for the user;\n- Verify via organizationally defined procedures the indicated user is an authorized administrative account.",
+  "fix_id": "F-60571r902375_fix",
+  "VulnDiscussion": "AIT is important to limit access to Automation Controller nginx web servers and provide access on a need-to-know basis. For example, only System Administrators must have access to all the system's capabilities, while the web administrator and associated staff require access and control of the web content and Automation Controller NGINX web server configuration files.\n\nWithout close monitoring and control over access to the web server and its resources, there is the risk of unskilled personnel making mistakes, and a risk of characters performing malicious acts.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261413",
+  "rule_id": "SV-261413r996652_rule",
+  "stig_id": "SLEM-05-653025",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must allocate audit record storage capacity to store at least one week of audit records when audit records are not immediately sent to a central audit record storage facility.",
+  "group_title": "SRG-OS-000341-GPOS-00132",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-65142r996650_chk",
+  "check_content": "Verify SLEM 5 allocates audit record storage capacity to store at least one week of audit records when audit records are not immediately sent to a central audit record storage facility.\n\nDetermine which partition the audit records are being written to with the following command:\n\n     > sudo grep -iw log_file /etc/audit/auditd.conf\n     log_file = /var/log/audit/audit.log\n\nCheck the size of the partition that audit records are written to (with the example being /var/log/audit/) with the following command:\n\n     > df -h /var/log/audit/\n     Filesystem    Size    Used   Avail  Use%  Mounted on\n     /dev/sda2     24G  10.4G 13.6G    43% /var\n\nIf the audit records are not written to a partition made specifically for audit records (/var/log/audit is a separate partition), determine the amount of space being used by other files in the partition with the following command:\n\n     > sudo du -sh <audit_partition>\n     1.8G /var/log/audit\n\nThe partition size needed to capture a week of audit records is based on the activity level of the system and the total storage capacity available.\n\nIf the audit record partition is not allocated sufficient storage capacity, this is a finding.",
+  "fixtext": "Allocate enough storage capacity for at least one week of SLEM 5 audit records when audit records are not immediately sent to a central audit record storage facility.\n\nIf audit records are stored on a partition made specifically for audit records, use the \"YaST2 - Partitioner\" program (installation and configuration tool for Linux) to resize the partition with sufficient space to contain one week of audit records.\n\nIf audit records are not stored on a partition made specifically for audit records, a new partition with sufficient amount of space will need be to be created. The new partition can be created using the \"YaST2 - Partitioner\" program on the system.",
+  "fix_id": "F-65050r996651_fix",
+  "VulnDiscussion": "To ensure SLEM 5 has a sufficient storage capacity in which to write the audit logs, SLEM 5 must be able to allocate audit record storage capacity.\n\nThe task of allocating audit record storage capacity is usually performed during initial installation of SLEM 5.",
+  "Documentable": "false"
+}

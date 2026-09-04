@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276235",
+  "rule_id": "SV-276235r1150008_rule",
+  "stig_id": "MSQL-00-003100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must enforce access restrictions associated with changes to the configuration of the database(s).",
+  "group_title": "SRG-APP-000380-DB-000360",
+  "idents": {
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-80390r1149612_chk",
+  "check_content": "Execute the following query to obtain a listing of user databases whose owner is a member of a fixed server role and the corresponding roles:\n \nSELECT\nD.name AS database_name, SUSER_SNAME(D.owner_sid) AS owner_name,\nFRM.is_fixed_role_member, B.fixed_role_memberships\nFROM sys.databases D\nOUTER APPLY (\nSELECT MAX(fixed_role_member) AS is_fixed_role_member\nFROM (\nSELECT IS_SRVROLEMEMBER(R.name, SUSER_SNAME(D.owner_sid)) AS fixed_role_member\nFROM sys.server_principals R\nWHERE is_fixed_role = 1\n) A\n) FRM\nOUTER APPLY (\nSELECT STUFF((SELECT ', ' + R.name\nFROM sys.server_principals R\nJOIN sys.server_role_members RM ON R.principal_id = RM.role_principal_id\nWHERE RM.member_principal_id = SUSER_ID(SUSER_SNAME(D.owner_sid))\nAND r.is_fixed_role =1\nFOR XML PATH(''), TYPE).value('text()[1]','nvarchar(max)'), 1, LEN(','), '') AS fixed_role_memberships\n) B\nWHERE D.database_id > 4\nAND (FRM.is_fixed_role_member = 1\nOR FRM.is_fixed_role_member IS NULL)\nORDER BY database_name\n\nIf any server roles are returned, but not documented and authorized, this is a finding.",
+  "fixtext": "Document and obtain approval for logins with privileged permissions and role memberships.\n \nIf necessary, use the ALTER ROLE and/or REVOKE commands to remove unauthorized privileged permissions and/or role memberships. Example script provided below:\n \nALTER ROLE ddladmin DROP MEMBER UnauthorizedUser;  \n \nREVOKE SELECT ON OBJECT::test.table FROM UnauthorizedUser;\n \nRefer to: https://docs.microsoft.com/en-us/sql/t-sql/statements/alter-role-transact-sql\nhttps://docs.microsoft.com/en-us/sql/t-sql/statements/revoke-transact-sql\n \nIf necessary, in the Azure Portal, navigate to the Access Control pane for the Azure SQL Managed Instance to review and remove unauthorized privileged permissions and/or role memberships. \n\nRefer to the documentation linked below: \nhttps://docs.microsoft.com/en-us/azure/role-based-access-control/role-definitions-list\nhttps://docs.microsoft.com/en-us/azure/role-based-access-control/role-assignments-remove",
+  "fix_id": "F-80295r1150007_fix",
+  "VulnDiscussion": "Failure to provide logical access restrictions associated with changes to configuration may have significant effects on the overall security of the system. \n\nWhen dealing with access restrictions pertaining to change control, it should be noted that any changes to the hardware, software, and/or firmware components of the information system can potentially have significant effects on the overall security of the system. \n \nAccordingly, only qualified and authorized individuals must be allowed to obtain access to system components for the purposes of initiating changes, including upgrades and modifications.",
+  "Documentable": "false"
+}

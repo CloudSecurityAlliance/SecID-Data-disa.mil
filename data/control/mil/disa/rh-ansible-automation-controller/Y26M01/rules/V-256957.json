@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256957",
+  "rule_id": "SV-256957r1155090_rule",
+  "stig_id": "APWS-AT-000610",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Automation Controller NGINX web server must limit the character set used for data entry.",
+  "group_title": "SRG-APP-000251-WSR-000157",
+  "idents": {
+    "cci": [
+      "CCI-001310"
+    ]
+  },
+  "check_id": "C-60632r1155088_chk",
+  "check_content": "As a system administrator (SA) for each Automation Controller NGINX web server, verify the configuration requires a charset is mandatory.\n\ngrep 'charset_required' \"$(nginx -V 2>&1 | tr ' ' '\\n' | sed -ne '/conf-path/{s/.*conf-path=\\(.*\\)/\\1/;p}')\" || echo \"FAILED\"\n\nIf \"FAILED\" is displayed, this is a finding.",
+  "fixtext": "As an SA for each Automation Controller NGINX web server, verify the NGINX web server configuration file in use is located at '/etc/nginx/nginx.conf'\n\nNGINXCONF=`nginx -V 2>&1 | tr ' ' '\\n' | sed -ne '/conf-path/{s/.*conf-path=\\(.*\\)/\\1/;p}' ` ; \n\nAdd the directive to the NGINX configuration to force a required charset.\n\nsed -i  '/location/i charset_required; ' $NGINXCONF\n\nReload the NGINX server configurations for all NGINX processes.\n\n$ pkill -HUP nginx",
+  "fix_id": "F-60574r1155089_fix",
+  "VulnDiscussion": "It is important that Automation Controller NGINX web server limit the character set used for data entry and disallow Unicode use in hosted applications to avoid application compromise. Definition of the available character set for data entry can trap efforts to bypass security checks. The presence of nonstandard characters may cause the browser to interpret the content using a different character set than the defined one, because the system may interpret the content using a different CHARSET. Nonstandard encodings like UTF-7 can be used to bypass the application's defensive filters.\n\nIf character sets for data entry are not defined, it leaves open the door for attackers to bypass security checks and make the server vulnerable to malicious attack.",
+  "Documentable": "false"
+}

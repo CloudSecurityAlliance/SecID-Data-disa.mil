@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251555",
+  "rule_id": "SV-251555r1067556_rule",
+  "stig_id": "FFOX-00-000011",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Firefox must be configured to prevent JavaScript from raising or lowering windows.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-54990r1067555_chk",
+  "check_content": "Type \"about:policies\" in the browser address bar. \n\nIf \"Preferences\" is not displayed under Policy Name or the Policy Value does not include \"dom.disable_window_flip\" with a value of \"true\" and status of \"locked\", this is a finding.",
+  "fixtext": "Windows group policy:\n1. Open the group policy editor tool with \"gpedit.msc\".\n2. Navigate to Policy Path: Computer Configuration\\Administrative Templates\\Mozilla\\Firefox\\\nPolicy Name: Preferences\nPolicy State: Enabled\nPolicy Value:\n{\n  \"dom.disable_window_flip\": {\n    \"Value\": true,\n    \"Status\": \"locked\"\n  }\n}\n\nmacOS \"plist\" file:\nAdd the following:\n<key>Preferences</key>\n<dict>\n  <key>dom.disable_window_flip</key>\n  <dict>\n    <key>Value</key>\n    <true/>\n    <key>Status</key>\n    <string>locked</string>\n  </dict>\n</dict>\n\nLinux \"policies.json\" file:\nAdd the following in the policies section:\n\"Preferences\": {\n  \"dom.disable_window_flip\": {\n    \"Value\": true,\n    \"Status\": \"locked\"\n  }\n}",
+  "fix_id": "F-54944r807136_fix",
+  "VulnDiscussion": "JavaScript can raise and lower browser windows to cause improper input. Configure the browser setting to prevent scripts on visited websites from raising and lowering browser windows.",
+  "Documentable": "false"
+}

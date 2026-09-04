@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230550",
+  "rule_id": "SV-230550r1017312_rule",
+  "stig_id": "RHEL-08-040290",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must be configured to prevent unrestricted mail relaying.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-33219r568396_chk",
+  "check_content": "Verify the system is configured to prevent unrestricted mail relaying.\n\nDetermine if \"postfix\" is installed with the following commands:\n\n$ sudo yum list installed postfix\n\npostfix.x86_64  2:3.3.1-9.el8 \n\nIf postfix is not installed, this is Not Applicable.\n\nIf postfix is installed, determine if it is configured to reject connections from unknown or untrusted networks with the following command:\n\n$ sudo postconf -n smtpd_client_restrictions\n\nsmtpd_client_restrictions = permit_mynetworks, reject\n\nIf the \"smtpd_client_restrictions\" parameter contains any entries other than \"permit_mynetworks\" and \"reject\", this is a finding.",
+  "fixtext": "If \"postfix\" is installed, modify the \"/etc/postfix/main.cf\" file to restrict client connections to the local network with the following command:\n\n$ sudo postconf -e 'smtpd_client_restrictions = permit_mynetworks,reject'",
+  "fix_id": "F-33194r568397_fix",
+  "VulnDiscussion": "If unrestricted mail relaying is permitted, unauthorized senders could use this host as a mail relay for the purpose of sending spam or other unauthorized activity.",
+  "Documentable": "false"
+}

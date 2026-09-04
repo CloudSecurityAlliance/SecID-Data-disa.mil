@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234140",
+  "rule_id": "SV-234140r1038960_rule",
+  "stig_id": "FNFG-FW-000045",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "In the event that communication with the central audit server is lost, the FortiGate firewall must continue to queue traffic log records locally.",
+  "group_title": "SRG-NET-000089-FW-000019",
+  "idents": {
+    "cci": [
+      "CCI-000140"
+    ]
+  },
+  "check_id": "C-37325r863249_chk",
+  "check_content": "Verify at least two logging options are configured. It can be any combination of local and/or remote logging.\n\nVia the GUI:\n\nLogin via the FortiGate GUI with super-admin privileges. \n\n- Navigate to Log and Report.\n- Navigate to Log Settings.\n- Verify the FortiGate Local Log disk settings.\n- Verify the Remote and Archiving settings.\n\nor\n\nVia the CLI:\n\nOpen a CLI console via SSH or from the \"CLI Console\" button in the GUI.\n\nRun the following commands to verify which logging settings are enabled:\n\n# show full-configuration log disk setting | grep -i 'status\\|diskfull'\n- The output should indicate enabled.\n\n# show full-configuration log fortianalyzer setting | grep -i 'status\\|server'\n# show full-configuration log fortianalyzer2 setting | grep -i 'status\\|server'\n# show full-configuration log fortianalyzer3 setting | grep -i 'status\\|server'\n# show full-configuration log syslogd setting | grep -i 'status\\|server'\n# show full-configuration log syslogd2 setting | grep -i 'status\\|server'\n# show full-configuration log syslogd3 setting | grep -i 'status\\|server'\n# show full-configuration log syslogd4 setting | grep -i 'status\\|server'\n- The output should indicate enabled and an IP address.\n\nIf the FortiGate is not logging to at least two locations (local and remote OR remote(x2) only), this is a finding.",
+  "fixtext": "For audit log resilience, it is required to log to the local FortiGate disk and a central audit server, or two central audit servers. To do this, log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Log and Report.\n2. Click Log Settings.\n3. For Local Log setting options, toggle the Disk setting to right.\n\nTo add a syslog server:\n5. For Remote Logging and Archiving, toggle the Send logs to syslog setting and enter the appropriate IP address.\n6. Click Apply to save the settings.\n\nor\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config log disk setting\n     #    set status enable\n     #    set diskfull overwrite\n     # end\n     # config log syslogd setting\n     #    set status enable\n     #    set server {IP Address}\n     #    set mode reliable\n     # end",
+  "fix_id": "F-37290r863250_fix",
+  "VulnDiscussion": "It is critical that when the network element is at risk of failing to process traffic logs as required, it takes action to mitigate the failure. Audit processing failures include software/hardware errors, failures in the audit capturing mechanisms, and audit storage capacity being reached or exceeded. Responses to audit failure depend on the nature of the failure mode.\n\nIn accordance with DoD policy, the traffic log must be sent to a central audit server. When logging functions are lost, system processing cannot be shut down because firewall availability is an overriding concern given the role of the firewall in the enterprise. The system should either be configured to log events to an alternative server or queue log records locally. Upon restoration of the connection to the central audit server, action should be taken to synchronize the local log data with the central audit server.\n\nIf the central audit server uses User Datagram Protocol (UDP) communications instead of a connection-oriented protocol such as TCP, a method for detecting a lost connection must be implemented.",
+  "Documentable": "false"
+}

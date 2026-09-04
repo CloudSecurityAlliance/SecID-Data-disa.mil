@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274099",
+  "rule_id": "SV-274099r1120285_rule",
+  "stig_id": "AZLX-23-002180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must audit all uses of the reboot command.",
+  "group_title": "SRG-OS-000477-GPOS-00222",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-78190r1120283_chk",
+  "check_content": "Verify Amazon Linux 2023 is configured to audit the execution of the \"reboot\" command with the following command:\n\n$ sudo auditctl -l | grep reboot\n-a always,exit -F path=/usr/sbin/reboot -F perm=x -F auid>=1000 -F auid!=unset -k privileged-reboot\n\nIf the command does not return a line, or the line is commented out, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 so that the audit system generates an audit event for any successful/unsuccessful uses of the \"reboot\" command by adding or updating the following rule in the \"/etc/audit/rules.d/audit.rules\" file:\n\n-a always,exit -F path=/usr/sbin/reboot -F perm=x -F auid>=1000 -F auid!=unset -k privileged-reboot\n\nTo load the rules to the kernel immediately, use the following command: \n\n$ sudo augenrules --load",
+  "fix_id": "F-78095r1120284_fix",
+  "VulnDiscussion": "Misuse of the reboot command may cause availability issues for the system.",
+  "Documentable": "false"
+}

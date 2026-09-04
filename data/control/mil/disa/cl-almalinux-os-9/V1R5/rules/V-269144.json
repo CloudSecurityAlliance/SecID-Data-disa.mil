@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269144",
+  "rule_id": "SV-269144r1050026_rule",
+  "stig_id": "ALMA-09-007060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must enable kernel parameters to enforce discretionary access control on hardlinks.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-73175r1049191_chk",
+  "check_content": "Verify AlmaLinux OS 9 is configured to enable DAC on hardlinks with the following command:\n\n$ sysctl fs.protected_hardlinks\n\nfs.protected_hardlinks = 1\n\nIf \"fs.protected_hardlinks\" is not set to \"1\" or is missing, this is a finding.\n\nCheck that the configuration files are present to enable this kernel parameter:\n\n$ /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' |  grep -F fs.protected_hardlinks | tail -1\n\nfs.protected_hardlinks = 1\n\nIf \"fs.protected_hardlinks\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to enable DAC on hardlinks with the following command:\n\n$ echo \"fs.protected_hardlinks = 1\" > /etc/sysctl.d/60-hardlinks.conf\n\nLoad settings from all system configuration files with the following command:\n\n$ sysctl –system",
+  "fix_id": "F-73076r1049192_fix",
+  "VulnDiscussion": "By enabling the fs.protected_hardlinks kernel parameter, users can no longer create soft or hard links to files they do not own.\n\nDisallowing such hardlinks mitigates vulnerabilities based on unsecure file systems accessed by privileged programs, avoiding an exploitation vector exploiting unsafe use of open() or creat().",
+  "Documentable": "false"
+}

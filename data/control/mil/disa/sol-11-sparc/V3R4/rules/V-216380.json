@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216380",
+  "rule_id": "SV-216380r959010_rule",
+  "stig_id": "SOL-11.1-050130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The system must disable network routing unless required.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48217",
+      "SV-61089"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17616r371228_chk",
+  "check_content": "Determine if routing is disabled. \n\n# routeadm -p | egrep \"routing |forwarding\" | grep enabled\n\nIf the command output includes \"persistent=enabled\" or \"current=enabled\", this is a finding.",
+  "fixtext": "The Network Management profile is required.\n\nDisable routing for IPv4 and IPv6.\n\n# pfexec routeadm -d ipv4-forwarding -d ipv4-routing\n# pfexec routeadm -d ipv6-forwarding -d ipv6-routing\n\nTo apply these changes to the running system, use the command:\n\n# pfexec routeadm -u",
+  "fix_id": "F-17614r371229_fix",
+  "VulnDiscussion": "The network routing daemon, in.routed, manages network routing tables. If enabled, it periodically supplies copies of the system's routing tables to any directly connected hosts and networks and picks up routes supplied to it from other networks and hosts.\nRouting Internet Protocol (RIP) is a legacy protocol with a number of security weaknesses, including a lack of authentication, zoning, pruning, etc.",
+  "Documentable": "false"
+}

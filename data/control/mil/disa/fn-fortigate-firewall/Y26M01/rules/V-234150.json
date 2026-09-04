@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234150",
+  "rule_id": "SV-234150r1153453_rule",
+  "stig_id": "FNFG-FW-000105",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If communication with the central audit server is lost, the FortiGate firewall must generate a real-time alert to, at a minimum, the SA and ISSO.",
+  "group_title": "SRG-NET-000335-FW-000017",
+  "idents": {
+    "cci": [
+      "CCI-001858"
+    ]
+  },
+  "check_id": "C-37335r611448_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Security Fabric.\n2. Click Automation.\n3. Verify Automation Stitches are configured to send alerts related to loss of communication with the central audit server.\n4. For each Automation Stitch, verify a valid Action Email has been configured.\n\nIf there are no organization-specific Automation Stitches defined to trigger on loss of communication with the central audit server, this is a finding.",
+  "fixtext": "To create real-time alerts when FortiAnalyzer is the central audit server, log in to the FortiGate GUI with Super-Admin privilege. If not using FortiAnalyzer, skip ahead to the central log server steps. \n\n1. Click Security Fabric.\n2. Click Automation.\n3. Click +Create New (Automation Stitch).\n4. For Trigger, select FortiOS Event Log.\n5. For Event field, Click + (and choose a specific event type).\n6. For Action, select Email, specify recipients, and Email subject.\n7. Click OK.\n\nThe following are all relevant Event Log entries for loss of communication with the central audit server. For most complete coverage, configure an Automation Stitch for each of the Event Log entries below:\n\n-FortiAnalyzer connection down\n-FortiAnalyzer connection failed\n-FortiAnalyzer log access failed\n-Log Upload Error\n\nTo create real-time alerts when using a syslog server as the central audit server, log in to the FortiGate GUI with Super-Admin privilege.\n\nTo ensure Feature visibility: \n1. Click System.\n2. Click Feature Visibility.\n3. Under Additional Features, toggle the switch to enable Load Balance.\n4. Click Apply.\n\nTo configure the alert: \n1. Click Policies & Objects.\n2. Click Health Check.\n3. Click +Create New.\n4. Name the Health Check.\n5. For Type, select TCP.\n6. For Interval, type {5}.\n7. For Timeout, type {1}.\n8. For Retry, type {1}.\n9. For Port, type {514}.\n10. Click OK.\n11. Click Virtual Servers.\n12. Click +Create New.\n13. Name the Virtual Server.\n14. For Type, select TCP.\n15. For Interface, select any unused internal interface.\n16. For Virtual Server IP, type any unused IP.\n17. For Virtual Server Port, type {514}.\n18. For Health Check, select the Health Check that was created in steps 1-10.\n19. In Real Servers, click +Create New.\n20. In New Real Server IP Address, type the IP address of the syslog server.\n21. For port, type {514}.\n22. Click OK to close New Real Server window.\n23. Click OK to close Edit Virtual Server.\n24. Click Security Fabric.\n25. Click Automation.\n26. Click +Create New (Automation Stitch).\n27. For Trigger, select FortiOS Event Log.\n28. For Event field, click + and choose \"VIP real server down\".\n29. For Action, select Email, specify recipients, and Email subject.\n30. Click OK.",
+  "fix_id": "F-37300r611449_fix",
+  "VulnDiscussion": "Without a real-time alert (less than a second), security personnel may be unaware of an impending failure of the audit functions and system operation may be adversely impacted. Alerts provide organizations with urgent messages. Automated alerts can be conveyed in a variety of ways, including via a regularly monitored console, telephonically, via electronic mail, via text message, or via websites.\n\nLog processing failures include software/hardware errors, failures in the log capturing mechanisms, and log storage capacity being reached or exceeded. Most firewalls use UDP to send audit records to the server and cannot tell if the server has received the transmission, thus the site must either implement a connection-oriented communications solution (e.g., TCP) or implement a heartbeat with the central audit server and send an alert if it is unreachable.",
+  "Documentable": "false"
+}

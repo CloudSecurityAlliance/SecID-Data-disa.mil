@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-271570",
+  "rule_id": "SV-271570r1092558_rule",
+  "stig_id": "OL09-00-000715",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must audit uses of the execve system call.",
+  "group_title": "SRG-OS-000326-GPOS-00126",
+  "idents": {
+    "cci": [
+      "CCI-002233",
+      "CCI-002234",
+      "CCI-004188"
+    ]
+  },
+  "check_id": "C-75620r1091420_chk",
+  "check_content": "Verify that OL 9 is configured to audit the execution of the execve system call with the following command:\n\n$ sudo auditctl -l | grep execve\n-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -k execpriv \n-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -k execpriv\n-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -k execpriv \n-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -k execpriv\n\nIf the command does not return all lines or the lines are commented out, this is a finding.",
+  "fixtext": "Configure OL 9 to audit the execution of the execve system call.\n\nAdd or update the following file system rules to \"/etc/audit/rules.d/audit.rules\":\n\n-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -k execpriv \n-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -k execpriv\n-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -k execpriv \n-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -k execpriv \n\nThe audit daemon must be restarted for the changes to take effect.\n\nRestart auditd:\n$ sudo service auditd restart\n\nNote: Users must reboot to view above results with command \"auditctl -l | grep execve\".",
+  "fix_id": "F-75527r1092557_fix",
+  "VulnDiscussion": "Misuse of privileged functions, either intentionally or unintentionally by authorized users, or by unauthorized external entities that have compromised information system accounts, is a serious and ongoing concern and can have significant adverse impacts on organizations. Auditing the use of privileged functions is one way to detect such misuse and identify the risk from insider threats and the advanced persistent threat.\n\nSatisfies: SRG-OS-000326-GPOS-00126, SRG-OS-000327-GPOS-00127, SRG-OS-000755-GPOS-00220",
+  "Documentable": "false"
+}

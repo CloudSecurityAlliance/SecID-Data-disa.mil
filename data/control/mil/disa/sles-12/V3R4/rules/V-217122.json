@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217122",
+  "rule_id": "SV-217122r971535_rule",
+  "stig_id": "SLES-12-010210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must employ FIPS 140-2 approved cryptographic hashing algorithm for system authentication (login.defs).",
+  "group_title": "SRG-OS-000120-GPOS-00061",
+  "idents": {
+    "legacy": [
+      "V-77093",
+      "SV-91789"
+    ],
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-18350r646687_chk",
+  "check_content": "Verify the SUSE operating system requires that the \"ENCRYPT_METHOD\" value in \"/etc/login.defs\" is set to \"SHA512\".\n\nCheck the value of \"ENCRYPT_METHOD\" value in \"/etc/login.defs\" with the following command:\n\n> grep \"^ENCRYPT_METHOD \" /etc/login.defs\n\nENCRYPT_METHOD SHA512\n\nIf \"ENCRYPT_METHOD\" is not set to \"SHA512\", if any values other that \"SHA512\" are configured, or if no output is produced, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to require \"ENCRYPT_METHOD\" of \"SHA512\".\n\nEdit the \"/etc/login.defs\" file with the following line:\n\nENCRYPT_METHOD SHA512",
+  "fix_id": "F-18348r646688_fix",
+  "VulnDiscussion": "Unapproved mechanisms that are used for authentication to the cryptographic module are not verified and therefore cannot be relied on to provide confidentiality or integrity, and DoD data may be compromised.\n\nSUSE operating systems using encryption are required to use FIPS-compliant mechanisms for authenticating to cryptographic modules. \n\nFIPS 140-2 is the current standard for validating that mechanisms used to access cryptographic modules use authentication that meets DoD requirements. This allows for Security Levels 1, 2, 3, or 4 for use on a general purpose computing system.",
+  "Documentable": "false"
+}

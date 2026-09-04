@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-275488",
+  "rule_id": "SV-275488r1147514_rule",
+  "stig_id": "RIIM-DM-000049",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Riverbed NetIM must be configured to authenticate SNMP messages using a FIPS-validated Keyed-Hash Message Authentication Code (HMAC).",
+  "group_title": "SRG-APP-000395-NDM-000310",
+  "idents": {
+    "cci": [
+      "CCI-001967"
+    ]
+  },
+  "check_id": "C-79590r1147512_chk",
+  "check_content": "Verify NetIM is configured to authenticate SNMP messages using a FIPS-validated HMAC.\n\n1. In the GUI, navigate to Configure >> All Settings >> Discover >> Global Discovery Settings.\n2. Click \"SNMP v3 Credentials\". \n3. In the Add SNMP v3 Credentials box, verify the following is configured:\n    Security Level menu = AUTH_PRIV\n    Auth Protocol = <protocol>\n\n  Where <protocol> is one of the following for Auth Protocol HMAC192_SHA256, HMAC256_SHA384,  or HMAC384_SHA512\n\n    Priv Protocol = <cipher_protocol>\n\nWhere <protocol> is one of the following for Priv Protocol CFB_AES_192, CFB_AES_256\n\nIf SNMP messages are not authenticated using a FIPS-validated HMAC, this is a finding.",
+  "fixtext": "Configure NetIM to authenticate SNMP messages using a FIPS-validated HMAC.\n\n1. In the GUI, navigate to Configure >> All Settings >> Discover >> Global Discovery Settings.\n2. Click \"SNMP v3 Credentials\". \n3. In the Add SNMP v3 Credentials box, select the following:\n    Security Level menu = AUTH_PRIV\n    Auth Protocol = <protocol>\n\nWhere <protocol> is one of the following for Auth Protocol HMAC192_SHA256, HMAC256_SHA384,  or HMAC384_SHA512.\n\n    Priv Protocol = <protocol>\n\nWhere <protocol> is one of the following for Priv Protocol CFB_AES_192, CFB_AES_256\n\nNote: FIPS compliance requires Version 2.10 or higher and a Ubuntu Pro license, both of which are covered in other CAT 1 requirements.",
+  "fix_id": "F-79495r1147513_fix",
+  "VulnDiscussion": "Without authenticating devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity. Bidirectional authentication provides stronger safeguards to validate the identity of other devices for connections that are of greater risk.\n\nThe IP Detection Service tracks IP addresses (IPs) in the network and allows a user to query an IP address to determine the switch port to which a network device is connected. SNMP access to devices and a read-only community string (or equivalent SNMP v3 credentials) are required for the IP Detection Service to function. Community strings/credentials stored on NetIM are encrypted.",
+  "Documentable": "false"
+}

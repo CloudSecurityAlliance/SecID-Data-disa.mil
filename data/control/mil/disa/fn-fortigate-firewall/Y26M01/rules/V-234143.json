@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234143",
+  "rule_id": "SV-234143r611429_rule",
+  "stig_id": "FNFG-FW-000060",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The FortiGate firewall must protect the traffic log from unauthorized deletion of local log files and log records.",
+  "group_title": "SRG-NET-000100-FW-000023",
+  "idents": {
+    "cci": [
+      "CCI-000164"
+    ]
+  },
+  "check_id": "C-37328r611427_chk",
+  "check_content": "Log in to the FortiGate GUI with an administrator that has no Log and Report access.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     $ execute log delete\n\n3. Ensure that the command fails.\n\nIf an Administrator without Log and Report privileges can delete locally stored logs, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click System.\n2. Click Admin Profiles.\n3. Click +Create New (Admin Profile).\n4. Assign a meaningful name to the Profile.\n5. Set Log and Report access permissions to None.\n6. Click OK to save this Profile.\n\nThen, \n1. Click System.\n2. Click Administrators.\n3. Click the Administrator that is not allowed access to log settings.\n4. Assign the Admin Profile that was created above.\n5. Click OK to save.\n\nRepeat this process to remove log access for all Administrators without an organizational need to modify log records.",
+  "fix_id": "F-37293r611428_fix",
+  "VulnDiscussion": "If audit data were to become compromised, forensic analysis and discovery of the true source of potentially malicious system activity would be impossible to achieve.\n\nTo ensure the veracity of audit data, the information system and/or the application must protect audit information from unauthorized modification. This can be achieved through multiple methods, which will depend on system architecture and design. Some commonly employed methods include ensuring log files receive the proper file system permissions and limiting log data locations.\n\nAudit information includes all information (e.g., audit records, audit settings, and audit reports) needed to successfully audit information system activity.\n\nThis does not apply to traffic logs generated on behalf of the device itself (management). Traffic logs and Management logs are separate on FortiGate.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248882",
+  "rule_id": "SV-248882r1156634_rule",
+  "stig_id": "OL08-00-040250",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must not forward IPv6 source-routed packets by default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52316r1155478_chk",
+  "check_content": "Note: If IPv6 is disabled on the system, this requirement is Not Applicable.\n\nVerify OL 8 does not accept IPv6 source-routed packets by default.\n\nCheck the value of the accept source route variable with the following command:\n\n$ sysctl net.ipv6.conf.default.accept_source_route\nnet.ipv6.conf.default.accept_source_route = 0\n\nIf the returned line does not have a value of \"0\", a line is not returned, or the line is commented out, this is a finding.",
+  "fixtext": "Configure OL 8 to not forward IPv6 source-routed packets by default.\n\nAdd or edit the following line in a single system configuration file in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv6.conf.default.accept_source_route = 0\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-52270r1155479_fix",
+  "VulnDiscussion": "Source-routed packets allow the source of the packet to suggest that routers forward the packet along a different path than configured on the router, which can be used to bypass network security measures. This requirement applies only to the forwarding of source-routed traffic, such as when forwarding is enabled and the system is functioning as a router.\n\nThe sysctl --system command will load settings from all system configuration files. All configuration files are sorted by their filename in lexicographical order, regardless of the directories in which they reside. If multiple files specify the same option, the entry in the file with the lexicographically latest name will take precedence. Files are read from directories in the following list from top to bottom. Once a file of a given filename is loaded, any file of the same name in subsequent directories is ignored.\n/etc/sysctl.d/*.conf\n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf",
+  "Documentable": "false"
+}

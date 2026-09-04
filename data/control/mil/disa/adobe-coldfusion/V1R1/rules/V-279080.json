@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279080",
+  "rule_id": "SV-279080r1171402_rule",
+  "stig_id": "APAS-CF-000740",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ColdFusion must limit the maximum number of threads available for CFTHREAD.",
+  "group_title": "SRG-APP-000435-AS-000163",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-83628r1171012_chk",
+  "check_content": "Verify that CFTHREAD settings are appropriately configured when threading is not used by hosted applications.\n\n1. From the Admin Console Landing Screen, navigate to Server Settings >> Request Tuning.\n\n2. Confirm with the administrator whether any hosted applications are using CFTHREAD for multithreading.\n\nIf CFTHREAD is in use, this is not a finding.\n\n3. If CFTHREAD is not used, verify that \"Maximum number of threads available for CFTHREAD\" is set to \"1\" to effectively disable threading.\n\nIf CFTHREAD is not used, and the \"Maximum number of threads available for CFTHREAD\" is set to a value other than \"1\", this is a finding.",
+  "fixtext": "Configure CFTHREAD settings.\n\n1. From the Admin Console Landing Screen, navigate to Server Settings >> Request Tuning.\n\n2. Set Maximum number of threads available for CFTHREAD to \"1\" to disable unnecessary threading.\n\n3. Click \"Submit Changes\".",
+  "fix_id": "F-83533r1171401_fix",
+  "VulnDiscussion": "Denial of Service (DoS) is a condition when a resource is not available for legitimate users. When this occurs, the organization either cannot accomplish its mission or must operate at degraded capacity. To reduce the possibility or effect of a DoS, ColdFusion must employ defined security safeguards. These safeguards will be determined by the placement of ColdFusion and the type of applications being hosted within ColdFusion framework.\n\nThe CFTHREAD service allows a programmer to create threads of code that execute independently. If this feature is being used, the maximum number of threads should be tuned. If set too high, this may lead to a context-switching situation. When this feature is not in use, the maximum number of threads must be 1.",
+  "Documentable": "false"
+}

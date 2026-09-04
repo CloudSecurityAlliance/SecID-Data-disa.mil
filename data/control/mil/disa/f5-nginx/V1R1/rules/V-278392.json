@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278392",
+  "rule_id": "SV-278392r1171928_rule",
+  "stig_id": "NGNX-APP-000730",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX, when using PKI-based authentication, must enforce authorized access to the corresponding private key.",
+  "group_title": "SRG-APP-000176",
+  "idents": {
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-82926r1171926_chk",
+  "check_content": "Determine the path to NGINX config file:\n\nnginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\ncat <path to config>\n\nVerify that private key(s) are only readable by the owner.\n\nExample:\n\nroot@e4a935153ece:/etc/ssl/nginx# nginx -qT | grep certificate_key\n    ssl_certificate_key /etc/ssl/nginx/server.key;\nroot@e4a935153ece:/etc/ssl/nginx# ls -la /etc/ssl/nginx/server.key\n-rw------- 1 root root 1704 Dec  4 18:31 /etc/ssl/nginx/server.key\n\nIf the private key(s) are readable anyone other than owner, this is a finding.",
+  "fixtext": "Change permissions on any TLS keys used in NGINX configuration:\n\nnginx -qT | grep certificate_key\nchmod 600 <path to TLS key>\n\nExample:\n\nroot@e4a935153ece:/etc/ssl/nginx# nginx -qT | grep certificate_key\n    ssl_certificate_key /etc/ssl/nginx/server.key;\nroot@e4a935153ece:/etc/ssl/nginx# chmod 600 /etc/ssl/nginx/server.key\n\nRestart NGINX:\n\nnginx -s reload",
+  "fix_id": "F-82831r1171927_fix",
+  "VulnDiscussion": "If the private key is discovered, an attacker can use the key to authenticate as an authorized user and gain access to the network infrastructure.\n\nThe cornerstone of the PKI is the private key used to encrypt or digitally sign information. \n\nIf the private key is stolen, this will lead to the compromise of the authentication and nonrepudiation gained through PKI because the attacker can use the private key to digitally sign documents and pretend to be the authorized user. \n\nBoth the holders of a digital certificate and the issuing authority must protect the computers, storage devices, or whatever they use to store private keys.",
+  "Documentable": "false"
+}

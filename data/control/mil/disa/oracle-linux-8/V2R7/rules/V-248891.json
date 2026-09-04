@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248891",
+  "rule_id": "SV-248891r1156648_rule",
+  "stig_id": "OL08-00-040283",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must restrict exposed kernel pointer addresses access.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52325r1155508_chk",
+  "check_content": "Verify OL 8 restricts access to exposed kernel pointers with the following command:\n\n$ sysctl kernel.kptr_restrict \nkernel.kptr_restrict = 1",
+  "fixtext": "Configure OL 8 to prevent the leak of kernel pointers to nonprivileged users.\n\nAdd or edit the following line in /etc/sysctl.d/99-sysctl.conf system configuration file:\n\nkernel.kptr_restrict = 1\n\nReload settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-52279r1156647_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nThe sysctl --system command will load settings from all system configuration files. All configuration files are sorted by their filename in lexicographical order, regardless of the directories in which they reside. If multiple files specify the same option, the entry in the file with the lexicographically latest name will take precedence. Files are read from directories in the following list from top to bottom. Once a file of a given filename is loaded, any file of the same name in subsequent directories is ignored.\n/etc/sysctl.d/*.conf\n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf",
+  "Documentable": "false"
+}

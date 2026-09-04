@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234133",
+  "rule_id": "SV-234133r1137684_rule",
+  "stig_id": "FNFG-FW-000005",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The FortiGate firewall must use filters that use packet headers and packet attributes, including source and destination IP addresses and ports.",
+  "group_title": "SRG-NET-000019-FW-000003",
+  "idents": {
+    "cci": [
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-37318r611397_chk",
+  "check_content": "Log in to the FortiGate GUI with Super- or Firewall Policy-Admin privilege.\n\n1. Click Policy and Objects.\n2. Click IPv4 or IPv6 Policy.\n3. Verify there are no policies configured with source and destination interface set to \"any\", and source and destination address set to \"all\" and the Action set to ACCEPT.\n\nIf there are policies configured with source and destination interface set to \"any\", and source and destination address set to \"all\" and the Action set to ACCEPT, this is a finding.",
+  "fixtext": "The fix can be performed on FortiGate GUI or CLI. \nLog in to the FortiGate GUI with Super- or Firewall Policy-Admin privilege.\n\n1. Click Policy and Objects.\n2. Click IPv4 or IPv6 Policy.\n3. Click +Create New to configure application specific policies, with Action set to ACCEPT.\n4. Configure Logging Options to log All Sessions.\n5. Confirm each Policy is Enabled.\n6. Click OK.\n\nor\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. For IPv4 policy, run the following command:\n     # config firewall policy\n     #   edit {policyid}\n     #        set srcintf {interface_name_ext}\n     #        set dstintf {interface_name_int}\n     #        set srcaddr {address_a}\n     #        set dstaddr {address_b}\n     #        set schedule {always}\n     #        set service {HTTPS}\n     #        set action {accept}\n     #        set logtraffic all\n     # end\n\nFor IPv6 policy, run the following command: \n     # config firewall policy6\n     #  edit {policyid}\n     #        set srcintf {interface_name_ext}\n     #        set dstintf {interface_name_int}\n     #        set srcaddr {address_a}\n     #        set dstaddr {address_b}\n     #        set schedule {always}\n     #        set service {HTTPS}\n     #        set action {accept}\n     #        set logtraffic all\n     # end\n\nThe {} indicate the object is defined by the organization policy. The firewall performs IP integrity header checking on all incoming packets to verify if the protocol packet is a valid TCP, UDP, ICMP, SCTP, or GRE length. Stateful inspection is done to verify TCP SYN and FIN flags are set as needed.",
+  "fix_id": "F-37283r611398_fix",
+  "VulnDiscussion": "Information flow control regulates where information is allowed to travel within a network and between interconnected networks. Blocking or restricting detected harmful or suspicious communications between interconnected networks enforces approved authorizations for controlling the flow of traffic.\n\nThe firewall that filters traffic outbound to interconnected networks with different security policies must be configured with filters (i.e., rules, access control lists [ACLs], screens, and policies) that permit, restrict, or block traffic based on organization-defined traffic authorizations. Filtering must include packet header and packet attribute information, such as IP addresses and port numbers.\n\nConfigure filters to perform certain actions when packets match specified attributes, including the following actions:\n\n- Apply a policy\n- Accept, reject, or discard the packets\n- Classify the packets based on their source address\n- Evaluate the next term in the filter\n- Increment a packet counter\n- Set the packets’ loss priority\n- Specify an IPsec SA (if IPsec is used in the implementation)\n- Specify the forwarding path\n- Write an alert or message to the system log.",
+  "Documentable": "false"
+}

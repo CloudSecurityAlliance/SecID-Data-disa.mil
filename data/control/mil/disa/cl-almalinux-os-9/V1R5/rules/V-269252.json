@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269252",
+  "rule_id": "SV-269252r1050134_rule",
+  "stig_id": "ALMA-09-019490",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must be configured to prevent unrestricted mail relaying.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73283r1049387_chk",
+  "check_content": "Note: If postfix is not installed, this is Not Applicable.\n\nVerify AlmaLinux OS 9 is configured to prevent unrestricted mail relaying with the following command:\n\n$ postconf -n smtpd_client_restrictions \n\nsmtpd_client_restrictions = permit_mynetworks,reject \n\nIf the \"smtpd_client_restrictions\" parameter contains any entries other than \"permit_mynetworks\" and \"reject\", and the additional entries have not been documented with the information system security officer (ISSO), this is a finding.",
+  "fixtext": "Modify the postfix configuration file to restrict client connections to the local network with the following command:\n\n$ postconf -e 'smtpd_client_restrictions = permit_mynetworks,reject'",
+  "fix_id": "F-73184r1048133_fix",
+  "VulnDiscussion": "If unrestricted mail relaying is permitted, unauthorized senders could use this host as a mail relay for the purpose of sending spam or other unauthorized activity.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216417",
+  "rule_id": "SV-216417r959010_rule",
+  "stig_id": "SOL-11.1-070010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The sticky bit must be set on all world writable directories.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48137",
+      "SV-61009"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17653r371339_chk",
+  "check_content": "The root role is required.\n\nIdentify all world-writable directories without the \"sticky bit\" set.\n\n# find / \\( -fstype nfs -o -fstype cachefs -o -fstype autofs \\\n   -o -fstype ctfs -o -fstype mntfs -o -fstype objfs \\\n   -o -fstype proc \\) -prune -o -type d \\( -perm -0002 \\\n   -a ! -perm -1000 \\) -ls\n\nOutput of this command identifies world-writable directories without the \"sticky bit\" set.  If output is created, this is a finding.",
+  "fixtext": "The root role is required.\n\nEnsure that the \"sticky bit\" is set on any directories identified during the check steps.\n\n# chmod +t [directory name]",
+  "fix_id": "F-17651r371340_fix",
+  "VulnDiscussion": "Files in directories that have had the \"sticky bit\" enabled can only be deleted by users that have both write permissions for the directory in which the file resides, as well as ownership of the file or directory, or have sufficient privileges. As this prevents users from overwriting each others' files, whether it be accidental or malicious, it is generally appropriate for most world-writable directories (e.g., /tmp).",
+  "Documentable": "false"
+}

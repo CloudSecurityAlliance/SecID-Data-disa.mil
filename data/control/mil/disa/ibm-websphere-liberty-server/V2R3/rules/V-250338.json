@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-250338",
+  "rule_id": "SV-250338r961044_rule",
+  "stig_id": "IBMW-LS-000500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The WebSphere Liberty Server must use DoD-issued/signed certificates.",
+  "group_title": "SRG-APP-000177-AS-000126",
+  "idents": {
+    "cci": [
+      "CCI-000187",
+      "CCI-002450",
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-53773r850894_chk",
+  "check_content": "As a privileged user with access to the ${server.config.dir}/server.xml file; search for SSLDefault in order to identify the default SSL configuration.\n\ngrep -i ssldefault server.xml\n\nIdentify the default ssl configuration by examining the sslRef flag.\n\nSAMPLE:\n <sslDefault sslRef=\"DefaultTLSSettings\" /> \n\nReview the default ssl configuration to identify the default truststore.\n\nSAMPLE:\n <ssl id=\"DefaultTLSSettings\" keyStoreRef=\"defaultKeyStore\" />\n       <keyStore id=\"LDAPTrustStore\" location=\"${server.config.dir}/liberty.ks\" type=\"JKS\" password=\"xxxxxxx\" />\n\nUse the java keytool or ikeyman utilities to open and examine the certificates stored in the truststore.\n\nIf the certificates are self signed or not signed by a DoD approved CA, this is a finding.",
+  "fixtext": "Do not use self-signed certificates in a production environment. Only import certificates signed by an authorized DoD CA or authorized for DoD use. \n\nObtain the signer certificate either as a Base 64-encoded ASCII file or as binary DER data. \n\nUsing the JDK’s ikeyman or keytool utility, open the default trusted keystore specified in the ${server.config.dir}/server.xml. \n\nClick on signer certificates and import the file that contains the DoD signed certificate.",
+  "fix_id": "F-53727r795066_fix",
+  "VulnDiscussion": "The cornerstone of PKI is the private key used to encrypt or digitally sign information. The key by itself is a cryptographic value that does not contain specific user information, but the key can be mapped to a user. Without mapping the certificate used to authenticate to the user account, the ability to determine the identity of the individual user or group will not be available for forensic analysis.\n\nSatisfies: SRG-APP-000177-AS-000126, SRG-APP-000427-AS-000264, SRG-APP-000514-AS-000137",
+  "Documentable": "false"
+}

@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-277067",
+  "rule_id": "SV-277067r1148653_rule",
+  "stig_id": "APPL-26-001016",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must configure audit log files to mode 440 or less permissive.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164",
+      "CCI-001493",
+      "CCI-001494",
+      "CCI-001495"
+    ]
+  },
+  "check_id": "C-81222r1148651_chk",
+  "check_content": "Verify the macOS system is configured with audit log files set to mode 440 or less with the following command:\n\n/bin/ls -l $(/usr/bin/grep '^dir' /etc/security/audit_control | /usr/bin/awk -F: '{print $2}') | /usr/bin/awk '!/-r--r-----|current|total/{print $1}' | /usr/bin/wc -l | /usr/bin/tr -d ' '\n\nIf the result is not \"0\", this is a finding.",
+  "fixtext": "Configure the macOS system with audit log files set to mode 440 with the following command:\n\n/bin/chmod 440 /var/audit/*",
+  "fix_id": "F-81127r1148652_fix",
+  "VulnDiscussion": "The audit service must be configured to create log files that are readable only by the root user and group wheel. To achieve this, audit log files must be configured to mode 440 or less permissive to prevent normal users from reading, modifying, or deleting audit logs.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029, SRG-OS-000256-GPOS-00097, SRG-OS-000257-GPOS-00098, SRG-OS-000258-GPOS-00099",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270705",
+  "rule_id": "SV-270705r1066604_rule",
+  "stig_id": "UBTU-24-300016",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 24.04 LTS must be configured so that when passwords are changed or new passwords are established, pwquality must be used.",
+  "group_title": "SRG-OS-000480-GPOS-00225",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-74738r1066602_chk",
+  "check_content": "Verify that Ubuntu 24.04 LTS uses \"pwquality\" to enforce the password complexity rules.  \n \nVerify the pwquality module is being enforced by Ubuntu 24.04 LTS with the following command: \n \n$ grep -i enforcing /etc/security/pwquality.conf\nenforcing = 1 \n \nIf the value of \"enforcing\" is not \"1\", or the line is commented out, this is a finding. \n \nCheck for the use of \"pwquality\" with the following command: \n \n$ cat /etc/pam.d/common-password | grep requisite | grep pam_pwquality\npassword requisite pam_pwquality.so retry=3 \n \nIf the value of \"retry\" is set to \"0\" or is greater than \"3\", or if a line is not returned, this is a finding.",
+  "fixtext": "Configure Ubuntu 24.04 LTS to use \"pwquality\" to enforce password complexity rules. \n \nAdd the following line to \"/etc/security/pwquality.conf\" (or modify the line to have the required value): \n \nenforcing = 1 \n \nAdd the following line to \"/etc/pam.d/common-password\" (or modify the line to have the required value): \n \npassword requisite pam_pwquality.so retry=3 \n \nNote: Ensure the value of \"retry\" is between \"1\" and \"3\".",
+  "fix_id": "F-74639r1066603_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. \"pwquality\" enforces complex password construction configuration and has the ability to limit brute-force attacks on the system.",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-269570",
+  "rule_id": "SV-269570r1053485_rule",
+  "stig_id": "XYLK-20-000001",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Xylok Security Suite must limit system resources consumed by the application.",
+  "group_title": "SRG-APP-000001",
+  "idents": {
+    "cci": [
+      "CCI-000054",
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-73603r1053483_chk",
+  "check_content": "Determine if Xylok is configured to limit its maximum CPU and memory usage with the following command, run from the host machine as a normal user:\n\n$ grep LIMIT_ /etc/xylok.conf\n\nVerify the following settings are configured:\n- LIMIT_MEM set to less than 100 percent of the host machine's memory.\n\n- LIMIT_CPU set to less than 1000.\n\nIf any of the above settings are not present or are blank, this is a finding.",
+  "fixtext": "Configure the Xylok Security Suite to limit CPU and memory usage using this procedure on the host machine. As root, open /etc/xylok.conf in a text editor.\n\n1. Add the following settings if not present. All settings should be in the format \"NAME=value\". For example, the first required setting might appear as \"LIMIT_MEM=4096m\" in the configuration file, with no quotes.\n- LIMIT_MEM: Set to 2048m or greater, and less than 100 percent of the host machine's memory.\n- LIMIT_CPU: Set to 128 or greater, not to exceed 1000. This value can range from 1 to 1024, where 1024 allows usage of 100 percent of the CPU.\n\n2. Save configuration file. \n\n3. Restart Xylok to apply settings:\n    # systemctl restart xylok",
+  "fix_id": "F-73504r1053484_fix",
+  "VulnDiscussion": "Not limiting system resources to Xylok presents a denial-of-service (DoS) risk. Each open instance of Xylok periodically retrieves a list of background tasks. Open sessions, even sessions not being actively used, consume a small amount of server resources and could result in Xylok becoming slow or entirely responsive. \n\nIn addition, this risk impacts the host system for the container by consuming excessive CPU, allowing a DoS attack on Xylok to also impact other software hosted on the same physical machine.\n\nSatisfies: SRG-APP-000001, SRG-APP-000435",
+  "Documentable": "false"
+}

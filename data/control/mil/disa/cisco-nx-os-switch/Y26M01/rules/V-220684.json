@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220684",
+  "rule_id": "SV-220684r856493_rule",
+  "stig_id": "CISC-L2-000130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must have DHCP snooping for all user VLANs to validate DHCP messages from untrusted sources.",
+  "group_title": "SRG-NET-000362-L2S-000025",
+  "idents": {
+    "legacy": [
+      "SV-110343",
+      "V-101239"
+    ],
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-22399r539103_chk",
+  "check_content": "Step 1: Review the switch configuration and verify that DHCP snooping is enabled on a per-VLAN basis as shown in the example below:\n\nvlan 1,4,6-10\nip dhcp snooping\n…\n…\n…\nip dhcp snooping vlan 4,6-10\n\nNote: Switchports assigned to a user VLAN would have drops in the area where the user community would reside; hence, the \"untrusted\" term is used. Server and printer VLANs would not be applicable. By default, DHCP snooping is disabled on all VLANs.\n\nIf the switch does not have DHCP snooping enabled for all user VLANs to validate DHCP messages from untrusted sources, this is a finding.",
+  "fixtext": "Step 1: Enable the DHCP feature.\n\nSW1(config)# feature dhcp\n\nStep 2: Configure the switch to have DHCP snooping for all user VLANs to validate DHCP messages from untrusted sources as shown in the example below: \n\nSW1(config)# ip dhcp snooping\nSW1(config)# ip dhcp snooping vlan 4,6-10",
+  "fix_id": "F-22388r539104_fix",
+  "VulnDiscussion": "In an enterprise network, devices under administrative control are trusted sources. These devices include the switches, routers, and servers in the network. Host ports and unknown DHCP servers are considered untrusted sources. An unknown DHCP server on the network on an untrusted port is called a spurious DHCP server, any device (PC, Wireless Access Point) that is loaded with DHCP server enabled. The DHCP snooping feature determines whether traffic sources are trusted or untrusted. The potential exists for a spurious DHCP server to respond to DHCPDISCOVER messages before the real server has time to respond. DHCP snooping allows switches on the network to trust the port a DHCP server is connected to and not trust the other ports.\n\nThe DHCP snooping feature validates DHCP messages received from untrusted sources and filters out invalid messages as well as rate-limits DHCP traffic from trusted and untrusted sources. DHCP snooping feature builds and maintains a binding database, which contains information about untrusted hosts with leased IP addresses, and it utilizes the database to validate subsequent requests from untrusted hosts. Other security features, such as IP Source Guard and Dynamic Address Resolution Protocol (ARP) Inspection (DAI), also use information stored in the DHCP snooping binding database. Hence, it is imperative that the DHCP snooping feature is enabled on all VLANs.",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-250328",
+  "rule_id": "SV-250328r960933_rule",
+  "stig_id": "IBMW-LS-000260",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The WebSphere Liberty Server must protect log information from unauthorized access or changes.",
+  "group_title": "SRG-APP-000119-AS-000079",
+  "idents": {
+    "cci": [
+      "CCI-000163",
+      "CCI-000164"
+    ]
+  },
+  "check_id": "C-53763r795035_chk",
+  "check_content": "As a user with local file access to ${server.config.dir}/logs, verify the following audit log files have the correct file permissions of 660.\n\naudit.log\nmessages.log\nconsole.log\ntrace.log (if it exists)\n\nIf the file permissions for these files are not set to 660, this is a finding.",
+  "fixtext": "As a user with local file access to ${server.config.dir}/logs, use the chmod command to configure the following log files to have the correct file permissions of 660.\n\nchmod 660 <filename.log>\n\naudit.log\nmessages.log\nconsole.log\ntrace.log (if it exists)",
+  "fix_id": "F-53717r795036_fix",
+  "VulnDiscussion": "WebSphere Liberty provides the capability to encrypt and sign the log data to prevent unauthorized modification. \n\n- The security feature (appSecurity-2.0) must be defined in order to configure a user registry for the servlet to authenticate against.  \n- The audit feature (audit-1.0) must be defined in order to generate audit records.\n- The servlet feature (servlet-3.1) must be defined to be able to deploy a web application. \n- The ejb feature (ejbLite-3.1) must be defined to be able to deploy an ejb application.\n- The ssl feature (ssl-1.0) must be defined to be able to generate and use certificates to sign and encrypt logs.\n- The ldap feature (ldapRegistry-3.0) must be defined in order to configure an enterprise-level user registry to authenticate users against.\n\nWhen the audit-1.0 feature is defined, all supported audit events will be captured and logged to an audit.log located under ${server.config.dir}/logs.\n\nThe audit log that is currently being logged to is called audit.log. When an audit log fills to a configured maximum capacity, it is archived with a timestamp with the naming convention audit_<timestamp>.log and new records are written to audit.log. \n\nThe audit logs are found under the ${server.config.dir}/logs directory and are named audit.log for the most recent, and audit_<timestamp>.log for any archived logs. \n\nTwo keystores need to be created (ikeyman as part of the JDK may be used) and a personal certificate created in each. One keystore will contain the certificate used to encrypt the logs; the other keystore will contain the certificate used to sign the logs. The audit configuration needs to define the location of these two keystores, their passwords, and the alias of each certificate used to encrypt and sign the logs. As an example:        \n <keyStore\n         id=\"auditEncKeyStore\"\n         password=\"Liberty\"\n         location=\"${server.config.dir}/resources/security/AuditEncryptionKeyStore.jks\"\n         type=\"JKS\" />\n\n      <keyStore\n         id=\"auditSignKeyStore\"\n         password=\"{xor}EzY9Oi0rJg==\"\n         location=\"${server.config.dir}/resources/security/AuditSigningKeyStore2.jks\"\n         type=\"JKS\" />\n\n<auditFileHandler \nencrypt=\"true\"\n        encryptAlias=\"auditencryption\"\n        encryptKeyStoreRef=\"auditEncKeyStore\"\n    sign=\"true\"\n        signingAlias=\"auditsigning2\"\n        signingKeyStoreRef=\"auditSignKeyStore\">\n</auditFileHandler>\n\nSatisfies: SRG-APP-000119-AS-000079, SRG-APP-000120-AS-000080",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271669",
+  "rule_id": "SV-271669r1155336_rule",
+  "stig_id": "OL09-00-002080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must prevent special devices on nonroot local partitions.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75719r1155335_chk",
+  "check_content": "Note: This control is not applicable to vfat file systems.\n\nVerify OL 9 prevents special devices on nonroot local partitions.\n\nVerify all nonroot local partitions are mounted with the \"nodev\" option with the following command:\n\n$ mount | grep '^/dev\\S* on /\\S' | grep --invert-match 'nodev'\n\nIf any output is produced, this is a finding.",
+  "fixtext": "Configure the \"/etc/fstab\" to use the \"nodev\" option on all nonroot local partitions.",
+  "fix_id": "F-75626r1091718_fix",
+  "VulnDiscussion": "The \"nodev\" mount option causes the system to not interpret character or block special devices. Executing character or block special devices from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.\n\nThe only legitimate location for device files is the \"/dev\" directory located on the root partition, with the exception of chroot jails if implemented.",
+  "Documentable": "false"
+}

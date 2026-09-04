@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276237",
+  "rule_id": "SV-276237r1149620_rule",
+  "stig_id": "MSQL-00-003300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must implement cryptographic mechanisms to prevent unauthorized modification of organization-defined information at rest on organization-defined information system components.",
+  "group_title": "SRG-APP-000428-DB-000386",
+  "idents": {
+    "cci": [
+      "CCI-002475"
+    ]
+  },
+  "check_id": "C-80392r1149618_chk",
+  "check_content": "Review the system documentation to determine whether the organization has defined the information at rest that is to be protected from modification, which must include, at a minimum, PII and classified information. If no information is identified as requiring such protection, this is not a finding. \n\nReview the configuration of the Azure SQL Managed Instance to ensure data-at-rest protections are implemented. If any of the information defined as requiring cryptographic protection from modification is not encrypted in a manner that provides the required level of protection, this is a finding. Retrieve the Transparent Database Encryption status for each database using the following TSQL command: \n  \nSELECT\ndb.name AS DatabaseName,  \ndb.is_encrypted AS IsEncrypted,  \nCASE \nWHEN dm.encryption_state = 0 THEN 'No database encryption key present, no encryption' \nWHEN dm.encryption_state = 1 THEN 'Unencrypted' \nWHEN dm.encryption_state = 2 THEN 'Encryption in progress' \nWHEN dm.encryption_state = 3 THEN 'Encrypted' \nWHEN dm.encryption_state = 4 THEN 'Key change in progress' \nWHEN dm.encryption_state = 5 THEN 'Decryption in progress' \nWHEN dm.encryption_state = 6 THEN 'Protection change in progress' \nEND AS EncryptionState, \ndm.encryption_state AS EncryptionState,  \ndm.key_algorithm AS KeyAlgorithm,  \ndm.key_length AS KeyLength \nFROM sys.databases db \nLEFT OUTER JOIN sys.dm_database_encryption_keys dm ON db.database_id = dm.database_id \nWHERE db.database_id NOT IN (1,2,3,4) \n  \nIf the application owner and authorizing official have determined that encryption of data at rest is required and the \"EncryptionState\" column returns \"UNENCRYPTED\", \"DECRYPTION_IN_PROGRESS\", or \"NULL\", this is a finding.",
+  "fixtext": "Use the following TSQL command to enable Transparent Database Encryption on each unencrypted database. \n  \nALTER DATABASE\n[Database Name Between Brackets] SET ENCRYPTION ON",
+  "fix_id": "F-80297r1149619_fix",
+  "VulnDiscussion": "Azure SQL Managed Instance databases handling data requiring data-at-rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest.\n\nSelection of a cryptographic mechanism is based on the need to protect the integrity of organizational information. The strength of the mechanism is commensurate with the security category and/or classification of the information. \n\nThe decision whether and what to encrypt rests with the data owner and is also influenced by the physical measures taken to secure the equipment and media on which the information resides.",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-251720",
+  "rule_id": "SV-251720r1050789_rule",
+  "stig_id": "SLES-12-010114",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must not be configured to bypass password requirements for privilege escalation.",
+  "group_title": "SRG-OS-000373-GPOS-00156",
+  "idents": {
+    "cci": [
+      "CCI-002038",
+      "CCI-004895"
+    ]
+  },
+  "check_id": "C-55157r854174_chk",
+  "check_content": "Verify the operating system is not configured to bypass password requirements for privilege escalation.\n\nCheck the configuration of the \"/etc/pam.d/sudo\" file with the following command:\n\n$ sudo grep pam_succeed_if /etc/pam.d/sudo\n\nIf any occurrences of \"pam_succeed_if\" are returned from the command, this is a finding.",
+  "fixtext": "Configure the operating system to require users to supply a password for privilege escalation.\n\nCheck the configuration of the \"/etc/ pam.d/sudo\" file with the following command:\n$ sudo vi /etc/pam.d/sudo\n\nRemove any occurrences of \"pam_succeed_if\" in the file.",
+  "fix_id": "F-55111r854175_fix",
+  "VulnDiscussion": "Without re-authentication, users may access resources or perform tasks for which they do not have authorization. \n\nWhen operating systems provide the capability to escalate a functional capability, it is critical the user re-authenticate.\n\nSatisfies: SRG-OS-000373-GPOS-00156, SRG-OS-000373-GPOS-00157, SRG-OS-000373-GPOS-00158",
+  "Documentable": "false"
+}

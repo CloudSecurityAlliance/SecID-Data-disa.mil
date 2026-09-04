@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-252970",
+  "rule_id": "SV-252970r991592_rule",
+  "stig_id": "TOSS-04-020310",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All TOSS local interactive user home directories must be owned by root.",
+  "group_title": "SRG-OS-000480-GPOS-00230",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56423r824232_chk",
+  "check_content": "Check that all user home directories are owned by the root user with the following command:\n\n$ find $(awk -F: '($3>=1000)&&($7 !~ /nologin/){print $6}' /etc/passwd) -maxdepth 0 -not -user root -ls\n\nIf there is any output, this is a finding.",
+  "fixtext": "Change the owner of interactive user's home directories to root. \n\nTo change the owner of a local interactive user's home directory, use the following command:\n\nNote: The example will be for the user \"smithj.\"\n\n$ sudo chown root /home/smithj",
+  "fix_id": "F-56373r824233_fix",
+  "VulnDiscussion": "Users' home directories/folders may contain information of a sensitive nature. Non-privileged users should coordinate any sharing of information with an SA through shared resources.",
+  "Documentable": "false"
+}

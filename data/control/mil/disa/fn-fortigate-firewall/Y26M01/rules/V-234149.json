@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234149",
+  "rule_id": "SV-234149r953982_rule",
+  "stig_id": "FNFG-FW-000100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate firewall must send traffic log entries to a central audit server for management and configuration of the traffic log entries.",
+  "group_title": "SRG-NET-000333-FW-000014",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-37334r611445_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Log and Report.\n2. Click Log Settings.\n3. Under Remote Logging and Archiving, verify FortiAnalyzer and/or syslog settings are enabled and configured with IP addresses of central FortiAnalyzer or Syslog server(s).\n\nor\n\nLog in to the FortiGate GUI with Super-Admin privilege.\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # show full-configuration log syslogd setting | grep -i status\n Check output for: \n          set status enable\n3. Run the following command:\n      # show full-configuration log fortianalyzer setting | grep -i status\n    check output for: \n          set status enable\n\nIf the FortiGate is not configured to send traffic logs to a central audit server, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Log and Report.\n2. Click Log Settings.\n3. Go to Remote Logging and Archiving.\n\nIf using FortiAnalyzer:\n4. Toggle Send logs to FortiAnalyzer/FortiManager to the right.\n5. Configure FortiAnalyzer/FortiManager with designated IP address.\n6. Configure Upload Option, SSL encrypt log transmission and Allow access to FortiGate REST API per the organizational requirement.\n\nIf using a central syslog server:\n7. Toggle Send logs to syslog to the right.\n8. Configure syslog settings with designated IP Address/FQDN.\n9. Click Apply.\n\nor\n\nLog in to the FortiGate GUI with Super-Admin privilege.\n\nOpen a CLI console, via SSH or available from the GUI.\n\nIf using FortiAnalyzer, run the following command:\n     # config log fortianalyzer setting\n     #    set status enable\n     #    set server {IP address}\n     # end\n\nIf using central syslog Server, run the following command:\n     # config log syslogd setting\n     #    set status enable\n     #    set server {IP address}\n     # end",
+  "fix_id": "F-37299r835166_fix",
+  "VulnDiscussion": "Without the ability to centrally manage the content captured in the traffic log entries, identification, troubleshooting, and correlation of suspicious behavior would be difficult and could lead to a delayed or incomplete analysis of an ongoing attack.\n\nThe DoD requires centralized management of all network component audit record content. Network components requiring centralized traffic log management must have the ability to support centralized management. The content captured in traffic log entries must be managed from a central location (necessitating automation). Centralized management of traffic log records and logs provides for efficiency in maintenance and management of records, as well as the backup and archiving of those records. \n\nEnsure at least one syslog server is configured on the firewall.\n\nIf the product inherently has the ability to store log records locally, the local log must also be secured. However, this requirement is not met since it calls for a use of a central audit server.",
+  "Documentable": "false"
+}

@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-269572",
+  "rule_id": "SV-269572r1053491_rule",
+  "stig_id": "XYLK-20-000005",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Xylok Security Suite must expire a session upon browser closing.",
+  "group_title": "SRG-APP-000005",
+  "idents": {
+    "cci": [
+      "CCI-000056",
+      "CCI-001185",
+      "CCI-002361",
+      "CCI-002891"
+    ]
+  },
+  "check_id": "C-73605r1053489_chk",
+  "check_content": "Verify session expires after browser is closed. Execute the following:\n$ grep SESSION_EXPIRE_AT_BROWSER_CLOSE /etc/xylok.conf\n\nSESSION_EXPIRE_AT_BROWSER_CLOSE=True\n\nIf \"SESSION_EXPIRE_AT_BROWSER_CLOSE\" is not set to \"True\" or is missing, this is a finding.",
+  "fixtext": "Set the session expiration:\n1. As root, open /etc/xylok.conf in a text editor.\n\n2. Add/Amend \"SESSION_EXPIRE_AT_BROWSER_CLOSE=True\" to the configuration file.\n\n3. Restart Xylok to apply settings by executing the following:\n    # systemctl restart xylok",
+  "fix_id": "F-73506r1053490_fix",
+  "VulnDiscussion": "When the session expires as soon as the browser is closed, it prevents session hijacking and unauthorized users from accessing the account or data if they reopen the browser. \n\nLeaving a session open in the browser even after it is closed could expose the system to various types of attacks, like cross-site scripting (XSS) or malware designed to steal session cookies. Automatically expiring sessions mitigates this risk.\n\nSatisfies: SRG-APP-000005, SRG-APP-000220, SRG-APP-000295, SRG-APP-000413",
+  "Documentable": "false"
+}

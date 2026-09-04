@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-274848",
+  "rule_id": "SV-274848r1143898_rule",
+  "stig_id": "SRG-APP-001010-API-001700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The API must issue access tokens in accordance with organization-defined identification and authentication policy.",
+  "group_title": "SRG-APP-001010",
+  "idents": {
+    "cci": [
+      "CCI-005165",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-78949r1143897_chk",
+  "check_content": "Review the code, configuration or identity provider responsible for issuing tokens. Verify it enforces the required authentication procedures and that tokens are not issued without proper user or client validation.\n\nPerform a valid authentication flow to receive an access token. Examine the token to ensure it includes required fields like sub (subject), aud (audience), exp (expiration), iat (issued at), and any scopes or roles defined by policy.\n\nAttempt to obtain tokens using invalid credentials, insufficient authentication methods, or unauthorized client requests. Confirm the API does not issue access tokens in these cases, in alignment with the policy.\n\nCheck that the token is signed or encrypted using the approved cryptographic algorithms. Ensure keys are securely managed and that tokens cannot be tampered with.\n\nVerify that the token's expiration time matches what the policy defines. Ensure short-lived tokens are used where required, especially for sensitive or high-risk data access.\n\nReview API or identity provider documentation to confirm whether token issuance behavior aligns with organizational requirements.\n\nIf any misconfigurations are identified, this is a finding.",
+  "fixtext": "Build or configure the API to issue access tokens in accordance with organization-defined identification and authentication policy.",
+  "fix_id": "F-78854r1143355_fix",
+  "VulnDiscussion": "An API must issue access tokens to independently handle authentication and authorization for securing access to its resources. By issuing access tokens, the API ensures only authenticated users with valid permissions can interact with the system. \n\nWithout an API gateway to centralize this process, the API itself must authenticate users, generate tokens (like JWTs), and validate those tokens on each request. This approach enables the API to maintain control over access policies, provides a stateless way of handling user sessions, and ensures sensitive data is protected by verifying the user's identity and access rights for every request. Issuing tokens directly also simplifies integration with other services and supports scalable, distributed architectures.",
+  "Documentable": "false"
+}

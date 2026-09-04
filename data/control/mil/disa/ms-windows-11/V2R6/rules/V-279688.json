@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279688",
+  "rule_id": "SV-279688r1153564_rule",
+  "stig_id": "WN11-00-000126",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows 11 systems must block consumer account user authentication.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-84241r1153426_chk",
+  "check_content": "Verify the \"block all consumer Microsoft account user authentication\" is enabled.\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SOFTWARE\\Policies\\Microsoft\\MicrosoftAccount\n\nValue Name: DisableUserAuth\n\nValue Type: REG_DWORD\nValue: 0x00000001 (1)\n\nIf the registry value is not \"1\", this is a finding.",
+  "fixtext": "Configure the following Group Policy:\nComputer Configuration >> Administrative Templates >> Windows Components >> Microsoft Account \"block all consumer Microsoft account user authentication\" to \"Enabled\".\n\nFor systems managed by Intune, apply the DOD Windows 11 STIG Settings Catalog (or equivalent Intune policy) found in the Intune policy package available on cyber.mil.\nSteps to create an Intune policy:\n1. Sign in to the Intune admin center >> Devices >> Configuration >> Create >> New Policy.\n2. Platform: Windows 10 and later. Profile type: Settings Catalog, then click \"Create\".\n3. Basics: Provide a Name and Description of the profile, then click \"Next\".\n4. Configuration settings: Click \"+ Add settings\" and search for consumer under the Settings picker. Under the Administrative Templates\\Windows Components\\Microsoft account category, check the box next to \"Block all consumer Microsoft account user authentication\". Click the Enabled radio button, then click \"Next\".\n5. Scope tags: (optional), then click \"Next\".\n6. Assignments: Assign the policy to Entra security groups that contain the target users or devices, then click \"Next\".\n7. Review + create: Review the deployment summary, then click \"Create\".",
+  "fix_id": "F-84146r1153427_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore, may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nOperating systems are capable of providing a wide variety of functions and services. Some of the functions and services, provided by default, may not be necessary to support essential organizational operations (e.g., key missions, functions).\n\nThe Copilot Rewrite functionality within Notepad and Image Generation within Paint is dependent upon the use of AI credits from a Microsoft 365 Personal or Family subscription. Organizational users must not use personal accounts to login to applications on enterprise machines.",
+  "Documentable": "false"
+}

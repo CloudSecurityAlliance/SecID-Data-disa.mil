@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276301",
+  "rule_id": "SV-276301r1149812_rule",
+  "stig_id": "MSQL-D0-007300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to CLR code must be disabled for Azure SQL Server Managed Instance, unless specifically required and approved.",
+  "group_title": "SRG-APP-000141-DB-000093",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-80456r1149810_chk",
+  "check_content": "To determine if CLR is enabled, execute the following command:  \n\nSELECT name, value, value_in_use\nFROM sys.configurations\nWHERE name = 'clr enabled'\n  \nIf \"value_in_use\" is a \"1\", review the system documentation to determine whether the use of CLR is approved. If it is not approved, this is a finding.",
+  "fixtext": "Disable use of or remove any CLR code that is not authorized. \n   \nTo disable the use of CLR, from the query prompt:  \n\nEXEC SP_CONFIGURE 'clr enabled', 0;\nRECONFIGURE WITH OVERRIDE;",
+  "fix_id": "F-80361r1149811_fix",
+  "VulnDiscussion": "Information systems are capable of providing a wide variety of functions and services. Some of the functions and services, provided by default, may not be necessary to support essential organizational operations (e.g., key missions, functions).  \n \nIt is detrimental for applications to provide, or install by default, functionality exceeding requirements or mission objectives.  \n \nApplications must adhere to the principles of least functionality by providing only essential capabilities. \n \nAzure SQL Managed Instance may spawn additional external processes to execute procedures that are defined in the Azure SQL Managed Instance but stored in external host files (external procedures). The spawned process used to execute the external procedure may operate within a different OS security context than Azure SQL Managed Instance and provide unauthorized access to the host system. \n \nThe common language runtime (CLR) component of the .NET Framework for Microsoft Windows in Azure SQL Managed Instance allows a user to write stored procedures, triggers, user-defined types, user-defined functions, user-defined aggregates, and streaming table-valued functions, using any .NET Framework language, including Microsoft Visual Basic .NET and Microsoft Visual C#. CLR packing assemblies can access resources protected by .NET Code Access Security when it runs managed code. Specifying UNSAFE enables the code in the assembly complete freedom to perform operations in the Azure SQL Managed Instance process space that can potentially compromise the robustness of Azure SQL Managed Instance. UNSAFE assemblies can also potentially subvert the security system of either Azure SQL Managed Instance or the common language runtime.",
+  "Documentable": "false"
+}

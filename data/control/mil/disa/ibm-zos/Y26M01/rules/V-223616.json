@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223616",
+  "rule_id": "SV-223616r1137691_rule",
+  "stig_id": "ACF2-US-000010",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "IBM z/OS UNIX SUPERUSER resource must be protected in accordance with guidelines.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "legacy": [
+      "SV-107041",
+      "V-97937"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-25289r504809_chk",
+  "check_content": "From the ISPF Command Shell enter:\nACF\nRESOURCE(UNI)\nLIST LIKE(SUPER-)\n\nIf the ACF2 rules for the SUPERUSER resource specify a default access of NONE, this is not a finding.\n\nIf there are no ACF2 rules that allow access to the SUPERUSER resource, this is not a finding.\n\nIf there is no ACF2 rule for CHOWN.UNRESTRICTED defined, this is not a finding.\n\nIf the ACF2 rules for each of the SUPERUSER resources listed in the z/OS UNIX System Services Planning, Establishing UNIX Security, specify a default access of NONE, this is not a finding.\n\nIf the ACF2 rules for each of the SUPERUSER resources listed in the UNIXPRIV CLASS RESOURCES Table in the z/OS UNIX System Services Planning, Establishing UNIX Security, restrict access to appropriate system tasks or systems programming personnel, this is not a finding.",
+  "fixtext": "Configure ACF2 SUPERUSER resources for the UNIXPRIV resource class to restrict to appropriate system tasks and/or system programming personnel.\n\nConfigure the ACF2 rules for the SUPERUSER resource to specify a default access of NONE.\n\nConfigure no ACF2 rules that allow access to the SUPERUSER resource.\n\nConfigure no ACF2 rule for CHOWN.UNRESTRICTED defined.\n\nConfigure the ACF2 rules for each of the SUPERUSER resources listed in the UNIXPRIV CLASS RESOURCES Table in the z/OS UNIX System Services Planning, Establishing UNIX security to specify a default access of NONE.\n\nConfigure the ACF2 rules for each of the SUPERUSER resources listed in the UNIXPRIV CLASS RESOURCES Table in the z/OS UNIX System Services Planning, Establishing UNIX security to restrict access to appropriate system tasks or systems programming personnel.\n\nExample:\nSET R(UNI)\n$KEY(SUPERUSER) TYPE(UNI) \n$MEMBER(SUPRUSER)\nFILESYS UID(sysprgmr LOG \nFILESYS.CHOWN UID(sysprgmr) LOG \nFILESYS.MOUNT UID(sysprog) LOG \nFILESYS.PFSCTL UID(sysprgmr) LOG \nFILESYS.VREGISTER UID(sysprgmr) LOG \nIPC.RMID UID(sysprgmr) LOG \nPROCESS.GETPSENT UID(sysprgmr) LOG \nPROCESS.KILL UID(sysprgmr) LOG \nPROCESS.PTRACE UID(sysprgmr) LOG \nSETPRIORITY UID(sysprgmr) LOG \n- UID(*) PREVENT",
+  "fix_id": "F-25277r504810_fix",
+  "VulnDiscussion": "To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DoD-approved PKIs, all DoD systems (e.g., web servers and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. Successful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269422",
+  "rule_id": "SV-269422r1117266_rule",
+  "stig_id": "ALMA-09-040720",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must disable access to network bpf system call from nonprivileged processes.",
+  "group_title": "SRG-OS-000132-GPOS-00067",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-73453r1049677_chk",
+  "check_content": "Verify AlmaLinux OS 9 prevents privilege escalation thru the kernel by disabling access to the bpf system call with the following commands:\n\n$ sysctl kernel.unprivileged_bpf_disabled\n\nkernel.unprivileged_bpf_disabled = 1\n\nIf the returned line does not have a value of \"1\", or a line is not returned, this is a finding.\n\nCheck that the configuration files are present to enable this kernel parameter.\n\n$ /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' | grep -F kernel.unprivileged_bpf_disabled | tail -1\n\nkernel.unprivileged_bpf_disabled = 1\n\nIf \"kernel.unprivileged_bpf_disabled\" is not set to \"1\", or nothing is returned, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to prevent privilege escalation through the kernel by disabling access to the bpf syscall with the following command:\n\n$ echo \"kernel.unprivileged_bpf_disabled = 1\" > /etc/sysctl.d/60-bpf.conf\n\nLoad settings from all system configuration files with the following command:\n\n$ sysctl --system",
+  "fix_id": "F-73354r1049678_fix",
+  "VulnDiscussion": "Loading and accessing the packet filters programs and maps using the bpf() system call has the potential of revealing sensitive information about the kernel state.",
+  "Documentable": "false"
+}

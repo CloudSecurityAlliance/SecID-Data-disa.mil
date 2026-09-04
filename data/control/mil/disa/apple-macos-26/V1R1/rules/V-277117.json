@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-277117",
+  "rule_id": "SV-277117r1148803_rule",
+  "stig_id": "APPL-26-002060",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The macOS system must apply gatekeeper settings to block applications from unidentified developers.",
+  "group_title": "SRG-OS-000366-GPOS-00153",
+  "idents": {
+    "cci": [
+      "CCI-003992"
+    ]
+  },
+  "check_id": "C-81272r1148801_chk",
+  "check_content": "Verify the macOS system is configured to apply gatekeeper settings to block applications from unidentified developers with the following commands:\n\n/usr/bin/osascript -l JavaScript << EOS\nfunction run() {\nlet pref1 = ObjC.unwrap($.NSUserDefaults.alloc.initWithSuiteName('com.apple.systempolicy.control')\\\n.objectForKey('AllowIdentifiedDevelopers'))\nlet pref2 = ObjC.unwrap($.NSUserDefaults.alloc.initWithSuiteName('com.apple.systempolicy.control')\\\n.objectForKey('EnableAssessment'))\nif ( pref1 == true && pref2 == true ) {\nreturn(\"true\")\n} else {\nreturn(\"false\")\n}\n}\nEOS\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to apply gatekeeper settings to block applications from unidentified developers by installing the \"com.apple.systempolicy.control\" configuration profile.",
+  "fix_id": "F-81177r1148802_fix",
+  "VulnDiscussion": "The information system implements cryptographic mechanisms to authenticate software prior to installation.\n\nGatekeeper settings must be configured correctly to allow the system to run only applications downloaded from the Mac App Store or applications signed with a valid Apple Developer ID code. Administrator users will still have the option to override these settings on a per-app basis. Gatekeeper is a security feature that ensures that applications must be digitally signed by an Apple-issued certificate to run. Digital signatures allow the macOS to verify that the application has not been modified by a malicious third party.",
+  "Documentable": "false"
+}

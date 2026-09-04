@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-279083",
+  "rule_id": "SV-279083r1171449_rule",
+  "stig_id": "APAS-CF-000755",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ColdFusion must configure Data Sources to limit SQL command and configure timeout.",
+  "group_title": "SRG-APP-000435-AS-000163",
+  "idents": {
+    "cci": [
+      "CCI-002385",
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-83631r1171021_chk",
+  "check_content": "Verify that all defined data sources are configured.\n\n1. From the Admin Console Landing Screen, navigate to Data & Services >> Data Sources.\n\n2. Determine if any data sources are defined. \n\nIf no data sources are defined, this is not a finding.\n\n3. For each Connected Data Source, edit the data source by clicking \"Show Advanced Settings\" to display all configuration options.\n\n4. Check whether the data source provides an option to specify a query timeout. \n\nIf the query timeout setting is not available, this is not a finding.\n\n5. If the query timeout setting is available, verify that the value is not set to \"0\", which indicates no timeout.\n\nIf any data source has a query timeout configured with a value of \"0\", this is a finding.\n\n6. Review \"Login Timeout (sec)\". \n\nIf there are any data sources with a \"Login Timeout (sec)\" set higher than 5, this is a finding.\n\nIf any of the data sources have CREATE, GRANT, DROP, REVOKE or ALTER checked, this is a finding.",
+  "fixtext": "Configure data sources.\n\n1. From the Admin Console Landing Screen, navigate to Data & Services >> Data Sources.\n\n2. For each data source, edit the data source configuration:\n\na. Click \"Show Advanced Settings\" to display all options.\n\nb. If the query timeout parameter is available, set the timeout value to a number greater than 0 to ensure queries do not run indefinitely.\n\nc. Set \"Login Timeout (sec)\" to less than 5.\n\nd. Uncheck the options allowing SQL commands:\nCREATE\nGRANT\nDROP\nREVOKE\nALTER\n\nd. Click \"Submit\" to save changes.",
+  "fix_id": "F-83536r1171448_fix",
+  "VulnDiscussion": "Data sources configured within ColdFusion can be exploited if not properly restricted. Allowing unrestricted SQL commands increases the risk of unauthorized data manipulation, privilege escalation, or destructive operations. If a data source permits these types of commands without explicit need, an attacker who compromises the application could use it to alter the database schema, escalate access, or destroy critical data.\n\nFailing to enforce query timeout values allows poorly constructed or maliciously crafted SQL statements to consume excessive resources. Long-running queries can degrade database performance or cause denial-of-service (DoS) conditions, impacting application availability for legitimate users.\n\nLimiting SQL commands to only those required for application functionality, and enforcing strict query timeouts, ensures that ColdFusion applications operate within expected bounds, maintain system stability, and protect backend data resources. These controls help reduce the attack surface and enforce the principle of least privilege across the application's database interactions.\n\nSatisfies: SRG-APP-000435-AS-000163, SRG-APP-000172-AS-000120",
+  "Documentable": "false"
+}

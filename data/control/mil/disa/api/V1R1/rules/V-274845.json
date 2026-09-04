@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-274845",
+  "rule_id": "SV-274845r1143892_rule",
+  "stig_id": "SRG-APP-000995-API-001685",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The API must time-restrict assertions in accordance with organization-defined identification and authentication policy.",
+  "group_title": "SRG-APP-000995",
+  "idents": {
+    "cci": [
+      "CCI-005162",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-78946r1143891_chk",
+  "check_content": "Reviewing the organization's identification and authentication policy's defined rules for assertion validity duration. This should include the maximum lifespan of assertions, such as the allowed expiration time after issuance.\n\nCheck the API's implementation to ensure it generates assertions with the correct expiration times based on the organization's policy. Assertions must include expiration claims (e.g., exp in JWT tokens), and the API must enforce these time restrictions automatically.\n\nSimulate the use of assertions at different times, including immediately after issuance and near expiration. Ensure the API correctly rejects assertions that have expired or are no longer valid according to the defined time restrictions.\n\nVerify the API is applying time-based policies for issuing or renewing assertions. For example, it should not issue assertions with a duration that exceeds the time limits set by the organization. It should also handle scenarios like late requests that could fall outside the permitted time window.\n\nReview the API logs to verify expiration and time-based events are being properly logged, including when an assertion is created, expired, or rejected due to time constraints. \n\nRefer to the API's documentation to ensure the time restriction policy is implemented correctly and compliant with the organization's defined standards for assertion time management.\n\nIf the API does not time restrict assertions in accordance with organization-defined identification and authentication policy, this is a finding.",
+  "fixtext": "Build or configure the API to time-restrict assertions in accordance with organization-defined identification and authentication policy.",
+  "fix_id": "F-78851r1143346_fix",
+  "VulnDiscussion": "An API must time-restrict assertions to minimize security risks and ensure access to protected resources is granted only within a valid and controlled timeframe. Assertions, such as JWTs or SAML tokens, typically include expiration timestamps that limit how long they are valid. This prevents long-term misuse in case a token is leaked or intercepted and helps enforce periodic re-authentication or authorization checks. By applying time restrictions, the API reduces the window of opportunity for unauthorized access, aligns with best practices in secure session management, and supports compliance with policies that require timely validation of user credentials and permissions.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-205842",
+  "rule_id": "SV-205842r1137699_rule",
+  "stig_id": "WN19-SO-000360",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2019 must be configured to use FIPS-compliant algorithms for encryption, hashing, and signing.",
+  "group_title": "SRG-OS-000478-GPOS-00223",
+  "idents": {
+    "legacy": [
+      "SV-103597",
+      "V-93511"
+    ],
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-6107r1028367_chk",
+  "check_content": "This is NA if the host is running SharePoint.\n\nIf the following registry value does not exist or is not configured as specified, this is a finding:\n\nRegistry Hive: HKEY_LOCAL_MACHINE\nRegistry Path: \\SYSTEM\\CurrentControlSet\\Control\\Lsa\\FIPSAlgorithmPolicy\\\n\nValue Name: Enabled\n\nValue Type: REG_DWORD\nValue: 0x00000001 (1)\n \nClients with this setting enabled will not be able to communicate via digitally encrypted or signed protocols with servers that do not support these algorithms. Both the browser and web server must be configured to use TLS; otherwise. the browser will not be able to connect to a secure site.\n\nIf the server is hosting SharePoint, this is not applicable.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> Security Options >> \"System cryptography: Use FIPS compliant algorithms for encryption, hashing, and signing\" to \"Enabled\".",
+  "fix_id": "F-6107r355889_fix",
+  "VulnDiscussion": "This setting ensures the system uses algorithms that are FIPS-compliant for encryption, hashing, and signing. FIPS-compliant algorithms meet specific standards established by the U.S. Government and must be the algorithms used for all OS encryption functions.",
+  "Documentable": "false"
+}

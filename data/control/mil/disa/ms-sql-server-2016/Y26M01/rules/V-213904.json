@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213904",
+  "rule_id": "SV-213904r960864_rule",
+  "stig_id": "SQL6-D0-000600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SQL Server must protect against a user falsely repudiating by ensuring databases are not in a trust relationship.",
+  "group_title": "SRG-APP-000080-DB-000063",
+  "idents": {
+    "legacy": [
+      "SV-93777",
+      "V-79071"
+    ],
+    "cci": [
+      "CCI-000166"
+    ]
+  },
+  "check_id": "C-15122r944380_chk",
+  "check_content": "If the database being reviewed is MSDB, trustworthy is required to be enabled, and therefore this is not a finding.\n\nExecute the following query:\n\nSELECT SUSER_SNAME(d.owner_sid) AS DatabaseOwner,\nCASE\nWHEN d.is_trustworthy_on = 0 THEN 'No'\nWHEN d.is_trustworthy_on = 1 THEN 'Yes'\nEND AS IsTrustworthy,\nCASE\nWHEN role.name IN ('sysadmin','securityadmin')\nOR permission.permission_name = 'CONTROL SERVER'\nTHEN 'YES'\nELSE 'No'\nEND AS 'IsOwnerPrivileged'\nFROM sys.databases d\nLEFT JOIN sys.server_principals login ON d.owner_sid = login.sid\nLEFT JOIN sys.server_role_members rm ON login.principal_id = rm.member_principal_id\nLEFT JOIN sys.server_principals role ON rm.role_principal_id = role.principal_id\nLEFT JOIN sys.server_permissions permission ON login.principal_id = permission.grantee_principal_id\nWHERE d.name = DB_NAME()\n\nIf trustworthy is not enabled, this is not a finding.\n\nIf trustworthy is enabled and the database owner is not a privileged account, this is not a finding.\n\nIf trustworthy is enabled and the database owner is a privileged account, review the system documentation to determine if the trustworthy property is required and authorized. If this is not documented, this is a finding.",
+  "fixtext": "Disable trustworthy on the database.\n\nALTER DATABASE [<database name>] SET TRUSTWORTHY OFF",
+  "fix_id": "F-15120r313145_fix",
+  "VulnDiscussion": "Non-repudiation of actions taken is required in order to maintain data integrity. Examples of particular actions taken by individuals include creating information, sending a message, approving information (e.g., indicating concurrence or signing a contract), and receiving a message. \n\nNon-repudiation protects against later claims by a user of not having created, modified, or deleted a particular data item or collection of data in the database.\n\nSQL Server provides the ability for high privileged accounts to impersonate users in a database using the TRUSTWORTHY feature. This will allow members of the fixed database role to impersonate any user within the database.",
+  "Documentable": "false"
+}

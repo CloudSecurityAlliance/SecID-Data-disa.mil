@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-250336",
+  "rule_id": "SV-250336r1015470_rule",
+  "stig_id": "IBMW-LS-000440",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The WebSphere Liberty Server must store only encrypted representations of user passwords.",
+  "group_title": "SRG-APP-000171-AS-000119",
+  "idents": {
+    "cci": [
+      "CCI-000196",
+      "CCI-004062",
+      "CCI-002475",
+      "CCI-002476"
+    ]
+  },
+  "check_id": "C-53771r795059_chk",
+  "check_content": "As a privileged user with file access to ${server.config.dir}/server.xml, review and ensure there are no clear-text passwords stored within the server.xml file.\n\nIf any passwords appear in plain text, or if any passwords start with {xor}, this is a finding.",
+  "fixtext": "For additional information regarding the use of the SecurityUtility command, refer to IBM’s website: \nhttps://www.ibm.com/docs/en/was-liberty/base?topic=applications-securityutility-command\n\nCreate a new xml file with file permissions of 660.\n\nFile owner and group membership is the same as the WebSphere Liberty server user.\n\nAdd the following line to the new xml file:\n\n<variable name=\"wlp.password.encryption.key\" value=\"mysecret\"/>\n\nIn the above, \"mysecret\" is the passphrase selected to create a cryptographic hash that represents the password.\n\nSave the file to a secured location. Note the path and name, as it will be needed when updating server.xml.\n\nEdit the server.xml file and add the following line:\n\n<include location=\"/path/<xml file created>\" />\n\nFor every unencrypted password in server.xml, run the following SecurityUtility command, which can be found in the Liberty Server install path:\n\nSecurityUtility encode --encoding=aes \n\nThis will prompt the user to enter the plain-text password stored within the server.xml file.\n\nThe SecurityUtility tool will generate an AES cryptographic hash of the password.\n\nCopy and replace the plain-text password with the hashed value.\n\nThis must be done for every plain-text password in server.xml.\n\nRestart the server by entering: \nserver stop <server name>\nserver start <server name>",
+  "fix_id": "F-53725r795060_fix",
+  "VulnDiscussion": "WebSphere Liberty can either provide a local account store or integrate with enterprise account stores such as LDAP directories. If the application server stores application passwords in the server.xml configuration files, the application server must store encrypted representations of passwords rather than unencrypted, clear-text passwords.\n\nThe Liberty Application Server provides a SecurityUtility tool that can take a plain-text or encoded password and convert it to an encrypted password. This tool does not update the ${server.config.dir/server.xml file directly; a manual update of the server.xml is needed once the utility is run. \n\nIt is imperative that administrators understand that the SecurityUtility tool must be run for each application password that is stored within the server.xml file.\n\nSatisfies: SRG-APP-000171-AS-000119, SRG-APP-000428-AS-000265, SRG-APP-000429-AS-000157",
+  "Documentable": "false"
+}

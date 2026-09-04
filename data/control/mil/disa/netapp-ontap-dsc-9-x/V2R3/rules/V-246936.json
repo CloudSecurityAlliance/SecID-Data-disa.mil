@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-246936",
+  "rule_id": "SV-246936r1015268_rule",
+  "stig_id": "NAOT-AU-000004",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ONTAP must be configured to synchronize internal information system clocks using redundant authoritative time sources.",
+  "group_title": "SRG-APP-000373-NDM-000298",
+  "idents": {
+    "cci": [
+      "CCI-004928",
+      "CCI-001893"
+    ]
+  },
+  "check_id": "C-50368r945864_chk",
+  "check_content": "Use \"cluster time-service ntp server show\" to view the current network time protocol configuration for ONTAP and ensure at least two ntp servers are defined.\n\nIf ONTAP is not configured to synchronize internal information system clocks using redundant authoritative time sources, this is a finding.",
+  "fixtext": "Configure network time protocol for ONTAP with \"cluster time-service ntp server create -server <IP address>\" to add new ntp servers. Up to 10 servers can be defined.",
+  "fix_id": "F-50322r860679_fix",
+  "VulnDiscussion": "The loss of connectivity to a particular authoritative time source will result in the loss of time synchronization (free-run mode) and increasingly inaccurate time stamps on audit events and other functions.\n\nMultiple time sources provide redundancy by including a secondary source. Time synchronization is usually a hierarchy; clients synchronize time to a local source while that source synchronizes its time to a more accurate source. The network device must utilize an authoritative time server and/or be configured to use redundant authoritative time sources. This requirement is related to the comparison done in CCI-001891.\n\nDOD-approved solutions consist of a combination of a primary and secondary time source using a combination or multiple instances of the following: a time server designated for the appropriate DOD network (NIPRNet/SIPRNet); United States Naval Observatory (USNO) time servers; and/or the Global Positioning System (GPS). The secondary time source must be located in a different geographic region than the primary time source.",
+  "Documentable": "false"
+}

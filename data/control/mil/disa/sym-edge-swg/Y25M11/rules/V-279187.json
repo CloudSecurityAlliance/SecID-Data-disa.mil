@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279187",
+  "rule_id": "SV-279187r1170651_rule",
+  "stig_id": "SYME-00-005900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "In the event of a system failure of the ALG function, the Edge SWG must save diagnostic information, log system messages, and load the most current security policies, rules, and signatures when restarted.",
+  "group_title": "SRG-NET-000236-ALG-000119",
+  "idents": {
+    "cci": [
+      "CCI-001665"
+    ]
+  },
+  "check_id": "C-83735r1170651_chk",
+  "check_content": "1. In the Edge SWG Web UI, navigate to the Administration tab.\n2. Go to \"Logging and Access Logging\".\n3. Scroll down to \"Logs\" and click \"Edit\" on the Main log.\n\nIf there is no upload client configured, this is a finding.\n\nUnder upload schedule, if the is a schedule for \"Periodically\" is not selected, then this is a finding.",
+  "fixtext": "1. In the Edge SWG Web UI, navigate to the Administration tab.\n2. Go to \"Logging and Access Logging\".\n3. Scroll down to \"Logs\" and click \"Edit\" on the Main log.\n4. Under \"Upload Client\", select \"SCP\".\n5. Click \"Open Settings\" and configure the following variables: host, port, full path, username, and password.\n6. Click \"Apply and Test Upload\". If there are connection issues, fix these before continuing.\n7. Under \"Transmission Parameters\", select a signing certificate. This signing certificate must be the certificate used for SSL Proxying issued by the DOD WCF Certificate Authority (CA).\n8. Check \"Text File\".\n9. Under \"Upload Schedule\" select \"Periodically\".\n10. Then, choose 5 seconds between connect attempts.\n11. Select the \"Daily interval\" and select a time that works for the site SCP server.\n12. Click \"Upload Now\" to test if the upload works. If there are connection issues, fix these before continuing.\n13. Click \"Apply and Save\".",
+  "fix_id": "F-83640r1170631_fix",
+  "VulnDiscussion": "Failure in a secure state can address safety or security in accordance with the mission needs of the organization. Failure to a secure state helps prevent a loss of confidentiality, integrity, or availability in the event of a failure of the information system or a component of the system. Preserving state information helps to facilitate the restart of the ALG application and a return to the operational mode with less disruption.\n\nThis requirement applies to a failure of the ALG function rather than the device or operating system as a whole, which is addressed in the Network Device Management SRG.\n\nSince it is usually not possible to test this capability in a production environment, systems should either be validated in a testing environment or prior to installation. This requirement is usually a function of the design of the IDPS component. Compliance can be verified by acceptance/validation processes or vendor attestation.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271672",
+  "rule_id": "SV-271672r1092631_rule",
+  "stig_id": "OL09-00-002102",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must disable the user list at logon for graphical user interfaces.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75722r1091726_chk",
+  "check_content": "This requirement assumes the use of the OL 9 default graphical user interface—the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\nVerify that OL 9 disables the user logon list for graphical user interfaces with the following command:\n\n$ gsettings get org.gnome.login-screen disable-user-list\ntrue\n\nIf the setting is \"false\", this is a finding.",
+  "fixtext": "Configure OL 9 to disable the user list at logon for graphical user interfaces.\n\nCreate a database to contain the systemwide screensaver settings (if it does not already exist) with the following command:\n\nNote: The example below is using the database \"local\" for the system, so if the system is using another database in \"/etc/dconf/profile/user\", the file should be created under the appropriate subdirectory.\n\n$ sudo touch /etc/dconf/db/local.d/02-login-screen\n\n[org/gnome/login-screen]\ndisable-user-list=true\n\nUpdate the system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-75629r1092630_fix",
+  "VulnDiscussion": "Leaving the user list enabled is a security risk since it allows anyone with physical access to the system to enumerate known user accounts without authenticated access to the system.",
+  "Documentable": "false"
+}

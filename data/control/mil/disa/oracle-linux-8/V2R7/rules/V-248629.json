@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248629",
+  "rule_id": "SV-248629r1156626_rule",
+  "stig_id": "OL08-00-010671",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must disable the \"kernel.core_pattern\".",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52063r1155454_chk",
+  "check_content": "Verify OL 8 disables storing core dumps with the following commands:\n\n$ sysctl kernel.core_pattern\nkernel.core_pattern = |/bin/false\n\nIf the returned line does not have a value of \"|/bin/false\", or a line is not returned and the need for core dumps is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure OL 8 to disable storing core dumps.\n\nAdd or edit the following line in a system configuration file, in the \"/etc/sysctl.d/\" directory:\n\nkernel.core_pattern = |/bin/false\n\nThe system configuration files must be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-52017r1156625_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nThe sysctl --system command will load settings from all system configuration files. All configuration files are sorted by their filename in lexicographical order, regardless of the directories in which they reside. If multiple files specify the same option, the entry in the file with the lexicographically latest name will take precedence. Files are read from directories in the following list from top to bottom. Once a file of a given filename is loaded, any file of the same name in subsequent directories is ignored.\n/etc/sysctl.d/*.conf\n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf",
+  "Documentable": "false"
+}

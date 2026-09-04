@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276394",
+  "rule_id": "SV-276394r1146678_rule",
+  "stig_id": "AVOS-02-010800",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Apple visionOS 2 must implement the management setting: not allow use of Handoff.",
+  "group_title": "PP-MDF-993300",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-80549r1146676_chk",
+  "check_content": "This is a supervised-only control. If the Vision Pro being reviewed is not supervised by the MDM, this control is automatically a finding.\n\nIf the Vision Pro being reviewed is supervised by the MDM, review configuration settings to confirm \"Allow Handoff\" is disabled.\n\nThis check procedure is performed on both the Apple visionOS management tool and the Vision Pro.\n\nNote: If an organization has multiple configuration profiles, the check procedure must be performed on the relevant configuration profiles applicable to the scope of the review. \n\nIn the Apple visionOS management tool, verify \"Allow Handoff\" is unchecked.\n\nAlternatively, verify the text \"<key>allowActivityContinuation</key> <false/>\" appears in the configuration profile (.mobileconfig file).\n\nOn the Vision Pro:\n1. Open the Settings app.\n2. Tap \"General\".\n3. Tap \"VPN & Device Management\".\n4. Tap the configuration profile from the Apple visionOS management tool containing the restrictions policy.\n5. Tap \"Restrictions\".\n6. Verify \"Handoff not allowed\" is listed.\n\nIf \"Allow Handoff\" is checked in the Apple visionOS management tool, \"<key>allowActivityContinuation</key> <true/>\" appears in the configuration profile, or the restrictions policy on the Vision Pro does not list \"Handoff not allowed\", this is a finding.",
+  "fixtext": "Install a configuration profile to disable continuation of activities among devices and workstations. This is a supervised-only control.",
+  "fix_id": "F-80454r1146677_fix",
+  "VulnDiscussion": "Handoff permits a user of a Vision Pro to transition user activities from one device to another. Handoff passes sufficient information between the devices to describe the activity, but app data synchronization associated with the activity is handled though iCloud, which should be disabled on a compliant Vision Pro. If a user associates both DOD and personal devices to the same Apple ID, the user may improperly reveal information about the nature of the user's activities on an unprotected device. Disabling Handoff mitigates this risk.\n\nSFR ID: FMT_SMF.1.1 #47",
+  "Documentable": "false"
+}

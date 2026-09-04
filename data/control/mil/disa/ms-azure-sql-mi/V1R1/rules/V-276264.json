@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276264",
+  "rule_id": "SV-276264r1149701_rule",
+  "stig_id": "MSQL-00-015500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must generate audit records for all direct access to the database(s).",
+  "group_title": "SRG-APP-000508-DB-000358",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-80419r1149699_chk",
+  "check_content": "Determine whether any Server Audits are configured to filter records. From SQL Server Management Studio execute the following query: \n   \nSELECT name AS AuditName, predicate AS AuditFilter  \nFROM sys.server_audits  \nWHERE predicate IS NOT NULL \n \nIf any audits are returned, review the associated filters. If any direct access to the database(s) is being excluded, this is a finding.",
+  "fixtext": "Check the system documentation for required Azure SQL Managed Instance Audits. Remove any Audit filters that exclude or reduce required auditing. Update filters to ensure direct access is not excluded.",
+  "fix_id": "F-80324r1149700_fix",
+  "VulnDiscussion": "In this context, direct access is any query, command, or call to Azure SQL Managed Instance that comes from any source other than the application(s) it supports. For example, the command line or a database management utility program. The intent is to capture all activity from administrative and nonstandard sources.",
+  "Documentable": "false"
+}

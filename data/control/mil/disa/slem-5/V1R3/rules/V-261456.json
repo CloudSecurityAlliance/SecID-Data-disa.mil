@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-261456",
+  "rule_id": "SV-261456r996775_rule",
+  "stig_id": "SLEM-05-654165",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must generate audit records for all uses of the \"delete_module\" system call.",
+  "group_title": "SRG-OS-000037-GPOS-00015",
+  "idents": {
+    "cci": [
+      "CCI-000130",
+      "CCI-000169",
+      "CCI-002884",
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-65185r996773_chk",
+  "check_content": "Verify SLEM 5 generates an audit record for all uses of the \"delete_module\" system call with the following command:\n\n     > sudo auditctl -l | grep -w 'delete_module'\n     -a always,exit -F arch=b32 -S delete_module -F auid>=1000 -F auid!=-1 -F key=unload_module\n     -a always,exit -F arch=b64 -S delete_module -F auid>=1000 -F auid!=-1 -F key=unload_module\n\nIf both the \"b32\" and \"b64\" audit rules are not defined for the \"unload_module\" syscall, this is a finding.\n\nNote: The \"key=\" value is arbitrary and can be different from the example output above.",
+  "fixtext": "Configure SLEM 5 to generate an audit record for all uses of the \"delete_module\" system call. \n\nAdd or modify the following lines in the \"/etc/audit/rules.d/audit.rules\" file:\n\n-a always,exit -F arch=b32 -S delete_module -F auid>=1000 -F auid!=unset -k unload_module\n-a always,exit -F arch=b64 -S delete_module -F auid>=1000 -F auid!=unset -k unload_module\n\nTo reload the rules file, restart the audit daemon:\n\n     > sudo systemctl restart auditd.service\n\nor issue the following command:\n\n     > sudo augenrules --load",
+  "fix_id": "F-65093r996774_fix",
+  "VulnDiscussion": "Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).",
+  "Documentable": "false"
+}

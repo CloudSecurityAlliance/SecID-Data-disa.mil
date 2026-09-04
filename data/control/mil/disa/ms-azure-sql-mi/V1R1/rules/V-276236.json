@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276236",
+  "rule_id": "SV-276236r1150044_rule",
+  "stig_id": "MSQL-00-003200",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must use NSA-approved cryptography to protect classified information in accordance with the data owners' requirements.",
+  "group_title": "SRG-APP-000416-DB-000380",
+  "idents": {
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-80391r1149615_chk",
+  "check_content": "Use the TSQL query below to determine database encryption state: \n \nSELECT   DB_NAME(database_id) AS DatabaseName,   encryption_state_desc AS EncryptionState,   key_algorithm+CAST(key_length AS nvarchar(128)) AS EncryptionAlgorithm,   encryptor_type  FROM sys.dm_database_encryption_keys  \n\nValidate that for each database the [EncryptionState] is \"ENCRYPTED\" and the [EncryptionAlgorithm] returns one of the following values: [AES128], [AES192], or [AES256]. \n\nIf any other value is returned for either the \"EncryptionState\" or \"EncryptionAlgorithm\", this is a finding.",
+  "fixtext": "Create a compliant key/certificate and enable encryption on the database. \n\nRefer to: https://learn.microsoft.com/en-us/azure/azure-sql/database/transparent-data-encryption-byok-configure?view=azuresql&amp;tabs=azure-powershell\n \nThen execute the following command: \nALTER DATABASE [Database Name Between Brackets] SET ENCRYPTION ON;",
+  "fix_id": "F-80296r1149616_fix",
+  "VulnDiscussion": "Use of weak or untested encryption algorithms undermines the purposes of utilizing encryption to protect data. The application must implement cryptographic modules adhering to the higher standards approved by the federal government since this provides assurance they have been tested and validated. It is the responsibility of the data owner to assess the cryptography requirements in light of applicable federal laws, Executive Orders, directives, policies, regulations, and standards.\n\nNSA-approved cryptography for classified networks is hardware based. This requirement addresses the compatibility of Azure SQL Managed Instance with the encryption devices.",
+  "Documentable": "false"
+}

@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-278410",
+  "rule_id": "SV-278410r1172694_rule",
+  "stig_id": "NGNX-APP-003220",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must generate, manage, and protect from disclosure and misuse the cryptographic keys that protect access tokens.",
+  "group_title": "SRG-APP-000965",
+  "idents": {
+    "cci": [
+      "CCI-005156",
+      "CCI-000366",
+      "CCI-005157"
+    ]
+  },
+  "check_id": "C-82944r1172693_chk",
+  "check_content": "Check SSL/TLS certificate and private key file permissions:\n\n# ls -la /home/ubuntu/nginx.com.crt\n# ls -la /home/ubuntu/nginx.com.key\n\nVerify:\n- Certificate file permissions are 644 or more restrictive.\n- Private key file permissions are 600 or more restrictive.\n- Files are owned by nginx user or root.\n- Files are not world-readable or group-writable.\n\nIf these permissions are not set, this is a finding.\n\nVerify certificate validity and strength:\n\n# openssl x509 -in /home/ubuntu/nginx.com.crt -text -noout\n\nVerify:\n- Certificate is not expired.\n- Uses RSA key length of 2048 bits minimum or ECDSA P-256 minimum.\n- Signature algorithm is SHA-256 or stronger (not SHA-1 or MD5).\n- Certificate chain is complete and valid.\n\nIf these values are not met, this is a finding.\n\nVerify private key strength and protection:\n\n# openssl rsa -in /home/ubuntu/nginx.com.key -text -noout -check\n\nVerify:\n- Key length is 2048 bits minimum.\n- Key is not encrypted with weak algorithms.\n- Key passes integrity check.\n\nIf these key values are not set, this is a finding.",
+  "fixtext": "Set proper file permissions for SSL certificate and private key:\n\n# chmod 644 /home/ubuntu/nginx.com.crt\n# chmod 600 /home/ubuntu/nginx.com.key\n# chown nginx:nginx /home/ubuntu/nginx.com.crt\n# chown nginx:nginx /home/ubuntu/nginx.com.key\n\nMove certificates to secure location:\n\n# mkdir -p /etc/nginx/ssl\n# mv /home/ubuntu/dev.sports.com.* /etc/nginx/ssl/\n# chmod 700 /etc/nginx/ssl\n\nUpdate NGINX configuration to use secure certificate location:\n\nserver {\n    listen 443 ssl;\n    ssl_certificate     /etc/nginx/ssl/nginx.com.crt;\n    ssl_certificate_key /etc/nginx/ssl/nginx.com.key;\n    ssl_session_cache shared:SSL:10m;\n    ssl_dhparam /etc/nginx/ssl/dhparam.pem;\n}\n\nGenerate strong DH parameters if not present:\n\n# openssl dhparam -out /etc/nginx/ssl/dhparam.pem 2048\n# chmod 644 /etc/nginx/ssl/dhparam.pem",
+  "fix_id": "F-82849r1171981_fix",
+  "VulnDiscussion": "Identity assertions and access tokens are typically digitally signed. The private keys used to sign these assertions and tokens are protected commensurate with the impact of the system and information resources that can be accessed.\n\nSatisfies: SRG-APP-000965, SRG-APP-000970",
+  "Documentable": "false"
+}

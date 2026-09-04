@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-256940",
+  "rule_id": "SV-256940r960735_rule",
+  "stig_id": "APWS-AT-000020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Automation Controller web server must manage sessions.",
+  "group_title": "SRG-APP-000001-WSR-000002",
+  "idents": {
+    "cci": [
+      "CCI-000054",
+      "CCI-002361"
+    ]
+  },
+  "check_id": "C-60615r903545_chk",
+  "check_content": "Log in to Automation Controller as an administrator and navigate to Settings >> System >> Miscellaneous Authentication.\n\nThe following parameters must be set:\n\nOAuth 2 Timeout Settings < 1800 seconds (No more than 30 minutes). \n\nThe maximum number of simultaneous logged session must not be less than 0 (The default is -1) and must not match the organizationally defined maximum.\n\nDisable the built-in authentication system = ON\n\nEnable HTTP Basic Auth = Off\n\nOAuth 2 Timeout settings: \n\n\"ACCESS_TOKEN_EXPIRE_SECONDS\": 31536000000,\n \"AUTHORIZATION_CODE_EXPIRE_SECONDS\": 600,\n \"REFRESH_TOKEN_EXPIRE_SECONDS\": 2628000\n\nAllow External Users to Create OAuth2 Tokens = Off\n\nLogin redirect override URL = Not Configured or Blank\n\nSocial Auth Organization Map = Null\n\nSocial Auth Team Map = Null\n\nSocial Auth User Fields = Null\n\nIf any of these settings are incorrect, this is a finding.",
+  "fixtext": "Log in to Automation Controller as an administrator and navigate to Settings >> System >> Miscellaneous Authentication.\n\nClick \"Edit\".\n\nSet the following parameters:\n\nOAuth 2 Timeout Settings < 1800 seconds. \n\nThe maximum number of simultaneous logged session must equal 0 or the organizationally defined maximum.\n\nDisable the built-in authentication system = ON\n\nEnable HTTP Basic Auth = Off\n\nAccess Token Expiration = 31536000000\n\nAuthorization Code Expiration = 600\n\nRefresh Token Expiration = 2628000\n\nAllow External Users to Create OAuth2 Tokens = Off\n\nLogin redirect override URL = Not Configured or Blank\n\nSocial Auth Organization Map = Null\n\nSocial Auth Team Map = Null\n\nSocial Auth User Fields = Null\n\nClick \"Save\".",
+  "fix_id": "F-60557r903541_fix",
+  "VulnDiscussion": "Session management on client and server is required to protect identity and authorization information.\n\nSessions for the Automation Controller web server, if compromised, could lead to execution of jobs on remote endpoints as if authenticated.\n\nSatisfies: SRG-APP-000001-WSR-000002, SRG-APP-000001-WSR-000001, SRG-APP-000295-WSR-000012, SRG-APP-000295-WSR-000134",
+  "Documentable": "false"
+}

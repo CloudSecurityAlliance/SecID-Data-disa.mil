@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271855",
+  "rule_id": "SV-271855r1092277_rule",
+  "stig_id": "OL09-00-005020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must encrypt the transfer of audit records offloaded onto a different system or media from the system being audited via rsyslog.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-75905r1092275_chk",
+  "check_content": "Verify that OL 9 encrypts audit records offloaded onto a different system or media from the system being audited via rsyslog with the following command:\n\n$ grep -i '$ActionSendStreamDriverMode' /etc/rsyslog.conf /etc/rsyslog.d/*.conf \n/etc/rsyslog.conf:$ActionSendStreamDriverMode 1 \n\nIf the value of the \"$ActionSendStreamDriverMode\" option is not set to \"1\" or the line is commented out, this is a finding.",
+  "fixtext": "Configure OL 9 to encrypt offloaded audit records via rsyslog by setting the following options in \"/etc/rsyslog.conf\" or \"/etc/rsyslog.d/[customfile].conf\":\n\n$ActionSendStreamDriverMode 1",
+  "fix_id": "F-75812r1092276_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOffloading is a common process in information systems with limited audit storage capacity.\n\nOL 9 installation media provides \"rsyslogd\", a system utility providing support for message logging. Support for both internet and Unix domain sockets enables this utility to support both local and remote logging. Coupling this utility with \"gnutls\" (a secure communications library implementing the SSL, TLS, and DTLS protocols) creates a method to securely encrypt and offload auditing.\n\n\"Rsyslog\" supported authentication modes include:\nanon - anonymous authentication\nx509/fingerprint - certificate fingerprint authentication\nx509/certvalid - certificate validation only\nx509/name - certificate validation and subject name authentication\n\nSatisfies: SRG-OS-000342-GPOS-00133, SRG-OS-000479-GPOS-00224",
+  "Documentable": "false"
+}

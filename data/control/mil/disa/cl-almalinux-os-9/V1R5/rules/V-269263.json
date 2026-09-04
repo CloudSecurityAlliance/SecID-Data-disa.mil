@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269263",
+  "rule_id": "SV-269263r1050145_rule",
+  "stig_id": "ALMA-09-020700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 SSH server configuration files must have mode 0600 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73294r1048165_chk",
+  "check_content": "Verify the permissions of \"/etc/ssh/sshd_config\" and any \"/etc/ssh/sshd_config.d/*.conf\" files with the following command:\n\n$ find /etc/ssh/sshd_config /etc/ssh/sshd_config.d -exec stat -c \"%#a %n\" {} \\;\n\n600 /etc/ssh/sshd_config\n755 /etc/ssh/sshd_config.d\n600 /etc/ssh/sshd_config.d/40-stig.conf\n600 /etc/ssh/sshd_config.d/50-redhat.conf\n600 /etc/ssh/sshd_config.d/clientalive.conf\n\nIf any of the files do not have \"0600\" permissions, this is a finding.",
+  "fixtext": "Configure the SSHD config files to have \"0600\" permissions with the following command:\n\n$ chmod 0600 /etc/ssh/sshd_config /etc/ssh/sshd_config.d/*.conf",
+  "fix_id": "F-73195r1048166_fix",
+  "VulnDiscussion": "Service configuration files enable or disable features of their respective services, which if configured incorrectly, can lead to insecure and vulnerable configurations. Therefore, service configuration files must be owned by the correct group to prevent unauthorized changes.",
+  "Documentable": "false"
+}

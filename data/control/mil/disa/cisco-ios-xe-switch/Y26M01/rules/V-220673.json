@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220673",
+  "rule_id": "SV-220673r991910_rule",
+  "stig_id": "CISC-L2-000270",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco switch must not have any switchports assigned to the native VLAN.",
+  "group_title": "SRG-NET-000512-L2S-000013",
+  "idents": {
+    "legacy": [
+      "SV-110321",
+      "V-101217"
+    ],
+    "cci": [
+      "CCI-004891"
+    ]
+  },
+  "check_id": "C-22388r507567_chk",
+  "check_content": "Review the switch configurations and examine all access switch ports. Verify that they do not belong to the native VLAN as shown in the example below:\n\ninterface GigabitEthernet0/1\n switchport trunk encapsulation dot1q\n switchport trunk native vlan 44\n switchport mode trunk\n negotiation auto\n!\ninterface GigabitEthernet0/2\n switchport access vlan 11\n negotiation auto\n!\ninterface GigabitEthernet0/3\n switchport access vlan 12\n negotiation auto\n!\n\nIf any access switch ports have been assigned to the same VLAN ID as the native VLAN, this is a finding.",
+  "fixtext": "Configure all access switch ports to a VLAN other than the native VLAN.",
+  "fix_id": "F-22377r507568_fix",
+  "VulnDiscussion": "Double encapsulation can be initiated by an attacker who has access to a switch port belonging to the native VLAN of the trunk port. Knowing the victim’s MAC address and with the victim attached to a different switch belonging to the same trunk group, thereby requiring the trunk link and frame tagging, the malicious user can begin the attack by sending frames with two sets of tags. The outer tag that will have the attacker’s VLAN ID (probably the well-known and omnipresent default VLAN) is stripped off by the switch, and the inner tag that will have the victim’s VLAN ID is used by the switch as the next hop and sent out the trunk port.",
+  "Documentable": "false"
+}

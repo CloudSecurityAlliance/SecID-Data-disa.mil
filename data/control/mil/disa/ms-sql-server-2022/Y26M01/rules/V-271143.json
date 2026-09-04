@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271143",
+  "rule_id": "SV-271143r1167490_rule",
+  "stig_id": "SQLD-22-001200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SQL Server must limit privileges to change software modules, to include stored procedures, functions, and triggers, and links to software external to SQL Server.",
+  "group_title": "SRG-APP-000133-DB-000179",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-75186r1167489_chk",
+  "check_content": "Obtain a listing of schema ownership from the server documentation.\n\nExecute the following query to obtain a current listing of schema ownership.\n\nSELECT s.name AS schema_name, p.name AS owning_principal\n  FROM sys.schemas s\n  JOIN sys.database_principals p ON s.principal_id = p.principal_id\n WHERE p.name != 'dbo'\n   AND (s.name != p.name\n        or p.name not in\n         ( 'db_accessadmin'\n         , 'db_backupoperator'\n         , 'db_datareader'\n         , 'db_datawriter'\n         , 'db_ddladmin'\n         , 'db_denydatareader'\n         , 'db_denydatawriter'\n         , 'db_owner'\n         , 'db_securityadmin'\n         , 'guest'\n         , 'INFORMATION_SCHEMA'\n         , 'sys'\n         , 'TargetServersRole'\n         , 'SQLAgentUserRole'\n         , 'SQLAgentReaderRole'\n         , 'SQLAgentOperatorRole'\n         , 'DatabaseMailUserRole'\n         , 'db_ssisadmin'\n         , 'db_ssisltduser'\n         , 'db_ssisoperator'\n         , 'replmonitor'\n         , '##MS_SSISServerCleanupJobLogin##'\n         )\n       )\n ORDER BY schema_name\n\nIf any schema is owned by an unauthorized database principal, this is a finding.",
+  "fixtext": "Transfer ownership of database schemas to authorized database principals.\n\nALTER AUTHORIZATION ON SCHEMA::[<Schema Name>] TO [<Principal Name>]",
+  "fix_id": "F-75093r1108044_fix",
+  "VulnDiscussion": "If the system were to allow any user to make changes to software libraries, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n\nAccordingly, only qualified and authorized individuals must be allowed to obtain access to information system components for purposes of initiating changes, including upgrades and modifications.\n\nUnmanaged changes that occur to the database software libraries or configuration can lead to unauthorized or compromised installations.",
+  "Documentable": "false"
+}

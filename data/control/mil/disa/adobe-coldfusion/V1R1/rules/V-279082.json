@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279082",
+  "rule_id": "SV-279082r1171310_rule",
+  "stig_id": "APAS-CF-000750",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ColdFusion must limit the maximum number of ColdFusion Component (CFC) function requests.",
+  "group_title": "SRG-APP-000435-AS-000163",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-83630r1171309_chk",
+  "check_content": "Determine whether CFC functions are being called directly over HTTP or HTTPS by any hosted application. This can be verified by interviewing the system administrator (SA); or reviewing application source code, design documentation, or ColdFusion baseline documentation.\n\nIf CFC requests are used by hosted applications, this is not a finding.\n\n1. If CFC requests are not used by hosted applications, from the Admin Console Landing Screen, navigate to Server Settings >> Request Tuning.\n\n2. Verify \" Maximum number of simultaneous CFC function requests\" is set to \"1\".\n\nIf CFC requests are not used by hosted applications and the \"Maximum number of simultaneous CFC function requests\" is not set to \"1\", this is a finding.",
+  "fixtext": "1. From the Admin Console Landing Screen, navigate to Server Settings >> Request Tuning.\n\n2. Set \"Maximum number of simultaneous CFC function requests\" to \"1\".\n\n3. Click \"Submit Changes\".",
+  "fix_id": "F-83535r1171019_fix",
+  "VulnDiscussion": "CFCs enable modular development by exposing functions that can be called locally or remotely. If the number of allowable CFC function requests is not limited, the application becomes vulnerable to abuse through excessive or malicious input. Attackers can exploit this by sending high volumes of CFC requests to exhaust server resources resulting in degraded performance or denial-of-service (DoS) conditions.\n\nUnrestricted access to CFC methods may also provide a path for attackers to probe the application for vulnerabilities, perform automated enumeration, or repeatedly invoke resource-intensive functions. This not only disrupts service availability but also increases the risk of lateral movement and further compromise within the application.\n\nEnforcing a limit on the number of allowable CFC function requests per session, per user, or per time period helps prevent resource exhaustion and supports predictable application behavior under load. If this feature is being used, the number of simultaneous requests should be tuned using load testing to find the optimal value for the setting. When the feature is not in use, the maximum number must be set to 1.",
+  "Documentable": "false"
+}

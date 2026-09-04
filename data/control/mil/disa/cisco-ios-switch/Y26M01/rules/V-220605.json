@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220605",
+  "rule_id": "SV-220605r961506_rule",
+  "stig_id": "CISC-ND-001140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must be configured to encrypt SNMP messages using a FIPS 140-2 approved algorithm.",
+  "group_title": "SRG-APP-000395-NDM-000310",
+  "idents": {
+    "legacy": [
+      "SV-110439",
+      "V-101335"
+    ],
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-22320r507861_chk",
+  "check_content": "Review the Cisco switch configuration to verify that it encrypts SNMP messages using a FIPS 140-2 approved algorithm as shown in the example below:\n\nsnmp-server group V3GROUP v3 priv read V3READ write V3WRITE\nsnmp-server view V3READ iso included\nsnmp-server view V3WRITE iso included\nsnmp-server host x.x.x.x version 3 auth V3USER\n\nEncryption used by the SNMP users can be viewed via the show snmp user command as shown in the example below:\n\nR4#show snmp user\n\nUser name: V3USER\nEngine ID: 800000090300C2042B540000\nstorage-type: nonvolatile active\nAuthentication Protocol: SHA\nPrivacy Protocol: AES256\nGroup-name: V3GROUP\n\nIf the Cisco switch is not configured to encrypt SNMP messages using a FIPS 140-2 approved algorithm, this is a finding.",
+  "fixtext": "Configure the Cisco switch to encrypt SNMP messages using a FIPS 140-2 approved algorithm as shown in the example below:\n\nSW4(config)#snmp-server group V3GROUP v3 priv read V3READ write V3WRITE\nSW4(config)#snmp-server user V3USER V3GROUP v3 auth sha xxxxxx priv aes 256 xxxxxx",
+  "fix_id": "F-22309r507862_fix",
+  "VulnDiscussion": "Without the strong encryption that is provided by the SNMP Version 3 User-based Security Model (USM), an unauthorized user can gain access to network management information that can be used to create a network outage.",
+  "Documentable": "false"
+}

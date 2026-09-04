@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261292",
+  "rule_id": "SV-261292r996354_rule",
+  "stig_id": "SLEM-05-232035",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All SLEM 5 local initialization files must have mode 740 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65021r996353_chk",
+  "check_content": "Verify that all SLEM 5 local initialization files have a mode of \"740\" or less permissive with the following command:\n\nNote: The example will be for the user \"smithj\", who has a home directory of \"/home/smithj\".\n\n     > sudo ls -al /home/smithj/.* | more\n     -rw-r-x---- 1 smithj users 896 Mar 10 2011 .profile\n     -rw-r-x---- 1 smithj users 497 Jan 6 27 .login\n     -rw-r-x---- 1 smithj users 886 Jan 6 27 .something\n\nIf any local initialization files have a mode more permissive than \"740\", this is a finding.",
+  "fixtext": "Set the mode of SLEM 5 local initialization files to \"740\" with the following command:\n\nNote: The example will be for the smithj user, who has a home directory of \"/home/smithj\".\n\n     > sudo chmod 740 /home/smithj/.<INIT_FILE>",
+  "fix_id": "F-64929r995742_fix",
+  "VulnDiscussion": "Local initialization files are used to configure the user's shell environment upon logon. Malicious modification of these files could compromise accounts upon logon.",
+  "Documentable": "false"
+}

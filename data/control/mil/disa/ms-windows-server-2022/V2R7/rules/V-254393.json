@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254393",
+  "rule_id": "SV-254393r1081073_rule",
+  "stig_id": "WN22-DC-000090",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Windows Server 2022 Active Directory Group Policy objects must have proper access control permissions.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-57878r1081071_chk",
+  "check_content": "This applies to domain controllers. It is NA for other systems.\n\nReview the permissions on Group Policy objects.\n\nOpen \"Group Policy Management\" (available from various menus or run \"gpmc.msc\").\n\nNavigate to \"Group Policy Objects\" in the domain being reviewed (Forest >> Domains >> Domain).\n\nFor each Group Policy object:\n\nSelect the Group Policy object item in the left pane.\n\nSelect the \"Delegation\" tab in the right pane.\n\nSelect \"Advanced\".\n\nSelect each Group or user name.\n\nView the permissions.\n\nIf any standard user accounts or groups have \"Allow\" permissions greater than \"Read\" and \"Apply group policy\", this is a finding.\n\nOther access permissions that allow the objects to be updated are considered findings unless specifically documented by the Information System Security Officer (ISSO).\n\nThe default permissions noted below satisfy this requirement. \n\nThe permissions shown are at the summary level. More detailed permissions can be viewed by selecting the next \"Advanced\" button, the desired Permission entry, and the \"Edit\" button.\n\nAuthenticated Users - Read, Apply group policy, Special permissions\n\nThe special permissions for Authenticated Users are for Read-type Properties. If detailed permissions include any Create, Delete, Modify, or Write Permissions or Properties, this is a finding.\n\nThe special permissions for the following default groups are not the focus of this requirement and may include a wide range of permissions and properties:\n\nCREATOR OWNER - Special permissions\nSYSTEM - Read, Write, Create all child objects, Delete all child objects, Special permissions\nDomain Admins - Read, Write, Create all child objects, Delete all child objects, Special permissions\nEnterprise Admins - Read, Write, Create all child objects, Delete all child objects, Special permissions\nENTERPRISE DOMAIN CONTROLLERS - Read, Special permissions",
+  "fixtext": "Maintain the permissions on Group Policy objects to not allow greater than \"Read\" and \"Apply group policy\" for standard user accounts or groups. The default permissions below meet this requirement:\n\nAuthenticated Users - Read, Apply group policy, Special permissions\n\nThe special permissions for Authenticated Users are for Read-type Properties.\n\nCREATOR OWNER - Special permissions\nSYSTEM - Read, Write, Create all child objects, Delete all child objects, Special permissions\nDomain Admins - Read, Write, Create all child objects, Delete all child objects, Special permissions\nEnterprise Admins - Read, Write, Create all child objects, Delete all child objects, Special permissions\nENTERPRISE DOMAIN CONTROLLERS - Read, Special permissions\n\nDocument any other access permissions that allow the objects to be updated with the ISSO.",
+  "fix_id": "F-57829r1081072_fix",
+  "VulnDiscussion": "When directory service database objects do not have appropriate access control permissions, it may be possible for malicious users to create, read, update, or delete the objects and degrade or destroy the integrity of the data. When the directory service is used for identification, authentication, or authorization functions, a compromise of the database objects could lead to a compromise of all systems relying on the directory service.\n\nFor Active Directory (AD), the Group Policy objects require special attention. In a distributed administration model (i.e., help desk), Group Policy objects are more likely to have access permissions changed from the secure defaults. If inappropriate access permissions are defined for Group Policy objects, this could allow an intruder to change the security policy applied to all domain client computers (workstations and servers).",
+  "Documentable": "false"
+}

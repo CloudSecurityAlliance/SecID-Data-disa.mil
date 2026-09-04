@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269106",
+  "rule_id": "SV-269106r1049988_rule",
+  "stig_id": "ALMA-09-001450",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must initiate a session lock for graphical user interfaces when the screensaver is activated.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-73137r1049096_chk",
+  "check_content": "Note: This requirement assumes the use of the AlmaLinux OS 9 default graphical user interface, the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\nVerify AlmaLinux OS 9 initiates a session lock for graphical user interfaces when the screensaver is activated with the following command:\n\n$ gsettings get org.gnome.desktop.screensaver lock-delay\n\nuint32 5\n\nIf the \"uint32\" setting is not set to \"5\" or less, or is missing, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to initiate a session lock for graphical user interfaces when a screensaver is activated.\n\nCreate a database to contain the systemwide screensaver settings (if it does not already exist) with the following command: \n\nNote: The example below is using the database \"local\" for the system, so if the system is using another database in \"/etc/dconf/profile/user\", the file should be created under the appropriate subdirectory.\n\n$ touch /etc/dconf/db/local.d/00-screensaver\n\n[org/gnome/desktop/screensaver]\nlock-delay=uint32 5\n\nThe \"uint32\" must be included along with the integer key values as shown.\n\nUpdate the system databases:\n\n$ dconf update",
+  "fix_id": "F-73038r1049097_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to logout because of the temporary nature of the absence.",
+  "Documentable": "false"
+}

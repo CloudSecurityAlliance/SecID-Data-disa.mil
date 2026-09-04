@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-277078",
+  "rule_id": "SV-277078r1148686_rule",
+  "stig_id": "APPL-26-001060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must set smart card certificate trust to moderate.",
+  "group_title": "SRG-OS-000066-GPOS-00034",
+  "idents": {
+    "cci": [
+      "CCI-000185",
+      "CCI-001954",
+      "CCI-004068",
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-81233r1148684_chk",
+  "check_content": "Verify the macOS system is configured to check the revocation status of user certificates with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.security.smartcard')\\\n.objectForKey('checkCertificateTrust').js\nEOS\n\nIf the result is not \"2\", this is a finding.",
+  "fixtext": "Configure the macOS system to check the revocation status of user certificates by installing the \"com.apple.security.smartcard\" configuration profile. \n\nNote: To ensure continued access to the operating system, consult the supplemental guidance provided with the STIG before applying the configuration profile.",
+  "fix_id": "F-81138r1148685_fix",
+  "VulnDiscussion": "The macOS system must be configured to block access to users who are no longer authorized (i.e., users with revoked certificates).\n\nTo prevent the use of untrusted certificates, the certificates on a smart card must meet the following criteria: its issuer has a system-trusted certificate, the certificate is not expired, its \"valid-after\" date is in the past, and it passes Certificate Revocation List (CRL) and Online Certificate Status Protocol (OCSP) checking.\n\nBy setting the smart card certificate trust level to moderate, the system will execute a soft revocation, meaning, if the OCSP/CRL server is unreachable, authentication will still succeed.\n\nNote: Before applying this setting, refer to the smart card supplemental guidance.\n\nSatisfies: SRG-OS-000066-GPOS-00034, SRG-OS-000377-GPOS-00162, SRG-OS-000384-GPOS-00167, SRG-OS-000403-GPOS-00182",
+  "Documentable": "false"
+}

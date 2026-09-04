@@ -1,0 +1,30 @@
+{
+  "vuln_id": "V-278405",
+  "rule_id": "SV-278405r1171967_rule",
+  "stig_id": "NGNX-APP-001960",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must be configured to use FIPS-approved algorithms to protect the confidentiality and integrity of transmitted information.",
+  "group_title": "SRG-APP-000439",
+  "idents": {
+    "cci": [
+      "CCI-002418",
+      "CCI-001941",
+      "CCI-001184",
+      "CCI-001199",
+      "CCI-001967",
+      "CCI-002421",
+      "CCI-002420",
+      "CCI-002422",
+      "CCI-002450",
+      "CCI-003123"
+    ]
+  },
+  "check_id": "C-82939r1171965_chk",
+  "check_content": "Determine the path to NGINX config file(s):\n\nnginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nExamine the SSL configuration settings:\n\ngrep -R 'ssl_' /etc/nginx/nginx.conf\n\nVerify TLS versions:\n\nssl_protocols TLSv1.2 TLSv1.3;\n\nVerify cipher suites:\n\nssl_ciphers 'TLS_AES_256_GCM_SHA384:TLS_AES_128_GCM_SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256';\nssl_prefer_server_ciphers on;\n\nNote: The cipher list can be more restrictive if defined by the organization.\n\nIf non-FIPS ciphers or weak protocols (e.g., TLSv1.0/1.1, RC4, MD5, 3DES) are present, this is a finding.",
+  "fixtext": "Restrict TLS versions to FIPS-approved protocols:\n\nssl_protocols TLSv1.2 TLSv1.3;\n\nConfigure only FIPS compliant ciphers:\n\nssl_ciphers 'TLS_AES_256_GCM_SHA384:TLS_AES_128_GCM_SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256';\n\nDo not allow clients to select the ciphers:\n\nssl_prefer_server_ciphers on;\n\nRestart NGINX to apply changes:\n\nsudo nginx -t && sudo systemctl reload nginx",
+  "fix_id": "F-82844r1171966_fix",
+  "VulnDiscussion": "Without protection of the transmitted information, confidentiality and integrity may be compromised since unprotected communications can be intercepted and either read or altered. \n\nThis requirement applies only to those applications that are either distributed or can allow access to data nonlocally. Use of this requirement will be limited to situations where the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process. When transmitting data, applications need to leverage transmission protection mechanisms, such as TLS, TLS VPNs, or IPsec.\n\nCommunication paths outside the physical protection of a controlled boundary are exposed to the possibility of interception and modification. Protecting the confidentiality and integrity of organizational information can be accomplished by physical means (e.g., employing physical distribution systems) or by logical means (e.g., employing cryptographic techniques). If physical means of protection are employed, then logical means (cryptography) do not have to be employed, and vice versa.\n\nSatisfies: SRG-APP-000439, SRG-APP-000156, SRG-APP-000219, SRG-APP-000231, SRG-APP-000395, SRG-APP-000440, SRG-APP-000441, SRG-APP-000442, SRG-APP-000514, SRG-APP-000555, SRG-APP-000620",
+  "Documentable": "false"
+}

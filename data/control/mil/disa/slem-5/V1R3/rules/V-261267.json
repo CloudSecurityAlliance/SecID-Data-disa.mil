@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261267",
+  "rule_id": "SV-261267r1137691_rule",
+  "stig_id": "SLEM-05-212010",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "SLEM 5 with a basic input/output system (BIOS) must require authentication upon booting into single-user and maintenance modes.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-64996r996293_chk",
+  "check_content": "Note: If the system does not use a BIOS, this requirement is not applicable.\n\nVerify that SLEM 5 has set an encrypted root password with the following command:\n\n     > sudo cat /boot/grub2/grub.cfg | grep -i password \n     password_pbkdf2 root grub.pbkdf2.sha512.10000.03255F190F0E2F7B4F0D1C3216012309162F022A7A636771\n\nIf the root password entry does not begin with \"password_pbkdf2\", this is a finding.",
+  "fixtext": "Note: If the system does not use a BIOS, this requirement is not applicable.\n\nConfigure SLEM 5 to encrypt the boot password.\n\nGenerate an encrypted GRUB bootloader password for root with the following command:\n\n     > grub2-mkpasswd-pbkdf2\n     Enter Password:\n     Reenter Password:\n     PBKDF2 hash of your password is grub.pbkdf2.sha512.10000.03255F190F0E2F7B4F0D1C3216012309162F022A7A636771\n\nUsing the hash from the output, modify the \"/etc/grub.d/40_custom\" file and add the following two lines to add a boot password for the root entry:\n\n     set superusers=\"root\"\n     password_pbkdf2 root grub.pbkdf2.sha512.03255F190F0E2F7B4F0D1C3216012309162F022A7A636771\n\nGenerate an updated \"grub.conf\" file with the new password using the following commands:\n\n     > sudo grub2-mkconfig --output=/tmp/grub2.cfg\n\n     > sudo mv /tmp/grub2.cfg /boot/grub2/grub.cfg",
+  "fix_id": "F-64904r996294_fix",
+  "VulnDiscussion": "To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DOD-approved PKIs, all DOD systems (e.g., web servers and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. Successful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement.\n\nAccess control policies include identity-based policies, role-based policies, and attribute-based policies. Access enforcement mechanisms include access control lists, access control matrices, and cryptography. These policies and mechanisms must be employed by the application to control access between users (or processes acting on behalf of users) and objects (e.g., devices, files, records, processes, programs, and domains) in the information system.",
+  "Documentable": "false"
+}

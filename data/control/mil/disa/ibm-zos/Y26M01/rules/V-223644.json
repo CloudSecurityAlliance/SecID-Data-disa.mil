@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-223644",
+  "rule_id": "SV-223644r1137691_rule",
+  "stig_id": "ACF2-VT-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS System data sets used to support the VTAM network must be properly secured.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "legacy": [
+      "V-97993",
+      "SV-107097"
+    ],
+    "cci": [
+      "CCI-000213",
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-25317r504878_chk",
+  "check_content": "Create a list of data set names containing all VTAM start options, configuration lists, network resource definitions, commands, procedures, exit routines, all SMP/E TLIBs, and all SMP/E DLIBs used for installation and in development/production VTAM environments.\n\nIf ACF2 data set rules for all VTAM system data sets do not restrict access to only network systems programming staff, this is a finding.\nIf ACF2 data set rules for all VTAM system data sets do not restrict auditors to READ access only, this is a finding.\n\nThese data sets include libraries containing VTAM load modules and exit routines, and VTAM start options and definition statements.",
+  "fixtext": "Define ACF2 data set rules for all VTAM system data sets to restrict access to only network systems programming staff.\nAuditors may have READ access as documented and approved by ISSM.\n\nThese data sets include libraries containing VTAM load modules and exit routines, and VTAM start options and definition statements.\n\nExample:\n$KEY(SYS1)\nVTAM-.- UID(sysprgmr) R(A) W(L) A(L) E(A)\n\n$KEY(S3V) \n$PREFIX(SYS3)\nVTAM-.- UID(sysprgmr) R(A) W(L) A(L) E(A)",
+  "fix_id": "F-25305r504879_fix",
+  "VulnDiscussion": "To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DoD-approved PKIs, all DoD systems (e.g., web servers and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. Successful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement.\n\nAccess control policies include: identity-based policies, role-based policies, and attribute-based policies. Access enforcement mechanisms include: access control lists, access control matrices, and cryptography. These policies and mechanisms must be employed by the application to control access between users (or processes acting on behalf of users) and objects (e.g., devices, files, records, processes, programs, and domains) in the information system.\n\nIf the operating system were to allow any user to make changes to software libraries, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n\nSatisfies: SRG-OS-000080-GPOS-00048, SRG-OS-000259-GPOS-00100",
+  "Documentable": "false"
+}

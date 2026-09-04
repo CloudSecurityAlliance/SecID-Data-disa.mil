@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-269542",
+  "rule_id": "SV-269542r1050425_rule",
+  "stig_id": "ALMA-09-056340",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 audit tools must be owned by root.",
+  "group_title": "SRG-OS-000256-GPOS-00097",
+  "idents": {
+    "cci": [
+      "CCI-001493",
+      "CCI-001495"
+    ]
+  },
+  "check_id": "C-73573r1049002_chk",
+  "check_content": "Verify the audit tools are owned by \"root\" with the following command:\n\n$ stat -c \"%U %n\" /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/rsyslogd /sbin/augenrules\n\nroot /sbin/auditctl\nroot /sbin/aureport\nroot /sbin/ausearch\nroot /sbin/autrace\nroot /sbin/auditd\nroot /sbin/rsyslogd\nroot /sbin/augenrules\n\nIf any audit tools do not have an owner of \"root\", this is a finding.",
+  "fixtext": "Configure the audit tools to be owned by \"root\" by running the following command:\n\n$ chown root [audit_tool]\n\nReplace \"[audit_tool]\" with each audit tool not owned by \"root\".",
+  "fix_id": "F-73474r1049003_fix",
+  "VulnDiscussion": "Protecting audit information also includes identifying and protecting the tools used to view and manipulate log data. Therefore, protecting audit tools is necessary to prevent unauthorized operation on audit information.\n\nAlmaLinux OS 9 systems providing tools to interface with audit information will leverage user permissions and roles identifying the user accessing the tools, and the corresponding rights the user enjoys, to make access decisions regarding the access to audit tools.\n\nAudit tools include, but are not limited to, vendor-provided and open source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.\n\nSatisfies: SRG-OS-000256-GPOS-00097, SRG-OS-000258-GPOS-00099",
+  "Documentable": "false"
+}

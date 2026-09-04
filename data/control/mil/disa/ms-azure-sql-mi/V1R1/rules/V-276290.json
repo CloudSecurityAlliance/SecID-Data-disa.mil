@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276290",
+  "rule_id": "SV-276290r1149779_rule",
+  "stig_id": "MSQL-D0-001900",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must isolate security functions from nonsecurity functions.",
+  "group_title": "SRG-APP-000233-DB-000124",
+  "idents": {
+    "cci": [
+      "CCI-001084"
+    ]
+  },
+  "check_id": "C-80445r1149777_chk",
+  "check_content": "Determine elements of security functionality (lists of permissions, additional authentication information, stored procedures, application specific auditing, etc.) being housed inside Azure SQL Managed Instance.\n  \nFor any elements found, check Azure SQL Managed Instance to determine if these objects or code implementing security functionality are located in a separate security domain, such as a separate database, schema, or table created specifically for security functionality.\n \nReview the system documentation to determine if the necessary database changes cannot be made and that the blockers are also documented. If the necessary changes are documented as not possible, this is not a finding.\n \nReview the database structure to determine where security related functionality is stored. If security-related database objects or code are not kept separate, this is a finding.",
+  "fixtext": "Check documentation to locate security-related database objects and code in a separate database, schema, table, or other separate security domain from database objects and code implementing application logic. \n \nSchemas are analogous to separate namespaces or containers used to store database objects. Security permissions apply to schemas, making them an important tool for separating and protecting database objects based on access rights. Schemas reduce the work required, and improve the flexibility, for security-related administration of a database.\n \nUser-schema separation allows for more flexibility in managing database object permissions. A schema is a named container for database objects, which allows the user group objects into separate namespaces.\n \nWhere possible, locate security-related database objects and code in a separate database, schema, or other separate security domain from database objects and code implementing application logic. In all cases, use GRANT, REVOKE, DENY, ALTER ROLE … ADD MEMBER … and/or ALTER ROLE … DROP MEMBER statements to add and remove permissions on server-level and database-level security-related objects to provide effective isolation. \n\nConsider submitting a request to the vendor for changes to a COTS database when database structure does not isolate security functions and cannot be altered directly by the database administrators without loss of official support.",
+  "fix_id": "F-80350r1149778_fix",
+  "VulnDiscussion": "An isolation boundary provides access control and protects the integrity of the hardware, software, and firmware that perform security functions. \n\nSecurity functions are the hardware, software, and/or firmware of the information system responsible for enforcing the system security policy and supporting the isolation of code and data on which the protection is based.\n \nDevelopers and implementers can increase the assurance in security functions by employing well-defined security policy models; structured, disciplined, and rigorous hardware and software development techniques; and sound system/security engineering principles. \n \nDatabase management systems typically separate security functionality from nonsecurity functionality via separate databases or schemas. Database objects or code implementing security functionality must not be commingled with objects or code implementing application logic. When security and nonsecurity functionality are commingled, users who have access to nonsecurity functionality may be able to access security functionality.",
+  "Documentable": "false"
+}

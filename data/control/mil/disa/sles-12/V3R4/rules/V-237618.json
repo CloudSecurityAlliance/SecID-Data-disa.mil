@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-237618",
+  "rule_id": "SV-237618r991560_rule",
+  "stig_id": "SLES-12-010883",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must have directories that contain system commands group-owned by root.",
+  "group_title": "SRG-OS-000259-GPOS-00100",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-40837r646815_chk",
+  "check_content": "Verify the system commands directories are group-owned by root:\n\n/bin\n/sbin\n/usr/bin\n/usr/sbin\n/usr/local/bin\n/usr/local/sbin\n\nRun the check with the following command:\n\n> sudo find -L /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin ! -group root -type d -exec stat -c \"%n %G\" '{}' \\;\n\nIf any system commands directories are returned that are not Set Group ID up on execution (SGID) files and owned by a privileged account, this is a finding.",
+  "fixtext": "Configure the system commands directories to be protected from unauthorized access. Run the following command:\n\n> sudo find -L /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin ! -group root -type d -exec chgrp root '{}' \\;",
+  "fix_id": "F-40800r646816_fix",
+  "VulnDiscussion": "If the SUSE operating system were to allow any user to make changes to software libraries, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n\nThis requirement applies to SUSE operating systems with software libraries that are accessible and configurable, as in the case of interpreted languages. Software libraries also include privileged programs which execute with escalated privileges. Only qualified and authorized individuals must be allowed to obtain access to information system components for purposes of initiating changes, including upgrades and modifications.",
+  "Documentable": "false"
+}

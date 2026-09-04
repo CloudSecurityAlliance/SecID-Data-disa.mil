@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-252962",
+  "rule_id": "SV-252962r991589_rule",
+  "stig_id": "TOSS-04-020230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All TOSS local interactive users must have a home directory assigned in the /etc/passwd file.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56415r824208_chk",
+  "check_content": "Verify local interactive users on TOSS have a home directory assigned with the following command:\n\n$ sudo pwck -r\n\nuser 'lp': directory '/var/spool/lpd' does not exist\nuser 'news': directory '/var/spool/news' does not exist\nuser 'uucp': directory '/var/spool/uucp' does not exist\nuser 'www-data': directory '/var/www' does not exist\n\nAsk the System Administrator (SA) if any users found without home directories are local interactive users. If the SA is unable to provide a response, check for users with a User Identifier (UID) of 1000 or greater with the following command:\n\n$ sudo awk -F: '($3>=1000)&&($7 !~ /nologin/){print $1, $3, $6}' /etc/passwd\n\nIf any interactive users do not have a home directory assigned, this is a finding.",
+  "fixtext": "Assign home directories to all local interactive users on TOSS that currently do not have a home directory assigned.",
+  "fix_id": "F-56365r824209_fix",
+  "VulnDiscussion": "If local interactive users are not assigned a valid home directory, there is no place for the storage and control of files they should own.",
+  "Documentable": "false"
+}

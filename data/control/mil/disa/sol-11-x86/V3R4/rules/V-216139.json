@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216139",
+  "rule_id": "SV-216139r959010_rule",
+  "stig_id": "SOL-11.1-050090",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The system must disable ICMP redirect messages.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-61069",
+      "V-48197"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17377r372799_chk",
+  "check_content": "Determine the version of Solaris 11 in use.\n\n# cat /etc/release\n\nIf the version of Solaris is earlier than Solaris 11.2, determine if ICMP redirect messages are disabled.\n\n# ipadm show-prop -p _send_redirects -co current ipv4\n# ipadm show-prop -p _send_redirects -co current ipv6\n\nIf the output of all commands is not \"0\", this is a finding.\n\nIf the version of Solaris is Solaris 11.2 or later, determine if ICMP redirect messages are disabled.\n\n# ipadm show-prop -p send_redirects -co current ipv4\n# ipadm show-prop -p send_redirects -co current ipv6\n\nIf the output of all commands is not \"off\", this is a finding.",
+  "fixtext": "The Network Management profile is required.\n\nIf the version of Solaris is earlier than Solaris 11.2, disable send redirects for IPv4 and IPv6.\n\n# pfexec ipadm set-prop -p _send_redirects=0 ipv4\n# pfexec ipadm set-prop -p _send_redirects=0 ipv6 \n\nIf the version of Solaris is Solaris 11.2 or later, disable send redirects for IPv4 and IPv6.\n\n# pfexec ipadm set-prop -p send_redirects=off ipv4\n# pfexec ipadm set-prop -p send_redirects=off ipv6",
+  "fix_id": "F-17375r372800_fix",
+  "VulnDiscussion": "A malicious user can exploit the ability of the system to send ICMP redirects by continually sending packets to the system, forcing the system to respond with ICMP redirect messages, resulting in an adverse impact on the CPU performance of the system.",
+  "Documentable": "false"
+}

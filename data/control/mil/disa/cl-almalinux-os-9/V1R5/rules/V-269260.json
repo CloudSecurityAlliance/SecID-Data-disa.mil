@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269260",
+  "rule_id": "SV-269260r1050142_rule",
+  "stig_id": "ALMA-09-020370",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 SSH daemon must not allow compression or must only allow compression after successful authentication.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73291r1048156_chk",
+  "check_content": "Verify the SSH daemon performs compression after a user successfully authenticates with the following command:\n\n$ sshd -T | grep compression\n\nCompression no\n\nIf the \"Compression\" keyword is set to \"yes\", this is a finding.",
+  "fixtext": "Configure the SSH daemon to not allow compression.\n\nAdd the following line to \"/etc/ssh/sshd_config\", or uncomment the line and set the value to \"delayed\" or preferably \"no\":\n\nCompression no\n\nAlternatively, add the setting to an include file if the line \"Include /etc/ssh/sshd_config.d/*.conf\" is found at the top of the \"/etc/ssh/sshd_config\" file:\n\n$ echo 'Compression no' > /etc/ssh/sshd_config.d/40-compression.conf\n\nRestart the SSH daemon for the settings to take effect:\n\n$ systemctl restart sshd.service",
+  "fix_id": "F-73192r1048157_fix",
+  "VulnDiscussion": "If compression is allowed in an SSH connection prior to authentication, vulnerabilities in the compression software could result in compromise of the system from an unauthenticated connection, potentially with root privileges.",
+  "Documentable": "false"
+}

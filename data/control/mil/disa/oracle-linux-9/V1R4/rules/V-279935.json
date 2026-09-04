@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279935",
+  "rule_id": "SV-279935r1156358_rule",
+  "stig_id": "OL09-00-002376",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must terminate idle user sessions.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "cci": [
+      "CCI-001134"
+    ]
+  },
+  "check_id": "C-84495r1156356_chk",
+  "check_content": "Verify that OL 9 logs out sessions that are idle for 10 minutes with the following command:\n\n$ sudo grep -i ^StopIdleSessionSec /etc/systemd/logind.conf\n\nStopIdleSessionSec=600\n\nIf \"StopIdleSessionSec\" is not configured to \"600\" seconds, this is a finding.",
+  "fixtext": "Configure OL 9 to log out idle sessions by editing the /etc/systemd/logind.conf file with the following line:\n\nStopIdleSessionSec=600\n\nThe \"logind\" service must be restarted for the changes to take effect. To restart the \"logind\" service, run the following command:\n\n$ sudo systemctl restart systemd-logind",
+  "fix_id": "F-84400r1156357_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended.",
+  "Documentable": "false"
+}

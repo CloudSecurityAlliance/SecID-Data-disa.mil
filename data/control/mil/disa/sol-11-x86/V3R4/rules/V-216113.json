@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216113",
+  "rule_id": "SV-216113r959010_rule",
+  "stig_id": "SOL-11.1-040320",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The nobody access for RPC encryption key storage service must be disabled.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-60961",
+      "V-48089"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17351r462442_chk",
+  "check_content": "Determine if the rpc-authdes package is installed:\n\n# pkg list solaris/legacy/security/rpc-authdes\n\nIf the output of this command is:\n\npkg list: no packages matching 'solaris/legacy/security/rpc-authdes' installed\n\nno further action is required.\n\nDetermine if \"nobody\" access for keyserv is enabled.\n\n# grep \"^ENABLE_NOBODY_KEYS=\" /etc/default/keyserv \n\nIf the output of the command is not:\n\nENABLE_NOBODY_KEYS=NO\n\nthis is a finding.",
+  "fixtext": "Determine if the rpc-authdes package is installed:\n\n# pkg list solaris/legacy/security/rpc-authdes\n\nIf the output of this command is:\n\npkg list: no packages matching 'solaris/legacy/security/rpc-authdes' installed\n\nno further action is required.\n\nThe root role is required.\n\nModify the /etc/default/keyserv file.\n\n# pfedit /etc/default/keyserv\n\nLocate the line:\n\n#ENABLE_NOBODY_KEYS=YES\n\nChange it to:\n\nENABLE_NOBODY_KEYS=NO",
+  "fix_id": "F-17349r462443_fix",
+  "VulnDiscussion": "If login by the user \"nobody\" is allowed for secure RPC, there is an increased risk of system compromise. If keyserv holds a private key for the \"nobody\" user, it will be used by key_encryptsession to compute a magic phrase which can be easily recovered by a malicious user.",
+  "Documentable": "false"
+}

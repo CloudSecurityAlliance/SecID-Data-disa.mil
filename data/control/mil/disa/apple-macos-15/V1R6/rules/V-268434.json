@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268434",
+  "rule_id": "SV-268434r1137691_rule",
+  "stig_id": "APPL-15-000033",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable FileVault automatic login.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-72464r1034240_chk",
+  "check_content": "Verify the macOS system is configured to disable FileVault automatic login with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.loginwindow')\\\n.objectForKey('DisableFDEAutoLogin').js\nEOS\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable FileVault automatic login by installing the \"com.apple.loginwindow\" configuration profile.\n\nNOTE: To ensure continued access to the operating system, consult the supplemental guidance provided with the STIG before applying the configuration profile.",
+  "fix_id": "F-72365r1034241_fix",
+  "VulnDiscussion": "If FileVault is enabled, automatic login must be disabled so that both FileVault and login window authentication are required.\n\nThe default behavior of macOS when FileVault is enabled is to automatically log in to the computer once successfully passing FileVault credentials.\n\nNOTE: DisableFDEAutoLogin does not have to be set on Apple Silicon-based macOS systems that are smart card enforced, as smart cards are available at preboot.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278382",
+  "rule_id": "SV-278382r1171898_rule",
+  "stig_id": "NGNX-APP-000140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The NGINX service account must be configured to not have shell access.",
+  "group_title": "SRG-APP-000033",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-82916r1171896_chk",
+  "check_content": "Determine the path to NGINX config file(s):\n\nnginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nIdentify the NGINX runtime user:\n\ngrep -E '^\\s*user\\s+' /etc/nginx/nginx.conf\n\nExpected output (example):\n\nuser nginx;\n\nVerify the user has no login shell:\n\ngetent passwd nginx\n\nExpected output:\n\nnginx:x:998:998:Nginx user:/nonexistent:/sbin/nologin\n\nEnsure the shell is \"/sbin/nologin\", \"/usr/sbin/nologin\", or \"/bin/false\".\n\nIf the NGINX runtime user has shell access, this is a finding.",
+  "fixtext": "Set a nonlogin shell for the nginx user:\n\nsudo usermod -s /sbin/nologin nginx",
+  "fix_id": "F-82821r1171897_fix",
+  "VulnDiscussion": "To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DOD-approved PKIs, all DOD systems (e.g., networks, web servers, and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. Successful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement. \n\nAccess control policies include identity-based policies, role-based policies, and attribute-based policies. Access enforcement mechanisms include access control lists, access control matrices, and cryptography. These policies and mechanisms must be employed by the application to control access between users (or processes acting on behalf of users) and objects (e.g., devices, files, records, processes, programs, and domains) in the information system. \n\nThis requirement is applicable to access control enforcement applications (e.g., authentication servers) and other applications that perform information and system access control functions.",
+  "Documentable": "false"
+}

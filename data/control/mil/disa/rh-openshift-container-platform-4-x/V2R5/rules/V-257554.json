@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257554",
+  "rule_id": "SV-257554r961152_rule",
+  "stig_id": "CNTR-OS-000620",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must restrict individuals the ability to launch organizational-defined Denial-of-Service (DOS) attacks against other information systems by setting a default Resource Quota.",
+  "group_title": "SRG-APP-000246-CTR-000605",
+  "idents": {
+    "cci": [
+      "CCI-001094"
+    ]
+  },
+  "check_id": "C-61289r921603_chk",
+  "check_content": "Check for Resource Quota. Verify a default project template is defined by executing the following:\n\noc get project.config.openshift.io/cluster -o jsonpath=\"{.spec.projectRequestTemplate.name}\"\n\nIf no project request template is in use by the project config, this is a finding.\n\nVerify the project template includes a default resource quota.\n\noc get templates/<PROJECT-REQUEST-TEMPLATE> -n openshift-config -o jsonpath=\"{.objects[?(.kind=='ResourceQuota')]}{'\\n'}\"\n\nReplace <PROJECT-REQUEST-TEMPLATE> with the name of the project request template returned from the earlier query.\n\nIf the project template is not defined, or there are no ResourceQuota definitions in it, this is a finding.",
+  "fixtext": "Configure a default resource quota to protect resource over utilization by performing the following steps:\n\n1. Create a bootstrap project template (if not already created) by executing the following:\n\noc adm create-bootstrap-project-template -o yaml > template.yaml\n\n2. Edit the template and add a ResourceQuota object definition before the parameters section.\n\n- apiVersion: v1\n  kind: ResourceQuota\n  metadata:\n    name: example\n  spec:\n    hard:\n      persistentvolumeclaims: \"10\"\n      requests.storage: \"50Gi\"\n      ...\nparameters:\n\n3. Apply the project template to the cluster by executing the following:\n\noc create -f template.yaml -n openshift-config\n\n4. Set the default cluster project request template by executing the following:\n \noc patch project.config.openshift.io/cluster --type=merge -p '{\"spec\":{\"projectRequestTemplate\":{\"name\": \"<PROJECT_REQUEST_TEMPLATE>\"}}}'\n\nDetails regarding the configuration of resource quotas can be reviewed at https://docs.openshift.com/container-platform/4.8/applications/quotas/quotas-setting-per-project.html.",
+  "fix_id": "F-61213r921604_fix",
+  "VulnDiscussion": "OpenShift allows administrators to define resource quotas on a namespace basis. This allows tailoring of the shared resources based on a project needs. However, when a new project is created, unless a default project resource quota is configured, that project will not have any limits or quotas defined. This could allow someone to create a new project and then deploy services that exhaust or overuse the shared cluster resources. Thus, it is necessary to ensure that there is a default resource quota configured for all new projects. A Cluster Admin may increase resource quotas on a given project namespace, if that project requires additional resources at any time.",
+  "Documentable": "false"
+}

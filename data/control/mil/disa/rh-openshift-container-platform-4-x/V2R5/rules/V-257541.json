@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-257541",
+  "rule_id": "SV-257541r960972_rule",
+  "stig_id": "CNTR-OS-000430",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must use multifactor authentication for network access to accounts.",
+  "group_title": "SRG-APP-000149-CTR-000355",
+  "idents": {
+    "cci": [
+      "CCI-000765",
+      "CCI-000766"
+    ]
+  },
+  "check_id": "C-61276r921564_chk",
+  "check_content": "Verify the authentication operator is configured to use either an LDAP or a OpenIDConnect provider by executing the following:\n\noc get oauth cluster -o jsonpath=\"{.spec.identityProviders[*].type}{'\\n'}\"\n\nIf the output lists any other type besides LDAP or OpenID, this is a finding.",
+  "fixtext": "Configure OpenShift to use an appropriate Identity Provider. Do not use HTPasswd. Use either LDAP(AD), OpenIDConnect, or an approved identity provider.\n\nSteps to configure LDAP provider:\n\n1. Create Secret for BIND DN password by executing the following:\n\noc create secret generic ldap-secret --from-literal=bindPassword=<secret> -n openshift-config \n\n2. Create config map for LDAP Trust CA by executing the following:\n \noc create configmap ca-config-map --from-file=ca.crt=/path/to/ca -n openshift-config\n\n3. Create LDAP Auth Config Resource YAML:\nUsing the preferred text editor, create a file named ldapidp.yaml using the example content. (replacing config values as appropriate):\n \napiVersion: config.openshift.io/v1\nkind: OAuth\nmetadata:\n  name: cluster\nspec:\n  identityProviders:\n  - name: ldapidp \n    mappingMethod: claim \n    type: LDAP\n    ldap:\n      attributes:\n        id: \n        - dn\n        email: \n        - mail\n        name: \n        - cn\n        preferredUsername: \n        - uid\n      bindDN: <\"bindDN\">\n      bindPassword: \n        name: ldap-secret\n      ca: \n        name: ca-config-map\n      insecure: false \n      url: <URL> \n\n4. Apply LDAP config to cluster by executing the following:\n \noc apply -f ldapidp.yaml\n \nNote: For more information on configuring an LDAP provider, refer to https://docs.openshift.com/container-platform/4.8/authentication/identity_providers/configuring-ldap-identity-provider.html.\n \nSteps to configure OpenID provider:\n\n1. Create Secret for Client Secret by executing the following:\n \noc create secret generic idp-secret --from-literal=clientSecret=<secret> -n openshift-config\n \n2. Create config map for OpenID Trust CA by executing the following:\n \noc create configmap ca-config-map --from-file=ca.crt=/path/to/ca -n openshift-config\n\n3. Create OpenID Auth Config Resource YAML.\nUsing your preferred text editor, create a file named oidcidp.yaml using the example content (replacing config values as appropriate).\n\napiVersion: config.openshift.io/v1\nkind: OAuth\nmetadata:\n  name: cluster\nspec:\n  identityProviders:\n  - name: oidcidp\n    mappingMethod: claim\n    type: OpenID\n    openID:\n      clientID: <clientID>\n      clientSecret:\n        name: oidc-idp-secret\n      claims:\n        preferredUsername:\n        - preferred_username\n        name:\n        - name\n        email:\n        - email\n      ca:\n        name: ca-config-map\n      issuer: <URL>\n\n4. Apply OpenID config to cluster by executing the following:\n \noc apply -f ldapidp.yaml\n \nNote: For more information on configuring an OpenID provider, refer to https://docs.openshift.com/container-platform/4.8/authentication/identity_providers/configuring-oidc-identity-provider.html.",
+  "fix_id": "F-61200r921565_fix",
+  "VulnDiscussion": "Without the use of multifactor authentication, the ease of access to privileged and nonprivileged functions is greatly increased.\n\nMultifactor authentication requires using two or more factors to achieve authentication.\n\nFactors include: \n(i) something a user knows (e.g., password/PIN); \n(ii) something a user has (e.g., cryptographic identification device, token); or \n(iii) something a user is (e.g., biometric).\n\nA privileged account is defined as an information system account with authorizations of a privileged user.\n\nA nonprivileged account is any information system account with authorizations of a nonprivileged user.\n\nNetwork access is defined as access to an information system by a user (or a process acting on behalf of a user) communicating through a network (e.g., local area network, wide area network, or the internet).\n\nSatisfies: SRG-APP-000149-CTR-000355, SRG-APP-000150-CTR-000360",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279092",
+  "rule_id": "SV-279092r1171584_rule",
+  "stig_id": "APAS-CF-000860",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "JVM Arguments must be configured for Transport Layer Security (TLS) 1.2 or higher.",
+  "group_title": "SRG-APP-000439-AS-000155",
+  "idents": {
+    "cci": [
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-83640r1171583_chk",
+  "check_content": "Verify JVM Arguments for TLS.\n\nFrom the Admin Console Landing Screen, navigate to Server Settings >> Java and JVM.\n\nThe parameter -Dhttps.protocols is used to set the TLS versions. Valid values for this setting must be TLS versions 1.2 or higher. \n\nExample: Dhttps.protocols=TLSv1.2,TLSv1.3 \n\nIf the \"JVM arguments\" setting does not contain the parameter \"Dhttps.protocols\" or if the parameter \"Dhttps.protocols\" contains any unapproved protocols or versions, this is a finding.",
+  "fixtext": "Configure JVM Arguments for TLS.\n\n1. From the Admin Console Landing Screen, navigate to Server Settings >> Java and JVM.\n\n2. In Section JVM Arguments, add the parameter \"-Dhttps.protocols\" and set the parameter to the TLS versions to be used. \n\nExample: Dhttps.protocols=TLSv1.2,TLSv1.3 \n\n3. Select \"Submit Changes\".\n\n4. Restart ColdFusion for the changes take effect.",
+  "fix_id": "F-83545r1171405_fix",
+  "VulnDiscussion": "Preventing the disclosure of transmitted information requires that ColdFusion take measures to employ some form of cryptographic mechanism to protect the information during transmission. This is usually achieved TLS.\n\nTLS must be enabled, and non-FIPS-approved SSL versions must be disabled. NIST SP 800-52 specifies the preferred configurations for government systems.\n\nColdFusion uses JVM to control the encryption of transmitted data. Settings for JVM can be controlled within the Administrator Console to configure the JVM to only use FIPS 140-2/140-3 or higher approved TLS and disable non-FIPS SSL versions.",
+  "Documentable": "false"
+}

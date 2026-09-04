@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216356",
+  "rule_id": "SV-216356r970703_rule",
+  "stig_id": "SOL-11.1-040380",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The operating system must terminate the network connection associated with a communications session at the end of the session or after 10 minutes of inactivity.",
+  "group_title": "SRG-OS-000163",
+  "idents": {
+    "legacy": [
+      "V-48111",
+      "SV-60983"
+    ],
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-17592r371156_chk",
+  "check_content": "Determine if SSH is configured to disconnect sessions after 10 minutes of inactivity.\n\n# grep ClientAlive /etc/ssh/sshd_config\n\nIf the output of this command is not:\n\nClientAliveInterval 600\nClientAliveCountMax 0\n\nthis is a finding.",
+  "fixtext": "The root role is required.\n\nConfigure the system to disconnect SSH sessions after 10 minutes of inactivity.\n\nModify the sshd_config file:\n\n# pfedit /etc/ssh/sshd_config\n\nModify or add the lines containing:\n\nClientAliveInterval\nClientAliveCountMax \n\nChange them to:\n\nClientAliveInterval 600\nClientAliveCountMax 0\n\nRestart the SSH service:\n\n# svcadm restart svc:/network/ssh",
+  "fix_id": "F-17590r371157_fix",
+  "VulnDiscussion": "This requirement applies to both internal and external networks. \n\nTerminating network connections associated with communications sessions means de-allocating associated TCP/IP address/port pairs at the operating system level.\n\nThe time period of inactivity may, as the organization deems necessary, be a set of time periods by type of network access or for specific accesses.",
+  "Documentable": "false"
+}

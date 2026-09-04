@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248590",
+  "rule_id": "SV-248590r958518_rule",
+  "stig_id": "OL08-00-010421",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must clear the page allocator to prevent use-after-free attacks.",
+  "group_title": "SRG-OS-000134-GPOS-00068",
+  "idents": {
+    "cci": [
+      "CCI-001084"
+    ]
+  },
+  "check_id": "C-52024r779334_chk",
+  "check_content": "Verify that GRUB 2 is configured to enable page poisoning to mitigate use-after-free vulnerabilities with the following commands: \n \n$ sudo grub2-editenv list | grep page_poison \n \nkernelopts=root=/dev/mapper/ol-root ro crashkernel=auto resume=/dev/mapper/ol-swap rd.lvm.lv=ol/root rd.lvm.lv=ol/swap rhgb quiet fips=1 page_poison=1 vsyscall=none audit=1 audit_backlog_limit=8192 boot=UUID=8d171156-cd61-421c-ba41-1c021ac29e82 \n \nIf \"page_poison\" is not set to \"1\" or is missing, this is a finding. \n \nCheck that page poisoning is enabled by default to persist in kernel updates:  \n \n$ sudo grep page_poison /etc/default/grub \n \nGRUB_CMDLINE_LINUX=\"page_poison=1\" \n \nIf \"page_poison\" is not set to \"1\" or is missing or commented out, this is a finding.",
+  "fixtext": "Configure OL 8 to enable page poisoning with the following commands: \n \n$ sudo grubby --update-kernel=ALL --args=\"page_poison=1\" \n \nAdd or modify the following line in \"/etc/default/grub\" to ensure the configuration survives kernel updates: \n \nGRUB_CMDLINE_LINUX=\"page_poison=1\"",
+  "fix_id": "F-51978r779335_fix",
+  "VulnDiscussion": "Adversaries may launch attacks with the intent of executing code in non-executable regions of memory or in memory locations that are prohibited. Security safeguards employed to protect memory include, for example, data execution prevention and address space layout randomization. Data execution prevention safeguards can be either hardware-enforced or software-enforced with hardware providing the greater strength of mechanism. \n \nPoisoning writes an arbitrary value to freed pages, so any modification or reference to that page after being freed or before being initialized will be detected and prevented. This prevents many types of use-after-free vulnerabilities at little performance cost. Also prevents leak of data and detection of corrupted memory.",
+  "Documentable": "false"
+}

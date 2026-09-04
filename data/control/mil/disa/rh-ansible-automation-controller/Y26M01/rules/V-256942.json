@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256942",
+  "rule_id": "SV-256942r960762_rule",
+  "stig_id": "APWS-AT-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Automation Controller NGINX web server must use cryptography on all remote connections.",
+  "group_title": "SRG-APP-000015-WSR-000014",
+  "idents": {
+    "cci": [
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-60617r903519_chk",
+  "check_content": "As any user, execute the following command, substituting \"<controller_fqdn>\" for the hostname of the Automation Controller:\n\ncurl -s -w '%{redirect_url}\\n' -o /dev/null http://<controller_fqdn>/api/v2/ping/  | grep '^https' >/dev/null || echo FAILED\n\nIf \"FAILED\" is displayed, this is a finding.",
+  "fixtext": "As a System Administrator, locate the inventory file used to install Ansible Automation Platform (usually in the installer directory). Edit this file and ensure the \"nginx_disable_https\" variable is absent or is set to \"false\".\n\nRun the setup.sh command in the installer directory to reconfigure the controller to use the new setting:\n\nsudo ./setup.sh",
+  "fix_id": "F-60559r902339_fix",
+  "VulnDiscussion": "Nondisplayed data on a web page may expose information that could put the organization at risk and negatively affect data integrity.\n\nAutomation Controller's web server must be configured such that all connections, regardless of their origin, between the server and the user are encrypted using cryptography.",
+  "Documentable": "false"
+}

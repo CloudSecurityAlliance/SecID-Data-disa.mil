@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261389",
+  "rule_id": "SV-261389r1038967_rule",
+  "stig_id": "SLEM-05-611070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must employ user passwords with a maximum lifetime of 60 days.",
+  "group_title": "SRG-OS-000076-GPOS-00044",
+  "idents": {
+    "cci": [
+      "CCI-000199"
+    ]
+  },
+  "check_id": "C-65118r996592_chk",
+  "check_content": "Verify that SLEM 5 enforces a maximum user password age of 60 days or less with the following command:\n\n     > sudo awk -F: '$5 > 60 || $5 == \"\" {print $1 \":\" $5}' /etc/shadow\n\nIf any results are returned that are not associated with a system account, this is a finding.",
+  "fixtext": "Configure SLEM 5 to enforce a maximum password age of each <username> account to 60 days. The command in the check text will give a list of users that need to be updated to be in compliance:\n\n     > sudo passwd -x 60 <username>",
+  "fix_id": "F-65026r996033_fix",
+  "VulnDiscussion": "Any password, no matter how complex, can eventually be cracked. Therefore, passwords need to be changed periodically. If SLEM 5 does not limit the lifetime of passwords and force users to change their passwords, there is the risk that SLEM 5 passwords could be compromised.",
+  "Documentable": "false"
+}

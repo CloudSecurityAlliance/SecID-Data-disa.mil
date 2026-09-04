@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261424",
+  "rule_id": "SV-261424r996679_rule",
+  "stig_id": "SLEM-05-653080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The information system security officer (ISSO) and system administrator (SA), at a minimum, must be alerted of a SLEM 5 audit processing failure event.",
+  "group_title": "SRG-OS-000046-GPOS-00022",
+  "idents": {
+    "cci": [
+      "CCI-000139"
+    ]
+  },
+  "check_id": "C-65153r996678_chk",
+  "check_content": "Verify the system is configured to send email to an account when it needs to notify an administrator with the following command:\n\n     > sudo grep action_mail /etc/audit/auditd.conf\n     action_mail_acct = root\n\nIf the value of the \"action_mail_acct\" keyword is not set to \"root\" and/or other accounts for security personnel, the returned line is commented out, or the \"action_mail_acct\" keyword is missing, this is a finding.",
+  "fixtext": "Configure the auditd service to notify the administrators in the event of a SLEM 5 audit processing failure.\n\nAdd or modify the following lines in the \"/etc/audit/auditd.conf \" file:\n\naction_mail_acct = root",
+  "fix_id": "F-65061r996138_fix",
+  "VulnDiscussion": "It is critical for the appropriate personnel to be aware if a system is at risk of failing to process audit logs as required. Without this notification, the security personnel may be unaware of an impending failure of the audit capability, and system operation may be adversely affected.\n\nAudit processing failures include software/hardware errors, failures in the audit capturing mechanisms, and audit storage capacity being reached or exceeded.\n\nThis requirement applies to each audit data storage repository (i.e., distinct information system component where audit records are stored), the centralized audit storage capacity of organizations (i.e., all audit data storage repositories combined), or both.",
+  "Documentable": "false"
+}

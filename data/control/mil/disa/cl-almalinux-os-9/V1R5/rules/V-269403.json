@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269403",
+  "rule_id": "SV-269403r1050286_rule",
+  "stig_id": "ALMA-09-037750",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must not have any File Transfer Protocol (FTP) packages installed.",
+  "group_title": "SRG-OS-000074-GPOS-00042",
+  "idents": {
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-73434r1049640_chk",
+  "check_content": "Verify that AlmaLinux OS 9 does not have an FTP client or server package installed with the following command:\n\n$ rpm -qa | grep ftp\n\nIf the \"vsftpd\" server or \"ftp\" client packages are installed, this is a finding.\n\nNote that there may be third-party or alternative packages that provide the same functionality, which should also be removed.",
+  "fixtext": "Remove the default FTP client and server packages using the following command:\n\n$ dnf remove vsftpd ftp",
+  "fix_id": "F-73335r1048586_fix",
+  "VulnDiscussion": "Passwords must be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nAn FTP server provides an unencrypted file transfer mechanism that does not protect the confidentiality of user credentials or the remote session.\n\nIf a privileged user were to log on using this service, the privileged user password could be compromised. SFTP or other encrypted file transfer methods must be used instead.\n\nRemoving the server and client packages prevents inbound and outbound communications from being compromised.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276296",
+  "rule_id": "SV-276296r1150100_rule",
+  "stig_id": "MSQL-D0-004400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must allow only documented and approved individuals or roles to select which auditable events are to be audited.",
+  "group_title": "SRG-APP-000090-DB-000065",
+  "idents": {
+    "cci": [
+      "CCI-000171"
+    ]
+  },
+  "check_id": "C-80451r1149795_chk",
+  "check_content": "Obtain the list of information system security officer (ISSO)/information system security manager (ISSM)-approved audit maintainers from the system documentation.\n \nUse the following query to review database roles and their membership, all of which enable the ability to create and maintain audit specifications.\n \nSELECT\nR.name AS role_name,\nRM.name AS role_member_name,\nRM.type_desc\nFROM sys.database_principals R\nJOIN sys.database_role_members DRM ON\nR.principal_id = DRM.role_principal_id\nJOIN sys.database_principals RM ON\nDRM.member_principal_id = RM.principal_id\nWHERE R.type = 'R'\nAND R.name = 'db_owner'\nORDER BY\nrole_member_name\n \nIf any role memberships are not documented and authorized, this is a finding.\n \nReview the database roles and individual users that have the following permissions, all of which enable the ability to create and maintain audit definitions.\n \nALTER ANY DATABASE AUDIT\nCONTROL\n \nUse the following query to determine the roles and users that have the listed permissions:\n \nSELECT\nPERM.permission_name,\nDP.name AS principal_name,\nDP.type_desc AS principal_type,\nDBRM.role_member_name\nFROM sys.database_permissions PERM\nJOIN sys.database_principals DP ON PERM.grantee_principal_id = DP.principal_id\nLEFT OUTER JOIN (\nSELECT\nR.principal_id AS role_principal_id,\nR.name AS role_name,\nRM.name AS role_member_name\nFROM sys.database_principals R\nJOIN sys.database_role_members DRM ON R.principal_id = DRM.role_principal_id\nJOIN sys.database_principals RM ON DRM.member_principal_id = RM.principal_id\nWHERE R.type = 'R'\n) DBRM ON DP.principal_id = DBRM.role_principal_id\nWHERE PERM.permission_name IN ('CONTROL','ALTER ANY DATABASE AUDIT')\nORDER BY\npermission_name,\nprincipal_name,\nrole_member_name\n \nIf any of the roles or users returned have permissions that are not documented, or the documented audit maintainers do not have permissions, this is a finding.",
+  "fixtext": "Create a database role specifically for audit maintainers and give it permission to maintain audits without granting it unnecessary permissions. (The role name used here is an example; other names may be used.) \n\nCREATE ROLE DATABASE_AUDIT_MAINTAINERS; GO GRANT ALTER ANY DATABASE AUDIT TO DATABASE_AUDIT_MAINTAINERS; GO\n\nUse REVOKE and/or DENY and/or ALTER ROLE ... DROP MEMBER ... statements to remove the ALTER ANY DATABASE AUDIT permission from all users. Then, for each authorized database user, run the statement: \n \nALTER ROLE DATABASE_AUDIT_MAINTAINERS ADD MEMBER; GO\n\nUse REVOKE and/or DENY and/or ALTER SERVER ROLE ... DROP MEMBER ... statements to remove CONTROL DATABASE permission from logins that do not need it.",
+  "fix_id": "F-80356r1150099_fix",
+  "VulnDiscussion": "Without the capability to restrict which roles and individuals can select which events are audited, unauthorized personnel may be able to prevent or interfere with the auditing of critical events. Suppression of auditing could permit an adversary to evade detection. Misconfigured audits can degrade the system's performance by overwhelming the audit log. Misconfigured audits may also make it more difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.",
+  "Documentable": "false"
+}

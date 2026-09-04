@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261416",
+  "rule_id": "SV-261416r996660_rule",
+  "stig_id": "SLEM-05-653040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must offload audit records onto a different system or media from the system being audited.",
+  "group_title": "SRG-OS-000479-GPOS-00224",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-65145r996658_chk",
+  "check_content": "Verify what action the audit system takes if it cannot offload audit records to a different system or storage media from SLEM 5 being audited.\n\nCheck the action that the audit system takes in the event of a network failure with the following command:\n\n     > sudo grep -i \"network_failure_action\" /etc/audisp/audisp-remote.conf\n     network_failure_action = syslog\n\nIf the \"network_failure_action\" option is not set to \"syslog\", \"single\", or \"halt\" or the line is commented out, this is a finding.",
+  "fixtext": "Configure SLEM 5 to take the appropriate action if it cannot offload audit records to a different system or storage media from the system being audited due to a network failure.\n\nAdd or modify the following line in the \"/etc/audisp/audisp-remote.conf\" file:\n\nnetwork_failure_action = syslog",
+  "fix_id": "F-65053r996659_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOffloading is a common process in information systems with limited audit storage capacity.",
+  "Documentable": "false"
+}

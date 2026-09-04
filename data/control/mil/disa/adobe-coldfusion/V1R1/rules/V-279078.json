@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279078",
+  "rule_id": "SV-279078r1172827_rule",
+  "stig_id": "APAS-CF-000680",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "For PKI-based authentication, ColdFusion must implement a local cache of revocation data to support path discovery and validation in case of the inability to access revocation information via the network.",
+  "group_title": "SRG-APP-000401-AS-000243",
+  "idents": {
+    "cci": [
+      "CCI-001991"
+    ]
+  },
+  "check_id": "C-83626r1171572_chk",
+  "check_content": "Verify ColdFusion is configured to support certificate revocation checking using locally cached Certificate Revocation Lists (CRLs).\n\n1. For each ColdFusion instance, navigate to: \n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\\server.xml.\n\n2. Open the server.xml file in a text editor.\n\n3. Identify all <Connector> elements that are configured for SSL. Within each <Connector>, check for an embedded <SSLHostConfig> element.\n\n4. Review the <SSLHostConfig> element for the presence of one of the following attributes:\ncertificateRevocationListFile\ncertificateRevocationListPath\n\n(These attributes specify the location of locally cached CRL files that will be used for certificate revocation checking.)\n\nIf no <SSLHostConfig> is present, or if neither certificateRevocationListFile nor certificateRevocationListPath is configured, this is a finding.",
+  "fixtext": "Configure ColdFusion to use a locally cached CRL for certificate revocation checking.\n\n1. Open the server.xml file located at: <ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\\server.xml\n\n2. Locate each <Connector> element configured for SSL.\n\n3. Ensure an <SSLHostConfig> element is present and includes one of the following attributes:\ncertificateRevocationListFile=\"<path_to_crl_file>\"\ncertificateRevocationListPath=\"<path_to_crl_directory>\"\n\nExample:\n<SSLHostConfig>\n  <Certificate certificateKeystoreFile=\"...\" type=\"RSA\" />\n  <CertificateRevocation certificateRevocationListFile=\"/opt/cf/crl/mycrl.pem\" />\n</SSLHostConfig>\n\n4. Save the file and restart ColdFusion to apply the changes.",
+  "fix_id": "F-83531r1172826_fix",
+  "VulnDiscussion": "Ensuring that for PKI-based authentication, ColdFusion implements a local cache of revocation data is essential for maintaining the security and integrity of the authentication process. PKI relies on the ability to verify the validity of certificates, which includes checking for certificate revocation. If the system cannot access revocation information via the network, it may be unable to determine whether a certificate is still valid, potentially allowing the use of compromised or revoked certificates.\n\nBy implementing a local cache of revocation data, ColdFusion can support path discovery and validation even when network access to revocation information is unavailable. This practice helps ensure that the system can continue to verify the validity of certificates and maintain the security of the authentication process. It aligns with best security practices and helps prevent unauthorized access to sensitive information.",
+  "Documentable": "false"
+}

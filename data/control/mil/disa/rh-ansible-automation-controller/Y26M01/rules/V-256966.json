@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256966",
+  "rule_id": "SV-256966r1138080_rule",
+  "stig_id": "APWS-AT-000940",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Automation Controller NGINX web servers must install security-relevant software updates within the configured time period directed by an authoritative source (e.g., IAVM, CTOs, DTMs, and STIGs).",
+  "group_title": "SRG-APP-000456-WSR-000187",
+  "idents": {
+    "cci": [
+      "CCI-002605"
+    ]
+  },
+  "check_id": "C-60641r902410_chk",
+  "check_content": "As a System Administrator for each Automation Controller NGINX web server host, verify the system is configured to receive updates from an organizationally defined source for authoritative system updates:\n\nyum -v repolist\n\nIf each URL is not valid and consistent with organizationally defined requirements, this is a finding.\n\nIf each repository is not enabled in accordance with organizationally defined requirements, this is a finding.\n\nIf the system is not configured to automatically receive and apply system updates from this source at least every 30 days, or manually receive and apply updates at least every 30 days, this is a finding.",
+  "fixtext": "As a system administrator, for each Automation Controller NGINX web server host, perform the following:\n\n1. Either configure update repositories in accordance with organizationally defined requirements or subscribe to Red Hat update repositories for the underlying operating system.\n\n2. Execute an update from these repositories:\n\n$ yum update -y\n\n3. Perform one of the following:\n\n3.1. Schedule an update to occur every 30 days, or in accordance with organizationally defined policy:\n\n$ yum install -y dnf-automatic  && sed -i '/apply_updates/s/no/yes/' /etc/dnf/automatic.conf && sed -i '/OnCalendar/s/^OnCalendar\\s*=.*/OnCalendar=*-1-* 6:00/' /usr/lib/systemd/system/dnf-automatic.timer && systemctl enable --now dnf-automatic.timer\n\n3.2. Schedule manual updates to occur at least every 30 days, or in accordance with organizationally defined policy. \n\n4. Restart the Automation Controller NGINX web server host.",
+  "fix_id": "F-60583r903536_fix",
+  "VulnDiscussion": "Security flaws with software applications are discovered daily. Red Hat constantly updates and patches Automation Controller to address newly discovered security vulnerabilities. Organizations (including any contractor to the organization) are required to promptly install security-relevant software updates (e.g., patches, service packs, and hot fixes). Flaws discovered during security assessments, continuous monitoring, incident response activities, or information system error handling must also be addressed expeditiously.\n\nThe Automation Controller NGINX web server will be configured to check for and install security-relevant software updates from an authoritative source within an organizationally identified time period from the availability of the update. By default, this time period will be every 24 hours.",
+  "Documentable": "false"
+}

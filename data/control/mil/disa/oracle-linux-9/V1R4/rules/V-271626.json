@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-271626",
+  "rule_id": "SV-271626r1091590_rule",
+  "stig_id": "OL09-00-001070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 system-auth must be configured to use a sufficient number of hashing rounds.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-004062",
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-75676r1091588_chk",
+  "check_content": "Verify that OL 9 system-auth is configured to use a sufficient number of hashing rounds with the following command:\n\n$ sudo grep rounds /etc/pam.d/system-auth\npassword sufficient pam_unix.so sha512 rounds=100000\n\nIf a matching line is not returned or \"rounds\" is less than 100000, this a finding.",
+  "fixtext": "Configure Oracle Linux 9 to use 100000 hashing rounds for hashing passwords.\n\nAdd or modify the following line in \"/etc/pam.d/system-auth\" and set \"rounds\" to 100000.\n\npassword sufficient pam_unix.so sha512 rounds=100000'",
+  "fix_id": "F-75583r1091589_fix",
+  "VulnDiscussion": "Passwords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised. Passwords that are encrypted with a weak algorithm are no more protected than if they are kept in plain text.\n\nUsing more hashing rounds makes password cracking attacks more difficult.\n\nSatisfies: SRG-OS-000073-GPOS-00041, SRG-OS-000120-GPOS-00061",
+  "Documentable": "false"
+}

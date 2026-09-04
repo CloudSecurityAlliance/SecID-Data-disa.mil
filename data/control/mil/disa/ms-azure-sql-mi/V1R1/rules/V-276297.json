@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276297",
+  "rule_id": "SV-276297r1150073_rule",
+  "stig_id": "MSQL-D0-005500",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must have an audit defined to track Microsoft Support Operations.",
+  "group_title": "SRG-APP-000101-DB-000044",
+  "idents": {
+    "cci": [
+      "CCI-000135"
+    ]
+  },
+  "check_id": "C-80452r1149798_chk",
+  "check_content": "Review the system documentation to determine if the auditing of Microsoft support operations is required. If is documented as not required, this is Not Applicable.  \n\nIf the system documentation requires the auditing of Microsoft Support operations, run the following query to determine whether an audit has been defined to capture Microsoft Support operations: \n\nSELECT audit_id, name, is_state_enabled \nFROM sys.server_audits \nWHERE is_operator_audit = 1 \n\nIf no audit is returned, this is a finding.",
+  "fixtext": "Create a new SQL Server Audit with the Microsoft support operations option enabled. \n\nAdjust the following T-SQL Query for the environment and execute: \n\nCREATE SERVER AUDIT [<Enter Name of Audit>] TO URL ( PATH = N'<URL for Blob Container>' ) WITH ( OPERATOR_AUDIT = ON ) GO \nALTER SERVER AUDIT [<Enter Name of Audit>] WITH (STATE = ON) GO \n\nAlternatively, when using SQL Server Management Studio to create an audit, ensure the Microsoft support operations checkbox is flagged.",
+  "fix_id": "F-80357r1149799_fix",
+  "VulnDiscussion": "Azure SQL Managed Instance auditing capability is critical for accurate forensic analysis. Reconstruction of harmful events or forensic analysis is not possible if audit records do not contain enough information. To support analysis, some types of events require information to be logged that exceeds the basic requirements of event type, time stamps, location, source, outcome, and user identity. If additional information is not available, it could negatively impact forensic investigations into user actions or other malicious events.\n\nThe organization must determine what additional information is required for complete analysis of the audited events. The additional information required is dependent on the type of information (e.g., sensitivity of the data and the environment within which it resides). At a minimum, the organization must employ either full-text recording of privileged commands or the individual identities of users of shared accounts, or both. The organization must maintain audit trails in sufficient detail to reconstruct events to determine the cause and impact of compromise. \n\nExamples of detailed information the organization may require in audit records are full-text recording of privileged commands or the individual identities of shared account users. \n\nAuditing of Microsoft support operations against an Azure SQL Managed Instance allows for the actions and operations performed by Microsoft support engineers, when accessing a server during a support request, to be audited and stored for forensic purposes. Enabling this auditing capability will overwrite an existing audit's configuration and therefore, when required, must be defined within a dedicated audit configuration.",
+  "Documentable": "false"
+}

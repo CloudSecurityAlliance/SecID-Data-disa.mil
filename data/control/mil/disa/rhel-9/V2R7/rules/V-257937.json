@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257937",
+  "rule_id": "SV-257937r1106310_rule",
+  "stig_id": "RHEL-09-251020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RHEL 9 firewall must employ a deny-all, allow-by-exception policy for allowing connections to other systems.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61678r1106309_chk",
+  "check_content": "Verify the RHEL 9 firewalld is configured to employ a deny-all, allow-by-exception policy for allowing connections to other systems with the following commands:\n\nEnsure firewalld is running:\n$ sudo firewall-cmd --state\nrunning\n\nIdentify active zones:\n$ sudo firewall-cmd --get-active-zones\ndrop\n  interfaces: ens192\n\nCheck what rules are applied in that zone:\n$ sudo firewall-cmd --list-all --zone=$(firewall-cmd --get-default-zone)\ndrop (active)\n  target: DROP\n  icmp-block-inversion: no\n  interfaces: ens192\n  sources:\n  services: ssh\n  ports:\n  protocols:\n  forward: yes\n  masquerade: no\n  forward-ports:\n  source-ports:\n  icmp-blocks:\n  rich rules:\n\nIf no zones are active on the RHEL 9 interfaces or if runtime and permanent targets are set to a different option other than \"DROP\", this is a finding.",
+  "fixtext": "Configure the \"firewalld\" daemon to employ a deny-all, allow-by-exception policy with the following commands:\n\nStart by adding the exceptions that are required for mission functionality to the \"drop\" zone. If SSH access on port 22 is needed, for example, run the following: \"sudo firewall-cmd --permanent --add-service=ssh --zone=drop\"\n\nReload the firewall rules to update the runtime configuration from the \"--permanent\" changes made above:\n$ sudo firewall-cmd --reload\n\nSet the default zone to the drop zone:\n$ sudo firewall-cmd --set-default-zone=drop\nNote: This is a runtime and permanent change.\n\nAdd any interfaces to the newly modified \"drop\" zone:\n$ sudo firewall-cmd --permanent --zone=drop --change-interface=ens192\n\nReload the firewall rules for changes to take effect:\n$ sudo firewall-cmd --reload",
+  "fix_id": "F-61602r1102092_fix",
+  "VulnDiscussion": "Failure to restrict network connectivity only to authorized systems permits inbound connections from malicious systems. It also permits outbound connections that may facilitate exfiltration of DOD data.\n\nRHEL 9 incorporates the \"firewalld\" daemon, which allows for many different configurations. One of these configurations is zones. Zones can be utilized to a deny-all, allow-by-exception approach. The default \"drop\" zone will drop all incoming network packets unless it is explicitly allowed by the configuration file or is related to an outgoing network connection.",
+  "Documentable": "false"
+}

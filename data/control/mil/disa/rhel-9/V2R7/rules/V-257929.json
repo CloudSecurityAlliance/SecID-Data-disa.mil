@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257929",
+  "rule_id": "SV-257929r1137695_rule",
+  "stig_id": "RHEL-09-232245",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "A sticky bit must be set on all RHEL 9 public directories.",
+  "group_title": "SRG-OS-000138-GPOS-00069",
+  "idents": {
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-61670r925772_chk",
+  "check_content": "Verify that all world-writable directories have the sticky bit set.\n\nDetermine if all world-writable directories have the sticky bit set by running the following command:\n\n$ sudo find / -type d \\( -perm -0002 -a ! -perm -1000 \\) -print 2>/dev/null\n\ndrwxrwxrwt 7 root root 4096 Jul 26 11:19 /tmp\n\nIf any of the returned directories are world-writable and do not have the sticky bit set, this is a finding.",
+  "fixtext": "Configure all world-writable directories to have the sticky bit set to prevent unauthorized and unintended information transferred via shared system resources.\n\nSet the sticky bit on all world-writable directories using the command, replace \"[World-Writable Directory]\" with any directory path missing the sticky bit:\n\n$ chmod a+t [World-Writable Directory]",
+  "fix_id": "F-61594r925773_fix",
+  "VulnDiscussion": "Preventing unauthorized information transfers mitigates the risk of information, including encrypted representations of information, produced by the actions of prior users/roles (or the actions of processes acting on behalf of prior users/roles) from being available to any current users/roles (or current processes) that obtain access to shared system resources (e.g., registers, main memory, hard disks) after those resources have been released back to information systems. The control of information in shared resources is also commonly referred to as object reuse and residual information protection.\n\nThis requirement generally applies to the design of an information technology product, but it can also apply to the configuration of particular information system components that are, or use, such products. This can be verified by acceptance/validation processes in DOD or other government agencies.",
+  "Documentable": "false"
+}

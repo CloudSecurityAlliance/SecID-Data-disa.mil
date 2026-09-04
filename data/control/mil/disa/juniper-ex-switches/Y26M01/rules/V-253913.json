@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253913",
+  "rule_id": "SV-253913r1082962_rule",
+  "stig_id": "JUEX-NM-000360",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to end all network connections associated with a device management session at the end of the session, or the session must be terminated after five minutes of inactivity except to fulfill mission requirements.",
+  "group_title": "SRG-APP-000190-NDM-000267",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-57365r1082960_chk",
+  "check_content": "Determine if the network device terminates the connection associated with a device management session at the end of the session or after five minutes of inactivity. This requirement may be verified by demonstration or configuration review. \n\nJunos permits the administrator to log out at the end of the session, which terminates the session and the network connection. Junos forcibly terminates the session and network connection upon exceeding the inactivity timeout threshold. Inactivity timeouts are assigned to login classes and apply to every administrative access method; there is no provision to set inactivity timeout differently for local (console) and network (remote) device management sessions. Verify the idle-timeout for the root user, and each login class, has an appropriate idle-timeout value.\n\nuser@host> show configuration system login\n...\nidle-timeout 5;\nclass <name> {\n    idle-timeout 5;\n...\n}\n\nNote: Inactivity timeout (idle-timeout) must be assigned to every login class.\n\nIf the network device does not terminate the connection associated with a device management session at the end of the session or after five minutes of inactivity, this is a finding.",
+  "fixtext": "Configure the network device to terminate the connection associated with a device management session at the end of the session or after five minutes of inactivity.\n\nThere is no configuration required to support explicit logout (\"quit\"  at the end of the session).\n1. Enter configuration mode.\n2. Configure inactivity timeout for root.\n3. Configure inactivity timeout for all login classes.\n4. Commit the configuration.\n\nuser@host> configure\nuser@host# set system login idle-timeout 5\nuser@host# set system login class <class name> idle-timeout 5\nuser@host# commit",
+  "fix_id": "F-57316r1082961_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle session will also free up resources committed by the managed network element. \n\nTerminating network connections associated with communications sessions includes, for example, de-allocating associated TCP/IP address/port pairs at the operating system level, or de-allocating networking assignments at the application level if multiple application sessions are using a single, operating system-level network connection. This does not mean that the device terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.",
+  "Documentable": "false"
+}

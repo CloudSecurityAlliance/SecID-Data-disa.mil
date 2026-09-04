@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269246",
+  "rule_id": "SV-269246r1050780_rule",
+  "stig_id": "ALMA-09-018830",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 firewall must employ a deny-all, allow-by-exception policy for allowing connections to other systems.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73277r1049371_chk",
+  "check_content": "Verify the AlmaLinux OS 9 \"firewalld\" is configured to employ a deny-all, allow-by-exception policy for allowing connections to other systems.\n\nFirst ensure firewalld is running:\n\n$  firewall-cmd --state\n\nrunning\n\nNext, get the active zones:\n\n$ firewall-cmd --get-active-zones\n\npublic\n  interfaces: enp1s0\n\nCheck the target of the zones returned from the previous command:\n\n$ firewall-cmd --info-zone=public | grep target\n\n   target: DROP\n\nCheck the runtime and permanent rules match:\n\n$ firewall-cmd --permanent --info-zone=public | grep target\n\n   target: DROP\n\nIf no zones are active on the AlmaLinux OS 9 interfaces or if runtime and permanent targets are set to a different option other than \"DROP\", this is a finding.",
+  "fixtext": "Configure the \"firewalld\" daemon to employ a deny-all, allow-by-exception.\n\nStart by adding the exceptions that are required for mission functionality to the \"drop\" zone. If SSH access on port 22 is needed for example, run the following command:\n\n$ firewall-cmd --permanent --add-service=ssh --zone=drop\n\nSet the default zone to the \"drop\" zone:\n\n$ firewall-cmd --set-default-zone=drop\n\nNote: This is a runtime and a permanent change.\n\nAdd any interfaces to the newly modified \"drop\" zone:\n\n$ firewall-cmd --permanent --zone=drop --change-interface=enp1s0\n\nReload the firewall rules for changes to take effect:\n\n$ firewall-cmd --reload\n\nCheck zones and interfaces:\n\n$ firewall-cmd --get-active-zones\n\ndrop\n  interfaces: enp1s0\n\nCheck new default zone's target is set to \"DROP\":\n\n$ firewall-cmd --permanent --info-zone=drop | grep target\n\n  target: DROP\n\nThe same outcome is achieved by creating a new zone, for example:\n\n$ firewall-cmd --permanent --new-zone=stig\n$ firewall-cmd --reload\n$ firewall-cmd --permanent --change-interface=enp1s0 --zone=stig \n$ firewall-cmd --permanent --add-service=ssh --zone=stig\n$ firewall-cmd --permanent --set-target=DROP --zone=stig\n$ firewall-cmd --set-default-zone=stig",
+  "fix_id": "F-73178r1050780_fix",
+  "VulnDiscussion": "Failure to restrict network connectivity only to authorized systems permits inbound connections from malicious systems. It also permits outbound connections that may facilitate exfiltration of DOD data.\n\nAlmaLinux OS 9 incorporates the \"firewalld\" daemon, which allows for many different configurations. One of these configurations is zones. Zones can be used to a deny-all, allow-by-exception approach. The default \"drop\" zone will drop all incoming network packets unless it is explicitly allowed by the configuration file or is related to an outgoing network connection.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276238",
+  "rule_id": "SV-276238r1150056_rule",
+  "stig_id": "MSQL-00-003400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must implement cryptographic mechanisms preventing the unauthorized disclosure of organization-defined information at rest on organization-defined information system components.",
+  "group_title": "SRG-APP-000429-DB-000387",
+  "idents": {
+    "cci": [
+      "CCI-002476"
+    ]
+  },
+  "check_id": "C-80393r1150055_chk",
+  "check_content": "Review the system documentation to determine whether the organization has defined the information at rest that is to be protected from modification, which must include, at a minimum, PII and classified information. \n\nIf no information is identified as requiring such protection, this is not a finding.  \n\nReview the configuration of the Azure SQL Managed Instance to ensure data-at-rest protections are implemented. \n\nIf any of the information defined as requiring cryptographic protection from modification is not encrypted in a manner that provides the required level of protection, this is a finding. \n\nUse the query below to check the encryption status for each database. If any databases have an is_encrypted status of \"0\", this is a finding. \n\nSELECT [name] AS DatabaseName,is_encrypted FROM master.sys.databases WHERE database_id > 4;",
+  "fixtext": "For any database with an is_encrypted status of \"0\", use the query below to enable transparent data encryption: \n\nALTER DATABASE [Database Name Here] SET ENCRYPTION ON;",
+  "fix_id": "F-80298r1149622_fix",
+  "VulnDiscussion": "Azure SQL Managed Instance handling data requiring data-at-rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest. \n\nSelection of a cryptographic mechanism is based on the need to protect the integrity of organizational information. The strength of the mechanism is commensurate with the security category and/or classification of the information.",
+  "Documentable": "false"
+}

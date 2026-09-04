@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256962",
+  "rule_id": "SV-256962r961620_rule",
+  "stig_id": "APWS-AT-000830",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Automation Controller NGINX web server must be protected from being stopped by a nonprivileged user.",
+  "group_title": "SRG-APP-000435-WSR-000147",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-60637r903550_chk",
+  "check_content": "As a System Administrator for each Automation Controller NGINX web server host, verify required service definition is protected from unprivileged users:\n\nstat -c \"%a %U %G\" /usr/lib/systemd/system/automation-controller.service | grep -q \"644 root root\" || echo \"FAILED\"\nstat -c \"%a %U %G\" /usr/lib/systemd/system/supervisord.service | grep -q \"644 root root\" || echo \"FAILED\"\nstat -c \"%a %U %G\"  /usr/lib/systemd/system/nginx.service | grep -q \"644 root root\" || echo \"FAILED\"\n\nIf \"FAILED\" is displayed, this is a finding.\n\nVerify the required services are enabled:\n\nsystemctl is-enabled automation-controller.service >/dev/null || echo FAILED\nsystemctl is-enabled supervisord.service >/dev/null || echo FAILED\nsystemctl is-enabled nginx.service >/dev/null || echo FAILED\n\nIf \"FAILED\" is displayed, this is a finding.\n\nVerify application services are correctly managed by supervisord. Verify protection of and capture supervisord configuration.\n\nstat -c \"%a %U %G\" /etc/supervisord.d/*.ini | grep -q \"644 root root\" || echo \"FAILED\"\ncat  /etc/supervisord.d/*.ini | sed -n -E \"/^\\[.*\\]/{s/\\[(.*)\\]/\\1/;h;n;};/^[a-zA-Z]/{s/#.*//;G;s/([^ ]*) *= *(.*)\\n(.*)/\\3_\\1='\\2'/;p;}\" > /tmp/supervisord.parsed.conf\n\nVerify specific start and restart properties for application services:\n\napplication_services=(program:awx-dispatcher_autostart program:awx-dispatcher_autorestart program:awx-wsbroadcast_autostart program:awx-wsbroadcast_autorestart program:awx-uwsgi_autostart program:awx-uwsgi_autorestart program:awx-daphne_autostart program:awx-daphne_autorestart program:awx-rsyslogd_autostart program:awx-rsyslogd_autorestart) \nfor SUPERVISOR_CHECK in ${application_services[@]}; do grep $SUPERVISOR_CHECK /tmp/supervisord.parsed.conf | grep -q true || echo \"FAILED\" ; done\nrm /tmp/supervisord.parsed.conf\n\nIf \"FAILED\" is displayed, this is a finding.",
+  "fixtext": "As a System Administrator for each Automation Controller NGINX web server host, set the permissions correctly on the nginx service file:\n\nsudo chown root:root /usr/lib/systemd/system/nginx.service\nsudo chmod 644 /usr/lib/systemd/system/nginx.service\n\nReset the Ansible Automation Platform configuration to the defaults, which meet the requirements for the supervisord and automation-controller services.\n\nLocate the inventory file used to install Ansible Automation Platform (usually in the installer directory).\n\nRun the setup.sh command in the installer directory to reconfigure the controller to use the new setting:\n\nsudo ./setup.sh",
+  "fix_id": "F-60579r902399_fix",
+  "VulnDiscussion": "An attacker has at least two reasons to stop an Automation Controller NGINX web server. The first is to cause a DoS, and the second is to put in place changes the attacker made to an Automation Controller NGINX web server configuration.\n\nTo prohibit an attacker from stopping the Automation Controller NGINX web server, the process ID (PID) of the web server and the utilities used to start/stop the web server must be protected from access by nonprivileged users. By knowing the PID and having access to the Automation Controller NGINX web server utilities, a nonprivileged user has a greater capability of stopping the server, whether intentionally or unintentionally.",
+  "Documentable": "false"
+}

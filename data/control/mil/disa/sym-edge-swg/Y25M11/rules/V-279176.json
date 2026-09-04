@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-279176",
+  "rule_id": "SV-279176r1170660_rule",
+  "stig_id": "SYME-00-004100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Edge SWG must limit the number of concurrent sessions to an organization-defined number for all accounts and/or account types.",
+  "group_title": "SRG-NET-000053-ALG-000001",
+  "idents": {
+    "cci": [
+      "CCI-000054",
+      "CCI-001094",
+      "CCI-002385",
+      "CCI-004866"
+    ]
+  },
+  "check_id": "C-83724r1170618_chk",
+  "check_content": "1. In the Edge SWG Web UI, navigate to the Visual Policy Manager (VPM).\n2. Navigate to the Proxy Auth CPL Layer.\n\nUnder a <Proxy> section, if there is no text that contains a user.login.count, this is a finding.",
+  "fixtext": "1. In the Edge SWG Web UI, navigate to the VPM.\n2. Navigate to the Proxy Auth CPL Layer.\n3. Under a new <Proxy> section, add the following line. Ensure it is indented:\n    FORCE_DENY user.login.count=4.. user.login.log_out(yes)\n\nNote: Login count is organizationally defined, so \"4\" can be changed to what the site requires.",
+  "fix_id": "F-83629r1170659_fix",
+  "VulnDiscussion": "Network element management includes the ability to control the number of users and user sessions that utilize a network element. Limiting the number of current sessions per user is helpful in limiting risks related to denial-of-service (DoS) attacks.\n\nThis requirement addresses concurrent sessions for information system accounts and does not address concurrent sessions by single users via multiple system accounts. The maximum number of concurrent sessions must be the same as the requirements specified for the application for which it serves as intermediary.\n\nThis policy only applies to application gateways/firewalls (e.g., identity management or authentication gateways) that provide user account services as part of the intermediary services.",
+  "Documentable": "false"
+}

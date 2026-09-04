@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-269539",
+  "rule_id": "SV-269539r1050422_rule",
+  "stig_id": "ALMA-09-056010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 audit logs must be owned by root to prevent unauthorized read access.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000164"
+    ]
+  },
+  "check_id": "C-73570r1048993_chk",
+  "check_content": "Verify the audit logs are owned by the \"root\" user.\n\nFirst determine where the audit logs are stored with the following command:\n\n$ grep -w log_file /etc/audit/auditd.conf\n\nlog_file = /var/log/audit/audit.log\n\nThen using the location of the audit log file, determine if the audit log is owned by the \"root\" user using the following command:\n\n$ stat -c \"%U\" /var/log/audit/audit.log\n\nroot\n\nIf the audit log is not owned by the \"root\" user this is a finding.",
+  "fixtext": "Change the audit logs to be owned by the root user:\n\n$ chown root /var/log/audit/*",
+  "fix_id": "F-73471r1048994_fix",
+  "VulnDiscussion": "Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.\n\nAudit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit operating system activity.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000059-GPOS-00029",
+  "Documentable": "false"
+}

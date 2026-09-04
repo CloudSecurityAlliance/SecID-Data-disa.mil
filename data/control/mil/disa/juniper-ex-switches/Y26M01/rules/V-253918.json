@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253918",
+  "rule_id": "SV-253918r961392_rule",
+  "stig_id": "JUEX-NM-000410",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to allocate audit record storage capacity in accordance with organization-defined audit record storage requirements.",
+  "group_title": "SRG-APP-000357-NDM-000293",
+  "idents": {
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-57370r843785_chk",
+  "check_content": "Determine if the network device allocates audit record storage capacity in accordance with organization-defined audit record storage requirements.\n\nThis requirement may be verified by configuration review or vendor-provided information. This requirement may be met through use of a properly configured syslog server if the device is configured to use the syslog server.\n\nJunos does not permit configuring audit logging storage space. However, the majority of disk space is reserved for local audit log storage and file are rotated using a first-in-first-out (FIFO) function.\nVerify external syslog servers are configured.\n[edit system syslog]\nhost <address 1> {\n    any info;\n}\nhost <address 2> {\n    any info;\n}\n\nIf audit record store capacity is not allocated in accordance with organization-defined audit record storage requirements, or the device is not configured to use external syslog server(s), this is a finding.",
+  "fixtext": "Configure the network device to allocate audit record storage capacity in accordance with organization-defined audit record storage requirements.\n\nConfigure external syslog server(s):\nset system syslog host <address 1> any info\nset system syslog host <address 2> any info",
+  "fix_id": "F-57321r843786_fix",
+  "VulnDiscussion": "To ensure network devices have a sufficient storage capacity in which to write the audit logs, they need to be able to allocate audit record storage capacity. The task of allocating audit record storage capacity is usually performed during initial device setup if it is modifiable. \n\nThe value for the organization-defined audit record storage requirement will depend on the amount of storage available on the network device, the anticipated volume of logs, the frequency of transfer from the network device to centralized log servers, and other factors.",
+  "Documentable": "false"
+}

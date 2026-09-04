@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279067",
+  "rule_id": "SV-279067r1171547_rule",
+  "stig_id": "APAS-CF-000445",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ColdFusion must be configured to mutually authenticate connecting proxies and load balancers.",
+  "group_title": "SRG-APP-000219-AS-000147",
+  "idents": {
+    "cci": [
+      "CCI-001184"
+    ]
+  },
+  "check_id": "C-83615r1171545_chk",
+  "check_content": "Validate SSL Certificate.\n\n1. Identify any proxy servers or load balancers that provide services for the Tomcat server. If there are no load balancers or proxies in use, this is not a finding.\n\n2. Identify each ColdFusion IP address that is served by a load balancer or proxy. Locate the configuration file. For each ColdFusion instance, navigate to: \n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\\server.xml\n\n3. Open the server.xml file in a text editor and review each <Connector> element for the address setting and the clientAuth setting.\n\nIf a connector has a configured IP address that is proxied or load balanced and the clientAuth setting is not \"true\", this is a finding.\n\n4. Locate the configuration file. For each ColdFusion instance, navigate to: \n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\\web.xml\n\n5. Open the web.xml file in a text editor.\n\nIf \"<login-config><auth-method>CLIENT-CERT</auth-method></login-config>\" is not present under the web-app tag, this is a finding.",
+  "fixtext": "Configure SSL Certificate.\n\nFor server.xml:\n1. For each ColdFusion instance, navigate to: \n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\\server.xml\n\n2. Before making changes, back up the file to prevent accidental misconfiguration.\n\n3. Open server.xml in a text editor with administrative privileges.\n\nFor web.xml:\n1. For each ColdFusion instance, navigate to: \n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\\web.xml\n\n2. Before making changes, back up the file to prevent accidental misconfiguration.\n\n3. Open web.xml in a text editor with administrative privileges.\n\n4. Ensure the <login-config><auth-method>CLIENT-CERT</auth-method></login-config> is present under the web-app tag.\n\n5. Save and close the file. Restart ColdFusion to apply the changes.",
+  "fix_id": "F-83520r1171546_fix",
+  "VulnDiscussion": "Mutual authentication between connecting proxies, application servers, or gateways is essential for ensuring secure communication and preventing unauthorized access. Without mutual authentication, there is a risk that an attacker could impersonate a trusted component, leading to potential data breaches and other security incidents. Mutual authentication helps verify the identities of both parties involved in the communication, ensuring that only trusted entities can interact with ColdFusion. This process involves the exchange of certificates and the validation of these certificates against a trusted certificate authority. By implementing mutual authentication, ColdFusion can establish a secure and trusted communication channel, protect sensitive data and maintain the integrity of the system. Therefore, it is crucial to configure ColdFusion to mutually authenticate all connecting proxies, application servers, or gateways to enhance security and prevent unauthorized access.",
+  "Documentable": "false"
+}

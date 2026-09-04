@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261385",
+  "rule_id": "SV-261385r996586_rule",
+  "stig_id": "SLEM-05-611050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must configure the Linux Pluggable Authentication Modules (PAM) to only store encrypted representations of passwords.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-000196"
+    ]
+  },
+  "check_id": "C-65114r996584_chk",
+  "check_content": "Verify SLEM 5 configures the Linux PAM to only store encrypted representations of passwords with the following command:\n\n     > grep pam_unix.so /etc/pam.d/common-password\n     password required pam_unix.so sha512\n\nIf the value \"sha512\" is not present in the line, the second column value is different from \"requisite\", the line is commented out, or the line is missing, this is a finding.",
+  "fixtext": "Configure SLEM 5 Linux PAM to only store encrypted representations of passwords. All account passwords must be hashed with SHA512 encryption strength.\n\nEdit \"/etc/pam.d/common-password\" and edit the line containing \"pam_unix.so\" to contain the SHA512 keyword after third column. Remove the \"nullok\" option if it exists.",
+  "fix_id": "F-65022r996585_fix",
+  "VulnDiscussion": "Passwords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.",
+  "Documentable": "false"
+}

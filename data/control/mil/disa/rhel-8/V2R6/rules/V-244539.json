@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-244539",
+  "rule_id": "SV-244539r1069325_rule",
+  "stig_id": "RHEL-08-020082",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must prevent a user from overriding the screensaver lock-enabled setting for the graphical user interface.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-47814r743864_chk",
+  "check_content": "Verify the operating system prevents a user from overriding settings for graphical user interfaces. \n\nNote: This requirement assumes the use of the RHEL 8 default graphical user interface, Gnome Shell. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\nDetermine which profile the system database is using with the following command:\n\n$ sudo grep system-db /etc/dconf/profile/user\n\nsystem-db:local\n\nCheck that graphical settings are locked from non-privileged user modification with the following command:\n\nNote: The example below is using the database \"local\" for the system, so the path is \"/etc/dconf/db/local.d\". This path must be modified if a database other than \"local\" is being used.\n\n$ sudo grep -i lock-enabled /etc/dconf/db/local.d/locks/*\n\n/org/gnome/desktop/screensaver/lock-enabled\n\nIf the command does not return at least the example result, this is a finding.",
+  "fixtext": "Configure the operating system to prevent a user from overriding settings for graphical user interfaces.\n\nCreate a database to contain the system-wide screensaver settings (if it does not already exist) with the following command: \n\nNote: The example below is using the database \"local\" for the system, so if the system is using another database in \"/etc/dconf/profile/user\", the file should be created under the appropriate subdirectory.\n\n$ sudo touch /etc/dconf/db/local.d/locks/session\n\nAdd the following setting to prevent non-privileged users from modifying it:\n\n/org/gnome/desktop/screensaver/lock-enabled\n\nRun the following command to update the database:\n\n$ sudo dconf update",
+  "fix_id": "F-47771r1069259_fix",
+  "VulnDiscussion": "A session time-out lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not log out because of the temporary nature of the absence. Rather than relying on the user to manually lock their operating system session prior to vacating the vicinity, operating systems need to be able to identify when a user's session has idled and take action to initiate the session lock.\n\nThe session lock is implemented at the point where session activity can be determined and/or controlled.\n\nImplementing session settings will have little value if a user is able to manipulate these settings from the defaults prescribed in the other requirements of this implementation guide.\n\nLocking these settings from non-privileged users is crucial to maintaining a protected baseline.\n\nSatisfies: SRG-OS-000029-GPOS-00010, SRG-OS-000031-GPOS-00012, SRG-OS-000480-GPOS-00227",
+  "Documentable": "false"
+}

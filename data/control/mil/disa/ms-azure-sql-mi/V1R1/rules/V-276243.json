@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276243",
+  "rule_id": "SV-276243r1149638_rule",
+  "stig_id": "MSQL-00-004700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must initiate session auditing upon startup.",
+  "group_title": "SRG-APP-000092-DB-000208",
+  "idents": {
+    "cci": [
+      "CCI-001464"
+    ]
+  },
+  "check_id": "C-80398r1149636_chk",
+  "check_content": "When Audits are enabled, they start up when the audits are enabled and remain operating until the audit is disabled. \n\nCheck if an audit is configured and enabled.\n \nTo determine if session auditing is configured and enabled, follow the instructions below: \n\nRun this TSQL command to determine if SQL Auditing is configured and enabled:\n  \nSELECT name AS 'Audit Name', status_desc AS 'Audit Status', audit_file_path AS 'Current Audit File' \nFROM sys.dm_server_audit_status WHERE status_desc = 'STARTED'  \n\nAll currently defined audits for the Azure SQL Managed Instance will be listed.  \n\nIf no audits are returned, this is a finding.",
+  "fixtext": "Configure the SQL Audit(s) to automatically start during system start-up. \n \nALTER SERVER AUDIT [] WITH STATE = ON  \n\nExecute the following query:\n\nSELECT name AS 'Audit Name', status_desc AS 'Audit Status', audit_file_path AS 'Current Audit File' FROM sys.dm_server_audit_status WHERE status_desc = 'STARTED'  \n\nEnsure the SQL STIG Audit is configured to initiate session auditing upon startup.",
+  "fix_id": "F-80303r1149637_fix",
+  "VulnDiscussion": "Session auditing is used when a user's activities are under investigation. To ensure capture of all activity during those periods when session auditing is in use, it must be in operation for the whole time Azure SQL Managed Instance is running.",
+  "Documentable": "false"
+}

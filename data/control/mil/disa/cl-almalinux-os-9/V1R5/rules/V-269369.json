@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269369",
+  "rule_id": "SV-269369r1050615_rule",
+  "stig_id": "ALMA-09-033460",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The pcscd socket on AlmaLinux OS 9 must be active.",
+  "group_title": "SRG-OS-000375-GPOS-00160",
+  "idents": {
+    "cci": [
+      "CCI-004046"
+    ]
+  },
+  "check_id": "C-73400r1048483_chk",
+  "check_content": "Verify that the \"pcscd\" socket is active with the following command:\n\n$ systemctl status pcscd.socket\n\npcscd.socket - PC/SC Smart Card Daemon Activation Socket\n     Loaded: loaded (/usr/lib/systemd/system/pcscd.socket; enabled; preset: enabled)\n     Active: active (listening) since Thu 2024-04-11 16:03:24 BST; 2 weeks 3 days ago\n   Triggers: pcscd.service\n     Listen: /run/pcscd/pcscd.comm (Stream)\n     CGroup: /system.slice/pcscd.socket\n\nIf the pcscd.socket is not active, this is a finding.",
+  "fixtext": "To enable pcscd run the following command:\n\n$ systemctl enable --now pcscd.socket\n$ systemctl enable --now pcscd.service\n\nThe pcscd service will be enabled when software tries to access the socket.",
+  "fix_id": "F-73301r1048484_fix",
+  "VulnDiscussion": "Using an authentication device, such as a CAC or token that is separate from the information system, ensures that even if the information system is compromised, that compromise will not affect credentials stored on the authentication device.\n\nMultifactor solutions that require devices separate from information systems gaining access include, for example, hardware tokens providing time-based or challenge-response authenticators and smart cards such as the U.S. Government Personal Identity Verification card and the DOD Common Access Card.\n\nA privileged account is defined as an information system account with authorizations of a privileged user.\n\nRemote access is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nThis requirement only applies to components where this is specific to the function of the device or has the concept of an organizational user (e.g., VPN, proxy capability). This does not apply to authentication for the purpose of configuring the device itself (management).\n\nThis requires further clarification from NIST.",
+  "Documentable": "false"
+}

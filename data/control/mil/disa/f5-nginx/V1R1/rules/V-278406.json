@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-278406",
+  "rule_id": "SV-278406r1171970_rule",
+  "stig_id": "NGNX-APP-002620",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must be configured to use Online Certificate Status Protocol (OCSP) for certificate path validation and revocation. (OCSP is the preferred configuration.)",
+  "group_title": "SRG-APP-000605",
+  "idents": {
+    "cci": [
+      "CCI-000185",
+      "CCI-004068"
+    ]
+  },
+  "check_id": "C-82940r1171968_chk",
+  "check_content": "If using CRL for certificate revocation, this requirement is Not Applicable.\n\nDetermine the path to NGINX config file(s):\n\n# nginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\n# cat <path to config>\n\nCheck the http { blocks for the following example:\n\nhttp {\n    server {\n        listen 443 ssl;\n        server_name example.com;\n\n        ssl_certificate /etc/nginx/ssl/server.crt;\n        ssl_certificate_key /etc/nginx/ssl/server.key;\n\n        ssl_client_certificate /etc/nginx/ssl/ca.crt;\n\n        ssl_verify_client on;\n\n        ssl_crl /etc/nginx/ssl/crl.pem;\n\n        ssl_ocsp on;\n        ssl_ocsp_responder http://ocsp.disa.mil;\n\nssl_stapling on;\nssl_stapling_verify on;\nssl_stapling_file /etc/nginx/ssl/ocsp_cache.pem;\nssl_stapling_responder_timeout 3s;  # Timeout for OCSP responder queries\nssl_stapling_responder_error_cache_time 300s;  # Cache time for responder errors\n\n        location / {\n            proxy_pass http://backend;\n        }\n    }\n}             \n\nCheck for certificate path validation. If \"ssl_verify_client on\" is not in the configuration, this is a finding.\n\nCheck if OCSP is enabled. If \"ssl_ocsp on\" is not in the configuration, this is a finding.\n\nCheck if OCSP Stapling is configured. If \"ssl_stapling on\" or \"ssl_stapling_verify on\" is not in the configuration, this is a finding.\n\nIf \"ssl_stapling_file <file>\" is not present in the configuration, this is a finding.",
+  "fixtext": "Edit the NGINX configuration file.\n\nSet \"ssl_verify_client on\", \"ssl_ocsp on\", ssl_stapling_verify on\", and \"ssl_stapling on\" as shown in the example below.\n\nCreate a local cache for OCSP responses:\n\ntouch /etc/nginx/ssl/ocsp_cache.pem \nchmod 600 /etc/nginx/ssl/ocsp_cache.pem\n\nSet the \"ssl_stapling_file\" directive with the file created as shown in the example below.\n\nhttp {\n    server {\n        listen 443 ssl;\n        server_name example.com;\n\n        ssl_certificate /etc/nginx/ssl/server.crt;\n        ssl_certificate_key /etc/nginx/ssl/server.key;\n\n        ssl_client_certificate /etc/nginx/ssl/ca.crt;\n\n        ssl_verify_client on;\n\n        ssl_crl /etc/nginx/ssl/crl.pem;\n\n        ssl_ocsp on;\n        ssl_ocsp_responder https://ocsp.disa.mil;\n\nssl_stapling on;\nssl_stapling_verify on;\nssl_stapling_file /etc/nginx/ssl/ocsp_cache.pem;\nssl_stapling_responder_timeout 3s;  # Timeout for OCSP responder queries\nssl_stapling_responder_error_cache_time 300s;  # Cache time for responder errors\n\n        location / {\n            proxy_pass http://backend;\n        }\n    }\n}",
+  "fix_id": "F-82845r1171969_fix",
+  "VulnDiscussion": "A certificate's certification path is the path from the end entity certificate to a trusted root certification authority (CA). Certification path validation is necessary for a relying party to make an informed decision regarding acceptance of an end entity certificate. \n\nCertification path validation includes checks such as certificate issuer trust, time validity, and revocation status for each certificate in the certification path. Revocation status information for CA and subject certificates in a certification path is commonly provided via certificate revocation lists (CRLs) or OCSP responses.\n\nSatisfies: SRG-APP-000605, SRG-APP-000875",
+  "Documentable": "false"
+}

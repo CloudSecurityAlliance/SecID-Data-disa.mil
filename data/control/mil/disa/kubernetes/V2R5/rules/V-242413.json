@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242413",
+  "rule_id": "SV-242413r1043177_rule",
+  "stig_id": "CNTR-K8-000950",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes etcd must enforce ports, protocols, and services (PPS) that adhere to the Ports, Protocols, and Services Management Category Assurance List (PPSM CAL).",
+  "group_title": "SRG-APP-000142-CTR-000325",
+  "idents": {
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-45688r863833_chk",
+  "check_content": "Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Control Plane. Run the command:\ngrep kube-apiserver.manifest -I -etcd-servers *\n-edit etcd-main.manifest file:\nVIM <Manifest Name:\nReview  livenessProbe:\nHttpGet:\nPort:\nReview ports:\n- containerPort:\n       hostPort:\n- containerPort:\n       hostPort:\nRun Command:\nkubectl describe services –all-namespace\nSearch labels for any apiserver names spaces.\nPort:\n\nAny manifest and namespace PPS configuration not in compliance with PPSM CAL is a finding.\n\nReview the information systems documentation and interview the team, gain an understanding of the etcd architecture, and determine applicable PPS. Any PPS in the system documentation not in compliance with the CAL PPSM is a finding. Any PPS not set in the system documentation is a finding.\n\nReview findings against the most recent PPSM CAL:\nhttps://cyber.mil/ppsm/cal/\n\nVerify etcd network boundary with the PPS associated with the CAL Assurance Categories. Any PPS not in compliance with the CAL Assurance Category requirements is a finding.",
+  "fixtext": "Amend any system documentation requiring revision. Update Kubernetes etcd manifest and namespace PPS configuration to comply with PPSM CAL.",
+  "fix_id": "F-45646r712594_fix",
+  "VulnDiscussion": "Kubernetes etcd PPS must be controlled and conform to the PPSM CAL. Those PPS that fall outside the PPSM CAL must be blocked. Instructions on the PPSM can be found in DoD Instruction 8551.01 Policy.",
+  "Documentable": "false"
+}

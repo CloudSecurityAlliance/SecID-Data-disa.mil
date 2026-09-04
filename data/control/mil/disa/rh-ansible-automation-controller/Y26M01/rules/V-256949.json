@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256949",
+  "rule_id": "SV-256949r1155087_rule",
+  "stig_id": "APWS-AT-000310",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All Automation Controller NGINX web servers must have Multipurpose Internet Mail Extensions (MIME) that invoke OS shell programs disabled.",
+  "group_title": "SRG-APP-000141-WSR-000081",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-60624r1155085_chk",
+  "check_content": "As a system administrator (SA) for each Automation Controller NGINX web server, check the allowed mime types and associated shell applications:\n\nNGINXCONF=`nginx -V 2>&1 | tr ' ' '\\n' | sed -ne '/conf-path/{s/.*conf-path=\\(.*\\)/\\1/;p}' ` ; MIME_TYPES=`grep mime $NGINXCONF | awk '{printf $2}' | sed 's/;$//' ` ; disallowed_mime_types=('application.*\\sbin' 'application.*\\sexe' 'application.*\\srpm' 'application.*\\smsi' 'application.*\\smsp application.*\\smsm' ) ; echo \"${disallowed_mime_types[*]}\" | tr ' ' '\\n' >tempfile ; cat $MIME_TYPES | grep -f tempfile 1>/dev/null && echo \"FAILED\"; rm -f tempfile\n\nIf \"FAILED\" is displayed, this is a finding.",
+  "fixtext": "As an SA for each Automation Controller NGINX web server, remove the disallowed mime types:\n\nNGINXCONF=`nginx -V 2>&1 | tr ' ' '\\n' | sed -ne '/conf-path/{s/.*conf-path=\\(.*\\)/\\1/;p}' ` ; \nMIME_TYPES=`grep mime $NGINXCONF | awk '{printf $2}' | sed 's/;$//' ` ;\n disallowed_mime_types=('application.*\\sbin' 'application.*\\sexe' 'application.*\\srpm' 'application.*\\smsi' 'application.*\\smsp application.*\\smsm') ; \necho \"${disallowed_mime_types[*]}\" | tr ' ' '\\n' >tempfile ; cat $MIME_TYPES | grep -vf tempfile >$MIME_TYPES; rm -f tempfile\n\nRestart NGINX.",
+  "fix_id": "F-60566r1155086_fix",
+  "VulnDiscussion": "Controlling what a user of a hosted application can access is part of the security posture of the Automation Controller NGINX web server.\n\nAny time a user can access more functionality than is needed for the operation of the hosted application, it  poses a security issue. A user with too much access can view information that is not needed for the user's job role, or the user could use the function in an unintentional manner.\n\nA MIME tells the Automation Controller NGINX web servers what type of program various file types and extensions are and what external utilities or programs are needed to execute the file type.\n\nA shell is a program that serves as the basic interface between the user and the operating system, so hosted application users must not have access to these programs. Shell programs may execute shell escapes and can then perform unauthorized activities that could damage the security posture of Automation Controller.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276308",
+  "rule_id": "SV-276308r1149833_rule",
+  "stig_id": "MSQL-D0-011400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must enforce access restrictions associated with changes to the configuration of the instance.",
+  "group_title": "SRG-APP-000380-DB-000360",
+  "idents": {
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-80463r1149831_chk",
+  "check_content": "Obtain a list of logins who have privileged permissions and role memberships in SQL. \n \nExecute the following query to obtain a list of logins and roles and their respective permissions assignment: \n  \nSELECT p.name AS Principal, \np.type_desc AS Type, \nsp.permission_name AS Permission,  \nsp.state_desc AS State \nFROM sys.server_principals p \nINNER JOIN sys.server_permissions sp ON p.principal_id = sp.grantee_principal_id \nWHERE sp.permission_name = 'CONTROL SERVER' \nOR sp.state = 'W' \n  \nExecute the following query to obtain a list of logins and their role memberships. \n  \nSELECT m.name AS Member, \nm.type_desc AS Type, \nr.name AS Role \nFROM sys.server_principals m \nINNER JOIN sys.server_role_members rm ON m.principal_id = rm.member_principal_id \nINNER JOIN sys.server_principals r ON rm.role_principal_id = r.principal_id \nWHERE r.name IN ('sysadmin','securityadmin','serveradmin') \n  \nCheck the server documentation to verify the logins and roles returned are authorized. If the logins and/or roles are not documented and authorized, this is a finding.",
+  "fixtext": "Revoke unauthorized permissions from principals: \nhttps://learn.microsoft.com/en-us/sql/t-sql/statements/revoke-server-permissions-transact-sql?view=azuresqldb-mi-current\n \nRemove unauthorized logins from roles:  \n\nALTER SERVER ROLE DROP MEMBER login; \n\nRefer to: https://learn.microsoft.com/en-us/sql/t-sql/statements/alter-server-role-transact-sql?view=azuresqldb-mi-current",
+  "fix_id": "F-80368r1149832_fix",
+  "VulnDiscussion": "Failure to provide logical access restrictions associated with changes to configuration may have significant effects on the overall security of the system.  \n \nWhen dealing with access restrictions pertaining to change control, it must be noted that any changes to the hardware, software, and/or firmware components of the information system can potentially have significant effects on the overall security of the system.  \n  \nAccordingly, only qualified and authorized individuals must be allowed to obtain access to system components for the purposes of initiating changes, including upgrades and modifications.",
+  "Documentable": "false"
+}

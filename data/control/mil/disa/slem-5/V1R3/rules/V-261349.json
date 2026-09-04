@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261349",
+  "rule_id": "SV-261349r996502_rule",
+  "stig_id": "SLEM-05-411015",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 default permissions must be defined in such a way that all authenticated users can only read and modify their own files.",
+  "group_title": "SRG-OS-000480-GPOS-00228",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65078r996501_chk",
+  "check_content": "Verify SLEM 5 defines default permissions for all authenticated users in such a way that the users can only read and modify their own files with the following command:\n \n     > grep -i \"^umask\" /etc/login.defs\n     UMASK 077\n\nIf the \"UMASK\" variable is set to \"000\", the severity is raised to a CAT I and this is a finding.\n\nIf the value of \"UMASK\" is not set to \"077\", the line is commented out, or the line is missing, this is a finding.",
+  "fixtext": "Configure SLEM 5 to define the default permissions for all authenticated users in such a way that the users can only read and modify their own files.\n\nAdd or modify the following line in the \"/etc/login.defs\" file:\n\nUMASK 077",
+  "fix_id": "F-64986r995913_fix",
+  "VulnDiscussion": "Setting the most restrictive default permissions ensures that when new accounts are created, they do not have unnecessary access.",
+  "Documentable": "false"
+}

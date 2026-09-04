@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279219",
+  "rule_id": "SV-279219r1170647_rule",
+  "stig_id": "SYME-00-009800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Edge must implement load balancing to limit the effects of known and unknown types of denial-of-service (DoS) attacks.",
+  "group_title": "SRG-NET-000362-ALG-000120",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-83767r1170645_chk",
+  "check_content": "Implementation of multiple Edge SWG nodes must be done in a transparent proxy using an ethernet bridge. This is done using the Symantec Integrates Secure Gateway (ISG).\n\n1. In the Edge SWG Web UI, navigate to the Configuration tab.\n2. Go to \"Network and Adapters\".\n3. Scroll down to the \"Bridge\" section, if a bridge is not configured, this is a finding.\n\nIf a bridge is configured but the two network interfaces on the ISG are not added, this is a finding.",
+  "fixtext": "Implementation of multiple Edge SWG nodes must be done in a transparent proxy using an ethernet bridge. This is done using the Symantec Integrates Secure Gateway (ISG).\n\n1. Log in to the ISG SSH CLI.\n2. Enter \"enable\" and \"configure terminal\".\n3. Enter \"bridge view\". There should be no interfaces added to a bridge.\n4. Enter \"bridge edit passthru-2:0 mode fail-closed\".\n5. Create the network definition and type \"network-definition create <NAME>\".\n6. Add the bridge to the network definition and type \"network-definition edit <NAME> add mode reserved bridges passthru-2:0\".\n7. Add the definition to the Edge SWG image by typing: \"applications edit <SWG NAME> network-definition <NAME>\".\n8. Start the image by entering the command \"applications start<SWG NAME>\".\n9. Repeat these steps for any other Edge SWGs being added for high availability. \n\n1. In the Edge SWG Web UI, navigate to the Configuration tab.\n2. Go to \"Network and Adapters\".\n3. Scroll down to the Bridge section and click the \"pass-through-2:0\" bridge.\n4. Click \"Add Interface\".\n5. Find the two interfaces being used and add them.\n6. Click \"Apply and Save\".",
+  "fix_id": "F-83672r1170646_fix",
+  "VulnDiscussion": "If the network does not provide safeguards against DoS attacks, network resources will be unavailable to users. Load balancing provides service redundancy, which reduces the susceptibility of the ALG to many DoS attacks.\n\nThe ALG must be configured to prevent or mitigate the impact on network availability and traffic flow of DoS attacks that have occurred or are ongoing.\n\nThis requirement applies to the network traffic functionality of the device as it pertains to handling network traffic. Some types of attacks may be specialized to certain network technologies, functions, or services. For each technology, known and potential DoS attacks must be identified and solutions for each type implemented.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230477",
+  "rule_id": "SV-230477r1017267_rule",
+  "stig_id": "RHEL-08-030670",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must have the packages required for offloading audit logs installed.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-33146r568177_chk",
+  "check_content": "Verify the operating system has the packages required for offloading audit logs installed with the following commands:\n\n$ sudo yum list installed rsyslog\n\nrsyslog.x86_64          8.1911.0-3.el8          @AppStream\n\nIf the \"rsyslog\" package is not installed, ask the administrator to indicate how audit logs are being offloaded and what packages are installed to support it.  If there is no evidence of audit logs being offloaded, this is a finding.",
+  "fixtext": "Configure the operating system to offload audit logs by installing the required packages with the following command:\n\n$ sudo yum install rsyslog",
+  "fix_id": "F-33121r568178_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOff-loading is a common process in information systems with limited audit storage capacity.\n\nRHEL 8 installation media provides \"rsyslogd\".  \"rsyslogd\" is a system utility providing support for message logging.  Support for both internet and UNIX domain sockets enables this utility to support both local and remote logging.  Couple this utility with \"gnutls\" (which is a secure communications library implementing the SSL, TLS and DTLS protocols), and you have a method to securely encrypt and off-load auditing.\n\nRsyslog provides three ways to forward message: the traditional UDP transport, which is extremely lossy but standard; the plain TCP based transport, which loses messages only during certain situations but is widely available; and the RELP transport, which does not lose messages but is currently available only as part of the rsyslogd 3.15.0 and above.\nExamples of each configuration:\nUDP *.* @remotesystemname\nTCP *.* @@remotesystemname\nRELP *.* :omrelp:remotesystemname:2514\nNote that a port number was given as there is no standard port for RELP.",
+  "Documentable": "false"
+}

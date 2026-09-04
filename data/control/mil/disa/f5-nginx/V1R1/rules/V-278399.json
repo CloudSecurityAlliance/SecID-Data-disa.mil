@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278399",
+  "rule_id": "SV-278399r1172775_rule",
+  "stig_id": "NGNX-APP-001640",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must be configured to require SSL sessions to reauthenticate no longer than 15 minutes.",
+  "group_title": "SRG-APP-000389",
+  "idents": {
+    "cci": [
+      "CCI-002038"
+    ]
+  },
+  "check_id": "C-82933r1172775_chk",
+  "check_content": "Determine the path to NGINX config file(s):\n\nnginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nExamine the SSL configuration settings:\n\ngrep -R 'ssl_' /etc/nginx/nginx.conf\n\nVerify that \"ssl_session_timeout\" is not set to greater than 15.\n\nIf \"ssl_session_timeout\" directive is missing or set to greater than 15, this is a finding.",
+  "fixtext": "Set the ssl_session_timeout directive to 15 or less.\n\nNote: The default setting is five minutes and meets the control, but this STIG explicitly sets the variable to not rely on a default which may change in future versions.",
+  "fix_id": "F-82838r1171948_fix",
+  "VulnDiscussion": "Without reauthentication, users may access resources or perform tasks for which they do not have authorization. \n\nWhen applications provide the capability to change security roles or escalate the functional capability of the application, it is critical the user reauthenticate.\n\nIn addition to the reauthentication requirements associated with session locks, organizations may require reauthentication of individuals and/or devices in other situations, including (but not limited to) the following circumstances.\n\n(i) When authenticators change; \n(ii) When roles change; \n(iii) When security categories of information systems change; \n(iv) When the execution of privileged functions occurs; \n(v) After a fixed period of time; or\n(vi) Periodically.\n\nWithin the DOD, the minimum circumstances requiring reauthentication are privilege escalation and role changes.",
+  "Documentable": "false"
+}

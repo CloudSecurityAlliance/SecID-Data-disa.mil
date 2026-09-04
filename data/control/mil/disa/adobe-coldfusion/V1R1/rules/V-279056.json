@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279056",
+  "rule_id": "SV-279056r1171606_rule",
+  "stig_id": "APAS-CF-000325",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Web services using Simple Object Access Protocol (SOAP) to access sensitive data must be secured with WS-Security.",
+  "group_title": "SRG-APP-000156-AS-000106",
+  "idents": {
+    "cci": [
+      "CCI-001941"
+    ]
+  },
+  "check_id": "C-83604r1171474_chk",
+  "check_content": "Verify that web services using the SOAP protocol to access sensitive data are secured with WS-Security.\n\n1. Determine Web Services Usage by interviewing the system administrator (SA), or reviewing relevant documentation, including:\n- Hosted application source code.\n- Application design documentation.\n- Published web services design documentation.\n- ColdFusion baseline documentation.\n\n2. Evaluate Applicability. \n\nIf no web services are published, this requirement is not a finding.\n\nIf web services are published and the SOAP protocol is not used, this is not a finding.\n\nIf SOAP is used and the data accessed is not sensitive, this requirement is not a finding.\n\n3. Verify Security Controls. If web services are published using SOAP to access sensitive data:\n\na. Confirm that WS-Security is implemented to provide secure authentication and protect the data.\n\nb. This may be verified by interviewing the administrator or reviewing the documentation sources listed above.\n\nIf web services are published using SOAP to access sensitive data and WS-Security is not implemented, this is a finding.",
+  "fixtext": "Configure web services using the SOAP protocol to access sensitive data.\n\n1. Install and configure the WS-Security suite to secure access to the sensitive data.\n\n2. Ensure the configuration provides:\n- Authentication of service consumers.\n- Message integrity (e.g., via XML signatures).\n- Confidentiality (e.g., via encryption).\n\n3. Update application and service documentation to reflect the WS-Security implementation.",
+  "fix_id": "F-83509r1170941_fix",
+  "VulnDiscussion": "Application servers may provide a web service capability that could be leveraged to allow remote access to sensitive application data.\n\nMany web services use SOAP, which in turn uses XML and HTTP as a transport. Natively, SOAP does not provide security protections. Therefore, ColdFusion must provide security extensions to enhance SOAP capabilities to ensure that secure authentication mechanisms are employed to protect sensitive data. The ws-security suite is a widely used and acceptable SOAP security extension.\n\nColdFusion offers SOAP capabilities but does not offer any type of security for these services. To extend the security of the SOAP protocol, an administrator must install the ws-security suite to enhance SOAP through Java Web Services and configure the ws-security features within the new object. This new object then becomes the wrapper for the SOAP communication, securing the sensitive data.",
+  "Documentable": "false"
+}

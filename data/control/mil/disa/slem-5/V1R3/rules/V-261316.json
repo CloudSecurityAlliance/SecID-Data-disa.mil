@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261316",
+  "rule_id": "SV-261316r996418_rule",
+  "stig_id": "SLEM-05-253025",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must not allow interfaces to accept Internet Protocol version 4 (IPv4) Internet Control Message Protocol (ICMP) redirect messages by default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65045r996416_chk",
+  "check_content": "Verify SLEM 5 does not accept IPv4 ICMP redirect messages by default with the following command:\n\n     > sudo sysctl net.ipv4.conf.default.accept_redirects\n     net.ipv4.conf.default.accept_redirects = 0\n\nIf the network parameter \"ipv4.conf.default.accept_redirects\" is not equal to \"0\", or nothing is returned, this is a finding.",
+  "fixtext": "Configure SLEM 5 to not accept IPv4 ICMP redirect messages by default by running the following command as an administrator:\n\n     > sudo sysctl -w net.ipv4.conf.default.accept_redirects=0\n\nIf \"0\" is not the system's default value, add or update the following line in \"/etc/sysctl.d/99-stig.conf\":\n\n     > sudo sh -c 'echo \"net.ipv4.conf.default.accept_redirects=0\" >> /etc/sysctl.d/99-stig.conf'\n\n     > sudo sysctl --system",
+  "fix_id": "F-64953r996417_fix",
+  "VulnDiscussion": "ICMP redirect messages are used by routers to inform hosts that a more direct route exists for a particular destination. These messages modify the host's route table and are unauthenticated. An illicit ICMP redirect message could result in a man-in-the-middle attack.",
+  "Documentable": "false"
+}

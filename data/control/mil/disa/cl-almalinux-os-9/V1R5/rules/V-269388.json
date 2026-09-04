@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269388",
+  "rule_id": "SV-269388r1155272_rule",
+  "stig_id": "ALMA-09-036100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must enforce password complexity rules for the root account.",
+  "group_title": "SRG-OS-000069-GPOS-00037",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-73419r1155271_chk",
+  "check_content": "Verify AlmaLinux OS 9 enforces password complexity rules for the root account.\n\nCheck if root user is required to use complex passwords with the following command:\n\n$ grep -r enforce_for_root /etc/security/pwquality.conf*\n\n/etc/security/pwquality.conf:# enforce_for_root\n/etc/security/pwquality.conf.d/stig.conf:enforce_for_root\n\nIf \"enforce_for_root\" is commented or missing, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to enforce password complexity on the root account.\n\nAdd or update the following line in /etc/security/pwquality.conf:\n\nenforce_for_root\n\nNote: Unlike most Linux tools, pam_pwquality does not override its defaults with those in a drop-in file, so edit /etc/security/pwquality.conf and not use a file in /etc/security/pwquality.conf.d/ or comment out the setting in /etc/security/pwquality.conf if using a drop-in file.",
+  "fix_id": "F-73320r1049605_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks.\n\nPassword complexity is one factor of several that determines how long it takes to crack a password. The more complex the password, the greater the number of possible combinations that need to be tested before the password is compromised.",
+  "Documentable": "false"
+}

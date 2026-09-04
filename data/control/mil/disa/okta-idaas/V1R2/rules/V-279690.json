@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-279690",
+  "rule_id": "SV-279690r1155069_rule",
+  "stig_id": "OKTA-APP-003241",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Okta API tokens must be created under new dedicated user accounts.",
+  "group_title": "SRG-APP-001010",
+  "idents": {
+    "cci": [
+      "CCI-005165",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-84243r1155067_chk",
+  "check_content": "From the Admin Console:\n\n1. Select the \"Security\" menu, and then click the \"API\" item.\n2. Click the \"Tokens\" tab.\n3. For each token listed, verify that the Role listed is not \"Super Admin\", and that the account has been specifically created for that token.\n4. Click the account name to be token to the user profile for that user.\n5. Verify the user only has an administrator role (standard or customer) applied that is correctly scoped as required and documented in the Okta Access Control policy.\n\nIf the token is using a Super Administrator account, or one that is not properly scoped per the Access Control policy, this is a finding. \n\nNote: If a Super Admin token is required for system operation, then this permanent finding.",
+  "fixtext": "From the Admin Console:\n\n1. Select the \"Security\" menu, and then click the \"API\" item.\n2. Click the \"Tokens\" tab.\n3. For each token listed that has \"Super Admin\" or an improperly scoped Admin account, delete the token and create a new one with the appropriately scoped permissions.\n4. Verify the application performing the API calls with the new token has been updated.",
+  "fix_id": "F-84148r1155068_fix",
+  "VulnDiscussion": "An access token is a piece of data that represents the authorization granted to a user or NPE to access specific systems or information resources. Access tokens enable controlled access to services and resources. Properly managing the lifecycle of access tokens, including their issuance, validation, and revocation, is crucial to maintaining confidentiality of data and systems. Restricting token validity to a specific audience, e.g., an application or security domain, and restricting token validity lifetimes are important practices. Access tokens are revoked or invalidated if they are compromised, lost, or are no longer needed to mitigate the risks associated with stolen or misused tokens.\n\nWhen API tokens are created, they inherit the permissions of the user that created them. Therefore, API tokens should only be created from dedicated accounts and permissions must be constrained to least privilege for that dedicated user account and token.\n\nNo API tokens should be created using a Super Admin account.",
+  "Documentable": "false"
+}

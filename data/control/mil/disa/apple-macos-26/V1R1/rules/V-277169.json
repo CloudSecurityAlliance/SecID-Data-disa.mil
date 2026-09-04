@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-277169",
+  "rule_id": "SV-277169r1149400_rule",
+  "stig_id": "APPL-26-005054",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable the TouchID prompt during Setup Assistant.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-81324r1149346_chk",
+  "check_content": "Verify the macOS system is configured to disable the TouchID prompt during Setup Assistant with the following command:\n\n/usr/bin/osascript -l JavaScript 2>/dev/null << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.SetupAssistant.managed')\\\n.objectForKey('SkipSetupItems').containsObject(\"Biometric\")\nEOS\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable the TouchID prompt during Setup Assistant by installing the \"com.apple.SetupAssistant.managed\" configuration profile.",
+  "fix_id": "F-81229r1148958_fix",
+  "VulnDiscussion": "The prompt for TouchID during Setup Assistant must be disabled.\n\nmacOS prompts new users through enabling TouchID during Setup Assistant; this is not essential and, therefore, must be disabled to prevent the risk of individuals electing to enable TouchID to override organizationwide settings.",
+  "Documentable": "false"
+}

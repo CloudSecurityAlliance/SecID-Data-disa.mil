@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234138",
+  "rule_id": "SV-234138r611414_rule",
+  "stig_id": "FNFG-FW-000035",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The FortiGate firewall must generate traffic log entries containing information to establish the source of the events, such as the source IP address at a minimum.",
+  "group_title": "SRG-NET-000077-FW-000012",
+  "idents": {
+    "cci": [
+      "CCI-000133"
+    ]
+  },
+  "check_id": "C-37323r611412_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Log and Report.\n2. Click Forward Traffic or Local Traffic.\n3. Double-click on an Event to view Log Details.\n4. Verify traffic log events contain source and destination IP addresses, and interfaces.\n\nIn addition to System log settings, verify that individual IPv4 policies are configured with most suitable Logging Options.\n\n1. Click Policy and Objects.\n2. Click IPv4 or IPv6 Policy.\n3. Verify all Policy rules are configured with Logging Options set to log All Sessions (for most verbose logging).\n\nIf the log events do not contain IP address of source devices, this is a finding.",
+  "fixtext": "This fix can be performed on the FortiGate GUI or on the CLI. \nLog in to the FortiGate GUI with Super- or Log-and-Report-Admin privilege.\n\n1. Click Log and Report.\n2. Click Log Settings.\n3. Click All for the Event Logging and Local Traffic Log options (for most verbose logging), or Click Customize and choose granular logging options to meet organization needs.\n4. Scroll to UUIDs in Traffic Log and toggle Policy and Address buttons to enable.\n5. Click Apply.\n\nIn addition to these log settings, configure individual firewall policies with the most suitable Logging Options.\n\n1. Click Policy and Objects.\n2. Click IPv4 or IPv6 Policy.\n3. For each policy, configure Logging Options to log All Sessions (for most verbose logging).\n4. Confirm each created Policy is Enabled.\n5. Click OK.\n\nor\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config log eventfilter\n     #    set event enable\n     #    set system enable\n     #    set endpoint enable\n     #    set user enable\n     #    set security-rating enable\n     # end\n     # config firewall policy\n     #   edit 0\n     #        set srcintf {interface_name_1}\n     #        set dstintf {interface_name_2}\n     #        set srcaddr {address_a}\n     #        set dstaddr {address_b}\n     #        set schedule {always}\n     #        set service {services required by site policy}\n     #        set action {accept}\n     #        set logtraffic enable\n     #    next\n     # end\n\nThe {} indicate the object is defined by the organization policy.",
+  "fix_id": "F-37288r611413_fix",
+  "VulnDiscussion": "Without establishing the source of the event, it is impossible to establish, correlate, and investigate the events leading up to an outage or attack. In order to compile an accurate risk assessment and provide forensic analysis, security personnel need to know the source of the event.\n\nIn addition to logging where events occur within the network, the traffic log events must also identify sources of events, such as IP addresses, processes, and node or device names.",
+  "Documentable": "false"
+}

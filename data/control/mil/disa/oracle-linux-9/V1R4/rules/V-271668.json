@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271668",
+  "rule_id": "SV-271668r1091716_rule",
+  "stig_id": "OL09-00-002072",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must prevent code from being executed on file systems that contain user home directories.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75718r1091714_chk",
+  "check_content": "Verify that OL 9 is configured to mount /home with the nodexec option.\n\nVerify \"/home\" is mounted with the \"noexec\" option with the following command:\n\nNote: If a separate file system has not been created for the user home directories (user home directories are mounted under \"/\"), this is automatically a finding, as the \"noexec\" option cannot be used on the \"/\" system.\n\n$ mount | grep /home\ntmpfs on /home type xfs (rw,nodev,nosuid,noexec,seclabel)\n\nIf the \"/home\" file system is mounted without the \"noexec\" option, this is a finding.",
+  "fixtext": "Configure OL 9 to prevent code from being executed on file systems that contain user home directories.\n\nModify \"/etc/fstab\" to use the \"noexec\" option on the \"/home\" directory.",
+  "fix_id": "F-75625r1091715_fix",
+  "VulnDiscussion": "The noexec mount option causes the system to not execute binary files. This option must be used for mounting any file system not containing approved binary files, as they may be incompatible. Executing files from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

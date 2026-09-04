@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220596",
+  "rule_id": "SV-220596r961068_rule",
+  "stig_id": "CISC-ND-000720",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco switch must be configured to terminate all network connections associated with device management after five minutes of inactivity.",
+  "group_title": "SRG-APP-000190-NDM-000267",
+  "idents": {
+    "legacy": [
+      "SV-110421",
+      "V-101317"
+    ],
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-22311r916302_chk",
+  "check_content": "Review the Cisco switch configuration to verify that all network connections associated with a device management have an idle timeout value set to five minutes or less as shown in the example below:\n\nip http secure-server\nip http timeout-policy idle 300 life nnnn requests nn\n…\n…\n…\nline con 0\n exec-timeout 5 0\nline vty 0 1\n exec-timeout 5 0\n\nIf the Cisco switch is not configured to terminate all network connections associated with a device management after five minutes of inactivity, this is a finding.",
+  "fixtext": "Set the idle timeout value to five minutes or less on all configured login classes as shown in the example below:\n\nSW1(config)#line vty 0 1\nSW1(config-line)#exec-timeout 5 0\nSW1(config-line)#exit\nSW1(config)#line con 0\nSW1(config-line)#exec-timeout 5 0\nSW1(config-line)#exit\nSW2(config)#ip http timeout-policy idle 300 life nnnn requests nn",
+  "fix_id": "F-22300r916303_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle session will free up resources committed by the managed network element. \n\nTerminating network connections associated with communications sessions includes, for example, de-allocating associated TCP/IP address/port pairs at the operating system level or de-allocating networking assignments at the application level if multiple application sessions are using a single, operating system-level network connection. This does not mean that the device terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.",
+  "Documentable": "false"
+}

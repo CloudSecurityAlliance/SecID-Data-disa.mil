@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279217",
+  "rule_id": "SV-279217r1170674_rule",
+  "stig_id": "SYME-00-009400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Edge SWG using PKI-based user authentication must implement a local cache of revocation data to support path discovery and validation in case of the inability to access revocation information via the network.",
+  "group_title": "SRG-NET-000345-ALG-000099",
+  "idents": {
+    "cci": [
+      "CCI-004068"
+    ]
+  },
+  "check_id": "C-83765r1170673_chk",
+  "check_content": "1. In the Edge SWG Web UI, navigate to the Configuration tab.\n2. Navigate to SSL and OCSP.\n\nIf a responder is not configured, this is a finding.\n\nIf a responder is configured, but the \"Response Cache TTL\" is set to \"0\", this is a finding.\n\nIf there are any items checked under \"Ignore Settings\", this is a finding.",
+  "fixtext": "1. In the Edge SWG Web UI, navigate to the Configuration tab.\n2. Go to SSL and OCSP.\n3. Click \"Add a Responder\".\n4. Under URL either set it to \"from certificate\" if routing to the DODIN is allowed, or if it is not, click the other items and add the local site's URL.\n5. Under \"Issuer CCL\", select the one that includes all DOD ID CAs.\n6. Under the \"Response Cache TTL\" is set it to either \"from OCSP response\" or to a value of 1 or more.\n7. Ensure there are no Ignore Settings checked or enabled.",
+  "fix_id": "F-83670r1170643_fix",
+  "VulnDiscussion": "Without configuring a local cache of revocation data, there is the potential to allow access to users who are no longer authorized (users with revoked certificates).\n\nThe intent of this requirement is to require support for a secondary certificate validation method using a locally cached revocation data, such as Certificate Revocation List (CRL), in case access to OCSP (required by CCI-000185) is not available. Based on a risk assessment, an alternate mitigation is to configure the system to deny access when revocation data is unavailable. \n\nThis requirement applies to ALGs that provide user authentication intermediary services (e.g., authentication gateway or TLS gateway). This does not apply to authentication for the purpose of configuring the device itself (device management).",
+  "Documentable": "false"
+}

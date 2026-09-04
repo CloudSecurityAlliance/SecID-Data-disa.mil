@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261408",
+  "rule_id": "SV-261408r996640_rule",
+  "stig_id": "SLEM-05-651035",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must notify the system administrator (SA) when Advanced Intrusion Detection Environment (AIDE) discovers anomalies in the operation of any security functions.",
+  "group_title": "SRG-OS-000447-GPOS-00201",
+  "idents": {
+    "cci": [
+      "CCI-002702"
+    ]
+  },
+  "check_id": "C-65137r996638_chk",
+  "check_content": "Verify SLEM 5 notifies the SA when AIDE discovers anomalies in the operation of any security functions.\n\nNote: A file integrity tool other than AIDE may be used, but the tool must be configured to notify the system administrator and/or ISSO if there is an anomaly.\n\nVerify the aide cron job sends an email when executed with the following command:\n\n     > sudo grep -i \"aide\" /etc/cron.*/aide \n\n     0 0 * * * /usr/sbin/aide --check | /bin/mail -s \"$HOSTNAME - Daily AIDE integrity check run\" root@example_server_name.mil\n\nIf the \"aide\" file does not exist under the \"/etc/cron\" directory structure or the cron job is not configured to execute a binary to send an email (such as \"/bin/mail\"), this is a finding.",
+  "fixtext": "Configure SLEM 5 to notify the SA when AIDE discovers anomalies in the operation of any security functions.\n\nAdd or modify the following line in the \"/etc/cron.daily/aide\" file:\n\n0 0 * * * /usr/sbin/aide --check | /bin/mail -s \"$HOSTNAME - Daily AIDE integrity check run\" root@example_server_name.mil",
+  "fix_id": "F-65045r996639_fix",
+  "VulnDiscussion": "If anomalies are not acted on, security functions may fail to secure the system.\n\nSecurity function is defined as the hardware, software, and/or firmware of the information system responsible for enforcing the system security policy and supporting the isolation of code and data on which the protection is based. Security functionality includes, but is not limited to, establishing system accounts, configuring access authorizations (i.e., permissions, privileges), setting events to be audited, and setting intrusion detection parameters.\n\nNotifications provided by information systems include messages to local computer consoles and/or hardware indications, such as lights.\n\nThis capability must take into account operational requirements for availability for selecting an appropriate response. The organization may choose to shut down or restart the information system upon security function anomaly detection.",
+  "Documentable": "false"
+}

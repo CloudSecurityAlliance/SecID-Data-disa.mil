@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-278411",
+  "rule_id": "SV-278411r1172756_rule",
+  "stig_id": "NGNX-APP-003330",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must revoke access tokens in accordance with organization-defined identification and authentication policy.",
+  "group_title": "SRG-APP-001020",
+  "idents": {
+    "cci": [
+      "CCI-005167",
+      "CCI-000366",
+      "CCI-005168"
+    ]
+  },
+  "check_id": "C-82945r1172755_chk",
+  "check_content": "Verify NGINX Plus revokes or invalidates access tokens:\n\nCheck support for token revocation enforcement:\n\n# grep -i \"introspect\\|revok\\|blacklist\\|logout\" /etc/nginx/conf.d/*.conf\n\nConfirm token validation includes checking revocation status using:\n- OAuth2 introspection endpoint.\n- Token revocation list.\n- Allowlist or deny-list implementation.\n- Explicit session logout propagation.\n\nInspect logout and session termination handling:\n\n# grep -i \"session_timeout\\|logout\\|revoke\" /etc/nginx/conf.d/*.conf\n\nEnsure sessions are invalidated upon:\n- User logout.\n- Token expiration.\n- Authentication source change (e.g., password reset).\n\nToken revocation events (manual or automatic) must be logged with user ID, reason, and timestamp.\n\nIf NGINX Plus does not support access token revocation or fails to enforce revocation upon compromise or logout, this is a finding.",
+  "fixtext": "Configure NGINX Plus to enforce access token revocation mechanisms.\n\nEnable token revocation via introspection endpoint (OIDC/OAuth2):\n\nlocation = /token/introspect {\n    internal;\n    proxy_pass https://auth.example.mil/oauth2/introspect;\n    proxy_set_header Content-Type \"application/x-www-form-urlencoded\";\n    proxy_pass_request_body on;\n    proxy_set_body \"token=$http_authorization\";\n}\n\nFail-closed on invalid or revoked token:\n\nlocation /secure/ {\n    auth_request /token/introspect;\n    error_page 401 = @error_revoke;\n}\n\nlocation @error_revoke {\n    return 401 \"Access token revoked or invalid.\";\n}\n\nRevoke tokens during logout flows:\n\nRedirect logout requests to IdP to invalidate tokens:\n\nlocation = /logout {\n    return 302 https://auth.example.mil/logout?token=$http_authorization;\n}\n\nLog all token revocation events:\n\nlog_format token_revocation '$remote_addr - $remote_user [$time_local] '\n                            '\"$request\" status=$status '\n                            'token_id=\"$jwt_jti\" revoked=\"true\" ';\naccess_log /var/log/nginx/token_revocation.log token_revocation;",
+  "fix_id": "F-82850r1171984_fix",
+  "VulnDiscussion": "An access token is a piece of data that represents the authorization granted to a user or NPE to access specific systems or information resources. Access tokens enable controlled access to services and resources. Properly managing the lifecycle of access tokens, including their issuance, validation, and revocation, is crucial to maintaining confidentiality of data and systems. Restricting token validity to a specific audience, e.g., an application or security domain, and restricting token validity lifetimes are important practices. Access tokens are revoked or invalidated if they are compromised, lost, or are no longer needed to mitigate the risks associated with stolen or misused tokens.\n\nSatisfies: SRG-APP-001020, SRG-APP-001025",
+  "Documentable": "false"
+}

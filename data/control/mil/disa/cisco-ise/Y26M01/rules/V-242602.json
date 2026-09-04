@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242602",
+  "rule_id": "SV-242602r855859_rule",
+  "stig_id": "CSCO-NC-000280",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco ISE must be configured to dynamically apply restricted access of endpoints that are granted access using MAC Authentication Bypass (MAB). This is required for compliance with C2C Step 4.",
+  "group_title": "SRG-NET-000343-NAC-001470",
+  "idents": {
+    "cci": [
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-45877r812785_chk",
+  "check_content": "If DoD is not at C2C Step 4 or higher, this is not a finding.\n\nVerify that the authorization policies for devices granted access via MAB will have restricted access. \n\n1. Navigate to Work Centers >> Network Access >> Policy Sets.\n2. Choose \">\" on the applicable policy set.\n3. Expand the Authorization Policy.\n4. Make a note of the result/results on each authorization policy for MAB.\n5. Navigate to Policy >> Policy Elements >> Results >> Authorization.\n6. Expand \"Authorization\".\n7. Choose \"Authorization Profiles\".\n8. View the Standard Authorization Profile/Profiles noted above to ensure that a restricted VLAN, Access Control List, Scalable Group Tag, or any combination of these is used to restrict access.\n\nIf a VLAN is the only thing being applied to the session and the VLAN has an ACL on the layer 3 interface, this is not a finding. \n\nIf there is not a restriction on an MAB authorization policy, this is a finding.",
+  "fixtext": "Configure the authorization policies for devices granted access via MAB to have restricted access.\n\n1. Navigate to Work Centers >> Network Access >> Policy Sets.\n2. Choose \">\" on the applicable policy set.\n3. Expand the \"Authorization Policy\".\n4. Add a restricted VLAN, Access Control List, Scalable Group Tag, or any combination of these that are used to restrict access under results.\n5. Repeat this for each authorization policy that devices connecting via MAB will use.\n6. Choose \"Save\".",
+  "fix_id": "F-45834r714115_fix",
+  "VulnDiscussion": "MAB can be defeated by spoofing the MAC address of a valid device. MAB enables port-based access control using the MAC address of the endpoint. A MAB-enabled port can be dynamically enabled or disabled based on the MAC address of the device that connects to it.\n\nNPE devices that can support PKI or an allowed authentication type must use PKI. MAB may be used for NPE that cannot support an approved device authentication. Non-entity endpoints include IoT devices, VOIP phone, and printer.",
+  "Documentable": "false"
+}

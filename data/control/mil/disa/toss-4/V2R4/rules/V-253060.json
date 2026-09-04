@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-253060",
+  "rule_id": "SV-253060r1016310_rule",
+  "stig_id": "TOSS-04-040050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must enforce password complexity by requiring that at least one uppercase character be used.",
+  "group_title": "SRG-OS-000069-GPOS-00037",
+  "idents": {
+    "cci": [
+      "CCI-004066",
+      "CCI-000192"
+    ]
+  },
+  "check_id": "C-56513r824850_chk",
+  "check_content": "Verify the value for \"ucredit\" in \"/etc/security/pwquality.conf\" with the following command:\n\n$ sudo grep ucredit /etc/security/pwquality.conf \nucredit = -1 \n\nIf the value of \"ucredit\" is a positive number or is commented out, this is a finding.",
+  "fixtext": "Configure the operating system to enforce password complexity by requiring that at least one uppercase character be used by setting the \"ucredit\" option.\n\nAdd the following line to /etc/security/pwquality.conf (or modify the line to have the required value):\n\nucredit = -1",
+  "fix_id": "F-56463r824851_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks.\n\nPassword complexity is one factor of several that determines how long it takes to crack a password. The more complex the password, the greater the number of possible combinations that need to be tested before the password is compromised.\n\nTOSS utilizes \"pwquality\" as a mechanism to enforce password complexity. Note that in order to require uppercase characters, without degrading the \"minlen\" value, the credit value must be expressed as a negative number in \"/etc/security/pwquality.conf.\"",
+  "Documentable": "false"
+}

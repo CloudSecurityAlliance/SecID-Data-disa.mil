@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-278388",
+  "rule_id": "SV-278388r1171916_rule",
+  "stig_id": "NGNX-APP-000400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must protect audit information from unauthorized access.",
+  "group_title": "SRG-APP-000118",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164",
+      "CCI-001493",
+      "CCI-001494",
+      "CCI-001495",
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-82922r1171914_chk",
+  "check_content": "Determine the path to NGINX config file(s):\n\nnginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nDetermine the location of the access and error logs:\n\ngrep \"_log\" <path to config>\n\nDetermine the permissions for the log files:\n\nls -la <path to error.log>\n-rw-r--r-- 1 root root 0 May 23 15:04 /var/log/nginx/error.log\nls -la <path to access.log>\n-rw-r--r-- 1 root root 0 May 23 15:04 /var/log/nginx/access.log\n\nIf files have write permissions for anyone other than the owner, this is a finding.",
+  "fixtext": "Determine the path to NGINX config file(s):\n\nnginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nDetermine the location of the access and error logs:\n\ngrep \"_log\" <path to config>\n\nSet appropriate permissions for the log files:\n\nchmod 644 <path to error.log>\nchmod 644 <path to access.log>",
+  "fix_id": "F-82827r1171915_fix",
+  "VulnDiscussion": "If audit data were to become compromised, then competent forensic analysis and discovery of the true source of potentially malicious system activity is difficult if not impossible to achieve. In addition, access to audit records provides information an attacker could potentially use to their advantage.\n\nTo ensure the veracity of audit data, the information system and/or the application must protect audit information from any and all unauthorized access. This includes read, write, and copy access.\n\nThis requirement can be achieved through multiple methods, which will depend upon system architecture and design. Commonly employed methods for protecting audit information include least privilege permissions as well as restricting the location and number of log file repositories.\n\nAdditionally, applications with user interfaces to audit records must not allow for the unfettered manipulation of or access to those records via the application. If the application provides access to the audit data, the application becomes accountable for ensuring audit information is protected from unauthorized access.\n\nAudit information includes all information (e.g., audit records, audit settings, and audit reports) needed to successfully audit information system activity.\n\nSatisfies: SRG-APP-000118, SRG-APP-000119, SRG-APP-000120, SRG-APP-000121, SRG-APP-000122, SRG-APP-000123, SRG-APP-000267",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-274844",
+  "rule_id": "SV-274844r1143890_rule",
+  "stig_id": "SRG-APP-000990-API-001680",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The API must revoke assertions in accordance with organization-defined identification and authentication policy.",
+  "group_title": "SRG-APP-000990",
+  "idents": {
+    "cci": [
+      "CCI-005161",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-78945r1143889_chk",
+  "check_content": "Verify that the API has an implemented and functional revocation mechanism. This could involve endpoints or methods that allow for the invalidation of assertions, such as a revocation list or a central system for tracking revoked assertions.\n\nSimulate the revocation of assertions by either manually revoking access or simulating scenarios that trigger revocation (e.g., a user's session being terminated, access being revoked due to a policy violation). Ensure the API properly invalidates the assertions and prevents further access with the revoked assertions.\n\nReview Logging and Auditing of Revocation Events:\nConfirm that the API logs revocation events, capturing key details such as who initiated the revocation, when it occurred, and why it was revoked. \n\nAfter revocation, test that any attempt to use the revoked assertion is properly rejected by the API. The API should deny access if the assertion has been invalidated, ensuring no further use is possible.\n\nRefer to the API's documentation to confirm that revocation processes are correctly implemented in line with the organization's defined policies for identity management and authentication.\n\nIf the API does not revoke assertions in accordance with organization-defined identification and authentication policy, this is a finding.",
+  "fixtext": "Build or configure the API to revoke assertions in accordance with organization-defined identification and authentication policy.",
+  "fix_id": "F-78850r1143343_fix",
+  "VulnDiscussion": "An API must revoke assertions to immediately terminate access when a user's credentials are compromised, their permissions change, or their session is no longer valid. Assertions like JWTs or SAML tokens grant access to protected resources, and if not actively revoked, can be exploited even after a user's access is removed. By supporting assertion revocation, such as maintaining a token blacklist or using short-lived tokens with active invalidation, the API enhances security by ensuring outdated or potentially dangerous assertions cannot be reused. This is critical in scenarios involving logout, credential theft, or administrative role changes, where continued access could lead to unauthorized data exposure or system compromise.",
+  "Documentable": "false"
+}

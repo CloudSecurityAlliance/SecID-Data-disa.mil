@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261308",
+  "rule_id": "SV-261308r996395_rule",
+  "stig_id": "SLEM-05-232115",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must prevent unauthorized users from accessing system error messages.",
+  "group_title": "SRG-OS-000206-GPOS-00084",
+  "idents": {
+    "cci": [
+      "CCI-001314"
+    ]
+  },
+  "check_id": "C-65037r996393_chk",
+  "check_content": "Verify SLEM 5 prevents unauthorized users from accessing system error messages.\n\nCheck the \"/var/log/messages\" file permissions with the following command:\n\n     > sudo stat -c \"%n %U:%G %a\" /var/log/messages\n     /var/log/messages root:root 640\n\nCheck that \"permissions.local\" file contains the correct permissions rules with the following command:\n\n     > grep -i messages /etc/permissions.local\n     /var/log/messages root:root 640\n\nIf the effective permissions do not match the \"permissions.local\" file, the command does not return any output, or is commented out, this is a finding.",
+  "fixtext": "Configure SLEM 5 to prevent unauthorized users from accessing system error messages.\n\nAdd or update the following rules in \"/etc/permissions.local\":\n\n/var/log/messages root:root 640\n\nSet the correct permissions with the following command:\n\n     > sudo chkstat --set --system",
+  "fix_id": "F-64945r996394_fix",
+  "VulnDiscussion": "Only authorized personnel should be aware of errors and the details of the errors. Error messages are an indicator of an organization's operational state or can identify SLEM 5 or platform. Additionally, Personally Identifiable Information (PII) and operational information must not be revealed through error messages to unauthorized personnel or their designated representatives.\n\nThe structure and content of error messages must be carefully considered by the organization and development team. The extent to which the information system is able to identify and handle error conditions is guided by organizational policy and operational requirements.",
+  "Documentable": "false"
+}

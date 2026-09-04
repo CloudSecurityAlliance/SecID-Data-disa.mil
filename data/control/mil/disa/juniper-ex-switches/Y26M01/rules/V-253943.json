@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-253943",
+  "rule_id": "SV-253943r961863_rule",
+  "stig_id": "JUEX-NM-000660",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to obtain its public key certificates from an appropriate certificate policy through an approved service provider.",
+  "group_title": "SRG-APP-000516-NDM-000344",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-001159"
+    ]
+  },
+  "check_id": "C-57395r843860_chk",
+  "check_content": "Determine if the network device obtains public key certificates from an appropriate certificate policy through an approved service provider.\n\nVerify the certificate is signed by an approved CA via the \"show security pki local-certificate\" or \"show security pki local-certificate detail\" commands.\n\nIf the network device does not obtain its public key certificates from an appropriate certificate policy through an approved service provider, this is a finding.",
+  "fixtext": "Configure the network device to obtain its public key certificates from an appropriate certificate policy through an approved service provider. To view installed certificates:\nshow security pki (ca-certificate | local-certificate)\n\nGenerate a public/private keypair:\nrequest security pki generate-key-pair type <ecdsa|rsa> size <bit size> certificate-id <name>\nNote: ECDSA certificates support 256, 384, or 512 key sizes and RSA supports 1024, 2048, or 4096.\n\nGenerate a certificate signing request:\nrequest security pki generate-certificate-request certificate-id <key name> digest <sha-1|sha-256|sha-384> domain-name <FQDN> ip-address <IPv4 address> ipv6-address <IPv6 address> subject <LDAP format>\nNote: The subject is LDAP formatted. For example, \"CN=switch-01,DC=example,DC=com,O=Company,OU=HR,L=Some City,ST=Some State,C=US\". Not all key => value pairs are required but those used must match organizational policy.\n\nAfter securely transferring the CSR to the certificate authority for signing, and securely transferring the certificate to the device, add the certificate:\nrequest security pki local-certificate load filename <path/filename of certificate> certificate-id <key name>\n\nThe certificate can also be generated externally, with separate public and private key files, or a PKCS#12 package containing both certificate and private key. When importing externally generated certificate and private key, use the \"key\" directive to identify the path and filename of the private key. If the private key, or the PKCS#12 package, uses a passphrase, use the \"passphrase\" directive and provide the correct value.",
+  "fix_id": "F-57346r843861_fix",
+  "VulnDiscussion": "For user certificates, each organization obtains certificates from an approved, shared service provider, as required by OMB policy. For federal agencies operating a legacy public key infrastructure cross-certified with the Federal Bridge Certification Authority at medium assurance or higher, this Certification Authority will suffice.",
+  "Documentable": "false"
+}

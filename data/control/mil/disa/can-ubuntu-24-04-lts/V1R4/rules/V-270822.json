@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-270822",
+  "rule_id": "SV-270822r1134821_rule",
+  "stig_id": "UBTU-24-901240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 24.04 LTS must configure audit tools to be owned by root.",
+  "group_title": "SRG-OS-000257-GPOS-00098",
+  "idents": {
+    "cci": [
+      "CCI-001494",
+      "CCI-001493"
+    ]
+  },
+  "check_id": "C-74855r1134819_chk",
+  "check_content": "Verify Ubuntu 24.04 LTS configures the audit tools to be owned by root to prevent any unauthorized access with the following command: \n \n$ stat -c \"%n %U\" /sbin/auditctl /sbin/aureport /sbin/ausearch /sbin/autrace /sbin/auditd /sbin/audispd* /sbin/augenrules\n/sbin/auditctl root \n/sbin/aureport root \n/sbin/ausearch root \n/sbin/autrace root \n/sbin/auditd root \n/sbin/augenrules root \n \nIf any of the audit tools are not owned by root, this is a finding.",
+  "fixtext": "Configure the audit tools on Ubuntu 24.04 LTS to be protected from unauthorized access by setting the file owner as root using the following command: \n \n$ sudo chown root [audit_tool] \n \nReplace \"[audit_tool]\" with each audit tool not owned by root.",
+  "fix_id": "F-74756r1134820_fix",
+  "VulnDiscussion": "Protecting audit information also includes identifying and protecting the tools used to view and manipulate log data. Therefore, protecting audit tools is necessary to prevent unauthorized operation on audit information. \n \nOperating systems providing tools to interface with audit information will leverage user permissions, roles identifying the user accessing the tools, and the corresponding user rights to make decisions regarding access to audit tools. \n \nAudit tools include, but are not limited to, vendor-provided and open source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.\n\nSatisfies: SRG-OS-000257-GPOS-00098, SRG-OS-000256-GPOS-00097",
+  "Documentable": "false"
+}

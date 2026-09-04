@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-278400",
+  "rule_id": "SV-278400r1172752_rule",
+  "stig_id": "NGNX-APP-001650",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must accept Personal Identity Verification (PIV) credentials.",
+  "group_title": "SRG-APP-000391",
+  "idents": {
+    "cci": [
+      "CCI-001953",
+      "CCI-001954",
+      "CCI-002009",
+      "CCI-002010"
+    ]
+  },
+  "check_id": "C-82934r1171950_chk",
+  "check_content": "Determine path to NGINX config file:\n\n# nginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nCheck that the nginx.conf file has the SSL Certificate/Key installed, the SSL Client Certificate is present, and SSL Verify is configured.\n\nserver {\n listen 443 ssl;\n server_name example.com;\n ssl_certificate /etc/nginx/ssl/server_cert.pem;\n ssl_certificate_key /etc/nginx/ssl/server_key.pem;\n # Enable client certificate verification\n ssl_client_certificate /etc/nginx/ca_cert.pem;\n ssl_verify_client on;\n # Optional: Set verification depth for client certificates\n ssl_verify_depth 2;\n location / {\n  proxy_pass http://backend_service;\n  # Restrict access to valid PIV credentials\n  if ($ssl_client_verify != SUCCESS) {\n   return 403;\n   }\n  }\n }\n\nIf the certificates are not configured and ssl_verify is not enabled, this is a finding.",
+  "fixtext": "NGINX installs OpenSSL by default. If not installed, follow the OS documentation.\n\nInclude the following lines in the server {} block of nginx.conf:\n\n ssl_certificate /etc/nginx/ssl/server_cert.pem;\n ssl_certificate_key /etc/nginx/ssl/server_key.pem;\n # Enable client certificate verification\n ssl_client_certificate /etc/nginx/ca_cert.pem;\n ssl_verify_client on;\n # Optional: Set verification depth for client certificates\n ssl_verify_depth 2;\n location / {\n  proxy_pass http://backend_service;\n  # Restrict access to valid PIV credentials\n  if ($ssl_client_verify != SUCCESS) {\n   return 403;\n  }\n }\n\nSave and exit. Restart NGINX after modifying the configuration:\n\n# nginx -s reload",
+  "fix_id": "F-82839r1172751_fix",
+  "VulnDiscussion": "Using PIV credentials facilitates standardization and reduces the risk of unauthorized access.\n\nDOD has mandated using the CAC to support identity management and personal authentication for systems covered under HSPD 12, as well as a primary component of layered protection for national security systems.\n\nSatisfies: SRG-APP-000391, SRG-APP-000392, SRG-APP-000402, SRG-APP-000403",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257528",
+  "rule_id": "SV-257528r960930_rule",
+  "stig_id": "CNTR-OS-000260",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must protect system journal file from any type of unauthorized access by setting file permissions.",
+  "group_title": "SRG-APP-000118-CTR-000240",
+  "idents": {
+    "cci": [
+      "CCI-000162"
+    ]
+  },
+  "check_id": "C-61263r921525_chk",
+  "check_content": "Verify the system journal file has mode \"0640\" or less permissive by executing the following:\n\nfor node in $(oc get node -oname); do oc debug $node -- chroot /host /bin/bash -c 'echo -n \"$HOSTNAME \"; machine_id=$(systemd-machine-id-setup --print); stat -c \"%a %n\" /var/log/journal/$machine_id/system.journal' 2>/dev/null; done\n\nIf a value of \"0640\" or less permissive is not returned, this is a finding.",
+  "fixtext": "Correct journal file permissions by executing the following:\n\nfor node in $(oc get node -oname); do oc debug $node -- chroot /host /bin/bash -c 'echo -n \"$HOSTNAME \"; machine_id=$(systemd-machine-id-setup --print); chmod 640 /var/log/journal/$machine_id/system.journal' 2>/dev/null; done",
+  "fix_id": "F-61187r921526_fix",
+  "VulnDiscussion": "It is a fundamental security practice to enforce the principle of least privilege, where only the necessary permissions are granted to authorized entities. OpenShift must protect the system journal file from any type of unauthorized access by setting file permissions. \n\nThe system journal file contains important log data that helps in troubleshooting and monitoring the system. Unauthorized access or tampering with the journal file can compromise the integrity of this data. By setting appropriate file permissions, OpenShift ensures that only authorized users or processes have access to the journal file, maintaining the integrity and reliability of system logs.",
+  "Documentable": "false"
+}

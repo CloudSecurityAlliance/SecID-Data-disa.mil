@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216342",
+  "rule_id": "SV-216342r959010_rule",
+  "stig_id": "SOL-11.1-040260",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The default umask for FTP users must be 077.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48071",
+      "SV-60943"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17578r371114_chk",
+  "check_content": "The package service/network/ftp must be installed for this check.\n\n# pkg list service/network/ftp\n\nIf the output of this command is:\n\npkg list: no packages matching 'service/network/ftp' installed\n\nno further action is required.\n\nDetermine if the FTP umask is set to 077.\n\n# egrep -i \"^UMASK\" /etc/proftpd.conf | awk '{ print $2 }'\n\nIf 077 is not displayed, this is a finding.",
+  "fixtext": "The root role is required.\n\n# pkg list service/network/ftp\n\nIf the output of this command is:\n\npkg list: no packages matching 'service/network/ftp' installed\n\nno further action is required. Otherwise, edit the FTP configuration file.\n\n# pfedit /etc/proftpd.conf\n\nLocate the line containing:\n\nUmask\n\nChange the line to read:\n\nUmask 077",
+  "fix_id": "F-17576r371115_fix",
+  "VulnDiscussion": "Setting a very secure default value for umask ensures that users make a conscious choice about their file permissions.",
+  "Documentable": "false"
+}

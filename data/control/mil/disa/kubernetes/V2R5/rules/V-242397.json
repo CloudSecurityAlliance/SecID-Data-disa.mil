@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242397",
+  "rule_id": "SV-242397r1137638_rule",
+  "stig_id": "CNTR-K8-000440",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Kubernetes kubelet staticPodPath must not enable static pods.",
+  "group_title": "SRG-APP-000033-CTR-000090",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-45672r1069462_chk",
+  "check_content": "If staticPodPath is missing in the Kubelet config and in the systemd arguments, the node does not support static pods.\n\n1. To find the staticPodPath setting on Kubernetes worker nodes, follow these steps:\n\n a. On the Worker nodes, run the command:\n     ps -ef | grep kubelet\n\nb. Note the path to the Kubelet configuration file (identified by --config).\n    (ls /var/lib/kubelet/config.yaml is the common location.)\n\nc. Run the command:\n    grep -i staticPodPath <path_to_config_file>\n\nIf any of the Worker nodes return a value for \"staticPodPath\", this is a finding.\n\nIf staticPodPath is not in the config file, check if it is set as a command-line argument.\n\n2. Check Kubelet Systemd Service Arguments.\n\na. Run the following command to check the Kubelet service:\n    sudo systemctl cat kubelet | grep pod-manifest-path\n\nIf there is no output, staticPodPath is not set in systemd arguments.\n\nIf there is any return, this is a finding.\n\n(Example Return:ExecStart=/usr/bin/kubelet --pod-manifest-path=/etc/kubernetes/manifests\nThis means static pods are defined in /etc/kubernetes/manifests.)",
+  "fixtext": "1. Remove staticPodPath setting on Kubernetes worker nodes:\n\na. On each Worker node, run the command:\n    ps -ef | grep kubelet\n\nb. Note the path to the config file (identified by --config).\n\nc. Edit the Kubernetes kubelet file in the --config directory on the Worker nodes. Remove the setting \"staticPodPath\".\n\nd. Restart the kubelet service using the following command:\n    systemctl daemon-reload && systemctl restart kubelet\n\n2. Remove Kubelet Systemd Service Arguments:\n\na. Modify the systemd Service File. Run the command:\n    sudo systemctl edit --full kubelet\n\n(Example Return:ExecStart=/usr/bin/kubelet --pod-manifest-path=/etc/kubernetes/manifests)\n\nb. Find and remove --pod-manifest-path.\n\nc. Save and exit the editor.\n\nd. Restart the kubelet service using the following command:\n    systemctl daemon-reload && systemctl restart kubelet",
+  "fix_id": "F-45630r1069463_fix",
+  "VulnDiscussion": "Allowing kubelet to set a staticPodPath gives containers with root access permissions to traverse the hosting filesystem. The danger comes when the container can create a manifest file within the /etc/kubernetes/manifests directory. When a manifest is created within this directory, containers are entirely governed by the Kubelet not the API Server. The container is not susceptible to admission control at all. Any containers or pods instantiated in this manner are called \"static pods\" and are meant to be used for pods such as the API server, scheduler, controller, etc., not workload pods that need to be governed by the API Server.",
+  "Documentable": "false"
+}

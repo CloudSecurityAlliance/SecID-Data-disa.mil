@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257586",
+  "rule_id": "SV-257586r961863_rule",
+  "stig_id": "CNTR-OS-001060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must continuously scan components, containers, and images for vulnerabilities.",
+  "group_title": "SRG-APP-000516-CTR-001335",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61321r921699_chk",
+  "check_content": "To check if the Container Security Operator is running, execute the following:\n\noc get deploy -n openshift-operators container-security-operator -ojsonpath='{.status.readyReplicas}'\n\nIf this command returns an error or the number 0, and a separate tool is not being used to perform continuous vulnerability scans of components, containers, and container images, this is a finding.",
+  "fixtext": "Vulnerability scanning can be performed by the Container Security Operator, Red Hat Advanced Cluster Security (formerly StackRox) or by external applications. Follow instructions from the application vendor if using external tool for vulnerability scanning. To install the Container Security Operator into the cluster, run the following:\n\noc apply -f - << 'EOF'\n---\napiVersion: operators.coreos.com/v1alpha1\nkind: Subscription\nmetadata:\n  labels:\n    operators.coreos.com/container-security-operator.openshift-operators: ''\n  name: container-security-operator\n  namespace: openshift-operators\nspec:\n  channel: stable-3.8\n  installPlanApproval: Automatic\n  name: container-security-operator\n  source: redhat-operators\n  sourceNamespace: openshift-marketplace\nEOF",
+  "fix_id": "F-61245r921700_fix",
+  "VulnDiscussion": "Finding vulnerabilities quickly within the container platform and within containers deployed within the platform is important to keep the overall platform secure. When a vulnerability within a component or container is unknown or allowed to remain unpatched, other containers and customers within the platform become vulnerability. The vulnerability can lead to the loss of application data, organizational infrastructure data, and Denial-of-Service (DoS) to hosted applications.\n\nVulnerability scanning can be performed by the container platform or by external applications.",
+  "Documentable": "false"
+}

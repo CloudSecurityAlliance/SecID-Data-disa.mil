@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276248",
+  "rule_id": "SV-276248r1150096_rule",
+  "stig_id": "MSQL-00-008500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must map the PKI-authenticated identity to an associated user account.",
+  "group_title": "SRG-APP-000177-DB-000069",
+  "idents": {
+    "cci": [
+      "CCI-000187"
+    ]
+  },
+  "check_id": "C-80403r1150095_chk",
+  "check_content": "Determine if Azure SQL Managed Instance is configured to use Microsoft Entra ID authentication only. \n \nTo verify Azure Active Directory is configured as the authentication type, use the following PowerShell commands:\n\nGet-AzSqlInstance -Name '<Azure SQL Managed Instance Name>' | Get-AzSqlInstanceActiveDirectoryOnlyAuthentication \n \nIf AzureADOnlyAuthentication returns \"True\", this is not a finding. \n\nIf AzureADOnlyAuthentication returns \"False\" and the need for mixed mode authentication has not been documented and approved, this is a finding.",
+  "fixtext": "To set the Entra ID Administrator, use the following PowerShell command: \n  \nGet-AzSqlInstance -Name '<Azure SQL Managed Instance Name>' | Set-AzSqlInstanceActiveDirectoryAdministrator -DisplayName '<Entra Admin User/Group Name>'\n \nTo enable Entra ID only authentication, use the following PowerShell command: \n\nGet-AzSqlInstance -Name '<Azure SQL Managed Instance Name>' | Enable-AzSqlInstanceActiveDirectoryOnlyAuthentication \n \nReference: https://learn.microsoft.com/en-us/azure/azure-sql/database/authentication-aad-configure?view=azuresql-mi&amp;tabs=azure-powershell",
+  "fix_id": "F-80308r1149652_fix",
+  "VulnDiscussion": "The DOD standard for authentication is DOD-approved PKI certificates. Once a PKI certificate has been validated, it must be mapped to an Azure SQL Managed Instance database user account or login for the authenticated identity to be meaningful to Azure SQL Managed Instance and useful for authorization decisions.",
+  "Documentable": "false"
+}

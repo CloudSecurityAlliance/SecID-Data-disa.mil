@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216542",
+  "rule_id": "SV-216542r961557_rule",
+  "stig_id": "CISC-ND-001210",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco router must be configured to implement cryptographic mechanisms to protect the confidentiality of remote maintenance sessions.",
+  "group_title": "SRG-APP-000412-NDM-000331",
+  "idents": {
+    "legacy": [
+      "SV-105613",
+      "V-96475"
+    ],
+    "cci": [
+      "CCI-003123"
+    ]
+  },
+  "check_id": "C-17777r288312_chk",
+  "check_content": "Review the router configuration to verify that SSH version 2 is configured as shown in the example below.\n\nssh server v2\n\nNote: IOS XR supports SSHv1 and SSHv2. The AES encryption algorithm is supported on the SSHv2 server and client, but not on the SSHv1 server and client. Any requests for an AES cipher sent by an SSHv2 client to an SSHv1 server are ignored, with the server using 3DES instead. The cipher preference for the SSH server follows the order AES128, AES192, AES256, and, finally, 3DES. The server rejects any requests by the client for an unsupported cipher, and the SSH session does not proceed.\n\nIf the router is configured to implement SSH version 1, this is a finding.",
+  "fixtext": "Configure the router to use SSH version 2 as shown in the example below.\n\nRP/0/0/CPU0:R3(config)#ssh server v2",
+  "fix_id": "F-17774r288313_fix",
+  "VulnDiscussion": "This requires the use of secure protocols instead of their unsecured counterparts, such as SSH instead of telnet, SCP instead of FTP, and HTTPS instead of HTTP. If unsecured protocols (lacking cryptographic mechanisms) are used for sessions, the contents of those sessions will be susceptible to eavesdropping, potentially putting sensitive data (including administrator passwords) at risk of compromise and potentially allowing hijacking of maintenance sessions.",
+  "Documentable": "false"
+}

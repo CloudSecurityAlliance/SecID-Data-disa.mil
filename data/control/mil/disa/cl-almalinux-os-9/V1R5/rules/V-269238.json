@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269238",
+  "rule_id": "SV-269238r1050120_rule",
+  "stig_id": "ALMA-09-017950",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must not have unauthorized accounts.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73269r1048090_chk",
+  "check_content": "Verify that there are no unauthorized interactive user accounts with the following command:\n\n$ cat /etc/passwd\n\nroot:x:0:0:root:/root:/bin/bash\n...\nsync:x:5:0:sync:/sbin:/bin/sync\nshutdown:x:6:0:shutdown:/sbin:/sbin/shutdown\nhalt:x:7:0:halt:/sbin:/sbin/halt\nsimon:x:1000:1000::/home/simon:/bin/bash\n\nInteractive user accounts, generally will have a user identifier (UID) of 1000 or greater, a home directory in a specific partition, and an interactive shell.\n\nObtain the list of interactive user accounts authorized to be on the system from the system administrator or information system security officer (ISSO) and compare it to the list of local interactive user accounts on the system.\n\nIf there are unauthorized local user accounts on the system, this is a finding.",
+  "fixtext": "Remove unauthorized local interactive user accounts with the following command where <unauthorized_user> is the unauthorized account:\n\n$ userdel  -rf <unauthorized_user>",
+  "fix_id": "F-73170r1048091_fix",
+  "VulnDiscussion": "Accounts providing no operational purpose provide additional opportunities for system compromise. Unnecessary accounts include user accounts for individuals not requiring access to the system and application accounts for applications not installed on the system.",
+  "Documentable": "false"
+}

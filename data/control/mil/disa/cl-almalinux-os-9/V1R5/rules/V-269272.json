@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269272",
+  "rule_id": "SV-269272r1050154_rule",
+  "stig_id": "ALMA-09-021690",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "If the Trivial File Transfer Protocol (TFTP) server is required, the TFTP daemon must be configured to operate in secure mode.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73303r1048192_chk",
+  "check_content": "Note: If a TFTP server is not installed, this requirement is Not Applicable.\n\nVerify the TFTP daemon is configured to operate in secure mode.\n\nCheck if a TFTP server is installed with the following command:\n\n$ dnf list --installed tftp-server\n\nInstalled Packages\ntftp-server.x86_64        5.2-37.el9             @appstream\n\nIf a TFTP server is installed, check for the server arguments with the following command: \n\n$ systemctl cat tftp | grep ExecStart=\n\nExecStart=/usr/sbin/in.tftpd -s /var/lib/tftpboot\n\nIf the \"ExecStart\" line does not have a \"-s\" option, and a subdirectory is not assigned, this is a finding.",
+  "fixtext": "Configure the TFTP daemon to operate in secure mode with the following command:\n\n$ systemctl edit tftp.service\n\nInsert the following between the two sets of comments, making sure to add the \"-s\" option with a nonroot (\"/\") directory.\n\n[Service]\nExecStart=\nExecStart=/usr/sbin/in.tftpd -s /tftp",
+  "fix_id": "F-73204r1048193_fix",
+  "VulnDiscussion": "Restricting TFTP to a specific directory prevents remote users from copying, transferring, or overwriting system files. Using the \"-s\" option causes the TFTP service to only serve files from the given directory.",
+  "Documentable": "false"
+}

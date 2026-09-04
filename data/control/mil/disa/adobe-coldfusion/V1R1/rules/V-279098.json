@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279098",
+  "rule_id": "SV-279098r1172830_rule",
+  "stig_id": "APAS-CF-000910",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ColdFusion administrator must be using HTTPS to maintain the confidentiality and integrity of information during reception.",
+  "group_title": "SRG-APP-000442-AS-000259",
+  "idents": {
+    "cci": [
+      "CCI-002422"
+    ]
+  },
+  "check_id": "C-83646r1172828_chk",
+  "check_content": "Verify HTTPS.\n\n1. Locate the server.xml file for each ColdFusion instance located at: <ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\\\n\n2. Open the server.xml file in a text editor.\n\n3. Locate all <Connector> elements configured with an HTTP protocol (e.g., protocol=\"org.apache.coyote.http11.Http11Protocol\" or Http11NioProtocol).\n\nIf any HTTP connector exists without SSLEnabled=\"true\" and is not commented out (<!-- ... -->), this is a finding.\n\nIf there is no active (uncommented) <Connector> configured with SSLEnabled=\"true\", scheme=\"https\", and secure=\"true\", this is a finding.",
+  "fixtext": "Configure ColdFusion to use HTTPS and disable unsecured HTTP access.\n\n1. Locate the server.xml file for each ColdFusion instance located at: <ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\\\n\n2. Open the server.xml file in a text editor.\n\n3. Locate all <Connector> elements using the HTTP protocol (e.g., protocol=\"org.apache.coyote.http11.Http11Protocol\" or Http11NioProtocol) without the attribute SSLEnabled=\"true\"\n\n4. Either delete these unsecured <Connector> tags or comment them out using XML syntax:\n\n<!-- <Connector port=\"8500\" protocol=\"org.apache.coyote.http11.Http11Protocol\" ... /> -->\n\n5. Locate a <Connector> tag that includes SSLEnabled=\"true\" and is configured to support HTTPS communication.\n\n6. If this tag is present but commented out, uncomment it by removing the <!-- and --> markers.\n\n7. If a secure HTTPS connector does not exist, create a new <Connector> tag within the <Service> element of the server.xml file. It should include the following attributes:\n\n<Connector port=\"8443\" protocol=\"org.apache.coyote.http11.Http11NioProtocol\"\n           maxThreads=\"150\" SSLEnabled=\"true\" scheme=\"https\" secure=\"true\"\n           clientAuth=\"false\" keystoreFile=\"/path/to/keystore\" keystorePass=\"changeit\"/>\n\n8. Replace /path/to/keystore with the actual path to the keystore file. \n\n9. Replace \"changeit\" with the actual password for the keystore.\n\n10. Save the file and restart ColdFusion for the changes to take effect.",
+  "fix_id": "F-83551r1172829_fix",
+  "VulnDiscussion": "Information can be either unintentionally or maliciously disclosed or modified during reception, including, for example, during aggregation, at protocol transformation points and during packing/unpacking. These unauthorized disclosures or modifications compromise the confidentiality or integrity of the information.\n\nColdFusion must use approved encryption when receiving transmitted data by configuring the Tomcat Connector to use HTTPS.",
+  "Documentable": "false"
+}

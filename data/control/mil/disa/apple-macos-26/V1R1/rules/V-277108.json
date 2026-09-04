@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-277108",
+  "rule_id": "SV-277108r1149417_rule",
+  "stig_id": "APPL-26-002038",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The macOS system must disable Trivial File Transfer Protocol (TFTP) service.",
+  "group_title": "SRG-OS-000074-GPOS-00042",
+  "idents": {
+    "cci": [
+      "CCI-000197",
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-81263r1149379_chk",
+  "check_content": "Verify the macOS system is configured to disable TFTP service with the following command:\n\nresult=\"FAIL\"\n  enabled=$(/bin/launchctl print-disabled system | /usr/bin/grep '\"com.apple.tftpd\" => enabled')\n  running=$(/bin/launchctl print system/com.apple.tftpd 2>/dev/null)\n  \n  if [[ -z \"$running\" ]] && [[ -z \"$enabled\" ]]; then\n    result=\"PASS\"\n  elif [[ -n \"$running\" ]]; then\n    result=result+\" RUNNING\"\n  elif [[ -n \"$enabled\" ]]; then\n    result=result+\" ENABLED\"\n  fi\n  echo $result\n\nIf the result is not \"PASS\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable TFTP service with the following commands:\n\n/bin/launchctl bootout system/com.apple.tftpd \n/bin/launchctl disable system/com.apple.tftpd\n\nThe system may need a restart for the update to take effect.",
+  "fix_id": "F-81168r1149380_fix",
+  "VulnDiscussion": "If the system does not require TFTP support, it is nonessential and must be disabled.\n\nThe information system must be configured to provide only essential capabilities. Disabling TFTP helps prevent the unauthorized connection of devices and unauthorized transfer of information.\n\nNote: TFTP service is disabled at startup by default.\n\nSatisfies: SRG-OS-000074-GPOS-00042, SRG-OS-000080-GPOS-00048",
+  "Documentable": "false"
+}

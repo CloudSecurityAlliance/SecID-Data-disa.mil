@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269313",
+  "rule_id": "SV-269313r1050195_rule",
+  "stig_id": "ALMA-09-026420",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must prevent files with the setuid and setgid bit set from being executed on the /boot directory.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-73344r1048315_chk",
+  "check_content": "Verify the /boot directory is mounted with the \"nosuid\" option with the following command:\n\n$ mount | grep '\\s/boot\\s'\n\n/dev/sda2 on /boot type xfs (rw,nosuid,nodev,noexec,relatime,seclabel,attr2,inode64,logbufs=8,logbsize=32k,noquota)\n\nIf the /boot file system does not have the \"nosuid\" option set, this is a finding.",
+  "fixtext": "Modify \"/etc/fstab\" to use the \"nosuid\" option on the \"/boot\" directory.",
+  "fix_id": "F-73245r1048316_fix",
+  "VulnDiscussion": "The \"nosuid\" mount option causes the system not to execute \"setuid\" and \"setgid\" files with owner privileges. This option must be used for mounting any file system not containing approved \"setuid\" and \"setguid\" files. \n\nExecuting files from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

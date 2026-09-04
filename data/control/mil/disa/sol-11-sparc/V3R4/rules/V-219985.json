@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219985",
+  "rule_id": "SV-219985r958732_rule",
+  "stig_id": "SOL-11.1-070250",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The operating system must protect the audit records resulting from non-local accesses to privileged accounts and the execution of privileged functions.",
+  "group_title": "SRG-OS-000327",
+  "idents": {
+    "legacy": [
+      "V-48031",
+      "SV-60903"
+    ],
+    "cci": [
+      "CCI-002234"
+    ]
+  },
+  "check_id": "C-21695r371408_chk",
+  "check_content": "The audit configuration profile is required. \n\nThis check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nDetermine the location of the local audit trail files.\n\n# auditconfig -getplugin audit_binfile\nPlugin: audit_binfile (active)\nAttributes: p_dir=/var/audit;p_fsize=4M;p_minfree=1;\"\n\nIn this example, the audit files can be found in /var/audit. Check that the permissions on the audit files are 640 (rw- r-- --) or less permissive.\n\n# ls -al /var/audit\n\n# ls -l /var/audit/*\n\nIf the permissions are more permissive than 640, this is a finding.\n\nNote:  The default Solaris 11 location for /var/audit is a link to /var/share/audit.",
+  "fixtext": "The root role is required.\n\nDetermine the location of the local audit trail files.\n\n# pfexec auditconfig -getplugin audit_binfile\nPlugin: audit_binfile (active)\nAttributes: p_dir=/var/audit;p_fsize=4M;p_minfree=1\n\nIn this example, the audit files can be found in /var/audit.\n\nChange the permissions on the audit trail files and the audit directory.\n\n# chmod 640 /var/share/audit/*\n\n# chmod 750 /var/share/audit\n\nNote:  The default Solaris 11 location for /var/audit is a link to /var/share/audit.",
+  "fix_id": "F-21694r371409_fix",
+  "VulnDiscussion": "Protection of audit records and audit data is of critical importance. Care must be taken to ensure privileged users cannot circumvent audit protections put in place. Auditing might not be reliable when performed by an operating system which the user being audited has privileged access to. The privileged user could inhibit auditing or directly modify audit records. To prevent this from occurring, privileged access shall be further defined between audit-related privileges and other privileges, thus limiting the users with audit-related privileges.",
+  "Documentable": "false"
+}

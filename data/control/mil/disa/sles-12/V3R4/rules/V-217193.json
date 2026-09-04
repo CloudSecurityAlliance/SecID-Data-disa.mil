@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217193",
+  "rule_id": "SV-217193r971542_rule",
+  "stig_id": "SLES-12-020030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system auditd service must notify the System Administrator (SA) and Information System Security Officer (ISSO) immediately when audit storage capacity is 75 percent full.",
+  "group_title": "SRG-OS-000343-GPOS-00134",
+  "idents": {
+    "legacy": [
+      "SV-91989",
+      "V-77293"
+    ],
+    "cci": [
+      "CCI-001855"
+    ]
+  },
+  "check_id": "C-18421r369735_chk",
+  "check_content": "Determine if the SUSE operating system auditd is configured to notify the System Administrator (SA) and Information System Security Officer (ISSO) when the audit record storage volume reaches 75 percent of the storage capacity.\n\nCheck the system configuration to determine the partition to which audit records are written using the following command:\n\n# grep -iw log_file /etc/audit/auditd.conf\nlog_file = /var/log/audit/audit.log\n\nCheck the size of the partition to which audit records are written (e.g., \"/var/log/audit/\"):\n\n# df -h /var/log/audit/\n0.9G /var/log/audit\n\nIf the audit records are not being written to a partition specifically created for audit records (in this example \"/var/log/audit\" is a separate partition), use the following command to determine the amount of space other files in the partition currently occupy:\n\n# du -sh <partition>\n1.8G /var\n\nDetermine the threshold for the system to take action when 75 percent of the repository maximum audit record storage capacity is reached:\n\n# grep -iw space_left /etc/audit/auditd.conf\nspace_left = 225 \n\nIf the value of the \"space_left\" keyword is not set to 25 percent of the total partition size, this is a finding.",
+  "fixtext": "Check the system configuration to determine the partition to which the audit records are written: \n\n# grep -iw log_file /etc/audit/auditd.conf\n\nDetermine the size of the partition to which audit records are written (e.g., \"/var/log/audit/\"):\n\n# df -h /var/log/audit/\n\nSet the value of the \"space_left\" keyword in \"/etc/audit/auditd.conf\" to 25 percent of the partition size.",
+  "fix_id": "F-18419r369736_fix",
+  "VulnDiscussion": "If security personnel are not notified immediately when storage volume reaches 75 percent utilization, they are unable to plan for audit record storage capacity expansion.",
+  "Documentable": "false"
+}

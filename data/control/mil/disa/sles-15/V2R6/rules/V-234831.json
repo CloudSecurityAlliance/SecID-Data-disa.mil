@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-234831",
+  "rule_id": "SV-234831r1009558_rule",
+  "stig_id": "SLES-15-010330",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "All SUSE operating system persistent disk partitions must implement cryptographic mechanisms to prevent unauthorized disclosure or modification of all information that requires at-rest protection.",
+  "group_title": "SRG-OS-000185-GPOS-00079",
+  "idents": {
+    "cci": [
+      "CCI-001199",
+      "CCI-002475"
+    ]
+  },
+  "check_id": "C-38019r618762_chk",
+  "check_content": "Verify the SUSE operating system prevents unauthorized disclosure or modification of all information requiring at rest protection by using disk encryption. \n\nDetermine the partition layout for the system with the following command:\n\n> sudo fdisk -l\n\nDevice Boot Start End Sectors Size Id Type\n/dev/sda1 2048 4208639 4206592 2G 82 Linux swap\n/dev/sda2 * 4208640 53479423 49270784 23.5G 83 Linux\n/dev/sda3 53479424 125829119 72349696 34.5G 83 Linux\n\nVerify the system partitions are all encrypted with the following command: \n\n> sudo more /etc/crypttab\n\ncr_root  UUID=26d4a101-7f48-4394-b730-56dc00e65f64\ncr_home  UUID=f5b8a790-14cb-4b82-882d-707d52f27765\ncr_swap  UUID=f2d86128-f975-478d-a5b0-25806c900eac\n\n\nEvery persistent disk partition present on the system must have an entry in the file. \n\nIf any partitions other than pseudo file systems (such as /proc or /sys) are not listed or \"/etc/crypttab\" does not exist, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to prevent unauthorized modification of all information at rest by using disk encryption. \n\nEncrypting a partition in an already-installed system is more difficult because of the need to resize and change existing partitions. To encrypt an entire partition, dedicate a partition for encryption in the partition layout. The standard partitioning proposal as suggested by YaST (installation and configuration tool for Linux) does not include an encrypted partition by default. Add it manually in the partitioning dialog.\n\nRefer to the document \"SUSE Linux Enterprise Server 15 SP1 - Security Guide\", Section 12.1.2, for a detailed disk encryption guide:\n\nhttps://documentation.suse.com/sles/15-SP1/html/SLES-all/cha-security-cryptofs.html#sec-security-cryptofs-y2-part-run",
+  "fix_id": "F-37982r618763_fix",
+  "VulnDiscussion": "SUSE operating systems handling data requiring data-at-rest protections must employ cryptographic mechanisms to prevent unauthorized disclosure and modification of the information at rest.\n\nSelection of a cryptographic mechanism is based on the need to protect the integrity of organizational information. The strength of the mechanism is commensurate with the security category and/or classification of the information. Organizations have the flexibility to either encrypt all information on storage devices (i.e., full disk encryption) or encrypt specific data structures (e.g., files, records, or fields).\n\nSatisfies: SRG-OS-000185-GPOS-00079, SRG-OS-000404-GPOS-00183, SRG-OS-000405-GPOS-00184",
+  "Documentable": "false"
+}

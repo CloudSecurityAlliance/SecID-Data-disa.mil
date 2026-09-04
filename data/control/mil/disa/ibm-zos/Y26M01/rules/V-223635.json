@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223635",
+  "rule_id": "SV-223635r958482_rule",
+  "stig_id": "ACF2-US-000200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS UNIX user accounts must be properly defined.",
+  "group_title": "SRG-OS-000104-GPOS-00051",
+  "idents": {
+    "legacy": [
+      "V-97975",
+      "SV-107079"
+    ],
+    "cci": [
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-25308r953869_chk",
+  "check_content": "From an ACF Command screen enter:\n\nSET PROFILE(USER) DIV(OMVS)\n\nLI LIKE(-)\n\nIf each user account is defined as follows, this is not a finding.\n\nA unique UID number (except for UID(0) users)\n\nUse the following as a quick test for duplicate UIDs apart from UID 0  \n\nSHOW OMVS USERS(1-2147483647) DUPLICATES\n\n-A unique HOME directory (UID(0), other system task accounts, and tasks approved by the ISSM are excluded from this rule).\n-Shell program specified as \"/bin/sh\", \"/bin/tcsh\", \"/bin/echo\", or \"/bin/false\"\n\nNOTE: The shell program must have one of the specified values. The HOME directory must have a value (i.e., not be allowed to default; this does not include tasks that are excluded from above).",
+  "fixtext": "Define users of z/OS UNIX (i.e., users with an OMVS profile defined) as follows:\n\n-A unique UID number (except for UID(0) users).\n-A unique HOME directory (UID(0), other system task accounts, and tasks approved by the ISSM are excluded from this rule).\n-Shell program specified as \"/bin/sh\", \"/bin/tcsh\", \"/bin/echo\", or \"/bin/false\".\n\nNOTE: The shell program must have one of the specified values. The HOME directory must have a value (i.e., not be allowed to default; this does not include tasks that are excluded from above).",
+  "fix_id": "F-25296r953870_fix",
+  "VulnDiscussion": "To ensure accountability and prevent unauthenticated access, organizational users must be identified and authenticated to prevent potential misuse and compromise of the system.\n\nOrganizational users include organizational employees or individuals the organization deems to have equivalent status of employees (e.g., contractors). Organizational users (and processes acting on behalf of users) must be uniquely identified and authenticated to all accesses, except for the following: \n\n1) Accesses explicitly identified and documented by the organization. Organizations document specific user actions that can be performed on the information system without identification or authentication; and\n\n2) Accesses that occur through authorized use of group authenticators without individual authentication. Organizations may require unique identification of individuals in group accounts (e.g., shared privilege accounts) or for detailed accountability of individual activity.",
+  "Documentable": "false"
+}

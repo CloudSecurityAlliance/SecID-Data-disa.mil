@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256953",
+  "rule_id": "SV-256953r961041_rule",
+  "stig_id": "APWS-AT-000400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Only authenticated system administrators or the designated PKI Sponsor for an Automation Controller NGINX web server must have access to any Automation Controller NGINX web server's private key.",
+  "group_title": "SRG-APP-000176-WSR-000096",
+  "idents": {
+    "cci": [
+      "CCI-000186"
+    ]
+  },
+  "check_id": "C-60628r903525_chk",
+  "check_content": "As a System Administrator for each Automation Controller NGINX web server host, verify the location of the NGINX configuration:\n\nNGINXCONF=`nginx -V 2>&1 | tr ' ' '\\n' | sed -ne '/conf-path/{s/.*conf-path=\\(.*\\)/\\1/;p}' `\nTOWER_KEY=`sed -n 's/^\\s*ssl_certificate_key\\s*\\(.*\\);/\\1/p' $NGINXCONF`\nstat -c \"%a %U %G\" $TOWER_KEY| grep \"600 root awx\" || echo \"FAILED\" \n\nIf \"FAILED\" is displayed, this is a finding.",
+  "fixtext": "As a System Administrator for each Automation Controller NGINX web server host, set the permissions:\n\nNGINXCONF=`nginx -V 2>&1 | tr ' ' '\\n' | sed -ne '/conf-path/{s/.*conf-path=\\(.*\\)/\\1/;p}' `\nTOWER_KEY=`sed -n 's/^\\s*ssl_certificate_key\\s*\\(.*\\);/\\1/p' $NGINXCONF`\nsudo chown root:awx $TOWER_KEY\nsudo chmod 600 $TOWER_KEY",
+  "fix_id": "F-60570r902372_fix",
+  "VulnDiscussion": "Each Automation Controller NGINX web server's private key is used to prove the identity of the server to clients and securely exchange the shared secret key used to encrypt communications between the Automation Controller NGINX web server and clients.\n\nBy gaining access to the private key, an attacker can pretend to be an authorized server and decrypt the SSL traffic between a client and the Automation Controller NGINX web server.",
+  "Documentable": "false"
+}

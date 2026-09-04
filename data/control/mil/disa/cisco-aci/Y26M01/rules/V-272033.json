@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272033",
+  "rule_id": "SV-272033r1168251_rule",
+  "stig_id": "CACI-L2-000005",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco ACI layer 2 switch must have Unknown Unicast Flood Blocking (UUFB) set to \"Hardware Proxy\".",
+  "group_title": "SRG-NET-000362-L2S-000024",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-76083r1168250_chk",
+  "check_content": "Verify each Bridge Domain used is configured to block unknown unicast traffic.\n\n1. Navigate to Tenant >> Networking >> Bridge Domains >> Policy >> General and inspect each Tenant's Bridge Domain configuration.\n2. Expand Networking and right-click each Bridge Domain.\n- Verify the L2 Unknown Unicast box is set to \"Hardware Proxy\".\n\nIf any user-facing or untrusted access switch ports do not have UUFB set to \"Hardware Proxy\", this is a finding.",
+  "fixtext": "Configure each Bridge Domain to handle unknown unicast flood blocking.\n\n1. Navigate to Tenant >> Networking >> Bridge Domains >> Policy >> General.\n2. Expand Networking and right-click \"Create Bridge Domain\" to open the dialog box and fill out the form.\n- In the L2 Unknown Unicast box, select \"Hardware Proxy\".\n3. Click \"NEXT\".\n4. Complete the Bridge Domain configuration and click \"Finish\".",
+  "fix_id": "F-75990r1114237_fix",
+  "VulnDiscussion": "Access layer switches use the Content Addressable Memory (CAM) table to direct traffic to specific interfaces based on the VLAN number and the destination MAC address of the frame. When a router has an Address Resolution Protocol (ARP) entry for a destination host and forwards it to the access layer switch and there is no entry corresponding to the frame's destination MAC address in the incoming VLAN, the frame will be sent to all forwarding interfaces within the respective VLAN, which causes flooding. Large amounts of flooded traffic can saturate low-bandwidth links, causing network performance issues or complete connectivity outage to the connected devices. Unknown unicast flooding has been a nagging problem in networks that have asymmetric routing and default timers. To mitigate the risk of a connectivity outage, the unknown unicast traffic must not be flooded to all access interfaces.",
+  "Documentable": "false"
+}

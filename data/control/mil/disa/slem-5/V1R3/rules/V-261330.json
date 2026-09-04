@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261330",
+  "rule_id": "SV-261330r996457_rule",
+  "stig_id": "SLEM-05-255025",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "SLEM 5 must not allow unattended or automatic logon via SSH.",
+  "group_title": "SRG-OS-000480-GPOS-00229",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65059r996456_chk",
+  "check_content": "Verify SLEM 5 disables unattended or automatic logon via SSH with the following command:\n\n     > sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iEH '^\\s*(permit(.*?)(passwords|environment))'\n     /etc/ssh/sshd_config:PermitEmptyPasswords no\n     /etc/ssh/sshd_config:PermitUserEnvironment no\n\nIf \"PermitEmptyPasswords\" or \"PermitUserEnvironment\" keywords are not set to \"no\", are commented out, or are missing completely, this is a finding.",
+  "fixtext": "Configure SLEM 5 disables unattended or automatic logon via SSH.\n\nAdd or modify the following lines in the \"/etc/ssh/sshd_config\" file:\n\nPermitEmptyPasswords no\nPermitUserEnvironment no",
+  "fix_id": "F-64967r995856_fix",
+  "VulnDiscussion": "Failure to restrict system access via SSH to authenticated users negatively impacts SLEM 5 security.",
+  "Documentable": "false"
+}

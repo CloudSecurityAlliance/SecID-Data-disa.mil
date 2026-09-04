@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248639",
+  "rule_id": "SV-248639r991589_rule",
+  "stig_id": "OL08-00-010730",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All OL 8 local interactive user home directories must have mode \"0750\" or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52073r779481_chk",
+  "check_content": "Verify the assigned home directory of all local interactive users has a mode of \"0750\" or less permissive with the following command. \n \nNote: This may miss interactive users that have been assigned a privileged User Identifier (UID). Evidence of interactive use may be obtained from a number of log files containing system logon information. \n \n$ sudo ls -ld $(awk -F: '($3>=1000)&&($1!=\"nobody\"){print $6}' /etc/passwd) \n \ndrwxr-x--- 2 smithj admin 4096 Jun 5 12:41 smithj \n \nIf home directories of interactive users referenced in \"/etc/passwd\" do not have a mode of \"0750\" or less permissive, this is a finding.",
+  "fixtext": "Change the mode of interactive users' home directories to \"0750\" using the following command. \n \nNote: The example will be for the user \"smithj\". \n \n$ sudo chmod 0750 /home/smithj",
+  "fix_id": "F-52027r779482_fix",
+  "VulnDiscussion": "Excessive permissions on local interactive user home directories may allow unauthorized access to user files by other users.",
+  "Documentable": "false"
+}

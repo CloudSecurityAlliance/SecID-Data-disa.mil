@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278402",
+  "rule_id": "SV-278402r1171958_rule",
+  "stig_id": "NGNX-APP-001840",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must be configured to pass security attributes to proxies.",
+  "group_title": "SRG-APP-000419",
+  "idents": {
+    "cci": [
+      "CCI-002455"
+    ]
+  },
+  "check_id": "C-82936r1171956_chk",
+  "check_content": "Determine the path to NGINX config file(s):\n\nnginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nVerify the embedded security attributes are present as HTTP Headers:\n\nserver {\n    listen 443 ssl;\n    server_name secure-api.example.com;\n\n    location /data {\n        proxy_pass http://backend_service;\n\n        proxy_set_header X-Security-Classification \"Confidential\";\n        proxy_set_header X-Data-Origin \"Internal-System\";\n        proxy_set_header X-Access-Permissions \"Read,Write\";\n    }\n}\nIf the \"proxy_pass\" variable is not set nor the \"proxy_set_header\" is not set for the required headers, this is a finding.",
+  "fixtext": "Determine the path to NGINX config file(s):\n\nnginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nInclude the \"proxy_pass\" service as well as the \"proxy_set_header\" values as required:\n\n proxy_pass http://backend_service;\n\n        proxy_set_header X-Security-Classification \"Confidential\";\n        proxy_set_header X-Data-Origin \"Internal-System\";\n        proxy_set_header X-Access-Permissions \"Read,Write\";\n\nAfter saving the configuration, reload NGINX:\n\n# nginx -s reload",
+  "fix_id": "F-82841r1171957_fix",
+  "VulnDiscussion": "If security attributes are not associated with the information being transmitted between components, then access control policies and information flows that depend on these security attributes will not function and unauthorized access may result.\n\nSecurity attributes are values associated with data content/structure and source/destination objects. These attributes are bound to the user and data objects and may include information about the data's purpose, creator, origin, access restrictions, access permissions, or classification. Specific security attributes used depend on the application or technology context. However, these attributes are used in information systems to implement security policy for access control and flow control for users, data, and traffic. Security attributes may be explicitly or implicitly associated with the information contained within the information system.\n \nThis requirement applies to those applications that transmit or receive data between components. Information system components include, for example, mainframes, workstations, servers (e.g., database, email, authentication, web, proxy, file, domain name), input/output devices (e.g., scanners, copiers, printers), network components (e.g., firewalls, routers, gateways, voice and data switches, process controllers, wireless access points, network appliances, sensors), operating systems, virtual machines, middleware, and applications.",
+  "Documentable": "false"
+}

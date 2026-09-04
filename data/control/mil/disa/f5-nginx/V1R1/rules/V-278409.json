@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-278409",
+  "rule_id": "SV-278409r1171979_rule",
+  "stig_id": "NGNX-APP-003060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must separate API maintenance sessions from other network sessions within the system by logically separated communications paths.",
+  "group_title": "SRG-APP-000880",
+  "idents": {
+    "cci": [
+      "CCI-004192",
+      "CCI-001414"
+    ]
+  },
+  "check_id": "C-82943r1171977_chk",
+  "check_content": "If not using the NGINX API, this is Not Applicable.\n\nDetermine path to NGINX config file:\n\n# nginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nCheck that the nginx.conf file contains the API directive and a separate listen address:\n\nhttp {\n    server {\n        listen 192.168.0.1:80;\n        location / {\n            proxy_pass http://backend;\n        }\n        location /api {\n            api write=on;\n        }\n    }\n}             \n\nIf the API is running on the same network as production traffic, this is a finding.",
+  "fixtext": "Configure the API directive to use a separate listen address from production traffic:\n\nhttp {\n    server {\n        listen 192.168.0.1:80;\n        location / {\n            proxy_pass http://backend;\n        }\n    }\n    server {\n        listen 10.0.0.1:80;\n        location /api {\n            api write=on;\n        }\n    }\n}             \n\nAfter saving the updated config, restart NGINX: \n\nnginx -s reload.",
+  "fix_id": "F-82848r1171978_fix",
+  "VulnDiscussion": "Nonlocal maintenance and diagnostic activities are conducted by individuals who communicate through either an external or internal network.\n\nCommunications paths can be logically separated using encryption.\n\nSatisfies: SRG-APP-000880, SRG-APP-000039",
+  "Documentable": "false"
+}

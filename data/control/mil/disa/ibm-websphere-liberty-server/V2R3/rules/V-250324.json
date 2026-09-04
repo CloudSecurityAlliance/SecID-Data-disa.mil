@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-250324",
+  "rule_id": "SV-250324r960762_rule",
+  "stig_id": "IBMW-LS-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Security cookies must be set to HTTPOnly.",
+  "group_title": "SRG-APP-000015-AS-000010",
+  "idents": {
+    "cci": [
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-53759r862966_chk",
+  "check_content": "As a user with local file access to ${server.config.dir}/server.xml, verify appSecurity feature is enabled.\n\n<featureManager><feature>appSecurity-2.0</feature></featureManager>\n\nVerify both web application LTPA and http session cookies are configured for httpOnly.\n\n<webAppSecurity  ssoCookieName=\"LtpaToken2\"  ssoRequiresSSL=\"true\"    httpOnlyCookies=\"true\"   logoutOnHttpSessionExpire=\"true\"/>  \n\n<httpSession    cookieName=\"JSESSIONID\"    cookieSecure=\"true\"    cookieHttpOnly=\"true\"    cookiePath=\"/\"/>\n\nIf the appSecurity feature is not enabled or if the LPTA or Session cookie settings are not set for httpOnly, this is a finding.",
+  "fixtext": "To ensure security cookies use httpOnly, the ${server.config.dir)/server.xml must be configured as follows: \n\n<featureManager><feature>appSecurity-2.0</feature></featureManager>\n\n <webAppSecurity  ssoCookieName=\"LtpaToken2\"  ssoRequiresSSL=\"true\"    httpOnlyCookies=\"true\"   logoutOnHttpSessionExpire=\"true\"/>  \n\n<httpSession    cookieName=\"JSESSIONID\"    cookieSecure=\"true\"    cookieHttpOnly=\"true\"    cookiePath=\"/\"/>",
+  "fix_id": "F-53713r862967_fix",
+  "VulnDiscussion": "Web applications use cookies to track users across requests. These cookies, while typically not sensitive in themselves, connect to the existing state on the back-end system. If an intruder were to capture one of these cookies, they could potentially use the cookie to act as the user. Important web traffic should be encrypted using SSL. This includes important cookies.\n\nIn the case of WebSphere Liberty Server, the most important cookies are the LTPA cookie and session cookie; therefore, both should be configured to be only sent over SSL. To set httpOnly on the application server’s cookies, the security feature (appSecurity-2.0) must be defined in order to configure a user registry for the servlet to authenticate against. The servlet (servlet-3.1) feature must be defined in order to deploy web applications, the ssl (ssl-1.0) feature must be defined in order to do SSL communications, and the ldap feature (ldapRegistry-3.0) must be defined in order to configure an enterprise-level user registry for authentication of users. \n\nFor the LTPA cookie,  the httpOnlyCookies element must be set to true: \n<webAppSecurity  ssoCookieName=\"LtpaToken2\"  ssoRequiresSSL=\"true\"    httpOnlyCookies=\"true\"   logoutOnHttpSessionExpire=\"true\"/>   \n\nFor the JSESSIONID cookie, the cookieHttpOnly element must be set to true: \n<httpSession    cookieName=\"JSESSIONID\"    cookieSecure=\"true\"    cookieHttpOnly=\"true\"    cookiePath=\"/\"/>",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-274849",
+  "rule_id": "SV-274849r1143900_rule",
+  "stig_id": "SRG-APP-001015-API-001705",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The API must refresh access tokens in accordance with organization-defined identification and authentication policy.",
+  "group_title": "SRG-APP-001015",
+  "idents": {
+    "cci": [
+      "CCI-005166",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-78950r1143899_chk",
+  "check_content": "Review the API or authorization server's refresh token endpoint logic. Confirm that it validates the refresh token, checks expiration, and enforces any associated conditions like device binding or client verification.\n\nSimulate valid and invalid refresh scenarios. Use an active refresh token to obtain a new access token and confirm that the new token includes required claims, is properly signed, and has an appropriate expiration time. \n\nVerify the refresh process enforces client authentication, restricts token reuse (e.g., one-time-use refresh tokens if required), and aligns with the cryptographic and authentication strength.\n\nExamine the newly issued access tokens to verify they include correct fields like exp, iat, aud, and scope, and that their validity periods are consistent with the organization's guidelines.\n\nConsult the API or identity provider documentation and configuration to verify refresh behavior is implemented in accordance with the defined organizational standards.\n\nIf any misconfigurations are identified, this is a finding.",
+  "fixtext": "Build or configure the API to refresh access tokens in accordance with organization-defined identification and authentication policy.",
+  "fix_id": "F-78855r1143358_fix",
+  "VulnDiscussion": "An API must refresh access tokens to maintain secure, uninterrupted access while minimizing the risk of token misuse or expiration. Access tokens typically have a limited lifespan and refreshing them allows users to maintain active sessions without needing to re-authenticate. \n\nIf the API is not relying on an API Gateway for token management, it becomes responsible for issuing and refreshing tokens directly, ensuring that users can continue to interact with the API seamlessly, while also enforcing up-to-date authentication. By implementing token refresh, the API can validate the user's ongoing permissions, reduce the risk of session hijacking, and prevent users from being locked out due to expired tokens, all while maintaining a stateless, scalable approach to security.",
+  "Documentable": "false"
+}

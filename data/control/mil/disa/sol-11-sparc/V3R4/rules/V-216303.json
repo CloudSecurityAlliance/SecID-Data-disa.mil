@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216303",
+  "rule_id": "SV-216303r959010_rule",
+  "stig_id": "SOL-11.1-020340",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Run control scripts lists of preloaded libraries must contain only authorized paths.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-74265",
+      "V-59835"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17539r370997_chk",
+  "check_content": "Verify run control scripts' library preload list. \n\nProcedure:\n\n# find /etc/rc* /etc/init.d -type f -print | xargs grep LD_PRELOAD\n\nThis variable is formatted as a colon-separated list of paths.\n\nIf there is an empty entry, such as a leading or trailing colon, or two consecutive colons, this is a finding. \n\nIf an entry begins with a character other than a slash (/), or has not been documented with the ISSO, this is a finding.",
+  "fixtext": "Edit the run control script and remove the relative path entries from the library preload variables that have not been documented with the ISSO.   \n\nEdit the run control script and remove any empty path entries from the file.",
+  "fix_id": "F-17537r370998_fix",
+  "VulnDiscussion": "The library preload list environment variable contains a list of libraries for the dynamic linker to load before loading the libraries required by the binary. If this list contains paths to libraries to the current working directory that have not been authorized, unintended libraries may be preloaded. This variable is formatted as a space-separated list of libraries. Paths starting with a slash (/) are absolute paths.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234137",
+  "rule_id": "SV-234137r611411_rule",
+  "stig_id": "FNFG-FW-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate firewall must generate traffic log entries containing information to establish the network location where the events occurred.",
+  "group_title": "SRG-NET-000076-FW-000011",
+  "idents": {
+    "cci": [
+      "CCI-000132"
+    ]
+  },
+  "check_id": "C-37322r611409_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Log and Report.\n2. Click Forward Traffic, or Local Traffic.\n3. Double-click on an Event to view Log Details.\n4. Verify traffic log events contain source and destination IP addresses, and interfaces.\n\nIn addition to System log settings, verify that individual firewall policies are configured with most suitable Logging Options.\n\n1. Click Policy and Objects.\n2. Click IPv4 or IPv6 Policy.\n3. Verify all Policy rules are configured with Logging Options set to log All Sessions (for most verbose logging).\n\nIf the traffic log events do not contain source and destination IP addresses, or interfaces, this is a finding.",
+  "fixtext": "This fix can be performed on the FortiGate GUI or on the CLI. \nLog in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Log and Report.\n2. Click Log Settings.\n3. Click All for the Event Logging and Local Traffic Log options (for most verbose logging), or Click Customize and choose granular logging options to meet organization needs.\n4. Scroll to UUIDs in Traffic Log and toggle Policy and Address buttons to enable.\n5. Click Apply.\n\nIn addition to these log settings, configure individual firewall policies with the most suitable Logging Options.\n\n1. Click Policy and Objects.\n2. Click IPv4 or IPv6 Policy.\n3. For each policy, configure Logging Options to log All Sessions (for most verbose logging).\n4. Confirm each created Policy is Enabled.\n5. Click OK.\n\nor\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config log eventfilter\n     #    set event enable\n     #    set system enable\n     #    set endpoint enable\n     #    set user enable\n     #    set security-rating enable\n     # end\n3. For each configured policy set the following: \n     # config firewall {policy|policy6}\n     #   edit {policyid}\n     #       set logtraffic enable\n     # end\n\nThe {} indicate the object is defined by the organization policy.",
+  "fix_id": "F-37287r611410_fix",
+  "VulnDiscussion": "Without establishing where events occurred, it is impossible to establish, correlate, and investigate the events leading up to an outage or attack.\n\nTo compile an accurate risk assessment and provide forensic analysis, it is essential for security personnel to know where events occurred, such as network element components, modules, device identifiers, node names, and functionality. \n\nAssociating information about where the event occurred within the network provides a means of investigating an attack, recognizing resource utilization or capacity thresholds, or identifying an improperly configured network element.",
+  "Documentable": "false"
+}

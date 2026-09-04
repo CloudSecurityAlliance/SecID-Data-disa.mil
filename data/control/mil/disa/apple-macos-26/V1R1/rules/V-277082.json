@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-277082",
+  "rule_id": "SV-277082r1148698_rule",
+  "stig_id": "APPL-26-001130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must configure audit_control owner to mode 440 or less permissive.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164",
+      "CCI-000171",
+      "CCI-001493",
+      "CCI-001494",
+      "CCI-001495"
+    ]
+  },
+  "check_id": "C-81237r1148696_chk",
+  "check_content": "Verify the macOS system is configured with the audit_control to mode 440 or less with the following command:\n\n/bin/ls -l /etc/security/audit_control | /usr/bin/awk '!/-r--[r-]-----|current|total/{print $1}' | /usr/bin/wc -l | /usr/bin/xargs\n\nIf the result is not \"0\", this is a finding.",
+  "fixtext": "Configure the macOS system with the audit_control to mode 440 with the following command:\n\n/bin/chmod 440 /etc/security/audit_control",
+  "fix_id": "F-81142r1148697_fix",
+  "VulnDiscussion": "/etc/security/audit_control must be configured so that it is readable only by the root user and group wheel.\n\nThe audit service must be configured with the correct mode to prevent normal users from manipulating audit log configurations.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029, SRG-OS-000063-GPOS-00032, SRG-OS-000256-GPOS-00097, SRG-OS-000257-GPOS-00098, SRG-OS-000258-GPOS-00099",
+  "Documentable": "false"
+}

@@ -1,0 +1,28 @@
+{
+  "vuln_id": "V-217158",
+  "rule_id": "SV-217158r958702_rule",
+  "stig_id": "SLES-12-010600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system Apparmor tool must be configured to control whitelisted applications and user home directory access control.",
+  "group_title": "SRG-OS-000312-GPOS-00122",
+  "idents": {
+    "legacy": [
+      "SV-91865",
+      "V-77169"
+    ],
+    "cci": [
+      "CCI-001774",
+      "CCI-002165",
+      "CCI-002233",
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-18386r646717_chk",
+  "check_content": "Verify that the SUSE operating system Apparmor tool is configured to control whitelisted applications and user home directory access control.\n\nCheck that \"pam_apparmor\" is installed on the system with the following command:\n\n> zypper info pam_apparmor | grep \"Installed\"\n\nIf the package \"pam_apparmor\" is not installed on the system, this is a finding.\n\nCheck that the \"apparmor\" daemon is running with the following command:\n\n> systemctl status apparmor.service | grep -i active\n\nActive: active (exited) since Fri 2017-01-13 01:01:01 GMT; 1day 1h ago\n\nIf something other than \"Active: active\" is returned, this is a finding.\n\nNote: \"pam_apparmor\" must have properly configured profiles. All configurations will be based on the actual system setup and organization. See the \"pam_apparmor\" documentation for more information on configuring profiles.",
+  "fixtext": "Configure the SUSE operating system to blacklist all applications by default and permit by whitelist.\n\nInstall \"pam_apparmor\" (if it is not installed) with the following command:\n\n> sudo zypper in pam_apparmor\n\nEnable/activate \"Apparmor\" (if it is not already active) with the following command:\n\n> sudo systemctl enable apparmor.service\n\nStart \"Apparmor\" with the following command:\n\n> sudo systemctl start apparmor.service\n\nNote: \"pam_apparmor\" must have properly configured profiles. All configurations will be based on the actual system setup and organization. See the \"pam_apparmor\" documentation for more information on configuring profiles.",
+  "fix_id": "F-18384r646718_fix",
+  "VulnDiscussion": "Using a whitelist provides a configuration management method for allowing the execution of only authorized software. Using only authorized software decreases risk by limiting the number of potential vulnerabilities.\n\nThe organization must identify authorized software programs and permit execution of authorized software by adding each authorized program to the \"pam_apparmor\" exception policy. The process used to identify software programs that are authorized to execute on organizational information systems is commonly referred to as whitelisting.\n\nVerification of whitelisted software occurs prior to execution or at system startup.\n\nUsers' home directories/folders may contain information of a sensitive nature. Nonprivileged users should coordinate any sharing of information with a System Administrator (SA) through shared resources.\n\nApparmor can confine users to their home directory, not allowing them to make any changes outside of their own home directories. Confining users to their home directory will minimize the risk of sharing information.\n\nSatisfies: SRG-OS-000312-GPOS-00122, SRG-OS-000312-GPOS-00123SRG-OS-000312-GPOS-00124, SRG-OS-000324-GPOS-00125, SRG-OS-000326-GPOS-00126, SRG-OS-000370-GPOS-00155, SRG-OS-000480-GPOS-00230",
+  "Documentable": "false"
+}

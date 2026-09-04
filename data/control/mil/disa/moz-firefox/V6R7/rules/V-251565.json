@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251565",
+  "rule_id": "SV-251565r960963_rule",
+  "stig_id": "FFOX-00-000021",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Firefox autoplay must be disabled.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-55000r832306_chk",
+  "check_content": "Type \"about:policies\" in the browser address bar. \n\nIf \"Permissions\" is not displayed under Policy Name or the Policy Value is not \"Autoplay\" with a value of \"Default\" and \"Block-audio-video\", this is a finding.",
+  "fixtext": "Windows group policy:\n1. Open the group policy editor tool with \"gpedit.msc\".\n2. Navigate to Policy Path: Computer Configuration\\Administrative Templates\\Mozilla\\Firefox\\Permissions\\Autoplay\nPolicy Name: Default autoplay level\nPolicy State: Enabled\nPolicy Value: Block Audio and Video\n\nmacOS \"plist\" file:\nAdd the following:\n<key>Permissions</key>\n<dict>\n  <key>Autoplay</key>\n  <dict>\n    <string>block-audio-video</string>\n  </dict>\n</dict>\n \nLinux \"policies.json\" file:\nAdd the following in the policies section:\n\"Permissions\": {\n  \"Autoplay\": {\n    \"Default\": \"block-audio-video\"\n  }\n}",
+  "fix_id": "F-54954r807166_fix",
+  "VulnDiscussion": "Autoplay allows the user to control whether videos can play automatically (without user consent) with audio content. The user must be able to select content that is run within the browser window.",
+  "Documentable": "false"
+}

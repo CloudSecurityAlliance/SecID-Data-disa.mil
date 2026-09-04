@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-277105",
+  "rule_id": "SV-277105r1149406_rule",
+  "stig_id": "APPL-26-002035",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable Apple ID setup during Setup Assistant.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-81260r1149358_chk",
+  "check_content": "Verify the macOS system is configured to disable Apple ID setup during Setup Assistant with the following command:\n\n/usr/bin/osascript -l JavaScript 2>/dev/null << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.SetupAssistant.managed')\\\n.objectForKey('SkipSetupItems').containsObject(\"AppleID\")\nEOS\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable Apple ID setup during Setup Assistant by installing the \"com.apple.SetupAssistant.managed\" configuration profile.",
+  "fix_id": "F-81165r1148766_fix",
+  "VulnDiscussion": "The prompt for Apple ID setup during Setup Assistant must be disabled.\n\nmacOS will automatically prompt new users to set up an Apple ID while they are going through Setup Assistant if this is not disabled. This can mislead new users into thinking they need to create Apple ID accounts upon their first login.",
+  "Documentable": "false"
+}

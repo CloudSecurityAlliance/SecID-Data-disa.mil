@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276289",
+  "rule_id": "SV-276289r1149776_rule",
+  "stig_id": "MSQL-D0-001800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Certificate used for encryption for Azure SQL Managed Instance must be backed up, stored offline and off-site.",
+  "group_title": "SRG-APP-000231-DB-000154",
+  "idents": {
+    "cci": [
+      "CCI-001199"
+    ]
+  },
+  "check_id": "C-80444r1149774_chk",
+  "check_content": "Use the PowerShell command below to retrieve the Transparent Data Encryption key type: \n  \n$ResourceGroupName = '<Resource Group Name>' \n$ManagedInstanceName = '<Managed Instance Name>' \nGet-AzSqlInstanceTransparentDataEncryptionProtector -ResourceGroupName $ResourceGroupname -InstanceName $ManagedInstanceName | Select-Object Type \n  \nIf the application owner and authorizing official (AO) have determined that encryption of data at rest is not required and the Transparent Data Encryption protector key is type \"ServiceManaged\", this is not a finding. \n  \nIf the application owner and AO have determined that encryption of data at rest is required and the Transparent Data Encryption protector key type is \"AzureKeyVault\" (commonly referred to as Bring Your Own Key or BYOK), this is a finding.",
+  "fixtext": "Document and implement procedures to safely back up and store the certificate used for encryption. Include in the procedures methods to establish evidence of backup and storage, and careful, restricted access and restoration of the Certificate. Also, include provisions to store the backup off-site. \n \nBACKUP CERTIFICATE 'CertificateName' TO FILE = 'path_to_file' \nWITH PRIVATE KEY (FILE = 'path_to_pvk', ENCRYPTION BY PASSWORD = 'password');  \n\nAs this requires a password, take care to ensure it is not exposed to unauthorized persons or stored as plain text.",
+  "fix_id": "F-80349r1149775_fix",
+  "VulnDiscussion": "Backup and recovery of the Certificate used for encryption is critical to the complete recovery of the database. Not having this key can lead to loss of data during recovery.",
+  "Documentable": "false"
+}

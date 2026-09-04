@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278380",
+  "rule_id": "SV-278380r1172745_rule",
+  "stig_id": "NGNX-APP-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must limit the number of concurrent sessions to an organization-defined number for all accounts and/or account types.",
+  "group_title": "SRG-APP-000001",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-82914r1172691_chk",
+  "check_content": "Determine path to NGINX config file(s):\n\nnginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nnginx -c <path to nginx config> -qT | grep worker_connections\n    worker_connections 512;\n\nVerify \"worker_connections\" is set in the configuration to an organization-defined number.\n\nIf the \"worker_connections\" is not set to an organization-defined number, this is a finding.",
+  "fixtext": "Determine the path to NGINX config file(s):\n\nnginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nAdd or modify the number of \"worker_connections\" based on the needs of the application.\n\nNote: By default, NGINX limits the number of concurrent connections to 512 per worker process, and the number of worker processes is equal the number of CPUs present. This results in a maximum number of connections equal to \"worker_connections\" multiplied by the number of \"worker_processes\". In a proxy configuration, NGINX will use a connection on both the client side and the server side. This results in two connections for each client side connection. \n\nRestart NGINX:\n\n   systemctl restart nginx",
+  "fix_id": "F-82819r1172744_fix",
+  "VulnDiscussion": "NGINX management includes the ability to control the number of users and user sessions that use an application. Limiting the number of allowed users and sessions per user is helpful in limiting risks related to denial-of-service (DoS) attacks.\n\nThis requirement can be met via the application or by using information system session control provided by a web server with specialized session management capabilities. If it has been specified that this requirement will be handled by the application, the capability to limit the maximum number of concurrent single user sessions must be designed and built into the application. \n\nThis requirement addresses concurrent sessions for information system accounts and does not address concurrent sessions by single users via multiple system accounts. The maximum number of concurrent sessions should be defined based upon mission needs and the operational environment for each system.",
+  "Documentable": "false"
+}

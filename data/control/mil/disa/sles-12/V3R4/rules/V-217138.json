@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217138",
+  "rule_id": "SV-217138r991588_rule",
+  "stig_id": "SLES-12-010370",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must enforce a delay of at least four seconds between logon prompts following a failed logon attempt.",
+  "group_title": "SRG-OS-000480-GPOS-00226",
+  "idents": {
+    "legacy": [
+      "SV-91827",
+      "V-77131"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-18366r369570_chk",
+  "check_content": "Verify the SUSE operating system enforces a delay of at least four seconds between logon prompts following a failed logon attempt.\n\n# grep pam_faildelay /etc/pam.d/common-auth*\nauth required pam_faildelay.so delay=4000000\n\nIf the value of \"delay\" is not set to \"4000000\" or greater, \"delay\" is commented out, \"delay\" is missing, or the \"pam_faildelay\" line is missing completely, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to enforce a delay of at least four seconds between logon prompts following a failed logon attempt.\n\nEdit the file \"/etc/pam.d/common-auth\".\n\nAdd a parameter \"pam_faildelay\" and set it to a value of \"4000000\" or greater:\n\n# delay is in micro seconds\nauth required pam_faildelay.so delay=4000000",
+  "fix_id": "F-18364r369571_fix",
+  "VulnDiscussion": "Limiting the number of logon attempts over a certain time interval reduces the chances that an unauthorized user may gain access to an account.",
+  "Documentable": "false"
+}

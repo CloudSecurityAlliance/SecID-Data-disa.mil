@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-279072",
+  "rule_id": "SV-279072r1170990_rule",
+  "stig_id": "APAS-CF-000535",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The ColdFusion error messages must be restricted to only authorized users.",
+  "group_title": "SRG-APP-000267-AS-000170",
+  "idents": {
+    "cci": [
+      "CCI-001314",
+      "CCI-000213",
+      "CCI-000171",
+      "CCI-002314",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-83620r1170988_chk",
+  "check_content": "Verify User Roles and Services.\n\n1. From the Admin Console Landing Screen, navigate to Security >> User Manager.\n\n2. Review the roles assigned to each user against the information system security manager (ISSM)-approved list of user accounts and roles to determine if any user has excessive authorization.\n\nIf users exist that are not approved by the ISSM, this is a finding.\n\nIf any user has roles assigned that are not approved by the ISSM, this is a finding.\n\n3. Review each defined user and ask the system administrator (SA) if the user must have access the following roles:\n- Debugging and Logging >>Logging.\n- Data & Services >> Data Sources.\n- Server Settings.\n\nIf any users have any of these roles that should not, this is a finding.\n\n4. Review each defined user by using the Edit function. For each user that has values for \"Allowed Services\", validate with the SA that the user must have remote access to each service.\n\nIf there are any users with services that are not required to perform the users' duties, this is a finding.",
+  "fixtext": "Configure User Roles and Services.\n\n1. From the Admin Console Landing Screen, navigate to Security >> User Manager.\n\n2. Remove any user not approved by the information system security officer (ISSO)/ISSM.\n\n3. Enable only those roles for each user approved by the ISSO/ISSM.\n\n4. Remove the following roles from each user that should not have access to them:\n- Debugging and Logging >>Logging.\n- Data & Services >> Data Sources.\n- Server Settings.\n\n5. Only assign services to those users who require access and only assign those services that are required to perform the user's duties.",
+  "fix_id": "F-83525r1170989_fix",
+  "VulnDiscussion": "If the application provides too much information in error logs and administrative messages to the screen, this could lead to compromise. The structure and content of error messages need to be carefully considered by the organization and development team. The extent to which the information system is able to identify and handle error conditions is guided by organizational policy and operational requirements.\n\nApplication servers must protect the error messages that are created by ColdFusion. All application server users' accounts are used for the management of the server and the applications residing on ColdFusion. All accounts are assigned to a certain role with corresponding access rights. ColdFusion must restrict access to error messages so only authorized users may view them. Error messages are usually written to logs contained on the file system. ColdFusion will usually create new log files as needed and must take steps to ensure that the proper file permissions are used when the log files are created.\n\nSatisfies: SRG-APP-000267-AS-000170, SRG-APP-000033-AS-000024, SRG-APP-000090-AS-000051, SRG-APP-000315-AS-000094, SRG-APP-000516-AS-000237",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-205737",
+  "rule_id": "SV-205737r1153434_rule",
+  "stig_id": "WN19-00-000170",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2019 default permissions for the HKEY_LOCAL_MACHINE registry hive must be maintained.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "legacy": [
+      "SV-103113",
+      "V-93025"
+    ],
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-6002r1153432_chk",
+  "check_content": "Review the registry permissions for the keys of the HKEY_LOCAL_MACHINE hive noted below.\n\nIf any nonprivileged groups such as Everyone, Users, or Authenticated Users have greater than Read permission, this is a finding.\n\nIf permissions are not as restrictive as the default permissions listed below, this is a finding:\n\nRun \"Regedit\".\n\nRight-click on the registry areas noted below.\n\nSelect \"Permissions\" and \"Advanced\".\n\nHKEY_LOCAL_MACHINE\\SECURITY\n\nType - \"Allow\" for all\nInherited from - \"None\" for all\nPrincipal - Access - Applies to\nSYSTEM - Full Control - This key and subkeys\nAdministrators - Special - This key and subkeys\n\nHKEY_LOCAL_MACHINE\\SOFTWARE\n\nType - \"Allow\" for all\nInherited from - \"None\" for all\nPrincipal - Access - Applies to\nUsers - Read - This key and subkeys\nAdministrators - Full Control - This key and subkeys\nSYSTEM - Full Control - This key and subkeys\nCREATOR OWNER - Full Control - This key and subkeys\nALL APPLICATION PACKAGES - Read - This key and subkeys\n\nHKEY_LOCAL_MACHINE\\SYSTEM\n\nType - \"Allow\" for all\nInherited from - \"None\" for all\nPrincipal - Access - Applies to\nAuthenticated Users - Read - This key and subkeys\nAdministrators - Full Control - This key and subkeys\nSYSTEM - Full Control - This key and subkeys\nCREATOR OWNER - Full Control - Subkeys only\nALL APPLICATION PACKAGES - Read - This key and subkeys\nServer Operators – Read – This Key and subkeys    (Domain controllers only)\n\nOther examples under the noted keys may also be sampled. There may be some instances where non-privileged groups have greater than Read permission.\n\nMicrosoft has given Read permission to the SOFTWARE and SYSTEM registry keys in Windows Server 2019 to the following SID, this is currently not a finding.\nS-1-15-3-1024-1065365936-1281604716-3511738428-1654721687-432734479-3232135806-4053264122-3456934681\n\nIf the defaults have not been changed, these are not a finding.",
+  "fixtext": "Maintain the default permissions for the HKEY_LOCAL_MACHINE registry hive.\n\nThe default permissions of the higher-level keys are noted below.\n\nHKEY_LOCAL_MACHINE\\SECURITY\n\nType - \"Allow\" for all\nInherited from - \"None\" for all\nPrincipal - Access - Applies to\nSYSTEM - Full Control - This key and subkeys\nAdministrators - Special - This key and subkeys\n\nHKEY_LOCAL_MACHINE\\SOFTWARE\n\nType - \"Allow\" for all\nInherited from - \"None\" for all\nPrincipal - Access - Applies to\nUsers - Read - This key and subkeys\nAdministrators - Full Control - This key and subkeys\nSYSTEM - Full Control - This key and subkeys\nCREATOR OWNER - Full Control - This key and subkeys\nALL APPLICATION PACKAGES - Read - This key and subkeys\n\nHKEY_LOCAL_MACHINE\\SYSTEM\n\nType - \"Allow\" for all\nInherited from - \"None\" for all\nPrincipal - Access - Applies to\nAuthenticated Users - Read - This key and subkeys\nAdministrators - Full Control - This key and subkeys\nSYSTEM - Full Control - This key and subkeys\nCREATOR OWNER - Full Control - Subkeys only\nALL APPLICATION PACKAGES - Read - This key and subkeys\nServer Operators – Read – This Key and subkeys    (Domain controllers only)\n\nMicrosoft has also given Read permission to the SOFTWARE and SYSTEM registry keys in Windows Server 2019 to the following SID:\nS-1-15-3-1024-1065365936-1281604716-3511738428-1654721687-432734479-3232135806-4053264122-3456934681",
+  "fix_id": "F-6002r1153433_fix",
+  "VulnDiscussion": "The registry is integral to the function, security, and stability of the Windows system. Changing the system's registry permissions allows the possibility of unauthorized and anonymous modification to the operating system.",
+  "Documentable": "false"
+}

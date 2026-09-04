@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271864",
+  "rule_id": "SV-271864r1092304_rule",
+  "stig_id": "OL09-00-006020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must ignore Internet Protocol version 4 (IPv4) Internet Control Message Protocol (ICMP) redirect messages.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75914r1092302_chk",
+  "check_content": "Verify that OL 9 will not accept IPv4 ICMP redirect messages.\n\nCheck the value of all \"accept_redirects\" variables with the following command:\n\n$ sysctl net.ipv4.conf.all.accept_redirects\nnet.ipv4.conf.all.accept_redirects = 0\n\nIf the returned line does not have a value of \"0\", a line is not returned, or the line is commented out, this is a finding.",
+  "fixtext": "Configure OL 9 to ignore IPv4 ICMP redirect messages.\n\nAdd or edit the following line in a single system configuration file in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv4.conf.all.accept_redirects = 0\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-75821r1092303_fix",
+  "VulnDiscussion": "ICMP redirect messages are used by routers to inform hosts that a more direct route exists for a particular destination. These messages modify the host's route table and are unauthenticated. An illicit ICMP redirect message could result in a man-in-the-middle attack.\n\nThis feature of the IPv4 protocol has few legitimate uses. It should be disabled unless absolutely required.",
+  "Documentable": "false"
+}

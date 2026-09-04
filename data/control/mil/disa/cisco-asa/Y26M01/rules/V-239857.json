@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-239857",
+  "rule_id": "SV-239857r665857_rule",
+  "stig_id": "CASA-FW-000090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco ASA must be configured to queue log records locally in the event that the central audit server is down or not reachable.",
+  "group_title": "SRG-NET-000089-FW-000019",
+  "idents": {
+    "cci": [
+      "CCI-000140"
+    ]
+  },
+  "check_id": "C-43090r665855_chk",
+  "check_content": "Review the ASA configuration and verify that logging to the buffer is enabled and that the queue size has been increased as shown in the example below.\n\nlogging enable\nlogging buffered informational\nlogging queue 8192\nlogging host NDM_INTERFACE 10.1.22.2 6/1514\n\nNote: Configuring a value of 0 for the queue size will set it to maximum size for the specific platform.\n\nIf the ASA is not configured to queue log records locally In the event that the central audit server is down or not reachable, this is a finding.",
+  "fixtext": "To continue to allow new connections and queue log records in the event the syslog server is not reachable, configure logging buffered and increase the queue size as shown in the example below.\n\nASA(config)# logging buffered informational\nASA(config)# logging queue 8192",
+  "fix_id": "F-43049r665856_fix",
+  "VulnDiscussion": "It is critical that when the network element is at risk of failing to process traffic logs as required, it takes action to mitigate the failure. Audit processing failures include software/hardware errors, failures in the audit capturing mechanisms, and audit storage capacity being reached or exceeded. Responses to audit failure depend on the nature of the failure mode.\n\nIn accordance with DoD policy, the traffic log must be sent to a central audit server. When logging functions are lost, system processing cannot be shut down because firewall availability is an overriding concern given the role of the firewall in the enterprise. The system should either be configured to log events to an alternative server or queue log records locally. Upon restoration of the connection to the central audit server, action should be taken to synchronize the local log data with the central audit server.\n\nIf the central audit server uses User Datagram Protocol (UDP) communications instead of a connection oriented protocol such as TCP, a method for detecting a lost connection must be implemented.",
+  "Documentable": "false"
+}

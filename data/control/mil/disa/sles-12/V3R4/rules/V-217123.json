@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-217123",
+  "rule_id": "SV-217123r1015211_rule",
+  "stig_id": "SLES-12-010220",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must employ FIPS 140-2-approved cryptographic hashing algorithms for all stored passwords.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "legacy": [
+      "V-77099",
+      "SV-91795"
+    ],
+    "cci": [
+      "CCI-000803",
+      "CCI-000196",
+      "CCI-004062"
+    ]
+  },
+  "check_id": "C-18351r646690_chk",
+  "check_content": "Verify the SUSE operating system requires the shadow password suite configuration be set to encrypt interactive user passwords using a strong cryptographic hash.\n\nCheck that the interactive user account passwords are using a strong password hash with the following command:\n\n> sudo cut -d: -f2 /etc/shadow\n\n$6$kcOnRq/5$NUEYPuyL.wghQwWssXRcLRFiiru7f5JPV6GaJhNC2aK5F3PZpE/BCCtwrxRc/AInKMNX3CdMw11m9STiql12f/\n\nPassword hashes \"!\" or \"*\" indicate inactive accounts not available for logon and are not evaluated. \n\nIf any interactive user password hash does not begin with \"$6\", this is a finding.",
+  "fixtext": "Configure the SUSE operating system to encrypt all stored passwords with a strong cryptographic hash.\n\nEdit/modify the following line in the \"/etc/login.defs\" file and set \"ENCRYPT_METHOD\" to have a value of \"SHA512\".\n\nENCRYPT_METHOD SHA512\n\nLock all interactive user accounts not using SHA512 hashing until the passwords can be regenerated.",
+  "fix_id": "F-18349r646691_fix",
+  "VulnDiscussion": "The system must use a strong hashing algorithm to store the password. The system must use a sufficient number of hashing rounds to ensure the required level of entropy.\n\nPasswords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nSatisfies: SRG-OS-000073-GPOS-00041, SRG-OS-000120-GPOS-00061",
+  "Documentable": "false"
+}

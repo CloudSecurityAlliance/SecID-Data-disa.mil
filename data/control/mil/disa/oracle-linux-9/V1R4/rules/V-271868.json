@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271868",
+  "rule_id": "SV-271868r1172845_rule",
+  "stig_id": "OL09-00-006024",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must use reverse path filtering on all IPv4 interfaces.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75918r1172844_chk",
+  "check_content": "Verify OL 9 uses reverse path filtering on all IPv4 interfaces with the following commands:\n\n$ sysctl net.ipv4.conf.all.rp_filter\nnet.ipv4.conf.all.rp_filter = 1\n\nIf the returned line does not have a value of \"1\", or a line is not returned, this is a finding.",
+  "fixtext": "Configure OL 9 to use reverse path filtering on all IPv4 interfaces. \n\nAdd or edit the following line in a single system configuration file in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv4.conf.all.rp_filter = 1\n\nThe system configuration files need to be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-75825r1092315_fix",
+  "VulnDiscussion": "Enabling reverse path filtering drops packets with source addresses that should not have been able to be received on the interface on which they were received. It must not be used on systems that are routers for complicated networks but is helpful for end hosts and routers serving small networks.",
+  "Documentable": "false"
+}

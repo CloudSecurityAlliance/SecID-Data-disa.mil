@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-277049",
+  "rule_id": "SV-277049r1148599_rule",
+  "stig_id": "APPL-26-000070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must enforce screen saver timeout.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-81204r1148597_chk",
+  "check_content": "Verify the macOS system is configured to initiate the screen saver timeout after 15 minutes of inactivity with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\nfunction run() {\nlet timeout = ObjC.unwrap($.NSUserDefaults.alloc.initWithSuiteName('com.apple.screensaver')\\\n.objectForKey('idleTime'))\nif ( timeout <= 900 ) {\nreturn(\"true\")\n} else {\nreturn(\"false\")\n}\n}\nEOS\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to initiate the screen saver after 15 minutes of inactivity by installing the \"com.apple.screensaver\" configuration profile.",
+  "fix_id": "F-81109r1148598_fix",
+  "VulnDiscussion": "The screen saver timeout must be set to 900 seconds or a shorter length of time.\n\nThis rule ensures that a full session lock is triggered within no more than 900 seconds of inactivity.",
+  "Documentable": "false"
+}

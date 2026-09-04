@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235018",
+  "rule_id": "SV-235018r991589_rule",
+  "stig_id": "SLES-15-040330",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must prevent Internet Protocol version 4 (IPv4) Internet Control Message Protocol (ICMP) redirect messages from being accepted.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-38206r619323_chk",
+  "check_content": "Verify the SUSE operating system does not accept IPv4 ICMP redirect messages.\n\nCheck the value of the IPv4 accept_redirects variable with the following command:\n\n> sudo sysctl net.ipv4.conf.all.accept_redirects\nnet.ipv4.conf.all.accept_redirects =0\n\nIf the network parameter \"ipv4.conf.all.accept_redirects\" is not equal to \"0\" or nothing is returned, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to not accept IPv4 ICMP redirect messages by running the following command as an administrator:\n\n> sudo sysctl -w net.ipv4.conf.all.accept_redirects=0\n\nIf \"0\" is not the system's default value, add or update the following line in \"/etc/sysctl.d/99-stig.conf\":\n\n> sudo sh -c 'echo \"net.ipv4.conf.all.accept_redirects=0\" >> /etc/sysctl.d/99-stig.conf'\n\n> sudo sysctl --system",
+  "fix_id": "F-38169r619324_fix",
+  "VulnDiscussion": "ICMP redirect messages are used by routers to inform hosts that a more direct route exists for a particular destination. These messages modify the host's route table and are unauthenticated. An illicit ICMP redirect message could result in a man-in-the-middle attack.",
+  "Documentable": "false"
+}

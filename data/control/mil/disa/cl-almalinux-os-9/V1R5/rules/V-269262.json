@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269262",
+  "rule_id": "SV-269262r1050144_rule",
+  "stig_id": "ALMA-09-020590",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The AlmaLinux OS 9 SSH server configuration file must be owned by root.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73293r1048162_chk",
+  "check_content": "Verify the ownership of \"/etc/ssh/sshd_config\" and any \"/etc/ssh/sshd_config.d/*.conf\" files with the following command:\n\n$ find /etc/ssh/sshd_config /etc/ssh/sshd_config.d -exec stat -c \"%U %n\" {} \\;\n\nroot /etc/ssh/sshd_config\nroot /etc/ssh/sshd_config.d\nroot /etc/ssh/sshd_config.d/40-stig.conf\nroot /etc/ssh/sshd_config.d/50-redhat.conf\nroot /etc/ssh/sshd_config.d/clientalive.conf\n\nIf any of the files do not have an owner of \"root\", this is a finding.",
+  "fixtext": "Configure the SSHD config files to be owned by root with the following command:\n\n$ chown root /etc/ssh/sshd_config /etc/ssh/sshd_config.d/*.conf",
+  "fix_id": "F-73194r1048163_fix",
+  "VulnDiscussion": "Service configuration files enable or disable features of their respective services, which, if configured incorrectly, can lead to insecure and vulnerable configurations. Therefore, service configuration files must be owned by the correct group to prevent unauthorized changes.",
+  "Documentable": "false"
+}

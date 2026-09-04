@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254800",
+  "rule_id": "SV-254800r961359_rule",
+  "stig_id": "CNTR-K8-002011",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Kubernetes must have a Pod Security Admission control file configured.",
+  "group_title": "SRG-APP-000342-CTR-000775",
+  "idents": {
+    "cci": [
+      "CCI-002263"
+    ]
+  },
+  "check_id": "C-58411r927123_chk",
+  "check_content": "Change to the /etc/kubernetes/manifests directory on the Kubernetes Control Plane. Run the command:\n\n\"grep -i admission-control-config-file *\"\n\nIf the setting \"--admission-control-config-file\" is not configured in the Kubernetes API Server manifest file, this is a finding.\n\nInspect the .yaml file defined by the --admission-control-config-file. Verify PodSecurity is properly configured. \nIf least privilege is not represented, this is a finding.",
+  "fixtext": "Edit the Kubernetes API Server manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Control Plane. \n\nSet the value of \"--admission-control-config-file\" to a valid path for the file.\n\nCreate an admission controller config file:\nExample File:\n```yaml\napiVersion: apiserver.config.k8s.io/v1\nkind: AdmissionConfiguration\nplugins:\n- name: PodSecurity\n  configuration:\n    apiVersion: pod-security.admission.config.k8s.io/v1beta1\n    kind: PodSecurityConfiguration\n    # Defaults applied when a mode label is not set.\n    defaults:\n      enforce: \"privileged\"\n      enforce-version: \"latest\"\n    exemptions:\n      # Don't forget to exempt namespaces or users that are responsible for deploying\n      # cluster components, because they need to run privileged containers\n      usernames: [\"admin\"] \n      namespaces: [\"kube-system\"]\n\nSee for more details:\nMigrate from PSP to PSA:\nhttps://kubernetes.io/docs/tasks/configure-pod-container/migrate-from-psp/\n\nBest Practice: https://kubernetes.io/docs/concepts/security/pod-security-policy/#recommended-practice.",
+  "fix_id": "F-58357r927124_fix",
+  "VulnDiscussion": "An admission controller intercepts and processes requests to the Kubernetes API prior to persistence of the object, but after the request is authenticated and authorized.\n\nKubernetes (> v1.23)offers a built-in Pod Security admission controller to enforce the Pod Security Standards. Pod security restrictions are applied at the namespace level when pods are created. \n\nThe Kubernetes Pod Security Standards define different isolation levels for Pods. These standards define how to restrict the behavior of pods in a clear, consistent fashion.",
+  "Documentable": "false"
+}

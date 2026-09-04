@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253128",
+  "rule_id": "SV-253128r991589_rule",
+  "stig_id": "TOSS-04-040870",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must not respond to Internet Control Message Protocol (ICMP) echoes sent to a broadcast address.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56581r825054_chk",
+  "check_content": "Verify TOSS does not respond to ICMP echoes sent to a broadcast address.\n\nNote: If IPv4 is disabled on the system, this requirement is Not Applicable.\nCheck the value of the \"icmp_echo_ignore_broadcasts\" variable with the following command:\n\n$ sudo sysctl net.ipv4.icmp_echo_ignore_broadcasts\n\nnet.ipv4.icmp_echo_ignore_broadcasts = 1\n\nIf the returned line does not have a value of \"1\", a line is not returned, or the retuned line is commented out, this is a finding.",
+  "fixtext": "Configure TOSS to not respond to IPv4 ICMP echoes sent to a broadcast address with the following command:\n\n$ sudo sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1\n\nIf \"1\" is not the system's default value then add or update the following line in the appropriate file under \"/etc/sysctl.d\":\n\nnet.ipv4.icmp_echo_ignore_broadcasts=1",
+  "fix_id": "F-56531r825055_fix",
+  "VulnDiscussion": "Responding to broadcast ICMP echoes facilitates network mapping and provides a vector for amplification attacks.\n\nThere are notable differences between Internet Protocol version 4 (IPv4) and Internet Protocol version 6 (IPv6). IPv6 does not implement the same method of broadcast as IPv4. Instead, IPv6 uses multicast addressing to the all-hosts multicast group. Refer to RFC4294 for an explanation of \"IPv6 Node Requirements\", which resulted in this difference between IPv4 and IPv6.",
+  "Documentable": "false"
+}

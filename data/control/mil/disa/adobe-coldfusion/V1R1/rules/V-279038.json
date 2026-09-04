@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-279038",
+  "rule_id": "SV-279038r1171464_rule",
+  "stig_id": "APAS-CF-000171",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Before installing or upgrading ColdFusion, the integrity of the installation package must be manually verified.",
+  "group_title": "SRG-APP-000131-AS-000002",
+  "idents": {
+    "cci": [
+      "CCI-001749"
+    ]
+  },
+  "check_id": "C-83586r1171462_chk",
+  "check_content": "Verify hash by obtaining the official cryptographic hash for the ColdFusion installation or upgrade package from the Adobe-provided source.\n\n1. On the system where the package is stored, compute the hash value using an approved tool (e.g., certutil on Windows or sha256sum on Linux).\n\nWindows Example:\ncertutil -hashfile ColdFusionInstaller.exe SHA256\n\nLinux Example:\nsha256sum ColdFusionInstaller.bin\n\n2. Compare the computed hash against the vendor-provided hash value.\n\nIf the computed hash does not exactly match the vendor-provided hash, this is a finding.\n\nIf there is no documented evidence that a manual hash verification was performed prior to installation or upgrade, this is a finding.",
+  "fixtext": "1. Obtain the official vendor-provided cryptographic hash for the ColdFusion installation or upgrade package.\n\n2. Before installation or upgrade, compute the hash value locally using an approved tool (e.g., certutil or sha256sum).\n\n3. Compare the computed hash against the vendor-provided hash. \n\na. If the values match, proceed with installation or upgrade.\n\nb. If the values do not match, do not proceed. Redownload the package from a trusted source and reverify until the hash matches.\n\n4. Maintain documentation of the verification process for auditing purposes.",
+  "fix_id": "F-83491r1171463_fix",
+  "VulnDiscussion": "The hash verification process must be performed using an approved hashing algorithm to ensure the package has not been altered, tampered with, or corrupted during transfer. If the computed hash does not exactly match the official vendor hash, the installation or upgrade must not proceed, and the discrepancy must be investigated and resolved prior to deployment.\n\nFailure to verify the cryptographic hash of ColdFusion installation or upgrade packages exposes the system to potential compromise. A malicious actor could modify the package to include backdoors, vulnerabilities, or unauthorized code. If the altered package is installed, it may provide an attacker with privileged access to the system, compromise sensitive data, or disrupt operations. Manually verifying the vendor-provided hash ensures the authenticity and integrity of the package before installation, protecting against supply chain attacks and unauthorized modifications.",
+  "Documentable": "false"
+}

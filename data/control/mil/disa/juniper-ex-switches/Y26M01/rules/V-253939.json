@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-253939",
+  "rule_id": "SV-253939r961863_rule",
+  "stig_id": "JUEX-NM-000620",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to generate log records for a locally developed list of auditable events.",
+  "group_title": "SRG-APP-000516-NDM-000334",
+  "idents": {
+    "cci": [
+      "CCI-000169",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-57391r843848_chk",
+  "check_content": "Determine if the network device generates audit log events for a locally developed list of auditable events.\n\nVerify audit logging is enabled.\n[edit system syslog]\nfile <file name> {\n    any info;\n}\nhost <external syslog address> {\n    any info;\n}\ntime-format year;\n\nNote: Without the \"structured-data\" directive (as shown), syslog outputs in standard format. Add the \"structured-data\" command to all files and external syslog servers requiring that format. For example:\n[edit system syslog]\nfile <file name> {\n    any info;\n    structured-data;\n}\n\nIf the logging facility and level is too broad, Junos supports REGEX or string match conditions to filter events. If used, verify the match conditions capture the required events.\n[edit system syslog]\nfile <file name> {\n    any info;\n    match <REGEX>;\n    -or-\n    match-strings [ \"string 1\" \"string 2\" ];\n}\nNote: When using match conditions, it may be necessary to use the \"any\" (debug) severity level, but this should not generate overwhelming numbers of messages because the filter will ignore all unmatched events.\n\nIf the network device is not configured to generate audit log events for a locally developed list of auditable events, this is a finding.",
+  "fixtext": "Configure the network device to generate audit log events for a locally developed list of auditable events.\n\nset system syslog file <file name> messages any info\nset system syslog file <file name> structured-data << (Optional) Only if structured data format is required\nset system syslog host <external syslog address> any info\nset system syslog host <external syslog address> structured-data << (Optional) Only if structured data format is required\nset system syslog time-format year\n\nIf using REGEX or string match conditions:\nset system syslog file <name> any <info|any>\nset system syslog file <name> match <REGEX>\n-or-\nset system syslog file <name> match-strings [ \"string 1\" \"string 2\" ]",
+  "fix_id": "F-57342r843849_fix",
+  "VulnDiscussion": "Auditing and logging are key components of any security architecture. Logging the actions of specific events provides a means to investigate an attack; to recognize resource utilization or capacity thresholds; or to identify an improperly configured network device. If auditing is not comprehensive, it will not be useful for intrusion monitoring, security investigations, and forensic analysis.",
+  "Documentable": "false"
+}

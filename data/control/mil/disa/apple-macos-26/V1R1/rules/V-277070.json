@@ -1,0 +1,29 @@
+{
+  "vuln_id": "V-277070",
+  "rule_id": "SV-277070r1148662_rule",
+  "stig_id": "APPL-26-001021",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must be configured to audit all changes of object attributes.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164",
+      "CCI-000172",
+      "CCI-001493",
+      "CCI-001494",
+      "CCI-001495",
+      "CCI-003938",
+      "CCI-002884"
+    ]
+  },
+  "check_id": "C-81225r1148660_chk",
+  "check_content": "Verify the macOS system is configured to audit all changes of object attributes with the following command:\n\n/usr/bin/awk -F':' '/^flags/ { print $NF }' /etc/security/audit_control | /usr/bin/tr ',' '\\n' | /usr/bin/grep -Ec '^fm'\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Configure the macOS system to audit all changes of object attributes with the following command:\n\n/usr/bin/grep -qE \"^flags.*fm\" /etc/security/audit_control || /usr/bin/sed -i.bak '/^flags/ s/$/,fm/' /etc/security/audit_control;/usr/sbin/audit -s",
+  "fix_id": "F-81130r1148661_fix",
+  "VulnDiscussion": "The audit system must be configured to record enforcement actions of attempts to modify file attributes (fm).\n\nEnforcement actions are the methods or mechanisms used to prevent unauthorized changes to configuration settings. One common and effective enforcement action method is using access restrictions (i.e., modifications to a file by applying file permissions).\n\nThis configuration ensures that audit lists include events in which enforcement actions attempt to modify a file.\n\nWithout auditing the enforcement of access restrictions, it is difficult to identify attempted attacks because no audit trail is available for forensic investigation.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029, SRG-OS-000064-GPOS-00033, SRG-OS-000256-GPOS-00097, SRG-OS-000257-GPOS-00098, SRG-OS-000258-GPOS-00099, SRG-OS-000365-GPOS-00152, SRG-OS-000392-GPOS-00172, SRG-OS-000458-GPOS-00203, SRG-OS-000462-GPOS-00206, SRG-OS-000463-GPOS-00207, SRG-OS-000465-GPOS-00209, SRG-OS-000466-GPOS-00210, SRG-OS-000467-GPOS-00211, SRG-OS-000468-GPOS-00212",
+  "Documentable": "false"
+}

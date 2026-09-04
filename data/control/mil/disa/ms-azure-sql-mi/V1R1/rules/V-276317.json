@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276317",
+  "rule_id": "SV-276317r1150033_rule",
+  "stig_id": "MSQL-D0-016200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Azure SQL Managed Instance default [sa] account must be disabled.",
+  "group_title": "SRG-APP-000033-DB-000084",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-80472r1149858_chk",
+  "check_content": "Check Azure SQL Managed Instance settings to determine if the [sa] account has been disabled by executing the following query:\n\nUSE master;\nGO\nSELECT name, is_disabled\nFROM sys.sql_logins\nWHERE principal_id = 1;\nGO\n \nThe \"name\" column contains the current name of the [sa] database server account.\n \nIf the \"is_disabled\" column is not set to \"1\", this is a finding.",
+  "fixtext": "Modify the enabled flag of Azure SQL Managed Instance's [sa] account by running the following script: \n\nUSE master; \nGO \nALTER LOGIN [sa] DISABLE; \nGO",
+  "fix_id": "F-80377r1149859_fix",
+  "VulnDiscussion": "Azure SQL Managed Instance [sa] account has special privileges required to administer the database. The [sa] account is a well-known account and is likely to be targeted by attackers and thus more prone to providing unauthorized access to the database. \n\nThis [sa] default account is administrative and could lead to catastrophic consequences, including the complete loss of control over Azure SQL Managed Instance. If the [sa] default account is not disabled, an attacker could gain access through the account. Azure SQL Managed Instance by default disables the [sa] account at creation. \n \nSome applications that run on Azure SQL Managed Instance require the [sa] account to be enabled for the application to function properly. These applications that require the [sa] account to be enabled are usually legacy systems.",
+  "Documentable": "false"
+}

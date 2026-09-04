@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272029",
+  "rule_id": "SV-272029r1168259_rule",
+  "stig_id": "CACI-L2-000001",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco ACI layer 2 switch must uniquely identify all network-connected endpoint devices before establishing any connection.",
+  "group_title": "SRG-NET-000148-L2S-000015",
+  "idents": {
+    "cci": [
+      "CCI-000778"
+    ]
+  },
+  "check_id": "C-76079r1168257_chk",
+  "check_content": "Verify if the switch configuration has 802.1x authentication implemented for all access switch ports connecting to LAN outlets (i.e., RJ-45 wall plates) or devices not located in the telecom room, wiring closets, or equipment rooms. MAC Authentication Bypass (MAB) must be configured on those switch ports connected to devices that do not support an 802.1x supplicant.\n\n1. Navigate to  Fabric >> Access Policies >> Interfaces >> Leaf Interfaces >> Policy Groups >> (Leaf Access port, PC interface or VPC interface) >> {{your_policy_name}} >> Advance Policies.\n2. Select the port profile that is used for host-facing access ports.\n3. Within the port profile configuration, locate the 802.1x settings and verify 802.1x is and MAB are enabled.\n4. Navigate to the Endpoints section.\n5. Choose the leaf nodes that host the host-facing ports and verify the port profile is applied.\n\nVerify the policy group is assigned to an interface: Fabric >> Access Policies >> Interfaces >> Leaf Interfaces >> Profiles >> {{your_profile}}.\n\nIf 802.1x authentication or MAB is not configured on all access switch ports connecting to LAN outlets or devices not located in the telecom room, wiring closets, or equipment rooms, this is a finding.",
+  "fixtext": "Enable 802.1X authentication on host-facing access ports in Cisco APIC and accommodate devices lacking 802.1X support, configure MAB (MAC Authentication Bypass). The following is an example.\n\n1. Navigate to  Fabric >> Access Policies >> Interfaces >> Leaf Interfaces >> Policy Groups >> (Leaf Access port, PC interface or VPC interface) >> {{your_policy_name}} >> Advance Policies.\n2. Select the port profile that is used for host-facing access ports.\n3. Within the port profile configuration, locate the 802.1x settings and enable it.\n4. Specify the 802.1x authentication parameters are set. \n5. Enable MAB and specify the MAC address range and relevant settings.\n6. For Host Mode, select \"Single Host\".\n7. The MAC Auth should be EAP_FALLBACK_MAB.\n8. In the Failed-auth VLAN field, select the VLAN to deploy to if authentication failed.\n9. In the Failed-auth EPG field, choose the tenant, application profile, or EPG to deploy to if authentication failed.\n10. Go to the Endpoints section.\n11. Choose the leaf nodes that host the host-facing ports.\n12. Apply the configured port profile to the host-facing ports.\n\nApply the policy group to an interface: Fabric >> Access Policies >> Interfaces >> Leaf Interfaces >> Profiles >> {{your_profile}}.",
+  "fix_id": "F-75986r1168258_fix",
+  "VulnDiscussion": "Controlling LAN access via 802.1x authentication can assist in preventing a malicious user from connecting an unauthorized PC to a switch port to inject or receive data from the network without detection.\n\nIn ACI, VLANs are used for traffic segmentation and identification, but their primary function is for identifying traffic, not directly configuring the leaf switch ports.",
+  "Documentable": "false"
+}

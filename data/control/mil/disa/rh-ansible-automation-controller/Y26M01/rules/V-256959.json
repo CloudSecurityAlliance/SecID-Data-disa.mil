@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256959",
+  "rule_id": "SV-256959r961167_rule",
+  "stig_id": "APWS-AT-000640",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Debugging and trace information, within Automation Controller NGINX web server, used to diagnose the web server must be disabled.",
+  "group_title": "SRG-APP-000266-WSR-000160",
+  "idents": {
+    "cci": [
+      "CCI-001312"
+    ]
+  },
+  "check_id": "C-60634r902389_chk",
+  "check_content": "For each Automation Controller NGINX web server, a system administrator must check to determine if any error or debug information is being logged or generated:\n\nNGINXCONF=`nginx -V 2>&1 | tr ' ' '\\n' | sed -ne '/conf-path/{s/.*conf-path=\\(.*\\)/\\1/;p}' ` ;  cat $NGINXCONF  | grep '^\\s*error_log' && echo FAILED\n\nIf \"FAILED\" is displayed, this is a finding.",
+  "fixtext": "For each Automation Controller NGINX web server, a system administrator must complete the following steps. \n\nVerify the NGINX configuration file in use:\n\nNGINXCONF=`nginx -V 2>&1 | tr ' ' '\\n' | sed -ne '/conf-path/{s/.*conf-path=\\(.*\\)/\\1/;p}' ` ;  echo $NGINXCONF\n\nRemove the error_log directive from the NGINX configuration file.\n\nCause NGINX to reload its configuration file:\n\npkill -HUP nginx",
+  "fix_id": "F-60576r902390_fix",
+  "VulnDiscussion": "It is important that Automation Controller NGINX web server debugging and trace information used to diagnose the web server is disabled, because debugging information can yield information about the Automation Controller NGINX webserver, like web server type, version, patches installed, plugins, modules, the hosted app’s code type. Back ends used for storage could be revealed, as well. An attacker would not need to cause an error condition to gain this information because they could reside in logs and general messages.\n\nIf debugging/trace information is enabled, attackers could get the information from logs and general information, without drawing attention to themselves via an error message.",
+  "Documentable": "false"
+}

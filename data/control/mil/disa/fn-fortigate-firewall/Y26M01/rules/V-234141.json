@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234141",
+  "rule_id": "SV-234141r835165_rule",
+  "stig_id": "FNFG-FW-000050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate firewall must protect traffic log records from unauthorized access while in transit to the central audit server.",
+  "group_title": "SRG-NET-000098-FW-000021",
+  "idents": {
+    "cci": [
+      "CCI-000162"
+    ]
+  },
+  "check_id": "C-37326r835163_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privileges.\n\n1. Open a CLI console via SSH or from the GUI widget.\n2. Run the following command:\n     # show full-configuration log syslogd setting\nThe output should include:\n     set server {123.123.123.123}\n     set mode reliable\n     set enc-algorithm {medium-high | high}\n\nIf the syslogd mode is not set to reliable, this is a finding.\nIf the set enc-algorithm is not set to high or medium-high, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super-Admin privilege.\n\nFirst, upload the CA certificate that issued the Syslog server certificate.\n1. Click System.\n2. Click Certificates.\n3. Click Import, then CA Certificate.\n4. Specify File, and click + Upload.\n5. Choose the CA Certificate to upload from the local hard drive.\n6. Click OK.\n\nThen, configure a TLS-enabled syslog connection:\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config log syslogd setting\n     #    set status enable\n     #    set server {SYSLOG SERVER IP ADDRESS} \n     #    set mode reliable\n     #    set enc-algorithm {HIGH-MEDIUM | HIGH}\n     #    set certificate (Optional - Select local certificate if Syslog server is challenging client [FortiGate] for authentication)\n     # end\n\nNote: The server IP address must be on the site's management network.",
+  "fix_id": "F-37291r835164_fix",
+  "VulnDiscussion": "Auditing and logging are key components of any security architecture. Logging the actions of specific events provides a means to investigate an attack, recognize resource utilization or capacity thresholds, or identify an improperly configured firewall. Thus, it is imperative that the collected log data be secured and access be restricted to authorized personnel. Methods of protection may include encryption or logical separation.\n\nThis does not apply to traffic logs generated on behalf of the device itself (management). Some devices store traffic logs separately from the system logs.",
+  "Documentable": "false"
+}

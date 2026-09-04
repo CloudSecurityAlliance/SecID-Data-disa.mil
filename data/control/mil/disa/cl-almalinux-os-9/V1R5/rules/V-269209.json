@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269209",
+  "rule_id": "SV-269209r1050091_rule",
+  "stig_id": "ALMA-09-014650",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All AlmaLinux OS 9 local interactive user home directories defined in the /etc/passwd file must exist.",
+  "group_title": "SRG-OS-000480-GPOS-00230",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73240r1048003_chk",
+  "check_content": "Verify the assigned home directories of all interactive users on the system exist with the following command:\n\n$ pwck -r\n\nuser 'testdupe': directory '/home/testdupe' does not exist\n\nThe output should not return any interactive users.\n\nIf users home directory does not exist, this is a finding.",
+  "fixtext": "Create home directories to all local interactive users that currently do not have a home directory assigned. Use the following commands to create the user home directory assigned in \"/etc/ passwd\":\n\nNote: The example will be for the user testdupe, who has a home directory of \"/home/testdupe\", a UID of \"testdupe\", and a GID of \"testdupe\" in \"/etc/passwd\":\n\n$ mkdir /home/testdupe \n$ chown testdupe /home/testdupe\n$ chgrp testdupe /home/testdupe\n$ chmod 0700 /home/testdupe",
+  "fix_id": "F-73141r1048004_fix",
+  "VulnDiscussion": "If a local interactive user has a home directory defined that does not exist, the user may be given access to the / directory as the current working directory upon logon. \n\nThis could create a denial of service because the user would not be able to access their logon configuration files, and it may give them visibility to system files they normally would not be able to access.",
+  "Documentable": "false"
+}

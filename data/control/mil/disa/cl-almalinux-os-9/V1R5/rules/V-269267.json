@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269267",
+  "rule_id": "SV-269267r1050149_rule",
+  "stig_id": "ALMA-09-021140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 SSH daemon must not allow known hosts authentication.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73298r1048177_chk",
+  "check_content": "Verify the SSH daemon does not allow known hosts authentication with the following command:\n\n$ sshd -T | grep ignoreuserknownhosts\n\nignoreuserknownhosts yes\n\nIf the value is returned as \"no\", this is a finding.",
+  "fixtext": "Configure the SSH daemon to not allow known hosts authentication.\n\nAdd the following line to \"/etc/ssh/sshd_config\", or uncomment the line and set the value to \"yes\":\n\nIgnoreUserKnownHosts yes\n\nAlternatively, add the setting to an include file if the line \"Include /etc/ssh/sshd_config.d/*.conf\" is found at the top of the \"/etc/ssh/sshd_config\" file:\n\n$ echo 'IgnoreUserKnownHosts yes' > /etc/ssh/sshd_config.d/40-knownhosts.conf\n\nRestart the SSH daemon for the settings to take effect:\n\n$ systemctl restart sshd.service",
+  "fix_id": "F-73199r1048178_fix",
+  "VulnDiscussion": "Configuring the IgnoreUserKnownHosts setting for the SSH daemon provides additional assurance that remote login via SSH will require a password, even in the event of misconfiguration elsewhere.",
+  "Documentable": "false"
+}

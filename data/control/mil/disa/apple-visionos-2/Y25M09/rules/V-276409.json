@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276409",
+  "rule_id": "SV-276409r1146723_rule",
+  "stig_id": "AVOS-02-013500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Apple visionOS must implement the management setting: not allow a user to remove Apple visionOS configuration profiles that enforce DOD security requirements.",
+  "group_title": "PP-MDF-993300",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-80564r1146721_chk",
+  "check_content": "Review configuration settings to confirm configuration profiles are not removable.\n\nThis check procedure is performed on both the Apple visionOS management tool and the Apple visionOS device. The procedures below assume the site is not enrolled in Apple's Automatic Device Enrollment and are not applicable to devices under MDM management.\n\nNote: If an organization has multiple configuration profiles, the check procedure must be performed on the relevant configuration profiles applicable to the scope of the review. \n\nIn the Apple visionOS management tool, verify \"Security\" is set to \"Never\" and \"Automatically Remove Profile\" is set to \"Never\".\n\nOn the Apple visionOS device:\n1. Open the Settings app.\n2. Tap \"General\".\n3. Tap \"VPN & Device Management\". \n4. Tap each Configuration Profile from the Apple visionOS management tool that contains the restrictions for the device.\n5. Verify the \"Remove Profile\" button is not present.\n\nIf on the Apple visionOS management tool or the visionOS device the \"Remove Profile\" button is available on the configuration profile, this is a finding.",
+  "fixtext": "Configure the Apple visionOS configuration profile so that it can never be removed.\n\nThe procedure for implementing this control will vary depending on the MDM/EMM used by the mobile service provider.\n\nWhen using Apple Configurator, under \"General Security\", configure \"Security\" to \"Never\" and \"Automatically Remove Profile\" to \"Never\".",
+  "fix_id": "F-80469r1146722_fix",
+  "VulnDiscussion": "Configuration profiles define security policies on Apple visionOS devices. If a user can remove a configuration profile, the user can then change the configuration that had been enforced by that policy. Relaxing security policies may introduce vulnerabilities the profiles had mitigated. Configuring a profile to never be removed mitigates this risk.\n\nSFR ID: FMT_SMF.1.1 #47",
+  "Documentable": "false"
+}

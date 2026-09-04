@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271676",
+  "rule_id": "SV-271676r1091740_rule",
+  "stig_id": "OL09-00-002106",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must conceal, via the session lock, information previously visible on the display with a publicly viewable image.",
+  "group_title": "SRG-OS-000031-GPOS-00012",
+  "idents": {
+    "cci": [
+      "CCI-000060"
+    ]
+  },
+  "check_id": "C-75726r1091738_chk",
+  "check_content": "This requirement assumes the use of the OL 9 default graphical user interface—the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\nVerify that OL 9 configures the screensaver to be blank with the following command:\n\n$ gsettings get org.gnome.desktop.screensaver picture-uri \n\nIf properly configured, the output should be \"''\".\n\nTo ensure that users cannot set the screensaver background, run the following: \n\n$ grep picture-uri /etc/dconf/db/local.d/locks/* \n\nIf properly configured, the output should be \"/org/gnome/desktop/screensaver/picture-uri\".\n\nIf it is not set or configured properly, this is a finding.",
+  "fixtext": "Configure OL 9 to conceal, via the session lock, information previously visible on the display with a publicly viewable image.\n\nThe dconf settings can be edited in the /etc/dconf/db/* location.\n\nAdd or update the [org/gnome/desktop/screensaver] section of the \"/etc/dconf/db/local.d/00-security-settings\" database file and add or update the following lines:\n\n[org/gnome/desktop/screensaver]\npicture-uri=''\n\nAdd the following line to \"/etc/dconf/db/local.d/locks/00-security-settings-lock\" to prevent user modification:\n\n/org/gnome/desktop/screensaver/picture-uri\n\nUpdate the dconf system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-75633r1091739_fix",
+  "VulnDiscussion": "Setting the screensaver mode to blank-only conceals the contents of the display from passersby.",
+  "Documentable": "false"
+}

@@ -1,0 +1,31 @@
+{
+  "vuln_id": "V-279177",
+  "rule_id": "SV-279177r1170662_rule",
+  "stig_id": "SYME-00-004200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Edge SWG must ensure inbound and outbound traffic is monitored for compliance with remote access security policies.",
+  "group_title": "SRG-NET-000061-ALG-000009",
+  "idents": {
+    "cci": [
+      "CCI-000067",
+      "CCI-000130",
+      "CCI-000131",
+      "CCI-000132",
+      "CCI-000133",
+      "CCI-000134",
+      "CCI-001487",
+      "CCI-001919",
+      "CCI-001851",
+      "CCI-001314",
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-83725r1170661_chk",
+  "check_content": "1. In the Edge SWG Web UI, navigate to the Visual Policy Manager (VPM).\n2. Navigate to \"Administration and Event Logging\".\n3. Scroll down to \"Syslog Loghosts\".\n\nIf there is no Web Access Layer this is a finding.\n\nIf there is a Web Access Layer, but the Track is not set or not configured, this is a finding.\n\nIf no log hosts are configured, this is a finding.",
+  "fixtext": "1. In the Edge SWG Web UI, navigate to the VPM.\n2. Select the Web Access Layer.\n3. Click the first block or allow rule.\n4. Left-click \"Track\".\n5. Click \"Set\".\n6. Click \"Add New Object\".\n7. Click \"Event Log\".\n8. Under \"Details\" add the following:\n$(appliance.name)$(appliance.primary_address)$(c-ip)$(c-port)$(c-uri)$(c-uri-address)$(c-uri-cookie-domain)$(c-uri-extension)$(c-uri-host)$(c-uri-hostname)$(c-uri-path)$(c-uri-pathquery)$(client.address)$(client.certificate.subject)$(client.host)$(client.public_address)$(cs-auth-group)$(cs-categories-policy)$(date)$(user.name)$(user.x509.subject)\n\n9. Under \"Category\", click \"All\".\n10. Under \"Display Options\", click \"Both\".\n11. Click \"Apply\".\n12. Repeat these steps for each rule under the Web Access Layer.\n13. Click \"Apply Policy\".\n\n1. In the Edge SWG Web UI, navigate to the Administration tab.\n2. Go to \"Logging and Event Logging\".\n3. Scroll down to \"syslog loghosts\".\n4. Click \"Add Loghost\".\n5. Select \"TLS\".\n6. Enter the hostname of the syslog server.\n7. Enter the port. For TLS, it is normally 6514.\n8. Select the SSL Device Profile that will be used. (Note: The SSL device profile must include the CA certificate chain that signed the certificate of the syslog server if it is different from the ones that signed the web server certificate).",
+  "fix_id": "F-83630r1170622_fix",
+  "VulnDiscussion": "Automated monitoring of remote access traffic allows organizations to detect cyberattacks and ensure ongoing compliance with remote access policies by inspecting connection activities of remote access capabilities.\n\nRemote access methods include both unencrypted and encrypted traffic (e.g., web portals, web content filter, TLS and webmail). With inbound TLS inspection, the traffic must be inspected prior to being allowed on the enclave's web servers hosting TLS or HTTPS applications. With outbound traffic inspection, traffic must be inspected prior to being forwarded to destinations outside of the enclave, such as external email traffic.\n\nSatisfies: SRG-NET-000061-ALG-000009, SRG-NET-000074-ALG-000043, SRG-NET-000075-ALG-000044, SRG-NET-000076-ALG-000045, SRG-NET-000077-ALG-000046, SRG-NET-000078-ALG-000047, SRG-NET-000079-ALG-000048, SRG-NET-000331-ALG-000041, SRG-NET-000334-ALG-000050, SRG-NET-000402-ALG-000130, SRG-NET-000492-ALG-000027, SRG-NET-000511-ALG-000051, SRG-NET-000513-ALG-000026",
+  "Documentable": "false"
+}

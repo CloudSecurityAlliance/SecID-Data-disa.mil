@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234139",
+  "rule_id": "SV-234139r611417_rule",
+  "stig_id": "FNFG-FW-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The FortiGate firewall must generate traffic log entries containing information to establish the outcome of the events, such as, at a minimum, the success or failure of the application of the firewall rule.",
+  "group_title": "SRG-NET-000078-FW-000013",
+  "idents": {
+    "cci": [
+      "CCI-000134"
+    ]
+  },
+  "check_id": "C-37324r611415_chk",
+  "check_content": "Log in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Log and Report.\n2. Click Forward Traffic or Local Traffic.\n3. Double-click on an Event to view Log Details.\n4. Verify log events contain status information like success or failure of the application of the firewall rule.\n\nIn addition to System log settings, verify that individual IPv4 policies are configured with most suitable Logging Options.\n\n1. Click Policy and Objects.\n2. Click IPv4 or IPv6 Policy.\n3. Verify all Policy rules are configured with Logging Options set to log All Sessions (for most verbose logging).\n\nIf the log events do not contain status information, like success or failure of the application of the firewall rule, this is a finding.",
+  "fixtext": "This fix can be performed on the FortiGate GUI or on the CLI. \nLog in to the FortiGate GUI with Super-Admin privilege.\n\n1. Click Log and Report.\n2. Click Log Settings.\n3. Click All for the Event Logging and Local Traffic Log options (for most verbose logging), or Click Customize and choose granular logging options to meet organization needs.\n4. Scroll to UUID in Traffic Log and toggle Policy and Address buttons to enable.\n5. Click Apply.\n\nIn addition to these log settings, configure individual firewall policies with the most suitable Logging Options.\n\n1. Click Policy and Objects.\n2. Click IPv4 or IPv6 Policy.\n3. For each policy, configure Logging Options to log All Sessions (for most verbose logging).\n4. Confirm each created Policy is Enabled.\n5. Click OK.\n\nor\n\n1. Open a CLI console, via SSH or available from the GUI.\n2. Run the following command:\n     # config log eventfilter\n     #    set event enable\n     #    set system enable\n     #    set endpoint enable\n     #    set user enable\n     #    set security-rating enable\n     # end\n     # config firewall policy\n     #   edit 0\n     #        set srcintf {interface_name_1}\n     #        set dstintf {interface_name_2}\n     #        set srcaddr {address_a}\n     #        set dstaddr {address_b}\n     #        set schedule {always}\n     #        set service {services required by site policy}\n     #        set action {accept}\n     #        set logtraffic enable\n     #    next\n     # end\n\nThe {} indicate the object is defined by the organization policy.",
+  "fix_id": "F-37289r611416_fix",
+  "VulnDiscussion": "Without information about the outcome of events, security personnel cannot make an accurate assessment as to whether an attack was successful or if changes were made to the security state of the network.\n\nEvent outcomes can include indicators of event success or failure and event-specific results. They also provide a means to measure the impact of an event and help authorized personnel to determine the appropriate response.",
+  "Documentable": "false"
+}

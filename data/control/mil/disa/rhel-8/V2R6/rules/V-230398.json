@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230398",
+  "rule_id": "SV-230398r1017204_rule",
+  "stig_id": "RHEL-08-030090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 audit logs must be group-owned by root to prevent unauthorized read access.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162"
+    ]
+  },
+  "check_id": "C-33067r567940_chk",
+  "check_content": "Verify the audit logs are group-owned by \"root\". First determine where the audit logs are stored with the following command:\n\n$ sudo grep -iw log_file /etc/audit/auditd.conf\n\nlog_file = /var/log/audit/audit.log\n\nUsing the location of the audit log file, determine if the audit log is group-owned by \"root\" using the following command:\n\n$ sudo ls -al /var/log/audit/audit.log\n\nrw------- 2 root root 23 Jun 11 11:56 /var/log/audit/audit.log\n\nIf the audit log is not group-owned by \"root\", this is a finding.",
+  "fixtext": "Configure the audit log to be owned by root by configuring the log group in the /etc/audit/auditd.conf file:\n\nlog_group = root",
+  "fix_id": "F-33042r567941_fix",
+  "VulnDiscussion": "Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality.\n\nAudit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit RHEL 8 activity.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029",
+  "Documentable": "false"
+}

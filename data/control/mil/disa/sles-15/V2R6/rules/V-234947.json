@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-234947",
+  "rule_id": "SV-234947r958412_rule",
+  "stig_id": "SLES-15-030480",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must generate audit records for all modifications to the lastlog file.",
+  "group_title": "SRG-OS-000037-GPOS-00015",
+  "idents": {
+    "cci": [
+      "CCI-000130",
+      "CCI-000169",
+      "CCI-000172",
+      "CCI-002884"
+    ]
+  },
+  "check_id": "C-38135r619110_chk",
+  "check_content": "Verify the SUSE operating system generates an audit record when all modifications to the \"lastlog\" file occur.\n\nCheck that the file is being audited by performing the following command:\n\n> sudo auditctl -l | grep -w '/var/log/lastlog'\n\n-w /var/log/lastlog -p wa -k logins\n\nIf the command does not return a line, this is a finding.\n\nNote:\nThe \"-k\" allows for specifying an arbitrary identifier. The string following \"-k\" does not need to match the example output above.",
+  "fixtext": "Configure the SUSE operating system to generate an audit record for any all modifications to the \"lastlog\" file occur. \n\nAdd or update the following rule to \"/etc/audit/rules.d/audit.rules\":\n\n-w /var/log/lastlog -p wa -k logins\n\nTo reload the rules file, restart the audit daemon\n\n> sudo systemctl restart auditd.service\n\nor issue the following command:\n\n> sudo augenrules --load",
+  "fix_id": "F-38098r619111_fix",
+  "VulnDiscussion": "Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).\n\nSatisfies: SRG-OS-000037-GPOS-00015, SRG-OS-000062-GPOS-00031, SRG-OS-000392-GPOS-00172, SRG-OS-000462-GPOS-00206, SRG-OS-000471-GPOS-00215, SRG-OS-000473-GPOS-00218",
+  "Documentable": "false"
+}

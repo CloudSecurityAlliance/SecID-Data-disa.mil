@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216478",
+  "rule_id": "SV-216478r959010_rule",
+  "stig_id": "SOL-11.1-100050",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The audit system must maintain a central audit trail for all zones.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-47837",
+      "SV-60711"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17714r371516_chk",
+  "check_content": "This check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nList the non-global zones on the system.\n\n# zoneadm list -vi | grep -v global\n\nThe Audit Configuration profile is required.\n\nDetermine whether the \"perzone\" auditing policy is in effect.\n\n# pfexec auditconfig -getpolicy | grep active | grep perzone\n\nIf output is returned, this is a finding.",
+  "fixtext": "This check applies to the global zone only. Determine the zone that you are currently securing.\n\n# zonename\n\nIf the command output is \"global\", this check applies.\n\nList the non-global zones on the system.\n\n# zoneadm list -vi | grep -v global\n\nThe Audit Configuration profile is required.\n\nDisable the \"perzone\" auditing policy.\n\n# pfexec auditconfig -setpolicy -perzone",
+  "fix_id": "F-17712r371517_fix",
+  "VulnDiscussion": "Centralized auditing simplifies the investigative process to determine the cause of a security event.",
+  "Documentable": "false"
+}

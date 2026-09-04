@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276294",
+  "rule_id": "SV-276294r1149791_rule",
+  "stig_id": "MSQL-D0-004200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must protect against a user falsely repudiating by ensuring databases are not in a trust relationship.",
+  "group_title": "SRG-APP-000080-DB-000063",
+  "idents": {
+    "cci": [
+      "CCI-000166"
+    ]
+  },
+  "check_id": "C-80449r1149789_chk",
+  "check_content": "If the database being reviewed is MSDB, trustworthy is required to be enabled, and therefore, this is not a finding.\n\nExecute the following query:\n \nSELECT \n[DatabaseName] = d.name\n,[DatabaseOwner] = login.name\n,[IsTrustworthy] = CASE\nWHEN d.is_trustworthy_on = 0 THEN 'No'\nWHEN d.is_trustworthy_on = 1 THEN 'Yes'\nEND\n,[IsOwnerPrivilege] = CASE\nWHEN role.name IN ('sysadmin','securityadmin')\nOR\n\npermission.permission_name = 'CONTROL SERVER'\nTHEN 'YES'\nELSE 'No'\nEND\nFROM sys.databases d\nLEFT JOIN sys.server_principals login ON d.owner_sid = login.sid\nLEFT JOIN sys.server_role_members rm ON login.principal_id = rm.member_principal_id\nLEFT JOIN sys.server_principals role ON rm.role_principal_id = role.principal_id\nLEFT JOIN sys.server_permissions permission ON login.principal_id = permission.grantee_principal_id\nWHERE d.name <> 'msdb'\n \nIf trustworthy is not enabled, this is not a finding.\n \nIf trustworthy is enabled and the database owner is not a privileged account, this is not a finding.\n \nIf trustworthy is enabled and the database owner is a privileged account, review the system documentation to determine if the trustworthy property is required and authorized. If this is not documented, this is a finding.",
+  "fixtext": "Disable trustworthy on the database.\n \nALTER DATABASE [<database name>] SET TRUSTWORTHY OFF;",
+  "fix_id": "F-80354r1149790_fix",
+  "VulnDiscussion": "Nonrepudiation of actions taken is required to maintain data integrity. Examples of particular actions taken by individuals include creating information, sending a message, approving information (e.g., indicating concurrence or signing a contract), and receiving a message. \n \nNonrepudiation protects against later claims by a user of not having created, modified, or deleted a particular data item or collection of data in the database.\n \nAzure SQL Managed Instance provides the ability for high privileged accounts to impersonate users in a database using the TRUSTWORTHY feature. This will allow members of the fixed database role to impersonate any user within the database.",
+  "Documentable": "false"
+}

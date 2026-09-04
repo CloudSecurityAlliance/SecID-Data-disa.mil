@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-244545",
+  "rule_id": "SV-244545r958804_rule",
+  "stig_id": "RHEL-08-040136",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RHEL 8 fapolicy module must be enabled.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-47820r743882_chk",
+  "check_content": "Verify the RHEL 8 \"fapolicyd\" is enabled and running with the following command:\n\n$ sudo systemctl status fapolicyd.service\n\nfapolicyd.service - File Access Policy Daemon\nLoaded: loaded (/usr/lib/systemd/system/fapolicyd.service; enabled; vendor preset: disabled)\nActive: active (running)\n\nIf fapolicyd is not enabled and running, this is a finding.",
+  "fixtext": "Enable \"fapolicyd\" using the following command:\n\n$ sudo systemctl enable --now fapolicyd",
+  "fix_id": "F-47777r743883_fix",
+  "VulnDiscussion": "The organization must identify authorized software programs and permit execution of authorized software. The process used to identify software programs that are authorized to execute on organizational information systems is commonly referred to as whitelisting.\n\nUtilizing a whitelist provides a configuration management method for allowing the execution of only authorized software. Using only authorized software decreases risk by limiting the number of potential vulnerabilities. Verification of whitelisted software occurs prior to execution or at system startup.\n\nUser home directories/folders may contain information of a sensitive nature. Non-privileged users should coordinate any sharing of information with an SA through shared resources.\n\nRHEL 8 ships with many optional packages. One such package is a file access policy daemon called \"fapolicyd\". \"fapolicyd\" is a userspace daemon that determines access rights to files based on attributes of the process and file. It can be used to either blacklist or whitelist processes or file access.\n\nProceed with caution with enforcing the use of this daemon. Improper configuration may render the system non-functional. The \"fapolicyd\" API is not namespace aware and can cause issues when launching or running containers.\n\nSatisfies: SRG-OS-000368-GPOS-00154, SRG-OS-000370-GPOS-00155, SRG-OS-000480-GPOS-00232",
+  "Documentable": "false"
+}

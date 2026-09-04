@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270583",
+  "rule_id": "SV-270583r1065027_rule",
+  "stig_id": "O19C-00-018300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Oracle Database must only generate error messages that provide information necessary for corrective actions without revealing organization-defined sensitive or potentially harmful information in error logs and administrative messages that could be exploited.",
+  "group_title": "SRG-APP-000266-DB-000162",
+  "idents": {
+    "cci": [
+      "CCI-001312"
+    ]
+  },
+  "check_id": "C-74616r1065025_chk",
+  "check_content": "Check DBMS settings and custom database and application code to verify error messages do not contain information beyond what is needed for troubleshooting the issue.\n\nIf database errors contain PII data, sensitive business data, or information useful for identifying the host system, this is a finding.",
+  "fixtext": "Configure DBMS and custom database and application code not to divulge sensitive information or information useful for system identification in error information.",
+  "fix_id": "F-74517r1065026_fix",
+  "VulnDiscussion": "Any database management system (DBMS) or associated application providing too much information in error messages on the screen or printout risks compromising the data and security of the system. The structure and content of error messages need to be carefully considered by the organization and development team.\n\nDatabases can inadvertently provide a wealth of information to an attacker through improperly handled error messages. In addition to sensitive business or personal information, database errors can provide host names, IP addresses, usernames, and other system information not required for troubleshooting but very useful to someone targeting the system.\n\nCarefully consider the structure/content of error messages. The extent to which information systems are able to identify and handle error conditions is guided by organizational policy and operational requirements. Information that could be exploited by adversaries includes, for example, logon attempts with passwords entered by mistake as the username, mission/business information that can be derived from (if not stated explicitly by) information recorded, and personal information, such as account numbers, social security numbers, and credit card numbers.\n\nThis requires for inspection of application source code, which will involve collaboration with the application developers. It is recognized that in many cases, the database administrator (DBA) is organizationally separate from the application developers, and may have limited, if any, access to source code. Nevertheless, protections of this type are so important to the secure operation of databases that they must not be ignored. At a minimum, the database administrator (DBA) must attempt to obtain assurances from the development organization that this issue has been addressed and must document what has been discovered.\n\nOut of the box, Oracle Database covers this. For example, if a user does not have access to a table, the error is just that the table or view does not exist. The Oracle Database is not going to display a Social Security Number in an error code unless an application is programmed to do so. Oracle applications will not expose the actual transactional data to a screen. The only way Oracle will capture this information is to enable specific logging levels. Custom code would require a review to ensure compliance.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276288",
+  "rule_id": "SV-276288r1150072_rule",
+  "stig_id": "MSQL-D0-001700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The database master key (DMK) for Azure SQL Server Managed Instance must be encrypted by the service master key (SMK), where a DMK is required and another encryption method has not been specified.",
+  "group_title": "SRG-APP-000231-DB-000154",
+  "idents": {
+    "cci": [
+      "CCI-001199"
+    ]
+  },
+  "check_id": "C-80443r1150071_chk",
+  "check_content": "If no databases require encryption, this is not a finding. \n\nFrom the query prompt: \n \nSELECT name \nFROM [master].sys.databases \nWHERE is_master_key_encrypted_by_server = 1 \nAND owner_sid <> 1 \nAND state = 0; \nNote: This query assumes that the sa account is not used as the owner of application databases, in keeping with other STIG guidance. If this is not the case, modify the query accordingly. \n\nIf no databases are returned by the query, this is not a finding. \n\nFor any databases returned, verify in the system security plan (SSP) that encryption of the DMK using the SMK is acceptable and approved by the information owner, and the encrypted data does not require additional protections to deter or detect DBA access. \n\nIf not approved, this is a finding.  \n\nIf approved and additional protections are required, then verify the additional requirements are in place in accordance with the SSP. \n\nThese may include additional auditing on access of the DMK with alerts or other automated monitoring. \n\nIf the additional requirements are not in place, this is a finding.",
+  "fixtext": "Where possible, encrypt the DMK with a password known only to the application administrator.\n\nWhere not possible, configure additional audit events or alerts to detect unauthorized access to the DMK by users not authorized to view sensitive data.",
+  "fix_id": "F-80348r1149772_fix",
+  "VulnDiscussion": "When not encrypted by the SMK, system administrators or application administrators may access and use the DMK to view sensitive data that they are not authorized to view. Where alternate encryption means are not feasible, encryption by the SMK may be necessary. To help protect sensitive data from unauthorized access by DBAs, mitigations may be in order. Mitigations may include automatic alerts or other audit events when the DMK is accessed outside of the application or by a DBA account.",
+  "Documentable": "false"
+}

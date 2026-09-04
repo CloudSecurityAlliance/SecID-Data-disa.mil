@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269139",
+  "rule_id": "SV-269139r1137691_rule",
+  "stig_id": "ALMA-09-006510",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must require authentication to access single-user mode.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-73170r1049178_chk",
+  "check_content": "Verify that AlmaLinux OS 9 requires authentication for single-user mode with the following command:\n\n$ grep -E 'ExecStart.*sulogin' /usr/lib/systemd/system/rescue.service \n\nExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue\n\nIf this line is not returned or is commented out, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to require authentication for single-user mode.\n\nAdd or modify the following line in the \"/usr/lib/systemd/system/rescue.service\" file:\n\nExecStart=-/usr/lib/systemd/systemd-sulogin-shell rescue\n\n\"sudo systemctl edit rescue.service\" can also be used to create a \"/etc/systemd/system/rescue.service.d/override.conf\" file.",
+  "fix_id": "F-73071r1049179_fix",
+  "VulnDiscussion": "This requirement prevents attackers with physical access from easily bypassing security on the machine and gaining root access. \n\nSuch accesses are further prevented by configuring the bootloader password.",
+  "Documentable": "false"
+}

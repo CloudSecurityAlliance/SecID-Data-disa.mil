@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-279040",
+  "rule_id": "SV-279040r1171341_rule",
+  "stig_id": "APAS-CF-000190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ColdFusion must configure WebSocket Service.",
+  "group_title": "SRG-APP-000141-AS-000095",
+  "idents": {
+    "cci": [
+      "CCI-000381",
+      "CCI-000197",
+      "CCI-002385",
+      "CCI-002422"
+    ]
+  },
+  "check_id": "C-83588r1171339_chk",
+  "check_content": "Verify the ColdFusion WebSocket configuration.\n\n1. From the Admin Console Landing Screen, navigate to Server Settings >> WebSocket.\n\nIf the \"websocket\" package is not installed, this is Not Applicable.\n\n2. If \"Enable WebSocket Service\" is checked:\nIf \"Use Proxy\" is selected and the \"Port\" setting is checked, this is a finding. Non-SSL WebSocket is not permitted.\n\n3. If \"Use Built-in WebSocket Server\" is selected and the \"Port\" setting is checked, this is a finding. Non-SSL WebSocket is not permitted.\n\n4. If SSL Port is not checked, this is a finding.\n\n5. Verify SSL Port is an approved port. If not, this is a finding.\n\n6. If \"Start Flash Policy Server\" is checked, this is a finding.\n\n7. If \"Max Data Size\" is over the required maximum size, this is a finding.",
+  "fixtext": "Configure ColdFusion WebSocket.\n\n1. From the Admin Console Landing Screen, navigate to Server Settings >> WebSocket.\n\n2. If \"Use Proxy\" is selected, uncheck \"Port\" to disable non-SSL WebSocket connections. Non-SSL WebSocket is not permitted.\n\n3. If \"Use Built-in WebSocket Server\" is selected, uncheck \"Port\" to disable non-SSL WebSocket connections. Non-SSL WebSocket is not permitted.\n\n4. Enable encryption by checking \"SSL Port\" and enter an approved port value.\n\n5. Enter keystore and password.\n\n6. Uncheck the \"Start Flash Policy Server\".\n\n7. Set the \"Max Data Size\" to the default setting of 1024 or to the required maximum size for the hosted applications.\n\n8. Select \"Submit Changes\".",
+  "fix_id": "F-83493r1171340_fix",
+  "VulnDiscussion": "Application servers provide a wide range of features and services, many of which may not be necessary or secure for a production DOD environment. One such feature is the ColdFusion WebSocket Service, which supports real-time, bidirectional communication for applications such as dashboards, online gaming, social networking, and live data feeds. This service communicates over HTTP or HTTPS using a proxy or the built-in WebSocket server.\n\nWhen enabled, the WebSocket Service consumes system resources and may introduce security risks if not properly configured or if left unused. These risks include unauthorized access, input injection, session hijacking, and the ability to bypass traditional security controls such as firewalls and proxies. If the WebSocket service is not actively required by hosted applications, it should be disabled to free up system resources and reduce the overall attack surface.\n\nWhen used, the WebSocket service must be securely configured.\n\nSatisfies: SRG-APP-000141-AS-000095, SRG-APP-000172-AS-000120, SRG-APP-000435-AS-000163, SRG-APP-000442-AS-000259",
+  "Documentable": "false"
+}

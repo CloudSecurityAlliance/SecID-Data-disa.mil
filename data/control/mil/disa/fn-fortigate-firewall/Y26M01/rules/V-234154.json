@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234154",
+  "rule_id": "SV-234154r852965_rule",
+  "stig_id": "FNFG-FW-000125",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "When employed as a premise firewall, FortiGate must block all outbound management traffic.",
+  "group_title": "SRG-NET-000364-FW-000035",
+  "idents": {
+    "cci": [
+      "CCI-002403"
+    ]
+  },
+  "check_id": "C-37339r611460_chk",
+  "check_content": "If FortiGate is not employed as a premise firewall, this requirement is Not Applicable.\n\nLog in to the FortiGate GUI with Super- or Firewall Policy-Admin privilege.\n\n1. Click Policy and Objects.\n2. Click IPv4 or IPv6 Policy.\n3. Verify there are Policies in which the Incoming Interface is the Management Network, and the Outgoing Interface is an EGRESS interface.\n4. Verify these polices are configured with Action set to DENY.\n\nIf there are not DENY Policies where the Incoming Interface is the Management Network, and the Outgoing Interface is an EGRESS interface, this is a finding.",
+  "fixtext": "Log in to the FortiGate GUI with Super- or Firewall Policy-Admin privilege.\n\n1. Click Policy and Objects.\n2. Click IPv4 or IPv6 Policy.\n3. Click +Create New.\n4. Name the policy.\n5. For the Incoming Interface, select the interface related to the Management Network.\n6. For the Outgoing Interface, select an EGRESS interface.\n7. For the Source, select the Management Network IP range.\n8. For the Destination and Service, select ALL.\n9. Configure the Policy Action to DENY.\n10. Ensure the Enable this policy is toggled to right.\n11. Click OK.\n\nRepeat these steps for each EGRESS interface.",
+  "fix_id": "F-37304r852964_fix",
+  "VulnDiscussion": "The management network must still have its own subnet in order to enforce control and access boundaries provided by layer 3 network nodes such as routers and firewalls. Management traffic between the managed network elements and the management network is routed via the same links and nodes as that used for production or operational traffic. \n\nSafeguards must be implemented to ensure the management traffic does not leak past the managed network's premise equipment. If a firewall is located behind the premise router, all management traffic must be blocked at that point, with the exception of management traffic destined to premise equipment.",
+  "Documentable": "false"
+}

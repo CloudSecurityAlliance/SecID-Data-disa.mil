@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-256944",
+  "rule_id": "SV-256944r1016556_rule",
+  "stig_id": "APWS-AT-000230",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "All Automation Controller NGINX front-end web server files must be verified for their integrity (e.g., checksums and hashes) before becoming part of the production web server.",
+  "group_title": "SRG-APP-000131-WSR-000051",
+  "idents": {
+    "cci": [
+      "CCI-003992",
+      "CCI-001749"
+    ]
+  },
+  "check_id": "C-60619r902344_chk",
+  "check_content": "As a System Administrator, for each Automation Controller NGINX web server host, verify the integrity of the Automation Controller NGINX web server hosts files:\n\naide --check\n\nVerify the displayed checksums against previously reserved checksums of the Advanced Intrusion Detection Environment (AIDE) database.\n\nIf there are any unauthorized or unexplained changes against previous checksums, this is a finding.",
+  "fixtext": "As a System Administrator, for each Automation Controller NGINX web server host, check for existing or install AIDE:\n\nyum install -y aide\n\nCreate or update the AIDE database immediately after initial installation of each Automation Controller NGINX web server host:\n\naide --init && mv /var/lib/aide/aide.db.new.gz  /var/lib/aide/aide.db.gz\n\nAccept any expected changes to the host by updating the AIDE database:\n\naide --update\n\nThe output will provide checksums for the AIDE database. Save in a protected location.",
+  "fix_id": "F-60561r902345_fix",
+  "VulnDiscussion": "Being able to verify that a patch, upgrade, certificate, etc., being added to the web server is unchanged from the producer of the file is essential for file validation and nonrepudiation of the information. \n\nThe Automation Controller NGINX web server host must have a mechanism to verify that files are valid prior to installation.",
+  "Documentable": "false"
+}

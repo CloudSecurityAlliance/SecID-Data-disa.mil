@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276227",
+  "rule_id": "SV-276227r1149590_rule",
+  "stig_id": "MSQL-00-001300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Database objects must be owned by Azure SQL Managed Instance principals authorized for ownership.",
+  "group_title": "SRG-APP-000133-DB-000200",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-80382r1149588_chk",
+  "check_content": "Review system documentation to identify Azure SQL Managed Instance accounts authorized to own database objects.  \n\nIf the Azure SQL Managed Instance ownership list does not exist or needs to be updated, this is a finding.  \n\nThe following query can be used to make this determination:\n  \n;with objects_cte as\n(SELECT o.name, o.type_desc,\nCASE\nWHEN o.principal_id is null then s.principal_id\nELSE o.principal_id\nEND as principal_id\nFROM sys.objects o\nINNER JOIN sys.schemas s\nON o.schema_id = s.schema_id\nWHERE o.is_ms_shipped = 0\n)\nSELECT cte.name, cte.type_desc, dp.name as ObjectOwner \nFROM objects_cte cte\nINNER JOIN sys.database_principals dp\nON cte.principal_id = dp.principal_id\nORDER BY dp.name, cte.name \n\nIf any of the listed owners is not authorized, this is a finding.",
+  "fixtext": "Document and obtain approval for any account(s) authorized for object ownership.\n\nIf necessary, use the ALTER AUTHORIZATION command to change object ownership to an authorized account.  \n\nExample provided below.  \nALTER AUTHORIZATION ON OBJECT::test.table TO AuthorizedUser; \n\nRefer to: https://docs.microsoft.com/en-us/sql/t-sql/statements/alter-authorization-transact-sql",
+  "fix_id": "F-80287r1149589_fix",
+  "VulnDiscussion": "Within the database, object ownership implies full privileges to the owned object, including the privilege to assign access to the owned objects to other subjects. Database functions and procedures can be coded using definer's rights. This allows anyone who utilizes the object to perform the actions if they were the owner. If not properly managed, this can lead to privileged actions being taken by unauthorized individuals.",
+  "Documentable": "false"
+}

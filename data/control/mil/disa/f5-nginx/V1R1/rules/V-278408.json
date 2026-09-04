@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278408",
+  "rule_id": "SV-278408r1171976_rule",
+  "stig_id": "NGNX-APP-003040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The NGINX service account must be configured to lock changes to the password.",
+  "group_title": "SRG-APP-000870",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-82942r1171974_chk",
+  "check_content": "Determine path to NGINX config file(s):\n\nnginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nIdentify the NGINX runtime user:\n\ngrep -E '^\\s*user\\s+' /etc/nginx/nginx.conf\n\nExpected output (example):\n\nuser nginx;\n\nConfirm the password is locked:\n\npasswd -S nginx\n\nExpected output (example):\n\nnginx LK 2025-05-21 -1 -1 -1 -1 (Password locked.)\n\nIf the NGINX runtime user account is not locked for password changes, this is a finding.",
+  "fixtext": "Lock the password for the NGINX user (if not already locked):\n\nsudo passwd -l nginx",
+  "fix_id": "F-82847r1171975_fix",
+  "VulnDiscussion": "Password-based authentication applies to passwords regardless of whether they are used in single-factor or multifactor authentication. Long passwords or passphrases are preferable over shorter passwords. Enforced composition rules provide marginal security benefits while decreasing usability. However, organizations may choose to establish certain rules for password generation (e.g., minimum character length for long passwords) under certain circumstances and can enforce this requirement in IA-5(1)(h). Account recovery can occur, for example, in situations when a password is forgotten. Cryptographically protected passwords include salted one-way cryptographic hashes of passwords. The list of commonly used, compromised, or expected passwords includes passwords obtained from previous breach corpuses, dictionary words, and repetitive or sequential characters. The list includes context-specific words, such as the name of the service, username, and derivatives thereof.",
+  "Documentable": "false"
+}

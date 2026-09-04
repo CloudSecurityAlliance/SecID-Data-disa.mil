@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274132",
+  "rule_id": "SV-274132r1120384_rule",
+  "stig_id": "AZLX-23-002350",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 system commands must be group-owned by root or a system account.",
+  "group_title": "SRG-OS-000259-GPOS-00100",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-78223r1120382_chk",
+  "check_content": "Verify Amazon Linux 2023 system commands contained in the following directories are group-owned by \"root\", or a required system account, with the following command:\n\n$ sudo find -L /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin ! -group root -exec ls -l {} \\;\n\nIf any system commands are returned and is not group-owned by a required system account, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 so that system commands are protected from unauthorized access.\n\nRun the following command, replacing \"[FILE]\" with any system command file not group-owned by \"root\" or a required system account.\n\n$ sudo chgrp root [FILE]",
+  "fix_id": "F-78128r1120383_fix",
+  "VulnDiscussion": "If Amazon Linux 2023 were to allow any user to make changes to software libraries, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process.\n\nThis requirement applies to operating systems with software libraries that are accessible and configurable, as in the case of interpreted languages. Software libraries also include privileged programs which execute with escalated privileges. Only qualified and authorized individuals shall be allowed to obtain access to information system components for purposes of initiating changes, including upgrades and modifications.",
+  "Documentable": "false"
+}

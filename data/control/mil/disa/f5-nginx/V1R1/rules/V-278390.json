@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278390",
+  "rule_id": "SV-278390r1172747_rule",
+  "stig_id": "NGNX-APP-000590",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must implement replay-resistant authentication mechanisms for network access.",
+  "group_title": "SRG-APP-000157",
+  "idents": {
+    "cci": [
+      "CCI-001941"
+    ]
+  },
+  "check_id": "C-82924r1171920_chk",
+  "check_content": "Determine the path to NGINX config file(s):\n\nnginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nIdentify authentication mechanism in use by checking whether NGINX is configured to protect access to administrative interfaces or APIs:\n\ngrep -Ri 'auth_' /etc/nginx/nginx.conf\ngrep -Ri 'proxy_pass' /etc/nginx/nginx.conf\ngrep -Ri 'ssl_verify_client' /etc/nginx/nginx.conf\n\nAlso inspect references to:\n\nauth_jwt\nauth_request\nssl_client_certificate\n\nIf JWT is in use, validate the config:\n\nauth_jwt_key_file /etc/nginx/jwt.pub;\nauth_jwt_require exp iat;\n\nEnsure the token includes expiration (exp) and ideally issued-at (iat) fields.\n\nIf using mutual TLS:\n\nssl_verify_client on;\nssl_client_certificate /etc/nginx/certs/ca.pem;\n\nEnsure client-side certificate verification is required and the certificate authority (CA) trust is defined.\n\nIf using auth_request:\n\nEnsure the upstream authentication server is enforcing replay resistance (such as nonce or short-lived tokens). Validate token behavior and session timeout logic.\n\nIf no replay-resistant mechanism is found for network-based access, this is a finding.",
+  "fixtext": "Implement a replay-resistant authentication method for any NGINX Plus resource that allows network access.\n\nOption A: JWT with expiration:\n\nConfigure NGINX to use JWT authentication:\n\nauth_jwt \"Protected\";\nauth_jwt_key_file /etc/nginx/keys/jwt_key.pub;\nauth_jwt_require exp iat;\n\nEnsure the token issuer includes a short-lived exp (e.g., less than five minutes) and iat claims.\n\nOption B: Mutual TLS:\n\nEnable client certificate authentication:\n\nssl_verify_client on;\nssl_client_certificate /etc/nginx/certs/client_ca.pem;",
+  "fix_id": "F-82829r1172746_fix",
+  "VulnDiscussion": "A replay attack may enable an unauthorized user to gain access to the application. Authentication sessions between the authenticator and the application validating the user credentials must not be vulnerable to a replay attack.\n\nAnti-replay is a cryptographically based mechanism; thus, it must use FIPS-approved algorithms. An authentication process resists replay attacks if it is impractical to achieve a successful authentication by recording and replaying a previous authentication message. Note that the anti-replay service is implicit when data contains monotonically increasing sequence numbers and data integrity is ensured. Using DOD PKI is inherently compliant with this requirement for user and device access. Using Transport Layer Security (TLS), including application protocols such as HTTPS and DNSSEC, is also compliant.\n\nConfigure the information system to use the hash message authentication code (HMAC) algorithm for authentication services to Kerberos, SSH, web management tool, and any other access method.",
+  "Documentable": "false"
+}

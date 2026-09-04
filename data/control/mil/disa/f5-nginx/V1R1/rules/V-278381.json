@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-278381",
+  "rule_id": "SV-278381r1171895_rule",
+  "stig_id": "NGNX-APP-000040",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "NGINX must use TLS 1.2, at a minimum, to protect data confidentiality using remote access.",
+  "group_title": "SRG-APP-000014",
+  "idents": {
+    "cci": [
+      "CCI-000068",
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-82915r1171893_chk",
+  "check_content": "Determine the path to NGINX config file(s):\n\nnginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nVerify \"ssl_protocols\" are set to TLSv1.2 or higher:\n\nnginx -c <path to nginx config> -qT | grep ssl_protocols\n    ssl_protocols TLSv1.2 TLSv1.3;\n\nIf \"ssl_protocols\" does not exist or does not specify TLSv1.2 or greater, this is a finding",
+  "fixtext": "Specify the allowed TLS protocols by adding the following line to the server {} block:\n\n  ssl_protocols TLSv1.2 TLSv1.3;\n\nRestart NGINX with saved configuration:\n\nnginx -s reload",
+  "fix_id": "F-82820r1171894_fix",
+  "VulnDiscussion": "Using older unauthorized versions or incorrectly configuring protocol negotiation makes the gateway vulnerable to known and unknown attacks that exploit vulnerabilities in this protocol.\n\nThis requirement applies to Transport Layer Security (TLS) gateways (also known as Secure Sockets Layer [SSL] gateways), web servers, and web applications and is not applicable to virtual private network (VPN) devices. Application protocols such as HTTPS and DNSSEC use TLS as the underlying security protocol and thus are in scope for this requirement. NIST SP 800-52 provides guidance for client negotiation on either DOD-only or on public-facing servers.\n\nSatisfies: SRG-APP-000014, SRG-APP-000015, SRG-APP-000560, SRG-APP-000565",
+  "Documentable": "false"
+}

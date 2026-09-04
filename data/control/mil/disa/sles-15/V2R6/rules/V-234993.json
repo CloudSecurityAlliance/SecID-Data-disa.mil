@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234993",
+  "rule_id": "SV-234993r991589_rule",
+  "stig_id": "SLES-15-040090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All SUSE operating system local interactive user home directories must have mode 0750 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-38181r619248_chk",
+  "check_content": "Verify the assigned home directory of all SUSE operating system local interactive users has a mode of \"0750\" or less permissive.\n\nCheck the home directory assignment for all non-privileged users on the system with the following command:\n\nNote: This may miss interactive users that have been assigned a privileged User Identifier (UID). Evidence of interactive use may be obtained from a number of log files containing system logon information.\n\n> ls -ld $(awk -F: '($3>=1000)&&($7 !~ /nologin/){print $6}' /etc/passwd)\n-rwxr-x--- 1 smithj users 18 Mar 5 17:06 /home/smithj\n\nIf home directories referenced in \"/etc/passwd\" do not have a mode of \"0750\" or less permissive, this is a finding.",
+  "fixtext": "Change the mode of SUSE operating system local interactive user's home directories to \"0750\". To change the mode of a local interactive user's home directory, use the following command:\n\nNote: The example will be for the user \"smithj\".\n\n> sudo chmod 0750 /home/smithj",
+  "fix_id": "F-38144r619249_fix",
+  "VulnDiscussion": "Excessive permissions on local interactive user home directories may allow unauthorized access to user files by other users.",
+  "Documentable": "false"
+}

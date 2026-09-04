@@ -1,0 +1,27 @@
+{
+  "vuln_id": "V-217124",
+  "rule_id": "SV-217124r1015212_rule",
+  "stig_id": "SLES-12-010230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must configure the Linux Pluggable Authentication Modules (PAM) to only store encrypted representations of passwords.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "legacy": [
+      "V-77105",
+      "SV-91801"
+    ],
+    "cci": [
+      "CCI-000196",
+      "CCI-004062",
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-18352r369528_chk",
+  "check_content": "Verify the SUSE operating system configures the Linux PAM to only store encrypted representations of passwords. All account passwords must be hashed with SHA512 encryption strength.\n\nCheck that PAM is configured to create SHA512 hashed passwords by running the following command:\n\n# grep pam_unix.so /etc/pam.d/common-password\npassword required pam_unix.so sha512\n\nIf the command does not return anything or the returned line is commented out, has a second column value different from \"required\", or does not contain \"sha512\", this is a finding.",
+  "fixtext": "Configure the SUSE operating system Linux PAM to only store encrypted representations of passwords. All account passwords must be hashed with SHA512 encryption strength.\n\nEdit \"/etc/pam.d/common-password\" and edit the line containing \"pam_unix.so\" to contain the SHA512 keyword after third column. Remove the \"nullok\" option.",
+  "fix_id": "F-18350r369529_fix",
+  "VulnDiscussion": "Passwords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nSatisfies: SRG-OS-000120-GPOS-00061",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271831",
+  "rule_id": "SV-271831r1092205_rule",
+  "stig_id": "OL09-00-003000",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "OL 9 must be configured so that the root account is the only account having unrestricted access to the system.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75881r1092203_chk",
+  "check_content": "Verify that OL 9 configures only the \"root\" account to have a UID \"0\" assignment with the following command:\n\n$ awk -F: '$3 == 0 {print $1}' /etc/passwd\nroot\n\nIf any accounts other than \"root\" have a UID of \"0\", this is a finding.",
+  "fixtext": "Change the UID of any account on the system, other than root, that has a UID of \"0\". \n\nIf the account is associated with system commands or applications, the UID should be changed to one greater than \"0\" but less than \"1000\". Otherwise, assign a UID of greater than \"1000\" that has not already been assigned.",
+  "fix_id": "F-75788r1092204_fix",
+  "VulnDiscussion": "An account has root authority if it has a user identifier (UID) of \"0\". Multiple accounts with a UID of \"0\" afford more opportunity for potential intruders to guess a password for a privileged account. Proper configuration of sudo is recommended to afford multiple system administrators access to root privileges in an accountable manner.",
+  "Documentable": "false"
+}

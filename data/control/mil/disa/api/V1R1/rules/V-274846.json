@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-274846",
+  "rule_id": "SV-274846r1143894_rule",
+  "stig_id": "SRG-APP-001000-API-001690",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The API must audience-restrict assertions in accordance with organization-defined identification and authentication policy.",
+  "group_title": "SRG-APP-001000",
+  "idents": {
+    "cci": [
+      "CCI-005163",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-78947r1143893_chk",
+  "check_content": "Review the organization's identification and authentication policy to understand the specific audience restrictions defined, including which entities or systems are allowed to consume the assertions and how audience claims are handled.\n\nCheck the API's implementation to verify assertions include proper audience claims (e.g., aud in JWT tokens). The audience claim must specify which entity or service is permitted to use the assertion, in accordance with the organization's policy.\n\nSimulate the use of assertions by different services or users to verify the API correctly enforces audience restrictions. The API must reject any assertion that is not intended for the current consumer or service, based on the audience claim.\n\nVerify the audience values specified in the assertions align with the organization's policy. \n\nCheck that the API logs events related to audience validation, including successful and failed attempts to access protected resources based on audience restrictions. These logs must be detailed enough to identify when audience-related validation occurs and whether access was granted or denied.\n\nIf the API relies on third-party identity providers (IdPs) or other systems for generating assertions, verify these systems correctly implement audience restriction policies. Test the integration between these systems and the API to verify that audience-restricted assertions are being correctly issued and consumed.\n\nReview the API's documentation to confirm audience restrictions are implemented correctly, and ensure the API is fully compliant with the organization's defined audience control policies.\n\nIf the API does not audience restrict assertions in accordance with organization-defined identification and authentication policy, this is a finding.",
+  "fixtext": "Build or configure the API to audience-restrict assertions in accordance with organization-defined identification and authentication policy.",
+  "fix_id": "F-78852r1143349_fix",
+  "VulnDiscussion": "An API must audience-restrict assertions to ensure the information or access granted by a token is only usable by its intended recipient. Assertions like JWTs or SAML tokens often include an \"audience\" (aud) claim, which specifies the exact service or API that is authorized to consume the assertion. Without this restriction, a token could be intercepted and used by an unintended or malicious service, potentially leading to unauthorized access or data breaches. By enforcing audience restrictions, the API strengthens its security posture by ensuring assertions cannot be misused outside their intended context.",
+  "Documentable": "false"
+}

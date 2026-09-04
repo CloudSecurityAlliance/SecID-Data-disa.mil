@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217102",
+  "rule_id": "SV-217102r991589_rule",
+  "stig_id": "SLES-12-010010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Vendor-packaged SUSE operating system security patches and updates must be installed and up to date.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-77047",
+      "SV-91743"
+    ],
+    "cci": [
+      "CCI-001227"
+    ]
+  },
+  "check_id": "C-18330r369462_chk",
+  "check_content": "Verify the SUSE operating system security patches and updates are installed and up to date.\n\nNote: Updates are required to be applied with a frequency determined by the site or Program Management Office (PMO).\n\nCheck for required SUSE operating system patches and updates with the following command:\n\n# sudo zypper patch-check\n\n0 patches needed (0 security patches)\n\nIf the patch repository data is corrupt check that the available package security updates have been installed on the system with the following command:\n\n# cut -d \"|\" -f 1-4 -s --output-delimiter \" | \" /var/log/zypp/history | grep -v \" radd \"\n\n2016-12-14 11:59:36 | install | libapparmor1-32bit | 2.8.0-2.4.1\n2016-12-14 11:59:36 | install | pam_apparmor | 2.8.0-2.4.1\n2016-12-14 11:59:36 | install | pam_apparmor-32bit | 2.8.0-2.4.1\n\nIf the SUSE operating system has not been patched within the site or PMO frequency, this is a finding.",
+  "fixtext": "Install the applicable SUSE operating system patches available from SUSE by running the following command:\n\n# sudo zypper patch",
+  "fix_id": "F-18328r369463_fix",
+  "VulnDiscussion": "Timely patching is critical for maintaining the operational availability, confidentiality, and integrity of information technology (IT) systems. However, failure to keep SUSE operating system and application software patched is a common mistake made by IT professionals. New patches are released frequently, and it is often difficult for even experienced System Administrators (SAs) to keep abreast of all the new patches. When new weaknesses in a SUSE operating system exist, patches are usually made available by the vendor to resolve the problems. If the most recent security patches and updates are not installed, unauthorized users may take advantage of weaknesses in the unpatched software. The lack of prompt attention to patching could result in a system compromise.",
+  "Documentable": "false"
+}

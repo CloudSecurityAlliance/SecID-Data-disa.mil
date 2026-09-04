@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223605",
+  "rule_id": "SV-223605r958482_rule",
+  "stig_id": "ACF2-TC-000070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS Started tasks for the Base TCP/IP component must be defined in accordance with security requirements.",
+  "group_title": "SRG-OS-000104-GPOS-00051",
+  "idents": {
+    "legacy": [
+      "V-97915",
+      "SV-107019"
+    ],
+    "cci": [
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-25278r836664_chk",
+  "check_content": "Verify Logonid(s) assigned to the TCP/IP address space(s), are named TCPIP or, in the case of multiple instances, are prefixed with TCPIP.\n\nFrom an ACF Command screen enter:\nSET LID\nLIST LIKE(TCPIP-)\n\nIf each TCP/IP logonid its defined with STC, MUSASS, and NO-SMC attributes, this is not a finding.\n\nFrom the ACF Command screen enter:\nSET LID\nLIST LIKE(TCPIP-) PROFILE(OMVS)\n\nIf the z/OS UNIX attributes are UID(0), HOME directory '/', shell program /bin/sh, this is not a finding.\n\nFrom an ACF Command screen enter:\nSET LID\nLIST EZAZSSI\n\nIf THE EZAZSSI logonid is defined with STC attribute, this is not a finding.\n\nFrom the ACF Command screen enter:\nSET LID\nLIST EZAZSSI PROFILE(OMVS)\n\nIf the z/OS UNIX attributes are UID(0), HOME directory '/', shell program /bin/sh, this is not a finding.",
+  "fixtext": "Define the Started tasks for the Base TCP/IP component user accounts with the following characteristics:\n\nNamed TCPIP or, in the case of multiple instances, prefixed with TCPIP\nDefined with the STC, MUSASS, and NO-SMC attributes\nz/OS UNIX attributes: UID(0), HOME directory '/', shell program /bin/sh\n\nNamed EZAZSSI\nDefined with the STC attribute\nz/OS UNIX attributes: UID(non-zero), HOME directory '/', shell program /bin/sh\n\nReview the TCP/IP started task accounts, privileges, and access authorizations defined to the ACP. Ensure they conform to the requirements as outlined below.\n\nThe following commands can be used to create the user accounts that are required for the TCP/IP address space and the EZAZSSI started task:\n\nSET LID\nINSERT TCPIP NAME(TCPIP) GROUP(STCTCPX) STC MUSASS NO-SMC\nINSERT EZAZSSI NAME(EZAZSSI) GROUP(STCTCPX) STC\n\nSET PROFILE(USER) DIVISION(OMVS)\nINSERT TCPIP UID(0) HOME(/) OMVSPGM(/bin/sh)\nINSERT EZAZSSI UID(non-zero) HOME(/) OMVSPGM(/bin/sh)\n\nF ACF2,REBUILD(USR),CLASS(P)\n\nNOTE: At eTrust CA-ACF2 6.4 and above, the PROGRAM field in the user profile record has been renamed to OMVSPGM.\n\nThe following additions to the indicated rule sets can be used to assign the privileges that are required for the TCP/IP address space:\n\n$KEY(BPX) TYPE(FAC)\n...\nDAEMON UID(TCPIP-uid) SERVICE(READ) ALLOW\n\nIf the z/OS host machine has hardware encryption installed and enabled, resources owned by the Integrated Cryptographic Service Facility (ICSF) component have been defined. The following rule set additions are required to allow the TN3270 Telnet Server process to access the ICSF resources. \n\n- $KEY(CSFCKI) TYPE(CSF)\n- UID(TCPIP-uid) SERVICE(READ) ALLOW\n- $KEY(CSFCKM) TYPE(CSF)\n- UID(TCPIP-uid) SERVICE(READ) ALLOW\n- $KEY(CSFDEC) TYPE(CSF)\n- UID(TCPIP-uid) SERVICE(READ) ALLOW\n- $KEY(CSFENC) TYPE(CSF)\n- UID(TCPIP-uid) SERVICE(READ) ALLOW\n- $KEY(CSFOWH) TYPE(CSF)\n- UID(TCPIP-uid) SERVICE(READ) ALLOW\n- $KEY(CSFRNG) TYPE(CSF)\n- UID(TCPIP-uid) SERVICE(READ) ALLOW\n- $KEY(CSFPKB) TYPE(CSF)\n- UID(TCPIP-uid) SERVICE(READ) ALLOW\n- $KEY(CSFPKX) TYPE(CSF)\n- UID(TCPIP-uid) SERVICE(READ) ALLOW\n- $KEY(CSFPKE) TYPE(CSF)\n- UID(TCPIP-uid) SERVICE(READ) ALLOW\n- $KEY(CSFPKD) TYPE(CSF)\n- UID(TCPIP-uid) SERVICE(READ) ALLOW\n- $KEY(CSFPKI) TYPE(CSF)\n- UID(TCPIP-uid) SERVICE(READ) ALLOW\n- $KEY(CSFDSG) TYPE(CSF)\n- UID(TCPIP-uid) SERVICE(READ) ALLOW\n- $KEY(CSFDSV) TYPE(CSF)\n- UID(TCPIP-uid) SERVICE(READ) ALLOW\n\nThe following operator commands are required to complete the updates:\nF ACF2,REBUILD(FAC)\nF ACF2,REBUILD(CSF)\n\nThese commands and definitions assume that the default type code for CSFSERV resources is CSF.",
+  "fix_id": "F-25266r836665_fix",
+  "VulnDiscussion": "To assure accountability and prevent unauthenticated access, organizational users must be identified and authenticated to prevent potential misuse and compromise of the system.\n\nOrganizational users include organizational employees or individuals the organization deems to have equivalent status of employees (e.g., contractors). Organizational users (and processes acting on behalf of users) must be uniquely identified and authenticated to all accesses, except for the following: \n\n1) Accesses explicitly identified and documented by the organization. Organizations document specific user actions that can be performed on the information system without identification or authentication; and\n\n2) Accesses that occur through authorized use of group authenticators without individual authentication. Organizations may require unique identification of individuals in group accounts (e.g., shared privilege accounts) or for detailed accountability of individual activity.",
+  "Documentable": "false"
+}

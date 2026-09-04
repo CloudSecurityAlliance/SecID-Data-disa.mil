@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254435",
+  "rule_id": "SV-254435r1137691_rule",
+  "stig_id": "WN22-MS-000080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2022 Deny access to this computer from the network user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts and local accounts and from unauthenticated access on all systems.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-57920r849119_chk",
+  "check_content": "This applies to member servers and standalone or nondomain-joined systems. A separate version applies to domain controllers.\n\nVerify the effective setting in Local Group Policy Editor.\n\nRun \"gpedit.msc\".\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment.\n\nIf the following accounts or groups are not defined for the \"Deny access to this computer from the network\" user right, this is a finding:\n\nDomain Systems Only:\n- Enterprise Admins group\n- Domain Admins group\n- \"Local account and member of Administrators group\" or \"Local account\" (see Note below)\n\nAll Systems:\n- Guests group\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas User_Rights /cfg c:\\path\\filename.txt\n\nReview the text file.\n\nIf the following SIDs are not defined for the \"SeDenyNetworkLogonRight\" user right, this is a finding.\n\nDomain Systems Only:\nS-1-5-root domain-519 (Enterprise Admins)\nS-1-5-domain-512 (Domain Admins)\nS-1-5-114 (\"Local account and member of Administrators group\") or S-1-5-113 (\"Local account\")\n\nAll Systems:\nS-1-5-32-546 (Guests)\n\nNote: These are built-in security groups. \"Local account\" is more restrictive but may cause issues on servers such as systems that provide failover clustering.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment >> Deny access to this computer from the network to include the following:\n\nDomain Systems Only:\n- Enterprise Admins group\n- Domain Admins group\n- \"Local account and member of Administrators group\" or \"Local account\" (see Note below)\n\nAll Systems:\n- Guests group\n\nNote: These are built-in security groups. \"Local account\" is more restrictive but may cause issues on servers such as systems that provide failover clustering.",
+  "fix_id": "F-57871r849120_fix",
+  "VulnDiscussion": "Inappropriate granting of user rights can provide system, administrative, and other high-level capabilities.\n\nThe \"Deny access to this computer from the network\" user right defines the accounts that are prevented from logging on from the network.\n\nIn an Active Directory Domain, denying logons to the Enterprise Admins and Domain Admins groups on lower-trust systems helps mitigate the risk of privilege escalation from credential theft attacks, which could lead to the compromise of an entire domain.\n\nLocal accounts on domain-joined systems must also be assigned this right to decrease the risk of lateral movement resulting from credential theft attacks.\n\nThe Guests group must be assigned this right to prevent unauthenticated access.",
+  "Documentable": "false"
+}

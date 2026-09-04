@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258144",
+  "rule_id": "SV-258144r1045286_rule",
+  "stig_id": "RHEL-09-652030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All RHEL 9 remote access methods must be monitored.",
+  "group_title": "SRG-OS-000032-GPOS-00013",
+  "idents": {
+    "cci": [
+      "CCI-000067"
+    ]
+  },
+  "check_id": "C-61885r1045284_chk",
+  "check_content": "Verify that RHEL 9 monitors all remote access methods.\n\nCheck that remote access methods are being logged by running the following command:\n\n$ grep -rE '(auth.\\*|authpriv.\\*|daemon.\\*)' /etc/rsyslog.conf /etc/rsyslog.d/\n\n/etc/rsyslog.conf:authpriv.*\n \nIf \"auth.*\", \"authpriv.*\" or \"daemon.*\" are not configured to be logged, this is a finding.",
+  "fixtext": "Add or update the following lines to the \"/etc/rsyslog.conf\" file or a file in \"/etc/rsyslog.d\":\n\nauth.*;authpriv.*;daemon.* /var/log/secure\n\nThe \"rsyslog\" service must be restarted for the changes to take effect with the following command:\n\n$ sudo systemctl restart rsyslog.service",
+  "fix_id": "F-61809r1045285_fix",
+  "VulnDiscussion": "Logging remote access methods can be used to trace the decrease in the risks associated with remote user access management. It can also be used to spot cyberattacks and ensure ongoing compliance with organizational policies surrounding the use of remote access methods.",
+  "Documentable": "false"
+}

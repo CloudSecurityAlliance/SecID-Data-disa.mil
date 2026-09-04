@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278407",
+  "rule_id": "SV-278407r1172754_rule",
+  "stig_id": "NGNX-APP-002660",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must be configured to use a FIPS-validated cryptographic module for confidentiality and integrity.",
+  "group_title": "SRG-APP-000630",
+  "idents": {
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-82941r1171971_chk",
+  "check_content": "Verify NGINX is using OpenSSL with FIPS enabled.\n\nFor version 1.x:\n\n# nginx -V\n\nnginx version: nginx/1.15.2 (nginx-plus-r16)\nbuilt by gcc 4.8.5 20150623 (Red Hat 4.8.5-16) (GCC)\nbuilt with OpenSSL 1.0.2k-fips  26 Jan 2017\"\n\nIf the response does not include \"fips\" in the OpenSSL version, this is a finding.\n\nFor version 3.x:\n\n# openssl list -providers\n\n Providers:\n  base\n    name: OpenSSL Base Provider\n    version: 3.2.2\n    status: active\n  default\n    name: OpenSSL Default Provider\n    version: 3.2.2\n    status: active\n  fips\n    name: Red Hat Enterprise Linux 9 - OpenSSL FIPS Provider\n    version: 3.2.2-622cc79c634cbbef\n    status: active\n\nIf the response does not list a FIPS provider with a status of \"active\", this is a finding.",
+  "fixtext": "FIPS must be enabled on the operating system.\n\nFollow the OS guidelines for installing FIPS mode.\n\nAfter installation, confirm that FIPS is enabled:\n\n# sudo sysctl –a | grep fips\ncrypto.fips_enabled = 1\n\nInstall the FIPS-validated version of OpenSSL to the operating system.",
+  "fix_id": "F-82846r1172753_fix",
+  "VulnDiscussion": "FIPS 140-2/140-3 precludes using invalidated cryptography for the cryptographic protection of sensitive or valuable data within federal systems. Unvalidated cryptography is viewed by NIST as providing no protection to the information or data. In effect, the data would be considered unprotected plaintext. If the agency specifies that the information or data be cryptographically protected, then FIPS 140-2/140-3 is applicable. In essence, if cryptography is required, it must be validated. Cryptographic modules that have been approved for classified use may be used in lieu of modules that have been validated against the FIPS 140-2/140-3 standard. \n\nThe cryptographic module used must have at least one validated digital signature function. This validated hash algorithm must be used to generate digital signatures for all cryptographic security function within the product being evaluated.\n\nSatisfies: SRG-APP-000630, SRG-APP-000635",
+  "Documentable": "false"
+}

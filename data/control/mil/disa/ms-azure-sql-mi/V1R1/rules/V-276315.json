@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276315",
+  "rule_id": "SV-276315r1149854_rule",
+  "stig_id": "MSQL-D0-013600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must generate audit records when attempts to modify privileges/permissions occur.",
+  "group_title": "SRG-APP-000495-DB-000329",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-80470r1149852_chk",
+  "check_content": "Check that Azure SQL Managed Instance Audit is being used for the STIG compliant audit.\n \nDetermine if an audit is configured and started by executing the following query:\n\nSELECT name AS 'Audit Name', \nstatus_desc AS 'Audit Status', \naudit_file_path AS 'Current Audit File' \nFROM sys.dm_server_audit_status WHERE name NOT IN ('admin_audit','SqlDbThreatDetection_ServerAudit')\n\nExecute the following query to verify the required audit actions are included in the server audit specification:\n\nSELECT a.name AS 'AuditName', \ns.name AS 'SpecName', \nd.audit_action_name AS 'ActionName', \nd.audited_result AS 'Result' \nFROM sys.server_audit_specifications s \nJOIN sys.server_audits a ON s.audit_guid = a.audit_guid \nJOIN sys.server_audit_specification_details d ON s.server_specification_id = d.server_specification_id \nWHERE a.is_state_enabled = 1\nAND d.audit_action_name IN ('DATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP'\n,'DATABASE_OBJECT_PERMISSION_CHANGE_GROUP'\n,'DATABASE_OWNERSHIP_CHANGE_GROUP'\n,'DATABASE_PERMISSION_CHANGE_GROUP'\n,'DATABASE_ROLE_MEMBER_CHANGE_GROUP'\n,'SCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP'\n,'SCHEMA_OBJECT_PERMISSION_CHANGE_GROUP'\n,'SERVER_OBJECT_OWNERSHIP_CHANGE_GROUP'\n,'SERVER_OBJECT_PERMISSION_CHANGE_GROUP'\n,'SERVER_PERMISSION_CHANGE_GROUP'\n,'SERVER_ROLE_MEMBER_CHANGE_GROUP')\n\nIf any of the following audit actions are not returned in an active audit, this is a finding:\n\nDATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP \nDATABASE_OBJECT_PERMISSION_CHANGE_GROUP \nDATABASE_OWNERSHIP_CHANGE_GROUP \nDATABASE_PERMISSION_CHANGE_GROUP \nDATABASE_ROLE_MEMBER_CHANGE_GROUP \nSCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP \nSCHEMA_OBJECT_PERMISSION_CHANGE_GROUP \nSERVER_OBJECT_OWNERSHIP_CHANGE_GROUP \nSERVER_OBJECT_PERMISSION_CHANGE_GROUP \nSERVER_PERMISSION_CHANGE_GROUP \nSERVER_ROLE_MEMBER_CHANGE_GROUP \n\nIf no records are returned, this is a finding.",
+  "fixtext": "Add the following events to the Azure SQL Managed Instance Audit that is being used for the STIG compliant audit: \n \nDATABASE_OBJECT_OWNERSHIP_CHANGE_GROUP\nDATABASE_OBJECT_PERMISSION_CHANGE_GROUP \nDATABASE_OWNERSHIP_CHANGE_GROUP \nDATABASE_PERMISSION_CHANGE_GROUP \nDATABASE_ROLE_MEMBER_CHANGE_GROUP \nSCHEMA_OBJECT_OWNERSHIP_CHANGE_GROUP \nSCHEMA_OBJECT_PERMISSION_CHANGE_GROUP \nSERVER_OBJECT_OWNERSHIP_CHANGE_GROUP \nSERVER_OBJECT_PERMISSION_CHANGE_GROUP \nSERVER_PERMISSION_CHANGE_GROUP \nSERVER_ROLE_MEMBER_CHANGE_GROUP  \n\nDeploy an Azure SQL Managed Instance audit. Refer to the supplemental file \"AzureSQLMIAudit.sql\" script. \n\nReference: https://learn.microsoft.com/en-us/azure/azure-sql/managed-instance/auditing-configure?view=azuresql",
+  "fix_id": "F-80375r1149853_fix",
+  "VulnDiscussion": "Changes in the permissions, privileges, and roles granted to users and roles must be tracked. Without an audit trail, unauthorized elevation or restriction of privileges could go undetected. Elevated privileges give users access to information and functionality that they should not have; restricted privileges wrongly deny access to authorized users.  \n\nIn an SQL environment, modifying permissions is typically done via the GRANT, REVOKE, and DENY commands.  \n\nTo aid in diagnosis, it is necessary to keep track of failed attempts in addition to the successful ones.\n\nSatisfies: SRG-APP-000495-DB-000329, SRG-APP-000495-DB-000328",
+  "Documentable": "false"
+}

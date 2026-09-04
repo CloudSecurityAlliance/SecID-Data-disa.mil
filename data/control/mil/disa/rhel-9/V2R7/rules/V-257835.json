@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257835",
+  "rule_id": "SV-257835r1155679_rule",
+  "stig_id": "RHEL-09-215060",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Trivial File Transfer Protocol (TFTP) server must not be installed unless it is required, and if required, the RHEL 9 TFTP daemon must be configured to operate in secure mode.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61576r1155677_chk",
+  "check_content": "Verify if TFTP is installed, it is configured to operate in secure mode.\n\nNote: If TFTP is not required, it must not be installed. If TFTP is not installed, this rule is not applicable.\n\nCheck to see if TFTP server is installed with the following command:\n\n$ sudo dnf list --installed tftp-server\n\nUpdating Subscription Management repositories.\nInstalled Packages\ntftp-server.x86_64                             5.2-38.el9                              @rhel-9-for-x86_64-appstream-rpms\n\nVerify the TFTP daemon, if tftp.server is installed, is configured to operate in secure mode with the following command:\n\n$ grep -i execstart /usr/lib/systemd/system/tftp.service\nExecStart=/usr/sbin/in.tftpd -s /var/lib/tftpboot\n\nNote: The \"-s\" option ensures the TFTP server only serves files from the specified directory, which is a security measure to prevent unauthorized access to other parts of the file system.",
+  "fixtext": "Configure RHEL 9 so that TFTP operates in secure mode if installed.\n\nIf TFTP server is not required, remove it with the following command:\n$ sudo dnf -y remove tftp-server\n\nConfigure the TFTP daemon to operate in secure mode with the following command:\n$ sudo systemctl edit tftp.service\n\nIn the editor, enter:\n[Service]\nExecStart=/usr/sbin/in.tftpd -s /var/lib/tftpboot\n\nAfter making changes, reload the systemd daemon and restart the TFTP service as follows:\n\n$ sudo systemctl daemon-reload\n$ sudo systemctl restart tftp.service\n\nIf the \"-s\" option is not present in the \"ExecStart\" line or if the line is missing, this is a finding.",
+  "fix_id": "F-61500r1155678_fix",
+  "VulnDiscussion": "Removing the \"tftp-server\" package decreases the risk of the accidental (or intentional) activation of tftp services.\n\nIf TFTP is required for operational support (such as transmission of router configurations), its use must be documented with the information systems security manager (ISSM), restricted to only authorized personnel, and have access control rules established.\n\nRestricting TFTP to a specific directory prevents remote users from copying, transferring, or overwriting system files.",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-274850",
+  "rule_id": "SV-274850r1143901_rule",
+  "stig_id": "SRG-APP-001020-API-001710",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The API must revoke access tokens in accordance with organization-defined identification and authentication policy.",
+  "group_title": "SRG-APP-001020",
+  "idents": {
+    "cci": [
+      "CCI-005167",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-78951r1143360_chk",
+  "check_content": "Review the API or identity provider implementation to verify there is a token revocation mechanism in place (e.g., an OAuth 2.0 /revoke endpoint). Confirm it adheres to the policy by requiring appropriate authentication and validating the token before revocation.\n\nUse an issued access token to perform API calls, then invoke the revocation process. After revocation, attempt to use the same token again. The API should reject the request, demonstrating that the token is no longer valid.\n\nIf tokens are cached or used across distributed systems, verify revocation is promptly propagated and enforced across all relevant services in accordance with policy requirements.\n\nIf the system uses a token store or blacklist, verify revoked tokens are added to it and that the API checks against it before granting access.\n\nConsult API or identity provider documentation to confirm support for revocation features and verify they are configured to align with organizational policies.\n\nIf any misconfigurations are identified, this is a finding.",
+  "fixtext": "Build or configure the API to revoke access tokens in accordance with organization-defined identification and authentication policy.",
+  "fix_id": "F-78856r1143361_fix",
+  "VulnDiscussion": "An API must revoke access tokens to immediately terminate access when a user's session or permissions are no longer valid or if there is a security breach, such as token theft. \n\nWithout an API gateway managing token revocation, the API itself becomes responsible for handling scenarios where access needs to be revoked, such as when a user logs out, their credentials are compromised, or their role changes. By revoking access tokens, the API ensures that even if a token is intercepted or misused, it cannot be used beyond its intended lifespan, thereby enhancing security. This ability to revoke tokens also helps protect sensitive data and ensures that unauthorized users cannot access protected resources, even if they possess a valid token.",
+  "Documentable": "false"
+}

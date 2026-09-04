@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-277156",
+  "rule_id": "SV-277156r1149412_rule",
+  "stig_id": "APPL-26-003070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must set minimum password lifetime to 24 hours.",
+  "group_title": "SRG-OS-000075-GPOS-00043",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-81311r1149370_chk",
+  "check_content": "Verify the macOS system is configured to set minimum password lifetime to 24 hours with the following command:\n\n/usr/bin/pwpolicy -getaccountpolicies 2> /dev/null | /usr/bin/tail +2 | /usr/bin/xmllint --xpath '//dict/key[text()=\"policyAttributeMinimumLifetimeHours\"]/following-sibling::integer[1]/text()' - | /usr/bin/awk '{ if ($1 >= 24 ) {print \"pass\"} else {print \"fail\"}}'\n\nIf the result is not \"pass\", this is a finding.",
+  "fixtext": "Configure the macOS system to set minimum password lifetime to 24 hours.\n\nThis setting may be enforced using local policy.\n\nTo set local policy to require a minimum password lifetime, edit the current password policy to contain the following <dict> within the \"policyCategoryPasswordContent\":\n\n[source,xml]\n----\n<dict>\n<key>policyContent</key>\n<string>policyAttributeLastPasswordChangeTime &lt; policyAttributeCurrentTime - (policyAttributeMinimumLifetimeHours * 60 * 60)</string>\n<key>policyIdentifier</key>\n<string>Minimum Password Lifetime</string>\n<key>policyParameters</key>\n<dict>\n<key>policyAttributeMinimumLifetimeHours</key>\n<integer>24</integer>\n</dict>\n</dict>\n----\nAfter saving the file and exiting to the command prompt, run the following command to load the new policy file, substituting the path to the file in place of \"$pwpolicy_file\".\n\n[source,bash]\n----\n/usr/bin/pwpolicy setaccountpolicies $pwpolicy_file\n----",
+  "fix_id": "F-81216r1148919_fix",
+  "VulnDiscussion": "The macOS must be configured to enforce a minimum password lifetime limit of 24 hours.\n\nThis rule discourages users from cycling through their previous passwords to get back to a preferred one.\n\nNote: The guidance for password-based authentication in NIST 800-53 (Rev 5) and NIST 800-63B states that complexity rules must be organizationally defined. The values defined are based on common complexity values, but each organization may define its own password complexity rules.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276253",
+  "rule_id": "SV-276253r1150067_rule",
+  "stig_id": "MSQL-00-011000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must provide a warning to appropriate support staff when allocated audit record storage volume reaches 75 percent of maximum audit record storage capacity.",
+  "group_title": "SRG-APP-000359-DB-000319",
+  "idents": {
+    "cci": [
+      "CCI-001855"
+    ]
+  },
+  "check_id": "C-80408r1150066_chk",
+  "check_content": "Azure SQL Managed Instance must provide notice upon audit storage reaching capacity.  \n\nVerify if an Azure Rule exists with the following command example:  \n\n$storageAcct = Get-AzStorageAccount -ResourceGroupName 'Name of RG for Audit Storage' -Name 'Audit Storage Account Name'\n$metric = Get-AzMetricAlertRuleV2 | Where-Object TargetResourceId -eq $storageAcct.Id\n$metric.Criteria \n\nIf no alert exists, this is a finding.\n\nIf the criteria does not match 75 percent or less than the maximum capacity of 5TB, this is a finding.",
+  "fixtext": "Utilize Alerts in Microsoft Azure Monitoring and/or third-party tools to configure the system to notify appropriate support staff immediately upon storage volume utilization reaching 75 percent. \n\nRefer to: https://learn.microsoft.com/en-us/azure/azure-monitor/alerts/alerts-overview",
+  "fix_id": "F-80313r1149667_fix",
+  "VulnDiscussion": "Auditing for Azure SQL Managed Instance tracks database events and writes them to an audit log in the Azure storage account, Log Analytics workspace, or Event Hubs. Under normal conditions, the audit space allocated by an Azure Storage account can grow quite large. Since a requirement exists to halt processing upon audit failure, a service outage would result.",
+  "Documentable": "false"
+}

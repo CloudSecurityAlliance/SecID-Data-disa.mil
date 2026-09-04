@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-252919",
+  "rule_id": "SV-252919r958510_rule",
+  "stig_id": "TOSS-04-010080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The TOSS operating system must implement DoD-approved encryption in the OpenSSL package.",
+  "group_title": "SRG-OS-000125-GPOS-00065",
+  "idents": {
+    "cci": [
+      "CCI-000877",
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-56372r824079_chk",
+  "check_content": "Verify the OpenSSL library is configured to use only DoD-approved TLS encryption:\n\n$ sudo grep -i MinProtocol /etc/crypto-policies/back-ends/opensslcnf.config\n\nTLS.MinProtocol = TLSv1.2\nDTLS.MinProtocol = DTLSv1.2\n\nIf the \"TLS.MinProtocol\" is set to anything older than \"TLSv1.2\" or the \"DTLS.MinProtocol\" is set to anything older than DTLSv1.2, this is a finding.",
+  "fixtext": "Configure the TOSS OpenSSL library to use only DoD-approved TLS encryption by editing the following lines in the \"/etc/crypto-policies/back-ends/opensslcnf.config\" file:\n\nMinProtocol = TLSv1.2\nDTLS.MinProtocol = DTLSv1.2\n\nA reboot is required for the changes to take effect.",
+  "fix_id": "F-56322r824080_fix",
+  "VulnDiscussion": "Without cryptographic integrity protections, information can be altered by unauthorized users without detection.\n\nRemote access (e.g., RDP) is access to DoD nonpublic information systems by an authorized user (or an information system) communicating through an external, non-organization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nCryptographic mechanisms used for protecting the integrity of information include, for example, signed hash functions using asymmetric cryptography enabling distribution of the public key to verify the hash information while maintaining the confidentiality of the secret key used to generate the hash.\n\nTOSS incorporates system-wide crypto policies by default. The employed algorithms can be viewed in the /etc/crypto-policies/back-ends/openssl.config file.\n\nSatisfies: SRG-OS-000125-GPOS-00065, SRG-OS-000250-GPOS-00093",
+  "Documentable": "false"
+}

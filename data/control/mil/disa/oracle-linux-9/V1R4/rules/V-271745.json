@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-271745",
+  "rule_id": "SV-271745r1117266_rule",
+  "stig_id": "OL09-00-002406",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must restrict access to the kernel message buffer.",
+  "group_title": "SRG-OS-000132-GPOS-00067",
+  "idents": {
+    "cci": [
+      "CCI-001082",
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-75795r1091945_chk",
+  "check_content": "Verify that OL 9 is configured to restrict access to the kernel message buffer with the following commands:\n\nCheck the status of the kernel.dmesg_restrict kernel parameter.\n\n$ sudo sysctl kernel.dmesg_restrict\nkernel.dmesg_restrict = 1\n\nIf \"kernel.dmesg_restrict\" is not set to \"1\" or is missing, this is a finding.",
+  "fixtext": "Configure OL 9 to restrict access to the kernel message buffer.\n\nAdd or edit the following line in /etc/sysctl.d/99-sysctl.conf system configuration file:\n\nkernel.dmesg_restrict = 1\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-75702r1091946_fix",
+  "VulnDiscussion": "Preventing unauthorized information transfers mitigates the risk of information, including encrypted representations of information, produced by the actions of prior users/roles (or the actions of processes acting on behalf of prior users/roles) from being available to any current users/roles (or current processes) that obtain access to shared system resources (e.g., registers, main memory, hard disks) after those resources have been released back to information systems. The control of information in shared resources is also commonly referred to as object reuse and residual information protection.\n\nThis requirement generally applies to the design of an information technology product, but it can also apply to the configuration of particular information system components that are, or use, such products. This can be verified by acceptance/validation processes in DOD or other government agencies.\n\nThere may be shared resources with configurable protections (e.g., files in storage) that may be assessed on specific information system components.\n\nRestricting access to the kernel message buffer limits access to only root. This prevents attackers from gaining additional system information as a nonprivileged user.\n\nSatisfies: SRG-OS-000132-GPOS-00067, SRG-OS-000138-GPOS-00069",
+  "Documentable": "false"
+}

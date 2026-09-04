@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-256960",
+  "rule_id": "SV-256960r961353_rule",
+  "stig_id": "APWS-AT-000700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Nonprivileged accounts on the hosting system must only access Automation Controller NGINX web server security-relevant information and functions through a distinct administrative account.",
+  "group_title": "SRG-APP-000340-WSR-000029",
+  "idents": {
+    "cci": [
+      "CCI-001082",
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-60635r903547_chk",
+  "check_content": "As a system administrator, for each Automation Controller NGINX web server host, inspect the current permissions and owner of Tower's web server configuration directory:\n\nstat -c \"%a %U %G\" /etc/nginx | grep -q \"755 root root\" || echo \"FAILED\"\nstat -c \"%a %U %G\" /etc/nginx/conf.d | grep -q \"755 root root\" || echo \"FAILED\"\nstat -c \"%a %U %G\" /etc/nginx/nginx.conf | grep -q \"644 root root\" || echo \"FAILED\"\n \nIf \"FAILED\" is displayed, this is a finding.\n\nInspect the current permissions and owner of Automation Controller web server program configuration files:\n\nstat -c \"%a %U %G\" /usr/lib/systemd/system/nginx.service | grep -q \"644 root root\" || echo \"FAILED\"\n \nIf \"FAILED\" is displayed, this is a finding.\n \nInspect the current permissions and owner of Automation Controller application content directory:\n\nstat -c \"%a %U %G\" /var/lib/awx/public/static | grep -q \"755 root awx\" || echo \"FAILED\"\n \nIf \"FAILED\" is displayed, this is a finding.\n \nInspect the current permissions and owner of Automation Controller web server log directory:\n\nstat -c \"%a %U %G\" /var/log/nginx| grep -q \"770 nginx root\" || echo \"FAILED\"\n \nIf \"FAILED\" is displayed, this is a finding.",
+  "fixtext": "As a system administrator, for each Automation Controller NGINX web server host, set the permissions and owner of Automation Controller web server program configuration directory:\n\nsudo chown -R root:root /etc/nginx/\nsudo chmod 755 /etc/nginx /etc/nginx\nsudo chmod 755 /etc/nginx /etc/nginx/conf.d\nsudo chmod 644 /etc/nginx/nginx.conf\n \nAs a system administrator, for each Automation Controller NGINX web server program configuration files.\n\nsudo chown root:root /usr/lib/systemd/system/nginx.service\nsudo chmod 644 /usr/lib/systemd/system/nginx.service\n \nSet the permissions and owner of Automation Controller application content directory:\n\nsudo chmod 755 /var/lib/awx/public/static\nsudo chown root:awx /var/lib/awx/public/static",
+  "fix_id": "F-60577r902393_fix",
+  "VulnDiscussion": "It is important that Automation Controller NGINX web server security features are separated from nonprivileged users. Special “privileged” roles need to be developed so that only they can have access to those features and administer the web server, when necessary. These privileged roles will be better trained in the security features and will limit loss of data for forensic analysis and limits accidental changes to the web server.\n\nWithout isolating privileged users from nonprivileged users when administering to the web server, organizations run the risk of having limited access to forensic data, as well as increased risk of accidental changes, by nonprivileged and presumably less-trained individuals.\n\nSatisfies: SRG-APP-000340-WSR-000029, SRG-APP-000211-WSR-000031",
+  "Documentable": "false"
+}

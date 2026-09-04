@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-205850",
+  "rule_id": "SV-205850r991589_rule",
+  "stig_id": "WN19-00-000110",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Windows Server 2019 must use an anti-virus program.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-103305",
+      "V-93217"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-6115r603166_chk",
+  "check_content": "Verify an anti-virus solution is installed on the system. The anti-virus solution may be bundled with an approved host-based security solution.\n\nIf there is no anti-virus solution installed on the system, this is a finding.\n\nVerify if Windows Defender is in use or enabled:\n\nOpen \"PowerShell\".\n\nEnter “get-service | where {$_.DisplayName -Like \"*Defender*\"} | Select Status,DisplayName”\n\nVerify if third-party anti-virus is in use or enabled:\n\nOpen \"PowerShell\".\n\nEnter \"get-service | where {$_.DisplayName -Like \"*mcafee*\"} | Select Status,DisplayName”\n\nEnter \"get-service | where {$_.DisplayName -Like \"*symantec*\"} | Select Status,DisplayName”",
+  "fixtext": "If no anti-virus software is in use, install Windows Defender or third-party anti-virus.\n\nOpen \"PowerShell\".\n\nEnter \"Install-WindowsFeature -Name Windows-Defender”.\n\nFor third-party anti-virus, install per anti-virus instructions and disable Windows Defender.\n\nOpen \"PowerShell\".\n\nEnter \"Uninstall-WindowsFeature -Name Windows-Defender”.",
+  "fix_id": "F-6115r603168_fix",
+  "VulnDiscussion": "Malicious software can establish a base on individual desktops and servers. Employing an automated mechanism to detect this type of software will aid in elimination of the software from the operating system.",
+  "Documentable": "false"
+}

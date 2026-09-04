@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-234813",
+  "rule_id": "SV-234813r1009561_rule",
+  "stig_id": "SLES-15-010130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must initiate a session lock after a 10-minute period of inactivity.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-38001r1009559_chk",
+  "check_content": "Verify the SUSE operating system must initiate a session logout after a 10-minute period of inactivity for all connection types. \n\nCheck the proper script exists to kill an idle session after a 10-minute period of inactivity with the following command:\n\n> cat /etc/profile.d/autologout.sh\nTMOUT=600\nreadonly TMOUT\nexport TMOUT\n\nIf the file \"/etc/profile.d/autologout.sh\" does not exist or the output from the function call is not the same, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to initiate a session lock after a 10-minute period of inactivity by modifying or creating (if it does not already exist) the \"/etc/profile.d/autologout.sh\" file and add the following lines to it:\n\nTMOUT=600\nreadonly TMOUT\nexport TMOUT\n\nSet the proper permissions for the \"/etc/profile.d/autologout.sh\" file with the following command:\n\n> sudo chmod +x /etc/profile.d/autologout.sh",
+  "fix_id": "F-37964r1009560_fix",
+  "VulnDiscussion": "A session time-out lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not log out because of the temporary nature of the absence. \n\nRather than relying on the users to manually lock their SUSE operating system session prior to vacating the vicinity, the SUSE operating system needs to be able to identify when a user's session has idled and take action to initiate the session lock.\n\nThe session lock is implemented at the point where session activity can be determined and/or controlled.",
+  "Documentable": "false"
+}

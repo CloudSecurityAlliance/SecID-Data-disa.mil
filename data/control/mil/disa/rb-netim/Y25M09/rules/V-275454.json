@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-275454",
+  "rule_id": "SV-275454r1147412_rule",
+  "stig_id": "RIIM-DM-000005",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Riverbed NetIM must be configured to assign appropriate user roles or access levels to authenticated users.",
+  "group_title": "SRG-APP-000033-NDM-000212",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-79556r1147410_chk",
+  "check_content": "Review the user role assignments on the NetIM.\n\n1. In the GUI, navigate to Configure >> All Settings >> User Management. \n2. In the TACACS+ pane, inspect the Last Login Server column. Verify all users except for the account of last resort are listed and the role assigned for nonprivileged users is \"USERS\". Verify the admins are assigned admin roles, and the single audit administrator is assigned the role AUDIT_ADMIN. The audit admin role must be defined for DOD sites.\n\nIf NetIM account roles are not configured or if the roles assigned are not compliant, this is a finding.",
+  "fixtext": "Configure AAA services.\n\nNote: This process must be done during initial installation of NetIM when prompted. This minimizes the need for system administrators to later access the Ubuntu bash shell. \n\nImportant: All individual admin accounts must be configured on an authentication server, the NetIM must be configured to point to a PKI-based authentication server, and roles must be mapped to the authorization attributes on the authentication server. \n\nCheck the system security plan (SSP) to determine which roles are required to be defined for remote users.\n\nNote: Enable TACACS+ Authentication from Ubuntu bash shell during initial installation of the application. Accessing bash commands requires the sysadmin to type \"Challenge\" at the NetIM shell. Use the site's support email account to send the Challenge code and receive the Response code. DISA requires system admins to immediately log out of NetIMAdmin once the required bash access is no longer needed to mitigate the risk of this superadmin access being inadvertently used. Admins should not leave the bash shell open for long periods without logging out.\n\n1. From the root of the installation directory, enter the following command:\n\n$ bash\ncd <installation directory > \n\n./app.sh /TACACS_STATE enabled\n\n2. In the GUI, navigate to Configure >> All Settings >> Integrate >> TACACS+.\n3. On the TACACS+ Configurations page, fill out all required information. Add the IP address for the authentication server, add a role for the remote user, and check the box for \"Require Authentication\".\n4. Select the check box for \"Require Authorization\" and provide the authorization attributes and role attributes.\n\nTo add, modify, or delete a user account or log off a user, follow these steps:\n\n1. In the GUI, navigate to Configure >> All Settings >> Administer >> User Management.\n2. To add a TACACS+ user, click the \"+\" icon next to \"Create TACACS+ user\".\n3. Select a valid TACACS+ username, assign a role from the dropdown list, then click \"Save\". \n4. For audit administrator, assign the role of USER_AUDITOR.",
+  "fix_id": "F-79461r1147411_fix",
+  "VulnDiscussion": "Successful identification and authentication must not automatically give an entity full access to a network device or security domain. The lack of authorization-based access control could result in the immediate compromise of, and unauthorized access to, sensitive information. All DOD systems must be properly configured to incorporate access control methods that do not rely solely on authentication for authorized access.",
+  "Documentable": "false"
+}

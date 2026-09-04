@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271856",
+  "rule_id": "SV-271856r1092280_rule",
+  "stig_id": "OL09-00-005025",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must encrypt via the gtls driver the transfer of audit records offloaded onto a different system or media from the system being audited via rsyslog.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-75906r1092278_chk",
+  "check_content": "Verify that OL 9 uses the gtls driver to encrypt audit records offloaded onto a different system or media from the system being audited with the following command:\n\n$ grep -i '$DefaultNetstreamDriver' /etc/rsyslog.conf /etc/rsyslog.d/*.conf \n/etc/rsyslog.conf:$DefaultNetstreamDriver gtls \n\nIf the value of the \"$DefaultNetstreamDriver\" option is not set to \"gtls\" or the line is commented out, this is a finding.",
+  "fixtext": "Configure OL 9 to use the gtls driver to encrypt offloaded audit records by setting the following options in \"/etc/rsyslog.conf\" or \"/etc/rsyslog.d/[customfile].conf\":\n\n$DefaultNetstreamDriver gtls",
+  "fix_id": "F-75813r1092279_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOffloading is a common process in information systems with limited audit storage capacity.\n\nOL 9 installation media provides \"rsyslogd\", a system utility providing support for message logging. Support for both internet and Unix domain sockets enables this utility to support both local and remote logging. Coupling this utility with \"gnutls\" (a secure communications library implementing the SSL, TLS, and DTLS protocols) creates a method to securely encrypt and offload auditing.\n\nSatisfies: SRG-OS-000342-GPOS-00133, SRG-OS-000479-GPOS-00224",
+  "Documentable": "false"
+}

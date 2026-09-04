@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248871",
+  "rule_id": "SV-248871r1156667_rule",
+  "stig_id": "OL08-00-040172",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 must disable the systemd Ctrl-Alt-Delete burst key sequence.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-52305r1155542_chk",
+  "check_content": "Verify OL 8 is not configured to reboot the system when Ctrl-Alt-Delete is pressed seven times within two seconds with the following command: \n \n$ sudo grep -iR CtrlAltDelBurstAction /etc/systemd/system*\n/etc/systemd/system.conf.d/55-CtrlAltDel-BurstAction:CtrlAltDelBurstAction=none\n \nIf the \"CtrlAltDelBurstAction\" is not set to \"none\" or is commented out or missing, this is a finding.",
+  "fixtext": "Configure OL 8 to disable the CtrlAltDelBurstAction by adding it to a drop file in a \"/etc/systemd/system.conf.d/\" configuration file:\n\nIf no drop file exists, create one with the following command:\n\n$ sudo mkdir -p /etc/systemd/system.conf.d && sudo vi /etc/systemd/system.conf.d/55-CtrlAltDel-BurstAction\n\nEdit the file to contain the setting by adding the following text:\n\nCtrlAltDelBurstAction=none\n\nReload the daemon for this change to take effect.\n\n$ sudo systemctl daemon-reload",
+  "fix_id": "F-52259r1155543_fix",
+  "VulnDiscussion": "A locally logged-on user who presses Ctrl-Alt-Delete when at the console can reboot the system. If accidentally pressed, as could happen in the case of a mixed OS environment, this can create the risk of short-term loss of availability of systems due to unintentional reboot. In a graphical user environment, risk of unintentional reboot from the Ctrl-Alt-Delete sequence is reduced because the user will be prompted before any action is taken.",
+  "Documentable": "false"
+}

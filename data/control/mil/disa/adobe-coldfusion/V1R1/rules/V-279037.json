@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-279037",
+  "rule_id": "SV-279037r1171603_rule",
+  "stig_id": "APAS-CF-000145",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The ColdFusion file ownership and permissions must be restricted to prevent unauthorized access to log tools.",
+  "group_title": "SRG-APP-000121-AS-000081",
+  "idents": {
+    "cci": [
+      "CCI-001493",
+      "CCI-001494",
+      "CCI-001495"
+    ]
+  },
+  "check_id": "C-83585r1171498_chk",
+  "check_content": "For ColdFusion running on Windows:\n1. For each ColdFusion instance, navigate to: \n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\lib\n\n2. The logs directory and all files within it must have Full Control granted to the Administrators group and the user account running the ColdFusion service.\n\nIf any directory or file permissions do not meet this requirement, this is a finding.\n\nFor ColdFusion running on Linux:\n1. Navigate to: \n<ColdFusion_Installation_Directory>/cfusion/runtime/conf\n<ColdFusion_Installation_Directory>/cfusion/runtime/lib\n\n2. The logs tools directory and all files within it must have:\n- \"Owner\" set to the user running ColdFusion.\n- \"Group ownership\" set to root.\n- \"Permissions\" set to 640 or more restrictive.\n\nIf ownership or permissions do not meet this requirement, this is a finding.",
+  "fixtext": "For ColdFusion running on Windows:\n1. For each ColdFusion instance, navigate to: \n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\conf\n<ColdFusion_Installation_Directory>\\cfusion\\runtime\\lib\n\n2. Right-click the directory and select \"Properties\".\n\n3. Click the Security tab and then click \"Advanced\".\n\n4. On the Permissions tab, click \"Disable inheritance\" and select \"Remove all inherited permissions from this object\".\n\n5. Click \"Add\".\n\na. In the Permission Entry dialog, click \"Select a principal\".\n\nb. Enter the user account running the ColdFusion service.\n\nc. Grant Full Control and click \"OK\".\n\n6. Click \"Add\" again.\n\na. In the Permission Entry dialog, click \"Select a principal\".\n\nb. Enter the Administrators group.\n\nc. Grant Full Control and click \"OK\".\n\n7. Check \"Replace all child object permission entries with inheritable permission entries from this object\".\n\n8. Click \"OK\" to apply the permissions.\n\nFor ColdFusion running on Linux:\nSet ownership and permissions using the following commands, replacing the path and user as appropriate:\nchown -R <cfuser>:root <ColdFusion_Installation_Directory>/cfusion/runtime/conf\n\nchown -R <cfuser>:root <ColdFusion_Installation_Directory>/cfusion/runtime/lib\n\nchmod -R 640 <ColdFusion_Installation_Directory>/cfusion/runtime/conf\nchmod -R 640 <ColdFusion_Installation_Directory>/cfusion/runtime/lib",
+  "fix_id": "F-83490r1171602_fix",
+  "VulnDiscussion": "Log management tools within ColdFusion provide access to view, analyze, and sometimes modify application log data. If file ownership and permissions for these tools are not properly restricted, unauthorized users could gain access to audit logs, modify or delete critical records, or bypass detection mechanisms. This not only compromises the integrity and availability of audit data but also undermines the organization's ability to detect and respond to security incidents. Properly assigning file ownership and enforcing least privilege permissions ensures that only authorized administrators or service accounts have access to these tools. This reduces the risk of log tampering or exposure of sensitive information.\n\nSatisfies: SRG-APP-000121-AS-000081, SRG-APP-000122-AS-000082, SRG-APP-000123-AS-000083",
+  "Documentable": "false"
+}

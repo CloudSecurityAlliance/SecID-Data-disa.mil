@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256964",
+  "rule_id": "SV-256964r961632_rule",
+  "stig_id": "APWS-AT-000900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Automation Controller NGINX web servers must maintain the confidentiality of controlled information during transmission through the use of an approved TLS version.",
+  "group_title": "SRG-APP-000439-WSR-000156",
+  "idents": {
+    "cci": [
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-60639r902404_chk",
+  "check_content": "As a System Administrator, for each Automation Controller NGINX web server, a TLS Configuration Check validates the TLS version used by the server:\n\nNGINXCONF=`nginx -V 2>&1 | tr ' ' '\\n' | sed -ne '/conf-path/{s/.*conf-path=\\(.*\\)/\\1/;p}' `\nsudo grep ssl_protocols ${NGINXCONF} | grep -E 'ssl_protocols\\s+TLSv1.2;' || echo \"FAILED\"\n\nIf \"FAILED\" is displayed, this is a finding.",
+  "fixtext": "As a System Administrator for each Automation Controller Web Server, reconfigure the TLS versions or ciphers used in Automation Controller's web server:\n\nNGINXCONF=`nginx -V 2>&1 | tr ' ' '\\n' | sed -ne '/conf-path/{s/.*conf-path=\\(.*\\)/\\1/;p}' `\nsudo -e ${NGINXCONF}\n\nReplace the line beginning with \"ssl_protocols\" to match (note the leading spaces):\n\"        ssl_protocols TLSv1.2;\"\n\nIf the \"ssl_protocols\" variable does not exist, add it after the line beginning with \"ssl_ciphers\".\n\nSave the file and exit the text editor. To apply these changes to the running service immediately, restart the NGINX service with the following command:\n\nsudo systemctl restart nginx",
+  "fix_id": "F-60581r902405_fix",
+  "VulnDiscussion": "Transport Layer Security (TLS) is a required transmission protocol for a web server hosting controlled information. The use of TLS provides confidentiality of data in transit between the web server and client. FIPS 140-2 approved TLS versions must be enabled and non-FIPS-approved SSL versions must be disabled.\n\nNIST SP 800-52 defines the approved TLS versions for government applications.",
+  "Documentable": "false"
+}

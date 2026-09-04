@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253892",
+  "rule_id": "SV-253892r960900_rule",
+  "stig_id": "JUEX-NM-000150",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to produce audit log records containing information to establish the source of events.",
+  "group_title": "SRG-APP-000098-NDM-000228",
+  "idents": {
+    "cci": [
+      "CCI-000133"
+    ]
+  },
+  "check_id": "C-57344r843707_chk",
+  "check_content": "Determine if the network device is configured to produce audit records containing information to establish the source (apparent cause) of the event. \n\nJunos standard event log messages are configurable for time format, inclusion of logging facility and severity levels, and format. Setting \"structured-data\" automatically includes \"explicit-priority\" and \"time-format year millisecond\". Verify logging is enabled.\n\n[edit system]\nsyslog {\n    host <syslog IPv4 or IPv6 address> {\n        any info;\n        structured-data; <<< Includes 'explicit-priority' and 'time-format'\n    }\n    host <syslog IPv4 or IPv6 address> {\n        any info;\n        explicit-priority; <<< Includes logging facility and severity in standard format\n    }\n    file <file name> {\n        any info; <<< Uses only standard format\n    }\n    time-format year; <<< Applied only to standard format\n}\nNote: In the example, events sent to the first external syslog server include the year and time is expressed in milliseconds. The second syslog server and the file both include the year, but time is expressed in seconds.\n\nIf the network device does not produce audit records containing information to establish the source of the event, this is a finding.",
+  "fixtext": "Configure the network device to produce audit records containing information to establish the source of the event.\n\nset system syslog host <syslog IPv4 or IPv6 address> any info\nset system syslog host <syslog IPv4 or IPv6 address> structured-data <<< Includes the 'explicit-priority' and 'time-format year millisecond' directives\nset system syslog file <file name> any info\nset system syslog file <file name> structured-data <<< Includes the 'explicit-priority' and 'time-format year millisecond' directives\n-or-\nset system syslog host <syslog IPv4 or IPv6 address> any info\nset system syslog host <syslog IPv4 or IPv6 address> explicit-priority <<< Only if log level and severity are required\nset system syslog file <file name> any info\nset system syslog file <file name> explicit-priority <<< Only if log level and severity are required\nset system syslog time-format year",
+  "fix_id": "F-57295r843708_fix",
+  "VulnDiscussion": "To compile an accurate risk assessment and provide forensic analysis, it is essential for security personnel to know the source of the event. The source may be a component, module, or process within the device or an external session, administrator, or device.\n\nAssociating information about where the source of the event occurred provides a means of investigating an attack; recognizing resource utilization or capacity thresholds; or identifying an improperly configured device.",
+  "Documentable": "false"
+}

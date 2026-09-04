@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274072",
+  "rule_id": "SV-274072r1120204_rule",
+  "stig_id": "AZLX-23-002040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Amazon Linux 2023 must notify the system administrator (SA) and information system security officer (ISSO) (at a minimum) when allocated audit record storage volume 75 percent utilization.",
+  "group_title": "SRG-OS-000343-GPOS-00134",
+  "idents": {
+    "cci": [
+      "CCI-001855"
+    ]
+  },
+  "check_id": "C-78163r1120202_chk",
+  "check_content": "Verify Amazon Linux 2023 notifies the SA and ISSO (at a minimum) when allocated audit record storage volume reaches 75 percent of the repository maximum audit record storage capacity with the following command:\n\n$ sudo grep -w space_left_action /etc/audit/auditd.conf\nspace_left_action = email\n\nIf the value of the \"space_left_action\" is not set to \"email\", or if the line is commented out, ask the SA to indicate how the system is providing real-time alerts to the SA and ISSO.\n\nIf there is no evidence that real-time alerts are configured on the system, this is a finding.",
+  "fixtext": "Configure Amazon Linux 2023 to initiate an action to notify the SA and ISSO (at a minimum) when allocated audit record storage volume reaches 75 percent of the repository maximum audit record storage capacity by adding/modifying the following line in the /etc/audit/auditd.conf file.\n\nspace_left_action = email",
+  "fix_id": "F-78068r1120203_fix",
+  "VulnDiscussion": "If security personnel are not notified immediately when storage volume reaches 75 percent utilization, they are unable to plan for audit record storage capacity expansion.",
+  "Documentable": "false"
+}

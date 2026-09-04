@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-250333",
+  "rule_id": "SV-250333r1051118_rule",
+  "stig_id": "IBMW-LS-000380",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The WebSphere Liberty Server must use an LDAP user registry.",
+  "group_title": "SRG-APP-000148-AS-000101",
+  "idents": {
+    "cci": [
+      "CCI-000764"
+    ]
+  },
+  "check_id": "C-53768r862976_chk",
+  "check_content": "As a user with local file access to ${server.config.dir}/server.xml file, verify the LDAP user registry is used to authenticate users. If the LDAP user registry is not defined within server.xml, this is a finding. \n\n<featureManager>\n<feature>appSecurity-2.0</feature>\n<feature>ldapRegistry-3.0</feature>\n</featureManager>\n\n<ldapRegistry id=\"ldap\" realm=\"SampleLdapRealm\" host=\"${ldap.server.name}\" port=\"${ldap.server.port}\" ignoreCase=\"true\"\nbaseDN=\"${ldap.server.base.dn}\"\nldapType=\"${ldap.vendor.type}\"\nsearchTimeout=\"8m\">\n</ldapRegistry>",
+  "fixtext": "To ensure an enterprise user management system is configured to uniquely identify and authenticate users and processes acting on behalf of org users, the server.xml must be configured to use an ldap configuration as follows:\n\n<featureManager>\n<feature>appSecurity-2.0</feature>\n<feature>ldapRegistry-3.0</feature>\n</featureManager>\n\n<ldapRegistry id=\"ldap\" realm=\"SampleLdapRealm\" host=\"${ldap.server.name}\" port=\"${ldap.server.port}\" ignoreCase=\"true\"\nbaseDN=\"${ldap.server.base.dn}\"\nldapType=\"${ldap.vendor.type}\"\nsearchTimeout=\"8m\">\n</ldapRegistry>",
+  "fix_id": "F-53722r862977_fix",
+  "VulnDiscussion": "To ensure accountability and prevent unauthorized access, application server users must be uniquely identified and authenticated. This is typically accomplished via the use of a user store which is either local (OS-based) or centralized (LDAP) in nature. Best practice guideline to is to use a centralized enterprise LDAP server.\n\nTo ensure support to the enterprise, the authentication must use an enterprise solution.",
+  "Documentable": "false"
+}

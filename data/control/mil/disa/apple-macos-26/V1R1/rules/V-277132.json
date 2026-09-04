@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-277132",
+  "rule_id": "SV-277132r1148848_rule",
+  "stig_id": "APPL-26-002170",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable iCloud Private Relay.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-81287r1148846_chk",
+  "check_content": "Verify the macOS system is configured to disable the iCloud Private Relay with the following command:\n\n/usr/bin/osascript -l JavaScript << EOS\n$.NSUserDefaults.alloc.initWithSuiteName('com.apple.applicationaccess')\\\n.objectForKey('allowCloudPrivateRelay').js\nEOS\n\nIf the result is not \"false\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable the iCloud Private Relay by installing the \"com.apple.applicationaccess\" configuration profile.",
+  "fix_id": "F-81192r1148847_fix",
+  "VulnDiscussion": "Enterprise networks may be required to audit all network traffic by policy; therefore, iCloud Private Relay must be disabled.\n\nNetwork administrators can also prevent the use of this feature by blocking DNS resolution of mask.icloud.com and mask-h2.icloud.com.",
+  "Documentable": "false"
+}

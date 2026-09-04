@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230327",
+  "rule_id": "SV-230327r1069285_rule",
+  "stig_id": "RHEL-08-010790",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All RHEL 8 local files and directories must have a valid group owner.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-32996r1069177_chk",
+  "check_content": "Verify all local files and directories on RHEL 8 have a valid group with the following command:\n\n$ df --local -P | awk {'if (NR!=1) print $6'} | sudo xargs -I '{}' find '{}' -xdev -nogroup\n\nIf any files on the system do not have an assigned group, this is a finding.",
+  "fixtext": "Either remove all files and directories from RHEL 8 that do not have a valid group, or assign a valid group to all files and directories on the system with the \"chgrp\" command:\n\n$ sudo chgrp <group> <file>",
+  "fix_id": "F-32971r567728_fix",
+  "VulnDiscussion": "Files without a valid group owner may be unintentionally inherited if a group is assigned the same Group Identifier (GID) as the GID of the files without a valid group owner.",
+  "Documentable": "false"
+}

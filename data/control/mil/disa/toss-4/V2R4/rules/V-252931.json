@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-252931",
+  "rule_id": "SV-252931r1050791_rule",
+  "stig_id": "TOSS-04-010230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must require reauthentication when using the \"sudo\" command.",
+  "group_title": "SRG-OS-000373-GPOS-00158",
+  "idents": {
+    "cci": [
+      "CCI-004895",
+      "CCI-002038"
+    ]
+  },
+  "check_id": "C-56384r986578_chk",
+  "check_content": "Verify the operating system requires reauthentication when using the \"sudo\" command to elevate privileges.\n\n$ sudo egrep -ir 'timestamp_timeout' /etc/sudoers /etc/sudoers.d\n/etc/sudoers:Defaults timestamp_timeout=0\n\nIf \"timestamp_timeout\" is set to a negative number, is commented out, or no results are returned, this is a finding.",
+  "fixtext": "Configure the \"sudo\" command to require reauthentication.\n\nEdit the /etc/sudoers file:\n$ sudo visudo\n\nAdd or modify the following line:\nDefaults timestamp_timeout=0",
+  "fix_id": "F-56334r986579_fix",
+  "VulnDiscussion": "Without reauthentication, users may access resources or perform tasks for which they do not have authorization. \n\nWhen operating systems provide the capability to escalate a functional capability, it is critical the organization requires the user to reauthenticate when using the \"sudo\" command.\n\nIf the value is set to an integer less than 0, the user's time stamp will not expire and the user will not have to reauthenticate for privileged actions until the user's session is terminated.",
+  "Documentable": "false"
+}

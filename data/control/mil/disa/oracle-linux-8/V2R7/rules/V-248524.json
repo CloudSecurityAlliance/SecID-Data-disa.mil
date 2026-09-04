@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-248524",
+  "rule_id": "SV-248524r1069154_rule",
+  "stig_id": "OL08-00-010020",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "OL 8 must implement NIST FIPS-validated cryptography for the following: To provision digital signatures, to generate cryptographic hashes, and to protect data requiring data-at-rest protections in accordance with applicable federal laws, Executive Orders, directives, policies, regulations, and standards.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "cci": [
+      "CCI-000068",
+      "CCI-000877",
+      "CCI-001453",
+      "CCI-002418",
+      "CCI-002890",
+      "CCI-003123"
+    ]
+  },
+  "check_id": "C-51958r1069153_chk",
+  "check_content": "Verify the operating system implements DOD-approved encryption to protect the confidentiality of remote access sessions.\n\nCheck to see if FIPS mode is enabled with the following command:\n\n     $ fips-mode-setup --check\n     FIPS mode is enabled\n\nIf FIPS mode is \"enabled\", check if the kernel boot parameter is configured for FIPS mode with the following command:\n\n     $ sudo grub2-editenv list | grep fips\n     kernelopts=...fips=1\n\nIf the kernel boot parameter is configured to use FIPS mode, check to see if the system is in FIPS mode with the following command:\n\n     $ sudo cat /proc/sys/crypto/fips_enabled\n     1\n\nIf FIPS mode is not \"enabled\", the kernel boot parameter is not configured for FIPS mode, or the system does not have a value of \"1\" for \"fips_enabled\" in \"/proc/sys/crypto\", this is a finding.",
+  "fixtext": "Configure the operating system to implement DOD-approved encryption by following the steps below:\n\nTo enable strict FIPS compliance, the fips=1 kernel option must be added to the kernel boot parameters during system installation so key generation is done with FIPS-approved algorithms and continuous monitoring tests in place.\n\nEnable FIPS mode after installation (not strict FIPS-compliant) with the following command:\n\n     $ sudo fips-mode-setup --enable\n\nReboot the system for the changes to take effect.",
+  "fix_id": "F-51912r928550_fix",
+  "VulnDiscussion": "Use of weak or untested encryption algorithms undermines the purposes of using encryption to protect data. The operating system must implement cryptographic modules adhering to the higher standards approved by the federal government since this provides assurance they have been tested and validated. \n \nOL 8 uses GRUB 2 as the default bootloader. Note that GRUB 2 command-line parameters are defined in the \"kernelopts\" variable of the \"/boot/grub2/grubenv\" file for all kernel boot entries. The command \"fips-mode-setup\" modifies the \"kernelopts\" variable, which in turn updates all kernel boot entries.\n\nThe fips=1 kernel option needs to be added to the kernel command line during system installation so that key generation is done with FIPS-approved algorithms and continuous monitoring tests in place. Users must also ensure the system has plenty of entropy during the installation process by moving the mouse around, or if no mouse is available, ensuring that many keystrokes are typed. The recommended amount of keystrokes is 256 and more. Less than 256 keystrokes may generate a nonunique key.\n\nSatisfies: SRG-OS-000033-GPOS-00014, SRG-OS-000125-GPOS-00065, SRG-OS-000250-GPOS-00093, SRG-OS-000393-GPOS-00173, SRG-OS-000394-GPOS-00174, SRG-OS-000423-GPOS-00187",
+  "Documentable": "false"
+}

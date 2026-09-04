@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271764",
+  "rule_id": "SV-271764r1092004_rule",
+  "stig_id": "OL09-00-002426",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 Trivial File Transfer Protocol (TFTP) daemon must be configured to operate in secure mode if the TFTP server is required.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75814r1092002_chk",
+  "check_content": "Verify that OL 9 TFTP daemon is configured to operate in secure mode.\n\nCheck if a TFTP server is installed with the following command:\n\n$ sudo dnf list --installed tftp-server\nInstalled Packages\ntftp-server.x86_64                                       5.2-38.el9                                       @ol9_appstream\n\nNote: If a TFTP server is not installed, this requirement is Not Applicable.\n\nIf a TFTP server is installed, check for the server arguments with the following command: \n\n$ systemctl cat tftp | grep ExecStart\nExecStart=/usr/sbin/in.tftpd -s /var/lib/tftpboot\n\nIf the \"ExecStart\" line does not have a \"-s\" option, and a subdirectory is not assigned, this is a finding.",
+  "fixtext": "Configure the TFTP daemon to operate in secure mode.\n\nFind the path for the systemd service.\n\n$ sudo systemctl show tftp | grep FragmentPath=\nFragmentPath=/etc/systemd/system/tftp.service\n\nEdit the ExecStart line on that file to add the -s option with a subdirectory.\n\nExecStart=/usr/sbin/in.tftpd -s /var/lib/tftpboot",
+  "fix_id": "F-75721r1092003_fix",
+  "VulnDiscussion": "Restricting TFTP to a specific directory prevents remote users from copying, transferring, or overwriting system files. Using the \"-s\" option causes the TFTP service to only serve files from the given directory.",
+  "Documentable": "false"
+}

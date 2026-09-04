@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271445",
+  "rule_id": "SV-271445r1091047_rule",
+  "stig_id": "OL09-00-000042",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must be configured to disable the FireWire kernel module.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-75495r1091045_chk",
+  "check_content": "Verify that OL 9 disables the ability to load the firewire-core kernel module with the following command:\n\n$ grep -r firewire-core /etc/modprobe.conf /etc/modprobe.d/* \ninstall firewire-core /bin/true\nblacklist firewire-core\n\nIf the command does not return any output, or the line is commented out, and use of firewire-core is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure OL 9 to prevent the firewire-core kernel module from being loaded.\n\nAdd the following line to the file /etc/modprobe.d/firewire-core.conf (or create firewire-core.conf if it does not exist):\n\ninstall firewire-core /bin/true\nblacklist firewire-core",
+  "fix_id": "F-75402r1091046_fix",
+  "VulnDiscussion": "Disabling firewire protects the system against exploitation of any flaws in its implementation.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-277086",
+  "rule_id": "SV-277086r1148710_rule",
+  "stig_id": "APPL-26-002003",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable Network File System (NFS) service.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-81241r1148708_chk",
+  "check_content": "Verify the macOS system is configured to disable NFS service with the following commands:\n\nisDisabled=$(/sbin/nfsd status | /usr/bin/awk '/nfsd service/ {print $NF}')    \n  if [[ \"$isDisabled\" == \"disabled\" ]] && [[ -z $(/usr/bin/pgrep nfsd) ]]; then\n    echo \"pass\"\n  else\n    echo \"fail\"\n  fi\n\nIf the result is not \"pass\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable NFS service with the following commands:\n\n/bin/launchctl disable system/com.apple.nfsd\n/bin/rm -rf /etc/exports\n\nThe system may need a restart for the update to take effect.",
+  "fix_id": "F-81146r1148709_fix",
+  "VulnDiscussion": "Support for NFS services is nonessential and, therefore, must be disabled. Enabling any service increases the attack surface for an intruder. By disabling unnecessary services, the attack surface is minimized.",
+  "Documentable": "false"
+}

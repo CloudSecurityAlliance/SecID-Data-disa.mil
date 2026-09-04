@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223620",
+  "rule_id": "SV-223620r1137691_rule",
+  "stig_id": "ACF2-US-000050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS UNIX MVS HFS directory(s) with other write permission bit set must be properly defined.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "legacy": [
+      "V-97945",
+      "SV-107049"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-25293r858898_chk",
+  "check_content": "On the OMVS Command line enter the following command string:\nfind / -type d -perm -0002 ! -perm -1000 -exec ls -aldWE {} \\;\n\nIf there are no directories that have the other write permission bit set on without the sticky bit set on, this is not a finding.\n\nNOTE: In the symbolic permission bit display, the sticky bit is indicated as a \"t\" or \"T\" in the execute portion of the other permissions. For example, a display of the permissions of a directory with the sticky bit on could be \"drwxrwxrwt\".\n\nIf all directories that have the other write permission bit set on do not contain any files with the setuid bit set on, this is not a finding.\n\nNOTE: In the symbolic permission bit display, the setuid bit is indicated as an \"s\" or \"S\" in the execute portion of the owner permissions. For example, a display of the permissions of a file with the setuid bit on could be \"-rwsrwxrwx\".\n\nIf all directories that have the other write permission bit set on do not contain any files with the setgid bit set on, this is not a finding.\n\nNOTE: In the symbolic permission bit display, the setgid bit is indicated as an \"s\" or \"S\" in the execute portion of the group permissions. For example, a display of the permissions of a file with the setgid bit on could be \"-rwxrwsrwx\".",
+  "fixtext": "Configure directory permissions as follows:\nThere are no directories that have the other Write permission bit set on without the sticky bit set on.\n\nNOTE: In the symbolic permission bit display, the sticky bit is indicated as a \"t\" or \"T\" in the execute portion of the other permissions. For example, a display of the permissions of a directory with the sticky bit on could be \"drwxrwxrwt\".\n\nAll directories that have the other write permission bit set on do not contain any files with the setuid bit set on.\n\nNOTE: In the symbolic permission bit display, the setuid bit is indicated as an \"s\" or \"S\" in the execute portion of the owner permissions. For example, a display of the permissions of a file with the setuid bit on could be \"-rwsrwxrwx\".\n\nAll directories that have the other write permission bit set on do not contain any files with the setgid bit set on.\n\nNOTE: In the symbolic permission bit display, the setgid bit is indicated as an \"s\" or \"S\" in the execute portion of the group permissions. For example, a display of the permissions of a file with the setgid bit on could be \"-rwxrwsrwx\".",
+  "fix_id": "F-25281r858899_fix",
+  "VulnDiscussion": "Access control policies include: identity-based policies, role-based policies, and attribute-based policies. Access enforcement mechanisms include: access control lists, access control matrices, and cryptography. These policies and mechanisms must be employed by the application to control access between users (or processes acting on behalf of users) and objects (e.g., devices, files, records, processes, programs, and domains) in the information system.",
+  "Documentable": "false"
+}

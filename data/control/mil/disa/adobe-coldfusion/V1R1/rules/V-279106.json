@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-279106",
+  "rule_id": "SV-279106r1171597_rule",
+  "stig_id": "APAS-CF-001030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ColdFusion must be configured to set the cookie settings.",
+  "group_title": "SRG-APP-000516-AS-000237",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-000381",
+      "CCI-002418",
+      "CCI-002420"
+    ]
+  },
+  "check_id": "C-83654r1171596_chk",
+  "check_content": "Verify Session Cookie Settings.\n\nFrom the Admin Console Landing Screen, navigate to Server Settings >> Memory Variables >> Session Cookie Settings.\n\nIf the Cookie Timeout is not set to \"-1\", this is a finding.\n\nIf \"Disable updating ColdFusion internal cookies using ColdFusion tags/functions\" is not checked, this is a finding.\n\nIf the \"Cookie Samesite default value\" is not set to \"Lax\" or \"Strict\" for a default value, this is a finding.",
+  "fixtext": "Configure Session Cookie Settings.\n\n1. From the Admin Console Landing Screen, navigate to Server Settings >> Memory Variables >> Session Cookie Settings.\n\n2. If the Cookie Timeout is not set to -1, update the setting to -1 to ensure session cookies do not expire prematurely.\n\n3. If \"Disable updating ColdFusion internal cookies using ColdFusion tags/functions.\" is not checked, enable this setting to prevent unauthorized modification of internal cookies.\n\n4. If the \"Cookie Samesite default value\" is not set to \"Lax\" or \"Strict\", configure it to one of these values to enhance security against cross-site request forgery (CSRF) attacks.\n\n5. Select \"Submit Changes\".",
+  "fix_id": "F-83559r1171318_fix",
+  "VulnDiscussion": "Cookies are often used to maintain user sessions in web applications. However, if cookies are not properly managed, they can pose a security risk. Persistent cookies that do not expire when the browser is closed can be exploited by attackers to gain unauthorized access to user sessions. By setting the cookie timeout to -1, ColdFusion ensures that cookies are only valid for the duration of the browser session. This means that when the user closes their browser, the session cookies are automatically deleted, reducing the risk of session hijacking and unauthorized access.\n\nIn ColdFusion, administrators can configure the cookie timeout to -1 to enforce browser-session-based cookies. This setting enhances the security of the application by ensuring that user sessions are terminated when the browser is closed, thereby preventing potential security breaches.\n\nSatisfies: SRG-APP-000516-AS-000237, SRG-APP-000141-AS-000095, SRG-APP-000439-AS-000155, SRG-APP-000441-AS-000258",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260596",
+  "rule_id": "SV-260596r971542_rule",
+  "stig_id": "UBTU-22-653040",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must immediately notify the system administrator (SA) and information system security officer (ISSO) when the audit record storage volume reaches 25 percent remaining of the allocated capacity.",
+  "group_title": "SRG-OS-000343-GPOS-00134",
+  "idents": {
+    "cci": [
+      "CCI-001855"
+    ]
+  },
+  "check_id": "C-64325r953599_chk",
+  "check_content": "Verify Ubuntu 22.04 LTS is configured to notify the SA and ISSO when the audit record storage volume reaches 25 percent remaining of the allocated capacity by using the following command:  \n \n     $ sudo grep -i space_left /etc/audit/auditd.conf \n     space_left = 25% \n     space_left_action = email \n  \nIf \"space_left\" is set to a value less than \"25%\", is commented out, or is missing, this is a finding.\n\nIf \"space_left_action\" is not set to \"email\", is commented out, or is missing, this is a finding. \n  \nNote: If the \"space_left_action\" is set to \"exec\", the system executes a designated script. If this script informs the SA of the event, this is not a finding.",
+  "fixtext": "Configure Ubuntu 22.04 LTS to notify the SA and ISSO when the audit record storage volume reaches 25 percent remaining of the allocated capacity. \n \nAdd or modify the following lines in the \"/etc/audit/auditd.conf \" file: \n \nspace_left = 25% \nspace_left_action = email \n \nRestart the \"auditd\" service for the changes to take effect:  \n  \n     $ sudo systemctl restart auditd.service \n  \nNote: If the \"space_left_action\" parameter is set to \"exec\", ensure the command being executed notifies the SA and ISSO.",
+  "fix_id": "F-64233r953600_fix",
+  "VulnDiscussion": "If security personnel are not notified immediately when storage volume reaches 25 percent remaining of the allocated capacity, they are unable to plan for audit record storage capacity expansion.",
+  "Documentable": "false"
+}

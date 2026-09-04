@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269278",
+  "rule_id": "SV-269278r1050160_rule",
+  "stig_id": "ALMA-09-022350",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The kdump service on AlmaLinux OS 9 must be disabled.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73309r1048210_chk",
+  "check_content": "Verify that the kdump service is disabled in system boot configuration with the following command:\n\n$ systemctl is-enabled  kdump  \n\nmasked \n\nVerify that the kdump service is not active (i.e., not running) through current runtime configuration with the following command:\n\n$ systemctl is-active kdump \n\ninactive \n\nVerify that the kdump service is masked with the following command:\n\n$ systemctl show  kdump  | grep \"LoadState\\|UnitFileState\" \n\nLoadState=masked \nUnitFileState=masked \n\nIf the \"kdump\" service is loaded or active, and is not masked, this is a finding.",
+  "fixtext": "Disable the kdump service with the following command:\n\n$ systemctl mask --now kdump",
+  "fix_id": "F-73210r1048211_fix",
+  "VulnDiscussion": "Kernel core dumps may contain the full contents of system memory at the time of the crash. Kernel core dumps consume a considerable amount of disk space and may result in denial of service by exhausting the available space on the target file system partition.\n\nUnless the system is used for kernel development or testing, there is little need to run the kdump service.",
+  "Documentable": "false"
+}

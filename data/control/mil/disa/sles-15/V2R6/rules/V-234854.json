@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-234854",
+  "rule_id": "SV-234854r1009615_rule",
+  "stig_id": "SLES-15-010460",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must have the packages required for multifactor authentication to be installed.",
+  "group_title": "SRG-OS-000375-GPOS-00160",
+  "idents": {
+    "cci": [
+      "CCI-004046",
+      "CCI-001953",
+      "CCI-001954",
+      "CCI-001948"
+    ]
+  },
+  "check_id": "C-38042r618831_chk",
+  "check_content": "Verify the SUSE operating system has the packages required for multifactor authentication installed.\n\nCheck for the presence of the packages required to support multifactor authentication with the following commands:\n\n> zypper info pam_pkcs11 | grep -i installed\n\n> zypper info mozilla-nss | grep -i installed\n\n> zypper info mozilla-nss-tools | grep -i installed\n\n> zypper info pcsc-ccid | grep -i installed\n\n> zypper info pcsc-lite | grep -i installed\n\n> zypper info pcsc-tools | grep -i installed\n\n> zypper info opensc | grep -i installed\n\n> zypper info coolkey | grep -i installed\n\nIf any of the packages required for multifactor authentication are not installed, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to implement multifactor authentication by installing the required packages.\n\nInstall the packages required to support multifactor authentication with the following commands:\n\n> zypper install pam_pkcs11\n\n> zypper install mozilla-nss\n\n> zypper install mozilla-nss-tools\n\n> zypper install pcsc-ccid\n\n> zypper install pcsc-lite\n\n> zypper install pcsc-tools\n\n> zypper install opensc\n\n> zypper install coolkey\n\nAdditional information on the configuration of multifactor authentication on the SUSE operating system can be found at https://www.suse.com/communities/blog/configuring-smart-card-authentication-suse-linux-enterprise/.",
+  "fix_id": "F-38005r618832_fix",
+  "VulnDiscussion": "Using an authentication device, such as a Common Access Card (CAC) or token separate from the information system, ensures that even if the information system is compromised, that compromise will not affect credentials stored on the authentication device.\n\nMultifactor solutions that require devices separate from information systems gaining access include, for example, hardware tokens providing time-based or challenge-response authenticators and smart cards such as the U.S. Government Personal Identity Verification (PIV) card and the DOD CAC.\n\nA privileged account is defined as an information system account with authorizations of a privileged user.\n\nRemote access is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nThis requirement only applies to components where this is specific to the function of the device or has the concept of an organizational user (e.g., VPN, proxy capability). This does not apply to authentication for the purpose of configuring the device itself (management).\n\nSatisfies: SRG-OS-000375-GPOS-00160, SRG-OS-000376-GPOS-00161, SRG-OS-000377-GPOS-00162",
+  "Documentable": "false"
+}

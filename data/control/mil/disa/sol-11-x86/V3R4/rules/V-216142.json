@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216142",
+  "rule_id": "SV-216142r959010_rule",
+  "stig_id": "SOL-11.1-050120",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The system must set maximum number of incoming connections to 1024.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48211",
+      "SV-61083"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17380r372808_chk",
+  "check_content": "Determine if the maximum number of incoming connections is set to 1024.\n\n# ipadm show-prop -p _conn_req_max_q -co current tcp\n\nIf the value returned is smaller than \"1024\", this is a finding. \n\nIn environments where connection numbers are high, such as a busy web server, this value may need to be increased.",
+  "fixtext": "The Network Management profile is required.\n\nConfigure maximum number of incoming connections.\n\n# pfexec ipadm set-prop -p _conn_req_max_q=1024 tcp",
+  "fix_id": "F-17378r372809_fix",
+  "VulnDiscussion": "This setting controls the maximum number of incoming connections that can be accepted on a TCP port limiting exposure to denial of service attacks.",
+  "Documentable": "false"
+}

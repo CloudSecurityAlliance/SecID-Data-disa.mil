@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-277073",
+  "rule_id": "SV-277073r1148671_rule",
+  "stig_id": "APPL-26-001024",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must be configured to audit all failed program execution on the system.",
+  "group_title": "SRG-OS-000365-GPOS-00152",
+  "idents": {
+    "cci": [
+      "CCI-003938",
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-81228r1148669_chk",
+  "check_content": "Verify the macOS system is configured to audit all failed program execution on the system with the following command:\n\n/usr/bin/awk -F':' '/^flags/ { print $NF }' /etc/security/audit_control | /usr/bin/tr ',' '\\n' | /usr/bin/grep -Ec '\\-ex'\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Configure the macOS system to audit all failed program execution on the system with the following command:\n\n/usr/bin/grep -qE \"^flags.*-ex\" /etc/security/audit_control || /usr/bin/sed -i.bak '/^flags/ s/$/,-ex/' /etc/security/audit_control; /usr/sbin/audit -s",
+  "fix_id": "F-81133r1148670_fix",
+  "VulnDiscussion": "The audit system must be configured to record enforcement actions of access restrictions, including failed program execute (-ex) attempts.\n\nEnforcement actions are the methods or mechanisms used to prevent unauthorized access and/or changes to configuration settings. One common and effective enforcement action method is using program execution restrictions (e.g., denying users access to execute certain processes).\n\nThis configuration ensures that audit lists include events in which program execution has failed.\n\nWithout auditing the enforcement of program execution, it is difficult to identify attempted attacks because no audit trail is available for forensic investigation.\n\nSatisfies: SRG-OS-000365-GPOS-00152, SRG-OS-000458-GPOS-00203, SRG-OS-000463-GPOS-00207, SRG-OS-000465-GPOS-00209",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276287",
+  "rule_id": "SV-276287r1149770_rule",
+  "stig_id": "MSQL-D0-001600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The database master key (DMK) encryption password for Azure SQL Server Managed Instance must meet DOD password complexity requirements.",
+  "group_title": "SRG-APP-000231-DB-000154",
+  "idents": {
+    "cci": [
+      "CCI-001199"
+    ]
+  },
+  "check_id": "C-80442r1149768_chk",
+  "check_content": "Use the query below to check each database to determine whether a DMK exists and is encrypted with a password: \n\nEXEC sp_MSforeachdb 'USE [?]; \nSELECT DB_NAME() AS DatabaseName,COUNT(name) AS DatabaseMasterKeyExists\nFROM sys.symmetric_keys s, sys.key_encryptions k\nWHERE s.name = ''##MS_DatabaseMasterKey##'' \nAND s.symmetric_key_id = k.key_id AND k.crypt_type in (''ESKP'', ''ESP2'', ''ESP3'')'\n\nIf the value returned is zero, this is not applicable. \n\nIf the value returned is greater than zero, a DMK exists and is encrypted with a password. \n\nReview procedures and evidence of password requirements used to encrypt DMK.  \n\nIf the passwords are not required to meet DOD password standards, currently a minimum of 15 characters with at least one uppercase character, one lowercase character, one special character, and one numeric character, and at least eight characters changed from the previous password, this is a finding.",
+  "fixtext": "Assign an encryption password to the DMK that is a minimum of 15 characters with at least one uppercase character, one lowercase character, one special character, and one numeric character, and at least eight characters changed from the previous password. \n\nTo change the DMK encryption password: \n \nUSE [database name]; \nALTER MASTER KEY REGENERATE WITH ENCRYPTION BY PASSWORD = 'new password';  \n\nNote: The DMK encryption method must not be changed until the effects are thoroughly reviewed. Changing the master key encryption causes all encryption using the DMK to be decrypted and re-encrypted. This action must not be taken during a high-demand time. \n\nRefer to the Azure SQL Managed Instance documentation found here: \nhttps://learn.microsoft.com/en-us/sql/relational-databases/security/encryption/create-a-database-master-key?view=azuresqldb-mi-current \nprior to re-encrypting the DMK for detailed information.",
+  "fix_id": "F-80347r1149769_fix",
+  "VulnDiscussion": "Weak passwords may be easily guessed. When passwords are used to encrypt keys used for encryption of sensitive data, then the confidentiality of all data encrypted using that key is at risk.",
+  "Documentable": "false"
+}

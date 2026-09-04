@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-253910",
+  "rule_id": "SV-253910r1018768_rule",
+  "stig_id": "JUEX-NM-000330",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Juniper EX switch must be configured to only store cryptographic representations of passwords.",
+  "group_title": "SRG-APP-000171-NDM-000258",
+  "idents": {
+    "cci": [
+      "CCI-004062",
+      "CCI-000196"
+    ]
+  },
+  "check_id": "C-57362r843761_chk",
+  "check_content": "Review the network device’s files using a text editor or a database tool that allows viewing data stored in database tables. Determine if password strings are readable/discernable.\n \nDetermine if the network device, and any associated authentication servers, enforce only storing cryptographic representations of passwords. Verify that databases, configuration files, and log files have encrypted representations of all passwords, and that no password strings are readable/discernable. Potential locations include the local file system where configurations and events are stored, or in a network device related database table. Also identify if the network device uses the MD5 hashing algorithm to create password hashes.\n\nBy default, Junos uses SHA-512 as the password hashing algorithm to save only hashed representations of passwords. Verify the hashing algorithm at [edit system login password] format.\n\n[edit system login password]\n:\nformat sha512;\n\nIf the network device, or any associated authentication servers, stores unencrypted (clear text) representations of passwords, this is a finding.\n\nIf the network device uses MD5 hashing algorithm to create password hashes, this is a finding.",
+  "fixtext": "Configure the network device, and any associated authentication servers, to store all passwords using cryptographic representations.\n\nset system login password format <sha-256|sha-512>\nNote: Although Junos supports the SHA-1 hashing algorithm, it is included only for backwards compatibility when restoring a previous configuration from an older version.\n\nConfigure all associated databases, configuration files, and log files to use only encrypted representations of passwords, and that no password strings are readable/discernable.\n\nPotential locations include the local file system where configurations and events are stored, or in a network device-related database table.",
+  "fix_id": "F-57313r843762_fix",
+  "VulnDiscussion": "Passwords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nNetwork devices must enforce cryptographic representations of passwords when storing passwords in databases, configuration files, and log files. Passwords must be protected at all times; using a strong one-way hashing encryption algorithm with a salt is the standard method for providing a means to validate a password without having to store the actual password.\n\nPerformance and time required to access are factors that must be considered, and the one-way hash is the most feasible means of securing the password and providing an acceptable measure of password security. If passwords are stored in clear text, they can be plainly read and easily compromised.\n\nIn many instances, verifying the user knows a password is performed using a password verifier. In its simplest form, a password verifier is a computational function that is capable of creating a hash of a password and determining if the value provided by the user matches the stored hash.",
+  "Documentable": "false"
+}

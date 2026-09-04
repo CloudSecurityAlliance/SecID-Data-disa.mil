@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220617",
+  "rule_id": "SV-220617r1156817_rule",
+  "stig_id": "CISC-ND-001370",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco switch must be configured to use at least two authentication servers to authenticate users prior to granting administrative access.",
+  "group_title": "SRG-APP-000516-NDM-000336",
+  "idents": {
+    "legacy": [
+      "SV-110463",
+      "V-101359"
+    ],
+    "cci": [
+      "CCI-000370"
+    ]
+  },
+  "check_id": "C-22332r1156815_chk",
+  "check_content": "Review the Cisco switch configuration to verify the device is configured to use at least two authentication servers as the primary source for authentication as shown in the example below:\n\naaa new-model\n!\naaa authentication CONSOLE group radius local\naaa authentication login LOGIN_AUTHENTICATION group radius local\n…\n…\n…\nip http authentication aaa login-authentication LOGIN_AUTHENTICATION\nip http secure-server\n…\n…\n…\nradius-server host x.x.x.x auth-port 1812 acct-port 1813 key xxxxxxx\nradius-server host x.x.x.x auth-port 1812 acct-port 1813 key xxxxxxx\n…\n…\n…\nline con 0\n exec-timeout 5 0\n login authentication CONSOLE\nline vty 0 1\n exec-timeout 5 0\n login authentication LOGIN_AUTHENTICATION\n\nIf the Cisco switch is not configured to use at least two authentication servers to authenticate users prior to granting administrative access, this is a finding.",
+  "fixtext": "Step 1: Configure the Cisco switch to use at least two authentication servers as shown in the example below:\n\nSW4(config)#radius host 10.1.48.2 key xxxxxx\nSW4(config)#radius host 10.1.48.3 key xxxxxx\n\nStep 2: Configure the authentication order to use the authentication servers as the primary source for authentication as shown in the example below:\n\nSW4(config)#aaa authentication CONSOLE group radius local\n\nSW4(config)#aaa authentication login LOGIN_AUTHENTICATION group radius local\n\nStep 3: Configure all network connections associated with device management to use the authentication servers for login authentication:\n\nSW4(config)#line vty 0 1\nSW4(config-line)#login authentication LOGIN_AUTHENTICATION\nSW4(config-line)#exit\nSW4(config)#line con 0\nSW4(config-line)#login authentication CONSOLE\nSW4(config-line)#exit \nSW4(config)#ip http authentication aaa login-authentication LOGIN_AUTHENTICATION",
+  "fix_id": "F-22321r1156816_fix",
+  "VulnDiscussion": "Centralized management of user accounts and authentication increases the administrative access to the switch. This control is particularly important protection against the insider threat. \n\nWith robust centralized management, audit records for administrator account access to the organization's network devices can be more readily analyzed for trends and anomalies. The alternative method of defining administrator accounts on each device exposes the device configuration to remote access authentication attacks and system administrators with multiple authenticators for each network device.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242467",
+  "rule_id": "SV-242467r961863_rule",
+  "stig_id": "CNTR-K8-003340",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes PKI keys must have file permissions set to 600 or more restrictive.",
+  "group_title": "SRG-APP-000516-CTR-001335",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-45742r918205_chk",
+  "check_content": "Review the permissions of the Kubernetes PKI key files by using the command:\n\nsudo find /etc/kubernetes/pki -name \"*.key\" | xargs stat -c '%n %a'\n\nIf any of the files have permissions more permissive than \"600\", this is a finding.",
+  "fixtext": "Change the ownership of the key files to \"600\" by executing the command: \n\nfind /etc/kubernetes/pki -name \"*.key\" | xargs chmod 600",
+  "fix_id": "F-45700r918206_fix",
+  "VulnDiscussion": "The Kubernetes PKI directory contains all certificate key files supporting secure network communications in the Kubernetes Control Plane. If these files can be modified, data traversing within the architecture components would become unsecure and compromised.",
+  "Documentable": "false"
+}

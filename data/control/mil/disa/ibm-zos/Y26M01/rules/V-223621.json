@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223621",
+  "rule_id": "SV-223621r1137691_rule",
+  "stig_id": "ACF2-US-000060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS BPX resource(s) must be protected in accordance with security requirements.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "legacy": [
+      "V-97947",
+      "SV-107051"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-25294r504821_chk",
+  "check_content": "From the ISPF Command Shell enter:\nACF\nSET RESOURCE(FAC)\nSET VERBOSE\nLIST LIKE(BPX-)\n\nIf the ACF2 rules for the BPX resource specify a default access of NONE, this is not a finding.\n\nIf there are no ACF2 rules that allow access to the BPX resource, this is not a finding.\n\nIf there is no ACF2 rule for BPX.SAFFASTPATH defined, this is not a finding.\n\nIf the ACF2 rules for each of the BPX resources listed in z/OS UNIX System Services Planning, Establishing UNIX security, specify a default access of NONE, this is not a finding.\n\nIf the ACF2 rules for each of the BPX resources listed in the in z/OS UNIX System Services Planning, Establishing UNIX security, restrict access to appropriate system tasks or systems programming personnel, this is not a finding.",
+  "fixtext": "Configure BPX. Resources to be properly protected and access is restricted to appropriate system tasks or systems programming personnel.\n\nConfigure the following items for the FACILITY resource class, TYPE(FAC):\n\nThe ACF2 rules for the BPX resource specify a default access of NONE.\n\nExample:\n$KEY(BPX) TYPE(FAC)\n- UID(*) PREVENT\n\nThere are no ACF2 rules that allow access to the BPX resource.\n\nExample:\n$KEY(BPX) TYPE(FAC)\n- UID(*) PREVENT\n\nThere is no ACF2 rule for BPX.SAFFASTPATH defined.\n\nExample:\n$KEY(BPX) TYPE(FAC)\nSAFFASTPATH UID(*) PREVENT\n\nThe ACF2 rules for each of the BPX resources listed in the General Facility Class BPX Resources Table, in the z/OS UNIX System Services Planning, Establishing UNIX security, specify a default access of NONE.\n\nExample:\n$KEY(BPX) TYPE(FAC)\nDAEMON UID(*) PREVENT\nDEBUG UID(*) PREVENT \nFILEATTR.APF UID(*) PREVENT\nFILEATTR.PROGCTL UID(*) PREVENT\nJOBNAME UID(*) PREVENT\nSAFFASTPATH UID(*) PREVENT\nSERVER UID(*) PREVENT\nSMF UID(*) PREVENT\nSTOR.SWAP UID(*) PREVENT\nSUPERUSER UID(*) PREVENT\nWLMSERVER UID(*) PREVENT\n\nThe ACF2 rules for each of the BPX resources listed in the General Facility Class BPX Resources Table, in the z/OS UNIX System Services Planning, Establishing UNIX security, restrict access to appropriate system tasks or systems programming personnel as specified.\n\nExample:\n$KEY(BPX) TYPE(FAC)\nDAEMON UID(*******STC******FTPD) SERVICE(READ) LOG\nDAEMON UID(*******STC******INETD) SERVICE(READ) LOG \nDAEMON UID(*******STC******NAMED) SERVICE(READ) LOG \nDAEMON UID(*******STC******OMVSKERN) SERVICE(READ) LOG\nDAEMON UID(*******STC******OMVS) SERVICE(READ) LOG \nDAEMON UID(*******STC******OROUTED) SERVICE(READ) LOG \nDAEMON UID(*******STC******OSNMPD) SERVICE(READ) LOG",
+  "fix_id": "F-25282r504822_fix",
+  "VulnDiscussion": "To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DoD-approved PKIs, all DoD systems (e.g., web servers and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. Successful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement.\n\nAccess control policies include: identity-based policies, role-based policies, and attribute-based policies. Access enforcement mechanisms include: access control lists, access control matrices, and cryptography. These policies and mechanisms must be employed by the application to control access between users (or processes acting on behalf of users) and objects (e.g., devices, files, records, processes, programs, and domains) in the information system.",
+  "Documentable": "false"
+}

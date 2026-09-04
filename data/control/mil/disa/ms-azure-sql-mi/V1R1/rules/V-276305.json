@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276305",
+  "rule_id": "SV-276305r1150105_rule",
+  "stig_id": "MSQL-D0-008300",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "If passwords are used for authentication, Azure SQL Server Managed Instance must transmit only encrypted representations of passwords.",
+  "group_title": "SRG-APP-000172-DB-000075",
+  "idents": {
+    "cci": [
+      "CCI-000197"
+    ]
+  },
+  "check_id": "C-80460r1149822_chk",
+  "check_content": "Verify the MinimalTLSversion using the following PowerShell script: \n\n$Subscription = 'SubscriptionValueHere'\n$Environment = 'EnvironmentTypeHere'\nConnect-AzAccount -Subscription $Subscription -Environment $Environment\n \n$ResourceGroup = 'ResourceGroupHere'\n$ManagedInstance = 'ManagedInstanceHere'\n$TLSmax = (Get-Command -Name set-azsqlinstance -ParameterName 'minimaltlsversion').parameters['minimaltlsversion'].attributes.where({$_ -is [ValidateSet] }).ValidValues Select-Object -Last 1\n$TLScur = (Get-AzSqlInstance -ResourceGroupName $ResourceGroup -Name $ManagedInstance).MinimalTlsVersion\nWrite-Host \"Latest TLS Version  : [$TlSMax]\"\nWrite-Host \"Current TLS Version : [$TLScur]\"\n  \nVerify that the minimum TLS version property is set to the latest available TLS version. If a less secure TLS version is set and not documented as required by the supported application, this is a finding.",
+  "fixtext": "Run the following PowerShell script to set the Azure SQL Managed Instance MinimalTLSversion to the latest available TLS version: \n\n##This is an example script## \n$ResourceGroup = '<resource group name here>' \n$ManagedInstance = '<Azure SQL Managed Instance name here>'  \n$TLSmax = (Get-Command -Name set-azsqlinstance -ParameterName 'minimaltlsversion').parameters['minimaltlsversion'].attributes.where({$_ -is [ValidateSet] }).ValidValues | Select-Object -Last 1\nSet-AzSqlInstance -ResourceGroupName $ResourceGroup -Name $ManagedInstance -MinimalTlsVersion $TLSmax\n  \nReferences: https://learn.microsoft.com/en-us/azure/azure-sql/managed-instance/minimal-tls-version-configure?view=azuresql-mi",
+  "fix_id": "F-80365r1149823_fix",
+  "VulnDiscussion": "The DOD standard for authentication is DOD-approved PKI certificates. \n \nAuthentication based on User ID and Password may be used only when it is not possible to employ a PKI certificate and requires AO approval. \n \nIn such cases, passwords must be protected at all times, and encryption is the standard method for protecting passwords during transmission. \n \nAzure SQL Managed Instance passwords sent in clear text format across the network are vulnerable to discovery by unauthorized users. Disclosure of passwords may easily lead to unauthorized access to the database. \n\nTransport Layer Security (TLS) encryption is a required security setting as a number of known vulnerabilities have been reported against Secure Sockets Layer (SSL) and earlier versions of TLS. Encryption of private information is essential to ensuring data confidentiality. If private information is not encrypted, it can be intercepted and easily read by an unauthorized party. Azure SQL Managed Instance must use a FIPS-approved minimum TLS version, and all non-FIPS-approved SSL and TLS versions must be disabled. NIST SP 800-52 Rev. 2 specifies the preferred configurations for government systems.",
+  "Documentable": "false"
+}

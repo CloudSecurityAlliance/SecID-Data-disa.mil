@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217289",
+  "rule_id": "SV-217289r991589_rule",
+  "stig_id": "SLES-12-030370",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must not forward Internet Protocol version 4 (IPv4) source-routed packets by default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-77489",
+      "SV-92185"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-18517r370023_chk",
+  "check_content": "Verify the SUSE operating system does not accept IPv4 source-routed packets by default.\n\nCheck the value of the default accept source route variable with the following command:\n\n# sysctl net.ipv4.conf.default.accept_source_route\nnet.ipv4.conf.default.accept_source_route = 0\n\nIf the returned line does not have a value of \"0\" this is a finding.",
+  "fixtext": "Configure the SUSE operating system to the required kernel parameter by adding the following line to \"/etc/sysctl.conf\" (or modify the line to have the required value):\n\nnet.ipv4.conf.default.accept_source_route = 0\n\nRun the following command to apply this value:\n\n# sysctl --system",
+  "fix_id": "F-18515r370024_fix",
+  "VulnDiscussion": "Source-routed packets allow the source of the packet to suggest that routers forward the packet along a different path than configured on the router, which can be used to bypass network security measures. This requirement applies only to the forwarding of source-routed traffic, such as when IPv4 forwarding is enabled and the system is functioning as a router.",
+  "Documentable": "false"
+}

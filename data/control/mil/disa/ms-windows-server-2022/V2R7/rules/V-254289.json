@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-254289",
+  "rule_id": "SV-254289r1051091_rule",
+  "stig_id": "WN22-AC-000050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2022 maximum password age must be configured to 60 days or less.",
+  "group_title": "SRG-OS-000076-GPOS-00044",
+  "idents": {
+    "cci": [
+      "CCI-004066",
+      "CCI-000199"
+    ]
+  },
+  "check_id": "C-57774r848681_chk",
+  "check_content": "Verify the effective setting in Local Group Policy Editor.\n\nRun \"gpedit.msc\".\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Account Policies >> Password Policy.\n\nIf the value for the \"Maximum password age\" is greater than \"60\" days, this is a finding.\n\nIf the value is set to \"0\" (never expires), this is a finding.\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas SecurityPolicy /CFG C:\\Path\\FileName.Txt\n\nIf \"MaximumPasswordAge\" is greater than \"60\" or equal to \"0\" in the file, this is a finding.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Account Policies >> Password Policy >> Maximum password age to \"60\" days or less (excluding \"0\", which is unacceptable).",
+  "fix_id": "F-57725r848682_fix",
+  "VulnDiscussion": "The longer a password is in use, the greater the opportunity for someone to gain unauthorized knowledge of the passwords. Scheduled changing of passwords hinders the ability of unauthorized system users to crack passwords and gain access to a system.",
+  "Documentable": "false"
+}

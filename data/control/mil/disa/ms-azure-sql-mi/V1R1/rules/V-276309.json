@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276309",
+  "rule_id": "SV-276309r1149836_rule",
+  "stig_id": "MSQL-D0-011500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure Resource Manager must enforce access restrictions associated with changes to the configuration of Azure SQL Managed Instance.",
+  "group_title": "SRG-APP-000380-DB-000360",
+  "idents": {
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-80464r1149834_chk",
+  "check_content": "Obtain a list of accounts who have privileged access to the server via the Administrators role. For Control Plane Role Memberships, run this script in PowerShell:\n\n$ManagedInstanceName = '<ManagedInstanceName>'\n$SqlMI = Get-AzSqlInstance -Name $ManagedInstanceName\nGet-AzRoleAssignment -Scope $SqlMI.Id | Select-Object DisplayName,SignInName,RoleDefinitionName,ObjectType\n\nCheck the documentation to verify the accounts and roles returned are authorized. If the accounts and roles are not documented and authorized, this is a finding.",
+  "fixtext": "Remove accounts from the Administrators role that are not authorized. \n\nReference: https://learn.microsoft.com/en-us/azure/role-based-access-control/role-assignments-portal",
+  "fix_id": "F-80369r1149835_fix",
+  "VulnDiscussion": "Failure to provide logical access restrictions associated with changes to configuration may have significant effects on the overall security of the system.  \n \nWhen dealing with access restrictions pertaining to change control, it must be noted that any changes to the hardware, software, and/or firmware components of the information system can potentially have significant effects on the overall security of the system.  \n  \nAccordingly, only qualified and authorized individuals must be allowed to obtain access to system components for the purposes of initiating changes, including upgrades and modifications.",
+  "Documentable": "false"
+}

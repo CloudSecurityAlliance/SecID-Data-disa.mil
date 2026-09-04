@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-278389",
+  "rule_id": "SV-278389r1172704_rule",
+  "stig_id": "NGNX-APP-000510",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must be configured to prohibit or restrict using ports, protocols, and/or services.",
+  "group_title": "SRG-APP-000142",
+  "idents": {
+    "cci": [
+      "CCI-000382",
+      "CCI-000381",
+      "CCI-001762"
+    ]
+  },
+  "check_id": "C-82923r1171917_chk",
+  "check_content": "Determine the path to NGINX config file(s):\n\n# nginx -qT | grep \"# configuration\"\n# configuration file /etc/nginx/nginx.conf:\n\nNote: The default NGINX configuration is \"/etc/nginx/nginx.conf\", though various files may also be included.\n\nReview the configurations looking for any listen directives.\n\nIf listen directives are enabled but unnecessary, this is a finding.\n\nVerify that listeners are using SSL and redirects to SSL-enabled listeners.\n\n# nginx -c <path to nginx config> -qT | grep -A5 listen\n    listen 192.168.0.254:80;\n    return 301 https://$host/$request_uri;\n    } \n\n`\n    listen 192.168.0.254:443 ssl default_server;\n    ...\n\nIf the listen directive does not include SSL and there is not a redirect to an SSL listener, this is a finding.",
+  "fixtext": "Edit the NGINX configuration file(s) and remove any unnecessary listen directives.\n\nOn listen directives that are organizationally defined to need TLS, ensure that the listen directive includes SSL and SSL redirection.\n\nAfter saving the configuration, reload NGINX:\n\n# nginx -s reload",
+  "fix_id": "F-82828r1171918_fix",
+  "VulnDiscussion": "Authenticity protection provides protection against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.\n\nApplication communication sessions are protected using transport encryption protocols, such as TLS. TLS provides web applications with a means to be able to authenticate user sessions and encrypt application traffic. Session authentication can be single (one-way) or mutual (two-way) in nature. Single authentication authenticates the server for the client, whereas mutual authentication provides a means for both the client and the server to authenticate each other. \n\nThis requirement applies to applications that use communications sessions. This includes, but is not limited to, web-based applications and service-oriented architectures (SOA). \n\nThis requirement addresses communications protection at the application session, versus the network packet, and establishes grounds for confidence at both ends of communications sessions in ongoing identities of other parties and in the validity of information transmitted. Depending on the required degree of confidentiality and integrity, web services/SOA will require using TLS mutual authentication (two-way/bidirectional).\n\nSatisfies: SRG-APP-000142, SRG-APP-000141, SRG-APP-000383, SRG-APP-000645",
+  "Documentable": "false"
+}

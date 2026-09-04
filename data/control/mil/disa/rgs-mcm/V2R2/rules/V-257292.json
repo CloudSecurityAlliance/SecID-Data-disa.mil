@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257292",
+  "rule_id": "SV-257292r961287_rule",
+  "stig_id": "CNTR-RM-000970",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Rancher MCM must enforce organization-defined circumstances and/or usage conditions for organization-defined accounts.",
+  "group_title": "SRG-APP-000318-CTR-000740",
+  "idents": {
+    "cci": [
+      "CCI-002145"
+    ]
+  },
+  "check_id": "C-60976r919163_chk",
+  "check_content": "Verify helm installation contains correct parameters:\nNavigate to Triple Bar Symbol(Global) >>  <local cluster>.\nFrom the kubectl shell (>_) Execute:\n`helm get values rancher -n cattle-system`\n\nThe output must contain:\n```\nprivateCA: true\ningress:\ntls:\nsource: secret\n```\nIf the output source is not \"secret\", this is a finding.\n\nVerify contents of certificates are correct: \nFrom the console, type:\nkubectl -n cattle-system get secret tls-rancher-ingress -o 'jsonpath={.data.tls\\.crt}' | base64 --decode | openssl x509 -noout -text\n\nkubectl -n cattle-system get secret tls-ca -o 'jsonpath={.data.cacerts\\.pem}' | base64 --decode | openssl x509 -noout -text",
+  "fixtext": "Update the secrets to contain valid certificates.\n\nPut the correct and valid DOD certificate and key in files called \"tls.crt\" and \"tls.key\", respectively, and then run:\nkubectl -n cattle-system create secret tls tls-rancher-ingress \\  --cert=tls.crt \\   --key=tls.key                         \n\nUpload the CA required for the certs by creating another file called \"cacerts.pem\" and running: \nkubectl -n cattle-system create secret generic tls-ca \\   --from-file=cacerts.pem=./cacerts.pem \n\nThe helm chart values need to be updated to include the check section: \nprivateCA: true   \ningress:            \ntls:                                                                        \nsource: secret   \n\nRerun helm upgrade with the new values for the certs to take effect.",
+  "fix_id": "F-60903r919164_fix",
+  "VulnDiscussion": "Rancher MCM must verify the certificate used for Rancher's ingress is a valid DOD certificate. This is achieved by verifying the helm installation contains correct parameters.",
+  "Documentable": "false"
+}

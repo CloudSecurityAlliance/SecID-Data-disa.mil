@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260579",
+  "rule_id": "SV-260579r958452_rule",
+  "stig_id": "UBTU-22-612040",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS must map the authenticated identity to the user or group account for PKI-based authentication.",
+  "group_title": "SRG-OS-000068-GPOS-00036",
+  "idents": {
+    "cci": [
+      "CCI-000187"
+    ]
+  },
+  "check_id": "C-64308r953548_chk",
+  "check_content": "Verify that \"use_mappers\" is set to \"pwent\" in \"/etc/pam_pkcs11/pam_pkcs11.conf\" file by using the following command:  \n  \n     $ grep -i use_mappers /etc/pam_pkcs11/pam_pkcs11.conf \n     use_mappers = pwent \n  \nIf \"use_mappers\" does not contain \"pwent\", is commented out, or is missing, this is a finding.",
+  "fixtext": "Set \"use_mappers=pwent\" in \"/etc/pam_pkcs11/pam_pkcs11.conf\" or, if there is already a comma-separated list of mappers, add it to the list, separated by comma, and before the null mapper.  \n  \nIf the system is missing an \"/etc/pam_pkcs11/\" directory and an \"/etc/pam_pkcs11/pam_pkcs11.conf\", find an example to copy into place and modify accordingly at \"/usr/share/doc/libpam-pkcs11/examples/pam_pkcs11.conf.example.gz\".",
+  "fix_id": "F-64216r953549_fix",
+  "VulnDiscussion": "Without mapping the certificate used to authenticate to the user account, the ability to determine the identity of the individual user or group will not be available for forensic analysis.",
+  "Documentable": "false"
+}

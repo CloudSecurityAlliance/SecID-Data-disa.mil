@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-278404",
+  "rule_id": "SV-278404r1171964_rule",
+  "stig_id": "NGNX-APP-001940",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "NGINX must protect against denial-of-service (DoS) attacks.",
+  "group_title": "SRG-APP-000435",
+  "idents": {
+    "cci": [
+      "CCI-002385",
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-82938r1171962_chk",
+  "check_content": "Check for the \"limit_req\" or \"limit_conn\" directives in the NGINX configuration files:\n\ngrep -R \"limit_req\\|limit_conn\" /etc/nginx/\n\nDetermine if NGINX App Protect is enabled:\n\ngrep -R \"app_protect_enable on\" /etc/nginx/\n\nIf the \"lmit_req\" or \"limit connections\" are not present, this is a finding.",
+  "fixtext": "Define a connection limiting zone. \n\nOpen the NGINX configuration file in a text editor:\n\nsudo nano /etc/nginx/nginx.conf\n\nEstablish a shared memory zone to track and limit connections from each client.\n\nAdd this directive above the server block in the nginx.conf:\n\nlimit_conn_zone $binary_remote_addr zone=conn_limit_zone:10m;\n\n$binary_remote_addr: Uses the client's IP address for limiting.\n\nzone=conn_limit_zone:10m: Allocates 10MB of memory for tracking connections. Adjust size based on your needs.\n\nApply connection limiting in the server block. \n\nNow, apply connection limiting to the desired location block. Inside the location block, add the connection limiting directive:\n\nnginx\nCopy code\nserver {\n    location / {\n        limit_req zone=one burst=20 nodelay;\n        limit_conn conn_limit_zone 10;\n        proxy_pass http://backend;\n    }\n}\nlimit_conn conn_limit_zone 10: Limits the client to 10 concurrent connections.\n\nSave and exit the file. Restart NGINX:\n\n# nginx -s reload",
+  "fix_id": "F-82843r1171963_fix",
+  "VulnDiscussion": "DoS is a condition when a resource is not available for legitimate users. When this occurs, the organization either cannot accomplish its mission or must operate at degraded capacity.\n\nThis requirement addresses the configuration of applications to mitigate the impact of DoS attacks that have occurred or are ongoing on application availability. For each application, known and potential DoS attacks must be identified and solutions for each type implemented. A variety of technologies exist to limit or, in some cases, eliminate the effects of DoS attacks (e.g., limiting processes or restricting the number of sessions the application opens at one time). Employing increased capacity and bandwidth, combined with service redundancy, may reduce the susceptibility to some DoS attacks.\n\nSatisfies: SRG-APP-000435, SRG-APP-000247",
+  "Documentable": "false"
+}

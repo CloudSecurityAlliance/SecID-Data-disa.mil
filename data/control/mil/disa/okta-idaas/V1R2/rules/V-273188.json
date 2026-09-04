@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-273188",
+  "rule_id": "SV-273188r1098831_rule",
+  "stig_id": "OKTA-APP-000090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Okta must automatically disable accounts after a 35-day period of account inactivity.",
+  "group_title": "SRG-APP-000025",
+  "idents": {
+    "cci": [
+      "CCI-000017",
+      "CCI-000795",
+      "CCI-003627"
+    ]
+  },
+  "check_id": "C-77279r1098829_chk",
+  "check_content": "If Okta Services rely on external directory services for user sourcing, this is not applicable, and the connected directory services must perform this function. \n\nGo to Workflows >> Automations and verify that an Automation has been created to disable accounts after 35 days of inactivity.\n\nIf the Okta configuration does not automatically disable accounts after a 35-day period of account inactivity, this is a finding.",
+  "fixtext": "From the Admin Console:\n1. Go to Workflow >> Automations and select \"Add Automation\".\n2. Create a name for the Automation (e.g., \"User Inactivity\").\n3. Click \"Add Condition\" and select \"User Inactivity in Okta\".\n4. In the duration field, enter 35 days and click \"Save\".\n5 Click the edit button next to \"Select Schedule\".\n6. Configure the \"Schedule\" field for \"Run Daily\" and set the \"Time\" field to an organizationally defined time to run this automation. Click \"Save\".\n7. Click the edit button next to \"Select group membership\".\n8. In the \"Applies to\" field, select the group \"Everyone\" by typing it into the field. Click \"Save\".\n9. Click \"Add Action\" and select \"Change User lifecycle state in Okta\".\n10. In the \"Change user state to\" field, select \"Suspended\" and click \"Save\".\n11. Click the \"Inactive\" button near the top of the section screen and select \"Activate\".",
+  "fix_id": "F-77184r1098830_fix",
+  "VulnDiscussion": "Attackers that are able to exploit an inactive account can potentially obtain and maintain undetected access to an application. Owners of inactive accounts will not notice if unauthorized access to their user account has been obtained. Applications must track periods of user inactivity and disable accounts after 35 days of inactivity. Such a process greatly reduces the risk that accounts will be hijacked, leading to a data compromise. \n\nTo address access requirements, many application developers choose to integrate their applications with enterprise-level authentication/access mechanisms that meet or exceed access control policy requirements. Such integration allows the application developer to off-load those access control functions and focus on core application features and functionality. \n\nThis policy does not apply to emergency accounts or infrequently used accounts. Infrequently used accounts are local login administrator accounts used by system administrators when network or normal login/access is not available. Emergency accounts are administrator accounts created in response to crisis situations.\n\nSatisfies: SRG-APP-000025, SRG-APP-000163, SRG-APP-000700",
+  "Documentable": "false"
+}

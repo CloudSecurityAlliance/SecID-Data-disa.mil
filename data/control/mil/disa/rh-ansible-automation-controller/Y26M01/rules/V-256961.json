@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256961",
+  "rule_id": "SV-256961r961461_rule",
+  "stig_id": "APWS-AT-000780",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Automation Controller NGINX web server application, libraries, and configuration files must only be accessible to privileged users.",
+  "group_title": "SRG-APP-000380-WSR-000072",
+  "idents": {
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-60636r902395_chk",
+  "check_content": "As a System Administrator for each Automation Controller NGINX web server host, check that the file permissions for the web server components require privileged access:\n\n$ [ `find /etc/nginx -type f -not -perm 644 | wc -l` -gt 0 ] && echo \"FAILED\"\n\nIf \"FAILED\" is displayed, this is a finding.",
+  "fixtext": "As a System Administrator for each Automation Controller NGINX web server host, modify the file permissions for the web server components require privileged access:\n\nchmod -R 644 /etc/nginx && chown -R nginx /etc/nginx",
+  "fix_id": "F-60578r902396_fix",
+  "VulnDiscussion": "Automation Controller NGINX web servers can be modified through parameter modification, patch installation, upgrades to the web server or modules, and security parameter changes. With each of these changes, there is the potential for an adverse effect such as a DoS, web server instability, or hosted application instability.\n\nTo limit changes to Automation Controller NGINX web servers and limit exposure to any adverse effects from the changes, files such as the web server application files, libraries, and configuration files must have permissions and ownership set properly to only allow privileged users access.",
+  "Documentable": "false"
+}

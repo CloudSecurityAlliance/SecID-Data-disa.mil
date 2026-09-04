@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-276313",
+  "rule_id": "SV-276313r1149848_rule",
+  "stig_id": "MSQL-D0-013200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Managed Instance must generate audit records when attempts to access categorized information (e.g., classification levels/security levels) occur.",
+  "group_title": "SRG-APP-000494-DB-000345",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-80468r1149846_chk",
+  "check_content": "Determine if an audit is configured and started by executing the following query.  \n  \nSELECT name AS 'Audit Name', \nstatus_desc AS 'Audit Status', \naudit_file_path AS 'Current Audit File' \nFROM sys.dm_server_audit_status \nWHERE name NOT IN ('admin_audit','SqlDbThreatDetection_ServerAudit')\n  \nIf no records are returned, this is a finding. \n  \nIf the auditing the retrieval of privilege/permission/role membership information is required, execute the following query to verify the 'SCHEMA_OBJECT_ACCESS_GROUP' is included in the server audit specification. \n  \nSELECT a.name AS 'AuditName', \ns.name AS 'SpecName', \nd.audit_action_name AS 'ActionName', \nd.audited_result AS 'Result' \nFROM sys.server_audit_specifications s \nJOIN sys.server_audits a ON s.audit_guid = a.audit_guid \nJOIN sys.server_audit_specification_details d ON s.server_specification_id = d.server_specification_id \nWHERE a.is_state_enabled = 1 AND d.audit_action_name = 'SCHEMA_OBJECT_ACCESS_GROUP' \n  \nIf the 'SCHEMA_OBJECT_ACCESS_GROUP' is not returned in an active audit, this is a finding.",
+  "fixtext": "Deploy an audit to review when data classifications are both successfully and unsuccessfully retrieved.  \n\nRefer to the supplemental file \"AzureSQLMIAudit.sql\" script.  \n\nReference: https://learn.microsoft.com/en-us/azure/azure-sql/managed-instance/auditing-configure?view=azuresql",
+  "fix_id": "F-80373r1149847_fix",
+  "VulnDiscussion": "Changes in categorized information must be tracked. Without an audit trail, unauthorized access to protected data could go undetected. \n \nFor detailed information on categorizing information, refer to FIPS Publication 199, Standards for Security Categorization of Federal Information and Information Systems, and FIPS Publication 200, Minimum Security Requirements for Federal Information and Information Systems.\n \nTo aid in diagnosis, it is necessary to keep track of failed attempts in addition to the successful attempts.\n\nSatisfies: SRG-APP-000494-DB-000345, SRG-APP-000494-DB-000344",
+  "Documentable": "false"
+}

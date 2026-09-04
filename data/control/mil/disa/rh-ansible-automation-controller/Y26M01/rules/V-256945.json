@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-256945",
+  "rule_id": "SV-256945r1016557_rule",
+  "stig_id": "APWS-AT-000240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Expansion modules must be fully reviewed, tested, and signed before they can exist on a production Automation Controller NGINX front-end web server.",
+  "group_title": "SRG-APP-000131-WSR-000073",
+  "idents": {
+    "cci": [
+      "CCI-003992",
+      "CCI-001749"
+    ]
+  },
+  "check_id": "C-60620r986181_chk",
+  "check_content": "The Automation Controller does not require any nginx dynamic expansion modules to function. Determine if any dynamic modules are specified in the nginx configuration.\n\nAs a system administrator for each Automation Controller NGINX web server host, execute the following:\n\nNGINXCONF=`nginx -V 2>&1 | tr ' ' '\\n' | sed -ne '/conf-path/{s/.*conf-path=\\(.*\\)/\\1/;p}' `\nNGINXMODPATH=`nginx -V 2>&1 | tr ' ' '\\n' | grep modules-path | sed -ne '/modules-path/{s/.*modules-path=\\(.*\\)/\\1/;p}'`\nNGINXMODINC=`grep include /etc/nginx/nginx.conf | grep modules | awk '{print $2}' | xargs dirname`\ngrep -q load_module ${NGINXCONF} && echo FAILED\n[ `ls -1 $NGINXMODPATH | wc -l` == 0 ]  || echo FAILED\n[ `ls -1 $NGINXMODINC | wc -l` == 0 ]  || echo FAILED\n\nIf \"FAILED\" is displayed, this is a finding.",
+  "fixtext": "As a system administrator for each Automation Controller NGINX web server host, execute the following:\n\nNGINXCONF=`nginx -V 2>&1 | tr ' ' '\\n' | sed -ne '/conf-path/{s/.*conf-path=\\(.*\\)/\\1/;p}' `\nNGINXMODPATH=`nginx -V 2>&1 | tr ' ' '\\n' | grep modules-path | sed -ne '/modules-path/{s/.*modules-path=\\(.*\\)/\\1/;p}'`\nNGINXMODINC=`grep include /etc/nginx/nginx.conf | grep modules | awk '{print $2}' | xargs dirname`\nsudo rm -f ${NGINXMODPATH}/*\nsudo rm -f ${NGINXMODINC}/*\nsudo -e ${NGINXCONF}\n\nIn the editor, remove any lines that contain \"load_module\".\n\nSave the file and exit the text editor. Run the following command to apply the changes:\n\nsudo systemctl restart nginx",
+  "fix_id": "F-60562r986182_fix",
+  "VulnDiscussion": "In the case of a production web server, areas for content development and testing will not exist, as this type of content is only permissible on a development website.\n\nThe process of developing on a functional production website entails a degree of trial and error and repeated testing. This process is often accomplished in an environment where debugging, sequencing, and formatting of content are the main goals. The opportunity for a malicious user to obtain files that reveal business logic and login schemes is high in this situation. The existence of such immature content on a web server represents a significant security risk that is totally avoidable.\n\nThe Automation Controller NGINX front-end web server must enforce, either internally or through an external utility, the signing of modules before they are implemented into a production environment. By signing modules, the author guarantees that the module has been reviewed and tested before production implementation.",
+  "Documentable": "false"
+}

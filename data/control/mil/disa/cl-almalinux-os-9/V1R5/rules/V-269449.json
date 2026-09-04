@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269449",
+  "rule_id": "SV-269449r1050620_rule",
+  "stig_id": "ALMA-09-044570",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must implement nonexecutable data to protect its memory from unauthorized code execution.",
+  "group_title": "SRG-OS-000433-GPOS-00192",
+  "idents": {
+    "cci": [
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-73480r1049725_chk",
+  "check_content": "Verify ExecShield is enabled on 64-bit AlmaLinux OS 9 systems with the following command:\n\n$ dmesg | grep '[NX|DX]*protection' \n\n[ 0.000000] NX (Execute Disable) protection: active\n\nIf \"dmesg\" does not show \"NX (Execute Disable) protection active\", this is a finding.",
+  "fixtext": "Update the GRUB 2 bootloader configuration to ensure the noexec kernel parameter is not enabled using the following command:\n\n$ grubby --update-kernel=ALL --remove-args=noexec\n\nEnable the NX bit execute protection in the system BIOS.",
+  "fix_id": "F-73381r1048724_fix",
+  "VulnDiscussion": "ExecShield uses the segmentation feature on all x86 systems to prevent execution in memory higher than a certain address. It writes an address as a limit in the code segment descriptor, to control where code can be executed, on a per-process basis.\n\nWhen the kernel places the memory regions of a process, such as the stack and heap, higher than this address, the hardware prevents execution in that address range.",
+  "Documentable": "false"
+}

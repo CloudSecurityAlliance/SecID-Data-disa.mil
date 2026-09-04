@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-278755",
+  "rule_id": "SV-278755r1151153_rule",
+  "stig_id": "AIOS-26-007200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Apple iOS/iPadOS 26 must not include applications with the following characteristics: access to Siri when the device is locked.",
+  "group_title": "PP-MDF-333070",
+  "idents": {
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-83289r1151152_chk",
+  "check_content": "Review configuration settings to confirm that Siri is disabled on the Lock screen.\n\nThis check procedure is performed on both the Apple iOS/iPadOS management tool and the iPhone and iPad. \n\nNote: If an organization has multiple configuration profiles, the check procedure must be performed on the relevant configuration profiles applicable to the scope of the review. \n\nIn the Apple iOS/iPadOS management tool, verify \"Allow Siri while device is locked\" is unchecked.\n\nAlternatively, verify the text \"<key>allowAssistantWhileLocked</key><false/>\" appears in the configuration profile (.mobileconfig file).\n\nOn the iPhone and iPad:\n1. Open the Settings app.\n2. Tap \"General\".\n3. Tap \"VPN & Device Management\".\n4. Tap the Configuration Profile from the Apple iOS/iPadOS management tool containing the restrictions policy.\n5. Tap \"Restrictions\".\n6. Verify \"Siri while locked not allowed\" is listed.\n\nIf \"Allow Siri while device is locked\" is checked in the Apple iOS/iPadOS management tool, or \"<key>allowAssistantWhileLocked</key><true/>\" appears in the configuration profile, or the restrictions policy on the iPhone and iPad from the Apple iOS/iPadOS management tool does not list \"Siri while locked not allowed\", this is a finding.\n\nNote: If Siri use has been disabled, \"Siri while locked not allowed\" may not be listed and this requirement is Not Applicable.",
+  "fixtext": "Install a configuration profile to disable Siri while the device is locked.\n\nConfiguration Profile Key: allowAssistantWhileLocked",
+  "fix_id": "F-83194r1150511_fix",
+  "VulnDiscussion": "Requiring all authorized applications to be in an application allow list prevents the execution of any applications (e.g., unauthorized, malicious) that are not part of the allow list. Failure to configure an application allow list properly could allow unauthorized and malicious applications to be downloaded, installed, and executed on the mobile device, causing a compromise of DOD data accessible by these applications. Applications with the listed characteristics have features that can cause the compromise of sensitive DOD data or have features with no known application in the DOD environment.\n\nApplication note: The application allow list, in addition to controlling the installation of applications on the MD, must control user access/execution of all core and preinstalled applications, or the MD must provide an alternate method of restricting user access/execution to core and preinstalled applications.\n\nCore application: Any application integrated into the OS by the OS or MD vendors.\n\nPreinstalled application: Additional noncore applications included in the OS build by the OS vendor, MD vendor, or wireless carrier.\n\nSFR ID: FMT_SMF.1.1 #8",
+  "Documentable": "false"
+}
