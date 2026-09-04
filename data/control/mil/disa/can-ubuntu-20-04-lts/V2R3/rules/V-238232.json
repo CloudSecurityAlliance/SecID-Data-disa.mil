@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-238232",
+  "rule_id": "SV-238232r1069954_rule",
+  "stig_id": "UBTU-20-010065",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Ubuntu operating system must electronically verify Personal Identity Verification (PIV) credentials.",
+  "group_title": "SRG-OS-000377-GPOS-00162",
+  "idents": {
+    "cci": [
+      "CCI-001954"
+    ]
+  },
+  "check_id": "C-41442r1069089_chk",
+  "check_content": "Verify the Ubuntu operating system electronically verifies PIV credentials. \n \nVerify that certificate status checking for multifactor authentication is implemented with the following command: \n \n$ sudo grep use_pkcs11_module /etc/pam_pkcs11/pam_pkcs11.conf | sudo awk '/pkcs11_module opensc {/,/}/' /etc/pam_pkcs11/pam_pkcs11.conf | grep cert_policy | grep ocsp_on\n \ncert_policy = ca,signature,ocsp_on; \n \nIf \"cert_policy\" is not set to \"ocsp_on\", or the line is commented out, this is a finding.",
+  "fixtext": "Configure the Ubuntu operating system to do certificate status checking for multifactor authentication. \n \nModify all of the \"cert_policy\" lines in \"/etc/pam_pkcs11/pam_pkcs11.conf\" to include \"ocsp_on\".",
+  "fix_id": "F-41401r653870_fix",
+  "VulnDiscussion": "The use of PIV credentials facilitates standardization and reduces the risk of unauthorized access. \n \nDOD has mandated the use of the CAC to support identity management and personal authentication for systems covered under Homeland Security Presidential Directive (HSPD) 12, as well as making the CAC a primary component of layered protection for national security systems.",
+  "Documentable": "false"
+}

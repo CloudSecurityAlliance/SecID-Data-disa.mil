@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259938",
+  "rule_id": "SV-259938r948785_rule",
+  "stig_id": "SRG-VOIP-000580",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Multifunction Soft Switch (MFSS) must be configured to synchronize with at minimum a paired MFSS and/or others so that each may serve as a backup for the other when signaling with its assigned Local Session Controller (LSC), thus improving the reliability and survivability of the DISN IPVS network.",
+  "group_title": "SRG-VOIP-000580",
+  "idents": {
+    "cci": [
+      "CCI-001548"
+    ]
+  },
+  "check_id": "C-63669r946733_chk",
+  "check_content": "Inspect the configuration of the MFSS to determine compliance with the requirement. \n\nIf the event the MFSS is not configured to synchronize its LSC and associated traffic information with a paired MFSS and vice versa, this is a finding. \n\nNOTE: There is a possibility that any given MFSS may pair with more than one other MFSS depending on the geographic orientation of the MFSSs and LSCs in the region.",
+  "fixtext": "Ensure each MFSS is configured to synchronize with a paired MFSS so that each may serve as a backup for the other when signaling with its assigned LSCs and regarding the overall operation of the DISN IPVS network and the negotiation of call establishment between enclaves.",
+  "fix_id": "F-63576r946734_fix",
+  "VulnDiscussion": "MFSSs are critical to the operation of the DISN NIPRNet IPVS network. They broker the establishment of calls between enclaves. An MFSS provides the following functions: \n- Receives AS-SIP-TLS messages from other MFSSs and a specific set of regionally associated LSCs to act as a call routing manager across the backbone. \n- Sends AS-SIP-TLS messages to interrogate the ability of another MFSS or an LSC to receive a call, whether routine or priority. \n- Sends AS-SIP-TLS messages to manage the establishment of priority calls and the preemption of lower priority calls to LSCs and other MFSSs.\n- Once a \"trunk side\" session request is received, the MFSS determines if the destination is one of its assigned LSCs. If so, it interrogates that LSC to determine if it can receive the call. If so, it signals to establish the call. If the destination is not one of its LSCs, it signals with other MFSSs to locate the destination LSC and then the remote MFSS negotiates with its LSC. \n- Acts as a backup MFSS for LSCs assigned to other MFSSs as primary. An LSC must be able to signal with an MFSS to establish any call across the DISN WAN. LSCs do not interact directly with LSCs. This hierarchical arrangement is required in order to manage and establish priority calls and manage access circuit budgets. Each LSC must have a backup MFSS. In support of this function, MFSSs must be operated in pairs with all the information about its assigned LSCs replicated across the pair.",
+  "Documentable": "false"
+}

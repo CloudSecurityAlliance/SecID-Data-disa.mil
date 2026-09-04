@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255325",
+  "rule_id": "SV-255325r960882_rule",
+  "stig_id": "ASQL-00-004400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Database must allow only the ISSM (or individuals or roles appointed by the ISSM) to select which auditable events are to be audited.",
+  "group_title": "SRG-APP-000090-DB-000065",
+  "idents": {
+    "cci": [
+      "CCI-000171"
+    ]
+  },
+  "check_id": "C-58998r877274_chk",
+  "check_content": "Obtain the list of approved audit maintainers from the system documentation.\n\nIf any role memberships are not documented and authorized, this is a finding.\t\n\nReview the Azure roles and individual users, all of which enable the ability to create and maintain audits.\n\nTo review the Azure roles and users, navigate to the Azure Portal and review the Azure Server controlling the Azure SQL Database.\n1. Select \"Access Control (IAM)\".\n2. Select \"Role assignments\" and review the roles assigned to each user.\n3. Select \"Roles\", and then select \"View\" under the Details column for each role.\n\nAny roles or users with Write permissions to the auditing policy must be documented.\n\nThis may include but is not limited to the Owner, Contributor, and Administrator roles.\n\nIf any of the roles or users have permissions that are not documented, or the documented audit maintainers do not have permissions, this is a finding.",
+  "fixtext": "Create an Azure role specifically for audit maintainers, and give it write permissions to audit related permissions in the portal, without granting it unnecessary permissions. The role name used here is an example; other names may be used:\n\nAudit permissions are managed through the Azure Portal, PowerShell, CLI or REST API (not managed using TSQL in Azure SQL Database).",
+  "fix_id": "F-58942r877275_fix",
+  "VulnDiscussion": "Without the capability to restrict which roles and individuals can select which events are audited, unauthorized personnel may be able to prevent or interfere with the auditing of critical events. \n \nSuppression of auditing could permit an adversary to evade detection. \n \nMisconfigured audits can degrade the system's performance by overwhelming the audit log. Misconfigured audits may also make it more difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.",
+  "Documentable": "false"
+}

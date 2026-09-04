@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-234901",
+  "rule_id": "SV-234901r1009636_rule",
+  "stig_id": "SLES-15-030020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/shadow.",
+  "group_title": "SRG-OS-000004-GPOS-00004",
+  "idents": {
+    "cci": [
+      "CCI-000018",
+      "CCI-000172",
+      "CCI-001403",
+      "CCI-002130",
+      "CCI-000015",
+      "CCI-002132"
+    ]
+  },
+  "check_id": "C-38089r986502_chk",
+  "check_content": "Verify the SUSE operating system generates an audit record when modifications occur to the \"/etc/shadow\" file.\n\nCheck that the file is being audited by performing the following command:\n\n> sudo auditctl -l | grep -w '/etc/shadow'\n\n-w /etc/shadow -p wa -k account_mod\n\nIf the command does not return a line, this is a finding.\n\nNote: The \"-k\" allows for specifying an arbitrary identifier. The string following \"-k\" does not need to match the example output above.",
+  "fixtext": "Configure the SUSE operating system to generate an audit record when all modifications to the \"/etc/shadow\" file occur.\n\nAdd or update the following rule to \"/etc/audit/rules.d/audit.rules\":\n\n-w /etc/shadow -p wa -k account_mod\n\nTo reload the rules file, restart the audit daemon:\n\n> sudo systemctl restart auditd.service\n\nor issue the following command:\n\n> sudo augenrules --load",
+  "fix_id": "F-38052r986503_fix",
+  "VulnDiscussion": "Once an attacker establishes initial access to a system, the attacker often attempts to create a persistent method of reestablishing access. One way to accomplish this is for the attacker to simply create a new account. Auditing of account creation mitigates this risk.\n\nTo address access requirements, many SUSE operating systems may be integrated with enterprise-level authentication/access/auditing mechanisms that meet or exceed access control policy requirements.\n\nSatisfies: SRG-OS-000004-GPOS-00004, SRG-OS-000239-GPOS-00089, SRG-OS-000240-GPOS-00090, SRG-OS-000241-GPOS-00091, SRG-OS-000303-GPOS-00120, SRG-OS-000463-GPOS-00207, SRG-OS-000476-GPOS-00221",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271723",
+  "rule_id": "SV-271723r1091881_rule",
+  "stig_id": "OL09-00-002361",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must restrict the use of the su command.",
+  "group_title": "SRG-OS-000312-GPOS-00123",
+  "idents": {
+    "cci": [
+      "CCI-002165"
+    ]
+  },
+  "check_id": "C-75773r1091879_chk",
+  "check_content": "Verify that OL 9 requires uses to be members of the \"wheel\" group with the following command:\n\n$ grep pam_wheel /etc/pam.d/su \nauth             required        pam_wheel.so use_uid \n\nIf a line for \"pam_wheel.so\" does not exist, or is commented out, this is a finding.",
+  "fixtext": "Configure OL 9 to require users to be in the \"wheel\" group to run su command.\n\nIn file \"/etc/pam.d/su\", uncomment the following line:\n\n\"#auth    required    pam_wheel.so use_uid\"\n\nOr use the following command to update /etc/pam.d/su \n\n$ sed '/^[[:space:]]*#[[:space:]]*auth[[:space:]]\\+required[[:space:]]\\+pam_wheel\\.so[[:space:]]\\+use_uid$/s/^[[:space:]]*#//' -i /etc/pam.d/su\n\nIf necessary, create a \"wheel\" group and add administrative users to the group.\n\n$ grep wheel /etc/group",
+  "fix_id": "F-75680r1091880_fix",
+  "VulnDiscussion": "The su program allows to run commands with a substitute user and group ID. It is commonly used to run commands as the root user. Limiting access to such commands is considered a good security practice.",
+  "Documentable": "false"
+}

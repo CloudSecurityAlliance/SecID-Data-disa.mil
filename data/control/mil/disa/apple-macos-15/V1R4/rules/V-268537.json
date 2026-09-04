@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268537",
+  "rule_id": "SV-268537r1034551_rule",
+  "stig_id": "APPL-15-003010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must require a minimum password length of 14 characters.",
+  "group_title": "SRG-OS-000078-GPOS-00046",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-72567r1034549_chk",
+  "check_content": "Verify the macOS system is configured to enforce a minimum 14-character password length with the following command:\n\n/usr/bin/pwpolicy -getaccountpolicies 2> /dev/null | /usr/bin/tail +2 | /usr/bin/xmllint --xpath 'boolean(//*[contains(text(),\"policyAttributePassword matches '\\''.{14,}'\\''\")])' -\n\nIf the result is not \"true\", this is a finding.",
+  "fixtext": "Configure the macOS system to enforce a 14-character password length by installing the \"com.apple.mobiledevice.passwordpolicy\" configuration profile.",
+  "fix_id": "F-72468r1034550_fix",
+  "VulnDiscussion": "The macOS must be configured to require that a minimum of 14 characters be used when a password is created.\n\nThis rule enforces password complexity by requiring users to set passwords that are less vulnerable to malicious users.\n\nNOTE: The guidance for password-based authentication in NIST 800-53 (Rev 5) and NIST 800-63B states that complexity rules should be organizationally defined. The values defined are based on common complexity values, but each organization may define its own password complexity rules.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258029",
+  "rule_id": "SV-258029r1045109_rule",
+  "stig_id": "RHEL-09-271095",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must disable the ability of a user to restart the system from the login screen.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61770r1045107_chk",
+  "check_content": "Note: This requirement assumes the use of the RHEL 9 default graphical user interface, Gnome Shell. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\nVerify RHEL 9 disables a user's ability to restart the system with the following command:\n\n$ gsettings get org.gnome.login-screen disable-restart-buttons\n \ntrue\n \nIf \"disable-restart-buttons\" is \"false\", this is a finding.",
+  "fixtext": "Configure RHEL 9 to disable a user's ability to restart the system.\n\n$ gsettings set org.gnome.login-screen disable-restart-buttons true\n\nUpdate the dconf system databases:\n\n$ sudo dconf update",
+  "fix_id": "F-61694r1045108_fix",
+  "VulnDiscussion": "A user who is at the console can reboot the system at the login screen. If restart or shutdown buttons are pressed at the login screen, this can create the risk of short-term loss of availability of systems due to reboot.",
+  "Documentable": "false"
+}

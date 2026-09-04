@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269386",
+  "rule_id": "SV-269386r1050269_rule",
+  "stig_id": "ALMA-09-035880",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must ensure the password complexity module is enabled in the password-auth file.",
+  "group_title": "SRG-OS-000069-GPOS-00037",
+  "idents": {
+    "cci": [
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-73417r1049598_chk",
+  "check_content": "Verify AlmaLinux OS 9 uses \"pwquality\" to enforce the password complexity rules in the password-auth file with the following command:\n\nCheck for the use of the \"pwquality\" module in the PAM auth files with the following command:\n\n$ grep pam_pwquality.so /etc/pam.d/system-auth /etc/pam.d/password-auth\n\n/etc/pam.d/system-auth:password    required                                     pam_pwquality.so retry=3\n/etc/pam.d/password-auth:password    required                                     pam_pwquality.so retry=3\n\n\nIf the command does not return a line in each file containing the value \"pam_pwquality.so\", or the line is commented out, this is a finding.\n\nIf the system administrator (SA) can demonstrate that the required configuration is contained in a PAM configuration file included or substacked from the system-auth file, this is not a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to use \"pwquality\" to enforce password complexity rules.\n\nAdd the following line to the \"/etc/pam.d/system-auth\" and \"/etc/pam.d/password-auth\" files (or modify the line to have the required value):\n\npassword required pam_pwquality.so retry=3",
+  "fix_id": "F-73318r1049599_fix",
+  "VulnDiscussion": "Enabling PAM password complexity permits enforcement of strong passwords and consequently makes the system less prone to dictionary attacks.",
+  "Documentable": "false"
+}

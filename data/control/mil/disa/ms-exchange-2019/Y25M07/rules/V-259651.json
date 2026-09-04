@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259651",
+  "rule_id": "SV-259651r960801_rule",
+  "stig_id": "EX19-MB-000021",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange auto-forwarding email to remote domains must be disabled or restricted.",
+  "group_title": "SRG-APP-000038",
+  "idents": {
+    "cci": [
+      "CCI-001368"
+    ]
+  },
+  "check_id": "C-63390r942265_chk",
+  "check_content": "Note: This requirement is not applicable on classified or completely closed networks.\n\nFor Non-Enterprise Mail: \n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-RemoteDomain | Select-Object -Property Identity, AutoForwardEnabled\n\nIf the value of AutoForwardEnabled is not set to \"False\", this is a finding.\n\nFor Enterprise Mail:\n\nIf the value of \"AutoForwardEnabled\" is set to \"True\", this is not a finding.\n\nand \n\nIn the Exchange Management Shell, enter the following command:\n\nGet-RemoteDomain\n\nIf the value of \"RemoteDomain\" is not set to \".mil\" and/or \".gov\" domain(s), this is a finding.",
+  "fixtext": "For Non-Enterprise Mail:\n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-RemoteDomain -Identity <'IdentityName'> -AutoForwardEnabled $false \n\nNote: The <IdentityName> value must be in quotes.\n\nFor Enterprise Mail:\n\nNew-RemoteDomain -Name <NewRemoteDomainName> -DomainName <SMTP Address>\n\nNote: <NewRemoteDomainName> must either be a .mil or .gov domain.\n\nSet-RemoteDomain -Identity <'RemoteDomainIdentity'> -AutoForwardEnabled $true\n\nNote: The <RemoteDomainIdentity> value must be in quotes.",
+  "fix_id": "F-63298r942266_fix",
+  "VulnDiscussion": "Attackers can use automated messages to determine whether a user account is active, in the office, traveling, and so on. An attacker might use this information to conduct future attacks. Verify Automatic Forwards to remote domains are disabled, except for enterprise mail that must be restricted to forward only to .mil and .gov. domains.\n\nBefore enabling this setting, configure a remote domain.",
+  "Documentable": "false"
+}

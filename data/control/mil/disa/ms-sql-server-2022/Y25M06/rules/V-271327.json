@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271327",
+  "rule_id": "SV-271327r1109250_rule",
+  "stig_id": "SQLI-22-009900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SQL Server must prevent unauthorized and unintended information transfer via Instant File Initialization (IFI).",
+  "group_title": "SRG-APP-000243-DB-000373",
+  "idents": {
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-75370r1109026_chk",
+  "check_content": "Review system configuration to determine whether IFI support has been enabled (IFI is enabled by default).\n\nRun the following query in SSMS:\n\nSELECT\n\tservicename\n\t,instant_file_initialization_enabled\nFROM sys.dm_server_services \n\nIf the column instant_file_initialization_enabled returns a value of \"Y\", then IFI is enabled.\n\nAlternatively, navigate to Start >> Control Panel >> System and Security >> Administrative Tools >> Local Security Policy >> Local Policies >> User Rights Assignment >> Perform volume maintenance tasks.\n\nThe default SQL service account for a default instance is NT SERVICE\\MSSQLSERVER or for a named instance is NT SERVICE\\MSSQL$InstanceName.\n\nIf the SQL service account or SQL service SID has been granted \"Perform volume maintenance tasks\" Local Rights Assignment, this means that IFI is enabled.\n\nReview the system documentation to determine if IFI is required.\n\nIf IFI is enabled but not documented as required, this is a finding.\n\nIf IFI is not enabled, this is not a finding.",
+  "fixtext": "If IFI is not documented as being required, disable instant file initialization for the instance of SQL Server by removing the SQL Service SID and/or service account from the \"Perform volume maintenance tasks\" local rights assignment.\n\nTo grant an account the \"Perform volume maintenance tasks\" permission:\n\n1. On the computer where the data file will be created, open the Local Security Policy application (secpol.msc).\n2. In the left pane, expand \"Local Policies\" then select \"User Rights Assignment\".\n3. In the right pane, double-click \"Perform volume maintenance tasks\".\n4. Select \"Add User or Group\" and add the SQL Server service account.\n5. Select \"Apply\", then close all Local Security Policy dialog boxes.\n6. Restart the SQL Server service.\n7. Check the SQL Server error log at startup.",
+  "fix_id": "F-75277r1109249_fix",
+  "VulnDiscussion": "The purpose of this control is to prevent information, including encrypted representations of information, produced by the actions of a prior user/role (or the actions of a process acting on behalf of a prior user/role) from being available to any current user/role (or current process) that obtains access to a shared system resource (e.g., registers, main memory, secondary storage) after the resource has been released back to the information system. Control of information in shared resources is also referred to as object reuse.\n\nWhen IFI is in use, the deleted disk content is overwritten only as new data is written to the files. For this reason, the deleted content might be accessed by an unauthorized principal until some other data writes on that specific area of the data file.\n\nHistorically, transaction log files couldn't be initialized instantaneously. However, starting with SQL Server 2022 (16.x) (all editions), transaction log autogrowth events up to 64 MB can benefit from instant file initialization. The default auto growth size increment for new databases is 64 MB. Transaction log file autogrowth events larger than 64 MB can't benefit from instant file initialization.\n\nInstant file initialization is allowed for transaction log growth on databases that have transparent data encryption (TDE) enabled, due to the nature of how the transaction log file is expanded, and the fact that the transaction log is written into in a serial fashion.",
+  "Documentable": "false"
+}

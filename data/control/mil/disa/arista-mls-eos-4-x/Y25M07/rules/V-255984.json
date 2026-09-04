@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255984",
+  "rule_id": "SV-255984r991778_rule",
+  "stig_id": "ARST-L2-000210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Arista MLS layer 2 switch must have all user-facing or untrusted ports configured as access switch ports.",
+  "group_title": "SRG-NET-000512-L2S-000011",
+  "idents": {
+    "cci": [
+      "CCI-004891"
+    ]
+  },
+  "check_id": "C-59660r882292_chk",
+  "check_content": "Review the Arista MLS switch configurations and examine all user-facing or untrusted switch ports configured as access switch ports.\n\nswitch(config)# show run interface ethernet 13 - 15 \ninterface Ethernet13\n   switchport access vlan 100\ninterface Ethernet14\n   switchport access vlan 100\ninterface Ethernet14\n   switchport access vlan 100\n\nIf any of the user-facing switch ports are configured as a trunk, this is a finding.",
+  "fixtext": "Configure the Arista MLS switch to disable trunking on all user-facing or untrusted switch ports.\n\nswitch{config)#interface ethernet 13 - 15\nswitch(config-if-Et13-15)#description disable trunking untrusted ports\nswitch(config-if-Et13-15)#switchport mode access\nswitch(config-if-Et13-15)#exit",
+  "fix_id": "F-59603r882293_fix",
+  "VulnDiscussion": "Double encapsulation can be initiated by an attacker who has access to a switch port belonging to the native VLAN of the trunk port. Knowing the victim's MAC address and with the victim attached to a different switch belonging to the same trunk group, thereby requiring the trunk link and frame tagging, the malicious user can begin the attack by sending frames with two sets of tags. The outer tag that will have the attacker's VLAN ID (probably the well-known and omnipresent default VLAN) is stripped off by the switch, and the inner tag that will have the victim's VLAN ID is used by the switch as the next hop and sent out the trunk port.",
+  "Documentable": "false"
+}

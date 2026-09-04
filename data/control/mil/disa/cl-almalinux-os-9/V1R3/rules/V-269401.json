@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269401",
+  "rule_id": "SV-269401r1050284_rule",
+  "stig_id": "ALMA-09-037530",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must be configured so that the Pluggable Authentication Module is configured to store only encrypted representations of passwords.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-004062"
+    ]
+  },
+  "check_id": "C-73432r1048579_chk",
+  "check_content": "Verify that the pam_unix.so module is configured to use sha512 in /etc/pam.d/password-auth with the following command:\n\n$ grep -E \"password.*pam_unix.so.*sha512\" /etc/pam.d/password-auth\n\npassword    sufficient      pam_unix.so sha512 shadow rounds=100000  use_authtok\n\nIf \"sha512\" is missing, or the line is commented out, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to use the SHA-512 algorithm for password hashing.\n\nEdit/modify the following line in the \"/etc/pam.d/password-auth\" file to include the sha512 option for pam_unix.so:\n\npassword    sufficient      pam_unix.so sha512 shadow rounds=100000  use_authtok",
+  "fix_id": "F-73333r1049637_fix",
+  "VulnDiscussion": "Passwords must be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nThe system must use a strong hashing algorithm to store the password.",
+  "Documentable": "false"
+}

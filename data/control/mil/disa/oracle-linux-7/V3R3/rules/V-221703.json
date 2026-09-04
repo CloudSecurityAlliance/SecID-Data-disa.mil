@@ -1,0 +1,31 @@
+{
+  "vuln_id": "V-221703",
+  "rule_id": "SV-221703r1015186_rule",
+  "stig_id": "OL07-00-010500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must uniquely identify and must authenticate organizational users (or processes acting on behalf of organizational users) using multifactor authentication.",
+  "group_title": "SRG-OS-000104-GPOS-00051",
+  "idents": {
+    "legacy": [
+      "V-99145",
+      "SV-108249"
+    ],
+    "cci": [
+      "CCI-000764",
+      "CCI-000767",
+      "CCI-000765",
+      "CCI-000768",
+      "CCI-000766",
+      "CCI-000770",
+      "CCI-004045"
+    ]
+  },
+  "check_id": "C-23418r818810_chk",
+  "check_content": "Verify the operating system requires multifactor authentication to uniquely identify organizational users using multifactor authentication.\n\nCheck to see if smartcard authentication is enforced on the system:\n# authconfig --test | grep \"pam_pkcs11 is enabled\"\n\nIf no results are returned, this is a finding.\n\n# authconfig --test | grep \"smartcard removal action\"\n\nIf \"smartcard removal action\" is blank, this is a finding.\n\n# authconfig --test | grep \"smartcard module\"\n\nIf any of the above checks are not configured, ask the administrator to indicate the AO-approved multifactor authentication in use and the configuration to support it. If there is no evidence of multifactor authentication, this is a finding.",
+  "fixtext": "Configure the operating system to require individuals to be authenticated with a multifactor authenticator.\n\nEnable smartcard logons with the following commands:\n\n# authconfig --enablesmartcard --smartcardaction=0 --update\n# authconfig --enablerequiresmartcard -update\n\nModify the \"/etc/pam_pkcs11/pkcs11_eventmgr.conf\" file to uncomment the following line:\n\n#/usr/X11R6/bin/xscreensaver-command -lock\n\nModify the \"/etc/pam_pkcs11/pam_pkcs11.conf\" file to use the cackey module if required.",
+  "fix_id": "F-23407r419182_fix",
+  "VulnDiscussion": "To ensure accountability and prevent unauthenticated access, organizational users must be identified and authenticated to prevent potential misuse and compromise of the system.\n\nOrganizational users include organizational employees or individuals the organization deems to have equivalent status of employees (e.g., contractors). Organizational users (and processes acting on behalf of users) must be uniquely identified and authenticated to all accesses, except for the following:\n\n1) Accesses explicitly identified and documented by the organization. Organizations document specific user actions that can be performed on the information system without identification or authentication; \n\nand\n\n2) Accesses that occur through authorized use of group authenticators without individual authentication. Organizations may require unique identification of individuals in group accounts (e.g., shared privilege accounts) or for detailed accountability of individual activity.\n\nSatisfies: SRG-OS-000104-GPOS-00051, SRG-OS-000106-GPOS-00053, SRG-OS-000107-GPOS-00054, SRG-OS-000109-GPOS-00056, SRG-OS-000108-GPOS-00055, SRG-OS-000108-GPOS-00057, SRG-OS-000108-GPOS-00058",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270706",
+  "rule_id": "SV-270706r1068361_rule",
+  "stig_id": "UBTU-24-300017",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Ubuntu 24.04 LTS must enforce a delay of at least four seconds between logon prompts following a failed logon attempt.",
+  "group_title": "SRG-OS-000480-GPOS-00226",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-74739r1067170_chk",
+  "check_content": "Verify Ubuntu 24.04 LTS enforces a delay of at least four seconds between logon prompts following a failed logon attempt with the following command: \n \n$ grep pam_faildelay /etc/pam.d/common-auth\nauth    required    pam_faildelay.so    delay=4000000\n \nIf the value for \"delay\" is not set to \"4000000\" or greater, the line is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure Ubuntu 24.04 LTS to enforce a delay of at least four seconds between logon prompts following a failed logon attempt. \n \nEdit the file \"/etc/pam.d/common-auth\" and set the parameter \"pam_faildelay\" to a value of \"4000000\" or greater: \n \nauth    required    pam_faildelay.so    delay=4000000",
+  "fix_id": "F-74640r1066606_fix",
+  "VulnDiscussion": "Limiting the number of logon attempts over a certain time interval reduces the chances that an unauthorized user may gain access to an account.\n\nThe delay option is set in microseconds.",
+  "Documentable": "false"
+}

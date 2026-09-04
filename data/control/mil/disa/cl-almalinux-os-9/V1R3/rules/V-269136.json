@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269136",
+  "rule_id": "SV-269136r1050018_rule",
+  "stig_id": "ALMA-09-006180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must require authentication to access emergency mode.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-73167r1049171_chk",
+  "check_content": "Verify that AlmaLinux OS 9 requires authentication for emergency mode with the following command:\n\n$ grep -E 'ExecStart.*sulogin' /usr/lib/systemd/system/emergency.service \n\nExecStart=-/usr/lib/systemd/systemd-sulogin-shell emergency\n\nIf this line is not returned, or is commented out, this is a finding.\nIf the output is different, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to require authentication for emergency mode.\n\nAdd or modify the following line in the \"/usr/lib/systemd/system/emergency.service\" file:\n\nExecStart=-/usr/lib/systemd/systemd-sulogin-shell emergency\n\n\"sudo systemctl edit emergency.service\" can also be used to create a \"/etc/systemd/system/emergency.service.d/override.conf\" file.",
+  "fix_id": "F-73068r1049172_fix",
+  "VulnDiscussion": "This requirement prevents attackers with physical access from easily bypassing security on the machine and gaining root access.\n\nSuch accesses are further prevented by configuring the bootloader password.",
+  "Documentable": "false"
+}

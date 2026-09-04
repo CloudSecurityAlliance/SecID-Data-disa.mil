@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255983",
+  "rule_id": "SV-255983r991777_rule",
+  "stig_id": "ARST-L2-000200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Arista MLS layer 2 switch must not use the default VLAN for management traffic.",
+  "group_title": "SRG-NET-000512-L2S-000010",
+  "idents": {
+    "cci": [
+      "CCI-004931"
+    ]
+  },
+  "check_id": "C-59659r882289_chk",
+  "check_content": "Verify the Arista MLS configuration for a Management_Network VRF instance globally on the switch with the following example:\n\nswitch(config)#sh run | sec vrf\nip name-server vrf default 192.168.10.20\n!\nvrf instance Management_Network\n!\ninterface Ethernet12\n   description MANAGEMENT NETWORK PORT\n   no switchport\n   vrf Management_Network\n   ip address 10.10.40.254/30\n!\nip routing vrf Management_Network \n\nIf the VRF is not configured to prevent the default VLAN from being used to access the switch, this is a finding.",
+  "fixtext": "Step 1: Configure the Arista MLS switch for a VRF instance for Management Network access by using the following commands:\n\nswitch(config)#vrf instance Management_Network\nswitch(config-vrf-Management_Network)#exit\n\nStep 2: Configure the Ethernet port for VRF Management_Network and IP address for the management network traffic:\n\nswitch(config-if-Et12)#vrf Management_Network \nswitch(config-if-Et12)#ip address 10.10.40.254/30\nswitch(config-if-Et12)#exit",
+  "fix_id": "F-59602r882290_fix",
+  "VulnDiscussion": "Switches use the default VLAN (i.e., VLAN 1) for in-band management and to communicate with directly connected switches using Spanning-Tree Protocol (STP), Dynamic Trunking Protocol (DTP), VLAN Trunking Protocol (VTP), and Port Aggregation Protocol (PAgP)—all untagged traffic. As a consequence, the default VLAN may unwisely span the entire network if not appropriately pruned. If its scope is large enough, the risk of compromise can increase significantly.",
+  "Documentable": "false"
+}

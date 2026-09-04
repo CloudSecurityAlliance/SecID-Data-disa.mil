@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216358",
+  "rule_id": "SV-216358r959010_rule",
+  "stig_id": "SOL-11.1-040400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The use of FTP must be restricted.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48117",
+      "SV-60989"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17594r371162_chk",
+  "check_content": "The root role is required.\n\nDetermine if the FTP server package is installed:\n\n# pkg list service/network/ftp\n\nIf the output of this command is:\n\npkg list: no packages matching 'service/network/ftp' installed\n\nno further action is required.\n\nIf the FTP server is installed, determine if FTP access is restricted.\n\n# for user in `logins -s | awk '{ print $1 }'` \\\naiuser noaccess nobody nobody4; do\ngrep -w \"${user}\" /etc/ftpd/ftpusers >/dev/null 2>&1\nif [ $? != 0 ]; then\necho \"User '${user}' not in /etc/ftpd/ftpusers.\"\nfi\ndone\n\nIf output is returned, this is a finding.",
+  "fixtext": "The root role is required.\n\nDetermine if the FTP server package is installed:\n\n# pkg list service/network/ftp\n\nIf the output of this command is:\n\npkg list: no packages matching 'service/network/ftp' installed\n\nno further action is required.\n\n# for user in `logins -s | awk '{ print $1 }'` \\\naiuser noaccess nobody nobody4; do\n$(echo $user >> /etc/ftpd/ftpusers)\ndone\n# sort -u /etc/ftpd/ftpusers > /etc/ftpd/ftpusers.temp\n# mv /etc/ftpd/ftpusers.temp /etc/ftpd/ftpusers",
+  "fix_id": "F-17592r371163_fix",
+  "VulnDiscussion": "FTP is an insecure protocol that transfers files and credentials in clear text, and can be replaced by using SFTP. However, if FTP is permitted for use in the environment, it is important to ensure that the default \"system\" accounts are not permitted to transfer files via FTP, especially the root role. Consider also adding the names of other privileged or shared accounts that may exist on the system such as user \"oracle\" and the account which the web server process runs under.",
+  "Documentable": "false"
+}

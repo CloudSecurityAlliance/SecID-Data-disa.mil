@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221742",
+  "rule_id": "SV-221742r991589_rule",
+  "stig_id": "OL07-00-021010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must prevent files with the setuid and setgid bit set from being executed on file systems that are used with removable media.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-108327",
+      "V-99223"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23457r419298_chk",
+  "check_content": "Verify file systems used for removable media are mounted with the \"nosuid\" option.\n\nCheck the file systems mounted at boot time with the following command:\n\n# more /etc/fstab\n\nUUID=2bc871e4-e2a3-4f29-9ece-3be60c835222 /mnt/usbflash vfat noauto,owner,ro,nosuid 0 0\n\nIf a file system found in \"/etc/fstab\" refers to removable media and it does not have the \"nosuid\" option set, this is a finding.",
+  "fixtext": "Configure the \"/etc/fstab\" to use the \"nosuid\" option on file systems that are associated with removable media.",
+  "fix_id": "F-23446r419299_fix",
+  "VulnDiscussion": "The \"nosuid\" mount option causes the system not to execute \"setuid\" and \"setgid\" files with owner privileges. This option must be used for mounting any file system not containing approved \"setuid\" and \"setguid\" files. Executing files from untrusted file systems increases the opportunity for unprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

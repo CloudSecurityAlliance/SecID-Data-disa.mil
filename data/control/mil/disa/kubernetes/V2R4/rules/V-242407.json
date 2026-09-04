@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242407",
+  "rule_id": "SV-242407r960960_rule",
+  "stig_id": "CNTR-K8-000890",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes KubeletConfiguration files must have file permissions set to 644 or more restrictive.",
+  "group_title": "SRG-APP-000133-CTR-000305",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-45682r918169_chk",
+  "check_content": "On the Kubernetes Control Plane and Worker nodes, run the command:\nps -ef | grep kubelet\n\nCheck the config file (path identified by: --config):\n\nChange to the directory identified by --config (example /etc/sysconfig/) and run the command:\nls -l kubelet\n\nEach KubeletConfiguration file must have permissions of \"644\" or more restrictive.\n\nIf any KubeletConfiguration file is less restrictive than \"644\", this is a finding.",
+  "fixtext": "On the Kubernetes Control Plane and Worker nodes, run the command:\nps -ef | grep kubelet\n\nCheck the config file (path identified by: --config):\n\nChange to the directory identified by --config (example /etc/sysconfig/) and run the command:\nchmod 644 kubelet\n\nTo verify the change took place, run the command:\nls -l kubelet\n\nThe kubelet file should now have the permissions of \"644\".",
+  "fix_id": "F-45640r918170_fix",
+  "VulnDiscussion": "The kubelet configuration file contains the runtime configuration of the kubelet service. If an attacker can gain access to this file, changes can be made to open vulnerabilities and bypass user authorizations inherit within Kubernetes with RBAC implemented.",
+  "Documentable": "false"
+}

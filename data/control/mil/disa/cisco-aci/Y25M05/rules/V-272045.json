@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-272045",
+  "rule_id": "SV-272045r1114353_rule",
+  "stig_id": "CACI-L2-000017",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco ACI layer 2 switch must employ a first-hop-security (FHS) policy to protect against denial-of-service (DoS) attacks.",
+  "group_title": "SRG-NET-000705-L2S-000110",
+  "idents": {
+    "cci": [
+      "CCI-004866",
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-76095r1114351_chk",
+  "check_content": "Verify the FHS policy is configured. \n\nNote: This is an example. The exact configuration may vary with the site's architecture.\n\nleaf4# show fhs bt all\n\nThe following settings must be enabled at a minimum:\n- ip-inspection-admin-status enabled-both\n- source-guard-admin-status enabled-both\n- router-advertisement-guard-admin-status enabled\n- router-advertisement-guard\n\n- managed-config-check\n- managed-config-flag\n- other-config-check\n- other-config-flag\n- maximum-router-preference low\n- minimum-hop-limit 10\n- maximum-hop-limit 100\n\nTrust-control tcpolicy settings:\n- arp\n- dhcpv4-server \n- dhcpv6-server\n- ipv6-router\n- router-advertisement\n- neighbor-discovery\n\nIf an FHS policy is not configured with all required settings, this is a finding.",
+  "fixtext": "Configure the FHS policy.\n\nNote: This is an example. The exact configuration may vary with the site's architecture.\n\nExample:\napic1(config)# tenant <tenant name>\napic1(config-tenant)# first-hop-security\napic1(config-tenant-fhs)# security-policy secpol1\napic1(config-tenant-fhs-secpol)#\napic1(config-tenant-fhs-secpol)# ip-inspection-admin-status enabled-both\napic1(config-tenant-fhs-secpol)# source-guard-admin-status enabled-both\napic1(config-tenant-fhs-secpol)# router-advertisement-guard-admin-status enabled\napic1(config-tenant-fhs-secpol)# router-advertisement-guard\napic1(config-tenant-fhs-raguard)#\napic1(config-tenant-fhs-raguard)# managed-config-check\napic1(config-tenant-fhs-raguard)# managed-config-flag\napic1(config-tenant-fhs-raguard)# other-config-check\napic1(config-tenant-fhs-raguard)# other-config-flag\napic1(config-tenant-fhs-raguard)# maximum-router-preference low\napic1(config-tenant-fhs-raguard)# minimum-hop-limit 10\napic1(config-tenant-fhs-raguard)# maximum-hop-limit 100\napic1(config-tenant-fhs-raguard)# exit\napic1(config-tenant-fhs-secpol1)# exit\napic1(config-tenant-fhs)# trust-control tcpol1\napic1(config-tenant-fhs-trustctrl)# arp\napic1(config-tenant-fhs-trustctrl)# dhcpv4-server \napic1(config-tenant-fhs-trustctrl)# dhcpv6-server\napic1(config-tenant-fhs-trustctrl)# ipv6-router\napic1(config-tenant-fhs-trustctrl)#  router-advertisement\napic1(config-tenant-fhs-trustctrl)# neighbor-discovery\napic1(config-tenant-fhs-trustctrl)# exit\napic1(config-tenant-fhs)# exit\napic1(config-tenant)# bridge-domain bd1\napic1(config-tenant-bd)# first-hop-security security-policy pol1\napic1(config-tenant-bd)# exit             \napic1(config-tenant)# application ap1\napic1(config-tenant-app)# epg epg1\napic1(config-tenant-app-epg)# first-hop-security trust-control tcpol1",
+  "fix_id": "F-76002r1114352_fix",
+  "VulnDiscussion": "DoS events may occur due to a variety of internal and external causes, such as an attack by an adversary or a lack of planning to support organizational needs with respect to capacity and bandwidth.\n\nFHS features enable a better IPv4 and IPv6 link security and management over the layer 2 links. In a service provider environment, these features closely control address assignment and derived operations. Setting include the following DOD required configurations:\n- Unknown Unicast Flood Blocking (UUFB) enabled.\n- DHCP snooping enabled for all user VLANs to validate DHCP messages from untrusted sources.\n- IP Source Guard enabled on all user-facing or untrusted access switch ports.\n- Dynamic Address Resolution Protocol (ARP) Inspection enabled on all user VLANs.\n\nSatisfies: SRG-NET-000362-L2S-000025, SRG-NET-000362-L2S-000026, SRG-NET-000362-L2S-000027",
+  "Documentable": "false"
+}

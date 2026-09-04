@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-259710",
+  "rule_id": "SV-259710r961632_rule",
+  "stig_id": "EX19-MB-000236",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The application must protect the confidentiality and integrity of transmitted information.",
+  "group_title": "SRG-APP-000439",
+  "idents": {
+    "cci": [
+      "CCI-001184",
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-63449r942442_chk",
+  "check_content": "Note: AuthMechanism may include other mechanisms as long as the \"Tls\" is identified.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-ReceiveConnector | Select-Object -Property Name, Identity, AuthMechanism\n\nFor each Receive connector, if the value of \"AuthMechanism\" is not set to \"Tls\", this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-ReceiveConnector -Identity <'IdentityName'> -AuthMechanism 'Tls'\n\nNote: The <IdentityName> value must be in quotes.\n\nRepeat the procedures for each Receive connector.",
+  "fix_id": "F-63357r942443_fix",
+  "VulnDiscussion": "Without protection of the transmitted information, confidentiality and integrity may be compromised since unprotected communications can be intercepted and either read or altered.\n\nThis requirement applies only to those applications that are either distributed or can allow access to data nonlocally. Use of this requirement will be limited to situations where the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process. When transmitting data, applications need to leverage transmission protection mechanisms, such as TLS, TLS VPNs, or IPsec.\n\nCommunication paths outside the physical protection of a controlled boundary are exposed to the possibility of interception and modification. Protecting the confidentiality and integrity of organizational information can be accomplished by physical means (e.g., employing physical distribution systems) or by logical means (e.g., employing cryptographic techniques). If physical means of protection are employed, then logical means (cryptography) do not have to be employed, and vice versa.\n\nSatisfies: SRG-APP-000219",
+  "Documentable": "false"
+}

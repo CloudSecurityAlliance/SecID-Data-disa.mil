@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221845",
+  "rule_id": "SV-221845r991554_rule",
+  "stig_id": "OL07-00-040200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must implement cryptography to protect the integrity of Lightweight Directory Access Protocol (LDAP) communications.",
+  "group_title": "SRG-OS-000250-GPOS-00093",
+  "idents": {
+    "legacy": [
+      "SV-108533",
+      "V-99429"
+    ],
+    "cci": [
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-36326r942872_chk",
+  "check_content": "If LDAP is not being utilized, this requirement is Not Applicable.\n\nVerify the operating system implements cryptography to protect the integrity of remote LDAP access sessions.\n\nTo determine if LDAP is being used for authentication, use the following command:\n\n     # systemctl status sssd.service\n     sssd.service - System Security Services Daemon\n     Loaded: loaded (/usr/lib/systemd/system/sssd.service; enabled; vendor preset: disabled)\n     Active: active (running) since Wed 2018-06-27 10:58:11 EST; 1h 50min ago\n\nIf the \"sssd.service\" is \"active\", then LDAP is being used.\n\nDetermine the \"id_provider\" that the LDAP is currently using:\n\n     # grep -ir id_provider /etc/sssd/sssd.conf /etc/sssd/conf.d/*.conf\n     id_provider = ad\n\nIf \"id_provider\" is set to \"ad\", this is Not Applicable.\n\nCheck the path to the X.509 certificate for peer authentication with the following command:\n\n     # grep -ir tls_cacert /etc/sssd/sssd.conf /etc/sssd/conf.d/*.conf\n     ldap_tls_cacert = /etc/pki/tls/certs/ca-bundle.crt\n\nVerify the \"ldap_tls_cacert\" option points to a file that contains the trusted CA certificate.\n\nIf this file does not exist, or the option is commented out or missing, this is a finding.",
+  "fixtext": "Configure the operating system to implement cryptography to protect the integrity of LDAP remote access sessions.\n\nAdd or modify the following line in \"/etc/sssd/sssd.conf\":\n\n     ldap_tls_cacert = /etc/pki/tls/certs/ca-bundle.crt",
+  "fix_id": "F-36290r942873_fix",
+  "VulnDiscussion": "Without cryptographic integrity protections, information can be altered by unauthorized users without detection.\n\nCryptographic mechanisms used for protecting the integrity of information include, for example, signed hash functions using asymmetric cryptography enabling distribution of the public key to verify the hash information while maintaining the confidentiality of the key used to generate the hash.",
+  "Documentable": "false"
+}

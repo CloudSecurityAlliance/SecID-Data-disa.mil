@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221893",
+  "rule_id": "SV-221893r991589_rule",
+  "stig_id": "OL07-00-040820",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must not have unauthorized IP tunnels configured.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-108629",
+      "V-99525"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23608r419751_chk",
+  "check_content": "Verify the system does not have unauthorized IP tunnels configured.\n\nCheck to see if \"libreswan\" is installed with the following command:\n\n# yum list installed libreswan\nlibreswan.x86-64 3.20-5.el7_4\n\nIf \"libreswan\" is installed, check to see if the \"IPsec\" service is active with the following command:\n\n# systemctl status ipsec\nipsec.service - Internet Key Exchange (IKE) Protocol Daemon for IPsec\nLoaded: loaded (/usr/lib/systemd/system/ipsec.service; disabled)\nActive: inactive (dead)\n\nIf the \"IPsec\" service is active, check to see if any tunnels are configured in \"/etc/ipsec.conf\" and \"/etc/ipsec.d/\" with the following commands:\n\n# grep -iw conn /etc/ipsec.conf /etc/ipsec.d/*.conf\n\nIf there are indications that a \"conn\" parameter is configured for a tunnel, ask the System Administrator if the tunnel is documented with the ISSO. \n\nIf \"libreswan\" is installed, \"IPsec\" is active, and an undocumented tunnel is active, this is a finding.",
+  "fixtext": "Remove all unapproved tunnels from the system, or document them with the ISSO.",
+  "fix_id": "F-23597r419752_fix",
+  "VulnDiscussion": "IP tunneling mechanisms can be used to bypass network filtering. If tunneling is required, it must be documented with the Information System Security Officer (ISSO).",
+  "Documentable": "false"
+}

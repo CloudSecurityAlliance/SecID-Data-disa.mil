@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-271688",
+  "rule_id": "SV-271688r1091776_rule",
+  "stig_id": "OL09-00-002150",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must be configured to enable the display of the Standard Mandatory DOD Notice and Consent Banner before granting local or remote access to the system via a graphical user logon.",
+  "group_title": "SRG-OS-000023-GPOS-00006",
+  "idents": {
+    "cci": [
+      "CCI-000048",
+      "CCI-001384",
+      "CCI-001385",
+      "CCI-001386",
+      "CCI-001387",
+      "CCI-001388"
+    ]
+  },
+  "check_id": "C-75738r1091774_chk",
+  "check_content": "This requirement assumes the use of the OL 9 default graphical user interface—the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\nVerify that OL 9 displays a banner before granting access to the operating system via a graphical user logon.\n\nDetermine if the operating system displays a banner at the logon screen with the following command:\n\n$ gsettings get org.gnome.login-screen banner-message-enable\ntrue\n\nIf the result is \"false\", this is a finding.",
+  "fixtext": "Configure OL 9 to display the Standard Mandatory DOD Notice and Consent Banner before granting access to the system via a graphical user logon.\n\nCreate a database to contain the system-wide graphical user logon settings (if it does not already exist) with the following command:\n\n$ sudo touch /etc/dconf/db/local.d/01-banner-message\n\nAdd the following lines to the [org/gnome/login-screen] section of the \"/etc/dconf/db/local.d/01-banner-message\":\n\n[org/gnome/login-screen]\n\nbanner-message-enable=true\n\nRun the following command to update the database:\n\n$ sudo dconf update",
+  "fix_id": "F-75645r1091775_fix",
+  "VulnDiscussion": "Display of a standardized and approved use notification before granting access to the operating system ensures privacy and security notification verbiage used is consistent with applicable federal laws, Executive Orders, directives, policies, regulations, standards, and guidance.\n\nFor U.S. government systems, system use notifications are required only for access via login interfaces with human users and are not required when such human interfaces do not exist.\n\nSatisfies: SRG-OS-000023-GPOS-00006, SRG-OS-000228-GPOS-00088",
+  "Documentable": "false"
+}

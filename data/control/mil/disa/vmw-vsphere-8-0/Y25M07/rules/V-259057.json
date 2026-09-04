@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259057",
+  "rule_id": "SV-259057r960963_rule",
+  "stig_id": "VCLU-80-000134",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The vCenter Lookup service shutdown port must be disabled.",
+  "group_title": "SRG-APP-000141-AS-000095",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-62797r934827_chk",
+  "check_content": "At the command prompt, run the following commands:\n\n# xmllint --xpath \"//Server/@port\" /usr/lib/vmware-lookupsvc/conf/server.xml\n# grep 'base.shutdown.port' /usr/lib/vmware-lookupsvc/conf/catalina.properties\n\nExample results:\n\nport=\"${base.shutdown.port}\"\nbase.shutdown.port=-1\n\nIf \"port\" does not equal \"${base.shutdown.port}\", this is a finding.\n\nIf \"base.shutdown.port\" does not equal \"-1\", this is a finding.",
+  "fixtext": "Navigate to and open:\n\n/usr/lib/vmware-lookupsvc/conf/catalina.properties\n\nAdd or modify the setting \"base.shutdown.port=-1\" in the \"catalina.properties\" file.\n\nNavigate to and open:\n\n/usr/lib/vmware-lookupsvc/conf/server.xml\n\nConfigure the <Server> node with the value:\n\nport=\"${base.shutdown.port}\"\n\nRestart the service with the following command:\n\n# vmon-cli --restart lookupsvc",
+  "fix_id": "F-62706r934828_fix",
+  "VulnDiscussion": "Tomcat by default listens on TCP port 8005 to accept shutdown requests. By connecting to this port and sending the SHUTDOWN command, all applications within Tomcat are halted. The shutdown port is not exposed to the network as it is bound to the loopback interface. Setting the port to \"-1\" in $CATALINA_BASE/conf/server.xml instructs Tomcat to not listen for the shutdown command.",
+  "Documentable": "false"
+}

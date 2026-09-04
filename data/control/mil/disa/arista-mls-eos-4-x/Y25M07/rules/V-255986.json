@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255986",
+  "rule_id": "SV-255986r991780_rule",
+  "stig_id": "ARST-L2-000230",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Arista MLS layer 2 switch must not have any switch ports assigned to the native VLAN.",
+  "group_title": "SRG-NET-000512-L2S-000013",
+  "idents": {
+    "cci": [
+      "CCI-004891"
+    ]
+  },
+  "check_id": "C-59662r882298_chk",
+  "check_content": "Review the configuration for all trunking ports to determine the native VLAN by using the following example (for vlan 1000):\n\nswitch(config-if-Et4)#sh run int eth4\ninterface Ethernet4\n   description STIG Disable_VLAN 1 and native vlan to 1000\n   switchport trunk native vlan 1000\n   switchport trunk allowed vlan 2-999,1001-4094\nswitch(config-if-Et4)#\n\nReview the configuration to ensure no access switch ports are configured in the native VLAN by using the following example (for vlan 1000):\n\nswtich#sh vlan brief\nVLAN  Name                             Status    Ports\n----- -------------------------------- --------- -------------------------------\n1     default                              \n8     VLAN0008                         active    Cpu\n25    VLAN0025                        active    Cpu\n100   VLAN0100                       active    Cpu\n1000  VLAN1000                      active   \n4090  VLAN4090                      active    \n\nIf any access switch ports have been assigned to the same VLAN ID as the native VLAN, this is a finding.",
+  "fixtext": "Configure the Arista MLS switch to ensure all access switch ports use a VLAN other than the native VLAN.\n\nConfigure all access switch ports to a VLAN other than the designated native VLAN by using the following example:\n\nswitch(config)#interface Ethernet 21\nswitch(config-Eth21)# switchport access vlan xxxx",
+  "fix_id": "F-59605r882299_fix",
+  "VulnDiscussion": "Double encapsulation can be initiated by an attacker who has access to a switch port belonging to the native VLAN of the trunk port. Knowing the victim’s MAC address and with the victim attached to a different switch belonging to the same trunk group, thereby requiring the trunk link and frame tagging, the malicious user can begin the attack by sending frames with two sets of tags. The outer tag that will have the attacker’s VLAN ID (probably the well-known and omnipresent default VLAN) is stripped off by the switch, and the inner tag that will have the victim’s VLAN ID is used by the switch as the next hop and sent out the trunk port.",
+  "Documentable": "false"
+}

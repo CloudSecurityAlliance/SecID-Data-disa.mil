@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-273688",
+  "rule_id": "SV-273688r1111017_rule",
+  "stig_id": "RCKS-L2S-000210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RUCKUS ICX switch must have all disabled switch ports assigned to an unused VLAN.",
+  "group_title": "SRG-NET-000512-L2S-000007",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-77779r1111017_chk",
+  "check_content": "Review the switch configurations and examine all access switch ports. Each access switch port not in use must have membership to an inactive VLAN that is not used for any purpose and is not allowed on any trunk links.\n\n1. Show the VLAN.\nRouter#show vlan 888\nPORT-VLAN 888, Name [None], Priority level0, Off\n Untagged Ports: (U1/M1)   5   6   7   8   9  10  11  12  13  14  15  16 \n Untagged Ports: (U1/M1)  17  18  19  20 \n   Tagged Ports: None\n Mac-Vlan Ports: None\n     Monitoring: Disabled\nSSH@ICX7550-48ZP-Router#\n\n2. Confirm unused interfaces are disabled.\nRouter#show interface br ethernet 1/1/5 to 1/1/20\n\nPort       Link    State   Dupl Speed Trunk Tag Pvid Pri MAC             Name\n1/1/5      Disable None    None None  None  No  888  0   28b3.7129.8e5e                 \n1/1/6      Disable None    None None  None  No  888  0   28b3.7129.8e5f                 \n1/1/7      Disable None    None None  None  No  888  0   28b3.7129.8e60                 \n1/1/8      Disable None    None None  None  No  888  0   28b3.7129.8e61                 \n...\n\nIf unused ports are not disabled and assigned to an unused VLAN, this is a finding.",
+  "fixtext": "Assign all switch ports not in use to an inactive VLAN.\n\nCreate unused  VLAN:\n\n1. Configure the VLAN.\nICX(config)#vlan 888 name Unused_ports\n\n2. Add unused ports to VLAN.\nICX(config-vlan-888)#untag ethernet 1/1/5 to 1/1/20\nAdded untagged port(s) ethernet 1/1/5 to 1/1/20 to port-vlan 888.\n\n3. Shut down all unused ports.\nICX(config)#interface ethernet 1/1/5 to 1/1/20 \nICX(config)#interface ethernet 1/1/5 to 1/1/20 \n\n4. Disable unused ports.\nICX(config-mif-1/1/5-1/1/20)#disable\nICX(config-mif-1/1/5-1/1/20)#\n\nAlternative approach:\n\n1. Configure default VLAN ID and view assigned ports.\nICX(config)# default-vlan-id 4095\nICX(config)# show vlan 4095\n\nTotal PORT-VLAN entries: 20\nMaximum PORT-VLAN entries: 1024\n\nLegend: [Stk=Stack-Id, S=Slot]\n\nPORT-VLAN 4095, Name DEFAULT-VLAN, Priority level0, On\n Untagged Ports: (U1/M1)   5   6   7   8   9  10  11  12  13  14  15  16 \n Untagged Ports: (U1/M1)  17  18  19  20 \n Tagged Ports: None\n Mac-Vlan Ports: None\n     Monitoring: Disabled\n\n2. Disable displayed ports.\nICX(config)# interface ethernet 1/1/5 to 1/1/20\nICX(config-mif-1/1/5-1/1/20)# disable",
+  "fix_id": "F-77684r1111012_fix",
+  "VulnDiscussion": "It is possible that a disabled port assigned to a user or management VLAN becomes enabled by accident or by an attacker and as a result gains access to that VLAN as a member.",
+  "Documentable": "false"
+}

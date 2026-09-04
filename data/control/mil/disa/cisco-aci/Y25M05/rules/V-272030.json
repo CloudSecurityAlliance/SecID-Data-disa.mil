@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272030",
+  "rule_id": "SV-272030r1114331_rule",
+  "stig_id": "CACI-L2-000002",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco ACI layer 2 switches should authenticate all VLAN Trunk Protocol (VTP) messages with a hash function using the most secured cryptographic algorithm available.",
+  "group_title": "SRG-NET-000168-L2S-000019",
+  "idents": {
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-76080r1114330_chk",
+  "check_content": "Review the switch configuration to verify if VTP authentication is configured.\n\n1. Navigate to Fabric >> Fabric Policies >> Policies >> Pod >> VLAN.\n2. Verify that a VTP password is configured.\n\nIf a password is not configured, this is a finding.",
+  "fixtext": "Configure VLANs for VTP authentication by configuring the VLAN pool within the APIC and then associate it with the appropriate Endpoint Groups (EPGs). All switches in the VTP domain must have the same VTP domain name. All switches in the domain must have the same VTP password. \n\n1. Navigate to Fabric >> Fabric Policies >> Policies >> Pod >> VLAN.\n2. Specify the VTP domain name.\n3. Set the VTP password.\n4. Click \"Apply\" to save the changes.",
+  "fix_id": "F-75987r1114231_fix",
+  "VulnDiscussion": "VTP provides central management of VLAN domains, thus reducing administration in a switched network. When configuring a new VLAN on a VTP server, the VLAN is distributed through all switches in the domain. This reduces the need to configure the same VLAN everywhere. VTP pruning preserves bandwidth by preventing VLAN traffic (unknown MAC, broadcast, multicast) from being sent down trunk links when not needed, that is, there are no access switch ports in neighboring switches belonging to such VLANs. An attack can force a digest change for the VTP domain enabling a rogue device to become the VTP server, which could allow unauthorized access to previously blocked VLANs or allow the addition of unauthorized switches into the domain. Authenticating VTP messages with a cryptographic hash function can reduce the risk of the VTP domains being compromised.",
+  "Documentable": "false"
+}

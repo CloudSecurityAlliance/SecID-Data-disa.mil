@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253121",
+  "rule_id": "SV-253121r991589_rule",
+  "stig_id": "TOSS-04-040800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must not accept router advertisements on all IPv6 interfaces.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56574r825033_chk",
+  "check_content": "Verify TOSS does not accept router advertisements on all IPv6 interfaces, unless the system is a router.\n\nNote: If IPv6 is disabled on the system, this requirement is Not Applicable.\n\nCheck to see if router advertisements are not accepted by using the following command:\n\n$ sudo sysctl net.ipv6.conf.all.accept_ra\n\nnet.ipv6.conf.all.accept_ra = 0\n\nIf the \"accept_ra\" value is not \"0\" and is not documented with the Information System Security Officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure TOSS to not accept router advertisements on all IPv6 interfaces unless the system is a router with the following commands:\n\n$ sudo sysctl -w net.ipv6.conf.all.accept_ra=0\n\nIf \"0\" is not the system's default value then add or update the following lines in the appropriate file under \"/etc/sysctl.d\":\n\nnet.ipv6.conf.all.accept_ra=0",
+  "fix_id": "F-56524r825034_fix",
+  "VulnDiscussion": "Routing protocol daemons are typically used on routers to exchange network topology information with other routers. If this software is used when not required, system network information may be unnecessarily transmitted across the network.\n\nAn illicit router advertisement message could result in a man-in-the-middle attack.",
+  "Documentable": "false"
+}

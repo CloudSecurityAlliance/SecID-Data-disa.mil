@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259675",
+  "rule_id": "SV-259675r961152_rule",
+  "stig_id": "EX19-MB-000122",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Exchange mail quota settings must not restrict receiving mail.",
+  "group_title": "SRG-APP-000246",
+  "idents": {
+    "cci": [
+      "CCI-001094"
+    ]
+  },
+  "check_id": "C-63414r942337_chk",
+  "check_content": "Open the Exchange Management Shell and enter the following command:\n\nGet-MailboxDatabase | Select-Object -Property Name, Identity, ProhibitSendReceiveQuota\n\nIf the value of \"ProhibitSendReceiveQuota\" is not set to \"Unlimited\", this is a finding.\n\nor\n\nIf the value of \"ProhibitSendReceiveQuota\" is set to an alternate value and has signoff and risk acceptance in the EDSP, this is not a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-MailboxDatabase -Identity <'IdentityName'> -ProhibitSendReceiveQuota Unlimited\n\nNote: The <IdentityName> value must be in quotes.\n\nor\n\nEnter the value as identified by the EDSP that has obtained a signoff with risk acceptance.",
+  "fix_id": "F-63322r942338_fix",
+  "VulnDiscussion": "Mail quota settings control the maximum sizes of a user's mailbox and the system's response if these limits are exceeded. Mailbox data that is not monitored against a quota increases the risk of mail loss due to filled disk space, which can also render the system unavailable.\n\nFailure to allow mail receipt may impede users from receiving mission-critical data.",
+  "Documentable": "false"
+}

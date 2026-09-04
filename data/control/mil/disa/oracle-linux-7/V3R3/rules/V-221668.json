@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-221668",
+  "rule_id": "SV-221668r1015165_rule",
+  "stig_id": "OL07-00-010119",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that when passwords are changed or new passwords are established, pwquality must be used.",
+  "group_title": "SRG-OS-000069-GPOS-00037",
+  "idents": {
+    "legacy": [
+      "V-99077",
+      "SV-108181"
+    ],
+    "cci": [
+      "CCI-000192",
+      "CCI-004066"
+    ]
+  },
+  "check_id": "C-23383r902777_chk",
+  "check_content": "Verify the operating system uses \"pwquality\" to enforce the password complexity rules. \n\nCheck for the use of \"pwquality\" with the following command:\n\n     # cat /etc/pam.d/system-auth | grep pam_pwquality\n\n     password requisite pam_pwquality.so retry=3\n\nIf the command does not return an uncommented line containing the value \"pam_pwquality.so\" as shown, this is a finding.\n\nIf the value of \"retry\" is set to \"0\" or greater than \"3\", this is a finding.",
+  "fixtext": "Configure the operating system to use \"pwquality\" to enforce password complexity rules.\n\nAdd the following line to \"/etc/pam.d/system-auth\" (or modify the line to have the required value):\n\n     password requisite pam_pwquality.so retry=3\n\nNote: The value of \"retry\" should be between \"1\" and \"3\".",
+  "fix_id": "F-23372r902778_fix",
+  "VulnDiscussion": "Use of a complex password helps to increase the time and resources required to compromise the password. Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. \"pwquality\" enforces complex password construction configuration and has the ability to limit brute-force attacks on the system.\n\nSatisfied: SRG-OS-000480-GPOS-00229, SRG-OS-000069-GPOS-00037",
+  "Documentable": "false"
+}

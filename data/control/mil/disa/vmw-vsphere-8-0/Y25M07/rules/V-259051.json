@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259051",
+  "rule_id": "SV-259051r961863_rule",
+  "stig_id": "VCLU-80-000124",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The vCenter Lookup service must enable \"STRICT_SERVLET_COMPLIANCE\".",
+  "group_title": "SRG-APP-000516-AS-000237",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-62791r934809_chk",
+  "check_content": "At the command line, run the following command:\n\n# grep STRICT_SERVLET_COMPLIANCE /usr/lib/vmware-lookupsvc/conf/catalina.properties\n\nExample result:\n\norg.apache.catalina.STRICT_SERVLET_COMPLIANCE=true\n\nIf there are no results, or if the \"org.apache.catalina.STRICT_SERVLET_COMPLIANCE\" is not set to \"true\", this is a finding.",
+  "fixtext": "Navigate to and open:\n\n/usr/lib/vmware-lookupsvc/conf/catalina.properties\n\nAdd or change the following line:\n\norg.apache.catalina.STRICT_SERVLET_COMPLIANCE=true\n\nRestart the service with the following command:\n\n# vmon-cli --restart lookupsvc",
+  "fix_id": "F-62700r934810_fix",
+  "VulnDiscussion": "Strict Servlet Compliance forces Tomcat to adhere to standards specifications including but not limited to RFC2109. RFC2109 sets the standard for HTTP session management. This setting affects several other settings that primarily pertain to cookie headers, cookie values, and sessions. Cookies will be parsed for strict adherence to specifications.\n\nNote that changing a number of these default settings may break some systems, as some browsers are unable to correctly handle the cookie headers that result from a strict adherence to the specifications.\n\nThis one setting changes the default values for the following settings:\n\norg.apache.catalina.core.ApplicationContext.GET_RESOURCE_REQUIRE_SLASH\norg.apache.catalina.core.ApplicationDispatcher.WRAP_SAME_OBJECT\norg.apache.catalina.core.StandardHostValve.ACCESS_SESSION\norg.apache.catalina.session.StandardSession.ACTIVITY_CHECK\norg.apache.catalina.session.StandardSession.LAST_ACCESS_AT_START\norg.apache.tomcat.util.http.ServerCookie.ALWAYS_ADD_EXPIRES\norg.apache.tomcat.util.http.ServerCookie.FWD_SLASH_IS_SEPARATOR\norg.apache.tomcat.util.http.ServerCookie.PRESERVE_COOKIE_HEADER\norg.apache.tomcat.util.http.ServerCookie.STRICT_NAMING\nThe \"resourceOnlyServlets\" attribute of any Context element.\nThe \"tldValidation\" attribute of any Context element.\nThe \"useRelativeRedirects\" attribute of any Context element.\nThe \"xmlNamespaceAware\" attribute of any Context element.\nThe \"xmlValidation\" attribute of any Context element.",
+  "Documentable": "false"
+}

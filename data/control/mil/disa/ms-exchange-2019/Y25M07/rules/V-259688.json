@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259688",
+  "rule_id": "SV-259688r961161_rule",
+  "stig_id": "EX19-MB-000136",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange external/internet-bound automated response messages must be disabled.",
+  "group_title": "SRG-APP-000261",
+  "idents": {
+    "cci": [
+      "CCI-001308"
+    ]
+  },
+  "check_id": "C-63427r942376_chk",
+  "check_content": "Open the Exchange Management Shell and enter the following command:\n\nGet-RemoteDomain | Select-Object -Property Name, DomainName, Identity, AllowedOOFType\n\nIf the value of \"AllowedOOFType\" is not set to \"InternalLegacy\", this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-RemoteDomain -Identity <'IdentityName'> -AllowedOOFType 'InternalLegacy'\n\nNote: The <IdentityName> and InternalLegacy values must be in quotes.",
+  "fix_id": "F-63335r942377_fix",
+  "VulnDiscussion": "Spam originators, in an effort to refine mailing lists, sometimes monitor transmissions for automated bounce-back messages. Automated messages include such items as \"Out of Office\" responses, nondelivery messages, and automated message forwarding.\n\nAutomated bounce-back messages can be used by a third party to determine if users exist on the server. This can result in the disclosure of active user accounts to third parties, paving the way for possible future attacks.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259683",
+  "rule_id": "SV-259683r961155_rule",
+  "stig_id": "EX19-MB-000130",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Exchange global outbound message size must be controlled.",
+  "group_title": "SRG-APP-000247",
+  "idents": {
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-63422r942361_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP) or document that contains this information.\n\nDetermine the global maximum message send size.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-TransportConfig | Select-Object -Property Name, Identity, MaxSendSize\n\nIf the value of \"MaxSendSize\" is not set to \"10MB\", this is a finding.\n\nor\n\nIf \"MaxSendSize\" is set to an alternate value and has signoff and risk acceptance in the EDSP, this is not a finding.",
+  "fixtext": "Update the EDSP to specify the \"MaxSendSize\" value or verify that this information is documented by the organization.\n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-TransportConfig -MaxSendSize 10MB\n\nor\n\nEnter the value as identified by the EDSP that has obtained a signoff with risk acceptance.",
+  "fix_id": "F-63330r942362_fix",
+  "VulnDiscussion": "Email system availability depends in part on best practice strategies for setting tuning configurations. Message size limits should be set to 10 MB at most but often are smaller, depending on the organization. The key point in message size is that it should be set globally and should not be set to \"unlimited\". Selecting \"unlimited\" on \"MaxReceiveSize\" is likely to result in abuse and can contribute to excessive server disk space consumption.\n\nMessage size limits may also be applied on send and receive connectors, public folders, and on the user account under Active Directory (AD). Changes at these lower levels are discouraged, as the single global setting is usually sufficient. This practice prevents conflicts that could impact availability and simplifies server administration.",
+  "Documentable": "false"
+}

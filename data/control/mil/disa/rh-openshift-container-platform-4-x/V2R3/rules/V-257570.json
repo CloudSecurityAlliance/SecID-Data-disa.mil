@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257570",
+  "rule_id": "SV-257570r961677_rule",
+  "stig_id": "CNTR-OS-000880",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must remove old components after updated versions have been installed.",
+  "group_title": "SRG-APP-000454-CTR-001110",
+  "idents": {
+    "cci": [
+      "CCI-002617"
+    ]
+  },
+  "check_id": "C-61305r921651_chk",
+  "check_content": "Ensure the imagepruner is configured and is not in a suspended state by executing the following:\n\noc get imagepruners.imageregistry.operator.openshift.io/cluster -o jsonpath='{.spec}{\"\\n\"}'\n\nReview the settings. If \"suspend\" is set to \"true\", this is a finding.",
+  "fixtext": "Enable the image pruner to automate the pruning of images from the cluster by executing the following:\n\noc patch imagepruners.imageregistry.operator.openshift.io/cluster --type=merge -p '{\"spec\":{\"suspend\":false}}'\n\nFor additional details on configuring the image pruner operator, refer to the following document:\nhttps://docs.openshift.com/container-platform/4.8/applications/pruning-objects.html#pruning-images_pruning-objects",
+  "fix_id": "F-61229r921652_fix",
+  "VulnDiscussion": "Previous versions of OpenShift components that are not removed from the container platform after updates have been installed may be exploited by adversaries by causing older components to execute which contain vulnerabilities. When these components are deleted, the likelihood of this happening is removed.\n\nSatisfies: SRG-APP-000454-CTR-001110, SRG-APP-000454-CTR-001115",
+  "Documentable": "false"
+}

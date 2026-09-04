@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259684",
+  "rule_id": "SV-259684r961155_rule",
+  "stig_id": "EX19-MB-000131",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Exchange Outbound Connection Limit per Domain Count must be controlled.",
+  "group_title": "SRG-APP-000247",
+  "idents": {
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-63423r942364_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP) or document that contains this information.\n\nDetermine the value for Maximum Outbound Domain Connections.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-TransportService | Select-Object -Property Name, Identity, MaxPerDomainOutboundConnections\n\nIf the value of \"MaxPerDomainOutboundConnections\" is not set to \"20\", this is a finding.\n\nor\n\nIf \"MaxPerDomainOutboundConnections\" is set to a value other than \"20\" and has signoff and risk acceptance in the EDSP, this is not a finding.",
+  "fixtext": "Update the EDSP to specify the \"MaxPerDomainOutboundConnection\" value or verify that this information is documented by the organization.\n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-TransportService -Identity <'IdentityName'> -MaxPerDomainOutboundConnections 20\n\nNote: The <IdentityName> value must be in quotes.\n\nor\n\nEnter the value as identified by the EDSP that has obtained a signoff with risk acceptance.",
+  "fix_id": "F-63331r942365_fix",
+  "VulnDiscussion": "Email system availability depends in part on best practice strategies for setting tuning configurations. This configuration controls the maximum number of simultaneous outbound connections from a domain as a delivery tuning mechanism. If the limit is too low, connections may be dropped. If the limit is too high, some domains may use a disproportionate resource share, denying access to other domains. Appropriate tuning reduces risk of data delay or loss. \n\nBy default, a limit of 20 simultaneous outbound connections from a domain should be sufficient. The value may be adjusted if justified by local site conditions.",
+  "Documentable": "false"
+}

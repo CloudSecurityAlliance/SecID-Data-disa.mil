@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-221678",
+  "rule_id": "SV-221678r1015175_rule",
+  "stig_id": "OL07-00-010210",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured to use the shadow file to store only encrypted representations of passwords.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "legacy": [
+      "V-99097",
+      "SV-108201"
+    ],
+    "cci": [
+      "CCI-000196",
+      "CCI-004062"
+    ]
+  },
+  "check_id": "C-23393r419106_chk",
+  "check_content": "Verify the system's shadow file is configured to store only encrypted representations of passwords. The strength of encryption that must be used to hash passwords for all accounts is SHA512.\n\nCheck that the system is configured to create SHA512 hashed passwords with the following command:\n\n# grep -i encrypt /etc/login.defs\nENCRYPT_METHOD SHA512\n\nIf the \"/etc/login.defs\" configuration file does not exist or allows for password hashes other than SHA512 to be used, this is a finding.",
+  "fixtext": "Configure the operating system to store only SHA512 encrypted representations of passwords.\n\nAdd or update the following line in \"/etc/login.defs\":\n\nENCRYPT_METHOD SHA512",
+  "fix_id": "F-23382r419107_fix",
+  "VulnDiscussion": "Passwords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised. Passwords encrypted with a weak algorithm are no more protected than if they are kept in plain text.",
+  "Documentable": "false"
+}

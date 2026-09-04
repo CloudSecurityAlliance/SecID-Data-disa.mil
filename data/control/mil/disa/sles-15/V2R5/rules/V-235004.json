@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-235004",
+  "rule_id": "SV-235004r991589_rule",
+  "stig_id": "SLES-15-040200",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "A separate file system must be used for SUSE operating system user home directories (such as /home or an equivalent).",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-38192r619281_chk",
+  "check_content": "Verify that a separate file system/partition has been created for SUSE operating system non-privileged local interactive user home directories.\n\nCheck the home directory assignment for all non-privileged users (those with a UID greater than 1000) on the system with the following command:\n\n> awk -F: '($3>=1000)&&($7 !~ /nologin/){print $1, $3, $6, $7}' /etc/passwd\n\nadamsj 1002 /home/adamsj /bin/bash\njacksonm 1003 /home/jacksonm /bin/bash\nsmithj 1001 /home/smithj /bin/bash\n\nThe output of the command will give the directory/partition that contains the home directories for the non-privileged users on the system (in this example, /home) and user's shell. All accounts with a valid shell (such as /bin/bash) are considered interactive users.\n\nCheck that a file system/partition has been created for the non-privileged interactive users with the following command:\n\nNote: The partition of /home is used in the example.\n\n> grep /home /etc/fstab\nUUID=333ada18 /home ext4 noatime,nobarrier,nodev 1 2\n\nIf a separate entry for the file system/partition that contains the non-privileged interactive users' home directories does not exist, this is a finding.",
+  "fixtext": "Create a separate file system/partition for SUSE operating system non-privileged local interactive user home directories.\n\nMigrate the non-privileged local interactive user home directories onto the separate file system/partition.",
+  "fix_id": "F-38155r619282_fix",
+  "VulnDiscussion": "The use of separate file systems for different paths can protect the system from failures resulting from a file system becoming full or failing.",
+  "Documentable": "false"
+}

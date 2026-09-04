@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261384",
+  "rule_id": "SV-261384r996583_rule",
+  "stig_id": "SLEM-05-611045",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must not allow passwords to be reused for a minimum of five generations.",
+  "group_title": "SRG-OS-000077-GPOS-00045",
+  "idents": {
+    "cci": [
+      "CCI-000200"
+    ]
+  },
+  "check_id": "C-65113r996581_chk",
+  "check_content": "Verify SLEM 5 prohibits the reuse of a password for a minimum of five generations with the following command:\n\n     > grep pam_pwhistory.so /etc/pam.d/common-password\n     password requisite pam_pwhistory.so remember=5 use_authtok\n\nIf the value for \"remember\" is not \"5\" or greater, if the \"remember\" option is missing from the line, if the \"use_authtok\" option is missing, if the second column has a value different from \"requisite\", if the line is commented out, or the line is missing, this is a finding.",
+  "fixtext": "Configure SLEM 5 password history to prohibit the reuse of a password for a minimum of five generations.\n\nEdit \"/etc/pam.d/common-password\" and edit the line containing \"pam_pwhistory.so\" to contain the option \"remember=5 use_authtok\" after the third column.",
+  "fix_id": "F-65021r996582_fix",
+  "VulnDiscussion": "Password complexity, or strength, is a measure of the effectiveness of a password in resisting attempts at guessing and brute-force attacks. If the information system or application allows the user to consecutively reuse their password when that password has exceeded its defined lifetime, the end result is a password that is not changed as per policy requirements.",
+  "Documentable": "false"
+}

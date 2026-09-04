@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217279",
+  "rule_id": "SV-217279r991589_rule",
+  "stig_id": "SLES-12-030250",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system SSH daemon must not allow compression or must only allow compression after successful authentication.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-92167",
+      "V-77471"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-18507r880923_chk",
+  "check_content": "Note:  If the installed version of OpenSSH is 7.4 or above, this requirement is not applicable. \n\nVerify the SUSE operating system SSH daemon performs compression after a user successfully authenticates.\n\nCheck that the SSH daemon performs compression after a user successfully authenticates with the following command:\n\n     # sudo grep -i compression /etc/ssh/sshd_config\n     Compression delayed\n\nIf the \"Compression\" keyword is set to \"yes\", is missing, or the returned line is commented out, this is a finding.",
+  "fixtext": "Configure the SUSE operating system SSH daemon performs compression after a user successfully authenticates.\n\nUncomment the \"Compression\" keyword in \"/etc/ssh/sshd_config\" on the system and set the value to \"delayed\" or \"no\":\n\n     Compression no",
+  "fix_id": "F-18505r880924_fix",
+  "VulnDiscussion": "If compression is allowed in an SSH connection prior to authentication, vulnerabilities in the compression software could result in compromise of the system from an unauthenticated connection, potentially with root privileges.",
+  "Documentable": "false"
+}

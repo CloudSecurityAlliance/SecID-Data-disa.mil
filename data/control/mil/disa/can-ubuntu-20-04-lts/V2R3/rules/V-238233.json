@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-238233",
+  "rule_id": "SV-238233r1015151_rule",
+  "stig_id": "UBTU-20-010066",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Ubuntu operating system for PKI-based authentication, must implement a local cache of revocation data in case of the inability to access revocation information via the network.",
+  "group_title": "SRG-OS-000384-GPOS-00167",
+  "idents": {
+    "cci": [
+      "CCI-001991",
+      "CCI-004068"
+    ]
+  },
+  "check_id": "C-41443r653872_chk",
+  "check_content": "Verify the Ubuntu operating system, for PKI-based authentication, uses local revocation data when unable to access it from the network.  \n \nVerify that \"crl_offline\" or \"crl_auto\" is part of the \"cert_policy\" definition in \"/etc/pam_pkcs11/pam_pkcs11.conf\" using the following command: \n \n# sudo grep cert_policy /etc/pam_pkcs11/pam_pkcs11.conf | grep  -E -- 'crl_auto|crl_offline' \n \ncert_policy = ca,signature,ocsp_on,crl_auto; \n \nIf \"cert_policy\" is not set to include \"crl_auto\" or \"crl_offline\", this is a finding.",
+  "fixtext": "Configure the Ubuntu operating system, for PKI-based authentication, to use local revocation data when unable to access the network to obtain it remotely. \n \nAdd or update the \"cert_policy\" option in \"/etc/pam_pkcs11/pam_pkcs11.conf\" to include \"crl_auto\" or \"crl_offline\". \n \ncert_policy = ca,signature,ocsp_on, crl_auto; \n \nIf the system is missing an \"/etc/pam_pkcs11/\" directory and an \"/etc/pam_pkcs11/pam_pkcs11.conf\", find an example to copy into place and modify accordingly at \"/usr/share/doc/libpam-pkcs11/examples/pam_pkcs11.conf.example.gz\".",
+  "fix_id": "F-41402r880869_fix",
+  "VulnDiscussion": "Without configuring a local cache of revocation data, there is the potential to allow access to users who are no longer authorized (users with revoked certificates).",
+  "Documentable": "false"
+}

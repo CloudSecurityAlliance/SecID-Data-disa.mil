@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220586",
+  "rule_id": "SV-220586r1043177_rule",
+  "stig_id": "CISC-ND-000470",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco switch must be configured to prohibit the use of all unnecessary and non-secure functions and services.",
+  "group_title": "SRG-APP-000142-NDM-000245",
+  "idents": {
+    "legacy": [
+      "SV-110401",
+      "V-101297"
+    ],
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-22301r1007812_chk",
+  "check_content": "Verify that the switch does not have any unnecessary or nonsecure ports, protocols, and services enabled. \n\nFor example, the following commands should not be in the configuration:\n\nboot network\nip boot server\nip bootp server\nip dns server\nip identd\nip finger\nip http server\nip rcmd rcp-enable\nip rcmd rsh-enable\nservice config\nservice finger\nservice tcp-small-servers\nservice udp-small-servers\nservice pad\nservice call-home\n\nNote: Certain legacy devices may require 'service call-home' be enabled to support Smart Licensing as they do not support the newer smart transport configuration. Those devices do not incur a finding for having call-home enabled for Smart Licensing.\n\nIf any unnecessary or nonsecure ports, protocols, or services are enabled, this is a finding.",
+  "fixtext": "Disable the following services if enabled as shown in the example below:\n\nSW2(config)#no boot network\nSW2(config)#no ip boot server\nSW2(config)#no ip bootp server\nSW2(config)#no ip dns server\nSW2(config)#no ip identd\nSW2(config)#no ip finger\nSW2(config)#no ip http server\nSW2(config)#no ip rcmd rcp-enable\nSW2(config)#no ip rcmd rsh-enable\nSW2(config)#no service config\nSW2(config)#no service finger\nSW2(config)#no service tcp-small-servers\nSW2(config)#no service udp-small-servers\nSW2(config)#no service pad\nSW2(config)#no service call-home\nSW2(config)#end",
+  "fix_id": "F-22290r892387_fix",
+  "VulnDiscussion": "Network devices are capable of providing a wide variety of functions and services. Some of the functions and services provided by default may not be necessary to support essential organizational operations. Additionally, it is sometimes convenient to provide multiple services from a single component (e.g., email and web services); however, doing so increases risk over limiting the services provided by any one component. \n\nTo support the requirements and principles of least functionality, the network device must support the organizational requirements providing only essential capabilities and limiting the use of ports, protocols, and/or services to only those required, authorized, and approved. Some network devices have capabilities enabled by default; if these capabilities are not necessary, they must be disabled. If a particular capability is used, it must be documented and approved.",
+  "Documentable": "false"
+}

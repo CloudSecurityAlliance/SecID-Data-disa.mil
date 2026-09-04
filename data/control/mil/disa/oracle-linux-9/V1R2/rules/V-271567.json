@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-271567",
+  "rule_id": "SV-271567r1092554_rule",
+  "stig_id": "OL09-00-000700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must generate audit records for all account creations, modifications, disabling, and termination events that affect /var/log/lastlog.",
+  "group_title": "SRG-OS-000037-GPOS-00015",
+  "idents": {
+    "cci": [
+      "CCI-000130",
+      "CCI-000135",
+      "CCI-000169",
+      "CCI-002884",
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-75617r1091411_chk",
+  "check_content": "Verify that OL 9 generates audit records for all account creations, modifications, disabling, and termination events that affect /var/log/lastlog with the following command:\n\n$ sudo auditctl -l | grep /var/log/lastlog\n-w /var/log/lastlog -p wa -k logins\n\nIf the command does not return a line or the line is commented out, this is a finding.",
+  "fixtext": "Configure OL 9 to generate audit records for all account creations, modifications, disabling, and termination events that affect /var/log/lastlog.\n\nAdd or update the following file system rule to \"/etc/audit/rules.d/audit.rules\":\n\n-w /var/log/lastlog -p wa -k logins\n\nThe audit daemon must be restarted for the changes to take effect.\n\nRestart auditd:\n$ sudo service auditd restart",
+  "fix_id": "F-75524r1092553_fix",
+  "VulnDiscussion": "Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one.\n\nSatisfies: SRG-OS-000037-GPOS-00015, SRG-OS-000042-GPOS-00020, SRG-OS-000062-GPOS-00031, SRG-OS-000392-GPOS-00172, SRG-OS-000462-GPOS-00206, SRG-OS-000471-GPOS-00215, SRG-OS-000473-GPOS-00218, SRG-OS-000470-GPOS-00214",
+  "Documentable": "false"
+}

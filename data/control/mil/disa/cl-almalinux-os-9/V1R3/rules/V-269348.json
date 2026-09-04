@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269348",
+  "rule_id": "SV-269348r1050230_rule",
+  "stig_id": "ALMA-09-030380",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must disable mounting of udf.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-73379r1049532_chk",
+  "check_content": "Verify that AlmaLinux OS 9 disables the ability to load the udf kernel module with the following command:\n\n$ grep udf /etc/modprobe.conf /etc/modprobe.d/* \n\nblacklist udf\n\nIf the command does not return any output, or the line is commented out, and use of UDF is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "To configure the system to prevent the udf kernel module from being loaded, create a *.conf file in /etc/modprobe.d/ with the following content:\n\ninstall udf /bin/false\nblacklist udf",
+  "fix_id": "F-73280r1048421_fix",
+  "VulnDiscussion": "Removing support for unneeded filesystem types reduces the local attack surface of the server.\n\nThe UDF filesystem is used to write DVDs and so could assist in data exfiltration, the so-called \"sneakernet\".\n\nNote that Microsoft Azure uses UDF.",
+  "Documentable": "false"
+}

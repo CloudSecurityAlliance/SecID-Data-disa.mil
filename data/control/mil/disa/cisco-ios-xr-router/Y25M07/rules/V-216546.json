@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-216546",
+  "rule_id": "SV-216546r961863_rule",
+  "stig_id": "CISC-ND-001440",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco router must be configured to obtain its public key certificates from an appropriate certificate policy through an approved service provider.",
+  "group_title": "SRG-APP-000516-NDM-000344",
+  "idents": {
+    "legacy": [
+      "SV-105633",
+      "V-96495"
+    ],
+    "cci": [
+      "CCI-000366",
+      "CCI-001159"
+    ]
+  },
+  "check_id": "C-17781r288324_chk",
+  "check_content": "Review the router configuration to determine if a CA trust point has been configured. The CA trust point will contain the URL of the CA in which the router has enrolled with. Verify this is a DoD or DoD-approved CA. This will ensure the router has enrolled and received a certificate from a trusted CA. The CA trust point configuration would look similar to the example below.\n\ncrypto pki trustpoint CA_X\n enrollment url http://trustpoint1.example.com\n\nNote: A remote end-point's certificate will always be validated by the router by verifying the signature of the CA on the certificate using the CA's public key, which is contained in the router's certificate it received at enrollment.\n\nNote: This requirement is not applicable if the router does not have any public key certificates.\n\nIf the Cisco router is not configured to obtain its public key certificates from an appropriate certificate policy through an approved service provider, this is a finding.",
+  "fixtext": "Configure the router to obtain its public key certificates from an appropriate certificate policy through an approved service provider as show in the example below.\n\nRP/0/0/CPU0:R3(config)#crypto ca trustpoint CA_X\nRP/0/0/CPU0:R3(config-trustp)#enrollment url http://trustpoint1.example.com",
+  "fix_id": "F-17778r288325_fix",
+  "VulnDiscussion": "For user certificates, each organization obtains certificates from an approved, shared service provider, as required by OMB policy. For federal agencies operating a legacy public key infrastructure cross-certified with the Federal Bridge Certification Authority (CA) at medium assurance or higher, this Certification Authority will suffice.",
+  "Documentable": "false"
+}

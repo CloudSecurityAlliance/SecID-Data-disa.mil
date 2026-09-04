@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242466",
+  "rule_id": "SV-242466r961863_rule",
+  "stig_id": "CNTR-K8-003330",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes PKI CRT must have file permissions set to 644 or more restrictive.",
+  "group_title": "SRG-APP-000516-CTR-001335",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-45741r927138_chk",
+  "check_content": "Review the permissions of the Kubernetes PKI cert files by using the command:\n\nsudo find /etc/kubernetes/pki/* -name \"*.crt\" | xargs stat -c '%n %a'\n\nIf any of the files have permissions more permissive than \"644\", this is a finding.",
+  "fixtext": "Change the ownership of the cert files to \"644\" by executing the command: \n\nfind /etc/kubernetes/pki -name \"*.crt\" | xargs chmod 644",
+  "fix_id": "F-45699r918202_fix",
+  "VulnDiscussion": "The Kubernetes PKI directory contains all certificates (.crt files) supporting secure network communications in the Kubernetes Control Plane. If these files can be modified, data traversing within the architecture components would become unsecure and compromised.",
+  "Documentable": "false"
+}

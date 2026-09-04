@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269110",
+  "rule_id": "SV-269110r1049992_rule",
+  "stig_id": "ALMA-09-002110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must prevent a user from overriding the disabling of the graphical user smart card removal action.",
+  "group_title": "SRG-OS-000028-GPOS-00009",
+  "idents": {
+    "cci": [
+      "CCI-000056"
+    ]
+  },
+  "check_id": "C-73141r1049108_chk",
+  "check_content": "Verify AlmaLinux OS 9 disables the ability of the user to override the smart card removal action setting.\n\nNote: This requirement assumes the use of the AlmaLinux OS 9 default graphical user interface, the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\nDetermine which profile the system database is using with the following command:\n\n$ grep system-db /etc/dconf/profile/user\n\nsystem-db:local\n\nCheck that the removal action setting is locked from nonprivileged user modification with the following command:\n\nNote: The example below is using the database \"local\" for the system, so the path is \"/etc/dconf/db/local.d\". This path must be modified if a database other than \"local\" is being used.\n\n$ grep 'removal-action' /etc/dconf/db/local.d/locks/* \n\n/etc/dconf/db/local.d/locks/00-security-settings-lock:/org/gnome/settings-daemon/peripherals/smartcard/removal-action\n\nIf the command does not return at least the example result, this is a finding.",
+  "fixtext": "Add the following line to \"/etc/dconf/db/local.d/locks/00-security-settings-lock\" to prevent user override of the smart card removal action:\n\n/org/gnome/settings-daemon/peripherals/smartcard/removal-action\n\nThen, update the dconf system databases:\n\n$ dconf update",
+  "fix_id": "F-73042r1047707_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.\n\nThe session lock is implemented at the point where session activity can be determined.\n\nRegardless of where the session lock is determined and implemented, once invoked, the session lock must remain in place until the user re-authenticates. No other activity aside from re-authentication must unlock the system.",
+  "Documentable": "false"
+}

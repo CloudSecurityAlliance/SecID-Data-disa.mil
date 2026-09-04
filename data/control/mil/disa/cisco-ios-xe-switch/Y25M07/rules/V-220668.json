@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220668",
+  "rule_id": "SV-220668r991905_rule",
+  "stig_id": "CISC-L2-000220",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must not have the default VLAN assigned to any host-facing switch ports.",
+  "group_title": "SRG-NET-000512-L2S-000008",
+  "idents": {
+    "legacy": [
+      "SV-110311",
+      "V-101207"
+    ],
+    "cci": [
+      "CCI-004891"
+    ]
+  },
+  "check_id": "C-22383r507552_chk",
+  "check_content": "Review the switch configurations and verify that no access switch ports have been assigned membership to the default VLAN (i.e., VLAN 1). VLAN assignments can be verified via the show vlan command.\n\nSW1#show vlan\n\nVLAN Name Status Ports\n---- -------------------------------- --------- -------------------------------\n1 default active \n10 User VLAN active Gi0/3, Gi1/0, Gi1/1, Gi1/2\n Gi1/3, Gi2/1\n20 Management VLAN active Gi0/2\n999 VLAN0999 active Gi2/0\n\nIf there are access switch ports assigned to the default VLAN, this is a finding.",
+  "fixtext": "Remove the assignment of the default VLAN from all access switch ports.",
+  "fix_id": "F-22372r507553_fix",
+  "VulnDiscussion": "In a VLAN-based network, switches use the default VLAN (i.e., VLAN 1) for in-band management and to communicate with other networking devices using Spanning-Tree Protocol (STP), Dynamic Trunking Protocol (DTP), VLAN Trunking Protocol (VTP), and Port Aggregation Protocol (PAgP)—all untagged traffic. As a consequence, the default VLAN may unwisely span the entire network if not appropriately pruned. If its scope is large enough, the risk of compromise can increase significantly.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269430",
+  "rule_id": "SV-269430r1050313_rule",
+  "stig_id": "ALMA-09-041930",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must use a Linux Security Module configured to enforce limits on system services.",
+  "group_title": "SRG-OS-000134-GPOS-00068",
+  "idents": {
+    "cci": [
+      "CCI-001084"
+    ]
+  },
+  "check_id": "C-73461r1049698_chk",
+  "check_content": "Ensure that AlmaLinux OS 9 verifies correct operation of security functions through the use of SELinux with the following command:\n\n$ getenforce\n\nEnforcing\n\nIf SELINUX is not set to \"Enforcing\", this is a finding.\n\nVerify that SELinux is configured to be enforcing at boot.\n\n$ grep -E \"^SELINUX=\" /etc/selinux/config\n\nSELINUX=enforcing\n\nIf SELINUX line is missing, commented out, or not set to \"enforcing\", this is a finding.\n\nVerify that SELinux is enabled and Enforcing for all kernels:\n\n$ grubby --info=ALL | grep -E 'selinux|enforcing'\n\nargs=\"ro audit=1 selinux=1 enforcing=1 audit_backlog_limit=8192 page_poison=1 vsyscall=none slub_debug=P pti=on iommu=force resume=/dev/mapper/luks-89bf0df8-547f-4613-af07-215e5f62e9a9 rd.luks.uuid=luks-8a7154ec-8eeb-46c8-9d75-66fc4b80d665 rd.lvm.lv=rootvg/root rd.luks.uuid=luks-89bf0df8-547f-4613-af07-215e5f62e9a9 rd.lvm.lv=rootvg/swap rd.shell=0 quiet splash fips=1 boot=UUID=eda01e9b-b7e1-431b-9549-16d5dcddf665\"\n\nargs=\"ro audit=1 selinux=1 enforcing=1 audit_backlog_limit=8192 page_poison=1 vsyscall=none slub_debug=P pti=on iommu=force resume=/dev/mapper/luks-89bf0df8-547f-4613-af07-215e5f62e9a9 rd.luks.uuid=luks-8a7154ec-8eeb-46c8-9d75-66fc4b80d665 rd.lvm.lv=rootvg/root rd.luks.uuid=luks-89bf0df8-547f-4613-af07-215e5f62e9a9 rd.lvm.lv=rootvg/swap rd.shell=0 quiet splash fips=1 boot=UUID=eda01e9b-b7e1-431b-9549-16d5dcddf665\"\n\nIf selinux=1 is missing or set to 0, or enforcing=1 is missing or set to 0, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to verify correct operation of security functions.\n\nEdit the file \"/etc/selinux/config\" and add or modify the following line:\n\nSELINUX=enforcing \n\nUpdate the grub bootloader settings:\n\n$ grubby --args=\"selinux=1 enforcing=1\" --update-kernel=ALL\n\nA reboot is required for the changes to take effect.",
+  "fix_id": "F-73362r1049699_fix",
+  "VulnDiscussion": "An isolation boundary provides access control and protects the integrity of the hardware, software, and firmware that perform security functions.\n\nSecurity functions are the hardware, software, and/or firmware of the information system responsible for enforcing the system security policy and supporting the isolation of code and data on which the protection is based. Operating systems implement code separation (i.e., separation of security functions from nonsecurity functions) in a number of ways, including through the provision of security kernels via processor rings or processor modes. For nonkernel code, security function isolation is often achieved through file system protections that serve to protect the code on disk and address space protections that protect executing code.\n\nDevelopers and implementers can increase the assurance in security functions by employing well-defined security policy models; structured, disciplined, and rigorous hardware and software development techniques; and sound system/security engineering principles. Implementation may include isolation of memory space and libraries. Operating systems restrict access to security functions through the use of access control mechanisms and by implementing least privilege capabilities.",
+  "Documentable": "false"
+}

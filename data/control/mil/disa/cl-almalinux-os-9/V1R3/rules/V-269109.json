@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269109",
+  "rule_id": "SV-269109r1049991_rule",
+  "stig_id": "ALMA-09-002000",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must be able to directly initiate a session lock for all connection types using smart card when the smart card is removed.",
+  "group_title": "SRG-OS-000028-GPOS-00009",
+  "idents": {
+    "cci": [
+      "CCI-000056"
+    ]
+  },
+  "check_id": "C-73140r1049105_chk",
+  "check_content": "Note: This requirement assumes the use of the AlmaLinux OS 9 default graphical user interface, the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\nVerify AlmaLinux OS 9 enables a user's session lock until that user re-establishes access using established identification and authentication procedures with the following command:\n\n$ grep -R removal-action= /etc/dconf/db/*\n\n/etc/dconf/db/distro.d/00-security-settings:removal-action='lock-screen'\n\nIf the \"removal-action='lock-screen'\" setting is missing or commented out from the dconf database files, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to enable a user's session lock until that user re-establishes access using established identification and authentication procedures.\n\nSelect or create an authselect profile and incorporate the \"with-smartcard-lock-on-removal\" feature with the following example:\n\n$ authselect select sssd with-smartcard with-smartcard-lock-on-removal\n\nAlternatively, the dconf settings can be edited in the /etc/dconf/db/* location.\n\nAdd or update the [org/gnome/settings-daemon/peripherals/smartcard] section of the /etc/dconf/db/local.d/00-security-settings\" database file and add or update the following lines:\n\n[org/gnome/settings-daemon/peripherals/smartcard]\nremoval-action='lock-screen'\n\nThen update the dconf system databases:\n\n$ dconf update",
+  "fix_id": "F-73041r1049106_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.\n\nThe session lock is implemented at the point where session activity can be determined.\n\nRegardless of where the session lock is determined and implemented, once invoked, the session lock must remain in place until the user re-authenticates. No other activity aside from re-authentication must unlock the system.",
+  "Documentable": "false"
+}

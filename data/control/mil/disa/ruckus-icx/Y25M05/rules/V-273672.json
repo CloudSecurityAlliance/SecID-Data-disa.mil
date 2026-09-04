@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-273672",
+  "rule_id": "SV-273672r1110975_rule",
+  "stig_id": "RCKS-L2S-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RUCKUS ICX switch must be configured to disable nonessential capabilities.",
+  "group_title": "SRG-NET-000131-L2S-000014",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-77763r1110792_chk",
+  "check_content": "Review the switch configuration to determine if services or functions not required for operation, or not related to switch functionality, are enabled. \n\n1. Check that web authentication is enabled.\nRouter#show webauth\nThe result returned will be blank.\n\n2. Check that web services are enabled.\nRouter#show web\nHTTP server status: Disabled\nHTTPS server status: Disabled\nNo web connection.\n\n3. Check if the telnet service is enabled.\nRouter#show telnet\nTelnet server status: Disabled\nTelnet connections:\n\n4. Check if the tftp service is enabled.\nRouter#show running-config | include tftp\nno tftp client enable\ntftp disable\n\nIf unnecessary services and functions are enabled on the switch, this is a finding.",
+  "fixtext": "Remove unneeded services and functions from the switch.\n\nRouter# configure terminal\n\nRouter(config)# no telnet server enable vlan 1\n\nRouter(config)# no tftp-server\n\nRouter(config)#web-management disable\n\nRouter(config)# vlan xxx (xxx = vlan ID)\n\nRouter(config-vlan-1)#no webauth\n\nRouter(config)#write memory",
+  "fix_id": "F-77668r1110038_fix",
+  "VulnDiscussion": "A compromised switch introduces risk to the entire network infrastructure as well as data resources that are accessible via the network. The perimeter defense has no oversight or control of attacks by malicious users within the network. Preventing network breaches from within is dependent on implementing a comprehensive defense-in-depth strategy, including securing each device connected to the network. This is accomplished by following and implementing all security guidance applicable for each node type. A fundamental step in securing each switch is to enable only the capabilities required for operation.",
+  "Documentable": "false"
+}

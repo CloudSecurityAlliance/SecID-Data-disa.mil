@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274315",
+  "rule_id": "SV-274315r1100449_rule",
+  "stig_id": "HONW-13-009600",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "All mobile Honeywell cryptography must be configured to be in FIPS 140-3 validated mode.",
+  "group_title": "PP-MDF-333340",
+  "idents": {
+    "cci": [
+      "CCI-002450"
+    ]
+  },
+  "check_id": "C-78406r1100441_chk",
+  "check_content": "Review the configuration to determine if the Honeywell Android devices are in FIPS mode.\n\nOn the MDM console (for SDM660 only):\n\n1. In the MDM console, load the active DeviceConfig.xml for the managed device.\n2. Verify that item DeviceConfig >> HoneywellSetting >> EnforceOSFipsMode has a value of \"1\" for \"Enable OS FIPS Mode\".\n\nOn the Honeywell Android 13 device (SDM660 only):\n\n1. Open Settings >> Honeywell Settings >> FIPS Enforce Mode.\n2. Verify that \"FIPS Enforce Mode\" is enabled.\n\nIf \"FIPS Enforce Mode\" is not enabled, this is a finding.",
+  "fixtext": "On the MDM console (for SDM660 only):\n\n1. Ask the MDM administrator to edit the following item in DeviceConfig.xml:\nModify item: DeviceConfig >> HoneywellSetting >> EnforceOSFipsMode.\nValue sample: 1: Enable OS FIPS mode; 0: Disable OS FIPS mode.\n2. In the MDM console, the MDM administrator will package this DeviceConfig.xml and push this package to the CN80G device.\n\nOn the Honeywell Android 13 device (SDM660 only):\n\n1. Open Settings >> Honeywell Settings >> FIPS Enforce Mode.\n2. Enable \"FIPS Enforce Mode\".",
+  "fix_id": "F-78311r1100442_fix",
+  "VulnDiscussion": "Unapproved cryptographic algorithms cannot be relied on to provide confidentiality or integrity, and DOD data could be compromised as a result. The most common vulnerabilities with cryptographic modules are those associated with poor implementation. FIPS 140-3 validation provides assurance that the relevant cryptography has been implemented correctly. FIPS 140-3 validation is also a strict requirement for use of cryptography in the federal government for protecting unclassified data.\n\nSFR ID: FCS",
+  "Documentable": "false"
+}

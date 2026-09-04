@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257555",
+  "rule_id": "SV-257555r961152_rule",
+  "stig_id": "CNTR-OS-000630",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must restrict individuals the ability to launch organizational-defined Denial-of-Service (DOS) attacks against other information systems by rate-limiting.",
+  "group_title": "SRG-APP-000246-CTR-000605",
+  "idents": {
+    "cci": [
+      "CCI-001094"
+    ]
+  },
+  "check_id": "C-61290r921606_chk",
+  "check_content": "Verify that all namespaces except those that start with kube-* or openshift-* use the rate-limiting annotation by executing the following:\n\noc get routes --all-namespaces -o json | jq '[.items[] | select(.metadata.namespace | startswith(\"kube-\") or startswith(\"openshift-\") | not) | select(.metadata.annotations[\"haproxy.router.openshift.io/rate-limit-connections\"] == \"true\" | not) | .metadata.name]'\n\nIf the above command returns any namespaces, this is a finding.",
+  "fixtext": "Add the haproxy.router.openshift.io/rate-limit-connections annotation to any routes outside the kube-* or openshift-* namespaces \n\noc annotate route <route_name> -n <namespace> --overwrite=true \"haproxy.router.openshift.io/timeout=2s\"\n\nhttps://docs.openshift.com/container-platform/4.9/networking/routes/route-configuration.html",
+  "fix_id": "F-61214r921607_fix",
+  "VulnDiscussion": "By setting rate limits, OpenShift can control the number of requests or connections allowed from a single source within a specific period. This prevents an excessive influx of requests that can overwhelm the application and degrade its performance or availability.\n\nSetting rate limits also ensures fair resource allocation, prevents service degradation, protects backend systems, and enhances overall security. Along with, helping to maintain the availability, performance, and security of the applications hosted on the platform, contributing to a reliable and robust application infrastructure.\n\nOpenShift has an option to set the rate limit for Routes (refer to link below) when creating new Routes. All routes outside the OpenShift namespaces and the kube namespaces must use the rate-limiting annotations.\n\nhttps://docs.openshift.com/container-platform/4.9/networking/routes/route-configuration.html#nw-route-specific-annotations_route-configuration",
+  "Documentable": "false"
+}

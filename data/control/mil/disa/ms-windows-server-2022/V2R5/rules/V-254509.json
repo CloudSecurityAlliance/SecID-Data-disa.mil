@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254509",
+  "rule_id": "SV-254509r958726_rule",
+  "stig_id": "WN22-UR-000190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2022 perform volume maintenance tasks user right must only be assigned to the Administrators group.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-57994r849341_chk",
+  "check_content": "Verify the effective setting in Local Group Policy Editor.\n\nRun \"gpedit.msc\".\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment.\n\nIf any accounts or groups other than the following are granted the \"Perform volume maintenance tasks\" user right, this is a finding:\n\n- Administrators\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas User_Rights /cfg c:\\path\\filename.txt\n\nReview the text file.\n\nIf any SIDs other than the following are granted the \"SeManageVolumePrivilege\" user right, this is a finding:\n\nS-1-5-32-544 (Administrators)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment >> Perform volume maintenance tasks to include only the following accounts or groups:\n\n- Administrators",
+  "fix_id": "F-57945r849342_fix",
+  "VulnDiscussion": "Inappropriate granting of user rights can provide system, administrative, and other high-level capabilities.\n\nAccounts with the \"Perform volume maintenance tasks\" user right can manage volume and disk configurations. This could be used to delete volumes, resulting in data loss or a denial of service.",
+  "Documentable": "false"
+}

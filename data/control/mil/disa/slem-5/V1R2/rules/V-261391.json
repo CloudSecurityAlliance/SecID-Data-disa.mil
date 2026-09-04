@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-261391",
+  "rule_id": "SV-261391r996598_rule",
+  "stig_id": "SLEM-05-611080",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "SLEM 5 must employ FIPS 140-2/140-3-approved cryptographic hashing algorithms for system authentication.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-000196",
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-65120r996596_chk",
+  "check_content": "Verify SLEM 5 shadow password suite is configured to encrypt interactive user passwords using FIPS 140-2/140-3-approved cryptographic hash with the following command:\n\n     > sudo cut -d: -f2 /etc/shadow\n     $6$kcOnRq/5$NUEYPuyL.wghQwWssXRcLRFiiru7f5JPV6GaJhNC2aK5F3PZpE/BCCtwrxRc/AInKMNX3CdMw11m9STiql12f/\n\nPassword hashes \"!\" or \"*\" indicate inactive accounts not available for logon and are not evaluated.\n\nIf any interactive user password hash does not begin with \"$6\", this is a finding.",
+  "fixtext": "Configure SLEM 5 to encrypt all stored passwords with FIPS 140-2/140-3-approved cryptographic hash.\n\nAdd or modify the following line in the \"/etc/login.defs\" file:\n\nENCRYPT_METHOD SHA512\n\nLock all interactive user accounts not using SHA512 hashing until the passwords can be regenerated.",
+  "fix_id": "F-65028r996597_fix",
+  "VulnDiscussion": "The system must use a strong hashing algorithm to store the password. The system must use a sufficient number of hashing rounds to ensure the required level of entropy.\n\nPasswords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.",
+  "Documentable": "false"
+}

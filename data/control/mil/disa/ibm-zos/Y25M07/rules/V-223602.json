@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223602",
+  "rule_id": "SV-223602r958472_rule",
+  "stig_id": "ACF2-TC-000040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS permission bits and user audit bits for HFS objects that are part of the Base TCP/IP component must be configured properly.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "legacy": [
+      "V-97909",
+      "SV-107013"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-25275r504770_chk",
+  "check_content": "From the ISPF Command shell enter:\nomvs\nAt the input line enter:\ncd /etc\nenter\nls -alW\n\nIf the following File permission and user Audit Bits are true, this is not a finding.\n\n/etc/hosts 0744 faf\n/etc/protocol 0744 faf\n/etc/resolv.conf 0744 faf\n/etc/services 0740 faf\n\ncd /usr\nls -alW\n\nIf the following file permission and user Audit Bits are true, this is not a finding.\n\n/usr/lpp/tcpip/sbin 0755 faf\n/usr/lpp/tcpip/bin 0755 faf\n\nNotes: Some of the files listed above are not used in every configuration. The absence of a file is not considered a finding.\n\nThe following represents a hierarchy for permission bits from least restrictive to most restrictive:\n\n7 rwx (least restrictive)\n6 rw-\n3 -wx\n2 -w-\n5 r-x\n4 r--\n1 --x\n0 --- (most restrictive)\n\nThe possible audit bits settings are as follows:\n\nf log for failed access attempts\na log for failed and successful access\n- no auditing",
+  "fixtext": "With the assistance of a systems programmer with UID(0) and/or SUPERUSER access, configure the UNIX permission bits and user audit bits on the HFS directories and files for the FTP Server to conform to the specifications in the table below:\n\nBASE TCP/IP HFS Object Security Settings\nFile Permission Bits User Audit Bits\n/etc/hosts 0744 faf\n/etc/protocol 0744 faf\n/etc/resolv.conf 0744 faf\n/etc/services 0740 faf\n/usr/lpp/tcpip/sbin 0755 faf\n/usr/lpp/tcpip/bin 0755 faf\n\nSome of the files listed above (e.g., /etc/resolv.conf) are not used in every configuration. While the absence of a file is generally not a security issue, the existence of a file that has not been properly secured can often be an issue. Therefore, all directories and files that do exist will have the specified permission and audit bit settings.\n\nThe following represents a hierarchy for permission bits from least restrictive to most restrictive:\n\n7 rwx (least restrictive)\n6 rw-\n3 -wx\n2 -w-\n5 r-x\n4 r--\n1 --x\n0 --- (most restrictive)\n\nThe possible audit bits settings are as follows:\n\nf log for failed access attempts\na log for failed and successful access\n- no auditing\n\nThe following commands can be used (from a user account with an effective UID(0)) to update the permission bits and audit bits:\n\nchmod 0744 /etc/hosts\nchaudit w=sf,rx+f /etc/hosts\nchmod 0744 /etc/protocol\nchaudit w=sf,rx+f /etc/protocol\nchmod 0744 /etc/resolv.conf\nchaudit w=sf,rx+f /etc/resolv.conf\nchmod 0740 /etc/services\nchaudit w=sf,rx+f /etc/services\nchmod 0755 /usr/lpp/tcpip/bin\nchaudit w=sf,rx+f /usr/lpp/tcpip/bin\nchmod 0755 /usr/lpp/tcpip/sbin\nchaudit w=sf,rx+f /usr/lpp/tcpip/sbin",
+  "fix_id": "F-25263r504771_fix",
+  "VulnDiscussion": "To mitigate the risk of unauthorized access to sensitive information by entities that have been issued certificates by DoD-approved PKIs, all DoD systems (e.g., web servers and web portals) must be properly configured to incorporate access control methods that do not rely solely on the possession of a certificate for access. Successful authentication must not automatically give an entity access to an asset or security boundary. Authorization procedures and controls must be implemented to ensure each authenticated entity also has a validated and current authorization. Authorization is the process of determining whether an entity, once authenticated, is permitted to access a specific asset. Information systems use access control policies and enforcement mechanisms to implement this requirement.\n\nAccess control policies include: identity-based policies, role-based policies, and attribute-based policies. Access enforcement mechanisms include: access control lists, access control matrices, and cryptography. These policies and mechanisms must be employed by the application to control access between users (or processes acting on behalf of users) and objects (e.g., devices, files, records, processes, programs, and domains) in the information system.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216337",
+  "rule_id": "SV-216337r958402_rule",
+  "stig_id": "SOL-11.1-040180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Graphical desktop environments provided by the system must automatically lock after 15 minutes of inactivity.",
+  "group_title": "SRG-OS-000029",
+  "idents": {
+    "legacy": [
+      "V-48047",
+      "SV-60919"
+    ],
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-17573r371099_chk",
+  "check_content": "If the system is not running XWindows, this check does not apply.\n\nDetermine if the screen saver timeout is configured properly.\n\n# grep \"^\\*timeout:\" /usr/share/X11/app-defaults/XScreenSaver\n\nIf the output is not:\n*timeout: 0:15:00\nthis is a finding.\n\n# grep \"^\\*lockTimeout:\" /usr/share/X11/app-defaults/XScreenSaver\n\nIf the output is not:\n*lockTimeout: 0:00:05\nthis is a finding.\n\n# grep \"^\\*lock:\" /usr/share/X11/app-defaults/XScreenSaver\n\nIf the output is not:\n*lock: True\nthis is a finding.\n\nFor each existing user, check the configuration of their personal .xscreensaver file.\n# grep \"^lock:\" $HOME/.xscreensaver\n\nIf the output is not:\n*lock: True\nthis is a finding.\n\ngrep \"^lockTimeout:\" $HOME/.xscreensaver\nIf the output is not:\n*lockTimeout: 0:00:05\nthis is a finding.",
+  "fixtext": "The root role is required.\n\nEdit the global screensaver configuration file to ensure 15 minute screen lock.\n\n# pfedit /usr/share/X11/app-defaults/XScreenSaver\n\nFind the timeout control lines and change them to read:\n\n*timeout: 0:15:00\n*lockTimeout:0:00:05\n*lock: True\n\nFor each user on the system, edit their local $HOME/.xscreensaver file and change the timeout values.\n\n# pfedit $HOME/.xscreensaver\n\nFind the timeout control lines and change them to read:\n\ntimeout: 0:15:00\nlockTimeout:0:00:05\nlock: True",
+  "fix_id": "F-17571r371100_fix",
+  "VulnDiscussion": "Allowing access to a graphical environment when the user is not attending the system can allow unauthorized users access to the system.",
+  "Documentable": "false"
+}

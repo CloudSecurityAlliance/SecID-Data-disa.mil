@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259692",
+  "rule_id": "SV-259692r961161_rule",
+  "stig_id": "EX19-MB-000140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange must not send automated replies to remote domains.",
+  "group_title": "SRG-APP-000261",
+  "idents": {
+    "cci": [
+      "CCI-001308"
+    ]
+  },
+  "check_id": "C-63431r942388_chk",
+  "check_content": "Note: Automated replies to .mil or .gov sites are allowed.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-RemoteDomain | Select-Object -Property Name, Identity, AutoReplyEnabled\n\nIf the value of \"AutoReplyEnabled\" is set to \"True\" and is configured to only reply to .mil or .gov sites, this is not a finding.\n\nIf the value of \"AutoReplyEnabled\" is not set to \"False\", this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-RemoteDomain -Identity <'IdentityName'> -AutoReplyEnabled $false\n\nNote: The <IdentityName> value must be in quotes.",
+  "fix_id": "F-63339r942389_fix",
+  "VulnDiscussion": "Attackers can use automated messages to determine whether a user account is active, in the office, traveling, and so on. An attacker might use this information to conduct future attacks. Remote users will not receive automated \"Out of Office\" delivery reports. This setting can be used to determine if all the servers in the organization can send \"Out of Office\" messages.",
+  "Documentable": "false"
+}

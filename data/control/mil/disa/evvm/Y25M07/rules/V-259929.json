@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259929",
+  "rule_id": "SV-259929r1111077_rule",
+  "stig_id": "SRG-VOIP-000490",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Session Border Controller (SBC) must be configured to only process packets authenticated from an authorized source within the DISN IPVS network.",
+  "group_title": "SRG-VOIP-000490",
+  "idents": {
+    "cci": [
+      "CCI-001548"
+    ]
+  },
+  "check_id": "C-63660r1099912_chk",
+  "check_content": "Verify the DISN NIPRNet IPVS SBC is configured to only process packets authenticated from an authorized source as follows:\n- Authenticate outbound SIP and AS-SIP messages as being from the primary or backup Local Session Controller (LSC) (or the site's Multifunction Soft Switch [MFSS] and its backup LSC within the enclave.\n- Authenticate inbound SIP and AS-SIP messages as being from the SBC at the enclave's assigned primary and secondary (backup) MFSS sites.\n\nInspect the configurations of the EBC to determine compliance with the requirement.\n\nIf the SBC does not use DOD-approved PKI to authenticate the source of SIP and AS-SIP packets, this is a finding. \n\nIf the SBC is not configured to validate sending the appliance's public PKI certificate against the DOD-approved PKI registry and CRLs, this is a finding.\n\nNOTE: The VVoIP system may allow SIP and SRTP traffic encrypted and encapsulated on port 443 from cloud service providers.",
+  "fixtext": "Ensure the DISN NIPRNet IPVS SBC is configured to only process packets authenticated from an authorized source as follows:\n- Authenticate outbound SIP and AS-SIP messages as being from the primary or backup LSC (or the site's MFSS and its backup LSC) within the enclave.\n- Authenticate inbound SIP and AS-SIP messages as being from the SBC at the enclave's assigned primary and secondary (backup) MFSS sites.\n\nNOTE: The VVoIP system may allow SIP and SRTP traffic encrypted and encapsulated on port 443 from cloud service providers.",
+  "fix_id": "F-63567r1099913_fix",
+  "VulnDiscussion": "The function of the SBC is to manage SIP and AS-SIP signaling messages. The SBC also authenticates SIP and AS-SIP signaling messages, ensuring they are from an authorized source. DOD policy dictates that authentication be performed using DOD-approved PKI certificates. This also applies to network hosts and elements. SIP and AS-SIP are not secure protocols. The information passed during a call session is in human-readable plain text. To secure SIP and AS-SIP, TLS is used. TLS is PKI certificate-based and is used for AS-SIP message encryption, authentication, and integrity validation. \n\nNOTE: Authentication is provided by validating the sending appliance's public PKI certificate used to establish the TLS session. AS-SIP messages are not sent until the authenticated TLS session is established.",
+  "Documentable": "false"
+}

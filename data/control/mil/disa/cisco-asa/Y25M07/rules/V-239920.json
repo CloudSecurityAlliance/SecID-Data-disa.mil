@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-239920",
+  "rule_id": "SV-239920r961068_rule",
+  "stig_id": "CASA-ND-000690",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco ASA must be configured to terminate all network connections associated with a device management session at the end of the session, or the session must be terminated after five minutes of inactivity except to fulfill documented and validated mission requirements.",
+  "group_title": "SRG-APP-000190-NDM-000267",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-43153r916163_chk",
+  "check_content": "Review the Cisco ASA configuration to verify all network connections associated with a device management have an idle timeout value set to five minutes or less as shown in the following example:\n\nhttp server idle-timeout 5\n…\n…\n…\nssh timeout 5\n…\n…\n…\nconsole timeout 5\n\nIf the Cisco ASA is not configured to terminate all network connections associated with a device management after five minutes of inactivity, this is a finding.",
+  "fixtext": "Set the idle timeout value to five minutes or less for console, ssh, and http (if ASDM is used) access.\n\nSW1(config)# ssh timeout 5\nSW1(config)# console timeout 5\nASA(config)# http server idle-timeout 5\nSW1(config)# end",
+  "fix_id": "F-43112r916164_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle session will also free up resources committed by the managed network element. \n\nTerminating network connections associated with communications sessions includes, for example, de-allocating associated TCP/IP address/port pairs at the operating system level, or de-allocating networking assignments at the application level if multiple application sessions are using a single, operating system-level network connection. This does not mean that the device terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.",
+  "Documentable": "false"
+}

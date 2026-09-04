@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-205630",
+  "rule_id": "SV-205630r958388_rule",
+  "stig_id": "WN19-AC-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2019 must have the period of time before the bad logon counter is reset configured to 15 minutes or greater.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "legacy": [
+      "SV-103231",
+      "V-93143"
+    ],
+    "cci": [
+      "CCI-000044",
+      "CCI-002238"
+    ]
+  },
+  "check_id": "C-5895r354808_chk",
+  "check_content": "Verify the effective setting in Local Group Policy Editor.\n\nRun \"gpedit.msc\".\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Account Policies >> Account Lockout Policy.\n\nIf the \"Reset account lockout counter after\" value is less than \"15\" minutes, this is a finding.\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas SecurityPolicy /CFG C:\\Path\\FileName.Txt\n\nIf \"ResetLockoutCount\" is less than \"15\" in the file, this is a finding.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Account Policies >> Account Lockout Policy >> \"Reset account lockout counter after\" to at least \"15\" minutes.",
+  "fix_id": "F-5895r354809_fix",
+  "VulnDiscussion": "The account lockout feature, when enabled, prevents brute-force password attacks on the system. This parameter specifies the period of time that must pass after failed logon attempts before the counter is reset to \"0\". The smaller this value is, the less effective the account lockout feature will be in protecting the local system.\n\nSatisfies: SRG-OS-000021-GPOS-00005, SRG-OS-000329-GPOS-00128",
+  "Documentable": "false"
+}

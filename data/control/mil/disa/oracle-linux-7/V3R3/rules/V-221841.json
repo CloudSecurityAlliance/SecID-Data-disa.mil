@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221841",
+  "rule_id": "SV-221841r1014784_rule",
+  "stig_id": "OL07-00-040160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that all network connections associated with a communication session are terminated at the end of the session or after 15 minutes of inactivity from the user at a command prompt, except to fulfill documented and validated mission requirements.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "legacy": [
+      "V-99421",
+      "SV-108525"
+    ],
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-23556r1014782_chk",
+  "check_content": "Verify the operating system terminates all network connections associated with a communications session at the end of the session or based on inactivity.\n\nCheck the value of the system inactivity timeout with the following command:\n\n$ sudo grep -irw tmout /etc/profile /etc/bashrc /etc/profile.d\n\netc/profile.d/tmout.sh:declare -xr TMOUT=600\n\nIf conflicting results are returned, this is a finding.\n\nIf \"TMOUT\" is not set to \"600\" or less to enforce session termination after inactivity, this is a finding.",
+  "fixtext": "Configure the operating system to terminate all network connections associated with a communications session at the end of the session or after a period of inactivity.\n\nCreate a script to enforce the inactivity timeout (for example /etc/profile.d/tmout.sh) such as:\n\n#!/bin/bash\n\ndeclare -xr TMOUT=600",
+  "fix_id": "F-23545r1014783_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle session will also free up resources committed by the managed network element. \n\nTerminating network connections associated with communications sessions includes, for example, de-allocating associated TCP/IP address/port pairs at the operating system level and de-allocating networking assignments at the application level if multiple application sessions are using a single operating system-level network connection. This does not mean that the operating system terminates all sessions or network access; it only ends the inactive session and releases the resources associated with that session.",
+  "Documentable": "false"
+}

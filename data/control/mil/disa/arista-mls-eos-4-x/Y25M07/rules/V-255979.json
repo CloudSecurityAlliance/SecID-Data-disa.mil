@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255979",
+  "rule_id": "SV-255979r882279_rule",
+  "stig_id": "ARST-L2-000160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Arista MLS layer 2 switch must have all trunk links enabled statically.",
+  "group_title": "SRG-NET-000512-L2S-000005",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-59655r882277_chk",
+  "check_content": "Review the Arista MLS switch configuration to verify that all Ethernet interfaces designated as trunk links are statically configured to specify only member tagged VLAN traffic is allowed and all nonmember VLAN traffic will be dropped unless untagged traffic is associated with the interface's native VLAN.\n\nswitch#show run | section trunk\n!\ninterface Ethernet6\n   description STIG Static Trunk\n   speed forced 10000full\n   switchport trunk native vlan 2102\n   switchport trunk allowed vlan 2100-2102\n   switchport mode trunk\n!\n\nIf trunk negotiation is enabled on any interface, this is a finding.",
+  "fixtext": "Configure static Ethernet interfaces for switchport trunk mode. Ensure required VLAN member tagged traffic is allowed and all other VLAN traffic will be dropped unless an associated untagged native VLAN for the Ethernet interface is allowed.\n\nswitch#configure\nswitch(config)#interface Ethernet6\n   description STIG Static Trunk\n   speed forced 10000full\n   switchport trunk native vlan 2102\n   switchport trunk allowed vlan 2100-2102\n   switchport mode trunk\n!\nswitch(config)#interface Ethernet7\n   description STIG Static Trunk\n   speed forced 10000full\n   switchport trunk native vlan 3102\n   switchport trunk allowed vlan 3100-3102\n   switchport mode trunk\n!",
+  "fix_id": "F-59598r882278_fix",
+  "VulnDiscussion": "When trunk negotiation is enabled via Dynamic Trunk Protocol (DTP), considerable time can be spent negotiating trunk settings (802.1q or ISL) when a node or interface is restored. While this negotiation is happening, traffic is dropped because the link is up from a layer 2 perspective. Packet loss can be eliminated by setting the interface statically to trunk mode, thereby avoiding dynamic trunk protocol negotiation and significantly reducing any outage when restoring a failed link or switch.",
+  "Documentable": "false"
+}

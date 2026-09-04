@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-273679",
+  "rule_id": "SV-273679r1110982_rule",
+  "stig_id": "RCKS-L2S-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RUCKUS ICX switch must have Spanning Tree Protocol (STP) Loop Detect enabled on all nondesignated STP switch ports",
+  "group_title": "SRG-NET-000362-L2S-000023",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-77770r1110058_chk",
+  "check_content": "Review the switch configuration to verify that STP Loop Detect is enabled.\n\nVerify:\nICX7150-24P Switch#show run\n!\nvlan 10 by port\n tagged ethernet 1/1/1 to 1/1/2 ethernet 1/1/5 ethernet 1/1/7 ethernet 1/1/9 ethernet 1/1/11 \n spanning-tree\n loop-detection\n!\n\nIf STP Loop Detect is not configured globally or on nondesignated STP ports, this is a finding.",
+  "fixtext": "Configure the switch to have STP Loop Detect enabled globally or at a minimum on all nondesignated STP switch ports.\n\n1. Configure loop detect.\nICX7150-24P Switch#configure terminal\nICX7150-24P Switch(config)#vlan 10\nICX7150-24P Switch(config-vlan-10)#\nICX7150-24P Switch(config-vlan-10)#loop-detection\n\n2. Save.\nRouter#write memory\n\nOptional by Port Level:\nOptionally Apply on Interface:\ndevice(config)# interface ethernet 1/1/1\ndevice(config-if-e1000-1/1/1)# loop-detection",
+  "fix_id": "F-77675r1110739_fix",
+  "VulnDiscussion": "The STP loop Detect feature provides additional protection against STP loops. An STP loop is created when an STP blocking port in a redundant topology erroneously transitions to the forwarding state. In its operation, STP relies on continuous reception and transmission of BPDUs based on the port role. The designated port transmits BPDUs, and the nondesignated port receives BPDUs. When one of the ports in a physically redundant topology no longer receives BPDUs, the STP conceives that the topology is loop-free. Eventually, the blocking port from the alternate or backup port becomes a designated port and moves to a forwarding state. This situation creates a loop. The loop detect feature makes additional checks. If BPDUs are not received on a nondesignated port and loop detect is enabled, that port is moved into the STP loop-inconsistent blocking state.",
+  "Documentable": "false"
+}

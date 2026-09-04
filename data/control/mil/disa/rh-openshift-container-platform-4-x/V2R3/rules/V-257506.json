@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-257506",
+  "rule_id": "SV-257506r960759_rule",
+  "stig_id": "CNTR-OS-000020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OpenShift must use TLS 1.2 or greater for secure communication.",
+  "group_title": "SRG-APP-000014-CTR-000040",
+  "idents": {
+    "cci": [
+      "CCI-000068",
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-61241r921459_chk",
+  "check_content": "Verify the TLS Security Profile is not set to a profile that does not enforce TLS 1.2 or above. \n\nView the TLS security profile for the ingress controllers by executing the following:\n\noc get --all-namespaces ingresscontrollers.operator.openshift.io -ocustom-columns=\"NAME\":.metadata.name,\"NAMESPACE\":.metadata.namespace,\"TLS PROFILE\":.spec.tlsSecurityProfile\n\nView the TLS security profile for the control plane by executing the following:\n\noc get APIServer cluster -ocustom-columns=\"TLS PROFILE\":.spec.tlsSecurityProfile\n\nView the TLS profile for the Kubelet by executing the following:\n\noc get kubeletconfigs -ocustom-columns=\"NAME\":.metadata.name,\"TLS PROFILE\":.spec.tlsSecurityProfile\n\nIf any of the above returns a TLS profile of \"Old\", this is a finding.\n\nIf any of the above returns a TLS profile of \"Custom\" and the minTLSVersion is not set to \"VersionTLS12\" or greater, this is a finding.\n\nIf the above returns \"<none>\" TLS profile, this is not a finding as the TLS profile defaults to \"Intermediate\".\n\nIf the kubelet TLS profile check does not return any kubeletconfigs, this is not a finding as the default OCP installation uses defaults only.",
+  "fixtext": "Edit each resource and set the TLS Security Profile to Intermediate by executing the following:\n\noc edit ingresscontroller <NAME> -n <NAMESPACE>\n\nAdd the following to the file:\n\napiVersion: config.openshift.io/v1\nkind: IngressController\n ...\nspec:\n  tlsSecurityProfile:\n    intermediate: {}\n    type: Intermediate\n\nEdit API Server by executing the following:\n\noc edit APIServer\n\nAdd the following to the file:\n\napiVersion: config.openshift.io/v1\nkind: APIServer\n ...\nspec:\n  tlsSecurityProfile:\n    intermediate: {}\n    type: Intermediate\n\nEdit Kubelet by executing the following:\n\noc edit KubeletConfig <NAME>\n\nSet to the following:\n\napiVersion: config.openshift.io/v1\nkind: KubeletConfig\n ...\nspec:\n  tlsSecurityProfile:\n    intermediate: {}\n    type: Intermediate",
+  "fix_id": "F-61165r921460_fix",
+  "VulnDiscussion": "The authenticity and integrity of the container platform and communication between nodes and components must be secure. If an insecure protocol is used during transmission of data, the data can be intercepted and manipulated. The manipulation of data can be used to inject status changes of the container platform, causing the execution of containers or reporting an incorrect healthcheck. To thwart the manipulation of the data during transmission, a secure protocol (TLS 1.2 or newer) must be used. Further guidance on secure transport protocols can be found in NIST SP 800-52.\n\nSatisfies: SRG-APP-000014-CTR-000040, SRG-APP-000560-CTR-001340",
+  "Documentable": "false"
+}

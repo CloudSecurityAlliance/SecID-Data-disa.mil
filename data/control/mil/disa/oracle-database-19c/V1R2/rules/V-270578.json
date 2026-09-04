@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270578",
+  "rule_id": "SV-270578r1115960_rule",
+  "stig_id": "O19C-00-017600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to Oracle Database files must be limited to relevant processes and to authorized, administrative users.",
+  "group_title": "SRG-APP-000243-DB-000374",
+  "idents": {
+    "cci": [
+      "CCI-001090"
+    ]
+  },
+  "check_id": "C-74611r1115959_chk",
+  "check_content": "Review the permissions granted to users by the operating system/file system on the database files, database log files, and database backup files.\n\nOn Unix Systems:\n\n  ls -ld [pathname]\n\nSubstitute [pathname] with the directory path where the database files, logs, and database backup files are located.\n(examples: /*/app/oracle/oradata/db_name, /*/app/oracle/oradata/db_name/audit, and /*/app/oracle/fast_recovery_area/db_name) \n\nIf permissions are granted for world access, this is a finding.\n\nIf any user/role who is not an authorized system administrator with a need to know or database administrator with a need to know, or a system account for running DBMS processes, is permitted to read/view any of these files, this is a finding.\n\nOn Windows Systems (from Windows Explorer):\n\nBrowse to the directory specified (example: %ORACLE_BASE%\\oradata and %ORACLE_BASE%\\fast_recovery_area). Select and right-click on the directory >> Properties >> Security tab. On Windows hosts, records are also written to the Windows application event log. The location of the application event log is listed under Properties for the log under the Windows console. The default location is C:\\WINDOWS\\system32\\config\\EventLogs\\AppEvent.Evt.\n\nSelect and right-click on the directory >> Properties >> Security tab.\n\nIf permissions are granted to everyone, this is a finding.\n\nIf any user/role who is not an authorized system administrator with a need to know or database administrator with a need to know, or a system account for running DBMS processes permitted to read/view any of these files, this is a finding.",
+  "fixtext": "Configure the permissions of the database files, database log files, and database backup files so that only relevant system accounts and authorized system administrators and database administrators with a need to know are permitted to read/view these files.",
+  "fix_id": "F-74512r1065011_fix",
+  "VulnDiscussion": "Applications, including database management systems (DBMSs), must prevent unauthorized and unintended information transfer via shared system resources. Permitting only DBMS processes and authorized, administrative users to have access to the files where the database resides helps ensure that those files are not shared inappropriately and are not open to backdoor access and manipulation.",
+  "Documentable": "false"
+}

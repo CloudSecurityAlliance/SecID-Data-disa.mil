@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-213911",
+  "rule_id": "SV-213911r961128_rule",
+  "stig_id": "SQL6-D0-001600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Database Master Key encryption password must meet DOD password complexity requirements.",
+  "group_title": "SRG-APP-000231-DB-000154",
+  "idents": {
+    "legacy": [
+      "SV-93791",
+      "V-79085"
+    ],
+    "cci": [
+      "CCI-001199"
+    ]
+  },
+  "check_id": "C-15129r313165_chk",
+  "check_content": "From the query prompt: \n\nSELECT name \nFROM [master].sys.databases \nWHERE state = 0 \n\nRepeat for each database: \nFrom the query prompt: \nUSE [database name] \nSELECT COUNT(name) \nFROM sys.symmetric_keys s, sys.key_encryptions k \nWHERE s.name = '##MS_DatabaseMasterKey##' \nAND s.symmetric_key_id = k.key_id \nAND k.crypt_type in ('ESKP', 'ESP2', 'ESP3')\n\nIf the value returned is zero, this is not applicable.\n\nIf the value returned is greater than zero, a Database Master Key exists and is encrypted with a password. \n\nReview procedures and evidence of password requirements used to encrypt Database Master Keys. \n\nIf the passwords are not required to meet DoD password standards, currently a minimum of 15 characters with at least 1 upper-case character, 1 lower-case character, 1 special character, and 1 numeric character, and at least 8 characters changed from the previous password, this is a finding.",
+  "fixtext": "Assign an encryption password to the Database Master Key that is a minimum of 15 characters with at least 1 upper-case character, 1 lower-case character, 1 special character, and 1 numeric character, and at least 8 characters changed from the previous password. \n\nTo change the Database Master Key encryption password: \n\nUSE [database name]; \nALTER MASTER KEY REGENERATE WITH ENCRYPTION BY PASSWORD = '[new password]'; \n\nNote: The Database Master Key encryption method should not be changed until the effects are thoroughly reviewed. Changing the master key encryption causes all encryption using the Database Master Key to be decrypted and re-encrypted. This action should not be taken during a high-demand time. Please see the MS SQL Server documentation prior to re-encrypting the Database Master Key for detailed information.",
+  "fix_id": "F-15127r313166_fix",
+  "VulnDiscussion": "Weak passwords may be easily guessed. When passwords are used to encrypt keys used for encryption of sensitive data, then the confidentiality of all data encrypted using that key is at risk.",
+  "Documentable": "false"
+}

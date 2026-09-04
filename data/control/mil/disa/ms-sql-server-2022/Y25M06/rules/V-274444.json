@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274444",
+  "rule_id": "SV-274444r1111101_rule",
+  "stig_id": "SQLI-22-016200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SQL Server default account [sa] must be disabled.",
+  "group_title": "SRG-APP-000033-DB-000084",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-78537r1111099_chk",
+  "check_content": "Check SQL Server settings to determine if the [sa] (system administrator) account has been disabled by executing the following query: \nUSE master;\nGO\nSELECT name, is_disabled\nFROM sys.sql_logins\nWHERE principal_id = 1;\nGO\n\nVerify that the \"name\" column contains the current name of the [sa] database server account.\n\nIf the \"is_disabled\" column is not set to \"1\", this is a finding.",
+  "fixtext": "Modify the enabled flag of SQL Server's [sa] (system administrator) account by running the following script:\nUSE master; \nGO \nALTER LOGIN [sa] DISABLE; \nGO",
+  "fix_id": "F-78442r1111100_fix",
+  "VulnDiscussion": "SQL Server's [sa] account has special privileges required to administer the database. The [sa] account is a well-known SQL Server account and is likely to be targeted by attackers and thus more prone to providing unauthorized access to the database. \n\nThis [sa] default account is administrative and could lead to catastrophic consequences, including the complete loss of control over SQL Server. If the [sa] default account is not disabled, an attacker might be able to gain access through the account. SQL Server by default disables the [sa] account at installation. \n\nSome applications that run on SQL Server require the [sa] account to be enabled for the application to function properly. These applications that require the [sa] account to be enabled are usually legacy systems.",
+  "Documentable": "false"
+}

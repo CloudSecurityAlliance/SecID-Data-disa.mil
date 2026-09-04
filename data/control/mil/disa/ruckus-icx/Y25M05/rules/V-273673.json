@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-273673",
+  "rule_id": "SV-273673r1110976_rule",
+  "stig_id": "RCKS-L2S-000020",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The RUCKUS ICX switch must uniquely identify all network-connected endpoint devices before establishing any connection.",
+  "group_title": "SRG-NET-000148-L2S-000015",
+  "idents": {
+    "cci": [
+      "CCI-000778"
+    ]
+  },
+  "check_id": "C-77764r1110040_chk",
+  "check_content": "Review configuration for RADIUS server configuration, FlexAuth configuration, and applicable port configuration (optional).  \n\naaa authentication dot1x default radius\nradius-server host 192.168.1.24 auth-port 1812 acct-port 1813 default key 2 $UGlkRGktdG5v dot1x mac-auth no-login\n\nauthentication\n  auth-order mac-auth dot1x\n  auth-default-vlan 100\n  restricted-vlan 666\n  re-authentication\n  reauth-timeout 60\n  auth-fail-action restricted-vlan\n  dot1x enable\n  dot1x enable ethernet 1/1/14 to 1/1/15\n  dot1x port-control auto ethernet 1/1/14 to 1/1/15\n  mac-authentication enable\n  mac-authentication enable ethernet 1/1/13\n  mac-authentication password-format xxxx.xxxx.xxxx\n  mac-authentication dot1x-override\n  mac-authentication dot1x-disable\n\ninterface ethernet 1/1/14\n port-name dot1x-test\n use-radius-server 192.168.1.24\n no inline power\n!\n\nNote: Port configuration is only necessary when specifying which RADIUS server is to be used.  \n\nIf user ports are not configured to control LAN access via 802.1X, this is a finding.",
+  "fixtext": "Configure 802.1x to authenticate endpoint devices.\n\n1. Configure RADIUS as the authentication method for 802.1x.\nICX(config)#radius-server host x.x.x.x auth-port 1812 acct-port 1813 default key xxxxx dot1x mac-auth no-login\n\n2. Configure the dot1x authentication.\nICX(config)#authentication\nICX(config-authen)# auth-default-vlan 100\nICX(config-authen)# re-authentication\nICX(config-authen)# reauth-period 2000\nICX(config-authen)# dot1x enable\nICX(config-authen)# dot1x enable ethernet 1/1/14 to 1/1/15\nICX(config-authen)# dot1x max-req 6\nICX(config-authen)# dot1x timeout tx-period 60\nICX(config-authen)# dot1x timeout quiet-period 30",
+  "fix_id": "F-77669r1110041_fix",
+  "VulnDiscussion": "Controlling LAN access via 802.1x authentication can assist in preventing a malicious user from connecting an unauthorized PC to a switch port to inject or receive data from the network without detection.",
+  "Documentable": "false"
+}

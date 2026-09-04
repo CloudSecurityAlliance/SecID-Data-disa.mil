@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-255968",
+  "rule_id": "SV-255968r882246_rule",
+  "stig_id": "ARST-L2-000020",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Arista MLS layer 2 switch must uniquely identify all network-connected endpoint devices before establishing any connection.",
+  "group_title": "SRG-NET-000148-L2S-000015",
+  "idents": {
+    "cci": [
+      "CCI-000778",
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-59644r882244_chk",
+  "check_content": "Verify the Arista MLS switch configuration has 802.1x authentication implemented for all access switch ports connecting to LAN outlets (i.e., RJ-45 wall plates) or devices not located in the telecom room, wiring closets, or equipment rooms. MAC Authentication Bypass (MAB) must be configured on  switch ports connected to devices that do not provide an 802.1x supplicant.\n\nVerify the Arista MLS switch configuration for 802.1x is configured globally and, on the required host-based access ports or MAB, is configured on ports that require RADIUS and MAC-based supplicants.\n\nswitch# show run | section dot1x\nlogging level DOT1X informational \naaa authentication dot1x default group radius \ndot1x system-auth-control\n!\ninterface Ethernet6\n   description 802.1X Access Network\n   switchport access vlan 100\n   dot1x pae authenticator\n   dot1x reauthentication\n   dot1x port-control auto\n   dot1x host-mode single-host\n   dot1x timeout quiet-period 10\n!\ninterface Ethernet7\n   description STIG MAC-Based Authentication\n   speed 100full\n   dot1x pae authenticator\n   dot1x port-control auto\n   dot1x mac based authentication\n!\n\nIf 802.1x authentication or MAB is not configured on all access switch ports connecting to LAN outlets or devices not located in the telecom room, wiring closets, or equipment rooms, this is a finding.",
+  "fixtext": "Configure Arista MLS switch for 802.1X globally with the following mandatory parameters, and then configure non-data center access ports and all applicable interfaces.\n\nStep 1: Configure the Arista MLS switch for 802.1X globally using the following commands:\n\n! \nlogging level DOT1X informational \naaa authentication dot1x default group radius \ndot1x system-auth-control\n!\n\nStep 2: Configure the Arista switch for all non-data center access ports with 802.1X VLAN to an access/trunk port and set the 802.1X port access entity (PAE) to authenticator with the following commands:\n\ninterface Ethernet4\ndescription 802.1X Host-Mode Access Port\n   switchport access vlan 100\n   dot1x pae authenticator\n   dot1x reauthentication\n   dot1x port-control auto\n   dot1x host-mode single-host\n   dot1x timeout quiet-period 10\n!\n\nStep 3: The Arista switch can be also configured for MAC-based authentication. Configuring MAB requires that every supplicant trying to gain access to the switch authenticator port is individually authenticated by MAC address as opposed to authenticating just one supplicant on a given VLAN or port with 802.1X, and then using the MAC address of these devices as username and password in the RADIUS request packets.\n\n!\ninterface Ethernet7\n description MAC-Based Authentication\n   speed 100full\n   dot1x pae authenticator\n   dot1x port-control auto\n   dot1x mac based authentication\n!",
+  "fix_id": "F-59587r882245_fix",
+  "VulnDiscussion": "Controlling LAN access via 802.1x authentication can assist in preventing a malicious user from connecting an unauthorized PC to a switch port to inject or receive data from the network without detection.\n\nSatisfies: SRG-NET-000148-L2S-000015, SRG-NET-000343-L2S-000016",
+  "Documentable": "false"
+}

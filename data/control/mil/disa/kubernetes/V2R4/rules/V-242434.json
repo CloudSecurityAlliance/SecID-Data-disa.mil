@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242434",
+  "rule_id": "SV-242434r961131_rule",
+  "stig_id": "CNTR-K8-001620",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Kubernetes Kubelet must enable kernel protection.",
+  "group_title": "SRG-APP-000233-CTR-000585",
+  "idents": {
+    "cci": [
+      "CCI-001084"
+    ]
+  },
+  "check_id": "C-45709r918186_chk",
+  "check_content": "On the Control Plane, run the command:\nps -ef | grep kubelet\n\nIf the \"--protect-kernel-defaults\" option exists, this is a finding.\n\nNote the path to the config file (identified by --config).\n\nRun the command:\ngrep -i protectKernelDefaults <path_to_config_file>\n\nIf the setting \"protectKernelDefaults\" is not set or is set to false, this is a finding.",
+  "fixtext": "On the Control Plane, run the command:\nps -ef | grep kubelet\n\nRemove the \"--protect-kernel-defaults\" option if present.\n\nNote the path to the Kubernetes Kubelet config file (identified by --config).\n\nEdit the Kubernetes Kubelet config file: \nSet \"protectKernelDefaults\" to \"true\". \n\nRestart the kubelet service using the following command:\nsystemctl daemon-reload && systemctl restart kubelet",
+  "fix_id": "F-45667r918187_fix",
+  "VulnDiscussion": "System kernel is responsible for memory, disk, and task management. The kernel provides a gateway between the system hardware and software. Kubernetes requires kernel access to allocate resources to the Control Plane. Threat actors that penetrate the system kernel can inject malicious code or hijack the Kubernetes architecture. It is vital to implement protections through Kubernetes components to reduce the attack surface.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269259",
+  "rule_id": "SV-269259r1107619_rule",
+  "stig_id": "ALMA-09-020260",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Alma Linux OS 9 must not accept IPv4 source-routed packets by default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73290r1049402_chk",
+  "check_content": "Verify AlmaLinux OS 9 will not accept source-routed packets.\n\nCheck the value of the \"accept_source_route\" variables with the following command:\n\n$ sysctl -a | grep accept_source_route\n\nnet.ipv4.conf.all.accept_source_route = 0\nnet.ipv4.conf.default.accept_source_route = 0\nnet.ipv4.conf.enp1s0.accept_source_route = 0\nnet.ipv4.conf.lo.accept_source_route = 0\nnet.ipv6.conf.all.accept_source_route = 0\nnet.ipv6.conf.default.accept_source_route = 0\nnet.ipv6.conf.enp1s0.accept_source_route = 0\nnet.ipv6.conf.lo.accept_source_route = 0\n\nIf the returned lines do not all have a value of \"0\", this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to ignore source-routed packets.\n\nCreate a numbered *.conf file in /etc/sysctl.d/ with the following content:\n\nnet.ipv4.conf.all.accept_source_route = 0\nnet.ipv4.conf.default.accept_source_route = 0\nnet.ipv4.conf.lo.accept_source_route = 0\nnet.ipv6.conf.all.accept_source_route = 0\nnet.ipv6.conf.default.accept_source_route = 0\nnet.ipv6.conf.lo.accept_source_route = 0\n\nThe system configuration files must be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sysctl --system",
+  "fix_id": "F-73191r1101841_fix",
+  "VulnDiscussion": "Source-routed packets allow the source of the packet to suggest routers forward the packet along a different path than configured on the router, which can be used to bypass network security measures. This requirement applies only to the forwarding of source-routed traffic, such as when IP forwarding is enabled and the system is functioning as a router.\n\nAccepting source-routed packets has few legitimate uses. It must be disabled unless it is absolutely required.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255971",
+  "rule_id": "SV-255971r882255_rule",
+  "stig_id": "ARST-L2-000060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Arista MLS layer 2 switch must have BPDU Guard enabled on all switch ports connecting to access layer switches and hosts.",
+  "group_title": "SRG-NET-000362-L2S-000022",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-59647r882253_chk",
+  "check_content": "Review the Arista MLS to verify that BPDU Guard is enabled on all user-facing or untrusted access switch ports.\n\nswitch#show run | section bpdu\ninterface Ethernet37\n   spanning-tree bpduguard enable\n\nIf the Arista MLS switch has not enabled BPDU Guard, this is a finding.",
+  "fixtext": "The Arista MLS switch provides the capability to configure \"spanning-tree bpduguard\". Configure the Ethernet interface commands:\n\nconfig \ninterface Ethernet[X] \nswitch(config)#interface ethernet [X]\nswitch(config-if-Et[X])#spanning-tree bpduguard enabled\nswitch(config-if-Et[X])",
+  "fix_id": "F-59590r882254_fix",
+  "VulnDiscussion": "If a rogue switch is introduced into the topology and transmits a Bridge Protocol Data Unit (BPDU) with a lower bridge priority than the existing root bridge, it will become the new root bridge and cause a topology change, rendering the network in a suboptimal state. The STP PortFast BPDU guard enhancement allows network designers to enforce the STP domain borders and keep the active topology predictable. The devices behind the ports that have STP PortFast enabled are not able to influence the STP topology. At the reception of BPDUs, the BPDU guard operation disables the port that has PortFast configured. The BPDU guard transitions the port into a disabled state and sends a log message.",
+  "Documentable": "false"
+}

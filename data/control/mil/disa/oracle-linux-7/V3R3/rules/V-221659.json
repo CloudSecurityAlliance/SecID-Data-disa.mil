@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221659",
+  "rule_id": "SV-221659r958402_rule",
+  "stig_id": "OL07-00-010062",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must prevent a user from overriding the screensaver lock-enabled setting for the graphical user interface.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "legacy": [
+      "V-99059",
+      "SV-108163"
+    ],
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-23374r880601_chk",
+  "check_content": "Verify the operating system prevents a user from overriding the screensaver lock-enabled setting for the graphical user interface. \n\nNote: If the system does not have GNOME installed, this requirement is Not Applicable.\n\nDetermine which profile the system database is using with the following command:\n     # grep system-db /etc/dconf/profile/user\n\n     system-db:local\n\nCheck for the lock-enabled setting with the following command:\n\nNote: The example below is using the database \"local\" for the system, so the path is \"/etc/dconf/db/local.d\". This path must be modified if a database other than \"local\" is being used.\n\n     # grep -i lock-enabled /etc/dconf/db/local.d/locks/*\n\n     /org/gnome/desktop/screensaver/lock-enabled\n\nIf the command does not return a result, this is a finding.",
+  "fixtext": "Configure the operating system to prevent a user from overriding a screensaver lock after a 15-minute period of inactivity for graphical user interfaces.\n\nCreate a database to contain the system-wide screensaver settings (if it does not already exist) with the following command: \n\nNote: The example below is using the database \"local\" for the system, so if the system is using another database in \"/etc/dconf/profile/user\", the file should be created under the appropriate subdirectory.\n\n     # touch /etc/dconf/db/local.d/locks/session\n\nAdd the setting to lock the screensaver lock-enabled setting:\n\n     /org/gnome/desktop/screensaver/lock-enabled",
+  "fix_id": "F-23363r880602_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not want to log out because of the temporary nature of the absence.\n\nThe session lock is implemented at the point where session activity can be determined.\n\nThe ability to enable/disable a session lock is given to the user by default. Disabling the user’s ability to disengage the graphical user interface session lock ensures all sessions will lock after the specified period of time.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269291",
+  "rule_id": "SV-269291r1050173_rule",
+  "stig_id": "ALMA-09-023890",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The root account must be the only account having unrestricted access to an AlmaLinux OS 9 system.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73322r1048249_chk",
+  "check_content": "Verify that only the \"root\" account has a UID \"0\" assignment with the following command:\n\n$ awk -F: '$3 == 0 {print $1}' /etc/passwd\n\nroot\n\nIf any accounts other than \"root\" have a UID of \"0\", this is a finding.",
+  "fixtext": "Change the UID of any account on the system, other than root which has a UID of \"0\". \n\nIf the account is associated with system commands or applications, the UID should be changed to one greater than \"0\" but less than \"1000\". Otherwise, assign a UID of greater than \"1000\" that has not already been assigned.",
+  "fix_id": "F-73223r1048250_fix",
+  "VulnDiscussion": "An account has root authority if it has a user identifier (UID) of \"0\". Multiple accounts with a UID of \"0\" afford more opportunity for potential intruders to guess a password for a privileged account.\n\nProper configuration of sudo is recommended to afford multiple system administrators access to root privileges in an accountable manner.",
+  "Documentable": "false"
+}

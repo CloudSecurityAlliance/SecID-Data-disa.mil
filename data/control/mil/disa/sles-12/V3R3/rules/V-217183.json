@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217183",
+  "rule_id": "SV-217183r991589_rule",
+  "stig_id": "SLES-12-010840",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SUSE operating system kernel core dumps must be disabled unless needed.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-77257",
+      "SV-91953"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-18411r369705_chk",
+  "check_content": "Verify that SUSE operating system kernel core dumps are disabled unless needed.\n\nCheck the status of the \"kdump\" service with the following command:\n\n# systemctl status kdump.service\n Loaded: not-found (Reason: No such file or directory)\n   Active: inactive (dead)\n\nIf the \"kdump\" service is active, ask the System Administrator if the use of the service is required and documented with the Information System Security Officer (ISSO).\n\nIf the service is active and is not documented, this is a finding.",
+  "fixtext": "If SUSE operating system kernel core dumps are not required, disable the \"kdump\" service with the following command:\n\n# systemctl disable kdump.service\n\nIf kernel core dumps are required, document the need with the ISSO.",
+  "fix_id": "F-18409r369706_fix",
+  "VulnDiscussion": "Kernel core dumps may contain the full contents of system memory at the time of the crash. Kernel core dumps may consume a considerable amount of disk space and may result in denial of service by exhausting the available space on the target file system partition.",
+  "Documentable": "false"
+}

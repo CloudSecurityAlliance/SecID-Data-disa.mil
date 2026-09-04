@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221892",
+  "rule_id": "SV-221892r991589_rule",
+  "stig_id": "OL07-00-040810",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system access control program must be configured to grant or deny system access to specific hosts and services.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-108627",
+      "V-99523"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23607r419748_chk",
+  "check_content": "If the \"firewalld\" package is not installed, ask the System Administrator (SA) if another firewall application (such as iptables) is installed. If an application firewall is not installed, this is a finding. \n\nVerify the system's access control program is configured to grant or deny system access to specific hosts.\n\nCheck to see if \"firewalld\" is active with the following command:\n\n# systemctl status firewalld\nfirewalld.service - firewalld - dynamic firewall daemon\nLoaded: loaded (/usr/lib/systemd/system/firewalld.service; enabled)\nActive: active (running) since Sun 2014-04-20 14:06:46 BST; 30s ago\n\nIf \"firewalld\" is active, check to see if it is configured to grant or deny access to specific hosts or services with the following commands:\n\n# firewall-cmd --get-default-zone\npublic\n\n# firewall-cmd --list-all --zone=public\npublic (active)\ntarget: default\nicmp-block-inversion: no\ninterfaces: eth0\nsources:\nservices: mdns ssh\nports:\nprotocols:\nmasquerade: no\nforward-ports:\nicmp-blocks:\n\nIf \"firewalld\" is not active, determine whether \"tcpwrappers\" is being used by checking whether the \"hosts.allow\" and \"hosts.deny\" files are empty with the following commands:\n\n# ls -al /etc/hosts.allow\nrw-r----- 1 root root 9 Aug 2 23:13 /etc/hosts.allow\n\n# ls -al /etc/hosts.deny\n-rw-r----- 1 root root 9 Apr 9 2007 /etc/hosts.deny\n\nIf \"firewalld\" and \"tcpwrappers\" are not installed, configured, and active, ask the SA if another access control program (such as iptables) is installed and active. Ask the SA to show that the running configuration grants or denies access to specific hosts or services.\n\nIf \"firewalld\" is active and is not configured to grant access to specific hosts or \"tcpwrappers\" is not configured to grant or deny access to specific hosts, this is a finding.",
+  "fixtext": "If \"firewalld\" is installed and active on the system, configure rules for allowing specific services and hosts. \n\nIf \"firewalld\" is not \"active\", enable \"tcpwrappers\" by configuring \"/etc/hosts.allow\" and \"/etc/hosts.deny\" to allow or deny access to specific hosts.",
+  "fix_id": "F-23596r419749_fix",
+  "VulnDiscussion": "If the systems access control program is not configured with appropriate rules for allowing and denying access to system network resources, services may be accessible to unauthorized hosts.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259707",
+  "rule_id": "SV-259707r961620_rule",
+  "stig_id": "EX19-MB-000232",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Exchange SMTP automated banner response must not reveal server details.",
+  "group_title": "SRG-APP-000435",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-63446r942433_chk",
+  "check_content": "Open the Exchange Management Shell and enter the following command:\n\nGet-ReceiveConnector | Select-Object -Property Name, Identity, Banner\n\nFor each Receive connector, if the value of \"Banner\" is not set to \"220 SMTP Server Ready\", this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-ReceiveConnector -Identity <'IdentityName'> -Banner '220 SMTP Server Ready'\n\nNote: The <IdentityName> and 220 SMTP Server Ready values must be in quotes.\n\nRepeat the procedures for each Receive connector.",
+  "fix_id": "F-63354r942434_fix",
+  "VulnDiscussion": "Automated connection responses occur as a result of FTP or Telnet connections when connecting to those services. They report a successful connection by greeting the connecting client and stating the name, release level, and (often) additional information regarding the responding product. While useful to the connecting client, connection responses can also be used by a third party to determine operating system or product release levels on the target server. The result can include disclosure of configuration information to third parties, paving the way for possible future attacks. For example, when querying the SMTP service on port 25, the default response looks similar to this one: \n\n220 exchange.mydomain.org Microsoft ESMTP MAIL Service ready at Tuesday, 23 Nov 2021 13:43:00 -0500\n\nChanging the response to hide local configuration details reduces the attack profile of the target.",
+  "Documentable": "false"
+}

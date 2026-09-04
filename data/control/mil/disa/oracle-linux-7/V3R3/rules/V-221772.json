@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221772",
+  "rule_id": "SV-221772r958754_rule",
+  "stig_id": "OL07-00-030320",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that the audit system takes appropriate action when the audit storage volume is full.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "legacy": [
+      "SV-108387",
+      "V-99283"
+    ],
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-36291r602467_chk",
+  "check_content": "Verify the action the operating system takes if the disk the audit records are written to becomes full.\n\nTo determine the action that takes place if the disk is full on the remote server, use the following command:\n\n# grep -i disk_full_action /etc/audisp/audisp-remote.conf\ndisk_full_action = single\n\nIf the value of the \"disk_full_action\" option is not \"syslog\", \"single\", or \"halt\", or the line is commented out, ask the System Administrator to indicate how the audit logs are off-loaded to a different system or storage media, and to indicate the action taken when the disk is full on the remote server.\n\nIf there is no evidence that the system is configured to off-load audit logs to a different system or storage media, or if the configuration does not take appropriate action when the disk is full on the remote server, this is a finding.",
+  "fixtext": "Configure the action the operating system takes if the disk the audit records are written to becomes full.\n\nUncomment or edit the \"disk_full_action\" option in \"/etc/audisp/audisp-remote.conf\" and set it to \"syslog\", \"single\", or \"halt\", such as the following line:\n\ndisk_full_action = single",
+  "fix_id": "F-36255r602468_fix",
+  "VulnDiscussion": "Taking appropriate action in case of a filled audit storage volume will minimize the possibility of losing audit records.\nOne method of off-loading audit logs in Oracle Linux is with the use of the audisp-remote dameon.",
+  "Documentable": "false"
+}

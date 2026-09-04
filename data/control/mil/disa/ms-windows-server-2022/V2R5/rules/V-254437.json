@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254437",
+  "rule_id": "SV-254437r958472_rule",
+  "stig_id": "WN22-MS-000100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2022 Deny log on as a service user right on domain-joined member servers must be configured to prevent access from highly privileged domain accounts. No other groups or accounts must be assigned this right.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-57922r890546_chk",
+  "check_content": "This applies to member servers. A separate version applies to domain controllers.\n\nVerify the effective setting in Local Group Policy Editor.\n\nRun \"gpedit.msc\".\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment.\n\nIf the following accounts or groups are not defined for the \"Deny log on as a service\" user right on domain-joined systems, this is a finding:\n\n- Enterprise Admins Group\n- Domain Admins Group\n\nIf any accounts or groups are defined for the \"Deny log on as a service\" user right on nondomain-joined systems, this is a finding.\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas User_Rights /cfg c:\\path\\filename.txt\n\nReview the text file.\n\nIf the following SIDs are not defined for the \"SeDenyServiceLogonRight\" user right on domain-joined systems, this is a finding:\n\nS-1-5-root domain-519 (Enterprise Admins)\nS-1-5-domain-512 (Domain Admins)\n\nIf any SIDs are defined for the user right on nondomain-joined systems, this is a finding.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment >> Deny log on as a service to include the following:\n\nDomain systems:\n- Enterprise Admins Group\n- Domain Admins Group",
+  "fix_id": "F-57873r849126_fix",
+  "VulnDiscussion": "Inappropriate granting of user rights can provide system, administrative, and other high-level capabilities.\n\nThe \"Deny log on as a service\" user right defines accounts that are denied logon as a service.\n\nIn an Active Directory Domain, denying logons to the Enterprise Admins and Domain Admins groups on lower-trust systems helps mitigate the risk of privilege escalation from credential theft attacks, which could lead to the compromise of an entire domain.\n\nIncorrect configurations could prevent services from starting and result in a denial of service.",
+  "Documentable": "false"
+}

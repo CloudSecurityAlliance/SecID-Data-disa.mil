@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-205726",
+  "rule_id": "SV-205726r970703_rule",
+  "stig_id": "WN19-DC-000160",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Windows Server 2019 directory service must be configured to terminate LDAP-based network connections to the directory server after five minutes of inactivity.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "legacy": [
+      "SV-103595",
+      "V-93509"
+    ],
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-5991r355096_chk",
+  "check_content": "This applies to domain controllers. It is NA for other systems.\n\nOpen an elevated \"Command Prompt\" (run as administrator).\n\nEnter \"ntdsutil\".\n\nAt the \"ntdsutil:\" prompt, enter \"LDAP policies\".\n\nAt the \"ldap policy:\" prompt, enter \"connections\".\n\nAt the \"server connections:\" prompt, enter \"connect to server [host-name]\"\n(where [host-name] is the computer name of the domain controller).\n\nAt the \"server connections:\" prompt, enter \"q\".\n\nAt the \"ldap policy:\" prompt, enter \"show values\". \n\nIf the value for MaxConnIdleTime is greater than \"300\" (5 minutes) or is not specified, this is a finding.\n\nEnter \"q\" at the \"ldap policy:\" and \"ntdsutil:\" prompts to exit.\n\nAlternately, Dsquery can be used to display MaxConnIdleTime:\n\nOpen \"Command Prompt (Admin)\".\nEnter the following command (on a single line).\n\ndsquery * \"cn=Default Query Policy,cn=Query-Policies,cn=Directory Service, cn=Windows NT,cn=Services,cn=Configuration,dc=[forest-name]\" -attr LDAPAdminLimits \n\nThe quotes are required and dc=[forest-name] is the fully qualified LDAP name of the domain being reviewed (e.g., dc=disaost,dc=mil).\n\nIf the results do not specify a \"MaxConnIdleTime\" or it has a value greater than \"300\" (5 minutes), this is a finding.",
+  "fixtext": "Configure the directory service to terminate LDAP-based network connections to the directory server after 5 minutes of inactivity.\n\nOpen an elevated \"Command prompt\" (run as administrator).\n\nEnter \"ntdsutil\".\n\nAt the \"ntdsutil:\" prompt, enter \"LDAP policies\".\n\nAt the \"ldap policy:\" prompt, enter \"connections\".\n\nAt the \"server connections:\" prompt, enter \"connect to server [host-name]\" (where [host-name] is the computer name of the domain controller).\n\nAt the \"server connections:\" prompt, enter \"q\".\n\nAt the \"ldap policy:\" prompt, enter \"Set MaxConnIdleTime to 300\".\n\nEnter \"Commit Changes\" to save.\n\nEnter \"Show values\" to verify changes.\n\nEnter \"q\" at the \"ldap policy:\" and \"ntdsutil:\" prompts to exit.",
+  "fix_id": "F-5991r355097_fix",
+  "VulnDiscussion": "The failure to terminate inactive network connections increases the risk of a successful attack on the directory server. The longer an established session is in progress, the more time an attacker has to hijack the session, implement a means to passively intercept data, or compromise any protections on client access. For example, if an attacker gains control of a client computer, an existing (already authenticated) session with the directory server could allow access to the directory. The lack of confidentiality protection in LDAP-based sessions increases exposure to this vulnerability.",
+  "Documentable": "false"
+}

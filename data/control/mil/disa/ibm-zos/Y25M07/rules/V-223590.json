@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223590",
+  "rule_id": "SV-223590r958472_rule",
+  "stig_id": "ACF2-SL-000010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS permission bits and user audit bits for HFS objects that are part of the Syslog daemon component must be configured properly.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "legacy": [
+      "V-97885",
+      "SV-106989"
+    ],
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-25263r504743_chk",
+  "check_content": "From an ISPF enter:\ncd /usr/sbin\nEnter\nls -alW\n\nIf File Permission Bits and User Audit Bits for SYSLOG Daemon HFS directories and files is as below, this is not a finding.\n\n/usr/sbin/syslogd 1740 fff\n\nEnter:\ncd /etc/\nEnter\nls -alW\n\nIf the file Permission Bits and User Audit Bits for Output log file defined in the configuration file are as below, this is not a finding.\n\n/etc/syslog.conf 0744 faf\n0744 fff\n\nNotes:\nThe /usr/sbin/syslogd object is a symbolic link to /usr/lpp/tcpip/sbin/syslogd. The permission and user audit bits on the target of the symbolic link must have the required settings.\n\nThe /etc/syslog.conf file may not be the configuration file the daemon uses. It is necessary to check the script or JCL used to start the daemon to determine the actual configuration file. For example, in /etc/rc:\n_BPX_JOBNAME='SYSLOGD' /usr/sbin/syslogd -f /etc/syslog.conf\n\nFor example, in the SYSLOGD started task JCL:\n\n//SYSLOGD EXEC PGM=SYSLOGD,REGION=30M,TIME=NOLIMIT \n//PARM='POSIX(ON) ALL31(ON)/ -f /etc/syslogd.conf'\n\n//SYSLOGD EXEC PGM=SYSLOGD,REGION=30M,TIME=NOLIMIT \n//PARM='POSIX(ON) ALL31(ON) /-f //''SYS1.TCPPARMS(SYSLOG)'''\n\nThe following represents a hierarchy for permission bits from least restrictive to most restrictive:\n\n7 rwx (least restrictive)\n6 rw-\n3 -wx\n2 -w-\n5 r-x\n4 r--\n1 --x\n0 --- (most restrictive)\n\nThe possible audit bits settings are as follows:\n\nf log for failed access attempts\na log for failed and successful access\n- no auditing",
+  "fixtext": "With the assistance of a systems programmer with UID(0) and/or SUPERUSER access, review the UNIX permission bits and user audit bits on the HFS directories and files for the Syslog daemon. Ensure they conform to the specifications in the SYSLOG Daemon HFS Object Security Settings table below.\n\nLog files should have security that prevents anyone except the syslogd process and authorized maintenance jobs from writing to or deleting them. \n\nA maintenance process to periodically clear the log files is essential. Logging stops if the target file system becomes full.\n\nSYSLOG Daemon HFS Object Security Settings\nFile Permission Bits User Audit Bits\n/usr/sbin/syslogd 1740 fff\n[Configuration File]\n/etc/syslog.conf 0744 faf\n[Output log file defined in the configuration file]\n0744 fff\n\nThe following represents a hierarchy for permission bits from least restrictive to most restrictive:\n\n7 rwx (least restrictive)\n6 rw-\n3 -wx\n2 -w-\n5 r-x\n4 r--\n1 --x\n0 --- (most restrictive)\n\nThe possible audit bits settings are as follows:\n\nf log for failed access attempts\na log for failed and successful access\n- no auditing\n\nNOTES:\nThe /usr/sbin/syslogd object is a symbolic link to /usr/lpp/tcpip/sbin/syslogd. The permission and user audit bits on the target of the symbolic link must have the required settings.\n\nThe /etc/syslog.conf file may not be the configuration file the daemon uses. It is necessary to check the script or JCL used to start the daemon to determine the actual configuration file. For example, in /etc/rc:\n\n_BPX_JOBNAME='SYSLOGD' /usr/sbin/syslogd -f /etc/syslog.conf\n\nFor example, in the SYSLOGD started task JCL:\n\n//SYSLOGD EXEC PGM=SYSLOGD,REGION=30M,TIME=NOLIMIT \n//PARM='POSIX(ON) ALL31(ON)/ -f /etc/syslogd.conf'\n\n//SYSLOGD EXEC PGM=SYSLOGD,REGION=30M,TIME=NOLIMIT \n//PARM='POSIX(ON) ALL31(ON) /-f //''SYS1.TCPPARMS(SYSLOG)'''\n\nThe following commands can be used (from a user account with an effective UID(0)) to update the permission bits and audit bits:\n\nchmod 1740 /usr/lpp/tcpip/sbin/syslogd\nchaudit rwx=f /usr/lpp/tcpip/sbin/syslogd\nchmod 0744 /etc/syslog.conf\nchaudit w=sf,rx+f /etc/syslog.conf\nchmod 0744 /log_dir/log_file\nchaudit rwx=f /log_dir/log_file",
+  "fix_id": "F-25251r504744_fix",
+  "VulnDiscussion": "HFS directories and files of the Syslog daemon provide the configuration and executable properties of this product. Failure to properly secure these objects could lead to unauthorized access. This exposure may result in the compromise of the integrity and availability of the operating system environment, ACP, and customer data.",
+  "Documentable": "false"
+}

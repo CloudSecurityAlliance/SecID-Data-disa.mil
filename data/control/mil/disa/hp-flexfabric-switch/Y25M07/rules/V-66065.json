@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-66065",
+  "rule_id": "SV-80555r1_rule",
+  "stig_id": "HFFS-L2-000011",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HP FlexFabric Switch must have BPDU Guard enabled on all user-facing access ports.",
+  "group_title": "SRG-NET-000362-L2S-000022",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-66709r1_chk",
+  "check_content": "Review the HP FlexFabric Switch configuration to verify that BPDU Protection is enabled on all user-facing switch ports.\n\nIf the HP FlexFabric Switch has not enabled BPDU protection, this is a finding.\n\n[HP] display stp\n-------[CIST Global Info][Mode MSTP]-------\n Bridge ID           : 32768.7848-596a-6580\n Bridge times        : Hello 2s MaxAge 20s FwdDelay 15s MaxHops 20\n Root ID/ERPC        : 32768.7848-596a-6580, 0\n RegRoot ID/IRPC     : 32768.7848-596a-6580, 0\n RootPort ID         : 0.0\n BPDU-Protection     : Enabled\n Bridge Config-\n Digest-Snooping     : Disabled\n TC or TCN received  : 0\n Time since last TC  : 3 days \n\ninterface GigabitEthernet1/0/1\n stp edged-port",
+  "fixtext": "Configure the HP FlexFabric Switch to have BPDU Guard enabled on all user-facing switch ports.\n\n[HP]stp bpdu-protection\n[HP-GigabitEthernet1/0/1]stp edged-port",
+  "fix_id": "F-72141r1_fix",
+  "VulnDiscussion": "If a rogue switch is introduced into the topology and transmits a Bridge Protocol Data Unit (BPDU) with a lower bridge priority than the existing root bridge, it will become the new root bridge and cause a topology change, rendering the network in a suboptimal state. The Spanning Tree Protocol (STP) PortFast BPDU guard enhancement allows network designers to enforce the STP domain borders and keep the active topology predictable. The devices behind the ports that have STP PortFast enabled are not able to influence the STP topology. At the reception of BPDUs, the BPDU guard operation disables the port that has PortFast configured. The BPDU guard transitions the port into errdisable state and sends a log message.",
+  "Documentable": "false"
+}

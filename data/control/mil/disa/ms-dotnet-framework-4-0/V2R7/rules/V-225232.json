@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-225232",
+  "rule_id": "SV-225232r1050651_rule",
+  "stig_id": "APPNET0064",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": ".Net applications that invoke NetFx40_LegacySecurityPolicy must apply previous versions of .NET STIG guidance.",
+  "group_title": "SRG-APP-000516",
+  "idents": {
+    "legacy": [
+      "SV-40979",
+      "V-30937"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-26931r1050564_chk",
+  "check_content": "The infrastructure to enable Code Access Security (CAS) exists only in .NET Framework 2.x - 4.x.\n\nThe requirement is Not Applicable (NA) for .NET Framework > 4.x.\n\n(Note: The infrastructure is deprecated and is not receiving servicing or security fixes.)\n\nOpen Windows explorer and search for all *.exe.config files. This requirement does not apply to the caspol.exe assembly or other assemblies provided with the Windows OS or the Windows Secure Host Baseline (SHB).\n\nTo find relevant files, run the FINDSTR command from an elevated (admin) command prompt: \nFINDSTR /i /s \"NetFx40_LegacySecurityPolicy\" c:\\*.exe.config \n\nThis command will search all .\"exe.config\" files on the c: drive partition for the \"LegacySecurityPolicy\" setting. Repeat the command for each drive partition on the system.\n\nIf the .NET application configuration file uses the legacy policy element, and .NET STIG guidance that covers these legacy versions has not been applied, this is a finding.",
+  "fixtext": "The infrastructure to enable CAS exists only in .NET Framework 2.x - 4.x.\n\nThe requirement is Not Applicable (NA) for .NET Framework > 4.x.\n\n(Note: The infrastructure is deprecated and is not receiving servicing or security fixes.)\n\nApply the .NET Framework Security Checklist for .Net versions 1 through 3.5 when using the NetFx40_LegacySecurityPolicy setting.",
+  "fix_id": "F-26919r1050565_fix",
+  "VulnDiscussion": "CAS policy is .NET runtime version-specific.  In .NET Framework version 4, CAS policy is disabled by default however; it can be re-enabled by using the NetFx40_LegacySecurityPolicy setting on a per application basis. Caspol.exe is provided by Microsoft to set security policy on .Net applications prior to version 4.0. This requirement does not apply to the caspol.exe assembly or other assemblies provided with the Windows OS or the Windows Secure Host Baseline (SHB).\n\nWhen invoking the NetFx40_LegacySecurityPolicy setting in .NET 4, earlier versions of the .NET Framework CAS policy will become active therefore previous .NET STIG guidance that applies to the reactivated versions must also be applied. \n\nFailure to apply applicable versions of STIG guidance can result in the loss of system confidentiality, integrity or availability.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220504",
+  "rule_id": "SV-220504r1026075_rule",
+  "stig_id": "CISC-ND-001210",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco switch must be configured to implement cryptographic mechanisms to protect the confidentiality of remote maintenance sessions.",
+  "group_title": "SRG-APP-000412-NDM-000331",
+  "idents": {
+    "legacy": [
+      "SV-110657",
+      "V-101553"
+    ],
+    "cci": [
+      "CCI-003123"
+    ]
+  },
+  "check_id": "C-22219r1026074_chk",
+  "check_content": "Review the Cisco router configuration to verify it is compliant with this requirement.\n\nSSH Example\n\nssh ciphers aes128-ctr aes256-ctr\n\nNOTE: Using \"fips mode enable\" to enable all FIPS protocols disables TACACS+ and RADIUS, which is required for authentication server requirements. It is recommended to enable FIPS-validated protocols manually and keep FIPS mode disabled.\n\nIf the router is not configured to implement cryptographic mechanisms to protect the confidentiality of remote maintenance sessions using a FIPS 140-2 approved algorithm, this is a finding.",
+  "fixtext": "Configure the Cisco router to implement cryptographic mechanisms to protect the confidentiality of remote maintenance sessions using a FIPS 140-2 approved algorithm as shown in the examples below.\n\nSSH Example\n\nR1(config)#ssh ciphers aes128-ctr aes256-ctr",
+  "fix_id": "F-22208r1015493_fix",
+  "VulnDiscussion": "This requires the use of secure protocols instead of their unsecured counterparts, such as SSH instead of telnet, SCP instead of FTP, and HTTPS instead of HTTP. If unsecured protocols (lacking cryptographic mechanisms) are used for sessions, the contents of those sessions will be susceptible to eavesdropping, potentially putting sensitive data (including administrator passwords) at risk of compromise and potentially allowing hijacking of maintenance sessions.",
+  "Documentable": "false"
+}

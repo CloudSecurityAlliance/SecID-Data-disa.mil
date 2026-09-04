@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269140",
+  "rule_id": "SV-269140r1050022_rule",
+  "stig_id": "ALMA-09-006620",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The systemd Ctrl-Alt-Delete burst key sequence in AlmaLinux OS 9 must be disabled.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-73171r1049181_chk",
+  "check_content": "Verify AlmaLinux OS 9 is configured to not reboot the system when Ctrl-Alt-Delete is pressed seven times within two seconds with the following command:\n\n$ systemd-analyze cat-config systemd/system.conf | grep -v '#' | grep CtrlAltDel\n\nCtrlAltDelBurstAction=none\n\nIf \"CtrlAltDelBurstAction\" is not set to \"none\", is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure the system to disable the CtrlAltDelBurstAction by added or modifying the following line in the \"/etc/systemd/system.conf\" configuration file:\n\nCtrlAltDelBurstAction=none\n\nReload the daemon for this change to take effect.\n\n$ systemctl daemon-reexec",
+  "fix_id": "F-73072r1047797_fix",
+  "VulnDiscussion": "A locally logged-on user who presses Ctrl-Alt-Delete in quick succession when at the console can reboot the system.\n\nIf accidentally pressed, as could happen in the case of a mixed OS environment, this can create the risk of short-term loss of availability of systems due to unintentional reboot.\n\nIn a graphical user environment, risk of unintentional reboot from the Ctrl-Alt-Delete sequence is reduced because the user will be prompted before any action is taken.",
+  "Documentable": "false"
+}

@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-266139",
+  "rule_id": "SV-266139r1024837_rule",
+  "stig_id": "F5BI-AP-300003",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The F5 BIG-IP appliance providing intermediary services for remote access must use FIPS-validated cryptographic algorithms, including TLS 1.2 at a minimum.",
+  "group_title": "SRG-NET-000062-ALG-000011",
+  "idents": {
+    "cci": [
+      "CCI-000068",
+      "CCI-001453",
+      "CCI-001184",
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-70063r1023663_chk",
+  "check_content": "If the BIG-IP appliance does not provide intermediary services for remote access (e.g., web content filter, TLS, and webmail), TLS, or application protocols that use TLS (e.g., DNSSEC or HTTPS), this is not applicable.\n\nClient SSL Profile\nFrom the BIG-IP GUI:\n1. Local Traffic.\n2. Profiles.\n3. SSL.\n4. Client.\n5. Click on the name of the SSL Profile.\n6. Change \"Configuration\" to \"Advanced\".\n7. Verify \"Ciphers\" is configured to use NIST FIPS-validated ciphers.\n8. Repeat for other SSL Profiles in use.\n\nVirtual Server\nFrom the BIG-IP GUI:\n1. Local Traffic.\n2. Virtual Servers.\n3. Virtual Server List.\n4. Click the name of the virtual server.\n5. Verify that the \"SSL Profile (Client)\" is using a NIST FIPS-validated SSL Profile.\n6. Repeat these steps to review all other virtual servers.\n\nIf the BIG-IP appliance is not configured to use TLS 1.2 or higher, this is a finding.",
+  "fixtext": "Client SSL Profile\nFrom the BIG-IP GUI:\n1. Local Traffic.\n2. Profiles.\n3. SSL.\n4. Client.\n5. Click on the name of the SSL Profile.\n6. Change \"Configuration\" to \"Advanced\".\n7. Configure \"Ciphers\" to use NIST FIPS-validated ciphers.\n8. Click \"Update\".\n9. Repeat for other SSL Profiles in use.\n\nVirtual Server\nFrom the BIG-IP GUI:\n1. Local Traffic.\n2. Virtual Servers.\n3. Virtual Server List.\n4. Click the name of the virtual server.\n5. Configure \"SSL Profile (Client)\" to use a NIST FIPS-validated SSL Profile.\n6. Click \"Update\".\n7. Repeat for other virtual servers.",
+  "fix_id": "F-69966r1024836_fix",
+  "VulnDiscussion": "Without confidentiality protection mechanisms, unauthorized individuals may gain access to sensitive information via a remote access session.\n\nRemote access is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, non-organization-controlled network. Remote access methods include broadband and wireless connections. Remote access methods include, for example, proxied remote encrypted traffic (e.g., TLS gateways, web content filters, and webmail proxies).\n\nEncryption provides a means to secure the remote connection to prevent unauthorized access to the data traversing the remote access connection, thereby providing a degree of confidentiality. The encryption strength of the mechanism is selected based on the security categorization of the information.\n\nThis requirement applies to ALGs providing remote access proxy services as part of its intermediary services (e.g., OWA or SSL VPN gateway).\n\nSatisfies: SRG-NET-000062-ALG-000011, SRG-NET-000062-ALG-000150, SRG-NET-000063-ALG-000012, SRG-NET-000230-ALG-000113, SRG-NET-000355-ALG-000117",
+  "Documentable": "false"
+}

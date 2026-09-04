@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-251505",
+  "rule_id": "SV-251505r958820_rule",
+  "stig_id": "UBTU-20-010461",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Ubuntu operating system must disable automatic mounting of Universal Serial Bus (USB) mass storage driver.",
+  "group_title": "SRG-OS-000378-GPOS-00163",
+  "idents": {
+    "cci": [
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-54940r942849_chk",
+  "check_content": "Verify that Ubuntu operating system disables ability to load the USB storage kernel module.\n\n# grep usb-storage /etc/modprobe.d/* | grep \"/bin/false\" \n\ninstall usb-storage /bin/false\n\nIf the command does not return any output, or the line is commented out, this is a finding.\n\nVerify the operating system disables the ability to use USB mass storage device.\n\n# grep usb-storage /etc/modprobe.d/* | grep -i \"blacklist\"\n\nblacklist usb-storage\n\nIf the command does not return any output, or the line is commented out, this is a finding.",
+  "fixtext": "Configure the Ubuntu operating system to disable using the USB storage kernel module. \n\nCreate a file under \"/etc/modprobe.d\" to contain the following:\n\n# sudo su -c \"echo install usb-storage /bin/false >> /etc/modprobe.d/DISASTIG.conf\"\n\nConfigure the operating system to disable the ability to use USB mass storage devices.\n\n# sudo su -c \"echo blacklist usb-storage >> /etc/modprobe.d/DISASTIG.conf\"",
+  "fix_id": "F-54894r942850_fix",
+  "VulnDiscussion": "Without authenticating devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity.\n\nPeripherals include, but are not limited to, such devices as flash drives, external storage, and printers.",
+  "Documentable": "false"
+}

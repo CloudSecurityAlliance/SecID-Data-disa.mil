@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-238309",
+  "rule_id": "SV-238309r958846_rule",
+  "stig_id": "UBTU-20-010244",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Ubuntu operating system must generate audit records for privileged activities, nonlocal maintenance, diagnostic sessions and other system-level access.",
+  "group_title": "SRG-OS-000392-GPOS-00172",
+  "idents": {
+    "cci": [
+      "CCI-000172",
+      "CCI-002884"
+    ]
+  },
+  "check_id": "C-41519r654100_chk",
+  "check_content": "Verify the Ubuntu operating system audits activities performed during nonlocal maintenance and diagnostic sessions. \n \nCheck the currently configured audit rules with the following command: \n \n$ sudo auditctl -l | grep sudo.log \n \n-w /var/log/sudo.log -p wa -k maintenance \n \nIf the command does not return lines that match the example or the lines are commented out, this is a finding. \n \nNote: The \"-k\" allows for specifying an arbitrary identifier, and the string after it does not need to match the example output above.",
+  "fixtext": "Configure the Ubuntu operating system to audit activities performed during nonlocal maintenance and diagnostic sessions. \n \nAdd or update the following rules in the \"/etc/audit/rules.d/stig.rules\" file: \n \n-w /var/log/sudo.log -p wa -k maintenance \n  \nTo reload the rules file, issue the following command: \n \n$ sudo augenrules --load",
+  "fix_id": "F-41478r654101_fix",
+  "VulnDiscussion": "If events associated with nonlocal administrative access or diagnostic sessions are not logged, a major tool for assessing and investigating attacks would not be available. \n \nThis requirement addresses auditing-related issues associated with maintenance tools used specifically for diagnostic and repair actions on organizational information systems. \n \nNonlocal maintenance and diagnostic activities are those activities conducted by individuals communicating through a network, either an external network (e.g., the internet) or an internal network. Local maintenance and diagnostic activities are those activities carried out by individuals physically present at the information system or information system component and not communicating across a network connection. \n \nThis requirement applies to hardware/software diagnostic test equipment or tools. This requirement does not cover hardware/software components that may support information system maintenance, yet are a part of the system, for example, the software implementing \"ping,\" \"ls,\" \"ipconfig,\" or the hardware and software implementing the monitoring port of an Ethernet switch.\n\nSatisfies: SRG-OS-000392-GPOS-00172, SRG-OS-000471-GPOS-00215",
+  "Documentable": "false"
+}

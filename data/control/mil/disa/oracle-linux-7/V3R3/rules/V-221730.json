@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221730",
+  "rule_id": "SV-221730r991589_rule",
+  "stig_id": "OL07-00-020640",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that all local interactive user home directories are owned by their respective users.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-108303",
+      "V-99199"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23445r622257_chk",
+  "check_content": "Verify the assigned home directory of all local interactive users on the system exists.\n\nCheck the home directory assignment for all local interactive users on the system with the following command:\n\n# ls -ld $(awk -F: '($3>=1000)&&($7 !~ /nologin/){print $6}' /etc/passwd)\n\n-rwxr-x--- 1 smithj users 18 Mar 5 17:06 /home/smithj\n\nIf any home directories referenced in \"/etc/passwd\" are not owned by the interactive user, this is a finding.",
+  "fixtext": "Change the owner of a local interactive user's home directories to that owner. To change the owner of a local interactive user's home directory, use the following command:\n\nNote: The example will be for the user smithj, who has a home directory of \"/home/smithj\".\n\n# chown smithj /home/smithj",
+  "fix_id": "F-23434r419263_fix",
+  "VulnDiscussion": "If a local interactive user does not own their home directory, unauthorized users could access or modify the user's files, and the users may not be able to access their own files.",
+  "Documentable": "false"
+}

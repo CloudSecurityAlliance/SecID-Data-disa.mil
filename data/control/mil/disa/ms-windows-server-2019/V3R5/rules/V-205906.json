@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-205906",
+  "rule_id": "SV-205906r991589_rule",
+  "stig_id": "WN19-MS-000050",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2019 must limit the caching of logon credentials to four or less on domain-joined member servers.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-103363",
+      "V-93275"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-6171r857325_chk",
+  "check_content": "This applies to member servers. For domain controllers and standalone or nondomain-joined systems, this is NA.\n\nIf the following registry value does not exist or is not configured as specified, this is a finding:\n\nRegistry Hive:  HKEY_LOCAL_MACHINE\nRegistry Path:  \\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Winlogon\\\n\nValue Name:  CachedLogonsCount\n\nValue Type:  REG_SZ\nValue:  4 (or less)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> Security Options >> \"Interactive Logon: Number of previous logons to cache (in case Domain Controller is not available)\" to \"4\" logons or less.",
+  "fix_id": "F-6171r356081_fix",
+  "VulnDiscussion": "The default Windows configuration caches the last logon credentials for users who log on interactively to a system. This feature is provided for system availability reasons, such as the user's machine being disconnected from the network or domain controllers being unavailable. Even though the credential cache is well protected, if a system is attacked, an unauthorized individual may isolate the password to a domain user account using a password-cracking program and gain access to the domain.",
+  "Documentable": "false"
+}

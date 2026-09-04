@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216336",
+  "rule_id": "SV-216336r958400_rule",
+  "stig_id": "SOL-11.1-040170",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The system must require users to re-authenticate to unlock a graphical desktop environment.",
+  "group_title": "SRG-OS-000028",
+  "idents": {
+    "legacy": [
+      "V-48045",
+      "SV-60917"
+    ],
+    "cci": [
+      "CCI-000056"
+    ]
+  },
+  "check_id": "C-17572r371096_chk",
+  "check_content": "If the system is not running XWindows, this check does not apply.\n\nDetermine if the screen saver timeout is configured properly.\n\n# grep \"^\\*timeout:\" /usr/share/X11/app-defaults/XScreenSaver\n\nIf the output is not:\n*timeout: 0:15:00\nor a shorter time interval, this is a finding.\n\n# grep \"^\\*lockTimeout:\" /usr/share/X11/app-defaults/XScreenSaver\n\nIf the output is not:\n*lockTimeout: 0:00:05\nor a shorter time interval, this is a finding.\n\n# grep \"^\\*lock:\" /usr/share/X11/app-defaults/XScreenSaver\n\nIf the output is not:\n*lock: True\nthis is a finding.\n\nFor each existing user, check the configuring of their personal .xscreensaver file.\n\n# grep \"^timeout:\" $HOME/.xscreensaver\n\nIf the output is not:\ntimeout: 0:15:00\nor a shorter time interval, this is a finding.\n\n# grep \"^lockTimeout:\" $HOME/.xscreensaver\n\nIf the output is not:\nlockTimeout: 0:00:05\nor a shorter time interval, this is a finding.\n\n# grep \"^lock:\" $HOME/.xscreensaver\n\nIf the output is not:\nlock: True\nthis is a finding.",
+  "fixtext": "The root role is required.\n\nEdit the global screensaver configuration file to ensure 15 minute screen lock.\n\n# pfedit /usr/share/X11/app-defaults/XScreenSaver\n\nFind the timeout control lines and change them to read:\n\n*timeout: 0:15:00\n*lockTimeout: 0:00:05\n*lock: True\n\nFor each user on the system, edit their local $HOME/.xscreensaver file and change the timeout values.\n\n# pfedit $HOME/.xscreensaver\n\nFind the timeout control lines and change them to read:\n\ntimeout: 0:15:00\nlockTimeout: 0:00:05\nlock: True",
+  "fix_id": "F-17570r371097_fix",
+  "VulnDiscussion": "Allowing access to a graphical environment when the user is not attending the system can allow unauthorized users access to the system.",
+  "Documentable": "false"
+}

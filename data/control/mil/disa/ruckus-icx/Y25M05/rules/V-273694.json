@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-273694",
+  "rule_id": "SV-273694r1110997_rule",
+  "stig_id": "RCKS-L2S-000270",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The RUCKUS ICX switch must not have any switch ports assigned to the native VLAN.",
+  "group_title": "SRG-NET-000512-L2S-000013",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-77785r1110103_chk",
+  "check_content": "Examine switch port configuration to determine whether a native VLAN (i.e., untagged) is assigned.  \n\n!\nvlan 4000 name DEFAULT-VLAN by port\n no untagged ethernet 1/2/1\n spanning-tree\n!\n!\nvlan 10 by port\n tagged ethernet 1/2/1\n untagged ethernet 1/1/1\n!\n!\nvlan 20 by port\n tagged ethernet 1/2/1\n untagged ethernet 1/1/2 \n!\n\nIf any switch ports have a native VLAN (i.e., untagged) also assigned, this is a finding.",
+  "fixtext": "Remove any native VLAN (i.e., untagged) from switch ports (1/2/1):\n\ndevice(config)# vlan 4000\ndevice(config-vlan-4000)# no untag ethernet 1/2/1",
+  "fix_id": "F-77690r1110104_fix",
+  "VulnDiscussion": "Double encapsulation can be initiated by an attacker who has access to a switch port belonging to the native VLAN of the trunk port. Knowing the victim's MAC address and with the victim attached to a different switch belonging to the same trunk group, thereby requiring the trunk link and frame tagging, the malicious user can begin the attack by sending frames with two sets of tags. The outer tag that will have the attacker's VLAN ID (probably the well-known and omnipresent default VLAN) is stripped off by the switch, and the inner tag that will have the victim's VLAN ID is used by the switch as the next hop and sent out the trunk port.",
+  "Documentable": "false"
+}

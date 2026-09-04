@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253877",
+  "rule_id": "SV-253877r997299_rule",
+  "stig_id": "TANS-SV-000107",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The SSLCipherSuite registry value must be set.",
+  "group_title": "SRG-APP-000439",
+  "idents": {
+    "cci": [
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-57329r842657_chk",
+  "check_content": "1. Access the Tanium Server.\n\n2. Log on to the server with an account that has administrative privileges.\n\n3. Run regedit as Administrator.\n\n4. Navigate to: HKEY_LOCAL_MACHINE >> SOFTWARE >> Wow6432Node >> Tanium >> Tanium Server.\n\nName: SSLCipherSuite\nType: String\nValue:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSAAES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK\n\nIf the String \"SSLCipherSuite\" does not exist with the appropriate list values, this is a finding.",
+  "fixtext": "1. Access the Tanium Server.\n\n2. Log on to the server with an account that has administrative privileges.\n\n3. Run regedit as Administrator.\n\n4. Navigate to: HKEY_LOCAL_MACHINE >> Software >> Wow6432Node >> Tanium >> Tanium Server.\n\n5. Right-click in the right window pane.\n\n6. Select: New >> String Value.\n\n7. In the \"Name\" field, enter \"SSLCipherSuite\".\n\n8. Press \"Enter\".\n\n9. Right-click the newly created \"Name\".\n\n10. Select \"Modify\".\n\n11. Add the following: ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-RSAAES128-GCM-SHA256:ECDHE-RSA-AES128-SHA256:!aNULL:!eNULL:!EXPORT:!DES:!RC4:!MD5:!PSK\n\n12. Click \"OK\".",
+  "fix_id": "F-57280r842658_fix",
+  "VulnDiscussion": "Without protection of the transmitted information, confidentiality and integrity may be compromised since unprotected communications can be intercepted and either read or altered.\n\nThis requirement applies only to applications that are either distributed or can allow access to data nonlocally. Use of this requirement will be limited to situations where the data owner has a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process. When transmitting data, applications must leverage transmission protection mechanisms, such as TLS, SSL VPNs, or IPsec. FIPS 140-2 approved TLS versions must be enabled, and non-FIPS-approved SSL versions must be disabled. NIST SP 800-52 defines the approved TLS versions for government applications.\n\nCommunication paths outside the physical protection of a controlled boundary are exposed to the possibility of interception and modification. Protecting the confidentiality and integrity of organizational information can be accomplished by physical means (e.g., employing physical distribution systems) or by logical means (e.g., employing cryptographic techniques). If physical means of protection are employed, logical means (cryptography) do not have to be employed, and vice versa.",
+  "Documentable": "false"
+}

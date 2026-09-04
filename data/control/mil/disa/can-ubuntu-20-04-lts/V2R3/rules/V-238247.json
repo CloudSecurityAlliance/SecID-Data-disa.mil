@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-238247",
+  "rule_id": "SV-238247r958434_rule",
+  "stig_id": "UBTU-20-010124",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Ubuntu operating system must permit only authorized groups ownership of the audit log files.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162"
+    ]
+  },
+  "check_id": "C-41457r802384_chk",
+  "check_content": "Verify the group owner is set to own newly created audit logs in the audit configuration file with the following command: \n$ sudo grep -iw log_group /etc/audit/auditd.conf \nlog_group = root \n\nIf the value of the \"log_group\" parameter is other than \"root\", this is a finding.\n\nDetermine where the audit logs are stored with the following command: \n$ sudo grep -iw log_file /etc/audit/auditd.conf \nlog_file = /var/log/audit/audit.log \n\nUsing the path of the directory containing the audit logs, determine if the audit log files are owned by the \"root\" group by using the following command: \n$ sudo stat -c \"%n %G\" /var/log/audit/* \n/var/log/audit/audit.log root \n\nIf the audit log files are owned by a group other than \"root\", this is a finding.",
+  "fixtext": "Configure the audit log directory and its underlying files to be owned by \"root\" group.\n\nSet the \"log_group\" parameter of the audit configuration file to the \"root\" value so when a new log file is created, its group owner is properly set:\n$ sudo sed -i '/^log_group/D' /etc/audit/auditd.conf\n$ sudo sed -i /^log_file/a'log_group = root' /etc/audit/auditd.conf\n\nLast, signal the audit daemon to reload the configuration file to update the group owners of existing files:\n$ sudo systemctl kill auditd -s SIGHUP",
+  "fix_id": "F-41416r832946_fix",
+  "VulnDiscussion": "Unauthorized disclosure of audit records can reveal system and configuration data to attackers, thus compromising its confidentiality. \n \nAudit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit operating system activity.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029",
+  "Documentable": "false"
+}

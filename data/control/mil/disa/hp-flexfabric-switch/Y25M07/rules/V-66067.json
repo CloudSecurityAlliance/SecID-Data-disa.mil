@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-66067",
+  "rule_id": "SV-80557r1_rule",
+  "stig_id": "HFFS-L2-000012",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HP FlexFabric Switch must have STP Loop Protection enabled all non-designated STP switch ports.",
+  "group_title": "SRG-NET-000362-L2S-000023",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-66711r1_chk",
+  "check_content": "Review the HP FlexFabric Switch configuration to verify that STP Loop Protection is enabled.\n\nIf STP Loop Protection is not configured globally or at a minimum on non-designated STP ports, this is a finding.\n\n[HPinterface Ten-GigabitEthernet1/0/8]\n port link-mode bridge\n stp loop-protection",
+  "fixtext": "Configure the HP FlexFabric Switch to have STP Loop Protection enabled globally or at a minimum on all non-designated switch ports.\n\n[HPinterface Ten-GigabitEthernet1/0/8]\nstp loop-protection",
+  "fix_id": "F-72143r1_fix",
+  "VulnDiscussion": "The Spanning Tree Protocol (STP) loop Protection feature provides additional protection against STP loops. An STP loop is created when an STP blocking port in a redundant topology erroneously transitions to the forwarding state. In its operation, STP relies on continuous reception and transmission of BPDUs based on the port role. The designated port transmits BPDUs, and the non-designated port receives BPDUs. When one of the ports in a physically redundant topology no longer receives BPDUs, the STP conceives that the topology is loop free. Eventually, the blocking port from the alternate or backup port becomes a designated port and moves to a forwarding state. This situation creates a loop. The loop Protection feature makes additional checks. If BPDUs are not received on a non-designated port and loop guard is enabled, that port is moved into the STP loop-inconsistent blocking state.",
+  "Documentable": "false"
+}

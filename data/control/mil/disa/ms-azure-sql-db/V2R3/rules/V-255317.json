@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255317",
+  "rule_id": "SV-255317r961359_rule",
+  "stig_id": "ASQL-00-002900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Database must restrict execution of stored procedures and functions that utilize [execute as] to necessary cases only.",
+  "group_title": "SRG-APP-000342-DB-000302",
+  "idents": {
+    "cci": [
+      "CCI-002233"
+    ]
+  },
+  "check_id": "C-58990r871075_chk",
+  "check_content": "Review the system documentation to obtain a listing of stored procedures and functions that utilize impersonation. Execute the following query:\n\nSELECT S.name AS schema_name, O.name AS module_name,\nUSER_NAME(CASE M.execute_as_principal_id \n               WHEN -2 THEN COALESCE(O.principal_id, S.principal_id)\n               ELSE M.execute_as_principal_id\n          END) AS execute_as\nFROM sys.sql_modules M\n    JOIN sys.objects O ON M.object_id = O.object_id\n    JOIN sys.schemas S ON O.schema_id = S.schema_id\nWHERE execute_as_principal_id IS NOT NULL\nORDER BY schema_name, module_name\n\nIf any procedures or functions are returned that are not documented, this is a finding.",
+  "fixtext": "Alter stored procedures and functions to remove the \"EXECUTE AS\" statement.",
+  "fix_id": "F-58934r871076_fix",
+  "VulnDiscussion": "In certain situations, to provide required functionality, a DBMS needs to execute internal logic (stored procedures, functions, triggers, etc.) and/or external code modules with elevated privileges. However, if the privileges required for execution are at a higher level than the privileges assigned to organizational users invoking the functionality applications/programs, those users are indirectly provided with greater privileges than assigned by organizations.\n\nPrivilege elevation by \"Execute As\" must be utilized only where necessary and protected from misuse.",
+  "Documentable": "false"
+}

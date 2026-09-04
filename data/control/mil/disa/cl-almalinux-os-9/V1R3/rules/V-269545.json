@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-269545",
+  "rule_id": "SV-269545r1050428_rule",
+  "stig_id": "ALMA-09-056890",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must use cryptographic mechanisms to protect the integrity of audit tools.",
+  "group_title": "SRG-OS-000278-GPOS-00108",
+  "idents": {
+    "cci": [
+      "CCI-001496",
+      "CCI-001494"
+    ]
+  },
+  "check_id": "C-73576r1049011_chk",
+  "check_content": "Check that AIDE is properly configured to use cryptographic mechanisms to protect the integrity of the audit tools with the following command:\n\n$ grep /usr/sbin/au /etc/aide.conf\n \n/usr/sbin/auditctl p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/auditd p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/autrace p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512\n\nIf AIDE is not installed, ask the system administrator (SA) how file integrity checks are performed on the system.\n\nIf any of the audit tools listed above do not have a corresponding line including \"sha512\", ask the SA to indicate what cryptographic mechanisms are being used to protect the integrity of the audit tools. If there is no evidence of integrity protection, this is a finding.",
+  "fixtext": "Add or update the following lines to \"/etc/aide.conf\", to protect the integrity of the audit tools:\n \n/usr/sbin/auditctl p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/auditd p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/ausearch p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/aureport p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/autrace p+i+n+u+g+s+b+acl+xattrs+sha512\n/usr/sbin/augenrules p+i+n+u+g+s+b+acl+xattrs+sha512",
+  "fix_id": "F-73477r1049012_fix",
+  "VulnDiscussion": "Protecting the integrity of the tools used for auditing purposes is a critical step toward ensuring the integrity of audit information. Audit information includes all information (e.g., audit records, audit settings, and audit reports) needed to successfully audit information system activity.\n\nSatisfies: SRG-OS-000278-GPOS-00108, SRG-OS-000257-GPOS-00098",
+  "Documentable": "false"
+}

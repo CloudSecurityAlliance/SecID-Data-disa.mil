@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216196",
+  "rule_id": "SV-216196r959010_rule",
+  "stig_id": "SOL-11.1-070170",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The system must not allow users to configure .forward files.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-60937",
+      "V-48065"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17434r372970_chk",
+  "check_content": "The root role is required.\n\n# for dir in \\\n`logins -ox | awk -F: '($8 == \"PS\") { print $6 }'`; do\nls -l ${dir}/.forward 2>/dev/null\ndone\n\nIf output is produced, this is a finding.",
+  "fixtext": "The root role is required.\n\nRemove any .forward files that are found.\n\n# pfexec rm [filename]",
+  "fix_id": "F-17432r372971_fix",
+  "VulnDiscussion": "Use of the .forward file poses a security risk in that sensitive data may be inadvertently transferred outside the organization. The .forward file also poses a secondary risk as it can be used to execute commands that may perform unintended actions.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-218821",
+  "rule_id": "SV-218821r1067596_rule",
+  "stig_id": "IIST-SV-000153",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "An IIS 10.0 web server must maintain the confidentiality of controlled information during transmission through the use of an approved Transport Layer Security (TLS) version.",
+  "group_title": "SRG-APP-000439-WSR-000156",
+  "idents": {
+    "legacy": [
+      "SV-109281",
+      "V-100177"
+    ],
+    "cci": [
+      "CCI-002418"
+    ]
+  },
+  "check_id": "C-20293r1067594_chk",
+  "check_content": "Access the IIS 10.0 Web Server.\n\nNavigate to:\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Server\n\nVerify a REG_DWORD value of \"0\" for \"DisabledByDefault\".\nVerify a REG_DWORD value of \"1\" for \"Enabled\".\n\nNavigate to:\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Server\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Server\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Server\n\nVerify a REG_DWORD value of \"1\" for \"DisabledByDefault\".\nVerify a REG_DWORD value of \"0\" for \"Enabled\".\n\nIf any of the respective registry paths do not exist or are configured with the wrong value, this is a finding.\n\nSSL 3.0 is disabled by default in newer Operating Systems. If SSL 3.0 has a registry DWORD enabled with a value of 1, this is a finding. If this key is not present, this is not a finding.",
+  "fixtext": "Access the IIS 10.0 Web Server.\n\nNavigate to:\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.2\\Server \n\nCreate a REG_DWORD named \"DisabledByDefault\" with a value of \"0\".\nCreate a REG_DWORD named \"Enabled\" with a  value of \"1\".\n\nNavigate to:\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.0\\Server\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\TLS 1.1\\Server\nHKLM\\SYSTEM\\CurrentControlSet\\Control\\SecurityProviders\\SCHANNEL\\Protocols\\SSL 3.0\\Server\n\nFor each protocol:\nCreate a REG_DWORD named \"DisabledByDefault\" with a value of \"1\".\nCreate a REG_DWORD named \"Enabled\" with a  value of \"0\".",
+  "fix_id": "F-20291r1067595_fix",
+  "VulnDiscussion": "TLS encryption is a required security setting for a private web server. Encryption of private information is essential to ensuring data confidentiality. If private information is not encrypted, it can be intercepted and easily read by an unauthorized party. A private web server must use a FIPS 140-2-approved TLS version, and all non-FIPS-approved SSL versions must be disabled.\n\nNIST SP 800-52 specifies the preferred configurations for government systems.",
+  "Documentable": "false"
+}

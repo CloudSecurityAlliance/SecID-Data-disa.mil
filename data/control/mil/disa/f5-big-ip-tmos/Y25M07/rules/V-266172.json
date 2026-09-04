@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-266172",
+  "rule_id": "SV-266172r1024404_rule",
+  "stig_id": "F5BI-AP-300161",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The F5 BIG-IP appliance providing remote access intermediary services must disable split-tunneling for remote clients' VPNs.",
+  "group_title": "SRG-NET-000512-ALG-000062",
+  "idents": {
+    "cci": [
+      "CCI-000366",
+      "CCI-002397"
+    ]
+  },
+  "check_id": "C-70096r1023762_chk",
+  "check_content": "If the BIG-IP appliance does not provide remote access intermediary services, this is not applicable.\n\nAccess Profile:\nFrom the BIG-IP GUI:\n1. Access.\n2. Profiles/Policies.\n3. Access Profiles.\n4. Click the name of the Access Profile.\n5. Click the Access Policy tab and note the name(s) of the Network Access listed.\n\nNetwork Access List:\nFrom the BIG-IP GUI:\n1. Access.\n2. Connectivity/VPN.\n3. Network Access (VPN).\n4. Network Access Lists.\n5. Click on the Name of the Network Access List.\n6. Network Settings tab.\n7. Verify \"Force all traffic through tunnel\" is selected under Client Settings >> Traffic Options.\n\nIf the BIG-IP appliance is not configured to disable split-tunneling for remote client VPNs, this is a finding.",
+  "fixtext": "Obtain the Network Access name in the Access Profile:\nFrom the BIG-IP GUI:\n1. Access.\n2. Profiles/Policies.\n3. Access Profiles.\n4. Click the name of the Access Profile.\n5. Click the Access Policy tab and note the name(s) of the Network Access listed.\n\nConfigure the Network Access List:\nFrom the BIG-IP GUI:\n1. Access.\n2. Connectivity/VPN.\n3. Network Access (VPN).\n4. Network Access Lists.\n5. Click on the Name of the Network Access List.\n6. Network Settings tab.\n7. Select \"Force all traffic through tunnel\" under Client Settings >> Traffic Options.\n8. Click \"Update\".",
+  "fix_id": "F-69999r1023763_fix",
+  "VulnDiscussion": "Split tunneling would in effect allow unauthorized external connections, making the system more vulnerable to attack and to exfiltration of organizational information.\n\nA VPN hardware or software client with split tunneling enabled provides an unsecured backdoor to the enclave from the internet. With split tunneling enabled, a remote client has access to the internet while at the same time has established a secured path to the enclave via an IPsec tunnel. A remote client connected to the internet that has been compromised by an attacker on the internet, provides an attack base to the enclave’s private network via the IPsec tunnel. Hence, it is imperative that the VPN gateway enforces a no split-tunneling policy to all remote clients.",
+  "Documentable": "false"
+}

@@ -1,0 +1,28 @@
+{
+  "vuln_id": "V-217270",
+  "rule_id": "SV-217270r958408_rule",
+  "stig_id": "SLES-12-030170",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must implement DoD-approved encryption to protect the confidentiality of SSH remote connections.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "legacy": [
+      "V-77455",
+      "SV-92151"
+    ],
+    "cci": [
+      "CCI-000803",
+      "CCI-000366",
+      "CCI-000068",
+      "CCI-002890"
+    ]
+  },
+  "check_id": "C-18498r622418_chk",
+  "check_content": "Verify that the SUSE operating system implements DoD-approved encryption to protect the confidentiality of SSH remote connections.\n\nCheck the SSH daemon configuration for allowed ciphers with the following command:\n\n# sudo grep -i ciphers /etc/ssh/sshd_config | grep -v '^#'\n\nCiphers aes256-ctr,aes192-ctr,aes128-ctr\n\nIf any ciphers other than \"aes256-ctr\", \"aes192-ctr\", or \"aes128-ctr\" are listed, the order differs from the example above, the \"Ciphers\" keyword is missing, or the returned line is commented out, this is a finding.",
+  "fixtext": "Edit the SSH daemon configuration (/etc/ssh/sshd_config) and remove any ciphers not starting with \"aes\" and remove any ciphers ending with \"cbc\". If necessary, add a \"Ciphers\" line:\n\nCiphers aes256-ctr,aes192-ctr,aes128-ctr\n\nRestart the SSH daemon:\n\n# sudo systemctl restart sshd.service",
+  "fix_id": "F-18496r622419_fix",
+  "VulnDiscussion": "Without confidentiality protection mechanisms, unauthorized individuals may gain access to sensitive information via a remote access session.\n\nRemote access is access to DoD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nEncryption provides a means to secure the remote connection to prevent unauthorized access to the data traversing the remote access connection (e.g., RDP), thereby providing a degree of confidentiality. The encryption strength of a mechanism is selected based on the security categorization of the information.\n\nThe system will attempt to use the first cipher presented by the client that matches the server list. Listing the values \"strongest to weakest\" is a method to ensure the use of the strongest cipher available to secure the SSH connection.\n\nSatisfies: SRG-OS-000033-GPOS-00014, SRG-OS-000120-GPOS-00061, SRG-OS-000125-GPOS-00065, SRG-OS-000250-GPOS-00093, SRG-OS-000393-GPOS-00173",
+  "Documentable": "false"
+}

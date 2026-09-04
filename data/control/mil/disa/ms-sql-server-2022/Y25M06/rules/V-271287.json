@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271287",
+  "rule_id": "SV-271287r1108843_rule",
+  "stig_id": "SQLI-22-006800",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Database software, including DBMS configuration files, must be stored in dedicated directories, separate from the host OS and other applications.",
+  "group_title": "SRG-APP-000133-DB-000199",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-75330r1108843_chk",
+  "check_content": "Determine the directory in which SQL Server has been installed:\n\nUsing SQL Server Management Studio's Object Explorer, right-click [SQL Server Instance], select \"Facets\", then record the value of RootDirectory.\n\nDetermine the Operating System directory:\n1. Click \"Start\".\n2. Type \"Run\".\n3. Press \"Enter\".\n4. Type \"%windir%\".\n5. Click \"Ok\".\n6. Record the value in the address bar.\n\nVerify the SQL Server RootDirectory is not in the Operating System directory.\n\nCompare the SQL RootDirectory and the Operating System directory. If the SQL RootDirectory is in the same directory as the Operating System, this is a finding.\n\nVerify the SQL Server RootDirectory is not in another application's directory.\n\nNavigate to the SQL RootDirectory using Windows Explorer.\n\nExamine each directory for evidence another application is stored in it.\n\nIf evidence exists the SQL RootDirectory is in another application's directory, this is a finding.\n\nIf the SQL RootDirectory is not in the Operating System directory or another application's directory, this is not a finding.\n\nExamples:\n1. The Operating System directory is \"C:\\Windows\". The SQL RootDirectory is \"D:\\Program Files\\MSSQLSERVER\\MSSQL\". The MSSQLSERVER directory is not living in the Operating System directory or the directory of another application. This is not a finding.\n\n2. The Operating System directory is \"C:\\Windows\". The SQL RootDirectory is \"C:\\Windows\\MSSQLSERVER\\MSSQL\". This is a finding.\n\n3. The Operating System directory is \"C:\\Windows\". The SQL RootDirectory is \"D:\\Program Files\\Microsoft Office\\MSSQLSERVER\\MSSQL\". The MSSQLSERVER directory is in the Microsoft Office directory, which indicates Microsoft Office is installed here. This is a finding.",
+  "fixtext": "Reinstall SQL Server application components using dedicated directories that are separate from the operating system. \n \nRelocate or reinstall other application software that currently shares directories with SQL Server components separate from the operating system and/or temporary storage.",
+  "fix_id": "F-75237r1108476_fix",
+  "VulnDiscussion": "When dealing with change control issues, it should be noted any changes to the hardware, software, and/or firmware components of the information system and/or application can potentially have significant effects on the overall security of the system. \n \nMultiple applications can provide a cumulative negative effect. A vulnerability and subsequent exploit to one application can lead to an exploit of other applications sharing the same security context. For example, an exploit to a web server process that leads to unauthorized administrative access to host system directories can most likely lead to a compromise of all applications hosted by the same system. Database software not installed using dedicated directories both threatens and is threatened by other hosted applications. Access controls defined for one application may by default provide access to the other application's database objects or directories. Any method that provides any level of separation of security context assists in the protection between applications.",
+  "Documentable": "false"
+}

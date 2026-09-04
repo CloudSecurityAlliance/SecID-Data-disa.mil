@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-266165",
+  "rule_id": "SV-266165r1024396_rule",
+  "stig_id": "F5BI-AP-300154",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The F5 BIG-IP appliance must configure certificate path validation to ensure revoked user credentials are prohibited from establishing an allowed session.",
+  "group_title": "SRG-NET-000164-ALG-000100",
+  "idents": {
+    "cci": [
+      "CCI-000185"
+    ]
+  },
+  "check_id": "C-70089r1023741_chk",
+  "check_content": "If the BIG-IP appliance does not provide intermediary services for TLS, or application protocols that use TLS (e.g., DNSSEC or HTTPS), this is not applicable.\n\nAccess Policy:\nFrom the BIG-IP GUI:\n1. Access.\n2. Profiles/Policies.\n3. Access Profiles.\n4. Click \"Edit\" under \"Per-Session Policy\" for the Access Profile.\n5. Verify an \"OCSP Auth\" object is configured in the Access Profile for \"User\" type or a CRLDP object is configured.\n\nIf the BIG-IP appliance is not configured to use OCSP or CRLDP to ensure revoked user credentials are prohibited from establishing an allowed session, this is a finding.",
+  "fixtext": "Access Policy:\nFrom the BIG-IP GUI:\n1. Access.\n2. Profiles/Policies.\n3. Access Profiles.\n4. Click \"Edit\" under \"Per-Session Policy\" for the Access Profile.\n5. Add an \"OCSP Auth\" with certificate type of \"User\" and/or a \"CRLDP Auth\" object in the Access Profile.\nNote: To create an OCSP Responder, go to Access >> Authentication >> OCSP Responder.\nNote: To create a CRLDP Server object, go to Access >> Authentication >> CRLDP.\n6. Add an \"OCSP Auth\" object in the Access Profile and select an OCSP Responder.\n7. Click \"Update\".",
+  "fix_id": "F-69992r1023742_fix",
+  "VulnDiscussion": "A certificate's certification path is the path from the end entity certificate to a trusted root certification authority (CA). Certification path validation is necessary for a relying party to make an informed decision regarding acceptance of an end entity certificate.\n\nCertification path validation includes checks such as certificate issuer trust, time validity and revocation status for each certificate in the certification path. Revocation status information for CA and subject certificates in a certification path is commonly provided via certificate revocation lists (CRLs) or online certificate status protocol (OCSP) responses.",
+  "Documentable": "false"
+}

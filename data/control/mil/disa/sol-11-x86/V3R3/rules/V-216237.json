@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216237",
+  "rule_id": "SV-216237r958528_rule",
+  "stig_id": "SOL-11.1-090280",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The operating system must manage excess capacity, bandwidth, or other redundancy to limit the effects of information flooding types of denial of service attacks.",
+  "group_title": "SRG-OS-000142",
+  "idents": {
+    "legacy": [
+      "SV-60771",
+      "V-47899"
+    ],
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-36493r940017_chk",
+  "check_content": "Verify that you are on the global zone:\n# zoneadm -z global list\nglobal\n\nNote: If you see following message, you are not in the global zone:\n\"zoneadm: global: No such zone exists\"\n\n# dladm show-ether -Z | egrep \"LINK|up\"\n\nLINK PTYPE STATE AUTO SPEED-DUPLEX PAUSE\nnet0 current up yes 1G-f bi\n\nDetermine the OS version that is being secured:\n\n# uname -v\n\nFor Solaris 11, 11.1, 11.2, and 11.3:\n\n# dladm show-linkprop net0 | egrep \"LINK|en_\" | sort|uniq\nLINK     PROPERTY        PERM VALUE        EFFECTIVE    DEFAULT   POSSIBLE\nnet0     en_1000fdx_cap  rw   1            1            1         1,0\nnet0     en_1000hdx_cap  r-   0            0            0         1,0\nnet0     en_100fdx_cap   rw   1            1            1         1,0\nnet0     en_100hdx_cap   rw   1            1            1         1,0\nnet0     en_10fdx_cap    rw   1            1            1         1,0\nnet0     en_10gfdx_cap   --   --           --           0         1,0\nnet0     en_10hdx_cap    rw   1            1            1         1,0\n\nDo the above for all available/connected network adapters.\n\nFor Solaris 11.4.x.x.x or newer:\n\n# dladm show-linkprop -p speed-duplex net0\nLINK     PROPERTY        PERM VALUE        EFFECTIVE    DEFAULT   POSSIBLE\nnet0     speed-duplex    rw   1g-f,100m-f, 1g-f,100m-f, 1g-f,     1g-f,100m-f,\n                              100m-h,      100m-h,      100m-f,   100m-h,10m-f,\n                              10m-f,10m-h  10m-f,10m-h  100m-h,   10m-h\n                                                        10m-f,\n                                                        10m-h\n\nDo the above for all available/connected network adapters.\n\nFor each link, determine if its current speed-duplex settings VALUE field is appropriate for managing any excess bandwidth capacity based on its POSSIBLE settings field; if not, this is a finding.",
+  "fixtext": "The Network Management profile is required.\n\nSet each link's speed-duplex protection to an appropriate value based on each configured network interface's POSSIBLE settings.\n\nDetermine the OS version that is being secured:\n\n# uname -a\n\nFor Solaris 11, 11.1, 11.2, and 11.3:\n\n# pfexec dladm set-linkprop -p en_1000fdx_cap=1 net0\n\nVerify EFFECTIVE column\n# dladm show-linkprop net0 | egrep \"LINK|en_\" | sort|uniq\nLINK     PROPERTY        PERM VALUE        EFFECTIVE    DEFAULT   POSSIBLE\nnet0     en_1000fdx_cap  rw   1            1            1         1,0\nnet0     en_1000hdx_cap  r-   0            0            0         1,0\nnet0     en_100fdx_cap   rw   1            1            1         1,0\nnet0     en_100hdx_cap   rw   1            1            1         1,0\nnet0     en_10fdx_cap    rw   1            1            1         1,0\nnet0     en_10gfdx_cap   --   --           --           0         1,0\nnet0     en_10hdx_cap    rw   1            1            1         1,0\n\nDo the above for all available/connected network adapters.\n\nFor Solaris 11.4.x or newer:\n\n# pfexec dladm set-linkprop -p speed-duplex=1g-f,100m-f net0\n\nVerify EFFECTIVE column\n# dladm show-linkprop -p speed-duplex net0\nLINK     PROPERTY        PERM VALUE        EFFECTIVE    DEFAULT   POSSIBLE\nnet0     speed-duplex    rw   1g-f,100m-f  1g-f,100m-f  1g-f,     1g-f,100m-f,\n                                                        100m-f,   100m-h,10m-f,\n                                                        100m-h,   10m-h\n                                                        10m-f,\n                                                        10m-h\n\nDo the above for all available/connected network adapters.",
+  "fix_id": "F-36457r940018_fix",
+  "VulnDiscussion": "In the case of denial of service attacks, care must be taken when designing the operating system so as to ensure that the operating system makes the best use of system resources.",
+  "Documentable": "false"
+}

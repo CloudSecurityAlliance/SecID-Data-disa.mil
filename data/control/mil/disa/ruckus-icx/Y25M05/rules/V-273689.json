@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-273689",
+  "rule_id": "SV-273689r1111059_rule",
+  "stig_id": "RCKS-L2S-000220",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RUCKUS ICX switch must not have the default VLAN assigned to any host-facing switch ports.",
+  "group_title": "SRG-NET-000512-L2S-000008",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-77780r1111014_chk",
+  "check_content": "Review the switch configurations and verify that no access switch ports have been assigned membership to the default VLAN.\n\nRouter#show vlans\nPORT-VLAN 5, Name DEFAULT-VLAN], Priority level0, in single spanning tree domain\n Untagged Ports: None     \n   Tagged Ports: (U1/M1)   1   2   5   7   9  11 \n Mac-Vlan Ports: None\n     Monitoring: Disabled\n\nIf there are access switch ports assigned to the default VLAN, this is a finding.",
+  "fixtext": "Remove the assignment of the default VLAN from all access switch ports.\n\n1. Remove the default VLAN.\nRouter(config-vlan-5)#tag ethernet 1/1/48\nAdded tagged port(s) ethernet 1/1/48 to port-vlan 5.\nRouter(config-vlan-5)#\n\n2. Save the configuration.\nRouter(config-vlan-5)# write memory\n\nNote: The Default VLAN ID can be configurable by the administrator.",
+  "fix_id": "F-77685r1110747_fix",
+  "VulnDiscussion": "In a VLAN-based network, switches use the default VLAN (i.e., VLAN 1) for in-band management and to communicate with other networking devices using Spanning-Tree Protocol (STP), Dynamic Trunking Protocol (DTP), VLAN Trunking Protocol (VTP), and Port Aggregation Protocol (PAgP)—all untagged traffic. Therefore, the default VLAN may unwisely span the entire network if not appropriately pruned. If its scope is large enough, the risk of compromise can increase significantly.",
+  "Documentable": "false"
+}

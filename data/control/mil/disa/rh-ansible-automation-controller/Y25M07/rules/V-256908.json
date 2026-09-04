@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-256908",
+  "rule_id": "SV-256908r961206_rule",
+  "stig_id": "APAS-AT-000078",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Automation Controller must use cryptographic mechanisms to protect the integrity of log tools.",
+  "group_title": "SRG-APP-000290-AS-000174",
+  "idents": {
+    "cci": [
+      "CCI-001496"
+    ]
+  },
+  "check_id": "C-60583r902292_chk",
+  "check_content": "As an administrator, log in to each Automation Controller host.\n\nVerify the correct Red Hat RPM signing key is available on each host by listing the keys using the following command:\n\nrpm -qa gpg-pubkey*\n\nManually inspect against publicly listed keys on https://www.redhat.com. If the keys do not match, this is a finding.\n\nImport the key using the following command:\n\nrpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release\n\nVerify the signatures of installed RPMs necessary for Automation Controller:\n\nFor RPM in $(rpm -qa); do rpm -K --nosignature ${RPM} | grep \"NOT OK\" && return 1; done ; echo \"FAILED\"\n\nIf this outputs \"FAILED\", this is a finding.",
+  "fixtext": "The administrator must reinstall all Automation Controller hosts and Automation Controller.",
+  "fix_id": "F-60525r902293_fix",
+  "VulnDiscussion": "Protecting the integrity of the tools used for logging purposes is a critical step in ensuring the integrity of log data. Log data includes all information (e.g., log records, log settings, and log reports) needed to successfully log information system activity.\n\nIt is not uncommon for attackers to replace the log tools or inject code into the existing tools for the purpose of providing the capability to hide or erase system activity from the logs.\n\nTo address this risk, log tools must be cryptographically signed in order to provide the capability to identify when the log tools have been modified, manipulated, or replaced. An example is a checksum hash of the file or files.\n\nAutomation Controller server log tools must use cryptographic mechanisms to protect the integrity of the tools or allow cryptographic protection mechanisms to be applied to their tools.",
+  "Documentable": "false"
+}

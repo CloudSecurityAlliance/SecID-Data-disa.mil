@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217293",
+  "rule_id": "SV-217293r991589_rule",
+  "stig_id": "SLES-12-030401",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must not allow interfaces to accept Internet Protocol version 6 (IPv6) Internet Control Message Protocol (ICMP) redirect messages by default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-96519",
+      "V-81805"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-18521r370035_chk",
+  "check_content": "Verify the SUSE operating system does not allow IPv6 ICMP redirect messages by default.\n\nCheck the value of the \"default accept_redirects\" variables with the following command:\n\n# sudo sysctl net.ipv6.conf.default.accept_redirects\nnet.ipv6.conf.default.accept_redirects = 0\n\nIf the returned line does not have a value of \"0\", this is a finding.",
+  "fixtext": "Configure the SUSE operating system to not allow IPv6 ICMP redirect messages by default. \n\nSet the system to the required kernel parameter by adding the following line to \"/etc/sysctl.conf\" (or modify the line to have the required value):\n\nnet.ipv6.conf.default.accept_redirects=0\n\nRun the following command to apply this value:\n\n# sysctl –system",
+  "fix_id": "F-18519r370036_fix",
+  "VulnDiscussion": "ICMP redirect messages are used by routers to inform hosts that a more direct route exists for a particular destination. These messages modify the host's route table and are unauthenticated. An illicit ICMP redirect message could result in a man-in-the-middle attack.",
+  "Documentable": "false"
+}

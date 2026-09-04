@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-234936",
+  "rule_id": "SV-234936r958412_rule",
+  "stig_id": "SLES-15-030370",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The SUSE operating system must generate audit records for all uses of the ssh-agent command.",
+  "group_title": "SRG-OS-000037-GPOS-00015",
+  "idents": {
+    "cci": [
+      "CCI-000130",
+      "CCI-000169",
+      "CCI-000172",
+      "CCI-002884"
+    ]
+  },
+  "check_id": "C-38124r619077_chk",
+  "check_content": "Verify the SUSE operating system generates an audit record for all uses of the \"ssh-agent\" command.\n\nCheck that the command is being audited by performing the following command:\n\n> sudo auditctl -l | grep -w '/usr/bin/ssh-agent'\n\n-a always,exit -S all -F path=/usr/bin/ssh-agent -F perm=x -F auid>=1000 -F auid!=-1 -k privileged-ssh-agent\n\nIf the command does not return any output or the returned line is commented out, this is a finding.\n\nNote:\nThe \"-k\" allows for specifying an arbitrary identifier. The string following \"-k\" does not need to match the example output above.",
+  "fixtext": "Configure the SUSE operating system to generate an audit record for all uses of the \"ssh-agent\" command.\n\nAdd or update the following rules in the \"/etc/audit/rules.d/audit.rules\" file:\n\n-a always,exit -F path=/usr/bin/ssh-agent -F perm=x -F auid>=1000 -F auid!=4294967295 -k privileged-ssh-agent\n\nTo reload the rules file, restart the audit daemon\n\n> sudo systemctl restart auditd.service\n\nor issue the following command:\n\n> sudo augenrules --load",
+  "fix_id": "F-38087r619078_fix",
+  "VulnDiscussion": "Reconstruction of harmful events or forensic analysis is not possible if audit records do not contain enough information.\n\nAt a minimum, the organization must audit the full-text recording of privileged commands. The organization must maintain audit trails in sufficient detail to reconstruct events to determine the cause and impact of compromise.\n\nSatisfies: SRG-OS-000037-GPOS-00015, SRG-OS-000062-GPOS-00031, SRG-OS-000392-GPOS-00172, SRG-OS-000462-GPOS-00206, SRG-OS-000471-GPOS-00215",
+  "Documentable": "false"
+}

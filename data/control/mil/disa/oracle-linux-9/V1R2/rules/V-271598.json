@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271598",
+  "rule_id": "SV-271598r1092588_rule",
+  "stig_id": "OL09-00-000860",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must take appropriate action when the internal event queue is full.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-75648r1091504_chk",
+  "check_content": "Verify that OL 9 audit system is configured to take an appropriate action when the internal event queue is full:\n\n$ sudo grep -i overflow_action /etc/audit/auditd.conf \noverflow_action = syslog\n\nIf the value of the \"overflow_action\" option is not set to \"syslog\", \"single\", \"halt\" or the line is commented out, ask the system administrator (SA) to indicate how the audit logs are offloaded to a different system or media.\n\nIf there is no evidence that the transfer of the audit logs being offloaded to another system or media takes appropriate action if the internal event queue becomes full, this is a finding.",
+  "fixtext": "Configure OL 9 to take appropriate action when the internal event queue is full.\n\nEdit the /etc/audit/auditd.conf file and add or update the \"overflow_action\" option:\n\noverflow_action = syslog\n\nThe audit daemon must be restarted for changes to take effect.\n\nRestart auditd:\n$ sudo service auditd restart",
+  "fix_id": "F-75555r1092587_fix",
+  "VulnDiscussion": "The audit system should have an action setup in the event the internal event queue becomes full so that no data is lost. Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOffloading is a common process in information systems with limited audit storage capacity.\n\nSatisfies: SRG-OS-000342-GPOS-00133, SRG-OS-000479-GPOS-00224",
+  "Documentable": "false"
+}

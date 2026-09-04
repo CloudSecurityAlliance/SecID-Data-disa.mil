@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220585",
+  "rule_id": "SV-220585r960960_rule",
+  "stig_id": "CISC-ND-000460",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must be configured to limit privileges to change the software resident within software libraries.",
+  "group_title": "SRG-APP-000133-NDM-000244",
+  "idents": {
+    "legacy": [
+      "SV-110399",
+      "V-101295"
+    ],
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-22300r507801_chk",
+  "check_content": "Review the Cisco switch configuration to verify that it limits software change privileges.\n\nStep 1: If persistent logging is enabled as shown in the example below, go to Step 2. Otherwise, this requirement is not applicable.\n\nlogging persistent url disk0:/logfile size 134217728 filesize 16384\n\nStep 2: Verify that the switch is not configured with a privilege level other than \"15\" to allow access to the file system as shown in the example below:\n\nfile privilege 10 \n\nNote: The default privilege level required for access to the file system is \"15\"; hence, the command file privilege \"15\" will not be shown in the configuration.\n\nIf the switch is configured with a privilege level other than \"15\" to allow access to the file system, this is a finding.",
+  "fixtext": "If persistent logging is enabled, configure the switch to only allow administrators with privilege level \"15\" access to the file system as shown in the example below:\n\nSW4(config)#file privilege 15",
+  "fix_id": "F-22289r507802_fix",
+  "VulnDiscussion": "Changes to any software components of the network device can have significant effects on the overall security of the network. Therefore, only qualified and authorized individuals should be allowed administrative access to the network device for implementing any changes or upgrades. \n\nIf the network device were to enable unauthorized users to make changes to software libraries, those changes could be implemented without undergoing testing, validation, and approval.",
+  "Documentable": "false"
+}

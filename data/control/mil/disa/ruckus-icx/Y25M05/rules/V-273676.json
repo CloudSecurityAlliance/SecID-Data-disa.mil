@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-273676",
+  "rule_id": "SV-273676r1111002_rule",
+  "stig_id": "RCKS-L2S-000080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RUCKUS ICX switch must authenticate all network-connected endpoint devices before establishing any connection.",
+  "group_title": "SRG-NET-000343-L2S-000016",
+  "idents": {
+    "cci": [
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-77767r1110049_chk",
+  "check_content": "Verify if the switch configuration has 802.1x authentication implemented for all access switch ports connecting to LAN outlets (i.e., RJ-45 wall plates) or devices not located in the telecom room, wiring closets, or equipment rooms. MAC Authentication must be configured on those switch ports connected to devices that do not provide an 802.1x supplicant.\n\nshow running-config authentication\n  auth-default-vlan 100\n  re-authentication\n  reauth-period 2000\n  dot1x enable\n  dot1x enable ethernet 1/1/1 to 1/1/3\n  dot1x max-req 6\n  dot1x timeout tx-period 60\n  dot1x timeout quiet-period 30\n  mac-authentication enable\n  mac-authentication enable ethernet 1/1/18 to 1/1/19 \n\nIf 802.1x authentication or MAC Authentication is not configured on all access switch ports connecting to LAN outlets or devices not located in the telecom room, wiring closets, or equipment rooms, this is a finding.",
+  "fixtext": "Configure dot1x:\n\n1. Enter global config mode:\nRouter#configure terminal                                              \n\n2. Authentication configuration settings:\nRouter(config)#authentication                             \nRouter(config-authen)#auth-default-vlan 600 (user preference)\nRouter(config-authen)#re-authentication\nRouter(config-authen)#reauth-period 2000\nRouter(config-authen)#dot1x enable\nRouter(config-authen)#dot1x enable ethernet 1/1/14 to 1/1/15\nRouter(config-authen)#dot1x max-req 6\nRouter(config-authen)#dot1x timeout tx-period 60\nRouter(config-authen)#dot1x timeout quiet-period 30\nRouter(config-authen)#mac-authentication enable\nRouter(config-authen)#mac-authentication enable ethernet 1/1/18 to 1/1/19 \n\n3. Save:\nRouter#write memory",
+  "fix_id": "F-77672r1110050_fix",
+  "VulnDiscussion": "Without authenticating devices, unidentified or unknown devices may be introduced, thereby facilitating malicious activity.\n\nFor distributed architectures (e.g., service-oriented architectures), the decisions regarding the validation of authentication claims may be made by services separate from the services acting on those decisions. In such situations, it is necessary to provide authentication decisions (as opposed to the actual authenticators) to the services that need to act on those decisions.\n\nThis requirement applies to applications that connect either locally, remotely, or through a network to an endpoint device (including, but not limited to, workstations, printers, servers [outside a datacenter], VoIP phones, and VTC codecs). Gateways and SOA applications are examples of where this requirement would apply.\n\nDevice authentication is a solution enabling an organization to manage devices. It is an additional layer of authentication ensuring only specific pre-authorized devices can access the system.",
+  "Documentable": "false"
+}

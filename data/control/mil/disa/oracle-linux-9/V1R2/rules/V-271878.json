@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271878",
+  "rule_id": "SV-271878r1092346_rule",
+  "stig_id": "OL09-00-006041",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must ignore IPv6 Internet Control Message Protocol (ICMP) redirect messages.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75928r1092344_chk",
+  "check_content": "Note: If IPv6 is disabled on the system, this requirement is Not Applicable.\n\nVerify that OL 9 ignores IPv6 ICMP redirect messages.\n\nCheck the value of the \"accept_redirects\" variables with the following command:\n\n$ sysctl net.ipv6.conf.all.accept_redirects\nnet.ipv6.conf.all.accept_redirects = 0\n\nIf the returned line does not have a value of \"0\", a line is not returned, or the line is commented out, this is a finding.",
+  "fixtext": "Configure OL 9 to ignore IPv6 ICMP redirect messages.\n\nAdd or edit the following line in a single system configuration file in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv6.conf.all.accept_redirects = 0\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-75835r1092345_fix",
+  "VulnDiscussion": "An illicit ICMP redirect message could result in a man-in-the-middle attack.",
+  "Documentable": "false"
+}

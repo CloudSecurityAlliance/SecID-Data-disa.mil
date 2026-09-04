@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242406",
+  "rule_id": "SV-242406r960960_rule",
+  "stig_id": "CNTR-K8-000880",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes KubeletConfiguration file must be owned by root.",
+  "group_title": "SRG-APP-000133-CTR-000300",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-45681r863815_chk",
+  "check_content": "On the Kubernetes Control Plane and Worker nodes, run the command:\nps -ef | grep kubelet\n\nCheck the config file (path identified by: --config):\n\nChange to the directory identified by --config (example /etc/sysconfig/) run the command:\nls -l kubelet\n\nEach kubelet configuration file must be owned by root:root.\n\nIf any manifest file is not owned by root:root, this is a finding.",
+  "fixtext": "On the Control Plane and Worker nodes, change to the --config directory. Run the command:\nchown root:root kubelet\n\nTo verify the change took place, run the command:\nls -l kubelet\n\nThe kubelet file should now be owned by root:root.",
+  "fix_id": "F-45639r863816_fix",
+  "VulnDiscussion": "The kubelet configuration file contains the runtime configuration of the kubelet service. If an attacker can gain access to this file, changes can be made to open vulnerabilities and bypass user authorizations inherent within Kubernetes with RBAC implemented.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-239930",
+  "rule_id": "SV-239930r961554_rule",
+  "stig_id": "CASA-ND-001140",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco ASA must be configured to use FIPS-validated Keyed-Hash Message Authentication Code (HMAC) to protect the integrity of non-local maintenance and diagnostic communications.",
+  "group_title": "SRG-APP-000411-NDM-000330",
+  "idents": {
+    "cci": [
+      "CCI-002890"
+    ]
+  },
+  "check_id": "C-43163r666151_chk",
+  "check_content": "SSH Example\n\nStep 1: Verify that FIPS mode is enabled as shown in the example below. \n\nfips enable\n\nStep 2: Verify that SSH is configured to only use FIPS-compliant ciphers and that Diffie-Hellman Group 14  is used for the key exchange as shown in the example below.\n\nssh version 2\nssh cipher encryption fips\nssh key-exchange group dh-group14-sha1\n\nNote: The ASA only supports SSHv2.\n\nSNMP Example\n\nsnmp-server group NETOPS v3 auth \nsnmp-server user FWADMIN NETOPS v3 engineID xxxxxxxxxxxx encrypted auth sha xxxxxxxxxxxxxxxx \nsnmp-server host NDM_INTERFACE 10.1.48.10  version 3 FWADMIN\n\nIf the ASA is not configured to implement cryptographic mechanisms to protect the integrity of remote maintenance sessions using a FIPS 140-2 approved algorithm, this is a finding.",
+  "fixtext": "SSH Example\n\nStep 1: Enable FIPS mode via the fips enable command.\n\nStep 2: Configure SSH to only use FIPS-compliant ciphers and Diffie-Hellman Group 14 for the key exchange.\n\nASA(config)# ssh cipher encryption fips \nASA(config)# ssh key-exchange group dh-group14-sha\n\nSNMP Example\n\nASA(config)# snmp-server group NETOPS v3 auth\nASA(config)# snmp-server user FWADMIN NETOPS v3 auth sha xxxxxxxxxxxxxxx\nASA(config)# snmp-server host NDM_INTERFACE 10.1.48.10  version 3 FWADMIN \nASA(config)# end",
+  "fix_id": "F-43122r666152_fix",
+  "VulnDiscussion": "Unapproved mechanisms that are used for authentication to the cryptographic module are not verified and therefore cannot be relied upon to provide confidentiality or integrity, and DoD data may be compromised.\n\nNon-local maintenance and diagnostic activities are those activities conducted by individuals communicating through a network, either an external network (e.g., the internet) or an internal network.\n\nCurrently, HMAC is the only FIPS-approved algorithm for generating and verifying message/data authentication codes in accordance with FIPS 198-1. Products that are FIPS 140-2 validated will have an HMAC that meets specification; however, the option must be configured for use as the only message authentication code used for authentication to cryptographic modules.\n\nSeparate requirements for configuring applications and protocols used by each application (e.g., SNMPv3, SSHv2, NTP, HTTPS, and other protocols and applications that require server/client authentication) are required to implement this requirement. Where SSH is used, the SSHv2 protocol suite is required because it includes Layer 7 protocols such as SCP and SFTP, which can be used for secure file transfers.",
+  "Documentable": "false"
+}

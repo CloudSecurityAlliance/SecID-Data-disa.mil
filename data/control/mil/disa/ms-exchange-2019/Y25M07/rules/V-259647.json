@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259647",
+  "rule_id": "SV-259647r960759_rule",
+  "stig_id": "EX19-MB-000008",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange must have forms-based authentication enabled.",
+  "group_title": "SRG-APP-000014",
+  "idents": {
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-63386r942253_chk",
+  "check_content": "Open the Exchange Management Shell and enter the following command:\n\nGet-OwaVirtualDirectory | Select-Object -Property ServerName, Name, Identity, *Authentication\n\nIf the value of \"FormsAuthentication\" is not set to \"False\", this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-OwaVirtualDirectory -Identity <'IdentityName'> -FormsAuthentication $false\n\nNote: <IdentityName> must be in quotes.\n\nExample for the Identity Name: <ServerName>\\owa (Default website)\n\nRestart the IIS service.",
+  "fix_id": "F-63294r942254_fix",
+  "VulnDiscussion": "Identification and Authentication provide the foundation for access control. Access to email services applications in the DOD requires authentication using DOD Public Key Infrastructure (PKI) certificates. Authentication for Outlook Web App (OWA) is used to enable web access to user email mailboxes and should assume that certificate-based authentication has been configured. This setting controls whether forms-based logon should be used by the OWA website. \n\nBecause the DOD requires Common Access Card (CAC)-based authentication to applications, OWA access must be brokered through an application proxy or other preauthenticator, which performs CAC authentication prior to arrival at the CA server. The authenticated request is then forwarded directly to OWA, where authentication is repeated without requiring the user to repeat authentication steps. For this scenario to work, the Application Proxy server must have forms-based authentication enabled, and Exchange must have forms-based Authentication disabled. \n\nIf forms-based Authentication is enabled on the Exchange CA server, it is evidence that the application proxy server is either not correctly configured, or it may be missing.",
+  "Documentable": "false"
+}

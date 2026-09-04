@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269413",
+  "rule_id": "SV-269413r1101794_rule",
+  "stig_id": "ALMA-09-039290",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux 9 cryptographic policy must not be overridden.",
+  "group_title": "SRG-OS-000120-GPOS-00061",
+  "idents": {
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-73444r1101792_chk",
+  "check_content": "Verify that AlmaLinux 9 cryptographic policies are not overridden.\n\nVerify that the configured policy matches the generated policy with the following command:\n\n$ sudo update-crypto-policies --check\n\nThe configured policy matches the generated policy\n\nIf the returned message does not match the above, but instead matches the following, this is a finding:\n\nThe configured policy does NOT match the generated policy\n\nList all of the crypto backends configured on the system with the following command:\n\n$ ls -l /etc/crypto-policies/back-ends/ \n\nlrwxrwxrwx. 1 root root  40 Nov 13 16:29 bind.config -> /usr/share/crypto-policies/FIPS/bind.txt\nlrwxrwxrwx. 1 root root  42 Nov 13 16:29 gnutls.config -> /usr/share/crypto-policies/FIPS/gnutls.txt\nlrwxrwxrwx. 1 root root  40 Nov 13 16:29 java.config -> /usr/share/crypto-policies/FIPS/java.txt\nlrwxrwxrwx. 1 root root  46 Nov 13 16:29 javasystem.config -> /usr/share/crypto-policies/FIPS/javasystem.txt\nlrwxrwxrwx. 1 root root  40 Nov 13 16:29 krb5.config -> /usr/share/crypto-policies/FIPS/krb5.txt\nlrwxrwxrwx. 1 root root  45 Nov 13 16:29 libreswan.config -> /usr/share/crypto-policies/FIPS/libreswan.txt\nlrwxrwxrwx. 1 root root  42 Nov 13 16:29 libssh.config -> /usr/share/crypto-policies/FIPS/libssh.txt\n-rw-r--r--. 1 root root 398 Nov 13 16:29 nss.config\nlrwxrwxrwx. 1 root root  43 Nov 13 16:29 openssh.config -> /usr/share/crypto-policies/FIPS/openssh.txt\nlrwxrwxrwx. 1 root root  49 Nov 13 16:29 opensshserver.config -> /usr/share/crypto-policies/FIPS/opensshserver.txt\nlrwxrwxrwx. 1 root root  46 Nov 13 16:29 opensslcnf.config -> /usr/share/crypto-policies/FIPS/opensslcnf.txt\nlrwxrwxrwx. 1 root root  43 Nov 13 16:29 openssl.config -> /usr/share/crypto-policies/FIPS/openssl.txt\nlrwxrwxrwx. 1 root root  48 Nov 13 16:29 openssl_fips.config -> /usr/share/crypto-policies/FIPS/openssl_fips.txt\n\nIf the paths do not point to the respective files under /usr/share/crypto-policies/FIPS path, this is a finding.\n\nNote: nss.config should not be symlinked.\n\nNote: If there is an operational need to use a subpolicy that causes the links to the crypto backends to break, this is a finding, and exceptions will need to be made by the authorizing official (AO) and documented with the information system security officer (ISSO).",
+  "fixtext": "Configure AlmaLinux 9 to correctly implement the systemwide cryptographic policies by reinstalling the crypto-policies package contents.\n\nReinstall crypto-policies with the following command:\n\n$ sudo dnf -y reinstall crypto-policies\n\nSet the crypto-policy to FIPS with the following command:\n\n$ sudo update-crypto-policies --set FIPS\n\nSetting system policy to FIPS",
+  "fix_id": "F-73345r1101793_fix",
+  "VulnDiscussion": "Centralized cryptographic policies simplify applying secure ciphers across an operating system and the applications that run on that operating system. Use of weak or untested encryption algorithms undermines the purposes of using encryption to protect data.\n\nSatisfies: SRG-OS-000396-GPOS-00176, SRG-OS-000393-GPOS-00173, SRG-OS-000394-GPOS-00174",
+  "Documentable": "false"
+}

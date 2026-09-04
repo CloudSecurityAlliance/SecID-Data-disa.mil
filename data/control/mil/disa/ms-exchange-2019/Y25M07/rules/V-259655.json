@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259655",
+  "rule_id": "SV-259655r960882_rule",
+  "stig_id": "EX19-MB-000034",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RBAC role for audit log management must be defined and restricted.",
+  "group_title": "SRG-APP-000090",
+  "idents": {
+    "cci": [
+      "CCI-000171"
+    ]
+  },
+  "check_id": "C-63394r942277_chk",
+  "check_content": "Refer to the EDSP on who should be in the RBAC role group \"Audit Log\". It is automatically assigned to those in the Organization Management role group.\n\nIn an Exchange management shell, run the following cmdlet:\n\nGet-RoleGroup \"Records Management\"|Get-RoleGroupMember\n\nUnless specified in the EDSP that custom role group is specified for this permission, if this role group is empty this is a finding.",
+  "fixtext": "Refer to the EDSP on who should have the RBAC role \"Audit Log\". If a custom RBAC role is designated for the Audit Log role, ensure that the custom RBAC role group is populated.\n\nFollow the rule of least privilege.\n\nOtherwise, in an Exchange management shell, run the following:\n\n\"Add-RoleGroupMember -Identity \"Records Management\" -Member <user>\"\n\nWhere <user> is the personnel responsible for handling audit logs.",
+  "fix_id": "F-63302r942278_fix",
+  "VulnDiscussion": "The RBAC role for the audit log management \"Audit Log Role\" should be defined in the Organizational or Enterprise Domain Security Plan (EDSP) to define the necessary personnel that are required to handle audit logs for the Microsoft Exchange application. \n\nGroup membership should be audited regularly by checking the EDSP regularly and determine who should and should not have group membership.\n\nThere are three built-in groups that automatically have membership: Organization Management, Compliance Management, and Records Management.",
+  "Documentable": "false"
+}

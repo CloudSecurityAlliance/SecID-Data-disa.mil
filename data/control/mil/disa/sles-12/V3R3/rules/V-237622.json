@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-237622",
+  "rule_id": "SV-237622r991589_rule",
+  "stig_id": "SLES-12-030364",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must not be performing Internet Protocol version 6 (IPv6) packet forwarding unless the system is a router.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-40841r646827_chk",
+  "check_content": "Verify the SUSE operating system is not performing IPv6 packet forwarding, unless the system is a router.\n\nCheck to see if IPv6 forwarding is enabled using the following command:\n\n> sudo sysctl net.ipv6.conf.all.forwarding\nnet.ipv6.conf.all.forwarding = 0\n\nIf the network parameter \"ipv6.conf.all.forwarding\" is not equal to \"0\" or nothing is returned, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to not performing IPv6 packet forwarding by running the following command as an administrator:\n\n> sudo sysctl -w net.ipv6.conf.all.forwarding=0\n\nIf \"0\" is not the system's default value, add or update the following line in \"/etc/sysctl.d/99-stig.conf\":\n\n> sudo sh -c 'echo \"net.ipv6.conf.all.forwarding=0\" >> /etc/sysctl.d/99-stig.conf'\n\n> sudo sysctl --system",
+  "fix_id": "F-40804r646828_fix",
+  "VulnDiscussion": "Routing protocol daemons are typically used on routers to exchange network topology information with other routers. If this software is used when not required, system network information may be unnecessarily transmitted across the network.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255328",
+  "rule_id": "SV-255328r960888_rule",
+  "stig_id": "ASQL-00-004700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Database must initiate session auditing upon startup.",
+  "group_title": "SRG-APP-000092-DB-000208",
+  "idents": {
+    "cci": [
+      "CCI-001464"
+    ]
+  },
+  "check_id": "C-59001r871108_chk",
+  "check_content": "When Audits are enabled, they start up when the audits are enabled and remain operating until the audit is disabled. \n\nCheck if an audit is configured and enabled. \nTo determine if session auditing is configured and enabled, follow the instructions below: \nRun this TSQL command to determine if SQL Auditing is configured and enabled:\n   SELECT *\n   FROM sys.database_audit_specifications\n   where (name = 'SqlDbAuditing_ServerAuditSpec' \n       or name = 'SqlDbAuditing_AuditSpec')\n   and is_state_enabled = 1\n\nAll currently defined audits for the Azure SQL Database instance will be listed. If no audits are returned, this is a finding.",
+  "fixtext": "Deploy an Azure SQL Database audit.\n\nRefer to the supplemental file \"AzureSQLDatabaseAudit.txt\" PowerShell script.\n\nReference: \nhttps://docs.microsoft.com/en-us/powershell/module/az.sql/set-azsqlserveraudit",
+  "fix_id": "F-58945r877242_fix",
+  "VulnDiscussion": "Session auditing is for use when a user's activities are under investigation. To ensure capture of all activity during those periods when session auditing is in use, it needs to be in operation for the whole time Azure SQL Database is running.",
+  "Documentable": "false"
+}

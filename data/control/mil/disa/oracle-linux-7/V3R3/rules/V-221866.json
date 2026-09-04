@@ -1,0 +1,28 @@
+{
+  "vuln_id": "V-221866",
+  "rule_id": "SV-221866r1038944_rule",
+  "stig_id": "OL07-00-040500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must, for networked systems, synchronize clocks with a server that is synchronized to one of the redundant United States Naval Observatory (USNO) time servers, a time server designated for the appropriate DoD network (NIPRNet/SIPRNet), and/or the Global Positioning System (GPS).",
+  "group_title": "SRG-OS-000355-GPOS-00143",
+  "idents": {
+    "legacy": [
+      "V-99471",
+      "SV-108575"
+    ],
+    "cci": [
+      "CCI-001891",
+      "CCI-004923",
+      "CCI-002046",
+      "CCI-004926"
+    ]
+  },
+  "check_id": "C-36327r809163_chk",
+  "check_content": "Check to see if NTP is running in continuous mode.\n\n# ps -ef | grep ntp\n\nIf NTP is not running, check to see if \"chronyd\" is running in continuous mode:\n\n# ps -ef | grep chronyd\n\nIf NTP or \"chronyd\" is not running, this is a finding.\n\nIf the NTP process is found, then check the \"ntp.conf\" file for the \"maxpoll\" option setting:\n\n# grep maxpoll /etc/ntp.conf\nserver 0.rhel.pool.ntp.org iburst maxpoll 16\n\nIf the \"maxpoll\" option is set to a number greater than 16 or the line is commented out, this is a finding.\n\nIf the file does not exist, check the \"/etc/cron.daily\" subdirectory for a crontab file controlling the execution of the \"ntpd -q\" command.\n\n# grep -i \"ntpd -q\" /etc/cron.daily/*\n# ls -al /etc/cron.* | grep ntp\nntp\n\nIf a crontab file does not exist in the \"/etc/cron.daily\" that executes the \"ntpd -q\" command, this is a finding.\n\nIf the \"chronyd\" process is found, then check the \"chrony.conf\" file for the \"maxpoll\" option setting:\n\n# grep maxpoll /etc/chrony.conf\n\nserver 0.rhel.pool.ntp.org iburst maxpoll 16\n\nIf the option is not set or the line is commented out, this is a finding.",
+  "fixtext": "Edit the \"/etc/ntp.conf\" or \"/etc/chrony.conf\" file and add or update an entry to define \"maxpoll\" to \"16\" as follows:\n\nserver 0.rhel.pool.ntp.org iburst maxpoll 16\n\nIf NTP was running and \"maxpoll\" was updated, the NTP service must be restarted:\n\n# systemctl restart ntpd\n\nIf NTP was not running, it must be started:\n\n# systemctl start ntpd\n\nIf \"chronyd\" was running and \"maxpoll\" was updated, the service must be restarted:\n\n# systemctl restart chronyd.service\n\nIf \"chronyd\" was not running, it must be started:\n\n# systemctl start chronyd.service",
+  "fix_id": "F-36291r809164_fix",
+  "VulnDiscussion": "Inaccurate time stamps make it more difficult to correlate events and can lead to an inaccurate analysis. Determining the correct time a particular event occurred on a system is critical when conducting forensic analysis and investigating system events. Sources outside the configured acceptable allowance (drift) may be inaccurate.\n\nSynchronizing internal information system clocks provides uniformity of time stamps for information systems with multiple system clocks and systems connected over a network.\n\nOrganizations should consider endpoints that may not have regular access to the authoritative time server (e.g., mobile, teleworking, and tactical endpoints).\n\nSatisfies: SRG-OS-000355-GPOS-00143, SRG-OS-000356-GPOS-00144",
+  "Documentable": "false"
+}

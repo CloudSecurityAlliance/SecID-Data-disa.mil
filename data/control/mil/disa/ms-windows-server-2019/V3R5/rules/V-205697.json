@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-205697",
+  "rule_id": "SV-205697r958480_rule",
+  "stig_id": "WN19-00-000330",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2019 must not have the Microsoft FTP service installed unless required by the organization.",
+  "group_title": "SRG-OS-000096-GPOS-00050",
+  "idents": {
+    "legacy": [
+      "SV-103507",
+      "V-93421"
+    ],
+    "cci": [
+      "CCI-000382"
+    ]
+  },
+  "check_id": "C-5962r355009_chk",
+  "check_content": "If the server has the role of an FTP server, this is NA.\n\nOpen \"PowerShell\".\n\nEnter \"Get-WindowsFeature | Where Name -eq Web-Ftp-Service\".\n\nIf \"Installed State\" is \"Installed\", this is a finding.\n\nAn Installed State of \"Available\" or \"Removed\" is not a finding.\n\nIf the system has the role of an FTP server, this must be documented with the ISSO.",
+  "fixtext": "Uninstall the \"FTP Server\" role.\n\nStart \"Server Manager\".\n\nSelect the server with the role.\n\nScroll down to \"ROLES AND FEATURES\" in the right pane.\n\nSelect \"Remove Roles and Features\" from the drop-down \"TASKS\" list.\n\nSelect the appropriate server on the \"Server Selection\" page and click \"Next\".\n\nDeselect \"FTP Server\" under \"Web Server (IIS)\" on the \"Roles\" page.\n\nClick \"Next\" and \"Remove\" as prompted.",
+  "fix_id": "F-5962r355010_fix",
+  "VulnDiscussion": "Unnecessary services increase the attack surface of a system. Some of these services may not support required levels of authentication or encryption.",
+  "Documentable": "false"
+}

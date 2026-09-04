@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259667",
+  "rule_id": "SV-259667r960963_rule",
+  "stig_id": "EX19-MB-000065",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Exchange Internet Message Access Protocol 4 (IMAP4) service must be disabled.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-63406r942313_chk",
+  "check_content": "Note: This requirement applies to IMAP4. IMAP Secure is not restricted and does not apply to this requirement.\n\nOpen the Windows PowerShell and enter the following command:\n\nGet-Service -Name MSExchangeIMAPBE,MSExchangeImap4 |Select-Object -Property Name,StartType\n\nIf ANY of the IMAP services StartType is NOT set to \"Disabled\", this is a finding.",
+  "fixtext": "Open the Windows PowerShell in an Elevated Prompt and enter the following commands:\n\nGet-Service -Name MSExchangeIMAPBE,MSExchangeImap4 |ForEach-Object {Set-Service -Name $_.Name -StartupType Disabled}",
+  "fix_id": "F-63314r942314_fix",
+  "VulnDiscussion": "IMAP4 is not approved for use within the DOD. It uses a clear-text-based user name and password and does not support the DOD standard for PKI for email access. User name and password could easily be captured from the network, allowing a malicious user to access other system features. Uninstalling or disabling the service will prevent the use of the IMAP4 protocol.",
+  "Documentable": "false"
+}

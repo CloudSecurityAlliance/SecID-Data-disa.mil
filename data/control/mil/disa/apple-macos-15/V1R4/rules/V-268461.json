@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-268461",
+  "rule_id": "SV-268461r1034323_rule",
+  "stig_id": "APPL-15-001017",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must configure audit log folders to mode 700 or less permissive.",
+  "group_title": "SRG-OS-000057-GPOS-00027",
+  "idents": {
+    "cci": [
+      "CCI-000162",
+      "CCI-000163",
+      "CCI-000164",
+      "CCI-001493",
+      "CCI-001494",
+      "CCI-001495"
+    ]
+  },
+  "check_id": "C-72491r1034321_chk",
+  "check_content": "Verify the macOS system is configured with audit log folders set to mode 700 or less permissive with the following command:\n\n/usr/bin/stat -f %A $(/usr/bin/grep '^dir' /etc/security/audit_control | /usr/bin/awk -F: '{print $2}')\n\nIf the result is not a mode of 700 or less permissive, this is a finding.",
+  "fixtext": "Configure the macOS system with audit log folders set to mode 700 with the following command:\n\n/bin/chmod 700 /var/audit",
+  "fix_id": "F-72392r1034322_fix",
+  "VulnDiscussion": "The audit log folder must be configured to mode 700 or less permissive so that only the root user is able to read, write, and execute changes to folders.\n\nBecause audit logs contain sensitive data about the system and users, the audit service must be configured to mode 700 or less permissive to prevent normal users from reading, modifying or deleting audit logs.\n\nSatisfies: SRG-OS-000057-GPOS-00027, SRG-OS-000058-GPOS-00028, SRG-OS-000059-GPOS-00029, SRG-OS-000256-GPOS-00097, SRG-OS-000257-GPOS-00098, SRG-OS-000258-GPOS-00099",
+  "Documentable": "false"
+}

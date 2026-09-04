@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255336",
+  "rule_id": "SV-255336r961044_rule",
+  "stig_id": "ASQL-00-008500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Database must map the PKI-authenticated identity to an associated user account.",
+  "group_title": "SRG-APP-000177-DB-000069",
+  "idents": {
+    "cci": [
+      "CCI-000187"
+    ]
+  },
+  "check_id": "C-59009r877264_chk",
+  "check_content": "To verify that Azure Active Directory is configured as the authentication type, use the following PowerShell commands: \n\n$LogicalServerName = \"myServer\" \nGet-AzSqlServer -ServerName $LogicalServerName | Get-AzSqlServerActiveDirectoryOnlyAuthentication\n\nIf AzureADOnlyAuthentication returns False, this is a finding.",
+  "fixtext": "To set the Azure Active Directory Administrator, use the following PowerShell command: \n\n$LogicalServerName = \"myServer\" \nSet-AzSqlServerActiveDirectoryAdministrator -ResourceGroupName \"myResourceGroup\" -ServerName $LogicalServerName -DisplayName \"myAADIdentify\"\n\nAzure Active Directory Authentication can be enabled using either PowerShell or the Azure CLI.\n\nTo enable Azure Active Directory Authentication using PowerShell, use the commands below: \n\n######\n###### Sets the AAD Admin in the SQL Server using PowerShell ######\n######\n$LogicalServerName = \"myServer\" \n$ResourceGroup = \"myResourceGroup\"\n$DisplayName = \"<AAD Principal>\" \n$ObjectId = \"<GUID for AAD Principal>\"\n\nSet-AzSqlServerActiveDirectoryAdministrator `\n-ResourceGroupName $ResourceGroup `\n-ServerName $LogicalServerName `\n-DisplayName $DisplayName `\n-ObjectId$ObjectId\n\n#Sets AD Admin Only\nGet-AzSqlServer -ServerName $LogicalServerName `\n| Enable-AzSqlServerActiveDirectoryOnlyAuthentication\n\nTo enable Azure Active Directory Authentication using the Azure CLI, use the commands below:\n\n######\n###### Sets the AAD Admin in the SQL Server using the Azure CLI ######\n######\naz sql server ad-admin create `\n--resource-group $ResourceGroup \n--server $LogicalServerName `\n--display-name $DisplayName `\n--object-id $ObjectId `\n\n#Sets AD Admin Only\naz sql server ad-only-auth enable `\n--resource-group $ResourceGroup `\n--name $LogicalServerName \n\nhttps://docs.microsoft.com/en-us/cli/azure/sql/server/ad-only-auth?view=azure-cli-latest\nhttps://docs.microsoft.com/en-us/azure/azure-sql/database/authentication-aad-configure?tabs=azure-powershell",
+  "fix_id": "F-58953r877265_fix",
+  "VulnDiscussion": "The DOD standard for authentication is DOD-approved PKI certificates. Once a PKI certificate has been validated, it must be mapped to an Azure SQL Database user account for the authenticated identity to be meaningful to Azure SQL Database and useful for authorization decisions.",
+  "Documentable": "false"
+}

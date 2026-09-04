@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-234823",
+  "rule_id": "SV-234823r958498_rule",
+  "stig_id": "SLES-15-010240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must disable the file system automounter unless required.",
+  "group_title": "SRG-OS-000114-GPOS-00059",
+  "idents": {
+    "cci": [
+      "CCI-000778",
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-38011r618738_chk",
+  "check_content": "Verify the SUSE operating system disables the ability to automount devices.\n\nCheck to see if automounter service is active with the following command:\n\n> systemctl status autofs\nautofs.service - Automounts filesystems on demand\nLoaded: loaded (/usr/lib/systemd/system/autofs.service; disabled)\nActive: inactive (dead)\n\nIf the \"autofs\" status is set to \"active\" and is not documented with the Information System Security Officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure the SUSE operating system to disable the ability to automount devices.\n\nTurn off the automount service with the following command:\n\n> systemctl stop autofs\n> systemctl disable autofs\n\nIf \"autofs\" is required for Network File System (NFS), it must be documented with the ISSO.",
+  "fix_id": "F-37974r618739_fix",
+  "VulnDiscussion": "Automatically mounting file systems permits easy introduction of unknown devices, thereby facilitating malicious activity.\n\nSatisfies: SRG-OS-000114-GPOS-00059, SRG-OS-000378-GPOS-00163",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257970",
+  "rule_id": "SV-257970r1106342_rule",
+  "stig_id": "RHEL-09-253075",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must not enable IPv4 packet forwarding unless the system is a router.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61711r1106340_chk",
+  "check_content": "Verify RHEL 9 is not performing IPv4 packet forwarding, unless the system is a router.\n\nCheck that IPv4 forwarding is disabled using the following command:\n\n$ sudo sysctl net.ipv4.conf.all.forwarding\n\nnet.ipv4.conf.all.forwarding = 0\n\nIf the IPv4 forwarding value is not \"0\" and is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.\n\nCheck that the configuration files are present to enable this network parameter.\n\n$ sudo grep -r net.ipv4.conf.all.forwarding /run/sysctl.d/*.conf /usr/local/lib/sysctl.d/*.conf /usr/lib/sysctl.d/*.conf /lib/sysctl.d/*.conf /etc/sysctl.conf /etc/sysctl.d/*.conf\n\n/etc/sysctl.d/99-sysctl.conf: net.ipv4.conf.all.forwarding = 0\n\nIf \"net.ipv4.conf.all.forwarding\" is not set to \"0\", is missing or commented out, this is a finding.\n\nIf conflicting results are returned, this is a finding.",
+  "fixtext": "Configure RHEL 9 to not allow IPv4 packet forwarding, unless the system is a router.\n\nAdd or edit the following line in a system configuration file in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv4.conf.all.forwarding=0\n\nRemove any configurations that conflict with the above from the following locations: \n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf\n/etc/sysctl.d/*.conf\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-61635r1106341_fix",
+  "VulnDiscussion": "Routing protocol daemons are typically used on routers to exchange network topology information with other routers. If this capability is used when not required, system network information may be unnecessarily transmitted across the network.\n\nThe sysctl --system command will load settings from all system configuration files. All configuration files are sorted by their filename in lexicographic order, regardless of the directories in which they reside. If multiple files specify the same option, the entry in the file with the lexicographically latest name will take precedence. Files are read from directories in the following list from top to bottom. Once a file of a given filename is loaded, any file of the same name in subsequent directories is ignored.\n\n/etc/sysctl.d/*.conf\n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf",
+  "Documentable": "false"
+}

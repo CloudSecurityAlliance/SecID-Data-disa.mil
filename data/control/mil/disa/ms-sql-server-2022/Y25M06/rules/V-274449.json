@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274449",
+  "rule_id": "SV-274449r1111115_rule",
+  "stig_id": "SQLI-22-016700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SQL Server execute permissions to access the registry must be revoked unless specifically required and approved.",
+  "group_title": "SRG-APP-000141-DB-000093",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-78542r1111113_chk",
+  "check_content": "To determine if permissions to execute registry extended stored procedures have been revoked from all users (other than dbo), execute the following command:\nSELECT OBJECT_NAME(major_id) AS [Stored Procedure]\n,dpr.NAME AS [Principal]\nFROM sys.database_permissions AS dp\nINNER JOIN sys.database_principals AS dpr ON dp.grantee_principal_id = dpr.principal_id\nWHERE major_id IN (\n OBJECT_ID('xp_regaddmultistring')\n,OBJECT_ID('xp_regdeletekey')\n,OBJECT_ID('xp_regdeletevalue')\n,OBJECT_ID('xp_regenumvalues')\n,OBJECT_ID('xp_regenumkeys')\n,OBJECT_ID('xp_regremovemultistring')\n,OBJECT_ID('xp_regwrite')\n,OBJECT_ID('xp_instance_regaddmultistring')\n,OBJECT_ID('xp_instance_regdeletekey')\n,OBJECT_ID('xp_instance_regdeletevalue')\n,OBJECT_ID('xp_instance_regenumkeys')\n,OBJECT_ID('xp_instance_regenumvalues')\n,OBJECT_ID('xp_instance_regremovemultistring')\n,OBJECT_ID('xp_instance_regwrite')\n)\nAND dp.[type] = 'EX'\nORDER BY dpr.NAME;\n\nIf any records are returned, review the system documentation to determine if accessing the registry via extended stored procedures is required and authorized. If it is not authorized, this is a finding.",
+  "fixtext": "Remove execute permissions to any registry extended stored procedure from all users (other than dbo):\nUSE master\nGO\nREVOKE EXECUTE ON [<procedureName>] FROM [<principal>]\nGO",
+  "fix_id": "F-78447r1111114_fix",
+  "VulnDiscussion": "Information systems are capable of providing a wide variety of functions and services. Some of the functions and services, provided by default, may not be necessary to support essential organizational operations (e.g., key missions, functions). \n\nIt is detrimental for applications to provide, or install by default, functionality exceeding requirements or mission objectives. \n\nApplications must adhere to the principles of least functionality by providing only essential capabilities.\n\nSQL Server may spawn additional external processes to execute procedures that are defined in the SQL Server but stored in external host files (external procedures). The spawned process used to execute the external procedure may operate within a different operating system security context than SQL Server and provide unauthorized access to the host system.\n\nThe registry contains sensitive information, including password hashes and clear text passwords. Registry extended stored procedures allow Microsoft SQL Server to access the machine's registry. The sensitivity of these procedures is exacerbated if Microsoft SQL Server is run under the Windows account LocalSystem. LocalSystem can read and write nearly all values in the registry, even those not accessible by the administrator. Unlike the xp_cmdshell extended stored procedure, which runs under a separate context if executed by a login not in the sysadmin role, the registry extended stored procedures always execute under the security context of the MSSQLServer service. Because the sensitive information is stored in the registry, it is essential that access to that information be properly guarded.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-273691",
+  "rule_id": "SV-273691r1111060_rule",
+  "stig_id": "RCKS-L2S-000240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RUCKUS ICX switch must not use the default VLAN for management traffic.",
+  "group_title": "SRG-NET-000512-L2S-000010",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-77782r1110094_chk",
+  "check_content": "Review switch configuration to confirm the management VLAN is designated and is not VLAN 1.  \n\n!\nvlan 235 name mgmt-vlan\n tagged ethernet 1/2/1 \n!\n\nIf the management VLAN is the same as the default VLAN or VLAN 1, this is a finding.",
+  "fixtext": "Configure a VLAN specifically for management use:\n\ndevice(config)# vlan 235 name mgmt-vlan\ndevice(config-vlan-235)# tag ethernet 1/2/1\ndevice(config-vlan-235)# interface ve 235\ndevice(config-vif-235)# ip addr x.x.x.x/x\n\nNote: For L2 images prior to release 10.0, the management VLAN can be configured per the example below. The default-gateway statement sets a metric of 1.\n\ndevice(config)# vlan 235 name mgmt-vlan\ndevice(config-vlan-235)# tag ethernet 1/2/1\ndevice(config-vlan-235)# management-vlan\ndevice(config-vlan-235)# default-gateway x.x.x.x 1\ndevice(config-vlan-235)# exit\ndevice(config)# ip addr x.x.x.x/x",
+  "fix_id": "F-77687r1110095_fix",
+  "VulnDiscussion": "Switches use the default VLAN (i.e., VLAN 1) for in-band management and to communicate with directly connected switches using Spanning-Tree Protocol (STP), Dynamic Trunking Protocol (DTP), VLAN Trunking Protocol (VTP), and Port Aggregation Protocol (PAgP)—all untagged traffic. Therefore, the default VLAN may unwisely span the entire network if not appropriately pruned. If its scope is large enough, the risk of compromise can increase significantly.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253075",
+  "rule_id": "SV-253075r958478_rule",
+  "stig_id": "TOSS-04-040200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "TOSS must disable the controller area network (CAN) protocol.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-56528r824895_chk",
+  "check_content": "Verify the operating system disables the ability to load the CAN protocol kernel module.\n\n$ sudo grep -r can /etc/modprobe.d/* | grep install\n\ninstall can /bin/false\n\nIf the command does not return any output, or the line is commented out, and use of the CAN protocol is not documented with the Information System Security Officer (ISSO) as an operational requirement, this is a finding.\n\nVerify the operating system disables the ability to use the CAN protocol.\n\nCheck to see if the CAN protocol is disabled with the following command:\n\n$ sudo grep -r can /etc/modprobe.d/* | grep \"blacklist\"\n\nblacklist can\n\nIf the command does not return any output or the output is not \"blacklist can\", and use of the CAN protocol is not documented with the Information System Security Officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure the operating system to disable the ability to use the CAN protocol kernel module.\n\nAdd or update the following lines in the file \"/etc/modprobe.d/blacklist.conf\":\n\ninstall can /bin/false\nblacklist can\n\nReboot the system for the settings to take effect.",
+  "fix_id": "F-56478r824896_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nFailing to disconnect unused protocols can result in a system compromise.\n\nThe Controller Area Network (CAN) is a serial communications protocol, which was initially developed for automotive and is now also used in marine, industrial, and medical applications. Disabling CAN protects the system against exploitation of any flaws in its implementation.",
+  "Documentable": "false"
+}

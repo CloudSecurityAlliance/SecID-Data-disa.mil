@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-275781",
+  "rule_id": "SV-275781r1106671_rule",
+  "stig_id": "DTBC-0076",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "DevTools Generative AI features must be disabled.",
+  "group_title": "SRG-APP-000089",
+  "idents": {
+    "cci": [
+      "CCI-000169"
+    ]
+  },
+  "check_id": "C-79883r1106604_chk",
+  "check_content": "Universal method:\n1. In the omnibox (address bar) type \"chrome:// policy\".\n2. If \"DevToolsGenAiSettings\" is not displayed under the \"Policy Name\" column or it is not set to \"2\" under the \"Policy Value\" column, this is a finding.\n\nWindows method:\n1. Start \"regedit\".\n2. Navigate to \"HKLM\\Software\\Policies\\Google\\Chrome\\\".\n3. If the \"DevToolsGenAiSettings\" value name does not exist or its value data is not set to \"2\", this is a finding.",
+  "fixtext": "Windows group policy:\n1. Open the group policy editor tool with gpedit.msc.\n2. Navigate to Policy Path: Computer Configuration\\Administrative Templates\\Google\\Google Chrome\\Generative AI\nPolicy Name: Settings for DevTools Generative AI Features\nPolicy State: Enabled\nPolicy Value: Do not allow DevTools Generative AI Features",
+  "fix_id": "F-79788r1106605_fix",
+  "VulnDiscussion": "These features in Google Chrome's DevTools employ generative AI models to provide additional debugging information. To use these features, Google Chrome collects data such as error messages, stack traces, code snippets, and network requests and sends them to a server owned by Google, which runs a generative AI model. Response body or authentication and cookie headers in network requests are not included in the data sent to the server.\n\n0 = Allow the feature to be used, while allowing Google to use relevant data to improve its AI models. Relevant data may include prompts, inputs, outputs, source materials, and written feedback, depending on the feature. It may also be reviewed by humans to improve AI models. 0 is the default value, except when noted below.\n\n1 = Allow the feature to be used, but does not allow Google to improve models using users' content (including prompts, inputs, outputs, source materials, and written feedback). 1 is the default value for Enterprise users managed by Google Admin console and for Education accounts managed by Google Workspace.\n\n2 = Do not allow the feature.",
+  "Documentable": "false"
+}

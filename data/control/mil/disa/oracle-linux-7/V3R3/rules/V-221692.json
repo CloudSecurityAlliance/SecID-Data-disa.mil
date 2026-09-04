@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-221692",
+  "rule_id": "SV-221692r1050789_rule",
+  "stig_id": "OL07-00-010340",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that users must provide a password for privilege escalation.",
+  "group_title": "SRG-OS-000373-GPOS-00156",
+  "idents": {
+    "legacy": [
+      "V-99123",
+      "SV-108227"
+    ],
+    "cci": [
+      "CCI-002038",
+      "CCI-004895"
+    ]
+  },
+  "check_id": "C-36269r860858_chk",
+  "check_content": "Verify the operating system requires users to supply a password for privilege escalation.\n\nCheck the configuration of the \"/etc/sudoers\" and \"/etc/sudoers.d/*\" files with the following command:\n\n$ sudo grep -ir nopasswd /etc/sudoers /etc/sudoers.d\n\nIf any occurrences of \"NOPASSWD\" are returned from the command and have not been documented with the Information System Security Officer (ISSO) as an organizationally defined administrative group utilizing MFA, this is a finding.",
+  "fixtext": "Configure the operating system to require users to supply a password for privilege escalation.\n\nCheck the configuration of the \"/etc/sudoers\" file with the following command:\n$ sudo visudo\n\nRemove any occurrences of \"NOPASSWD\" tags in the file.\n\nCheck the configuration of the /etc/sudoers.d/* files with the following command:\n$ sudo grep -ir nopasswd /etc/sudoers.d\n\nRemove any occurrences of \"NOPASSWD\" tags in the file.",
+  "fix_id": "F-36233r860859_fix",
+  "VulnDiscussion": "Without reauthentication, users may access resources or perform tasks for which authorization has not been granted. \n\nWhen operating systems provide the capability to escalate a functional capability, it is critical the user reauthenticate.\n\nSatisfies: SRG-OS-000373-GPOS-00156, SRG-OS-000373-GPOS-00157, SRG-OS-000373-GPOS-00158",
+  "Documentable": "false"
+}

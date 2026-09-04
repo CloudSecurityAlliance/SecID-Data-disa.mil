@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269098",
+  "rule_id": "SV-269098r1106505_rule",
+  "stig_id": "AD.3145_AD",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Windows Server hosting Active Directory Certificate Services (AD CS) must enforce Certificate Authority (CA) certificate management approval for certificate requests.",
+  "group_title": "SRG-OS-000324",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73128r1106504_chk",
+  "check_content": "Certificate templates with the following extended key usages AND that allow a requestor to supply the subject name in the request require manual approval. In the AD CS web server properties, select \"VulnerableCertTemplate\" properties. Verify that \"Subject Name\" and \"Supply in the request\" are selected.\n\nIf \"Subject Name\" AND \"Supply in the request\" are selected and if manual approval is not required, this is a finding. \n\nIf the \"Supply in Request\" is NOT selected, and the Enroll Permissions for the template have been limited to a select group of users/administrators, this is not a finding.",
+  "fixtext": "In the AD CS web server properties, select \"VulnerableCertTemplate\" properties and then select \"Subject Name\" and \"Supply in the request\".\n\nCertificate templates with the following extended key usages must require manual approval in all cases:\n  i. Smart Card Logon (1.3.6.1.4.1.311.20.2.2).\n ii. Any Purpose EKU (2.5.29.37.0).\niii. No EKU set. i.e., this is a (subordinate) CA certificate.\n\nCertificate templates with the following extended key usages AND that allow a requestor to supply the subject name in the request must require manual approval:\n  i. Client Authentication (1.3.6.1.5.5.7.3.2).\n ii. PKINIT Client Authentication (1.3.6.1.5.2.3.4).\niii. Supply in request\" setting:  VulnerableCertTemplate Properties.",
+  "fix_id": "F-73029r1028084_fix",
+  "VulnDiscussion": "When users are requesting new certificates through AD CS, there must be management approval and awareness for these requests. Without this, a user or bad actor could request certificates they should not have or should not have access to.",
+  "Documentable": "false"
+}

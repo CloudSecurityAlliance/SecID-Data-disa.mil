@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-273687",
+  "rule_id": "SV-273687r1110990_rule",
+  "stig_id": "RCKS-L2S-000190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RUCKUS ICX switch must enable Unidirectional Link Detection (UDLD) to protect against one-way connections.",
+  "group_title": "SRG-NET-000512-L2S-000004",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-77778r1110082_chk",
+  "check_content": "Review configuration for UDLD configuration (\"link keep-alive\"). \n\nRouter# show link-keepalive\nTotal link-keepalive enabled ports: 4\nKeepalive Retries: 3    Keepalive Interval: 1 Sec.\nPort    Physical Link   Logical Link    State           Link-vlan\n1/1/1   up              up              FORWARDING      3\n1/1/2   up              up              FORWARDING\n1/1/3   down            down            DISABLED\n1/1/4   up              down            DISABLED\n\nIf UDLD is not configured to protect against one-way connections, this is a finding.",
+  "fixtext": "Configure the switch to enable UDLD to protect against one-way connections.\n\n1. On a port for untagged control packets:\nRouter(config)# link-keepalive ethernet 1/1/1\n\n2. Optional trunk group:\nRouter(config)# link-keepalive ethernet 1/1/1 ethernet 1/1/2\n\nNote: To receive and send UDLD control packets tagged with a specific VLAN ID:\n\nRouter(config)# link-keepalive ethernet 1/1/18 vlan 22",
+  "fix_id": "F-77683r1110083_fix",
+  "VulnDiscussion": "In topologies where fiber optic interconnections are used, physical misconnections can occur that allow a link to appear to be up when there is a mismatched set of transmit/receive pairs. When such a physical misconfiguration occurs, protocols such as STP can cause network instability. UDLD is a layer 2 protocol that can detect these physical misconfigurations by verifying that traffic is flowing bidirectionally between neighbors. Ports with UDLD enabled periodically transmit packets to neighbor devices. If the packets are not echoed back within a specific time frame, the link is flagged as unidirectional and the interface is shut down.",
+  "Documentable": "false"
+}

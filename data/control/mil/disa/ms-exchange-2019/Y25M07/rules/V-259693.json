@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259693",
+  "rule_id": "SV-259693r961161_rule",
+  "stig_id": "EX19-MB-000142",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Exchange Global Recipient Count Limit must be set.",
+  "group_title": "SRG-APP-000261",
+  "idents": {
+    "cci": [
+      "CCI-001308"
+    ]
+  },
+  "check_id": "C-63432r942391_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP).\n\nDetermine the global maximum message recipient count.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-TransportConfig | Select-Object -Property Name, Identity, MaxRecipientEnvelopeLimit\n\nIf the value of \"MaxRecipientEnvelopeLimit\" is not set to \"5000\", this is a finding.\n\nor\n\nIf \"MaxRecipientEnvelopeLimit\" is set to an alternate value and has signoff and risk acceptance in the EDSP, this is not a finding.",
+  "fixtext": "Update the EDSP to specify the global maximum message recipient count.\n\nSet-TransportConfig -MaxRecipientEnvelopeLimit 5000\n\nor\n\nEnter the value as identified by the EDSP that has obtained a signoff with risk acceptance.\n\nRestart the Microsoft Exchange Information Store service.",
+  "fix_id": "F-63340r942392_fix",
+  "VulnDiscussion": "Email system availability depends in part on best practice strategies for setting tuning configurations. The Global Recipient Count Limit field is used to control the maximum number of recipients that can be specified in a single message sent from this server. Its primary purpose is to minimize the chance of an internal sender spamming other recipients, since spam messages often have a large number of recipients. Spam prevention can originate from both outside and inside organizations. While inbound spam is evaluated as it arrives, controls such as this one help prevent spam that might originate inside the organization.\n\nThe Recipient Count Limit is global to the Exchange implementation. Lower-level refinements are possible; however, in this configuration strategy, setting the value once at the global level facilitates a more available system by eliminating potential conflicts among multiple settings. A value of less than or equal to \"5000\" is probably larger than is needed for most organizations but is small enough to minimize usefulness to spammers and is easily handled by Exchange. An unexpanded distribution is handled as one recipient. Specifying \"unlimited\" may result in abuse.",
+  "Documentable": "false"
+}

@@ -1,0 +1,29 @@
+{
+  "vuln_id": "V-253828",
+  "rule_id": "SV-253828r1099947_rule",
+  "stig_id": "TANS-CN-000027",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Multifactor authentication must be enabled and enforced on the Tanium Server for all access and all accounts.",
+  "group_title": "SRG-APP-000148",
+  "idents": {
+    "cci": [
+      "CCI-000764",
+      "CCI-000056",
+      "CCI-000166",
+      "CCI-000766",
+      "CCI-001941",
+      "CCI-002010",
+      "CCI-004046",
+      "CCI-004047",
+      "CCI-000768"
+    ]
+  },
+  "check_id": "C-57280r842510_chk",
+  "check_content": "1. Access the Tanium Server.\n\n2. Log on to the server with an account that has administrative privileges.\n\n3. Run regedit as Administrator.\n\n4. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> WOW6432Node >> Tanium >> Tanium Server.\n\n5. Validate the value for REG_DWORD \"ForceSOAPSSLClientCert\" is set to \"1\".\n\n6. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> WOW6432Node >> Tanium >> Tanium Server.\n\n7. Validate the following keys exist and are configured:\n\nREG_SZ \"ClientCertificateAuthField\"\nFor example:\nX509v3 Subject Alternative Name\n\nREG_SZ \"ClientCertificateAuthRegex\"\nFor example-DoD:\n.+?Name:\\s*?(\\S+@[._a-zA-Z0-9]+).*\nNote: This regex may vary.\n\nREG_SZ \"ClientCertificateAuth\"\nFor example:\nE:\\Program Files\\Tanium\\Tanium Server\\cac.pem\n\nREG_SZ \"TrustedHostList\"\nFor example:\n127.0.0.1 (for IPv4) and [::1] (for IPv6)\n\nIf the value for REG_DWORD \"ForceSOAPSSLClientCert\" is not set to \"1\" and the remaining required registry values are not configured, this is a finding.",
+  "fixtext": "Use the vendor documentation titled \"Smart card authentication\" to implement correct configuration settings for this requirement.\n\n1. Access the Tanium Server.\n\n2. Log on to the server with an account that has administrative privileges.\n\n3. Run regedit as Administrator.\n\n4. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> WOW6432Node >> Tanium >> Tanium Server.\n\n5. Configure the value for REG_DWORD \"ForceSOAPSSLClientCert\" to \"1\".\n\n6. Navigate to HKEY_LOCAL_MACHINE >> SOFTWARE >> WOW6432Node >> Tanium >> Tanium Server.\n\n7. Configure the following keys:\n\nREG_SZ \"ClientCertificateAuthField\"\nFor example:\nX509v3 Subject Alternative Name\n\nREG_SZ \"ClientCertificateAuthRegex\"\nFor example-DoD:\n.+?Name:\\s*?(\\S+@[._a-zA-Z0-9]+).*\nNote: This regex may vary.\n\nREG_SZ \"ClientCertificateAuth\"\nFor example:\nE:\\Program Files\\Tanium\\Tanium Server\\cac.pem\n\nREG_SZ \"TrustedHostList\"\nFor example:\nAppend 127.0.0.1 (for IPv4) and [::1] (for IPv6)",
+  "fix_id": "F-57231r1099946_fix",
+  "VulnDiscussion": "To ensure accountability and prevent unauthenticated access, organizational users must be identified and authenticated to prevent potential misuse and compromise of the system.\n\nOrganizational users include organizational employees or individuals the organization deems to have equivalent status of employees (e.g., contractors). Organizational users (and any processes acting on behalf of users) must be uniquely identified and authenticated for all accesses, except the following.\n\n1. Accesses explicitly identified and documented by the organization. Organizations document specific user actions that can be performed on the information system without identification or authentication; and\n2. Accesses that occur through authorized use of group authenticators without individual authentication. Organizations may require unique identification of individuals in group accounts (e.g., shared privilege accounts) or for detailed accountability of individual activity.\n\nSatisfies: SRG-APP-000080; SRG-APP-000403; SRG-APP-000156; SRG-APP-000005; SRG-APP-000150; SRG-APP-000152",
+  "Documentable": "false"
+}

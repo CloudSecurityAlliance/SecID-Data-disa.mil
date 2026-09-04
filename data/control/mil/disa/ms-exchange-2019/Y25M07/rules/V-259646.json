@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259646",
+  "rule_id": "SV-259646r960759_rule",
+  "stig_id": "EX19-MB-000007",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange must use encryption for Outlook Web App (OWA) access.",
+  "group_title": "SRG-APP-000014",
+  "idents": {
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-63385r942250_chk",
+  "check_content": "Open an Exchange Management Shell and enter the following command:\n\nGet-ExchangeCertificate |Select-Object -Property Subject,Services,Thumbprint\n\nIf the certificate associated with the IIS service is not a trusted public certificate, this is a finding.\n\nIn the same Exchange Management Shell, run the following cmdlets:\n\nGet-OwaVirtualDirectory | Select-Object -Property internalurl, externalurl\n\nIf the value returned is not https://, this is a finding.\n\nOpen IIS Manager and locate the Exchange Server. In the navigation pane on the left, navigate to Sites >> Default Web Site >> owa. In the pane on the right, under /owa Home, in the IIS section, double-click \"SSL Settings\".\n\nIf the box \"Require SSL\" is not checked, this is a finding.",
+  "fixtext": "Ensure a trusted public certificate is installed for the Exchange server with the correct FQDNs that will service the domain. This will allow secure communications between clients and the server. This should be done before the server is put into production.\n\nOnce installed, in an elevated Exchange Management Shell, run the following cmdlet to associate the certificate with the IIS service:\n\nEnable-ExchangeCertificate -Thumbprint <thumbprint of public cert> -Services IIS\n\nSet the OWA URL to use HTTPS instead of HTTP by updating the URLs to HTTPS. \n\nIf the website is \"http://mail.contoso.com\" for both internal and external (for example), run the following cmdlet to set it to HTTPS:\n\nSet-OwaVirtualDirectory -Identity \"<Server>\\owa (Default Web Site) -InternalUrl \"https://mail.contoso.com/owa\" -ExternalUrl \"https://mail.contoso.com/owa\"\n\nNote: If this change is made, it must be done for the ECP virtual directory as well. A warning notifies users that this must be done.\n\nOpen IIS Manager and locate the Exchange Server. In the navigation pane on the left, navigate to Sites >> Default Web Site >> owa. In the pane on the right, under /owa Home, in the IIS section, double-click \"SSL Settings\".\n\nCheck the box for \"Require SSL\".",
+  "fix_id": "F-63293r942251_fix",
+  "VulnDiscussion": "This setting controls whether client machines should be forced to use secure channels to communicate with this virtual directory. If this feature is enabled, clients will only be able to communicate with the directory if they are capable of supporting secure communication with the server.\n\nThe use of secure communication prevents eavesdroppers from reading or modifying communications between servers and clients. The network and DMZ STIG identify criteria for OWA and Public Folder configuration in the network, including Common Access Card (CAC)-enabled preauthentication through an application firewall proxy.\n\nFailure to require secure connections on a website increases the potential for unintended eavesdropping or data loss.",
+  "Documentable": "false"
+}

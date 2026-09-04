@@ -1,0 +1,28 @@
+{
+  "vuln_id": "V-221897",
+  "rule_id": "SV-221897r1015193_rule",
+  "stig_id": "OL07-00-041003",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must implement certificate status checking for PKI authentication.",
+  "group_title": "SRG-OS-000375-GPOS-00160",
+  "idents": {
+    "legacy": [
+      "SV-108637",
+      "V-99533"
+    ],
+    "cci": [
+      "CCI-001948",
+      "CCI-004046",
+      "CCI-001953",
+      "CCI-001954"
+    ]
+  },
+  "check_id": "C-23612r419763_chk",
+  "check_content": "Verify the operating system implements certificate status checking for PKI authentication.\n\nCheck to see if Online Certificate Status Protocol (OCSP) is enabled on the system with the following command:\n\n# grep cert_policy /etc/pam_pkcs11/pam_pkcs11.conf | grep -v \"^#\"\n\ncert_policy = ca, ocsp_on, signature;\ncert_policy = ca, ocsp_on, signature;\ncert_policy = ca, ocsp_on, signature;\n\nThere should be at least three lines returned. \n\nIf \"ocsp_on\" is not present in all uncommented \"cert_policy\" lines in \"/etc/pam_pkcs11/pam_pkcs11.conf\", this is a finding.",
+  "fixtext": "Configure the operating system to do certificate status checking for PKI authentication.\n\nModify all of the \"cert_policy\" lines in \"/etc/pam_pkcs11/pam_pkcs11.conf\" to include \"ocsp_on\".",
+  "fix_id": "F-23601r419764_fix",
+  "VulnDiscussion": "Using an authentication device, such as a CAC or token that is separate from the information system, ensures that even if the information system is compromised, that compromise will not affect credentials stored on the authentication device.\n\nMultifactor solutions that require devices separate from information systems gaining access include, for example, hardware tokens providing time-based or challenge-response authenticators and smart cards such as the U.S. Government Personal Identity Verification card and the DoD Common Access Card.\n\nA privileged account is defined as an information system account with authorizations of a privileged user.\n\nRemote access is access to DoD nonpublic information systems by an authorized user (or an information system) communicating through an external, non-organization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nThis requirement only applies to components where this is specific to the function of the device or has the concept of an organizational user (e.g., VPN, proxy capability). This does not apply to authentication for the purpose of configuring the device itself (management).\n\nSatisfies: SRG-OS-000375-GPOS-00160, SRG-OS-000375-GPOS-00161, SRG-OS-000377-GPOS-00162",
+  "Documentable": "false"
+}

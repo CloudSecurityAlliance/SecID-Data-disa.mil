@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257961",
+  "rule_id": "SV-257961r1106323_rule",
+  "stig_id": "RHEL-09-253030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must log IPv4 packets with impossible addresses by default.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61702r1102001_chk",
+  "check_content": "Verify RHEL 9 logs IPv4 martian packets by default.\n\nCheck the value of the accept source route variable with the following command:\n\n$ sudo sysctl net.ipv4.conf.default.log_martians\n\nnet.ipv4.conf.default.log_martians = 1\n\nIf the returned line does not have a value of \"1\", a line is not returned, or the line is commented out, this is a finding.\n\nCheck that the configuration files are present to enable this network parameter.\n\n$ sudo grep -r net.ipv4.conf.default.log_martians /run/sysctl.d/*.conf /usr/local/lib/sysctl.d/*.conf /usr/lib/sysctl.d/*.conf /lib/sysctl.d/*.conf /etc/sysctl.conf /etc/sysctl.d/*.conf\n\n/etc/sysctl.d/99-sysctl.conf:net.ipv4.conf.default.log_martians = 1\n\nIf \"net.ipv4.conf.default.log_martians\" is not set to \"1\" or is missing, this is a finding.\n\nIf conflicting results are returned, this is a finding.",
+  "fixtext": "Configure RHEL 9 to log martian packets on IPv4 interfaces by default.\n\nAdd or edit the following line in a single system configuration file in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv4.conf.default.log_martians = 1\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-61626r1106322_fix",
+  "VulnDiscussion": "The presence of \"martian\" packets (which have impossible addresses) as well as spoofed packets, source-routed packets, and redirects could be a sign of nefarious network activity. Logging these packets enables this activity to be detected.\n\nPreventing unauthorized information transfers mitigates the risk of information, including encrypted representations of information, produced by the actions of prior users/roles (or the actions of processes acting on behalf of prior users/roles) from being available to any current users/roles (or current processes) that obtain access to shared system resources (e.g., registers, main memory, hard disks) after those resources have been released back to information systems. The control of information in shared resources is also commonly referred to as object reuse and residual information protection.\n\nThis requirement generally applies to the design of an information technology product, but it can also apply to the configuration of particular information system components that are, or use, such products. This can be verified by acceptance/validation processes in DOD or other government agencies.\n\nThere may be shared resources with configurable protections (e.g., files in storage) that may be assessed on specific information system components.\n\nRestricting access to the kernel message buffer limits access to only root. This prevents attackers from gaining additional system information as a nonprivileged user.\n\nThe sysctl --system command will load settings from all system configuration files. All configuration files are sorted by their filename in lexicographic order, regardless of the directories in which they reside. If multiple files specify the same option, the entry in the file with the lexicographically latest name will take precedence. Files are read from directories in the following list from top to bottom. Once a file of a given filename is loaded, any file of the same name in subsequent directories is ignored.\n\n/etc/sysctl.d/*.conf\n/run/sysctl.d/*.conf\n/usr/local/lib/sysctl.d/*.conf\n/usr/lib/sysctl.d/*.conf\n/lib/sysctl.d/*.conf\n/etc/sysctl.conf",
+  "Documentable": "false"
+}

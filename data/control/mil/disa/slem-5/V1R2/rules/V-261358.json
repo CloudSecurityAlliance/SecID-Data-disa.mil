@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261358",
+  "rule_id": "SV-261358r996829_rule",
+  "stig_id": "SLEM-05-411060",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must not have unnecessary account capabilities.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65087r996829_chk",
+  "check_content": "Verify all noninteractive SLEM 5 accounts do not have an interactive shell assigned to them with the following command:\n\nCheck the system accounts on the system.\n\n     > awk -F: '($7 !~ \"/sbin/nologin\" && $7 !~ \"/bin/false\"){print $1 \":\" $3 \":\" $7}' /etc/passwd\n     root:0:/bin/bash\n     nobody:65534:/bin/bash\n\nObtain the list of authorized system accounts from the information system security officer (ISSO).\n\nIf noninteractive accounts such as \"games\" or \"nobody\" are listed with an interactive shell, this is a finding.",
+  "fixtext": "Configure SLEM 5 so that all noninteractive accounts on the system have no interactive shell assigned to them.\n\nRun the following command to disable the interactive shell for a specific noninteractive user account:\n\n     > sudo usermod --shell /sbin/nologin nobody",
+  "fix_id": "F-64995r996523_fix",
+  "VulnDiscussion": "Accounts providing no operational purpose provide additional opportunities for system compromise. Therefore all necessary noninteractive accounts should not have an interactive shell assigned to them.",
+  "Documentable": "false"
+}

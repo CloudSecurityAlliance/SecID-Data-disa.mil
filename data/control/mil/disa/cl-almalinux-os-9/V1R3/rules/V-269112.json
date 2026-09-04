@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269112",
+  "rule_id": "SV-269112r1050606_rule",
+  "stig_id": "ALMA-09-002880",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All AlmaLinux OS 9 remote access methods must be monitored.",
+  "group_title": "SRG-OS-000032-GPOS-00013",
+  "idents": {
+    "cci": [
+      "CCI-000067"
+    ]
+  },
+  "check_id": "C-73143r1049113_chk",
+  "check_content": "Verify that AlmaLinux OS 9 monitors all remote access methods, by running the following command:\n\n$ grep -rsE '^(auth|authpriv|daemon)\\.\\*' /etc/rsyslog.conf /etc/rsyslog.d/*.conf\n\n/etc/rsyslog.conf:authpriv.*      /var/log/secure\n\nIf \"auth.*\", \"authpriv.*\" or \"daemon.*\" are not configured to be logged, this is a finding.",
+  "fixtext": "Add or update the following line to the \"/etc/rsyslog.conf\" file or a .conf file within /etc/rsyslog.d/:\n\nauth.*;authpriv.*;daemon.* /var/log/secure",
+  "fix_id": "F-73044r1047713_fix",
+  "VulnDiscussion": "Remote access services, such as those providing remote access to network devices and information systems, which lack automated monitoring capabilities, increase risk, and make remote user access management difficult at best.\n\nRemote access is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nAutomated monitoring of remote access sessions allows organizations to detect cyber attacks and also ensure ongoing compliance with remote access policies by auditing connection activities of remote access capabilities, such as Remote Desktop Protocol (RDP), on a variety of information system components (e.g., servers, workstations, notebook computers, smartphones, and tablets).\n\nMonitoring of remote access can be used to spot attacks such as brute-force authentication attempts and denial-of-service (DoS) attacks.",
+  "Documentable": "false"
+}

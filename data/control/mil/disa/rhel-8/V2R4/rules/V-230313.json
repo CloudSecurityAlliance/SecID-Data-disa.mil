@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-230313",
+  "rule_id": "SV-230313r1069304_rule",
+  "stig_id": "RHEL-08-010673",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8 must disable core dumps for all users.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-32982r1069217_chk",
+  "check_content": "Verify the operating system disables core dumps for all users by issuing the following command:\n\n$ sudo grep -r -s '^[^#].*core' /etc/security/limits.conf /etc/security/limits.d/*.conf\n\n/etc/security/limits.d/core_dumps.conf:* hard core 0\n\nThis can be set as a global domain (with the * wildcard) but may be set differently for multiple domains.\n\nIf the \"core\" item is missing, commented out, or the value is anything other than \"0\" and the need for core dumps is not documented with the Information System Security Officer (ISSO) as an operational requirement for all domains that have the \"core\" item assigned, this is a finding.",
+  "fixtext": "Configure the operating system to disable core dumps for all users.\n\nAdd the following line to the top of the /etc/security/limits.conf or in a \".conf\" file defined in /etc/security/limits.d/:\n\n* hard core 0",
+  "fix_id": "F-32957r1017123_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nA core dump includes a memory image taken at the time the operating system terminates an application. The memory image could contain sensitive data and is generally useful only for developers trying to debug problems.",
+  "Documentable": "false"
+}

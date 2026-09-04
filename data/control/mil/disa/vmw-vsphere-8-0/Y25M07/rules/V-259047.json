@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259047",
+  "rule_id": "SV-259047r961158_rule",
+  "stig_id": "VCLU-80-000065",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The vCenter Lookup service must set URIEncoding to UTF-8.",
+  "group_title": "SRG-APP-000251-AS-000165",
+  "idents": {
+    "cci": [
+      "CCI-001310"
+    ]
+  },
+  "check_id": "C-62787r934797_chk",
+  "check_content": "At the command prompt, run the following command:\n\n# xmllint --xpath \"//Connector[@URIEncoding != 'UTF-8'] | //Connector[not[@URIEncoding]]\" /usr/lib/vmware-lookupsvc/conf/server.xml\n\nExpected result:\n\nXPath set is empty\n\nIf any connectors are returned, this is a finding.",
+  "fixtext": "Navigate to and open:\n\n/usr/lib/vmware-lookupsvc/conf/server.xml\n\nConfigure the <Connector> node with the value:\n\nURIEncoding=\"UTF-8\"\n\nRestart the service with the following command:\n\n# vmon-cli --restart lookupsvc",
+  "fix_id": "F-62696r934798_fix",
+  "VulnDiscussion": "Invalid user input occurs when a user inserts data or characters into a hosted application's data entry field and the hosted application is unprepared to process that data. This results in unanticipated application behavior, potentially leading to an application compromise. Invalid user input is one of the primary methods employed when attempting to compromise an application.\n\nAn attacker can also enter Unicode characters into hosted applications in an effort to break out of the document home or root home directory or bypass security checks.",
+  "Documentable": "false"
+}

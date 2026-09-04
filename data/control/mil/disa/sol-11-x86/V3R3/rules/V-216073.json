@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-216073",
+  "rule_id": "SV-216073r959010_rule",
+  "stig_id": "SOL-11.1-020500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Any X Windows host must write .Xauthority files.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-75471",
+      "V-61003"
+    ],
+    "cci": [
+      "CCI-000297",
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17311r372601_chk",
+  "check_content": "If X Display Manager (XDM) is not used on the system, this is not applicable.\n\nDetermine if XDM is running.\nProcedure:\n# ps -ef | grep xdm\n\nIf X Display Manager (XDM) is not used on the system, this is not applicable.\n\nDetermine if XDM is running.\nProcedure:\n# ps -ef | grep xdm\n\nCheck for .Xauthority files being utilized by looking for such files in the home directory of a user that uses X.\n\nProcedure:\n# cd ~someuser\n# ls -la .Xauthority\n\nIf the .Xauthority file does not exist, ask the SA if the user is using X Windows. If the user is utilizing X Windows and the .Xauthority file does not exist, this is a finding.",
+  "fixtext": "Ensure the X Windows host is configured to write .Xauthority files into user home directories. \n\nEdit the Xaccess file. Ensure the line that writes the .Xauthority file is uncommented.",
+  "fix_id": "F-17309r372602_fix",
+  "VulnDiscussion": ".Xauthority files ensure the user is authorized to access the specific X Windows host. If .Xauthority files are not used, it may be possible to obtain unauthorized access to the X Windows host.",
+  "Documentable": "false"
+}

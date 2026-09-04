@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223539",
+  "rule_id": "SV-223539r958478_rule",
+  "stig_id": "ACF2-OS-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "IBM z/OS Inapplicable PPT entries must be invalidated.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "legacy": [
+      "V-97783",
+      "SV-106887"
+    ],
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-25212r836654_chk",
+  "check_content": "Review program entries in the IBM Program Properties Table (PPT). You may use a third-party product to examine these entries however, to determine program entries issue the following command from an ISPF command line:\n TSO ISRDDN LOAD IEFSDPPT \n Press Enter.\n\nInterpret the display as follows:\nExamine contents at offset 8 \nHex 'x2' - Bypass Password Protection \nHex 'x3' - Bypass Password Protection\nHex 'x4' - No data set Integrity\nHex 'x5' - No data set Integrity\nHex 'x6' - Both\nHex 'x7' - Both \nDetermine Privilege Key at offset 9. A value of hex '70' or less indicates an elevated privilege.\n\nFor each module identified in the 'eyecatcher' that has BYPASS Password Protection, No data set Integrity, an elevated Privilege Key or any combination thereof, determine if there is a valid loaded module. Again, you may use a third-party product otherwise execute the following steps:\nFrom an ISPF command line:\n TSO ISRDDN LOAD <privileged module>\n Press Enter.\n\nIf the return message is \"Load Failed\", make sure there is an entry in PARMLIB member SCHEDxx that revokes the excessive privilege, if this is not true, this is a finding.",
+  "fixtext": "Review the PPT and define all entries associated with non-existent or inapplicable modules as invalidated. Nullify the invalid IEFSDPPT entry by ensuring that there is a corresponding SCHED entry, which confers no special attributes. \n\nUse the following recommendations and techniques to provide protection for the PPT:\n\nReview the IEFSDPPT module and all programs that IBM has, by default, placed in the PPT to validate their applicability to the execution system. Refer to the IBM z/OS MVS Initialization and Tuning Reference documentation for the version and release of z/OS installed at the individual site for the actual contents of the default IEFSDPPT. \n\nModules for products not in use on the system will have their special privileges explicitly revoked. Do this by placing a PPT entry for each module in the SYS1.PARMLIB(SCHEDxx) member, specifying no special privileges. The PPT entry for each overridden program will be in the following format, accepting the default (unprivileged) values for the sub parameters:\n\nPPT PGMNAME(<program name>)\n\nAssemble documentation regarding these PPT entries, and the ISSO will keep it on file. Include the following in the documentation:\n\n- The product and release for which the PPT entry was made\n- The last date this entry was reviewed to authenticate status\n- The reason the module's privileges are being revoked",
+  "fix_id": "F-25200r504673_fix",
+  "VulnDiscussion": "It is detrimental for operating systems to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nOperating systems are capable of providing a wide variety of functions and services. Some of the functions and services, provided by default, may not be necessary to support essential organizational operations (e.g., key missions, functions).\n\nExamples of non-essential capabilities include, but are not limited to, games, software packages, tools, and demonstration software, not related to requirements or providing a wide array of functionality not required for every mission, but which cannot be disabled.",
+  "Documentable": "false"
+}

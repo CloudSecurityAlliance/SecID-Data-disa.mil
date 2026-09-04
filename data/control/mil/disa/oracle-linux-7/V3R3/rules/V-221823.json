@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221823",
+  "rule_id": "SV-221823r991580_rule",
+  "stig_id": "OL07-00-030830",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must audit all uses of the delete_module syscall.",
+  "group_title": "SRG-OS-000471-GPOS-00216",
+  "idents": {
+    "legacy": [
+      "V-99385",
+      "SV-108489"
+    ],
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-23538r833101_chk",
+  "check_content": "Verify the operating system generates audit records when successful/unsuccessful attempts to use the \"delete_module\" syscall occur. \n\nCheck the auditing rules in \"/etc/audit/audit.rules\" with the following command:\n\nNote: The output lines of the command are duplicated to cover both 32-bit and 64-bit architectures. Only the line appropriate for the system architecture must be present.\n\n$ sudo grep -w \"delete_module\" /etc/audit/audit.rules\n\n-a always,exit -F arch=b32 -S delete_module -F auid>=1000 -F auid!=unset -k module-change\n\n-a always,exit -F arch=b64 -S delete_module -F auid>=1000 -F auid!=unset -k module-change\n\nIf there are no audit rules defined for \"delete_module\", this is a finding.",
+  "fixtext": "Configure the operating system to generate audit records when successful/unsuccessful attempts to use the \"delete_module\" syscall occur. \n\nAdd or update the following rules in \"/etc/audit/rules.d/audit.rules\": \n\nNote: The rules are duplicated to cover both 32-bit and 64-bit architectures. Only the lines appropriate for the system architecture must be configured.\n\n-a always,exit -F arch=b32 -S delete_module -F auid>=1000 -F auid!=unset -k module-change\n\n-a always,exit -F arch=b64 -S delete_module -F auid>=1000 -F auid!=unset -k module-change\n\nThe audit daemon must be restarted for the changes to take effect.",
+  "fix_id": "F-23527r833102_fix",
+  "VulnDiscussion": "Without generating audit records specific to the security and mission needs of the organization, it would be difficult to establish, correlate, and investigate the events relating to an incident or identify those responsible for one. \n\nAudit records can be generated from various components within the information system (e.g., module or policy filter).\n\nSatisfies: SRG-OS-000471-GPOS-00216, SRG-OS-000477-GPOS-00222",
+  "Documentable": "false"
+}

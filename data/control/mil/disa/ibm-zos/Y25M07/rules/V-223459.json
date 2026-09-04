@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223459",
+  "rule_id": "SV-223459r958726_rule",
+  "stig_id": "ACF2-ES-000390",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "ACF2 PPGM GSO record value must specify protected programs that are only executed by privileged users.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "legacy": [
+      "SV-106719",
+      "V-97615"
+    ],
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-25132r504504_chk",
+  "check_content": "From the ACF command screen enter:\nSET CONTROL(GSO)\nLIST LIKE(PPGM-)\n\nRefer to the table of Sensitive Utilities resources and/or generic equivalent as detailed in the table. \n\nIf all applicable programs or their generic equivalent referenced below are represented by GSO PPGM record values, this is not a finding.\n\nSensitive Utility Controls\nProgram          Product          Function \nAHLGTF           z/OS             System Activity Tracing \nHHLGTF\nIHLGTF \n\nICPIOCP          z/OS             System Configuration \nIOPIOCP\nIXPIOCP\nIYPIOCP\nIZPIOCP \n\nBLSROPTR         z/OS             Data Management \n\nDEBE             OS/DEBE          Data Management \n\nDITTO            OS/DITTO         Data Management \n\nFDRZAPOP         FDR              Product Internal Modification \n\nGIMSMP           SMP/E            Change Management Product \n\nICKDSF           z/OS             DASD Management \n\nIDCSC01          z/OS             IDCAMS Set Cache Module \n\nIEHINITT         z/OS             Tape Management \n\nIFASMFDP         z/OS SMF         Data Dump Utility \n\nIND$FILE z/OS                     PC to Mainframe File Transfer\n                                  (Applicable only for classified systems) \n\nCSQJU003         IBM WebSphereMQ\nCSQJU004\nCSQUCVX\nCSQ1LOGP \nCSQUTIL \n\nWHOIS            z/OS              Share MOD to identify user name from USERID. \n                                   Restricted to data center personnel only.",
+  "fixtext": "Configure the PPGM GSO value indicating protected programs that are only executed by privileged users in the table below.\n\nSensitive Utility Controls\nProgram          Product          Function \nAHLGTF           z/OS             System Activity Tracing \nHHLGTF\nIHLGTF \n\nICPIOCP          z/OS             System Configuration \nIOPIOCP\nIXPIOCP\nIYPIOCP\nIZPIOCP \n\nBLSROPTR         z/OS             Data Management \n\nDEBE             OS/DEBE          Data Management \n\nDITTO            OS/DITTO         Data Management \n\nFDRZAPOP         FDR              Product Internal Modification \n\nGIMSMP           SMP/E            Change Management Product \n\nICKDSF           z/OS             DASD Management \n\nIDCSC01          z/OS             IDCAMS Set Cache Module \n\nIEHINITT         z/OS             Tape Management \n\nIFASMFDP         z/OS SMF         Data Dump Utility \n\nIND$FILE         z/OS             PC to Mainframe File Transfer\n                                  (Applicable only for classified systems) \n\nCSQJU003         IBM WebSphereMQ\nCSQJU004\nCSQUCVX\nCSQ1LOGP \nCSQUTIL \n \nWHOIS            z/OS             Share MOD to identify user name from USERID. \n                                  Restricted to data center personnel only.\n\nDefine protected programs that can only be executed by privileged users.\n\nPGM MASK(pgm mask1, ...,pgm-mask255)\n\nExample:\nSET C(GSO)\nINSERT PPGM PGM-MASK(<program name or generic equivalent>) \n\nF ACF2,REFRESH(PPGM)",
+  "fix_id": "F-25120r504505_fix",
+  "VulnDiscussion": "Preventing non-privileged users from executing privileged functions mitigates the risk that unauthorized individuals or processes may gain unnecessary access to information or privileges.\n\nPrivileged functions include, for example, establishing accounts, performing system integrity checks, or administering cryptographic key management activities. Non-privileged users are individuals that do not possess appropriate authorizations. Circumventing intrusion detection and prevention mechanisms or malicious code protection mechanisms are examples of privileged functions that require protection from non-privileged users.",
+  "Documentable": "false"
+}

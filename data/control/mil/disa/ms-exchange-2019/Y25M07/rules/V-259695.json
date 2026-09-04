@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-259695",
+  "rule_id": "SV-259695r1015277_rule",
+  "stig_id": "EX19-MB-000147",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Exchange malware scanning agent must be configured for automatic updates.",
+  "group_title": "SRG-APP-000272",
+  "idents": {
+    "cci": [
+      "CCI-004964",
+      "CCI-001247"
+    ]
+  },
+  "check_id": "C-63434r942397_chk",
+  "check_content": "In Exchange Management shell, run the following cmdlet:\n\nGet-MalwareFilteringServer |Select-Object -Property Name, *Update*\n\nIf the property \"Update frequency\" is not set, this is a finding.\n\nIf the Malware agent is not installed, then this is not applicable.",
+  "fixtext": "In an elevated Exchange management shell, run the following cmdlet:\n\nSet-MalwareFilteringServer -Identity <Identity> -UpdateFrequency <integer>\n\nWhere <Identity> is the name of the Exchange Server and <integer> is the update frequency (in minutes).\n\nRefer to the Enterprise Domain Security Plan (EDSP) for the update cadence that best aligns with the user's organization.",
+  "fix_id": "F-63342r986144_fix",
+  "VulnDiscussion": "Antimalware protection in Exchange Server 2019 helps combat viruses and spyware in an email messaging environment. Viruses infect other programs and data, and they spread throughout computer looking for programs to infect. Spyware gathers personal information (for example, sign-in information and personal data) and sends it back to its author.\n\nThe antimalware protection in Exchange Server was introduced in Exchange 2013 and is provided by the Transport agent named Malware Agent. The agent scans messages as they travel through the Transport service on a Mailbox server.\n\nTo ensure increased effectiveness of the Malware Agent, ensuring its signatures are automatically updated is imperative. Not doing so can lead to system compromise.\n\nThe Malware agent is installed during the initial installation of Microsoft Exchange server and if installed, is set for automatic updates by default.",
+  "Documentable": "false"
+}

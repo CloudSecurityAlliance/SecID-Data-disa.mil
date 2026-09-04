@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259709",
+  "rule_id": "SV-259709r961620_rule",
+  "stig_id": "EX19-MB-000234",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange must provide mailbox databases in a highly available and redundant configuration.",
+  "group_title": "SRG-APP-000435",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-63448r942439_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP).\n\nDetermine if a Database Availability Group exists.\nFrom Exchange Admin Center:\n1. In the pane on the left, navigate to \"servers\". \n2. In the pane on the right, navigate to the \"database availability groups\" tab.\n3. Verify a database availability group is configured with member servers.\n\nIf two or more member servers are not listed, this is a finding.\n\nFrom Exchange PowerShell, run the following cmdlet:\n\nGet-DatabaseAvailabilityGroup\n\nIf no DatabaseAvailabilityGroup is listed or a Database Availability Group is listed but has no member servers, this is a finding.\n\nDetermine if the Exchange Mailbox databases are using redundancy.\nFrom Exchange Admin Center:\n1. In the pane on the left, navigate to \"servers\".\n2. In the pane on the right, navigate to the \"databases\" tab.\n3. For each database, check the column \"SERVERS WITH COPIES\".\n\nUnless specified in the EDSP, if the \"SERVERS WITH COPIES\" column does not have two or more servers listed, this is a finding.\n\nFrom Exchange PowerShell, run the following cmdlet:\n\nGet-MailboxDatabaseCopyStatus -Identity <DatabaseName>\n\nUnless specified in the EDSP, if the output of this cmdlet does not show more than one copy, this is a finding.",
+  "fixtext": "Update the EDSP to specify how Exchange Mailbox databases use redundancy.\n\nAdd two or more Mailbox servers to the database availability group.\n\nAdd a database copy to one or more member servers within the database availability group.",
+  "fix_id": "F-63356r942440_fix",
+  "VulnDiscussion": "Exchange Server mailbox databases and any data contained in those mailboxes should be protected. This can be accomplished by configuring Mailbox servers and databases for high availability and site resilience.\n\nA database availability group (DAG) is a component of the Mailbox server high availability and site resilience framework built into Microsoft Exchange Server 2019. A DAG is a group of Mailbox servers that hosts a set of databases and provides automatic database-level recovery from failures that affect individual servers or databases.\n\nA DAG is a boundary for mailbox database replication and database and server switchovers and failovers.\n\nAny server in a DAG can host a copy of a mailbox database from any other server in the DAG. When a server is added to a DAG, it works with the other servers in the DAG to provide automatic recovery from failures that affect mailbox databases, such as a disk, server, or network failure.",
+  "Documentable": "false"
+}

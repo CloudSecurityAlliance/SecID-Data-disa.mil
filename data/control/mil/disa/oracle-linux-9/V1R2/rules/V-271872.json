@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271872",
+  "rule_id": "SV-271872r1092328_rule",
+  "stig_id": "OL09-00-006028",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must not enable IPv4 packet forwarding unless the system is a router.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75922r1092326_chk",
+  "check_content": "Verify that OL 9 is not performing IPv4 packet forwarding, unless the system is a router.\n\nCheck that IPv4 forwarding is disabled using the following command:\n\n$ sysctl net.ipv4.conf.all.forwarding\nnet.ipv4.conf.all.forwarding = 0\n\nIf the IPv4 forwarding value is not \"0\" and is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure OL 9 to not allow IPv4 packet forwarding unless the system is a router.\n\nAdd or edit the following line in a single system configuration file in the \"/etc/sysctl.d/\" directory:\n\nnet.ipv4.conf.all.forwarding = 0\n\nLoad settings from all system configuration files with the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-75829r1092327_fix",
+  "VulnDiscussion": "Routing protocol daemons are typically used on routers to exchange network topology information with other routers. If this capability is used when not required, system network information may be unnecessarily transmitted across the network.",
+  "Documentable": "false"
+}

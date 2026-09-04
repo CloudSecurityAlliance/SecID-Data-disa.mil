@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255977",
+  "rule_id": "SV-255977r882273_rule",
+  "stig_id": "ARST-L2-000140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Arista MLS layer 2 Arista MLS switch must implement Rapid STP where VLANs span multiple switches with redundant links.",
+  "group_title": "SRG-NET-000512-L2S-000003",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-59653r882271_chk",
+  "check_content": "In cases where VLANs do not span multiple switches, it is a best practice to not implement STP. Avoiding the use of STP will provide the most deterministic and highly available network topology. If STP is required, review the Arista MLS switch configuration to verify that Rapid STP has been implemented.\n\nswitch(config)#sh run | sec spanning-tree\nspanning-tree mode rstp\n!\n\nNote: MSTP can be configured as an alternate mode. MSTP uses RSTP for rapid convergence and enables multiple VLANs to be grouped into and mapped to the same spanning-tree instance, thereby reducing the number of spanning-tree instances needed to support a large number of VLANs.\n\nIf MSTP or Rapid STP has not been implemented where STP is required, this is a finding.",
+  "fixtext": "Configure the Arista MLS switch for Multiple Spanning-tree (MST) or Rapid STP to be implemented at the access and distribution layers where VLANs span multiple switches.\n\nswitch(config)#spanning-tree mode mstp\n\nThe Arista MLS switch can alternatively be configured for spanning-tree mode RSTP to support a spanning-tree instance for each VLAN:\n\nswitch(config)#\nspanning-tree mode rstp\n!",
+  "fix_id": "F-59596r882272_fix",
+  "VulnDiscussion": "Spanning Tree Protocol (STP) is implemented on bridges and switches to prevent layer 2 loops when a broadcast domain spans multiple bridges and switches and when redundant links are provisioned to provide high availability in case of link failures. Convergence time can be significantly reduced using Multiple Spanning-Tree (802.1s) instead of Rapid STP (802.1w) instead of STP (802.1d), resulting in improved availability. Multiple Spanning-Tree Protocol (MSTP) should be deployed by implementing either Rapid Per-VLAN-Spanning-Tree (Rapid-PVST) or Multiple Spanning-Tree MST, the latter scales topologies much better when there are many VLANs.",
+  "Documentable": "false"
+}

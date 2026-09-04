@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-261449",
+  "rule_id": "SV-261449r996754_rule",
+  "stig_id": "SLEM-05-654130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must generate audit records for all account creations, modifications, disabling, and termination events that affect /etc/group.",
+  "group_title": "SRG-OS-000004-GPOS-00004",
+  "idents": {
+    "cci": [
+      "CCI-000018",
+      "CCI-001403",
+      "CCI-001404",
+      "CCI-001405",
+      "CCI-002130",
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-65178r996752_chk",
+  "check_content": "Verify SLEM 5 generates an audit record when modifications occur to the \"/etc/group\" file with the following command:\n\n     > sudo auditctl -l | grep -w '/etc/group'\n     -w /etc/group -p wa -k account_mod\n\nIf the command does not return a line that matches the example or the line is commented out, this is a finding.\n\nNote: The \"-k\" value is arbitrary and can be different from the example output above.",
+  "fixtext": "Configure SLEM 5 to generate an audit record when all modifications to the \"/etc/group\" file occur.\n\nAdd or modify the following line in the \"/etc/audit/rules.d/audit.rules\" file:\n\n-w /etc/group -p wa -k account_mod\n\nTo reload the rules file, restart the audit daemon:\n\n     > sudo systemctl restart auditd.service\n\nor issue the following command:\n\n     > sudo augenrules --load",
+  "fix_id": "F-65086r996753_fix",
+  "VulnDiscussion": "Once an attacker establishes initial access to a system, the attacker often attempts to create a persistent method of reestablishing access. One way to accomplish this is for the attacker to simply create a new account. Auditing account creation mitigates this risk.\n\nTo address access requirements, SLEM 5 may be integrated with enterprise-level authentication/access/auditing mechanisms that meet or exceed access control policy requirements.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259645",
+  "rule_id": "SV-259645r960759_rule",
+  "stig_id": "EX19-MB-000006",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange must use encryption for RPC client access.",
+  "group_title": "SRG-APP-000014",
+  "idents": {
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-63384r942247_chk",
+  "check_content": "Open the Exchange Management Shell and enter the following command:\n\nGet-RpcClientAccess | Select-Object -Property Server, Name, EncryptionRequired\n\nIf the value of \"EncryptionRequired\" is not set to \"True\", this is a finding.\n\nNote: This is configured as \"True\" by default.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-RpcClientAccess -Server <ServerName> -EncryptionRequired $true",
+  "fix_id": "F-63292r942248_fix",
+  "VulnDiscussion": "This setting controls whether client machines are forced to use secure channels to communicate with the server. If this feature is enabled, clients will only be able to communicate with the server over secure communication channels.\n\nFailure to require secure connections to the client access server increases the potential for unintended eavesdropping or data loss.",
+  "Documentable": "false"
+}

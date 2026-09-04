@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259703",
+  "rule_id": "SV-259703r961494_rule",
+  "stig_id": "EX19-MB-000203",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange Outlook Anywhere clients must use NTLM authentication to access email.",
+  "group_title": "SRG-APP-000391",
+  "idents": {
+    "cci": [
+      "CCI-001953"
+    ]
+  },
+  "check_id": "C-63442r942421_chk",
+  "check_content": "Open the Exchange Management Shell and enter the following command:\n\nGet-OutlookAnywhere\n\nGet-OutlookAnywhere | Select-Object -Property Name, Identity, InternalClientAuthenticationMethod, ExternalClientAuthenticationMethod\n\nIf the value of \"InternalClientAuthenticationMethod\" and the value of \"ExternalClientAuthenticationMethod\" are not set to NTLM, this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nFor InternalClientAuthenticationMethod:\n\nSet-OutlookAnywhere -Identity '<IdentityName'> -InternalClientAuthenticationMethod NTLM\n\nFor ExternalClientAuthenticationMethod:\n\nSet-OutlookAnywhere -Identity '<IdentityName'> -ExternalClientAuthenticationMethod NTLM",
+  "fix_id": "F-63350r942422_fix",
+  "VulnDiscussion": "Identification and authentication provide the foundation for access control. Access to email services applications require NTLM authentication. Outlook Anywhere, if authorized for use by the site, must use NTLM authentication when accessing email.\n\nNote: There is a technical restriction in Exchange Outlook Anywhere that requires a direct SSL connection from Outlook to the Certificate Authority (CA) server. There is also a constraint where Microsoft supports that the CA server must participate in the Active Director (AD) domain inside the enclave. For this reason, Outlook Anywhere must be deployed only for enclave-sourced Outlook users.",
+  "Documentable": "false"
+}

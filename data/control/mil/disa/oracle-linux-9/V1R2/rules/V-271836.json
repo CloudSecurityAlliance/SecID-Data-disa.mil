@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271836",
+  "rule_id": "SV-271836r1092637_rule",
+  "stig_id": "OL09-00-003010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must configure SELinux context type to allow the use of a nondefault faillock tally directory.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-75886r1092636_chk",
+  "check_content": "Note: If the system does not have SELinux enabled and enforcing a targeted policy, or if the pam_faillock module is not configured for use, this requirement is Not Applicable.\n\nVerify that OL 9 configures the SELinux context type to allow the use of a nondefault faillock tally directory.\n\nVerify the location of the nondefault tally directory for the pam_faillock module with the following command:\n\n$ grep 'dir =' /etc/security/faillock.conf\ndir = /var/log/faillock\n\nCheck the security context type of the nondefault tally directory with the following command:\n\n$ ls -Zd /var/log/faillock\nunconfined_u:object_r:faillog_t:s0 /var/log/faillock\n\nIf the security context type of the nondefault tally directory is not \"faillog_t\", this is a finding.",
+  "fixtext": "Configure OL 9 to allow the use of a nondefault faillock tally directory while SELinux enforces a targeted policy.\n\nCreate a nondefault faillock tally directory (if it does not already exist) with the following example:\n\n$ sudo mkdir /var/log/faillock\n\nUpdate the /etc/selinux/targeted/contexts/files/file_contexts.local with \"faillog_t\" context type for the nondefault faillock tally directory with the following command:\n\n$ sudo semanage fcontext -a -t faillog_t \"/var/log/faillock(/.*)?\"\n\nUpdate the context type of the nondefault faillock directory/subdirectories and files with the following command:\n\n$ sudo restorecon -R -v /var/log/faillock",
+  "fix_id": "F-75793r1092219_fix",
+  "VulnDiscussion": "Not having the correct SELinux context on the faillock directory may lead to unauthorized access to the directory.",
+  "Documentable": "false"
+}

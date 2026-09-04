@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-268439",
+  "rule_id": "SV-268439r1034803_rule",
+  "stig_id": "APPL-15-000057",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The macOS system must limit SSH to FIPS-compliant connections.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "cci": [
+      "CCI-000068",
+      "CCI-000803",
+      "CCI-001453",
+      "CCI-002450",
+      "CCI-002421"
+    ]
+  },
+  "check_id": "C-72469r1034801_chk",
+  "check_content": "Verify the macOS system is configured to limit SSH to FIPS-compliant connections with the following command:\n\n  fips_ssh_config=(\"Ciphers aes128-gcm@openssh.com\" \"HostbasedAcceptedAlgorithms ecdsa-sha2-nistp256,ecdsa-sha2-nistp256-cert-v01@openssh.com\" \"HostKeyAlgorithms ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp256,sk-ecdsa-sha2-nistp256@openssh.com\" \"KexAlgorithms ecdh-sha2-nistp256\" \"MACs hmac-sha2-256-etm@openssh.com,hmac-sha2-256\" \"PubkeyAcceptedAlgorithms ecdsa-sha2-nistp256,ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com\" \"CASignatureAlgorithms ecdsa-sha2-nistp256,sk-ecdsa-sha2-nistp256@openssh.com\")\n  total=0\n  ret=\"pass\"\n  for config in $fips_ssh_config; do\n    if [[ \"$ret\" == \"fail\" ]]; then\n      break\n    fi\n    for u in $(/usr/bin/dscl . list /users shell | /usr/bin/egrep -v '(^_)|(root)|(/usr/bin/false)' | /usr/bin/awk '{print $1}'); do\n      sshCheck=$(/usr/bin/sudo -u $u /usr/bin/ssh -G . | /usr/bin/grep -ci \"$config\")\n      if [[ \"$sshCheck\" == \"0\" ]]; then\n        ret=\"fail\"\n        break\n      fi\n    done\n  done\n  echo $ret\n\nIf the result is not \"pass\", this is a finding.",
+  "fixtext": "Configure the macOS system to limit SSH to FIPS-compliant connections with the following command:\n\n  if [ -f /etc/ssh/crypto.conf ] && /usr/bin/grep -q \"Include /etc/ssh/crypto.conf\" /etc/ssh/ssh_config.d/100-macos.conf 2>/dev/null; then\n    /bin/ln -fs /etc/ssh/crypto/fips.conf /etc/ssh/crypto.conf\n  fi\n  include_dir=$(/usr/bin/awk '/^Include/ {print $2}' /etc/ssh/ssh_config | /usr/bin/tr -d '*')\n  \n  fips_ssh_config=(\"Ciphers aes128-gcm@openssh.com\" \"HostbasedAcceptedAlgorithms ecdsa-sha2-nistp256,ecdsa-sha2-nistp256-cert-v01@openssh.com\" \"HostKeyAlgorithms ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp256,sk-ecdsa-sha2-nistp256@openssh.com\" \"KexAlgorithms ecdh-sha2-nistp256\" \"MACs hmac-sha2-256-etm@openssh.com,hmac-sha2-256\" \"PubkeyAcceptedAlgorithms ecdsa-sha2-nistp256,ecdsa-sha2-nistp256-cert-v01@openssh.com,sk-ecdsa-sha2-nistp256-cert-v01@openssh.com\" \"CASignatureAlgorithms ecdsa-sha2-nistp256,sk-ecdsa-sha2-nistp256@openssh.com\")\n  for ssh_config in $fips_ssh_config; do\n    ssh_setting=$(echo $ssh_config | /usr/bin/cut -d \" \" -f1)\n    /usr/bin/grep -qEi \"^$ssh_setting\" \"${include_dir}01-mscp-ssh.conf\" && /usr/bin/sed -i \"\" \"s/^$ssh_setting.*/${ssh_config}/\" \"${include_dir}01-mscp-ssh.conf\" || echo \"$ssh_config\" >> \"${include_dir}01-mscp-ssh.conf\"\n    for u in $(/usr/bin/dscl . list /users shell | /usr/bin/egrep -v '(^_)|(root)|(/usr/bin/false)' | /usr/bin/awk '{print $1}'); do\n      config=$(/usr/bin/sudo -u $u /usr/bin/ssh -Gv . 2>&1)\n      configfiles=$(echo \"$config\" | /usr/bin/awk '/Reading configuration data/ {print $NF}'| /usr/bin/tr -d '\\r')\n      configarray=( ${(f)configfiles} )\n      if ! echo $config | /usr/bin/grep -q -i \"$ssh_config\" ; then\n        for c in $configarray; do\n          if [[ \"$c\" == \"/etc/ssh/crypto.conf\" ]]; then\n            continue\n          fi\n          \n          /usr/bin/sudo -u $u /usr/bin/grep -qEi \"^$ssh_setting\" \"$c\" && /usr/bin/sed -i \"\" \"s/^$ssh_setting.*/${ssh_config}/I\" \"$c\"\n          if [[ \"$c\" =~ \".ssh/config\" ]]; then\n            if /usr/bin/grep -qEi \"$ssh_setting\" \"$c\" 2> /dev/null; then\n              old_file=$(cat ~$u/.ssh/config)\n              echo \"$ssh_config\" > ~$u/.ssh/config\n              echo \"$old_file\" >> ~$u/.ssh/config\n            fi\n          fi\n        done\n      fi\n    done\n  done",
+  "fix_id": "F-72370r1034802_fix",
+  "VulnDiscussion": "SSH must be configured to limit the Ciphers, HostbasedAcceptedAlgorithms, HostKeyAlgorithms, KexAlgorithms, MACs, PubkeyAcceptedAlgorithms, CASignatureAlgorithms to algorithms that are FIPS-140 validated.\n\nFIPS 140-3 is the current standard for validating that mechanisms used to access cryptographic modules use authentication that meets federal requirements.\n\nOperating systems using encryption must use FIPS-validated mechanisms for authenticating to cryptographic modules.\n\nNOTE: For more information on FIPS compliance with the version of SSH included in the macOS, the manual page apple_ssh_and_fips has additional information.\n\nSatisfies: SRG-OS-000033-GPOS-00014, SRG-OS-000120-GPOS-00061, SRG-OS-000250-GPOS-00093, SRG-OS-000396-GPOS-00176, SRG-OS-000424-GPOS-00188, SRG-OS-000478-GPOS-00223",
+  "Documentable": "false"
+}

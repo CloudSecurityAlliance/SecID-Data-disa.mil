@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-66091",
+  "rule_id": "SV-80581r1_rule",
+  "stig_id": "HFFS-L2-000027",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HP FlexFabric Switch must not use the default VLAN for management traffic.",
+  "group_title": "SRG-NET-000512-L2S-000010",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-66735r1_chk",
+  "check_content": "Review the HP FlexFabric Switch configuration and verify that the default VLAN is not used to access the switch for management.\n\nIf the default VLAN is being used to access the HP FlexFabric Switch, this is a finding.\n\n<HP>display vlan 1\n\n VLAN ID: 1\n VLAN type: Static\n Route interface: Configured\n Description: VLAN 0001\n Name: VLAN 0001\n Tagged ports:   None\n Untagged ports:\n    GigabitEthernet1/0/1          GigabitEthernet1/0/2\n    GigabitEthernet1/0/3          GigabitEthernet1/0/4\n    GigabitEthernet1/0/5          GigabitEthernet1/0/6\n    GigabitEthernet1/0/7          GigabitEthernet1/0/8",
+  "fixtext": "Configure the HP FlexFabric Switch for management access to use a VLAN other than the default VLAN.\n\ninterface Vlan-interface xxxx\n description MGMT VLAN\n ip address xxx.xxx.xxx.xxx <mask>",
+  "fix_id": "F-72167r1_fix",
+  "VulnDiscussion": "Switches use the default VLAN (i.e., VLAN 1) for in-band management and to communicate with directly connected switches using Spanning-Tree Protocol (STP), Dynamic Trunking Protocol (DTP), VLAN Trunking Protocol (VTP), and Port Aggregation Protocol (PAgP)—all untagged traffic. As a consequence, the default VLAN may unwisely span the entire network if not appropriately pruned. If its scope is large enough, the risk of compromise can increase significantly.",
+  "Documentable": "false"
+}

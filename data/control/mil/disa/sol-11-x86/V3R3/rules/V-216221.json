@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216221",
+  "rule_id": "SV-216221r959010_rule",
+  "stig_id": "SOL-11.1-090010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "A file integrity baseline must be created, maintained, and reviewed at least weekly to determine if unauthorized changes have been made to important system files located in the root file system.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-47987",
+      "SV-60859"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17459r877439_chk",
+  "check_content": "The root role is required.\n\nSolaris 11 includes the Basic Account and Reporting Tool (BART), which uses cryptographic-strength checksums and file system metadata to determine changes. By default, the manifest generator catalogs all attributes of all files in the root (/) file system. File systems mounted on the root file system are cataloged only if they are of the same type as the root file system.\n\nA Baseline BART manifest may exist in: \n/var/adm/log/bartlogs/[control manifest filename]\n\nIf a BART manifest does not exist, this is a finding.\n\nAt least weekly, create a new BART baseline report.\n\n# bart create > /var/adm/log/bartlogs/[new manifest filename]\n\nCompare the new report to the previous report to identify any changes in the system baseline.\n\n# bart compare /var/adm/log/bartlogs/[baseline manifest filename] /var/adm/log/bartlogs/[new manifest filename]\n\nExamine the BART report for changes. If there are changes to system files in /etc that are not approved, this is a finding.",
+  "fixtext": "The root role is required.\n\nSolaris 11 includes the Basic Account and Reporting Tool (BART), which uses cryptographic-strength checksums and file system metadata to determine changes. By default, the manifest generator catalogs all attributes of all files in the root (/) file system. File systems mounted on the root file system are cataloged only if they are of the same type as the root file system.\n\nCreate a protected area to store BART manifests.\n# mkdir /var/adm/log/bartlogs\n# chmod 700 /var/adm/log/bartlogs\n\nAfter initial installation and configuration of the system, create a manifest report of the current baseline.\n\n# bart create > /var/adm/log/bartlogs/[baseline manifest filename]",
+  "fix_id": "F-17457r877440_fix",
+  "VulnDiscussion": "A file integrity baseline is a collection of file metadata used to evaluate the integrity of the system. A minimal baseline must contain metadata for all device files, setuid files, setgid files, system libraries, system binaries, and system configuration files. The minimal metadata must consist of the mode, owner, group owner, and modification times. For regular files, metadata must also include file size and a cryptographic hash of the file's contents.",
+  "Documentable": "false"
+}

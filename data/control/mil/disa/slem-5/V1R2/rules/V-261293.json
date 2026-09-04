@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261293",
+  "rule_id": "SV-261293r996357_rule",
+  "stig_id": "SLEM-05-232040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 SSH daemon public host key files must have mode 644 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65022r996355_chk",
+  "check_content": "Verify SLEM 5 SSH daemon public host key files have mode \"644\" or less permissive with the following command:\n\nNote: SSH public key files may be found in other directories on the system depending on the installation.\n\n     > find /etc/ssh -name 'ssh_host*key.pub' -exec stat -c \"%a %n\" {} \\;\n     644 /etc/ssh/ssh_host_rsa_key.pub\n     644 /etc/ssh/ssh_host_dsa_key.pub\n     644 /etc/ssh/ssh_host_ecdsa_key.pub\n     644 /etc/ssh/ssh_host_ed25519_key.pub\n\nIf any file has a mode more permissive than \"644\", this is a finding.",
+  "fixtext": "Configure SLEM 5 SSH daemon public host key files have mode \"644\" or less permissive.\n\nNote: SSH public key files may be found in other directories on the system depending on the installation.\n\nChange the mode of public host key files under \"/etc/ssh\" to \"644\" with the following command:\n\n     > sudo chmod 644 /etc/ssh/ssh_host*key.pub",
+  "fix_id": "F-64930r996356_fix",
+  "VulnDiscussion": "If a public host key file is modified by an unauthorized user, the SSH service may be compromised.",
+  "Documentable": "false"
+}

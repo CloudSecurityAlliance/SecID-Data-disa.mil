@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258062",
+  "rule_id": "SV-258062r991589_rule",
+  "stig_id": "RHEL-09-411115",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Local RHEL 9 initialization files must not execute world-writable programs.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-61803r926171_chk",
+  "check_content": "Verify that local initialization files do not execute world-writable programs with the following command:\n\nNote: The example will be for a system that is configured to create user home directories in the \"/home\" directory.\n\n$ sudo find /home -perm -002 -type f -name \".[^.]*\" -exec ls -ld {} \\; \n\nIf any local initialization files are found to reference world-writable files, this is a finding.",
+  "fixtext": "Set the mode on files being executed by the local initialization files with the following command:\n\n$ sudo chmod 0755 <file>",
+  "fix_id": "F-61727r926172_fix",
+  "VulnDiscussion": "If user start-up files execute world-writable programs, especially in unprotected directories, they could be maliciously modified to destroy user files or otherwise compromise the system at the user level. If the system is compromised at the user level, it is easier to elevate privileges to eventually compromise the system at the root and network level.",
+  "Documentable": "false"
+}

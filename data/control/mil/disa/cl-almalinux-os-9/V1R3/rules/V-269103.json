@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269103",
+  "rule_id": "SV-269103r1101811_rule",
+  "stig_id": "ALMA-09-001120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must automatically lock graphical user sessions after 15 minutes of inactivity.",
+  "group_title": "SRG-OS-000031-GPOS-00012",
+  "idents": {
+    "cci": [
+      "CCI-000060"
+    ]
+  },
+  "check_id": "C-73134r1101809_chk",
+  "check_content": "Note: This requirement assumes the use of the AlmaLinux OS 9 default graphical user interface, the GNOME desktop environment. If the system does not have any graphical user interface installed, this requirement is Not Applicable.\n\nVerify AlmaLinux OS 9 initiates a session lock after a 10-minute period of inactivity for graphical user interfaces with the following command:\n\n$ gsettings get org.gnome.desktop.session idle-delay\n\nuint32 600\n\nIf \"idle-delay\" is set to \"0\" or a value greater than \"600\", this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to initiate a screensaver after a 10-minute period of inactivity for graphical user interfaces.\n\nCreate a database to contain the systemwide screensaver settings (if it does not already exist) with the following command:\n\n$ touch /etc/dconf/db/local.d/00-screensaver\n\nEdit /etc/dconf/db/local.d/00-screensaver and add or update the following lines:\n\n[org/gnome/desktop/session]\n# Set the lock time out to 600 seconds before the session is considered idle\nidle-delay=uint32 600\n\nUpdate the system databases:\n\n$ dconf update",
+  "fix_id": "F-73035r1101810_fix",
+  "VulnDiscussion": "A session lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not log out because of the temporary nature of the absence.\n\nThe session lock is implemented at the point where session activity can be determined. The operating system session lock event must include an obfuscation of the display screen so as to prevent other users from reading what was previously displayed.\n\nPublicly viewable images can include static or dynamic images, for example, patterns used with screen savers, photographic images, solid colors, a clock, a battery life indicator, or a blank screen, with the additional caveat that none of the images convey sensitive information.",
+  "Documentable": "false"
+}

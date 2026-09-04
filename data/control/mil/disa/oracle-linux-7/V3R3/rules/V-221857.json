@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221857",
+  "rule_id": "SV-221857r991554_rule",
+  "stig_id": "OL07-00-040400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that the SSH daemon is configured to only use Message Authentication Codes (MACs) employing FIPS 140-2 approved cryptographic hash algorithms.",
+  "group_title": "SRG-OS-000250-GPOS-00093",
+  "idents": {
+    "legacy": [
+      "SV-108557",
+      "V-99453"
+    ],
+    "cci": [
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-23572r622272_chk",
+  "check_content": "Verify the SSH daemon is configured to only use MACs employing FIPS 140-2-approved hashes.\n\nNote: If OL07-00-021350 is a finding, this is automatically a finding, as the system cannot implement FIPS 140-2-approved cryptographic algorithms and hashes.\n\nCheck that the SSH daemon is configured to only use MACs employing FIPS 140-2-approved hashes with the following command:\n\n# grep -i macs /etc/ssh/sshd_config\nMACs hmac-sha2-512,hmac-sha2-256\n\nIf any ciphers other than \"hmac-sha2-512\" or \"hmac-sha2-256\" are listed, the order differs from the example above, they are missing,  or the returned line is commented out, this is a finding.",
+  "fixtext": "Edit the \"/etc/ssh/sshd_config\" file to uncomment or add the line for the \"MACs\" keyword and set its value to \"hmac-sha2-512\" and/or \"hmac-sha2-256\" (this file may be named differently or be in a different location if using a version of SSH that is provided by a third-party vendor):\n\nMACs hmac-sha2-512,hmac-sha2-256\n\nThe SSH service must be restarted for changes to take effect.",
+  "fix_id": "F-23561r622273_fix",
+  "VulnDiscussion": "DoD information systems are required to use FIPS 140-2 approved cryptographic hash functions. The only SSHv2 hash algorithm meeting this requirement is SHA.\n\nThe system will attempt to use the first hash presented by the client that matches the server list. Listing the values \"strongest to weakest\" is a method to ensure the use of the strongest hash available to secure the SSH connection.",
+  "Documentable": "false"
+}

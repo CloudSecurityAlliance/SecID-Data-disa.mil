@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-258060",
+  "rule_id": "SV-258060r1045150_rule",
+  "stig_id": "RHEL-09-411105",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must ensure account lockouts persist.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-61801r1045149_chk",
+  "check_content": "Verify the \"/etc/security/faillock.conf\" file is configured to use a nondefault faillock directory to ensure contents persist after reboot with the following command:\n\n$ sudo grep -w dir /etc/security/faillock.conf\n\ndir = /var/log/faillock\n\nIf the \"dir\" option is not set to a nondefault documented tally log directory or is missing or commented out, this is a finding.",
+  "fixtext": "Configure RHEL 9 maintain the contents of the faillock directory after a reboot.\n\nAdd/modify the \"/etc/security/faillock.conf\" file to match the following line:\n\ndir = /var/log/faillock",
+  "fix_id": "F-61725r926166_fix",
+  "VulnDiscussion": "Having lockouts persist across reboots ensures that account is only unlocked by an administrator. If the lockouts did not persist across reboots, an attacker could simply reboot the system to continue brute force attacks against the accounts on the system.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253836",
+  "rule_id": "SV-253836r1099950_rule",
+  "stig_id": "TANS-DB-000005",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Firewall rules must be configured on the Tanium Server for server-to-database communications.",
+  "group_title": "SRG-APP-000383",
+  "idents": {
+    "cci": [
+      "CCI-001762"
+    ]
+  },
+  "check_id": "C-57288r842534_chk",
+  "check_content": "Consult with the Tanium system administrator to verify which firewall is being used as a host-based firewall on the Tanium Server.\n\n1. Access the Tanium Server.\n\n2. Log on to the server with an account that has administrative privileges. \n\n3. Access the host-based firewall configuration on the Tanium Server.\n\n4. Validate a rule exists for the following:\n\nPort Needed: Tanium Server to Remote SQL Server over TCP port 1433.\n\nIf a host-based firewall rule does not exist to allow Tanium Server to Remote SQL Server over TCP port 1433, this is a finding.\n\nConsult with the network firewall administrator and validate rules exist for the following:\n\nAllow traffic from Tanium Server to Remote SQL Server over TCP port 1433.\n\nIf a network firewall rule does not exist to allow traffic from Tanium Server to Remote SQL Server over TCP port 1433, this is a finding.",
+  "fixtext": "1. Configure host-based firewall rules on the Tanium Server to include the following required traffic:\n\nAllow TCP traffic on port 1433 from the Tanium Server to the Remote SQL Server.\n\n2. Configure the network firewall to allow the above traffic.",
+  "fix_id": "F-57239r842535_fix",
+  "VulnDiscussion": "The Tanium Server can use either a SQL Server relational database management system (RDBMS) installed locally to the same device as the Tanium Server application or a remote dedicated or shared SQL Server instance. Using a local SQL Server database typically requires no changes to network firewall rules since all communication remains on the Tanium application server device. To access database resources installed to a remote device, however, the Tanium Server service communicates over the port reserved for SQL, by default port 1433, to the database.\n\nPort Needed: Tanium Server to Remote SQL Server over TCP port 1433.\n\nNetwork firewall rules:\n\nAllow TCP traffic on port 1433 from the Tanium Server device to the remote device hosting the SQL Server RDBMS.",
+  "Documentable": "false"
+}

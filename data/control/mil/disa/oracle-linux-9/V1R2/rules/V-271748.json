@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271748",
+  "rule_id": "SV-271748r1091956_rule",
+  "stig_id": "OL09-00-002409",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must disable access to network bpf system call from nonprivileged processes.",
+  "group_title": "SRG-OS-000132-GPOS-00067",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-75798r1091954_chk",
+  "check_content": "Verify that OL 9 prevents privilege escalation thru the kernel by disabling access to the bpf system call with the following commands:\n\n$ sysctl kernel.unprivileged_bpf_disabled\nkernel.unprivileged_bpf_disabled = 1\n\nIf the returned line does not have a value of \"1\", or a line is not returned, this is a finding.",
+  "fixtext": "Configure OL 9 to prevent privilege escalation thru the kernel by disabling access to the bpf syscall by adding the following line to a file, in the \"/etc/sysctl.d\" directory:\n\nkernel.unprivileged_bpf_disabled = 1\n\nThe system configuration files need to be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-75705r1091955_fix",
+  "VulnDiscussion": "Loading and accessing the packet filters programs and maps using the bpf() system call has the potential of revealing sensitive information about the kernel state.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221773",
+  "rule_id": "SV-221773r958754_rule",
+  "stig_id": "OL07-00-030321",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that the audit system takes appropriate action when there is an error sending audit records to a remote system.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "legacy": [
+      "SV-108389",
+      "V-99285"
+    ],
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-36292r602470_chk",
+  "check_content": "Verify the action the operating system takes if there is an error sending audit records to a remote system.\n\nCheck the action that takes place if there is an error sending audit records to a remote system with the following command:\n\n# grep -i network_failure_action /etc/audisp/audisp-remote.conf\nnetwork_failure_action = syslog\n\nIf the value of the \"network_failure_action\" option is not \"syslog\", \"single\", or \"halt\", or the line is commented out, ask the System Administrator to indicate how the audit logs are off-loaded to a different system or storage media, and to indicate the action taken if there is an error sending audit records to the remote system.\n\nIf there is no evidence that the system is configured to off-load audit logs to a different system or storage media, or if the configuration does not take appropriate action if there is an error sending audit records to the remote system, this is a finding.",
+  "fixtext": "Configure the action the operating system takes if there is an error sending audit records to a remote system.\n\nUncomment the \"network_failure_action\" option in \"/etc/audisp/audisp-remote.conf\" and set it to \"syslog\", \"single\", or \"halt\".\n\nnetwork_failure_action = syslog",
+  "fix_id": "F-36256r602471_fix",
+  "VulnDiscussion": "Taking appropriate action when there is an error sending audit records to a remote system will minimize the possibility of losing audit records.\nOne method of off-loading audit logs in Oracle Linux is with the use of the audisp-remote dameon.",
+  "Documentable": "false"
+}

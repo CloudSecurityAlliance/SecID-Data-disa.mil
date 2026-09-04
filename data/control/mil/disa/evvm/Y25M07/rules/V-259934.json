@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259934",
+  "rule_id": "SV-259934r948780_rule",
+  "stig_id": "SRG-VOIP-000540",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Session Border Controller (SBC) (or similar firewall type device) must perform stateful inspection and packet authentication for all VVoIP traffic (inbound and outbound) and deny all other packets.",
+  "group_title": "SRG-VOIP-000540",
+  "idents": {
+    "cci": [
+      "CCI-001548"
+    ]
+  },
+  "check_id": "C-63665r946721_chk",
+  "check_content": "Verify the DISN NIPRNet boundary SBC is configured to deny all packets attempting to traverse the enclave boundary (inbound or outbound) through the IP port pinholes opened for VVoIP sessions that are not validated as being part of an established session. This requires a stateful inspection of the packets passed through the IP port pinholes or the authentication of the source of those packets.\n\nIf packets that are not part of an established session can pass through the SBC, this is a finding. \n\nIf stateful packet inspection or SRTP/SRTCP packet authentication is not configured, this is a finding. \n\nIf stateful packet inspection is not configured but the source of the SRTP/SRTCP packets is authenticated from an authorized source, such as an internal endpoint or a remote DISN SBC, this is not a finding.\n\nNOTE: The VVoIP system may allow SIP and SRTP traffic encrypted and encapsulated on port 443 from cloud service providers.",
+  "fixtext": "Configure the DISN NIPRNet SBC to deny all packets attempting to traverse the enclave boundary (inbound or outbound) through the IP port pinholes opened for known sessions, except those validated as being part of an established session. This requires a stateful inspection of the packets passed through the IP port pinholes or the authentication of the source of those packets.\n\nNOTE: The VVoIP system may allow SIP and SRTP traffic encrypted and encapsulated on port 443 from cloud service providers.",
+  "fix_id": "F-63572r946722_fix",
+  "VulnDiscussion": "Once a pinhole is opened in the enclave boundary for a known session, the packets that are permitted to pass must be managed. If they are not properly managed, packets that are not part of a known session could traverse the pinhole, thereby giving unauthorized access to the enclave's LAN or connected hosts.\n\nOne method for managing these packets is stateful packet inspection. This inspection minimally validates that the permitted packets are part of a known session. This is a relatively weak but somewhat effective firewall function. A better method is to authenticate the source of the packet as coming from a known and authorized source.",
+  "Documentable": "false"
+}

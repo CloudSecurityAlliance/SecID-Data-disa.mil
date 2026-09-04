@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-266175",
+  "rule_id": "SV-266175r1024855_rule",
+  "stig_id": "F5BI-AP-300164",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The F5 BIG-IP appliance must be configured to set the \"Max In Progress Sessions per Client IP\" value to 10 or an organizational-defined number.",
+  "group_title": "SRG-NET-000053-ALG-000001",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-70099r1023771_chk",
+  "check_content": "Note: Setting must be tested to determine if a number greater than 10 is operationally necessary. Ten is the minimum but may have operational impacts. Set to the minimum that is possible without adverse impacts, document the setting and the operational testing.\n\nFrom the BIG-IP GUI:\n1. Access.\n2. Profiles/Policies.\n3. Access Profiles.\n4. Click the access profile name.\n5. In the \"Settings\" section, verify \"Max In Progress Sessions per Client IP\" is set to 10 or an organization-defined number.\n\nIf the F5 BIG-IP APM access policy is not configured to set a \"Max In Progress Sessions per Client IP\" value to 10 or an organization-defined number, this is a finding.",
+  "fixtext": "From the BIG-IP GUI:\n1. Access.\n2. Profiles/Policies.\n3. Access Profiles.\n4. Click the access profile name.\n5. In the \"Settings\" section, set \"Max In Progress Sessions per Client IP\" to 10 or an organization-defined number.\nNote: If the setting is grayed out, check the box to the right of the setting and then update it. If the setting is not set to 10, verify the operational reason is documented and approved by the AO.\n6. Click \"Update\".\n7. Click \"Apply Access Policy\".",
+  "fix_id": "F-70002r1023772_fix",
+  "VulnDiscussion": "The \"Max In Progress Sessions Per Client IP\" setting in an APM Access Profile is a security configuration that limits the number of simultaneous sessions that can be initiated from a single IP address. This is particularly helpful in preventing a session flood, where a hacker might attempt to overwhelm the system by initiating many sessions from a single source. By capping the number of sessions per IP, this setting can help maintain the system's stability and integrity while also providing a layer of protection against such potential attacks.\n\nThis setting has been recommended by F5 as a defense-in-depth measure. However, in some networks, narrowing the number of in progress sessions may in adverse impacts on legitimate connections. Thus, sites must test this setting within their network prior to implementing to determine the minimum acceptable number. This should not remain at the very high default value and should not be excessively high. Document the organizational value.",
+  "Documentable": "false"
+}

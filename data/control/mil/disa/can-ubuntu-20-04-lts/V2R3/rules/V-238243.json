@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-238243",
+  "rule_id": "SV-238243r958424_rule",
+  "stig_id": "UBTU-20-010117",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Ubuntu operating system must alert the ISSO and SA (at a minimum) in the event of an audit processing failure.",
+  "group_title": "SRG-OS-000046-GPOS-00022",
+  "idents": {
+    "cci": [
+      "CCI-000139"
+    ]
+  },
+  "check_id": "C-41453r653902_chk",
+  "check_content": "Verify that the SA and ISSO (at a minimum) are notified in the event of an audit processing failure with the following command: \n \n$ sudo grep '^action_mail_acct = root' /etc/audit/auditd.conf \n \naction_mail_acct = <administrator_account> \n \nIf the value of the \"action_mail_acct\" keyword is not set to an accounts for security personnel, the \"action_mail_acct\" keyword is missing, or the returned line is commented out, this is a finding.",
+  "fixtext": "Configure \"auditd\" service to notify the SA and ISSO in the event of an audit processing failure.  \n \nEdit the following line in \"/etc/audit/auditd.conf\" to ensure administrators are notified via email for those situations: \n \naction_mail_acct = <administrator_account> \n \nNote: Change \"administrator_account\" to an account for security personnel. \n \nRestart the \"auditd\" service so the changes take effect: \n \n$ sudo systemctl restart auditd.service",
+  "fix_id": "F-41412r653903_fix",
+  "VulnDiscussion": "It is critical for the appropriate personnel to be aware if a system is at risk of failing to process audit logs as required. Without this notification, the security personnel may be unaware of an impending failure of the audit capability, and system operation may be adversely affected. \n \nAudit processing failures include software/hardware errors, failures in the audit capturing mechanisms, and audit storage capacity being reached or exceeded. \n \nThis requirement applies to each audit data storage repository (i.e., distinct information system component where audit records are stored), the centralized audit storage capacity of organizations (i.e., all audit data storage repositories combined), or both.",
+  "Documentable": "false"
+}

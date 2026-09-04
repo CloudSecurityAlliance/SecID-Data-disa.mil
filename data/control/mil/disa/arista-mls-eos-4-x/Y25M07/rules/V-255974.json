@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255974",
+  "rule_id": "SV-255974r882264_rule",
+  "stig_id": "ARST-L2-000100",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Arista MLS layer 2 switch must have IP Source Guard enabled on all user-facing or untrusted access switch ports.",
+  "group_title": "SRG-NET-000362-L2S-000026",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-59650r882262_chk",
+  "check_content": "Review the Arista MLS switch configuration to verify that IPSG is enabled on all user-facing or untrusted access switch ports.\n\nStep 1: The Arista MLS switch command verifies the IPSG configuration and operational states.\n\nswitch(config)#show ip verify source\n\nInterface       Operational State\n--------------- ------------------------\nEthernet1       IP source guard enabled\nEthernet2       IP source guard disabled\n\nStep 2: The following command displays all VLANs configured in no IP verify source VLAN:\n\nswitch(config)#show ip verify source vlan\n\nIPSG disabled on VLANS: 1-2\nVLAN            Operational State\n--------------- ------------------------\n1               IP source guard disabled\n2               Error: vlan classification failed\n\nIf the Arista MLS switch does not have IP Source Guard enabled on all untrusted access switch ports, this is a finding.",
+  "fixtext": "Configure the Arista MLS switch to have IPSG enabled on all user-facing or untrusted access switch ports.\n\nStep 1: The Arista MLS IPSG feature must be configured by applying filters to inbound IP packets based on their source MAC and IP addresses. The following example commands exclude VLAN IDs 1 through 3 from IPSG filtering. When enabled on a trunk port, IPSG filters the inbound IP packets on all allowed VLANs. IP packets received on VLANs 4 through 10 on Ethernet 36 will be filtered by IPSG, while those received on VLANs 1 through 3 are permitted.\n\nswitch(config)#no ip verify source vlan 1-3\nswitch(config)#interface ethernet 36\nswitch(config-if-Et36)#switchport mode trunk\nswitch(config-if-Et36)#switchport trunk allowed vlan 1-10\nswitch(config-if-Et36)#ip verify source\nswitch(config-if-Et36)#\n\nStep 2: By using the Arista MLS switch command, the switch binds the source IP-MAC binding entries to IP address 10.1.1.1, MAC address 0000.aaaa.1111, VLAN ID 4094, and Ethernet interface 36.\n\nswitch(config)#ip source binding 10.1.1.1 0000.aaaa.1111 vlan 4094 interface ethernet 36\nswitch(config)#",
+  "fix_id": "F-59593r882263_fix",
+  "VulnDiscussion": "IP Source Guard (IPSG) provides source IP address filtering on a layer 2 port to prevent a malicious host from impersonating a legitimate host by assuming the legitimate host's IP address. The feature uses dynamic DHCP snooping and static IP source binding to match IP addresses to hosts on untrusted Layer 2 access ports. Initially, all IP traffic on the protected port is blocked except for DHCP packets. After a client receives an IP address from the DHCP server, or after static IP source binding is configured by the administrator, all traffic with that IP source address is permitted from that client. Traffic from other hosts is denied. This filtering limits a host's ability to attack the network by claiming a neighbor host's IP address.",
+  "Documentable": "false"
+}

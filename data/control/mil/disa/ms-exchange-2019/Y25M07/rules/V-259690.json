@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259690",
+  "rule_id": "SV-259690r961161_rule",
+  "stig_id": "EX19-MB-000138",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange must have anti-spam filtering enabled.",
+  "group_title": "SRG-APP-000261",
+  "idents": {
+    "cci": [
+      "CCI-001308"
+    ]
+  },
+  "check_id": "C-63429r942382_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP).\n\nNote: If using another DOD-approved anti-spam product for email or a DOD-approved email gateway spamming device, such as Enterprise Email Security Gateway (EEMSG), this is not applicable.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-ContentFilterConfig | Select-Object -Property Name, Enabled|Format-Table; \nGet-SenderFilterConfig |Select-Object -Property Name, Enabled |Format-Table; \nGet-SenderIDConfig |Select-Object -Property Name, Enabled |Format-Table; \nGet-SenderReputationConfig |Select-Object -Property Name, Enabled |Format-Table\n\nIf any of the above values returned are not set to \"True\", this is a finding.",
+  "fixtext": "Update the EDSP with the anti-spam mechanism used.\n\nOpen the Exchange Management Shell and enter the following command for any values that were not set to \"True\":\n\nSet-ContentFilterConfig -Enabled $true\n\nSet-SenderFilterConfig -Enabled $true\n\nSet-SenderIDConfig -Enabled $true\n\nSet-SenderReputationConfig -Enabled $true",
+  "fix_id": "F-63337r942383_fix",
+  "VulnDiscussion": "Originators of spam messages are constantly changing their techniques to defeat spam countermeasures; therefore, spam software must be constantly updated to address the changing threat. A manual update procedure is labor intensive and does not scale well in an enterprise environment. This risk may be mitigated by using an automatic update capability. Spam protection mechanisms include, for example, signature definitions, rule sets, and algorithms.\n\nExchange 2019 provides both anti-spam and anti-malware protection out of the box. The Exchange 2019 anti-spam and anti-malware product capabilities are limited but still provide some protection.",
+  "Documentable": "false"
+}

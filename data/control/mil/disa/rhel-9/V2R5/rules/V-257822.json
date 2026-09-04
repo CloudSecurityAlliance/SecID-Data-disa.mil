@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-257822",
+  "rule_id": "SV-257822r1044880_rule",
+  "stig_id": "RHEL-09-214025",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "RHEL 9 must have GPG signature verification enabled for all software repositories.",
+  "group_title": "SRG-OS-000366-GPOS-00153",
+  "idents": {
+    "cci": [
+      "CCI-003992",
+      "CCI-001749"
+    ]
+  },
+  "check_id": "C-61563r1044879_chk",
+  "check_content": "Verify that all software repositories defined in \"/etc/yum.repos.d/\" have been configured with \"gpgcheck\" enabled:\n\n$ grep -w gpgcheck /etc/yum.repos.d/*.repo | more\n\ngpgcheck = 1\n\nIf \"gpgcheck\" is not set to \"1\" for all returned lines, this is a finding.",
+  "fixtext": "Configure all software repositories defined in \"/etc/yum.repos.d/\" to have \"gpgcheck\" enabled:\n\n$ sudo sed -i 's/gpgcheck\\s*=.*/gpgcheck=1/g' /etc/yum.repos.d/*",
+  "fix_id": "F-61487r925452_fix",
+  "VulnDiscussion": "Changes to any software components can have significant effects on the overall security of the operating system. This requirement ensures the software has not been tampered with and that it has been provided by a trusted vendor.\n\nAll software packages must be signed with a cryptographic key recognized and approved by the organization.\n\nVerifying the authenticity of software prior to installation validates the integrity of the software package received from a vendor. This verifies the software has not been tampered with and that it has been provided by a trusted vendor.",
+  "Documentable": "false"
+}

@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-259049",
+  "rule_id": "SV-259049r1003620_rule",
+  "stig_id": "VCLU-80-000070",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The vCenter Lookup service must set an inactive timeout for sessions.",
+  "group_title": "SRG-APP-000295-AS-000263",
+  "idents": {
+    "cci": [
+      "CCI-004895",
+      "CCI-002361"
+    ]
+  },
+  "check_id": "C-62789r934803_chk",
+  "check_content": "At the command prompt, run the following command:\n\n# xmllint --format /usr/lib/vmware-lookupsvc/conf/web.xml | sed 's/xmlns=\".*\"//g' | xmllint --xpath '/web-app/session-config/session-timeout' -\n\nExample result:\n\n<session-timeout>30</session-timeout>\n\nIf the value of \"session-timeout\" is not \"30\" or less, or is missing, this is a finding.",
+  "fixtext": "Navigate to and open:\n\n/usr/lib/vmware-lookupsvc/conf/web.xml\n\nNavigate to the <session-config> node and configure the <session-timeout> as follows:\n\n<session-config>\n  <session-timeout>30</session-timeout>\n  <cookie-config>\n      <http-only>true</http-only>\n      <secure>true</secure>\n  </cookie-config>\n</session-config>\n\nRestart the service with the following command:\n\n# vmon-cli --restart lookupsvc",
+  "fix_id": "F-62698r934804_fix",
+  "VulnDiscussion": "Leaving sessions open indefinitely is a major security risk. An attacker can easily use an already authenticated session to access the hosted application as the previously authenticated user. By closing sessions after a set period of inactivity, the web server can make certain that those sessions that are not closed through the user logging out of an application are eventually closed.\n\nSatisfies: SRG-APP-000295-AS-000263, SRG-APP-000389-AS-000253",
+  "Documentable": "false"
+}

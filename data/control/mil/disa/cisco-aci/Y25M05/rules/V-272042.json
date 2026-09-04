@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272042",
+  "rule_id": "SV-272042r1114329_rule",
+  "stig_id": "CACI-L2-000014",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco ACI layer 2 switch must have all disabled switch ports assigned to an unused VLAN.",
+  "group_title": "SRG-NET-000512-L2S-000007",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-76092r1114327_chk",
+  "check_content": "If the switchport is configured for 802.1X, this is not applicable. \n\n1. In the ACI GUI, navigate to Fabric >> Inventory >> Pod number.\n2. Click the \"Topology\" tab to view the fabric topology.\n3. Double-click the leaf switch or spine switch to view port-level connectivity.\n4. Navigate to the VLAN section.\n5. Review the switch configuration for the VLAN designated as the inactive VLAN. No applications or endpoints assigned.\n\nReview the disabled ports.\n1. Navigate to Fabric >> Inventory >> Pod number, then navigate to the desired switch.\n2. Navigate to the port profile and verify it is assigned to the designated unused VLAN.\n3. Each access switch identified as not in use should have membership to a designated unused VLAN. \n\nIf there are any access switch ports not in use and not in an inactive VLAN, this is a finding.",
+  "fixtext": "Identify ports that are unused. Assign all switch ports not in use to an inactive VLAN. \n\nCreate an Unused VLAN.\n1. In the ACI GUI, Navigate to Fabric >> Inventory >> Pod number.\n2. Click on the \"Topology\" tab to view the fabric topology.\n3. Double-click the leaf switch or spine switch to view port-level connectivity.\n4. Navigate to the VLAN section and create a new VLAN profile but do not assign any applications or endpoints.\n\nAssign Ports to the Unused VLAN.\n1. Navigate to Fabric >> Inventory >> Pod number, then navigate to the desired switch.\n2. Select the specific port you want to disable (or not use) and assign to the unused VLAN.\n3. Navigate to the port profile and select the unused VLAN.\n4. Disable the port as needed.",
+  "fix_id": "F-75999r1114328_fix",
+  "VulnDiscussion": "It is possible that a disabled port that is assigned to a user or management VLAN becomes enabled by accident or by an attacker and as a result gains access to that VLAN as a member.",
+  "Documentable": "false"
+}

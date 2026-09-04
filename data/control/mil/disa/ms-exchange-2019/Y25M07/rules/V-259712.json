@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259712",
+  "rule_id": "SV-259712r961863_rule",
+  "stig_id": "EX19-MB-000283",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange must be configured in accordance with the security configuration settings based on DOD security configuration or implementation guidance, including STIGs, NSA configuration guides, CTOs, and DTMs.",
+  "group_title": "SRG-APP-000516",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-63451r942448_chk",
+  "check_content": "Open a Windows PowerShell Module and enter the following commands:\n\nGet-Website | Select-Object -Property Name\n\nGet-WebBinding -Name <'WebSiteName'> | Format-List\n\nIf the Web binding values returned are not on standard port 80 for HTTP connections or port 443 for HTTPS connections, this is a finding.\n\nNote: This is excluding the Exchange Back End website which uses 81/444.\n\nRepeat the process for each website.",
+  "fixtext": "Configure web ports to be ports 80 and 443, as specified by PPSM standards.\n\nIn an Exchange Management Shell, run the following cmdlet on the \"Default Web Site\":\n\nSet-WebBinding -Name 'Default Web Site' -BindingInformation \"127.0.0.1:443:\" -PropertyName Port -Value 443\n\nSet-WebBinding -Name 'Default Web Site' -BindingInformation \":443:\" -PropertyName Port -Value 443\n\nNote: This does not apply to the Exchange Back End website.",
+  "fix_id": "F-63359r942449_fix",
+  "VulnDiscussion": "Configuring Exchange to implement organization-wide security implementation guides and security checklists ensures compliance with federal standards and establishes a common security baseline across DOD that reflects the most restrictive security posture consistent with operational requirements.\n\nConfiguration settings are the set of parameters that can be changed that affect the security posture and/or functionality of the system. Security-related parameters are those parameters impacting the security state of the application, including the parameters required to satisfy other security control requirements.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242387",
+  "rule_id": "SV-242387r960792_rule",
+  "stig_id": "CNTR-K8-000330",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Kubernetes Kubelet must have the \"readOnlyPort\" flag disabled.",
+  "group_title": "SRG-APP-000033-CTR-000095",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-45662r918147_chk",
+  "check_content": "On each Control Plane and Worker Node, run the command:\nps -ef | grep kubelet\n\nIf the \"--read-only-port\" option exists, this is a finding. \n\nNote the path to the config file (identified by --config).\n\nRun the command:\ngrep -i readOnlyPort <path_to_config_file>\n\nIf the setting \"readOnlyPort\" exists and is not set to \"0\", this is a finding.",
+  "fixtext": "On each Control Plane and Worker Node, run the command:\nps -ef | grep kubelet\n\nRemove the \"--read-only-port\" option if present.\n\nNote the path to the config file (identified by --config).\n\nEdit the config file: \nSet \"readOnlyPort\" to \"0\" or remove the setting.\n\nRestart the kubelet service using the following command:\nsystemctl daemon-reload && systemctl restart kubelet",
+  "fix_id": "F-45620r918148_fix",
+  "VulnDiscussion": "Kubelet serves a small REST API with read access to port 10255. The read-only port for Kubernetes provides no authentication or authorization security control. Providing unrestricted access on port 10255 exposes Kubernetes pods and containers to malicious attacks or compromise. Port 10255 is deprecated and should be disabled.",
+  "Documentable": "false"
+}

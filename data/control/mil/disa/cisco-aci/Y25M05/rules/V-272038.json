@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272038",
+  "rule_id": "SV-272038r1114350_rule",
+  "stig_id": "CACI-L2-000010",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Cisco ACI layer 2 switch must have Storm Control configured on all host-facing switch ports.",
+  "group_title": "SRG-NET-000512-L2S-000001",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-76088r1114324_chk",
+  "check_content": "Review the switch configuration to verify that storm control is enabled on all host-facing interfaces as shown in the example below.\n\n1. Navigate to Fabric >> Access Policies >> Policies >> Interface >> Storm Control.\n2. Review each Storm Control policy.\n3. Navigate to the Application Profile containing the EPGs to be protected.\n4. Select each EPG and go to the \"Policies\" tab to verify that a storm control policy that is configured for to protect broadcast, at a minimum, has been applied.\n\nIf storm control is not enabled for host-facing interfaces for broadcast traffic at a, minimum, for broadcast traffic, this is a finding.",
+  "fixtext": "Configure one or more storm control policies for all host-facing interfaces and external interfaces and apply the policy to an ESG.\n\n1. Navigate to Fabric >> Access Policies >> Policies >> Interface >> Storm Control.\n2. Click \"Add\" to create a new policy and define the following parameters:\n- Give the policy a descriptive name. \n- Choose \"Broadcast\" as the type of traffic to control and other types as needed (e.g., Multicast, Unknown Unicast). \n- Set the threshold for the traffic type. (Refer to note below.) \n- Specify \"log\" as the action to take when the threshold is exceeded (e.g., drop, log). \n- Enable monitoring to track storm control events. \n\nApply the Storm Control Policy to an EPG:\n1. Navigate to the Application Profile containing the EPGs to be protected.\n2. Select the EPG and navigate to the \"Policies\" tab.\n3. Under \"Interface\", select the newly created \"Storm Control\" policy.\n4. Click \"Apply\". \n\nNote: The acceptable range is 10000000-1000000000 for a gigabit Ethernet interface, and 100000000-10000000000 for a ten gigabit interface. Storm control is not supported on most FastEthernet interfaces.",
+  "fix_id": "F-75995r1114349_fix",
+  "VulnDiscussion": "A traffic storm occurs when packets flood a LAN, creating excessive traffic and degrading network performance. Traffic storm control prevents network disruption by suppressing ingress traffic when the number of packets reaches configured threshold levels. Traffic storm control monitors ingress traffic levels on a port and drops traffic when the number of packets reaches the configured threshold level during any one-second interval.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259039",
+  "rule_id": "SV-259039r960888_rule",
+  "stig_id": "VCLU-80-000013",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The vCenter Lookup service must initiate session logging upon startup.",
+  "group_title": "SRG-APP-000092-AS-000053",
+  "idents": {
+    "cci": [
+      "CCI-001464"
+    ]
+  },
+  "check_id": "C-62779r934773_chk",
+  "check_content": "At the command prompt, run the following command:\n\n# grep StreamRedirectFile /etc/vmware/vmware-vmon/svcCfgfiles/lookupsvc.json\n\nExpected output:\n\n\"StreamRedirectFile\": \"%VMWARE_LOG_DIR%/vmware/lookupsvc/lookupsvc_stream.log\",\n\nIf no log file is specified for the \"StreamRedirectFile\" setting, this is a finding.",
+  "fixtext": "Navigate to and open:\n\n/etc/vmware/vmware-vmon/svcCfgfiles/lookupsvc.json\n\nBelow the last line of the \"PreStartCommandArg\" block, add the following line:\n\n\"StreamRedirectFile\": \"%VMWARE_LOG_DIR%/vmware/lookupsvc/lookupsvc_stream.log\",\n\nRestart the service with the following command:\n\n# vmon-cli --restart lookupsvc",
+  "fix_id": "F-62688r934774_fix",
+  "VulnDiscussion": "Logging must be started as soon as possible when a service starts and as late as possible when a service is stopped. Many forms of suspicious actions can be detected by analyzing logs for unexpected service starts and stops. Also, by starting to log immediately after a service starts, it becomes more difficult for suspicious activity to go unlogged.",
+  "Documentable": "false"
+}

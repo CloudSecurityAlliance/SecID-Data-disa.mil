@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-205766",
+  "rule_id": "SV-205766r958726_rule",
+  "stig_id": "WN19-UR-000200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2019 Profile single process user right must only be assigned to the Administrators group.",
+  "group_title": "SRG-OS-000324-GPOS-00125",
+  "idents": {
+    "legacy": [
+      "V-93083",
+      "SV-103171"
+    ],
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-6031r355216_chk",
+  "check_content": "Verify the effective setting in Local Group Policy Editor.\n\nRun \"gpedit.msc\".\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment.\n\nIf any accounts or groups other than the following are granted the \"Profile single process\" user right, this is a finding:\n\n- Administrators\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas User_Rights /cfg c:\\path\\filename.txt\n\nReview the text file.\n\nIf any SIDs other than the following are granted the \"SeProfileSingleProcessPrivilege\" user right, this is a finding:\n\nS-1-5-32-544 (Administrators)",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment >> \"Profile single process\" to include only the following accounts or groups:\n\n- Administrators",
+  "fix_id": "F-6031r355217_fix",
+  "VulnDiscussion": "Inappropriate granting of user rights can provide system, administrative, and other high-level capabilities.\n\nAccounts with the \"Profile single process\" user right can monitor non-system processes performance. An attacker could use this to identify processes to attack.",
+  "Documentable": "false"
+}

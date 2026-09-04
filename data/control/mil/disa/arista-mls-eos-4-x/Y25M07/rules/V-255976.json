@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255976",
+  "rule_id": "SV-255976r882270_rule",
+  "stig_id": "ARST-L2-000130",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Arista MLS layer 2 switch must have IGMP or MLD Snooping configured on all VLANs.",
+  "group_title": "SRG-NET-000512-L2S-000002",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-59652r882268_chk",
+  "check_content": "Review the Arista MLS switch configuration to verify that IGMP or MLD snooping has been configured.\n\nDetermine which snooping feature is used.\n\nFor IGMP:\nVerify the PIM that also enables IGMP on an Arista MLS switch VLAN interface by using the \"sh run interface vlan8\" command:\n\nswitch(config)#sh run int vlan8\ninterface VLAN8\n   ip igmp\n   pim ipv4 sparse-mode\nswitch(config)#exit\n\nFor MLD:\nVerify the Arista MLS switch is configured for MLD snooping on an interface for version 1 and 2. Version 2 is the default MLD version.\n\nswitch#sh run | section mld\n mld snooping\n   vlan 200\n\nIf the Arista switch is not configured to implement IGMP or MLD snooping for each VLAN, this is a finding.",
+  "fixtext": "Configure the Arista MLS switch for IGMP snooping for IPv4 and IPv6 multicast traffic for each VLAN.\n\nConfigure the Arista MLS switch for IP PIM, which also enables IGMP on an Arista MLS switch VLAN or interface, by using the following command:\n\nswitch(config)#int vlan8\n   ip igmp\n   pim ipv4 sparse-mode\n   pim ipv6 sparse-mode\nswitch(config)#exit\n!\n\nArista MLS switch alternative configuration for MLD snooping on an interface for version 1 and 2. Version 2 is the default MLD version.\n\nswitch(config)# mld snooping\nswitch(config-mld-snooping)# vlan 200\n!",
+  "fix_id": "F-59595r882269_fix",
+  "VulnDiscussion": "IGMP and MLD snooping provides a way to constrain multicast traffic at Layer 2. By monitoring the IGMP or MLD membership reports sent by hosts within a VLAN, the snooping application can set up Layer 2 multicast forwarding tables to deliver specific multicast traffic only to interfaces connected to hosts interested in receiving the traffic, thereby significantly reducing the volume of multicast traffic that would otherwise flood the VLAN.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274446",
+  "rule_id": "SV-274446r1111106_rule",
+  "stig_id": "SQLI-22-016400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Execution of startup stored procedures must be restricted to necessary cases only.",
+  "group_title": "SRG-APP-000342-DB-000302",
+  "idents": {
+    "cci": [
+      "CCI-002233"
+    ]
+  },
+  "check_id": "C-78539r1111104_chk",
+  "check_content": "Review the system documentation to obtain a listing of documented stored procedures used by SQL Server during startup. Execute the following query:\nSelect [name] as StoredProc\nFrom sys.procedures\nWhere OBJECTPROPERTY(OBJECT_ID, 'ExecIsStartup') = 1\n\nIf any stored procedures are returned that are not documented, this is a finding.",
+  "fixtext": "To disable startup stored procedure(s), run the following in Master for each undocumented procedure:\nsp_procoption @procname = '<procedure name>', @OptionName = 'Startup', @optionValue = 'Off'",
+  "fix_id": "F-78444r1111105_fix",
+  "VulnDiscussion": "In certain situations, to provide required functionality, a DBMS needs to execute internal logic (stored procedures, functions, triggers, etc.) and/or external code modules with elevated privileges. However, if the privileges required for execution are at a higher level than the privileges assigned to organizational users invoking the functionality applications/programs, those users are indirectly provided with greater privileges than assigned by organizations.\n\nWhen \"Scan for startup procs\" is enabled, SQL Server scans for and runs all automatically run stored procedures defined on the server. The execution of start-up stored procedures will be done under a high privileged context; therefore, it is a commonly used post-exploitation vector.",
+  "Documentable": "false"
+}

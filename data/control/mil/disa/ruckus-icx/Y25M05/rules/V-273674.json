@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-273674",
+  "rule_id": "SV-273674r1110977_rule",
+  "stig_id": "RCKS-L2S-000030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RUCKUS ICX switch must disable the Multiple VLAN Registration Protocol (MVRP).",
+  "group_title": "SRG-NET-000168-L2S-000019",
+  "idents": {
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-77765r1110043_chk",
+  "check_content": "Review the switch configuration to verify if MVRP is enabled.\n\nRouter(config)#show mvrp \nNo mvrp configuration found\nRouter(config)                                                                                                 \n\nIf MVRP protocol response from show mvrp command indicates Enabled, this is a finding.",
+  "fixtext": "Configure the switch to disable Multiple VLAN Registration Protocol (MVRP).\n\n1. Enter configuration mode:\ndevice1# configure terminal\n\n2. Disable MVRP:\nRouter(config)#no mvrp enable",
+  "fix_id": "F-77670r1110044_fix",
+  "VulnDiscussion": "MVRP provides central management of VLAN domains, thus reducing administration in a switched network. When configuring a new VLAN in MVRP, the VLAN is distributed through all switches in the domain. This reduces the need to configure the same VLAN everywhere. MVRP pruning preserves bandwidth by preventing VLAN traffic (unknown MAC, broadcast, multicast) from being sent down trunk links when not needed, that is, there are no access switch ports in neighboring switches belonging to such VLANs. An attack could allow unauthorized access to previously blocked VLANs or allow the addition of unauthorized switches into the domain. There is no authentication method available for MVRP to reduce this risk.",
+  "Documentable": "false"
+}

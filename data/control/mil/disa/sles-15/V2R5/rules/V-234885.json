@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-234885",
+  "rule_id": "SV-234885r1009624_rule",
+  "stig_id": "SLES-15-020160",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must require the change of at least eight of the total number of characters when passwords are changed.",
+  "group_title": "SRG-OS-000072-GPOS-00040",
+  "idents": {
+    "cci": [
+      "CCI-004066",
+      "CCI-000195"
+    ]
+  },
+  "check_id": "C-38073r618924_chk",
+  "check_content": "Verify the SUSE operating system requires at least eight characters be changed between the old and new passwords during a password change.\n\nCheck that the operating system requires at least eight characters be changed between the old and new passwords during a password change by running the following command:\n\n> grep pam_cracklib.so /etc/pam.d/common-password\npassword requisite pam_cracklib.so difok=8\n\nIf the command does not return anything, the returned line is commented out, or has a second column value different from \"requisite\", or does not contain \"difok\", or the value is less than \"8\", this is a finding.",
+  "fixtext": "Configure the SUSE operating system to require at least eight characters be changed between the old and new passwords during a password change with the following command:\n\nEdit \"/etc/pam.d/common-password\" and edit the line containing \"pam_cracklib.so\" to contain the option \"difok=8\" after the third column.",
+  "fix_id": "F-38036r618925_fix",
+  "VulnDiscussion": "If the SUSE operating system allows the user to consecutively reuse extensive portions of passwords, this increases the chances of password compromise by increasing the window of opportunity for attempts at guessing and brute-force attacks.",
+  "Documentable": "false"
+}

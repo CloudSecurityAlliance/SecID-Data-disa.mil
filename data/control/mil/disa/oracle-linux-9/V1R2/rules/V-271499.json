@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271499",
+  "rule_id": "SV-271499r1091209_rule",
+  "stig_id": "OL09-00-000303",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "OL 9 must be configured so that the file integrity tool verifies Access Control Lists (ACLs).",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75549r1091207_chk",
+  "check_content": "Verify that OL 9 is configured so that AIDE is verifying ACLs with the following command:\n\n$ sudo grep acl /etc/aide.conf \nAll= p+i+n+u+g+s+m+S+sha512+acl+xattrs+selinux\n\nIf the \"acl\" rule is not being used on all uncommented selection lines in the \"/etc/aide.conf\" file, or ACLs are not being checked by another file integrity tool, this is a finding.",
+  "fixtext": "Configure the file integrity tool to check file and directory ACLs. \n\nIf AIDE is installed, ensure the \"acl\" rule is present on all uncommented file and directory selection lists.",
+  "fix_id": "F-75456r1091208_fix",
+  "VulnDiscussion": "OL 9 installation media ships with an optional file integrity tool called Advanced Intrusion Detection Environment (AIDE). AIDE is highly configurable at install time. This requirement assumes the \"aide.conf\" file is under the \"/etc\" directory.\n\nACLs can provide permissions beyond those permitted through the file mode and must be verified by the file integrity tools.",
+  "Documentable": "false"
+}

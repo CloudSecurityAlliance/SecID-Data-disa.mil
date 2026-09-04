@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-271283",
+  "rule_id": "SV-271283r1108465_rule",
+  "stig_id": "SQLI-22-006300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SQL Server must protect its audit configuration from authorized and unauthorized access and modification.",
+  "group_title": "SRG-APP-000121-DB-000202",
+  "idents": {
+    "cci": [
+      "CCI-001493",
+      "CCI-001494",
+      "CCI-001495"
+    ]
+  },
+  "check_id": "C-75326r1108463_chk",
+  "check_content": "Check the server documentation for a list of approved users with access to SQL Server Audits.\n \nTo create, alter, or drop a server audit, principals require the ALTER ANY SERVER AUDIT or the CONTROL SERVER permission.\n \nReview the SQL Server permissions granted to principals. Look for permissions ALTER ANY SERVER AUDIT, ALTER ANY DATABASE AUDIT, CONTROL SERVER: \n \nSELECT login.name, perm.permission_name, perm.state_desc \nFROM sys.server_permissions perm \nJOIN sys.server_principals login \nON perm.grantee_principal_id = login.principal_id \nWHERE permission_name in ('ALTER ANY DATABASE AUDIT', 'ALTER ANY SERVER AUDIT', 'CONTROL SERVER') \nand login.name not like '##MS_%'; \n \nIf unauthorized accounts have these privileges, this is a finding.",
+  "fixtext": "Remove audit-related permissions from individuals and roles not authorized to have them. \n \nUSE master;   \nDENY [ALTER ANY SERVER AUDIT] TO [User];   \nGO",
+  "fix_id": "F-75233r1108464_fix",
+  "VulnDiscussion": "Protecting audit data also includes identifying and protecting the tools used to view and manipulate log data. Therefore, protecting audit tools is necessary to prevent unauthorized operation on audit data. \n \nApplications providing tools to interface with audit data will leverage user permissions and roles identifying the user accessing the tools and the corresponding rights the user enjoys in order make access decisions regarding the modification of audit tools. SQL Server is an application that does provide access to audit data. \n \nAudit tools include, but are not limited to, vendor-provided and open-source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.\n\nIf an attacker were to gain access to audit tools, they could analyze audit logs for system weaknesses or weaknesses in the auditing itself. An attacker could also manipulate logs to hide evidence of malicious activity.\n\nSatisfies: SRG-APP-000121-DB-000202, SRG-APP-000122-DB-000203, SRG-APP-000123-DB-000204",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221713",
+  "rule_id": "SV-221713r958820_rule",
+  "stig_id": "OL07-00-020101",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that the Datagram Congestion Control Protocol (DCCP) kernel module is disabled unless required.",
+  "group_title": "SRG-OS-000378-GPOS-00163",
+  "idents": {
+    "legacy": [
+      "V-99165",
+      "SV-108269"
+    ],
+    "cci": [
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-36274r942863_chk",
+  "check_content": "Verify the operating system disables the ability to load the DCCP kernel module.\n\n     # grep -r dccp /etc/modprobe.d/* | grep -i \"/bin/false\" | grep -v \"^#\"\n     install dccp /bin/false\n\nIf the command does not return any output, or the line is commented out, and use of DCCP is not documented with the Information System Security Officer (ISSO) as an operational requirement, this is a finding.\n\nVerify the operating system disables the ability to use the DCCP kernel module.\n\nVerify the DCCP kernel module is disabled with the following command:\n\n     # grep -i dccp /etc/modprobe.d/* | grep -i \"blacklist\" | grep -v \"^#\"\n     blacklist dccp\n\nIf the command does not return any output or the output is not \"blacklist dccp\", and use of the DCCP kernel module is not documented with the ISSO as an operational requirement, this is a finding.",
+  "fixtext": "Configure the operating system to disable the ability to use the DCCP kernel module.\n\nCreate a file under \"/etc/modprobe.d\" with the following command:\n\n# touch /etc/modprobe.d/dccp.conf\n\nAdd the following line to the created file:\n\ninstall dccp /bin/false\n\nEnsure that the DCCP module is blacklisted: \n\n# vi /etc/modprobe.d/blacklist.conf\n\nAdd or update the line:\n\nblacklist dccp",
+  "fix_id": "F-36238r942864_fix",
+  "VulnDiscussion": "Disabling DCCP protects the system against exploitation of any flaws in the protocol implementation.",
+  "Documentable": "false"
+}

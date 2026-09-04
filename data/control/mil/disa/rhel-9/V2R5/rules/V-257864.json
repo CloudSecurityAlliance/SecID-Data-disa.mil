@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257864",
+  "rule_id": "SV-257864r1106304_rule",
+  "stig_id": "RHEL-09-231115",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must mount /dev/shm with the noexec option.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-61605r1102006_chk",
+  "check_content": "Verify \"/dev/shm\" is mounted with the \"noexec\" option with the following command:\n\n$ findmnt /dev/shm\nTARGET   SOURCE FSTYPE OPTIONS\n/dev/shm tmpfs  tmpfs  rw,nodev,nosuid,noexec,seclabel 0 0\n\nIf the /dev/shm file system is mounted without the \"noexec\" option, this is a finding.",
+  "fixtext": "Configure \"/dev/shm\" to mount with the \"noexec\" option.\n\nDetermine how /dev/shm is managed.\n\n$ systemctl status systemd-tmpfiles-setup\nIf \"active\", systemd is managing temporary files (including /dev/shm).\nOtherwise, /etc/fstab is managing temporary files.\n\nIf systemd is managing /dev/shm, use the following commands to add the noexec option to the mount:\n     If /etc/tmpfiles.d does not exist, create it:\n     $ sudo mkdir -p /etc/tmpfiles.d\n\n     Add a configuration file with the appropriate options for /dev/shm as follows:\n     $ echo 'd /dev/shm 1777 root root 10d' | sudo tee /etc/tmpfiles.d/dev-shm.conf\n     $ echo 'x /dev/shm' | sudo tee -a /etc/tmpfiles.d/dev-shm.conf\n\n     Apply new mount options with the following commands:\n     $ sudo systemctl mask tmp.mount\n     Created symlink /etc/systemd/system/tmp.mount ? /dev/null.\n\n     $ echo 'tmpfs /dev/shm tmpfs rw,nodev,nosuid,noexec,seclabel 0 0' | sudo tee -a /etc/fstab\n     $ sudo mount -o remount /dev/shm\n     $ sudo systemctl daemon-reload\n\nIf /dev/shm is managed by /etc/fstab, use the following commands to add the noexec option to the mount:\n     $ sudo vi /etc/fstab\n\n     Add or modify the following line:\n     tmpfs /dev/shm tmpfs rw,nodev,nosuid,noexec,seclabel 0 0\n\n     Remount /dev/shm:\n     $ sudo mount -o remount /dev/shm\n\nNote: Although systemd manages tmpfs mounts by default, administrators can override settings by adding entries to /etc/fstab. Either approach is acceptable.",
+  "fix_id": "F-61529r1106303_fix",
+  "VulnDiscussion": "The \"noexec\" mount option causes the system to not execute binary files. This option must be used for mounting any file system not containing approved binary files, as they may be incompatible. Executing files from untrusted file systems increases the opportunity for nonprivileged users to attain unauthorized administrative access.",
+  "Documentable": "false"
+}

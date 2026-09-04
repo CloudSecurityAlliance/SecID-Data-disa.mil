@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-256909",
+  "rule_id": "SV-256909r1015791_rule",
+  "stig_id": "APAS-AT-000093",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Automation Controller must compare internal application server clocks at least every 24 hours with an authoritative time source.",
+  "group_title": "SRG-APP-000371-AS-000077",
+  "idents": {
+    "cci": [
+      "CCI-004923",
+      "CCI-004926",
+      "CCI-001891",
+      "CCI-002046"
+    ]
+  },
+  "check_id": "C-60584r902295_chk",
+  "check_content": "As a system administrator for each Automation Controller host, ensure the NTP client is configured to synchronize to an organizationally defined NTP server:\n\nchronyc sources\n\nIf the Automation Controller host is not configured to use an organizationally defined NTP server, this is a finding.\n\nEnsure the NTP time synchronization is operational:\n\nchronyc activity | head -n 1 | grep \"200 OK\" >/dev/null || echo \"FAILED\"\nsudo systemctl is-active chrony > /dev/null|| echo \"FAILED\"\n\nIf \"FAILED\" is displayed, this is a finding.",
+  "fixtext": "As a system administrator, for each Automation Controller host, configure the NTP client to synchronize to an organizationally defined NTP server:\n\nvi /etc/chrony.conf\n\nRestart the Automation Controller host:\n\n$ shutdown -r",
+  "fix_id": "F-60526r902296_fix",
+  "VulnDiscussion": "When conducting forensic analysis and investigating system events, it is critical that timestamps accurately reflect the time of application events. If timestamps are not deemed to be accurate, the integrity of the forensic analysis and the associated determinations are at stake. This leaves the organization and the system vulnerable to intrusions.\n\nSatisfies: SRG-APP-000371-AS-000077, SRG-APP-000372-AS-000212",
+  "Documentable": "false"
+}

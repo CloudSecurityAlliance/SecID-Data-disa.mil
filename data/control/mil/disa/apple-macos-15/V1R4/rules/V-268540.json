@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268540",
+  "rule_id": "SV-268540r1034560_rule",
+  "stig_id": "APPL-15-003013",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must enable firmware password.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-72570r1034558_chk",
+  "check_content": "For Apple Silicon systems, this is not applicable.\n\nVerify the macOS system is configured with a firmware password with the following command:\n\n/usr/sbin/firmwarepasswd -check | /usr/bin/grep -c \"Password Enabled: Yes\"\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Configure the macOS system with a firmware password with the following command:\n\n/usr/sbin/firmwarepasswd -setpasswd\n\nNOTE: If firmware password or passcode is forgotten, the only way to reset the forgotten password is through a machine-specific binary generated and provided by Apple. Users must schedule a support call and provide proof of purchase before the firmware binary will be generated.",
+  "fix_id": "F-72471r1034559_fix",
+  "VulnDiscussion": "A firmware password must be enabled and set.\n\nSingle user mode, recovery mode, the Startup Manager, and several other tools are available on macOS by holding the \"Option\" key down during startup. Setting a firmware password restricts access to these tools.\n\nTo set a firmware passcode, use the following command:\n\n[source,bash]\n----\n/usr/sbin/firmwarepasswd -setpasswd\n----\n\nNOTE: If the firmware password or passcode is forgotten, the only way to reset the forgotten password is through the use of a machine-specific binary generated and provided by Apple. Users must schedule a support call and provide proof of purchase before the firmware binary will be generated.\n\nNOTE: Firmware passwords are not supported on Apple Silicon devices. This rule is only applicable to Intel devices.",
+  "Documentable": "false"
+}

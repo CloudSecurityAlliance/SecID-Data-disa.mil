@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242398",
+  "rule_id": "SV-242398r960792_rule",
+  "stig_id": "CNTR-K8-000450",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Kubernetes DynamicAuditing must not be enabled.",
+  "group_title": "SRG-APP-000033-CTR-000100",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-45673r918159_chk",
+  "check_content": "On the Control Plane, change to the manifests' directory at /etc/kubernetes/manifests and run the command:\ngrep -i feature-gates *\n\nReview the feature-gates setting, if one is returned.\n\nIf the feature-gates setting is available and contains the DynamicAuditing flag set to \"true\", this is a finding.\n\nOn each Control Plane and Worker node, run the command:\nps -ef | grep kubelet\n\nIf the \"--feature-gates\" option exists, this is a finding. \n\nNote the path to the config file (identified by: --config).\n\nInspect the content of the config file:\nIf the \"featureGates\" setting is present and has the \"DynamicAuditing\" flag set to \"true\", this is a finding.",
+  "fixtext": "On the Control Plane, change to the manifests' directory at /etc/kubernetes/manifests and run the command:\ngrep -i feature-gates *\n\nIf any \"--feature-gates\" setting is available and contains the \"DynamicAuditing\" flag, remove the flag or set it to false.\n\nOn the each Control Plane and Worker Node, run the command:\nps -ef | grep kubelet\n\nRemove the \"--feature-gates option\" if present.\n\nNote the path to the config file (identified by: --config).\n\nEdit the Kubernetes Kubelet config file: \nIf the \"featureGates\" setting is present, remove the \"DynamicAuditing\" flag or set the flag to false.\n\nRestart the kubelet service using the following command:\nservice kubelet restart",
+  "fix_id": "F-45631r918160_fix",
+  "VulnDiscussion": "Protecting the audit data from change or deletion is important when an attack occurs. One way an attacker can cover their tracks is to change or delete audit records. This will either make the attack unnoticeable or make it more difficult to investigate how the attack took place and what changes were made. The audit data can be protected through audit log file protections and user authorization.\n\nOne way for an attacker to thwart these measures is to send the audit logs to another source and filter the audited results before sending them on to the original target. This can be done in Kubernetes through the configuration of dynamic audit webhooks through the DynamicAuditing flag.",
+  "Documentable": "false"
+}

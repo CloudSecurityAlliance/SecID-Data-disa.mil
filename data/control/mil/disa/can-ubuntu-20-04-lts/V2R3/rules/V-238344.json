@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-238344",
+  "rule_id": "SV-238344r991559_rule",
+  "stig_id": "UBTU-20-010423",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Ubuntu operating system must have directories that contain system commands set to a mode of 0755 or less permissive.",
+  "group_title": "SRG-OS-000258-GPOS-00099",
+  "idents": {
+    "cci": [
+      "CCI-001495"
+    ]
+  },
+  "check_id": "C-41554r654205_chk",
+  "check_content": "Verify the system commands directories have mode 0755 or less permissive: \n \n/bin \n/sbin \n/usr/bin \n/usr/sbin \n/usr/local/bin \n/usr/local/sbin \n \nCheck that the system command directories have mode 0755 or less permissive with the following command: \n \n$ find /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin -perm /022 -type d -exec stat -c \"%n %a\" '{}' \\; \n \nIf any directories are found to be group-writable or world-writable, this is a finding.",
+  "fixtext": "Configure the system commands directories to be protected from unauthorized access. Run the following command: \n \n$ sudo find /bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin -perm /022 -type d -exec chmod -R 755 '{}' \\;",
+  "fix_id": "F-41513r654206_fix",
+  "VulnDiscussion": "Protecting audit information also includes identifying and protecting the tools used to view and manipulate log data. Therefore, protecting audit tools is necessary to prevent unauthorized operation on audit information. \n \nOperating systems providing tools to interface with audit information will leverage user permissions and roles identifying the user accessing the tools and the corresponding rights the user has in order to make access decisions regarding the deletion of audit tools. \n \nAudit tools include, but are not limited to, vendor-provided and open source audit tools needed to successfully view and manipulate audit information system activity and records. Audit tools include custom queries and report generators.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-273693",
+  "rule_id": "SV-273693r1110996_rule",
+  "stig_id": "RCKS-L2S-000260",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RUCKUS ICX layer 2 switch must have the native VLAN assigned to an ID other than the default VLAN for all 802.1q trunk links.",
+  "group_title": "SRG-NET-000512-L2S-000012",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-77784r1110100_chk",
+  "check_content": "Examine the ports associated with the default VLAN.  \n \ndevice#show vlans\nTotal PORT-VLAN entries: 2\nMaximum PORT-VLAN entries: 1024\n\nLegend: [Stk=Stack-Id, S=Slot]\n\nPORT-VLAN 4505, Name DEFAULT-VLAN, Priority level0, On\n Untagged Ports: (U1/M1)   \n Untagged Ports: (U1/M1)  \n Untagged Ports: (U1/M1)  \n Untagged Ports: (U1/M1)  \n Untagged Ports: (U1/M2)   \n   Tagged Ports: None\n Mac-Vlan Ports: None\n     Monitoring: Disabled\ndevice#\n\nIf any 802.1q trunk interfaces (with tagged VLANs) also have the default VLAN assigned as the native VLAN (i.e., untagged), this is a finding.",
+  "fixtext": "If a trunk port (1/2/1 below) also has the default VLAN assigned as the native VLAN (i.e., untagged), remove that interface from the default VLAN.  \n\ndevice# configure terminal\ndevice(config)# default-vlan-id 4505\ndevice(config)# vlan 4505\ndevice(config-vlan-4505)# no untag ethernet 1/2/1",
+  "fix_id": "F-77689r1110101_fix",
+  "VulnDiscussion": "VLAN hopping can be initiated by an attacker who has access to a switch port belonging to the same VLAN as the native VLAN of the trunk link connecting to another switch that the victim is connected to. If the attacker knows the victim's MAC address, it can forge a frame with two 802.1q tags and a layer 2 header with the destination address of the victim. Since the frame will ingress the switch from a port belonging to its native VLAN, the trunk port connecting to the victim's switch will simply remove the outer tag because native VLAN traffic is to be untagged. The switch will forward the frame on to the trunk link unaware of the inner tag with a VLAN ID of which the victim's switch port is a member.",
+  "Documentable": "false"
+}

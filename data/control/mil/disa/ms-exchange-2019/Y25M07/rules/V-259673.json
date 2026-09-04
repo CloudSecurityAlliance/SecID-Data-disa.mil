@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259673",
+  "rule_id": "SV-259673r961128_rule",
+  "stig_id": "EX19-MB-000117",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange email-forwarding SMTP domains must be restricted.",
+  "group_title": "SRG-APP-000231",
+  "idents": {
+    "cci": [
+      "CCI-001199"
+    ]
+  },
+  "check_id": "C-63412r942331_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP) or document that contains this information.\n\nDetermine any accounts that have been authorized to have email auto-forwarded.\n\nNote: If email auto-forwarding is not being used, this check is not applicable (NA).\n\nOpen the Exchange Management Shell and enter the following commands:\n\nGet-RemoteDomain | Select Name, Identity, DomainName, AutoForwardEnabled |Format-List\n\nIf any domain for a user forwarding SMTP address is not documented in the EDSP, this is a finding.\n\nNote: If no remote SMTP domain matching the mail-enabled user or contact that allows forwarding is configured for users identified with a forwarding address, this function will not work properly.",
+  "fixtext": "Update the EDSP to specify any accounts that have been authorized to have email auto-forwarded or verify that this information is documented by the organization.\n\nFor domains that are listed in the EDSP to allow AutoForwarding, open the Exchange Management Shell and enter the following command:\n\nSet-RemoteDomain -Identity <RemoteDomainIdParameter>  -AutoForwardEnabled $true\n\nIf the Remote Domain is NOT listed in the EDSP to allow for AutoForwarding, open the Exchange Management Shell and enter the following command:\n\nSet-RemoteDomain -Identity [RemoteDomainIdentity] -AutoForwardingEnabled $false",
+  "fix_id": "F-63320r942332_fix",
+  "VulnDiscussion": "Auto-forwarded email accounts do not meet the requirement for digital signature and encryption of Controlled Unclassified Information (CUI) and Personally Identifiable Information (PII) in accordance with DODI 8520.2 (reference ee) and DOD Director for Administration and Management memorandum, \"Safeguarding Against and Responding to the Breach of Personally Identifiable Information\".\n\nUse of forwarding set by an administrator interferes with nonrepudiation requirements that each end user be responsible for creation and destination of email data.",
+  "Documentable": "false"
+}

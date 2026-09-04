@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-273680",
+  "rule_id": "SV-273680r1110983_rule",
+  "stig_id": "RCKS-L2S-000120",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RUCKUS ICX switch must have Unknown Unicast Flood Blocking (UUFB) enabled.",
+  "group_title": "SRG-NET-000362-L2S-000024",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-77771r1110061_chk",
+  "check_content": "Review configuration to verify ports are configured to block unknown unicast traffic.  \n\n!                                                                 \ninterface ethernet 1/1/8                                          \n block unknown-unicast   \n!\n\nIf any access switch ports do not have UUFB enabled, this is a finding.",
+  "fixtext": "Configure switch to block unknown unicast by port:\n\n1. Global config:\nRouter# configure terminal\n\n2. Designate port level configuration:\nRouter(config)# interface ethernet 1/1/1 to 1/1/48\n\n3. Enter command on interface:\nRouter(config-mif-1/1/1-1/1/48)# block unknown-unicast\n\n4. Save the configuration:\nRouter# write memory",
+  "fix_id": "F-77676r1110062_fix",
+  "VulnDiscussion": "Access layer switches use the Content Addressable Memory (CAM) table to direct traffic to specific ports based on the VLAN number and the destination MAC address of the frame. When a router has an Address Resolution Protocol (ARP) entry for a destination host and forwards it to the access layer switch and there is no entry corresponding to the frame's destination MAC address in the incoming VLAN, the frame will be sent to all forwarding ports within the respective VLAN, which causes flooding. Large amounts of flooded traffic can saturate low-bandwidth links, causing network performance issues or complete connectivity outage to the connected devices. Unknown unicast flooding has been an ongoing problem in networks that have asymmetric routing and default timers. To mitigate the risk of a connectivity outage, the UUFB feature must be implemented on all access layer switches. The UUFB feature will block unknown unicast traffic flooding and only permit egress traffic with MAC addresses that are known to exit on the port.",
+  "Documentable": "false"
+}

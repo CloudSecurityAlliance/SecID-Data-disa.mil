@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271286",
+  "rule_id": "SV-271286r1108474_rule",
+  "stig_id": "SQLI-22-006700",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "SQL Server software installation account must be restricted to authorized users.",
+  "group_title": "SRG-APP-000133-DB-000198",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-75329r1108472_chk",
+  "check_content": "From the system documentation, obtain the list of accounts authorized to install/update SQL Server. Run the following PowerShell command to list all users who have installed/modified SQL Server 2022 software and compare the list against those persons who are qualified and authorized to use the software. \n \nsl \"C:\\Program files\\Microsoft SQL Server\\160\\Setup Bootstrap\\Log\" \nGet-ChildItem -Recurse | Select-String -Pattern \"LogonUser = \" \n \nIf any accounts are shown that are not authorized in the system documentation, this is a finding.",
+  "fixtext": "From a command prompt, open lusrmgr.msc. Navigate to \"Users\" and right-click \"Individual User\". Select \"Properties\", then \"Member Of\". \n \nConfigure SQL Server and OS settings and access controls to restrict user access to objects and data that the user is authorized to view/use.",
+  "fix_id": "F-75236r1108473_fix",
+  "VulnDiscussion": "When dealing with change control issues, it should be noted any changes to the hardware, software, and/or firmware components of the information system and/or application can have significant effects on the overall security of the system. \n\nIf the system were to allow any user to make changes to software libraries, then those changes might be implemented without undergoing the appropriate testing and approvals that are part of a robust change management process. Accordingly, only qualified and authorized individuals must be allowed access to information system components for purposes of initiating changes, including upgrades and modifications. \n\nDBA and other privileged administrative or application owner accounts are granted privileges that allow actions that can have a great impact on SQL Server security and operation. It is especially important to grant privileged access to only those persons who are qualified and authorized to use them.",
+  "Documentable": "false"
+}

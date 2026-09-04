@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-221652",
+  "rule_id": "SV-221652r991557_rule",
+  "stig_id": "OL07-00-010010",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that the file permissions, ownership, and group membership of system files and commands match the vendor values.",
+  "group_title": "SRG-OS-000256-GPOS-00097",
+  "idents": {
+    "legacy": [
+      "V-99045",
+      "SV-108149"
+    ],
+    "cci": [
+      "CCI-001494",
+      "CCI-001496"
+    ]
+  },
+  "check_id": "C-36264r880583_chk",
+  "check_content": "Verify the file permissions, ownership, and group membership of system files and commands match the vendor values.\n\nCheck the default file permissions, ownership, and group membership of system files and commands with the following command:\n\n     # for i in `rpm -Va | grep -E '^.{1}M|^.{5}U|^.{6}G' | cut -d \" \" -f 4,5`;do for j in `rpm -qf $i`;do rpm -ql $j --dump | cut -d \" \" -f 1,5,6,7 | grep $i;done;done\n\n     /var/log/gdm 040755 root root\n     /etc/audisp/audisp-remote.conf 0100640 root root\n     /usr/bin/passwd 0104755 root root\n\nFor each file returned, verify the current permissions, ownership, and group membership:\n     # ls -la <filename>\n\n     -rw-------. 1 root root  2017 Nov 1 10:03 /etc/audisp/audisp-remote.conf\n\nIf the file is more permissive than the default permissions, this is a finding.\n\nIf the file is not owned by the default owner and is not documented with the Information System Security Officer (ISSO), this is a finding.\n\nIf the file is not a member of the default group and is not documented with the ISSO, this is a finding.",
+  "fixtext": "Run the following command to determine which package owns the file:\n\n     # rpm -qf <filename>\n\nReset the user and group ownership of files within a package with the following command:\n\n     # rpm --setugids <packagename>\n\nReset the permissions of files within a package with the following command:\n\n     # rpm --setperms <packagename>",
+  "fix_id": "F-36228r880584_fix",
+  "VulnDiscussion": "Discretionary access control is weakened if a user or group has access permissions to system files and directories greater than the default.\n\nSatisfies: SRG-OS-000257-GPOS-00098, SRG-OS-000278-GPOS-00108",
+  "Documentable": "false"
+}

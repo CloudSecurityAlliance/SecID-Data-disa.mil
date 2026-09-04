@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268530",
+  "rule_id": "SV-268530r1034530_rule",
+  "stig_id": "APPL-15-002240",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must disable Printer Sharing.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-72560r1034528_chk",
+  "check_content": "Verify the macOS system is configured to disable Printer Sharing with the following command:\n\n/usr/sbin/cupsctl | /usr/bin/grep -c \"_share_printers=0\"\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Configure the macOS system to disable Printer Sharing with the following commands:\n\n/usr/sbin/cupsctl --no-share-printers\n/usr/bin/lpstat -p | awk '{print $2}'| /usr/bin/xargs -I{} lpadmin -p {} -o printer-is-shared=false",
+  "fix_id": "F-72461r1034529_fix",
+  "VulnDiscussion": "Printer Sharing must be disabled.",
+  "Documentable": "false"
+}

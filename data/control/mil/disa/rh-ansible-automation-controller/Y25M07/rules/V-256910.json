@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-256910",
+  "rule_id": "SV-256910r961596_rule",
+  "stig_id": "APAS-AT-000110",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Automation Controller must only allow the use of DOD PKI-established certificate authorities for verification of the establishment of protected sessions.",
+  "group_title": "SRG-APP-000427-AS-000264",
+  "idents": {
+    "cci": [
+      "CCI-002450",
+      "CCI-002470"
+    ]
+  },
+  "check_id": "C-60585r902298_chk",
+  "check_content": "The Administrator must check the Automation Controller configuration. \n\nDownload the latest DOD PKI CA certificate bundle:\n\ncurl https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/certificates_pkcs7_DOD.zip > /root/certificates_pkcs7_DOD.zip && gunzip /root/certificates_pkcs7_DOD.zip\n\nCheck the certificate at /etc/tower/tower.cert:\n\nopenssl verify -verbose -x509_strict -CAfile /root/certificates_pkcs7_DOD.pem -CApath nosuchdir <(cat  /etc/tower/tower.cert >><organizationally defined intermediate certificate file in PEM format>>>)\n\nIf the >><organizationally defined intermediate certificate file in PEM format>>> does not exist, this is a finding.\n\nCheck the certificate at /etc/tower/tower.key:\nopenssl verify -CAfile /root/certificates_pkcs7_DOD.pem /etc/tower/tower.cert  \n\nIf the >><organizationally defined intermediate certificate file in PEM format>>> does not exist, this is a finding.\n\nCheck the trusted ca certificate:\n\nopenssl x509 -in /etc/pki/ca-trust/tls-ca-bundle.pam custom_ca_cert\n\nIf the >><organizationally defined intermediate certificate file in PEM format>>> does not exist, this is a finding.\n\nIf the >><organizationally defined intermediate certificate file in PEM format>>> does not exist, this is a finding.",
+  "fixtext": "For each Automation Controller host, the administrator must:\n\nDownload the >><organizationally defined intermediate certificate file in PEM format>>>;\n\nGenerate the appropriate /etc/tower/tower.key files, certificates, and CSRs and have the organizationally defined PKI authority issue a certificate signed by the >><organizationally defined intermediate certificate file in PEM format>>>;\n\nPlace the signed certificate in /etc/tower/tower.cert.\n\nPlace the >><organizationally defined intermediate certificate file in PEM format>>> in /etc/pki/ca-trust/source/anchors.\n\nExecute:\nupdate-ca-trust extract && update-ca-trust;\n\nDownload the latest DOD PKI CA certificate bundle:\n\ncurl https://dl.dod.cyber.mil/wp-content/uploads/pki-pke/zip/certificates_pkcs7_DOD.zip > /root/certificates_pkcs7_DOD.z && gunzip /root/certificates_pkcs7_DOD.z > /etc/pki/ca-trust/source/anchors\n\nInstall trusted root and intermediate CA certificates:\n\nupdate-ca-trust extract && update-ca-trust;",
+  "fix_id": "F-60527r902299_fix",
+  "VulnDiscussion": "An untrusted source may leave the system vulnerable to issues such as unauthorized access, reduced data integrity, loss of confidentiality, etc.\n\nSatisfies: SRG-APP-000427-AS-000264, SRG-APP-000514-AS-000137",
+  "Documentable": "false"
+}

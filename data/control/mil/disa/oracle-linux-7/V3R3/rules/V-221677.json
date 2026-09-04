@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-221677",
+  "rule_id": "SV-221677r1015174_rule",
+  "stig_id": "OL07-00-010200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that the PAM system service is configured to store only encrypted representations of passwords.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "legacy": [
+      "V-99095",
+      "SV-108199"
+    ],
+    "cci": [
+      "CCI-000196",
+      "CCI-004062"
+    ]
+  },
+  "check_id": "C-23392r880670_chk",
+  "check_content": "Verify the PAM system service is configured to store only encrypted representations of passwords. The strength of encryption that must be used to hash passwords for all accounts is SHA512.\n\nCheck that the system is configured to create SHA512 hashed passwords with the following command:\n\n     # grep password /etc/pam.d/system-auth /etc/pam.d/password-auth\n\nOutcome should look like following:\n     /etc/pam.d/system-auth-ac:password sufficient pam_unix.so sha512 shadow try_first_pass use_authtok\n     /etc/pam.d/password-auth:password sufficient pam_unix.so sha512 shadow try_first_pass use_authtok\n\nIf the \"/etc/pam.d/system-auth\" and \"/etc/pam.d/password-auth\" configuration files allow for password hashes other than SHA512 to be used, this is a finding.",
+  "fixtext": "Configure the operating system to store only SHA512 encrypted representations of passwords.\n\nAdd the following line in \"/etc/pam.d/system-auth\":\n     password    sufficient    pam_unix.so sha512 shadow try_first_pass use_authtok\n\nAdd the following line in \"/etc/pam.d/password-auth\":\n     password    sufficient    pam_unix.so sha512 shadow try_first_pass use_authtok\n\nNote: Per requirement OL07-00-010199, Oracle Linux 7 must be configured to not overwrite custom authentication configuration settings while using the authconfig utility; otherwise, manual changes to the listed files will be overwritten whenever the authconfig utility is used.",
+  "fix_id": "F-23381r917839_fix",
+  "VulnDiscussion": "Passwords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised. Passwords encrypted with a weak algorithm are no more protected than if they are kept in plain text.",
+  "Documentable": "false"
+}

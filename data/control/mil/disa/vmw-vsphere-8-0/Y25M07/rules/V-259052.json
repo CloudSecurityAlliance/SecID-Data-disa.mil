@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259052",
+  "rule_id": "SV-259052r960735_rule",
+  "stig_id": "VCLU-80-000125",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The vCenter Lookup service must limit the amount of time that each Transmission Control Protocol (TCP) connection is kept alive.",
+  "group_title": "SRG-APP-000001-AS-000001",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-62792r934812_chk",
+  "check_content": "The connection timeout should not be disabled by setting it to \"-1\".\n\nAt the command prompt, run the following command:\n\n# xmllint --xpath \"//Connector[@connectionTimeout = '-1']\" /usr/lib/vmware-lookupsvc/conf/server.xml\n\nExpected result:\n\nXPath set is empty\n\nIf any connectors are returned, this is a finding.",
+  "fixtext": "Navigate to and open:\n\n/usr/lib/vmware-lookupsvc/conf/server.xml\n\nConfigure the <Connector> node with the value:\n\nconnectionTimeout=\"60000\"\n\nRestart the service with the following command:\n\n# vmon-cli --restart lookupsvc",
+  "fix_id": "F-62701r934813_fix",
+  "VulnDiscussion": "Denial of service (DoS) is one threat against web servers. Many DoS attacks attempt to consume web server resources in such a way that no more resources are available to satisfy legitimate requests.\n\nIn Tomcat, the \"connectionTimeout\" attribute sets the number of milliseconds the server will wait after accepting a connection for the request Uniform Resource Identifier (URI) line to be presented. This timeout will also be used when reading the request body (if any). This prevents idle sockets that are not sending HTTP requests from consuming system resources and potentially denying new connections.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-268451",
+  "rule_id": "SV-268451r1034293_rule",
+  "stig_id": "APPL-15-000190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The macOS system must configure sudo to log events.",
+  "group_title": "SRG-OS-000064-GPOS-00033",
+  "idents": {
+    "cci": [
+      "CCI-000172"
+    ]
+  },
+  "check_id": "C-72481r1034291_chk",
+  "check_content": "Verify the macOS system is configured to log privilege escalation with the following command:\n\n/usr/bin/sudo /usr/bin/sudo -V | /usr/bin/grep -c \"Log when a command is allowed by sudoers\"\n\nIf the result is not \"1\", this is a finding.",
+  "fixtext": "Configure the macOS system to log privilege escalation with the following command:\n\n/usr/bin/find /etc/sudoers* -type f -exec sed -i '' '/Defaults \\!log_allowed/d' '{}' \\;\n/bin/echo \"Defaults log_allowed\" >> /etc/sudoers.d/mscp",
+  "fix_id": "F-72382r1034292_fix",
+  "VulnDiscussion": "Sudo must be configured to log privilege escalation.\n\nWithout logging privilege escalation, it is difficult to identify attempted attacks because no audit trail is available for forensic investigation.",
+  "Documentable": "false"
+}

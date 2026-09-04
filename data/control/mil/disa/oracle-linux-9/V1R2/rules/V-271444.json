@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271444",
+  "rule_id": "SV-271444r1091044_rule",
+  "stig_id": "OL09-00-000041",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must be configured to disable the Controller Area Network (CAN) kernel module.",
+  "group_title": "SRG-OS-000095-GPOS-00049",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-75494r1091042_chk",
+  "check_content": "Verify that OL 9 disables the ability to load the CAN kernel module with the following command:\n\n$ grep -r can /etc/modprobe.conf /etc/modprobe.d/* \ninstall can /bin/false\nblacklist can\n\nIf the command does not return any output, or the line is commented out, and use of CAN is not documented with the information system security officer (ISSO) as an operational requirement, this is a finding.",
+  "fixtext": "Configure OL 9 to prevent the can kernel module from being loaded.\n\nAdd the following line to the file /etc/modprobe.d/can.conf (or create atm.conf if it does not exist):\n\ninstall can /bin/false\nblacklist can",
+  "fix_id": "F-75401r1091043_fix",
+  "VulnDiscussion": "Disabling CAN protects the system against exploitation of any flaws in its implementation.",
+  "Documentable": "false"
+}

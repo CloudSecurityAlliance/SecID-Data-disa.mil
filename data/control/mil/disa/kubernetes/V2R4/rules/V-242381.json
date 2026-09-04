@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242381",
+  "rule_id": "SV-242381r1043176_rule",
+  "stig_id": "CNTR-K8-000220",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Kubernetes Controller Manager must create unique service accounts for each work payload.",
+  "group_title": "SRG-APP-000023-CTR-000055",
+  "idents": {
+    "cci": [
+      "CCI-000015"
+    ]
+  },
+  "check_id": "C-45656r927075_chk",
+  "check_content": "Change to the /etc/kubernetes/manifests directory on the Kubernetes Control Plane. Run the command:\n\ngrep -i use-service-account-credentials * \n\nIf the setting \"--use-service-account-credentials\" is not configured in the Kubernetes Controller Manager manifest file or it is set to \"false\", this is a finding.",
+  "fixtext": "Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Control Plane.\n\nSet the value of \"--use-service-account-credentials\" to \"true\".",
+  "fix_id": "F-45614r927076_fix",
+  "VulnDiscussion": "The Kubernetes Controller Manager is a background process that embeds core control loops regulating cluster system state through the API Server. Every process executed in a pod has an associated service account. By default, service accounts use the same credentials for authentication. Implementing the default settings poses a High risk to the Kubernetes Controller Manager. Setting the \"--use-service-account-credential\" value lowers the attack surface by generating unique service accounts settings for each controller instance.",
+  "Documentable": "false"
+}

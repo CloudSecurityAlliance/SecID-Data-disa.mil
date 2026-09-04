@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255338",
+  "rule_id": "SV-255338r961095_rule",
+  "stig_id": "ASQL-00-008900",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Azure SQL Database must separate user functionality (including user interface services) from database management functionality.",
+  "group_title": "SRG-APP-000211-DB-000122",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-59011r871138_chk",
+  "check_content": "To validate Azure role-based access controls (RBAC) for a specific resource, use the PowerShell script below:\n\n$LogicalServerName = \"myServer\"\n$ResourceScope = Get-AzResource -name $LogicalServerName | Where-Object {$_.ResourceType -eq \"Microsoft.Sql/servers\"} | Select-Object -ExpandProperty ResourceID\n\nGet-AzRoleAssignment | Where-Object {$_.Scope -eq $ResourceScope}\n\nIf a user not assigned information system management responsibilities has membership in any of the following roles, this is a finding:\n\n##SQL DB Contributor\n##SQL Security Manager\n##SQL Server Contributor\n##User Access Administrator\n##Owner\n##Contributor\n##Reader",
+  "fixtext": "To remove an Azure RBAC role assignment, use Remove-AzRoleAssignment PowerShell command.\n\nExample:\nRemove-AzRoleAssignment `\n      -SignInName \"myAADIdenity\" `\n      -ResourceGroupName \"myResourceGroup\" `\n      -ResourceName \"myServerName\" `\n      -ResourceType \"Microsoft.Sql/servers\" `\n      -RoleDefinitionName \"myRole\" `",
+  "fix_id": "F-58955r871139_fix",
+  "VulnDiscussion": "Information system management functionality includes functions necessary to administer databases, network components, workstations, or servers and typically requires privileged user access. \n\nThe separation of user functionality from information system management functionality is either physical or logical and is accomplished by using different computers, different central processing units, different instances of the operating system, different network addresses, combinations of these methods, or other methods, as appropriate. \n\nAn example of this type of separation is observed in web administrative interfaces that use separate authentication methods for users of any other information system resources. \n\nThis may include isolating the administrative interface on a different domain and with additional access controls.\n\nIf administrative functionality or information regarding Azure SQL Database management is presented on an interface available for users, information on Azure SQL Database settings may be inadvertently made available to the user.",
+  "Documentable": "false"
+}

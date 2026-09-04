@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-269127",
+  "rule_id": "SV-269127r1107618_rule",
+  "stig_id": "ALMA-09-004420",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must enable FIPS mode.",
+  "group_title": "SRG-OS-000033-GPOS-00014",
+  "idents": {
+    "cci": [
+      "CCI-000068",
+      "CCI-002450",
+      "CCI-000877"
+    ]
+  },
+  "check_id": "C-73158r1049147_chk",
+  "check_content": "Verify that AlmaLinux OS 9 is in FIPS mode with the following command:\n\n$ fips-mode-setup --check\n\nFIPS mode is enabled.\n\nIf FIPS mode is not enabled, this is a finding.",
+  "fixtext": "FIPS-validated packages are available from TuxCare as part of the Enterprise Support for AlmaLinux product line. You will need to purchase an ESU license key.\n\nConfigure the operating system to implement FIPS mode with the following commands:\n\n$ dnf install -y https://repo.tuxcare.com/tuxcare/tuxcare-release-latest-9.2.noarch.rpm\n$ tuxctl --license-key ESU-XXXXXXXXXXXXXXXXXXX\n$ dnf -y upgrade\n$ fips-mode-setup --enable\n$ reboot",
+  "fix_id": "F-73059r1101814_fix",
+  "VulnDiscussion": "Without confidentiality protection mechanisms, unauthorized individuals may gain access to sensitive information via a remote access session.\n\nRemote access is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nEncryption provides a means to secure the remote connection to prevent unauthorized access to the data traversing the remote access connection (e.g., RDP), thereby providing a degree of confidentiality. The encryption strength of a mechanism is selected based on the security categorization of the information.\n\nThe operating system must use cryptographic modules that have been validated by NIST's FIPS 140-3 program. Using weak or untested cryptography could compromise the confidentiality and integrity of data at rest and in transit.\n\nSatisfies: SRG-OS-000033-GPOS-00014, SRG-OS-000478-GPOS-00223, SRG-OS-000396-GPOS-00176, SRG-OS-000125-GPOS-00065",
+  "Documentable": "false"
+}

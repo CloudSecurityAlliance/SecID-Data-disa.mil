@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216352",
+  "rule_id": "SV-216352r959010_rule",
+  "stig_id": "SOL-11.1-040340",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Consecutive login attempts for SSH must be limited to 3.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-60971",
+      "V-48099"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17588r462490_chk",
+  "check_content": "Determine if consecutive login attempts are limited to 3.\n\n# grep \"^MaxAuthTries\" /etc/ssh/sshd_config | grep -v Log\n\nIf the output of this command is not:\n\nMaxAuthTries 6\n\nthis is a finding.\n\nNote: Solaris SSH MaxAuthTries of 6 maps to 3 actual failed attempts.",
+  "fixtext": "The root role is required.\n\nModify the sshd_config file.\n\n# pfedit /etc/ssh/sshd_config\n\nLocate the line containing:\n\nMaxAuthTries \n\nChange it to:\n\nMaxAuthTries 6\n\nRestart the SSH service.\n\n# svcadm restart svc:/network/ssh\n\nNote: Solaris SSH MaxAuthTries of 6 maps to 3 actual failed attempts.",
+  "fix_id": "F-17586r462491_fix",
+  "VulnDiscussion": "Setting the authentication login limit to a low value will disconnect the attacker and force a reconnect, which severely limits the speed of such brute-force attacks.",
+  "Documentable": "false"
+}

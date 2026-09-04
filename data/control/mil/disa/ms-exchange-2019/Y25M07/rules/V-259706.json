@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259706",
+  "rule_id": "SV-259706r961620_rule",
+  "stig_id": "EX19-MB-000231",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange must not send nondelivery reports to remote domains.",
+  "group_title": "SRG-APP-000435",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-63445r942430_chk",
+  "check_content": "Note: For the purpose of this requirement, \"remote\" refers to those domains external to the DODIN, whether classified or unclassified. NDRs between DODIN networks is permitted.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-RemoteDomain | Select-Object -Property Name, Identity, NDREnabled\n\nIf the value of \"NDREnabled\" is not set to \"False\", this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-RemoteDomain -Identity <'IdentityName'> -NDREnabled $false\n\nNote: The <IdentityName> value must be in quotes.",
+  "fix_id": "F-63353r942431_fix",
+  "VulnDiscussion": "Attackers can use automated messages to determine whether a user account is active, in the office, traveling, and so on. An attacker might use this information to conduct future attacks. Ensure that nondelivery reports to remote domains are disabled. Before enabling this setting, first configure a remote domain using the Exchange Management Console (EMC) or the New-RemoteDomain cmdlet.",
+  "Documentable": "false"
+}

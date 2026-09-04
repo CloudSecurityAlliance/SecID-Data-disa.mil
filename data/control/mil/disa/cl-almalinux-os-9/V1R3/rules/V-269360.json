@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269360",
+  "rule_id": "SV-269360r1101822_rule",
+  "stig_id": "ALMA-09-032030",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must require users to provide a password for privilege escalation.",
+  "group_title": "SRG-OS-000327-GPOS-00127",
+  "idents": {
+    "cci": [
+      "CCI-002234"
+    ]
+  },
+  "check_id": "C-73391r1101821_chk",
+  "check_content": "Verify that the sudo configuration files have no occurrences of \"NOPASSWD\" with the following command:\n\n$ sudo grep -iR 'NOPASSWD' /etc/sudoers /etc/sudoers.d/\n\nIf any occurrences of \"NOPASSWD\" are returned from the command and have not been documented with the information systems security officer (ISSO) as an organizationally defined administrative group using multifactor authentication (MFA), this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to not allow users to execute privileged actions without authenticating with a password.\n\nRemove any occurrence of \"NOPASSWD\" found in the \"/etc/sudoers\" file or files in the \"/etc/sudoers.d\" directory using the following command:\n\n$ sed -i '/NOPASSWD/ s/^/# /g' /etc/sudoers /etc/sudoers.d/*",
+  "fix_id": "F-73292r1049547_fix",
+  "VulnDiscussion": "Without re-authentication, users may access resources or perform tasks for which they do not have authorization. \n\nWhen operating systems provide the capability to escalate a functional capability, it is critical the user re-authenticate.",
+  "Documentable": "false"
+}

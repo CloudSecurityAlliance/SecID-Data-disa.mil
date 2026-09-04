@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274448",
+  "rule_id": "SV-274448r1111112_rule",
+  "stig_id": "SQLI-22-016600",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SQL Server Service Broker endpoint must use AES encryption.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-78541r1111110_chk",
+  "check_content": "If the data owner does not have a strict requirement for ensuring data integrity and confidentiality is maintained at every step of the data transfer and handling process, and the requirement is documented and authorized, this is not a finding.\n\nIf SQL Service Broker is in use, run the following to check for encrypted transmissions:\nSELECT name, type_desc, encryption_algorithm_desc\nFROM sys.service_broker_endpoints\nWHERE encryption_algorithm != 2\n\nIf any records are returned, this is a finding.",
+  "fixtext": "Run the following to enable encryption on the Service Broker endpoint:\nALTER ENDPOINT <EndpointName>\nFOR SERVICE_BROKER\n(ENCRYPTION = REQUIRED ALGORITHM AES)",
+  "fix_id": "F-78446r1111111_fix",
+  "VulnDiscussion": "Information can be unintentionally or maliciously disclosed or modified during preparation for transmission, including, for example, during aggregation, at protocol transformation points, and during packing/unpacking. These unauthorized disclosures or modifications compromise the confidentiality or integrity of the information.\n\nUse of this requirement will be limited to situations where the data owner has a strict requirement for ensuring that data integrity and confidentiality is maintained at every step of the data transfer and handling process. \n\nSQL Server Service Broker endpoints support different encryption algorithms, including no-encryption. Using a weak encryption algorithm or plaintext in communication protocols can lead to data loss, data manipulation, and/or connection hijacking.",
+  "Documentable": "false"
+}

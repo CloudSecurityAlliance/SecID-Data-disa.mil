@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269180",
+  "rule_id": "SV-269180r1050062_rule",
+  "stig_id": "ALMA-09-011460",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must disable storing core dumps.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73211r1049269_chk",
+  "check_content": "Verify AlmaLinux OS 9 disables storing core dumps for all users by issuing the following command:\n\n$ systemd-analyze cat-config systemd/coredump.conf | grep Storage\n\nStorage=none\n\nIf the \"Storage\" item is missing, commented out, or the value is anything other than \"none\" and the need for core dumps is not documented with the information system security officer (ISSO) as an operational requirement for all domains that have the \"core\" item assigned, this is a finding.",
+  "fixtext": "Configure the operating system to disable storing core dumps for all users.\n\nAdd or modify the following line in the [Coredump} section of /etc/systemd/coredump.conf:\n\nStorage=none",
+  "fix_id": "F-73112r1047917_fix",
+  "VulnDiscussion": "A core dump includes a memory image taken at the time the operating system terminates an application. The memory image could contain sensitive data and is generally useful only for developers or system operators trying to debug problems.\n\nEnabling core dumps on production systems is not recommended; however, there may be overriding operational requirements to enable advanced debugging. Permitting temporary enablement of core dumps during such situations must be reviewed through local needs and policy.",
+  "Documentable": "false"
+}

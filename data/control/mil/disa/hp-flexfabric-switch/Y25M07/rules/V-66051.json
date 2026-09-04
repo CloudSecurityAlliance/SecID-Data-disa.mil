@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-66051",
+  "rule_id": "SV-80541r1_rule",
+  "stig_id": "HFFS-L2-000002",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "HP FlexFabric Switch must authenticate all network-connected endpoint devices before establishing any connection.",
+  "group_title": "SRG-NET-000343-L2S-000016",
+  "idents": {
+    "cci": [
+      "CCI-001958"
+    ]
+  },
+  "check_id": "C-66695r1_chk",
+  "check_content": "Verify all access switch ports connecting to LAN outlets are configured for 802.1x or MAC authentication as shown in these configuration examples.\n\n802.1x example:\n\ninterface Ten-GigabitEthernet1/0/4\nport link-mode bridge\nport access vlan 200\ndot1x\n\nMAC authentication example:\n\ninterface Ten-GigabitEthernet1/0/5\nport link-mode bridge\nport access vlan 200\nmac-authentication\n\nIf all access switch ports connecting to LAN outlets are not configured for 802.1x or MAC authentication, this is a finding.",
+  "fixtext": "Configure 802.1 x authentications on all host-facing access switch ports. To authenticate those devices that do not support 802.1x, MAC Authentication Bypass must be configured.\n\n[HP] dot1x\n[HP] dot1x authentication-method eap\n[HP] domain radius jitc\n[HP] radius scheme jitc\n[HP-radius-jitc]radius scheme jitc\n[HP-radius-jitc]primary authentication 15.252.76.124\n[HP-radius-jitc]primary accounting 15.252.76.124\n[HP-radius-jitc]accounting-on enable\n[HP-radius-jitc]key authentication simple test123\n[HP-radius-jitc]user-name-format without-domain\n[HP-radius-jitc]nas-ip 15.252.78.99\n[HP]domain jitc\n[HP-isp-jitc]domain jitc\n[HP-isp-jitc]authentication lan-access radius-scheme jitc\n[HP-isp-jitc]authorization lan-access radius-scheme jitc\n[HP] interface gigbitethernet 1/0/1\n[HP-Gigabitethernet1/0/1] undo dot1x handshake\ndot1x mandatory-domain jitc\nundo dot1x multicast-trigger",
+  "fix_id": "F-72127r1_fix",
+  "VulnDiscussion": "Controlling LAN access via 802.1x authentication or MAC authentication can assist in preventing a malicious user from connecting an unauthorized PC to a switch port to inject or receive data from the network without detection.",
+  "Documentable": "false"
+}

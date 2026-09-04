@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221661",
+  "rule_id": "SV-221661r958402_rule",
+  "stig_id": "OL07-00-010081",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must prevent a user from overriding the screensaver lock-delay setting for the graphical user interface.",
+  "group_title": "SRG-OS-000029-GPOS-00010",
+  "idents": {
+    "legacy": [
+      "V-99063",
+      "SV-108167"
+    ],
+    "cci": [
+      "CCI-000057"
+    ]
+  },
+  "check_id": "C-23376r880607_chk",
+  "check_content": "Verify the operating system prevents a user from overriding a screensaver lock after a 15-minute period of inactivity for graphical user interfaces. \n\nNote: If the system does not have GNOME installed, this requirement is Not Applicable.\n\nDetermine which profile the system database is using with the following command:\n     # grep system-db /etc/dconf/profile/user\n     system-db:local\n\nCheck for the lock delay setting with the following command:\n\nNote: The example below is using the database \"local\" for the system, so the path is \"/etc/dconf/db/local.d\". This path must be modified if a database other than \"local\" is being used.\n\n     # grep -i lock-delay /etc/dconf/db/local.d/locks/*\n     /org/gnome/desktop/screensaver/lock-delay\n\nIf the command does not return a result, this is a finding.",
+  "fixtext": "Configure the operating system to prevent a user from overriding a screensaver lock after a 15-minute period of inactivity for graphical user interfaces.\n\nCreate a database to contain the system-wide screensaver settings (if it does not already exist) with the following command: \n\nNote: The example below is using the database \"local\" for the system, so if the system is using another database in \"/etc/dconf/profile/user\", the file should be created under the appropriate subdirectory.\n\n     # touch /etc/dconf/db/local.d/locks/session\n\nAdd the setting to lock the screensaver lock delay:\n\n     /org/gnome/desktop/screensaver/lock-delay",
+  "fix_id": "F-23365r880608_fix",
+  "VulnDiscussion": "A session time-out lock is a temporary action taken when a user stops work and moves away from the immediate physical vicinity of the information system but does not log out because of the temporary nature of the absence. Rather than relying on the user to lock the operating system session manually prior to leaving the workstation, operating systems must be able to identify when a user's session has idled, and take action to initiate the session lock.\n\nThe session lock is implemented at the point where session activity can be determined and/or controlled.",
+  "Documentable": "false"
+}

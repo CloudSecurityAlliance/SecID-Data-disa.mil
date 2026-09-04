@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259652",
+  "rule_id": "SV-259652r960879_rule",
+  "stig_id": "EX19-MB-000031",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange connectivity logging must be enabled.",
+  "group_title": "SRG-APP-000089",
+  "idents": {
+    "cci": [
+      "CCI-000169"
+    ]
+  },
+  "check_id": "C-63391r942268_chk",
+  "check_content": "Open the Exchange Management Shell and enter the following command:\n\nGet-TransportService | Select-Object -Property Name, Identity, ConnectivityLogEnabled \n\nIf the value of \"ConnectivityLogEnabled\" is not set to \"True\", this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-TransportService -Identity <'IdentityName'> -ConnectivityLogEnabled $true\n\nNote: The <IdentityName> value must be in quotes.",
+  "fix_id": "F-63299r942269_fix",
+  "VulnDiscussion": "A connectivity log is a record of the SMTP connection activity of the outbound message delivery queues to the destination Mailbox server, smart host, or domain. Connectivity logging is available on Mailbox servers in Exchange 2019 as it holds Mailbox, Client Access, and Hub Transport roles. This must also be completed on Edge Transport servers, as that is a separate role. By default, connectivity logging is disabled. If events are not recorded, it may be difficult or impossible to determine the root cause of system problems or the unauthorized activities of malicious users.\n\nNote: Transport configuration settings apply to the organization/global level of the Exchange SMTP path. By checking and setting them on the Mailbox server, the setting will apply to both Hub and Edge server roles.",
+  "Documentable": "false"
+}

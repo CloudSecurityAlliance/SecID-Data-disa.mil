@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-223524",
+  "rule_id": "SV-223524r958804_rule",
+  "stig_id": "ACF2-FT-000080",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The IBM z/OS TFTP Server program must be properly protected.",
+  "group_title": "SRG-OS-000368-GPOS-00154",
+  "idents": {
+    "legacy": [
+      "SV-106857",
+      "V-97753"
+    ],
+    "cci": [
+      "CCI-001764"
+    ]
+  },
+  "check_id": "C-25197r504630_chk",
+  "check_content": "From the ACF Command screen enter:\nSET CONTROL(GSO)\nLIST LIKE(PPGM-)\n\nIf Programs TFTPD and EZATD are not defined in the GSO PPGM record, this is a finding.\n\nFrom the ACF Command screen enter:\nSET RESOURCE(PGM)\nLIST LIKE(-)\n\nIf Program resources TFTPD and EZATD are not defined in the PROGRAM resource class, this is a finding.\n\nIf No access to the program resources TFTPD and EZATD is permitted, this is not a finding.",
+  "fixtext": "Configure the resource controls for the TFTP Server programs TFTPD and EZATD and ensure all access is restricted.\n\nEvaluate the impact of implementing the following change. Develop a plan of action and implement the change as required.\n\nConfigure the resource controls for the TFTP Server programs TFTPD and EZATD and ensure all access is restricted.\n\nExamples:\nSET CONTROL(GSO)\nCHANGE PPGM PGM-MASK(TFTPD EZATD) ADD\n\nF ACF2,REFRESH(PPGM)\n\n$KEY(TFTPD) TYPE(PGM)\nUID(*) PREVENT \n\nSET R(PGM)\nCOMPILE 'ACF2.MVA.PGM(TFTPD)' STORE\n\nF ACF2,REBUILD(PGM) \n\n$KEY(EZATD) TYPE(PGM)\nUID(*) PREVENT \n\nSET R(PGM)\nCOMPILE 'ACF2.MVA.PGM(EZATD)' STORE\n\nF ACF2,REBUILD(PGM)",
+  "fix_id": "F-25185r504631_fix",
+  "VulnDiscussion": "Control of program execution is a mechanism used to prevent execution of unauthorized programs. Some operating systems may provide a capability that runs counter to the mission or provides users with functionality that exceeds mission requirements. This includes functions and services installed at the operating system level.\n\nSome of the programs, installed by default, may be harmful or may not be necessary to support essential organizational operations (e.g., key missions, functions). Removal of executable programs is not always possible; therefore, establishing a method of preventing program execution is critical to maintaining a secure system baseline.\n\nMethods for complying with this requirement include restricting execution of programs in certain environments, while preventing execution in other environments; or limiting execution of certain program functionality based on organization-defined criteria (e.g., privileges, subnets, sandboxed environments, or roles).",
+  "Documentable": "false"
+}

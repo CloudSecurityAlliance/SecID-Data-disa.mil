@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259056",
+  "rule_id": "SV-259056r960792_rule",
+  "stig_id": "VCLU-80-000130",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The vCenter Lookup service DefaultServlet must be set to \"readonly\" for \"PUT\" and \"DELETE\" commands.",
+  "group_title": "SRG-APP-000033-AS-000024",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-62796r934824_chk",
+  "check_content": "At the command prompt, run the following command:\n\n# xmllint --xpath \"//*[contains(text(), 'DefaultServlet')]/parent::*\" /usr/lib/vmware-lookupsvc/conf/web.xml\n\nExample output:\n\n<servlet>\n      <description>File servlet</description>\n      <servlet-name>FileServlet</servlet-name>\n      <servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>\n</servlet>\n\nIf the \"readOnly\" param-value for the \"DefaultServlet\" servlet class is set to \"false\", this is a finding.\n\nIf the \"readOnly\" param-value does not exist, this is not a finding.",
+  "fixtext": "Navigate to and open:\n\n/usr/lib/vmware-lookupsvc/conf/web.xml\n\nNavigate to the /<web-apps>/<servlet>/<servlet-class>org.apache.catalina.servlets.DefaultServlet</servlet-class>/ node and remove the following node:\n\n<init-param>\n      <param-name>readonly</param-name>\n      <param-value>false</param-value>\n</init-param>\n\nRestart the service with the following command:\n\n# vmon-cli --restart lookupsvc",
+  "fix_id": "F-62705r934825_fix",
+  "VulnDiscussion": "The default servlet (or DefaultServlet) is a special servlet provided with Tomcat that is called when no other suitable page is found in a particular folder. The DefaultServlet serves static resources as well as directory listings. The DefaultServlet is configured by default with the \"readonly\" parameter set to \"true\" where HTTP commands such as \"PUT\" and \"DELETE\" are rejected.\n\nChanging this to \"false\" allows clients to delete or modify static resources on the server and to upload new resources. DefaultServlet \"readonly\" must be set to \"true\", either literally or by absence (default).",
+  "Documentable": "false"
+}

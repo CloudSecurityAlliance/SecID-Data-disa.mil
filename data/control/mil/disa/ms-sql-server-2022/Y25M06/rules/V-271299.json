@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271299",
+  "rule_id": "SV-271299r1108513_rule",
+  "stig_id": "SQLI-22-007500",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to linked servers must be disabled or restricted, unless specifically required and approved.",
+  "group_title": "SRG-APP-000141-DB-000093",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-75342r1108511_chk",
+  "check_content": "A linked server allows for access to distributed, heterogeneous queries against OLE DB data sources. After a linked server is created, distributed queries can be run against this server, and queries can join tables from more than one data source. If the linked server is defined as an instance of SQL Server, remote stored procedures can be executed.\n \nTo obtain a list of linked servers, execute the following command:\n \nSELECT name\nFROM sys.servers s \nWHERE s.is_linked = 1 \n \nReview the system documentation to determine whether the linked servers listed are required and approved. If it is not approved, this is a finding. \n \nRun the following to get a linked server login mapping: \n \nSELECT s.name, p.principal_id, l.remote_name \nFROM sys.servers s \nJOIN sys.linked_logins l ON s.server_id = l.server_id \nLEFT JOIN sys.server_principals p ON l.local_principal_id = p.principal_id \nWHERE s.is_linked = 1 \n \nReview the linked login mapping and check the remote name as it can impersonate sysadmin. If a login in the list is impersonating sysadmin and system documentation does not require this, it is a finding.",
+  "fixtext": "Remove any linked servers and all associated logins that are not authorized. \n \nTo remove a linked server and all associated logins run the following: \n \nsp_dropserver 'LinkedServerName', 'droplogins'; \n \nTo remove a login from a linked server run the following: \n \nEXEC sp_droplinkedsrvlogin 'LoginName', NULL;",
+  "fix_id": "F-75249r1108512_fix",
+  "VulnDiscussion": "Information systems are capable of providing a wide variety of functions and services. Some of the default functions and services may not be necessary to support essential organizational operations (e.g., key missions, functions). \n\nIt is detrimental for applications to provide, or install by default, functionality exceeding requirements or mission objectives. \n\nApplications must adhere to the principles of least functionality by providing only essential capabilities. \n\nSQL Server may spawn additional external processes to execute procedures that are defined in the SQL Server but stored in external host files (external procedures). The spawned process used to execute the external procedure may operate within a different OS security context than SQL Server and provide unauthorized access to the host system. \n\nA linked server allows for access to distributed, heterogeneous queries against OLE DB data sources. After a linked server is created, distributed queries can be run against this server, and queries can join tables from more than one data source. If the linked server is defined as an instance of SQL Server, remote stored procedures can be executed. This access may be exploited by malicious users who have compromised the integrity of the SQL Server.",
+  "Documentable": "false"
+}

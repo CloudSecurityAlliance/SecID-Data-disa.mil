@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-237606",
+  "rule_id": "SV-237606r991589_rule",
+  "stig_id": "SLES-12-010631",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must not have unnecessary account capabilities.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-40825r646779_chk",
+  "check_content": "Verify all non-interactive SUSE operating system accounts do not have an interactive shell assigned to them.\n\nObtain the list of authorized system accounts from the Information System Security Officer (ISSO).\n\nCheck the system accounts on the system with the following command:\n\n> awk -F: '($7 !~ \"/sbin/nologin\" && $7 !~ \"/bin/false\"){print $1 \":\" $3 \":\" $7}' /etc/passwd\nroot:0:/bin/bash\nnobody:65534:/bin/bash\n\nIf a non-interactive accounts such as \"games\" or \"nobody\" is listed with an interactive shell, this is a finding.",
+  "fixtext": "Configure the SUSE operating system so that all non-interactive accounts on the system have no interactive shell assigned to them.\n\nRun the following command to disable the interactive shell for a specific non-interactive user account:\n\n> sudo usermod --shell /sbin/nologin nobody",
+  "fix_id": "F-40788r646780_fix",
+  "VulnDiscussion": "Accounts providing no operational purpose provide additional opportunities for system compromise. Therefore all necessary non-interactive accounts should not have an interactive shell assigned to them.",
+  "Documentable": "false"
+}

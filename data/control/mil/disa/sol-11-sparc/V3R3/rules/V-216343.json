@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216343",
+  "rule_id": "SV-216343r959010_rule",
+  "stig_id": "SOL-11.1-040270",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The value mesg n must be configured as the default setting for all users.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48075",
+      "SV-60947"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17579r371117_chk",
+  "check_content": "Determine if \"mesg n\" is the default for users.\n\n# grep \"^mesg\" /etc/.login\n\n# grep \"^mesg\" /etc/profile\n\nIf either of these commands produces a line:\nmesg y\n\nthis is a finding.\n\nFor each existing user on the system, enter the command:\n\n# mesg\n\nIf the command output is:\nis y\n\nthis is a finding.",
+  "fixtext": "The root role is required.\n\nEdit the default profile configuration files.\n\n# pfedit /etc/profile \n# pfedit /etc/.login\n\nIn each file add a new line:\n\nmesg n\n\nFor each user on the system, enter the command:\n\n# mesg n",
+  "fix_id": "F-17577r371118_fix",
+  "VulnDiscussion": "The \"mesg n\" command blocks attempts to use the \"write\" or \"talk\" commands to contact users at their terminals, but has the side effect of slightly strengthening permissions on the user's TTY device.",
+  "Documentable": "false"
+}

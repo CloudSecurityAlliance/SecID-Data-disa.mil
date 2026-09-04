@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-253106",
+  "rule_id": "SV-253106r991589_rule",
+  "stig_id": "TOSS-04-040650",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The TOSS SSH daemon must perform strict mode checking of home directory configuration files.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-56559r824988_chk",
+  "check_content": "Verify the SSH daemon performs strict mode checking of home directory configuration files with the following command:\n\n$ sudo grep -i strictmodes /etc/ssh/sshd_config\n\nStrictModes yes\n\nIf \"StrictModes\" is set to \"no\", is missing, or the returned line is commented out, this is a finding.",
+  "fixtext": "Configure SSH to perform strict mode checking of home directory configuration files. Uncomment the \"StrictModes\" keyword in \"/etc/ssh/sshd_config\" and set the value to \"yes\":\n\nStrictModes yes\n\nThe SSH daemon must be restarted for the changes to take effect. To restart the SSH daemon, run the following command:\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-56509r824989_fix",
+  "VulnDiscussion": "If other users have access to modify user-specific SSH configuration files, they may be able to log on to the system as another user.",
+  "Documentable": "false"
+}

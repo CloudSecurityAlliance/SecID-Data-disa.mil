@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270830",
+  "rule_id": "SV-270830r1068397_rule",
+  "stig_id": "UBTU-24-901380",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 24.04 LTS must be configured so that the audit log directory is not write-accessible by unauthorized users.",
+  "group_title": "SRG-OS-000059-GPOS-00029",
+  "idents": {
+    "cci": [
+      "CCI-000164"
+    ]
+  },
+  "check_id": "C-74863r1066977_chk",
+  "check_content": "Verify that the audit log directory has a mode of \"0750\" or less permissive. \n \nDetermine where the audit logs are stored with the following command: \n \n$ sudo grep -iw ^log_file /etc/audit/auditd.conf\nlog_file = /var/log/audit/audit.log \n \nUsing the path of the directory containing the audit logs, determine if the directory has a mode of \"0750\" or less with the following command: \n \n$ sudo stat -c \"%n %a\" /var/log/audit\n/var/log/audit 750 \n \nIf the audit log directory has a mode more permissive than \"0750\", this is a finding.",
+  "fixtext": "Configure the audit log directory to have a mode of \"0750\" or less permissive. \n \nDetermine where the audit logs are stored with the following command: \n \n$ sudo grep -iw ^log_file /etc/audit/auditd.conf \n\nlog_file = /var/log/audit/audit.log \n \nUsing the path of the directory containing the audit logs, configure the audit log directory to have a mode of \"0750\" or less permissive by using the following command: \n \n$ sudo chmod -R  750 /var/log/audit",
+  "fix_id": "F-74764r1068396_fix",
+  "VulnDiscussion": "If audit information were to become compromised, then forensic analysis and discovery of the true source of potentially malicious system activity is impossible to achieve. \n \nTo ensure the veracity of audit information, Ubuntu 24.04 LTS must protect audit information from unauthorized deletion. This requirement can be achieved through multiple methods, which will depend upon system architecture and design. \n \nAudit information includes all information (e.g., audit records, audit settings, audit reports) needed to successfully audit information system activity.",
+  "Documentable": "false"
+}

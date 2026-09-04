@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-257258",
+  "rule_id": "SV-257258r1069328_rule",
+  "stig_id": "RHEL-08-020035",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 8.7 and higher must terminate idle user sessions.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-60942r1069265_chk",
+  "check_content": "Note: This requirement applies to RHEL versions 8.7 and higher. If the system is not RHEL version 8.7 or newer, this requirement is not applicable.\n\nNote: For cloud hosted systems where \"ClientAliveInterval\" (V-244525) is configured, this setting is not applicable.\n\nVerify that RHEL 8 logs out sessions that are idle for 10 minutes with the following command:\n\n$ sudo grep -i ^StopIdleSessionSec /etc/systemd/logind.conf\n\nStopIdleSessionSec=600\n\nIf \"StopIdleSessionSec\" is not configured to \"600\" seconds, this is a finding.",
+  "fixtext": "Configure RHEL 8 to log out idle sessions after 10 minutes by editing the /etc/systemd/logind.conf file with the following line:\n\nStopIdleSessionSec=600\n\nThe \"logind\" service must be restarted for the changes to take effect. To restart the \"logind\" service, run the following command:\n\n$ sudo systemctl restart systemd-logind",
+  "fix_id": "F-60884r1014792_fix",
+  "VulnDiscussion": "Terminating an idle session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended.",
+  "Documentable": "false"
+}

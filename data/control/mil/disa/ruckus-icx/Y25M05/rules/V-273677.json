@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-273677",
+  "rule_id": "SV-273677r1111058_rule",
+  "stig_id": "RCKS-L2S-000090",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The RUCKUS ICX switch must have Root Protect enabled on all switch ports connecting to access layer switches and hosts.",
+  "group_title": "SRG-NET-000362-L2S-000021",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-77768r1111003_chk",
+  "check_content": "Review port configuration to verify that Root Protect is enabled on ports connecting to access layer switches and hosts.\n\ninterface ethernet x/x/x\n  spanning-tree root-protect\n\nIf Root Protect is not configured on ports connecting to access layer switches and hosts, this is a finding.",
+  "fixtext": "Configure ports connected to access switches and hosts to have Root Protect enabled.\n\nICX(config--if-e1000-x/x/x)# spanning-tree root-protect",
+  "fix_id": "F-77673r1111004_fix",
+  "VulnDiscussion": "Spanning Tree Protocol (STP) does not provide any means for the network administrator to securely enforce the topology of the switched network. Any switch can be the root bridge in a network. However, a more optimal forwarding topology places the root bridge at a specific predetermined location. With the standard STP, any bridge in the network with a lower bridge ID takes the role of the root bridge. The administrator cannot enforce the position of the root bridge but can set the root bridge priority to 0 to secure the root bridge position.\n\nThe root guard feature provides a way to enforce the root bridge placement in the network. If the bridge receives superior STP Bridge Protocol Data Units (BPDUs) on a root guard-enabled port, root guard moves this port to a root-inconsistent STP state and no traffic can be forwarded across this port while it is in this state. To enforce the position of the root bridge it is imperative that root guard is enabled on all ports where the root bridge should never appear.",
+  "Documentable": "false"
+}

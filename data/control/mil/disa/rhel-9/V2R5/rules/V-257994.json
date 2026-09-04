@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-257994",
+  "rule_id": "SV-257994r1045051_rule",
+  "stig_id": "RHEL-09-255090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "RHEL 9 must force a frequent session key renegotiation for SSH connections to the server.",
+  "group_title": "SRG-OS-000423-GPOS-00187",
+  "idents": {
+    "cci": [
+      "CCI-000068",
+      "CCI-002418",
+      "CCI-002421"
+    ]
+  },
+  "check_id": "C-61735r952193_chk",
+  "check_content": "Verify the SSH server is configured to force frequent session key renegotiation with the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*rekeylimit'\n\nRekeyLimit 1G 1h\n\nIf \"RekeyLimit\" does not have a maximum data amount and maximum time defined, is missing, or is commented out, this is a finding.",
+  "fixtext": "Configure RHEL 9 to force a frequent session key renegotiation for SSH connections to the server by adding or modifying the following line in the \"/etc/ssh/sshd_config\" or in a file in \"/etc/ssh/sshd_config.d\":\n\nRekeyLimit 1G 1h\n\nRestart the SSH daemon for the settings to take effect.\n\n$ sudo systemctl restart sshd.service",
+  "fix_id": "F-61659r1045050_fix",
+  "VulnDiscussion": "Without protection of the transmitted information, confidentiality and integrity may be compromised because unprotected communications can be intercepted and either read or altered. \n\nThis requirement applies to both internal and external networks and all types of information system components from which information can be transmitted (e.g., servers, mobile devices, notebook computers, printers, copiers, scanners, and facsimile machines). Communication paths outside the physical protection of a controlled boundary are exposed to the possibility of interception and modification. \n\nProtecting the confidentiality and integrity of organizational information can be accomplished by physical means (e.g., employing physical distribution systems) or by logical means (e.g., employing cryptographic techniques). If physical means of protection are employed, then logical means (cryptography) do not have to be employed, and vice versa.\n\nSession key regeneration limits the chances of a session key becoming compromised.\n\nSatisfies: SRG-OS-000423-GPOS-00187, SRG-OS-000033-GPOS-00014, SRG-OS-000424-GPOS-00188",
+  "Documentable": "false"
+}

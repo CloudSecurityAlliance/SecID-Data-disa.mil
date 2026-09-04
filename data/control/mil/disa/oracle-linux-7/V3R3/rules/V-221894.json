@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221894",
+  "rule_id": "SV-221894r991589_rule",
+  "stig_id": "OL07-00-040830",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must not forward IPv6 source-routed packets.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "SV-108631",
+      "V-99527"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23609r880664_chk",
+  "check_content": "If IPv6 is not enabled, the key will not exist, and this is Not Applicable.\n\nVerify the system does not accept IPv6 source-routed packets.\n\n     # grep -r net.ipv6.conf.all.accept_source_route /run/sysctl.d/* /etc/sysctl.d/* /usr/local/lib/sysctl.d/* /usr/lib/sysctl.d/* /lib/sysctl.d/* /etc/sysctl.conf 2> /dev/null\n     net.ipv6.conf.all.accept_source_route = 0\n\nIf \"net.ipv6.conf.all.accept_source_route\" is not configured in the /etc/sysctl.conf file or in any of the other sysctl.d directories, is commented out or does not have a value of \"0\", this is a finding.\n\nCheck that the operating system implements the accept source route variable with the following command:\n\n     # /sbin/sysctl -a | grep net.ipv6.conf.all.accept_source_route\n     net.ipv6.conf.all.accept_source_route = 0\n\nIf the returned lines do not have a value of \"0\", this is a finding.\n\nIf conflicting results are returned, this is a finding.",
+  "fixtext": "Set the system to the required kernel parameter, if IPv6 is enabled, by adding the following line to \"/etc/sysctl.conf\" or a configuration file in the /etc/sysctl.d/ directory (or modify the line to have the required value):\n\n     net.ipv6.conf.all.accept_source_route = 0\n\nIssue the following command to make the changes take effect:\n\n     # sysctl --system",
+  "fix_id": "F-23598r880665_fix",
+  "VulnDiscussion": "Source-routed packets allow the source of the packet to suggest that routers forward the packet along a different path than configured on the router, which can be used to bypass network security measures. This requirement applies only to the forwarding of source-routed traffic, such as when IPv6 forwarding is enabled and the system is functioning as a router.",
+  "Documentable": "false"
+}

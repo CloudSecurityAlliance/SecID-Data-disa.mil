@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-215831",
+  "rule_id": "SV-215831r1043189_rule",
+  "stig_id": "CISC-ND-000610",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco router must be configured to require that when a password is changed, the characters are changed in at least eight of the positions within the password.",
+  "group_title": "SRG-APP-000170-NDM-000329",
+  "idents": {
+    "legacy": [
+      "SV-105401",
+      "V-96263"
+    ],
+    "cci": [
+      "CCI-004066",
+      "CCI-000195"
+    ]
+  },
+  "check_id": "C-17070r287532_chk",
+  "check_content": "Review the Cisco router configuration to verify that it is compliant with this requirement as shown in the example below.\n\naaa new-model\n!\n!\naaa common-criteria policy PASSWORD_POLICY\n char-changes 8\n\nIf the Cisco router is not configured to require that when a password is changed, the characters are changed in at least eight of the positions within the password, this is a finding.",
+  "fixtext": "Configure the Cisco router to enforce password complexity by requiring that when a password is changed, the characters are changed in at least eight of the positions within the password as shown in the example below.\n\nR1(config)#aaa common-criteria policy PASSWORD_POLICY\nR1(config-cc-policy)#char-changes 8\nR1(config-cc-policy)#exit",
+  "fix_id": "F-17068r287533_fix",
+  "VulnDiscussion": "If the application allows the user to consecutively reuse extensive portions of passwords, this increases the chances of password compromise by increasing the window of opportunity for attempts at guessing and brute-force attacks.\n\nThe number of changed characters refers to the number of changes required with respect to the total number of positions in the current password. In other words, characters may be the same within the two passwords; however, the positions of the like characters must be different.\n\nMultifactor authentication (MFA) is required for all administrative and user accounts on network devices, except for an account of last resort and (where applicable) a root account. Passwords should only be used when MFA using PKI is not available, and for the account of last resort and root account.",
+  "Documentable": "false"
+}

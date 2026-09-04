@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-248542",
+  "rule_id": "SV-248542r958472_rule",
+  "stig_id": "OL08-00-010152",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 8 operating systems must require authentication upon booting into emergency mode.",
+  "group_title": "SRG-OS-000080-GPOS-00048",
+  "idents": {
+    "cci": [
+      "CCI-000213"
+    ]
+  },
+  "check_id": "C-51976r779190_chk",
+  "check_content": "Determine if the system requires authentication for emergency mode with the following command: \n \n$ sudo grep sulogin-shell /usr/lib/systemd/system/emergency.service \n \nExecStart=-/usr/lib/systemd/systemd-sulogin-shell emergency \n \nIf the \"ExecStart\" line is configured for anything other than \"/usr/lib/systemd/systemd-sulogin-shell emergency\" or is commented out or missing, this is a finding.",
+  "fixtext": "Configure the system to require authentication upon booting into emergency mode by adding the following line to the \"/usr/lib/systemd/system/emergency.service\" file: \n \nExecStart=-/usr/lib/systemd/systemd-sulogin-shell emergency",
+  "fix_id": "F-51930r779191_fix",
+  "VulnDiscussion": "If the system does not require valid root authentication before it boots into emergency or rescue mode, anyone who invokes emergency or rescue mode is granted privileged access to all files on the system.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271579",
+  "rule_id": "SV-271579r1091449_rule",
+  "stig_id": "OL09-00-000760",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 audit system must take appropriate action when an error writing to the audit storage volume occurs.",
+  "group_title": "SRG-OS-000062-GPOS-00031",
+  "idents": {
+    "cci": [
+      "CCI-000169"
+    ]
+  },
+  "check_id": "C-75629r1091447_chk",
+  "check_content": "Verify that OL 9 takes the appropriate action when an audit processing failure occurs.\n\nCheck that OL 9 takes the appropriate action when an audit processing failure occurs with the following command:\n\n$ sudo grep disk_error_action /etc/audit/auditd.conf\ndisk_error_action = HALT\n\nIf the value of the \"disk_error_action\" option is not \"SYSLOG\", \"SINGLE\", or \"HALT\", or the line is commented out, ask the system administrator (SA) to indicate how the system takes appropriate action when an audit process failure occurs. If there is no evidence of appropriate action, this is a finding.",
+  "fixtext": "Configure OL 9 to shut down by default upon audit failure (unless availability is an overriding concern).\n\nAdd or update the following line (depending on configuration \"disk_error_action\" can be set to \"SYSLOG\" or \"SINGLE\" depending on configuration) in \"/etc/audit/auditd.conf\" file:\n\ndisk_error_action = HALT\n\nIf availability has been determined to be more important, and this decision is documented with the information system security officer (ISSO), configure the operating system to notify SA staff and ISSO staff in the event of an audit processing failure by setting the \"disk_error_action\" to \"SYSLOG\".",
+  "fix_id": "F-75536r1091448_fix",
+  "VulnDiscussion": "It is critical that when the operating system is at risk of failing to process audit logs as required, it takes action to mitigate the failure. Audit processing failures include software/hardware errors; failures in the audit capturing mechanisms; and audit storage capacity being reached or exceeded. Responses to audit failure depend upon the nature of the failure mode.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259053",
+  "rule_id": "SV-259053r960735_rule",
+  "stig_id": "VCLU-80-000126",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The vCenter Lookup service must limit the number of times that each Transmission Control Protocol (TCP) connection is kept alive.",
+  "group_title": "SRG-APP-000001-AS-000001",
+  "idents": {
+    "cci": [
+      "CCI-000054"
+    ]
+  },
+  "check_id": "C-62793r934815_chk",
+  "check_content": "The connection timeout should not be unlimited by setting it to \"-1\".\n\nAt the command prompt, run the following command:\n\n# xmllint --xpath \"//Connector[@maxKeepAliveRequests = '-1']\" /usr/lib/vmware-lookupsvc/conf/server.xml\n\nExpected result:\n\nXPath set is empty\n\nIf any connectors are returned, this is a finding.",
+  "fixtext": "Navigate to and open:\n\n/usr/lib/vmware-lookupsvc/conf/server.xml\n\nConfigure the <Connector> node with the value:\n\nmaxKeepAliveRequests=\"50\"\n\nRestart the service with the following command:\n\n# vmon-cli --restart lookupsvc",
+  "fix_id": "F-62702r934816_fix",
+  "VulnDiscussion": "KeepAlive provides long lived HTTP sessions that allow multiple requests to be sent over the same connection. Enabling KeepAlive mitigates the effects of several types of denial-of-service attacks.\n\nAn advantage of KeepAlive is the reduced latency in subsequent requests (no handshaking). However, a disadvantage is that server resources are not available to handle other requests while a connection is maintained between the server and the client.\n\nTomcat can be configured to limit the number of subsequent requests that one client can submit to the server over an established connection. This limit helps provide a balance between the advantages of KeepAlive, while not allowing any one connection being held too long by any one client.",
+  "Documentable": "false"
+}

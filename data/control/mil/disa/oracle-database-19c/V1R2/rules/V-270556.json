@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270556",
+  "rule_id": "SV-270556r1064946_rule",
+  "stig_id": "O19C-00-013300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Use of external executables must be authorized.",
+  "group_title": "SRG-APP-000141-DB-000093",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-74589r1064944_chk",
+  "check_content": "Review the database for definitions of application executable objects stored external to the database.\n\nDetermine if there are methods to disable use or access, or to remove definitions for external executable objects.\n\nVerify any application executable objects listed are authorized by the information system security officer (ISSO).\n\nTo check for external procedures, execute the following query, which will provide the libraries containing external procedures, the owners of those libraries, users that have been granted access to those libraries, and the privileges they have been granted. If there are owners other than the owners Oracle provides, then there might be executable objects stored either in the database or external to the database that are called by objects in the database. \n\n(connect as sysdba)\nset linesize 130\ncolumn library_name format a25\ncolumn name format a15\ncolumn owner format a15\ncolumn grantee format a15\ncolumn privilege format a15\nselect library_name,owner, '' grantee, '' privilege\nfrom dba_libraries \nwhere file_spec is not null\nand owner not in ('SYS', 'ORDSYS')\nminus\n(\nselect library_name,o.name owner, '' grantee, '' privilege\nfrom dba_libraries l,\nsys.user$ o,\nsys.user$ ge,\nsys.obj$ obj,\nsys.objauth$ oa\nwhere l.owner=o.name\nand obj.owner#=o.user#\nand obj.name=l.library_name\nand oa.obj#=obj.obj#\nand ge.user#=oa.grantee#\nand l.file_spec is not null\n)\nunion all\nselect library_name,o.name owner, --obj.obj#,oa.privilege#,\nge.name grantee,\ntpm.name privilege\nfrom dba_libraries l,\nsys.user$ o,\nsys.user$ ge,\nsys.obj$ obj,\nsys.objauth$ oa,\nsys.table_privilege_map tpm\nwhere l.owner=o.name\nand obj.owner#=o.user#\nand obj.name=l.library_name\nand oa.obj#=obj.obj#\nand ge.user#=oa.grantee#\nand tpm.privilege=oa.privilege#\nand l.file_spec is not null\n/\n\nIf any owners are returned other than those Oracle provides, ensure those owners are authorized to access those libraries. If there are users that have been granted access to libraries that are not authorized, this is a finding.",
+  "fixtext": "Disable use of or remove any external application executable object definitions that are not authorized.\n\nRevoke privileges granted to users that are not authorized access to external applications.",
+  "fix_id": "F-74490r1064945_fix",
+  "VulnDiscussion": "Information systems are capable of providing a wide variety of functions and services. Some of the functions and services, provided by default, may not be necessary to support essential organizational operations (e.g., key missions, functions).\n\nIt is detrimental for applications to provide, or install by default, functionality exceeding requirements or mission objectives. Examples include, but are not limited to, installing advertising software, demonstrations, or browser plugins not related to requirements or providing a wide array of functionality not required for the mission.\n\nApplications must adhere to the principles of least functionality by providing only essential capabilities.\n\nDatabase management systems (DBMSs) may spawn additional external processes to execute procedures that are defined in the DBMS, but stored in external host files (external procedures). The spawned process used to execute the external procedure may operate within a different OS security context than the DBMS and provide unauthorized access to the host system.",
+  "Documentable": "false"
+}

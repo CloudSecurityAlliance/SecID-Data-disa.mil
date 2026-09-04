@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269166",
+  "rule_id": "SV-269166r1050048_rule",
+  "stig_id": "ALMA-09-009920",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must check the GPG signature of repository metadata before package installation.",
+  "group_title": "SRG-OS-000366-GPOS-00153",
+  "idents": {
+    "cci": [
+      "CCI-003992"
+    ]
+  },
+  "check_id": "C-73197r1047874_chk",
+  "check_content": "Verify that dnf always checks the GPG signature of repository metadata:\n\n$ grep repo_gpgcheck /etc/dnf/dnf.conf /etc/yum.repos.d/*.repo\n\nrepo_gpgcheck=1 \n\nIf \"repo_gpgcheck\" is not set to \"1\" in the global \"/etc/dnf/dnf.conf\" file, or if the option is missing or commented out, this is a finding.\n\nIf \"repo_gpgcheck\" is set to \"0\" in any of the \"/etc/yum.repos.d/*.repo\" files and the information system security officer (ISSO) lacks a documented requirement, this is a finding.\n\nNote: Not all repositories support this feature.",
+  "fixtext": "Configure dnf to always check the GPG signature of repository metadata.\n\nAdd or update the following line in the [main] section of the /etc/dnf/dnf.conf file:\n\nrepo_gpgcheck=1\n\nRemove any instances of \"repo_gpgcheck=0\" from any \"/etc/yum.repos.d/*.repo\" files.",
+  "fix_id": "F-73098r1047875_fix",
+  "VulnDiscussion": "Changes to any software components can have significant effects on the overall security of the operating system. This requirement ensures the software has not been tampered with and that it has been provided by a trusted vendor.\n\nAccordingly, patches, service packs, device drivers, or operating system components must be signed with a certificate recognized and approved by the organization.\n\nVerifying the authenticity of the software prior to installation validates the integrity of the patch or upgrade received from a vendor. This ensures the software has not been tampered with and that it has been provided by a trusted vendor. Self-signed certificates are disallowed by this requirement. The operating system should not have to verify the software again. This requirement does not mandate DOD certificates for this purpose; however, the certificate used to verify the software must be from an approved certificate authority (CA).",
+  "Documentable": "false"
+}

@@ -1,0 +1,24 @@
+{
+  "vuln_id": "V-238210",
+  "rule_id": "SV-238210r1015143_rule",
+  "stig_id": "UBTU-20-010033",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Ubuntu operating system must implement smart card logins for multifactor authentication for local and network access to privileged and nonprivileged accounts.",
+  "group_title": "SRG-OS-000105-GPOS-00052",
+  "idents": {
+    "cci": [
+      "CCI-000765",
+      "CCI-000766",
+      "CCI-000767",
+      "CCI-000768"
+    ]
+  },
+  "check_id": "C-41420r951460_chk",
+  "check_content": "Verify the Ubuntu operating system has the packages required for multifactor authentication installed with the following commands:\n\n$ dpkg -l | grep libpam-pkcs11\n\nii  libpam-pkcs11    0.6.8-4    amd64    Fully featured PAM module for using PKCS#11 smart cards\n\nIf the \"libpam-pkcs11\" package is not installed, this is a finding.\n\nVerify the sshd daemon allows public key authentication with the following command:\n \n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*pubkeyauthentication'\n\nPubkeyAuthentication yes\n\nIf this option is set to \"no\" or is missing, this is a finding.\n\nIf conflicting results are returned, this is a finding.",
+  "fixtext": "Configure the Ubuntu operating system to use multifactor authentication for network access to accounts. \n \nAdd or update the following line in \"/etc/pam.d/common-auth\", placing it above any lines containing \"pam_unix.so\":\n \nauth    [success=2 default=ignore] pam_pkcs11.so \n \nSet the sshd option \"PubkeyAuthentication yes\" in the \"/etc/ssh/sshd_config\" file.",
+  "fix_id": "F-41379r951461_fix",
+  "VulnDiscussion": "Without the use of multifactor authentication, the ease of access to privileged functions is greatly increased.\n \nMultifactor authentication requires using two or more factors to achieve authentication.\n \nFactors include:  \n1) something a user knows (e.g., password/PIN); \n2) something a user has (e.g., cryptographic identification device, token); and \n3) something a user is (e.g., biometric). \n \nA privileged account is defined as an information system account with authorizations of a privileged user.\n \nNetwork access is defined as access to an information system by a user (or a process acting on behalf of a user) communicating through a network (e.g., local area network, wide area network, or the internet).\n \nThe DOD CAC with DOD-approved PKI is an example of multifactor authentication.\n\nSatisfies: SRG-OS-000105-GPOS-00052, SRG-OS-000106-GPOS-00053, SRG-OS-000107-GPOS-00054, SRG-OS-000108-GPOS-00055",
+  "Documentable": "false"
+}

@@ -1,0 +1,32 @@
+{
+  "vuln_id": "V-261462",
+  "rule_id": "SV-261462r996793_rule",
+  "stig_id": "SLEM-05-654195",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 must generate audit records for all uses of privileged functions.",
+  "group_title": "SRG-OS-000327-GPOS-00127",
+  "idents": {
+    "cci": [
+      "CCI-002234",
+      "CCI-001914",
+      "CCI-001875",
+      "CCI-001877",
+      "CCI-001878",
+      "CCI-001879",
+      "CCI-001880",
+      "CCI-001881",
+      "CCI-001882",
+      "CCI-001889",
+      "CCI-001890",
+      "CCI-001814"
+    ]
+  },
+  "check_id": "C-65191r996791_chk",
+  "check_content": "Verify SLEM 5 generates an audit record for any privileged use of the \"execve\" system call with the following command:\n\n     > sudo auditctl -l | grep -w 'execve'\n     -a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -F key=setuid\n     -a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -F key=setuid\n     -a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -F key=setgid\n     -a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -F key=setgid\n\nIf both the \"b32\" and \"b64\" audit rules for \"SUID\" files are not defined, this is a finding.\n\nIf both the \"b32\" and \"b64\" audit rules for \"SGID\" files are not defined, this is a finding.\n\nNote: The \"key=\" value is arbitrary and can be different from the example output above.",
+  "fixtext": "Configure SLEM 5 to generate an audit record for any privileged use of the \"execve\" system call.\n\nAdd or modify the following lines in \"/etc/audit/rules.d/audit.rules\" file:\n\n-a always,exit -F arch=b32 -S execve -C uid!=euid -F euid=0 -k setuid\n-a always,exit -F arch=b64 -S execve -C uid!=euid -F euid=0 -k setuid\n-a always,exit -F arch=b32 -S execve -C gid!=egid -F egid=0 -k setgid\n-a always,exit -F arch=b64 -S execve -C gid!=egid -F egid=0 -k setgid\n\nTo reload the rules file, restart the audit daemon:\n\n     > sudo systemctl restart auditd.service\n\nor issue the following command:\n\n     > sudo augenrules --load",
+  "fix_id": "F-65099r996792_fix",
+  "VulnDiscussion": "Misuse of privileged functions, either intentionally or unintentionally by authorized users, or by unauthorized external entities that have compromised information system accounts, is a serious and ongoing concern and can have significant adverse impacts on organizations. Auditing the use of privileged functions is one way to detect such misuse and identify the risk from insider threats and the advanced persistent threat.",
+  "Documentable": "false"
+}

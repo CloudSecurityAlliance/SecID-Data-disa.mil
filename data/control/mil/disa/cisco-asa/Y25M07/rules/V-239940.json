@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-239940",
+  "rule_id": "SV-239940r961863_rule",
+  "stig_id": "CASA-ND-001310",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "The Cisco ASA must be configured to use at least two authentication servers to authenticate users prior to granting administrative access.",
+  "group_title": "SRG-APP-000516-NDM-000336",
+  "idents": {
+    "cci": [
+      "CCI-000370"
+    ]
+  },
+  "check_id": "C-43173r916028_chk",
+  "check_content": "Review the Cisco ASA configuration to verify the device is configured to use at least two authentication servers as primary source for authentication.\n\nStep 1: Verify that an AAA group is configured for login authentication for both in-band and console access methods.\n\naaa authentication serial console RADIUS_GROUP LOCAL\naaa authentication ssh console RADIUS_GROUP LOCAL\n\nStep 2: Verify that an AAA group and server has been defined for the group referenced in the above example.\n\naaa-server RADIUS_GROUP protocol radius\naaa-server RADIUS_GROUP (NDM_INTERFACE) host 10.1.48.10\n key *****\naaa-server RADIUS_GROUP (NDM_INTERFACE) host 10.1.48.11\n key *****\n\nIf the Cisco ASA is not configured to use at least two authentication servers for the purpose of authenticating users prior to granting administrative access, this is a finding.",
+  "fixtext": "Configure the Cisco ASA to use at least two authentication servers as shown in the following example.\n\nStep 1: Define the authentication group and protocol.\n\nASA(config)# aaa-server RADIUS_GROUP protocol radius\n\nStep 2: Define the authentication servers. \n\nASA(config)# aaa-server RADIUS_GROUP (NDM_INTERFACE) host 10.1.48.10         \nASA(config-aaa-server-host)# key bobby\nASA(config-aaa-server-host)# exit\nASA(config)# aaa-server RADIUS_GROUP (NDM_INTERFACE) host 10.1.48.11         \nASA(config-aaa-server-host)# key bobby2\nASA(config-aaa-server-host)# exit\n\nStep 3: Use the AAA server for login authentication for both in-band and console access methods.\n\nASA(config)# aaa authentication serial console RADIUS_GROUP LOCAL\nASA(config)# aaa authentication ssh console RADIUS_GROUP LOCAL\nASA(config)# end",
+  "fix_id": "F-43132r916029_fix",
+  "VulnDiscussion": "Centralized management of authentication settings increases the security of remote and non-local access methods. This control is particularly important protection against the insider threat. With robust centralized management, audit records for administrator account access to the organization's network devices can be more readily analyzed for trends and anomalies. The alternative method of defining administrator accounts on each device exposes the device configuration to remote access authentication attacks and system administrators with multiple authenticators for each network device.",
+  "Documentable": "false"
+}

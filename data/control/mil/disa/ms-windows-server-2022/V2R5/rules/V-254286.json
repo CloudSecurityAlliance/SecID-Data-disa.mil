@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-254286",
+  "rule_id": "SV-254286r958388_rule",
+  "stig_id": "WN22-AC-000020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2022 must have the number of allowed bad logon attempts configured to three or less.",
+  "group_title": "SRG-OS-000021-GPOS-00005",
+  "idents": {
+    "cci": [
+      "CCI-000044"
+    ]
+  },
+  "check_id": "C-57771r848672_chk",
+  "check_content": "Verify the effective setting in Local Group Policy Editor.\n\nRun \"gpedit.msc\".\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Account Policies >> Account Lockout Policy.\n\nIf the \"Account lockout threshold\" is \"0\" or more than \"3\" attempts, this is a finding.\n\nFor server core installations, run the following command:\n\nSecedit /Export /Areas SecurityPolicy /CFG C:\\Path\\FileName.Txt\n\nIf \"LockoutBadCount\" equals \"0\" or is greater than \"3\" in the file, this is a finding.",
+  "fixtext": "Configure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Account Policies >> Account Lockout Policy >> Account lockout threshold to \"3\" or fewer invalid logon attempts (excluding \"0\", which is unacceptable).",
+  "fix_id": "F-57722r848673_fix",
+  "VulnDiscussion": "The account lockout feature, when enabled, prevents brute-force password attacks on the system. The higher this value is, the less effective the account lockout feature will be in protecting the local system. The number of bad logon attempts must be reasonably small to minimize the possibility of a successful password attack while allowing for honest errors made during normal user logon.",
+  "Documentable": "false"
+}

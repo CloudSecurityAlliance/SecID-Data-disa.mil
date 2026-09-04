@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-225224",
+  "rule_id": "SV-225224r961038_rule",
+  "stig_id": "APPNET0046",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Trust Providers Software Publishing State must be set to 0x23C00.",
+  "group_title": "SRG-APP-000175",
+  "idents": {
+    "legacy": [
+      "SV-7444",
+      "V-7061"
+    ],
+    "cci": [
+      "CCI-000185"
+    ]
+  },
+  "check_id": "C-26923r467987_chk",
+  "check_content": "If the system or application being reviewed is SIPR based, this finding is NA.\n\nThis check must be performed for each user on the system. \n\nUse regedit to locate \"HKEY_USER\\[UNIQUE USER SID VALUE]\\Software\\Microsoft\\Windows\\CurrentVersion\\WinTrust\\Trust Providers\\Software Publishing\\State\".  \n\nIf the State value for any user is not set to the hexadecimal value of 0x23C00, this is a finding.",
+  "fixtext": "This fix must be performed for each user on the system.\n\nUsing regedit, change the hexadecimal value of the \"HKEY_USER\\[UNIQUE USER SID VALUE]\\Software\\Microsoft\\Windows\\CurrentVersion\\WinTrust\\Trust Providers\\Software Publishing\\State\" registry key to 0x23C00.",
+  "fix_id": "F-26911r467988_fix",
+  "VulnDiscussion": "Microsoft Windows operating systems provide a feature called Authenticode.  Authenticode technology and its underlying code signing mechanisms serve to provide a structure to identify software publishers and ensure that software applications have not been tampered with.  Authenticode technology relies on digital certificates and is based on Public Key Cryptography Standards (PKCS) #7 (encrypted key specification), PKCS #10 (certificate request formats), X.509 (certificate specification), and Secure Hash Algorithm (SHA) and MD5 hash algorithms.\n\nThe manner in which the Authenticode technology validates a certificate and determines what is considered a valid certificate can be modified to meet the mission of the Microsoft Windows system.  Each facade of certificate validation is controlled through the bits that makeup the hexadecimal value for the Authenticode setting.  An improper setting will allow non-valid certificates to be accepted and can put the integrity of the system into jeopardy.\n\nThe hexadecimal value of 0x23C00 will implement the following certificate enforcement policy:\n- Trust the Test Root = FALSE\n- Use expiration date on certificates = TRUE\n- Check the revocation list = TRUE\n- Offline revocation server OK (Individual) = TRUE\n- Offline revocation server OK (Commercial) = TRUE\n- Java offline revocation server OK (Individual) = TRUE\n- Java offline revocation server OK (Commercial) = TRUE\n- Invalidate version 1 signed objects = FALSE\n- Check the revocation list on Time Stamp Signer = FALSE\n- Only trust items found in the Trust DB = FALSE",
+  "Documentable": "false"
+}

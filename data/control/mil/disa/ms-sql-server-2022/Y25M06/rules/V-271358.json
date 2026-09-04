@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271358",
+  "rule_id": "SV-271358r1109129_rule",
+  "stig_id": "SQLI-22-012400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SQL Server services must be configured to run under unique dedicated user accounts.",
+  "group_title": "SRG-APP-000431-DB-000388",
+  "idents": {
+    "cci": [
+      "CCI-002530"
+    ]
+  },
+  "check_id": "C-75401r1109039_chk",
+  "check_content": "Review the server documentation to obtain a listing of required service accounts. Review the accounts configured for all SQL Server services installed on the server. \n \nRun the following query in SSMS:\n\nSELECT servicename,service_account FROM sys.dm_server_services\n \nReview the returned results. If any services are configured with the same service account or with an account that is not documented and authorized, this is a finding.",
+  "fixtext": "Configure SQL Server services to have a documented, dedicated account. \n \nFor nondomain servers, consider using virtual service accounts (VSAs). \nFor more information, refer to: https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/configure-windows-service-accounts-and-permissions? \n \nFor standalone domain-joined servers, consider using managed service accounts. \nFor more information, refer to: https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/configure-windows-service-accounts-and-permissions?\n \nFor clustered instances, consider using group managed service accounts. \nFor more information, refer to: https://learn.microsoft.com/en-us/sql/database-engine/configure-windows/configure-windows-service-accounts-and-permissions? \nor \nhttps://learn.microsoft.com/en-us/archive/blogs/markweberblog/group-managed-service-accounts-gmsa-and-sql-server-2016",
+  "fix_id": "F-75308r1109040_fix",
+  "VulnDiscussion": "Database management systems can maintain separate execution domains for each executing process by assigning each process a separate address space. Each process has a distinct address space so that communication between processes is controlled through the security functions, and one process cannot modify the executing code of another process. Maintaining separate execution domains for executing processes can be achieved, for example, by implementing separate address spaces.",
+  "Documentable": "false"
+}

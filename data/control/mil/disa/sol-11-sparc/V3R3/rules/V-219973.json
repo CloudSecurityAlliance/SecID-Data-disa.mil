@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-219973",
+  "rule_id": "SV-219973r958726_rule",
+  "stig_id": "SOL-11.1-040200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The system must restrict the ability of users to assume excessive privileges to members of a defined group and prevent unauthorized users from accessing administrative tools.",
+  "group_title": "SRG-OS-000324",
+  "idents": {
+    "legacy": [
+      "SV-60927",
+      "V-48055"
+    ],
+    "cci": [
+      "CCI-001170"
+    ]
+  },
+  "check_id": "C-21683r371105_chk",
+  "check_content": "Verify the root user is configured as a role, rather than a normal user. \n\n# userattr type root\n\nIf the command does not return the word \"role\", this is a finding.\n\nVerify at least one local user has been assigned the root role.\n\n# grep '[:;]roles=root[^;]*' /etc/user_attr\n\nIf no lines are returned, or no users are permitted to assume the root role, this is a finding.",
+  "fixtext": "The root role is required.\n\nConvert the root user into a role. \n\n# usermod -K type=role root\n\nAdd the root role to authorized users' logins. \n\n# usermod -R +root [username]\n\nRemove the root role from users who should not be authorized to assume it.\n\n# usermod -R -root [username]",
+  "fix_id": "F-21682r371106_fix",
+  "VulnDiscussion": "Allowing any user to elevate their privileges can allow them excessive control of the system tools.",
+  "Documentable": "false"
+}

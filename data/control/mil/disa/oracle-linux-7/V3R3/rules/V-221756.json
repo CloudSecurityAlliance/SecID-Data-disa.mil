@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221756",
+  "rule_id": "SV-221756r958752_rule",
+  "stig_id": "OL07-00-021330",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must use a separate file system for the system audit data path large enough to hold at least one week of audit data.",
+  "group_title": "SRG-OS-000341-GPOS-00132",
+  "idents": {
+    "legacy": [
+      "V-99251",
+      "SV-108355"
+    ],
+    "cci": [
+      "CCI-001849"
+    ]
+  },
+  "check_id": "C-23471r419340_chk",
+  "check_content": "Determine if the operating system is configured to have the \"/var/log/audit\" path is on a separate file system.\n\n# grep /var/log/audit /etc/fstab\n\nIf no result is returned, or the operating system is not configured to have \"/var/log/audit\" on a separate file system, this is a finding.\n\nVerify that \"/var/log/audit\" is mounted on a separate file system:\n\n# mount | grep \"/var/log/audit\"\n\nIf no result is returned, or \"/var/log/audit\" is not on a separate file system, this is a finding.\n\nVerify the size of the audit file system:\n\n# df -h /var/log/audit\n\nIf the size is insufficient for a week of audit data, this is a finding.",
+  "fixtext": "Migrate the system audit data path onto an appropriately sized separate file system to store at least one week of audit records.",
+  "fix_id": "F-23460r419341_fix",
+  "VulnDiscussion": "The use of separate file systems for different paths can protect the system from failures resulting from a file system becoming full or failing.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269284",
+  "rule_id": "SV-269284r1101813_rule",
+  "stig_id": "ALMA-09-023010",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must disable the use of user namespaces.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73315r1069126_chk",
+  "check_content": "Note: User namespaces are used primarily for Linux containers. If containers are in use, this requirement is Not Applicable.\n\nVerify AlmaLinux OS 9 disables the use of user namespaces with the following commands:\n\n$ sysctl user.max_user_namespaces\n\nuser.max_user_namespaces = 0\n\nIf the returned line does not have a value of \"0\", or a line is not returned, this is a finding.\n\nCheck that the configuration files are present to enable this kernel parameter.\n\n$ /usr/lib/systemd/systemd-sysctl --cat-config | egrep -v '^(#|;)' | grep -F user.max_user_namespaces | tail -1\n\nuser.max_user_namespaces = 0\n\nIf the network parameter \"user.max_user_namespaces\" is not equal to \"0\", or nothing is returned, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to disable the use of user namespaces by adding the following line to a file, in the \"/etc/sysctl.d\" directory:\n\nuser.max_user_namespaces = 0\n\nThe system configuration files need to be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-73216r1101812_fix",
+  "VulnDiscussion": "User namespaces are used primarily for Linux containers. The value \"0\" disallows the use of user namespaces.",
+  "Documentable": "false"
+}

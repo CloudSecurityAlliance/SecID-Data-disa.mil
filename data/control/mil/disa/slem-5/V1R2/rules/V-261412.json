@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261412",
+  "rule_id": "SV-261412r996649_rule",
+  "stig_id": "SLEM-05-653020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The audit-audispd-plugins package must be installed on SLEM 5.",
+  "group_title": "SRG-OS-000342-GPOS-00133",
+  "idents": {
+    "cci": [
+      "CCI-001851"
+    ]
+  },
+  "check_id": "C-65141r996647_chk",
+  "check_content": "Verify that the \"audit-audispd-plugins\" package is installed on SLEM 5 with the following command:\n\n     > zypper info audit-audispd-plugins | grep Installed\n     Installed    : Yes\n\nIf the \"audit-audispd-plugins\" package is not installed, this is a finding.\n\nVerify the \"au-remote\" plugin is enabled with the following command: \n\n     > sudo grep -i active /etc/audisp/plugins.d/au-remote.conf \n     active = yes\n\nIf \"active\" is not set to \"yes\", is commented out, or is missing, this is a finding.",
+  "fixtext": "Install the \"audit-audispd-plugins\" package on SLEM 5 by running the following command:\n\n     > sudo transactional-update pkg install audit-audispd-plugins\n\nAdd or modify the following line in the \"/etc/audisp/plugins.d/au-remote.conf\" file:\n\nactive = yes\n\nReboot the system:\n\n     > sudo reboot",
+  "fix_id": "F-65049r996648_fix",
+  "VulnDiscussion": "Information stored in one location is vulnerable to accidental or incidental deletion or alteration.\n\nOffloading is a common process in information systems with limited audit storage capacity.\n \nThe auditd service does not include the ability to send audit records to a centralized server for management directly. However, it can use a plug-in for audit event multiplexor to pass audit records to a remote server.",
+  "Documentable": "false"
+}

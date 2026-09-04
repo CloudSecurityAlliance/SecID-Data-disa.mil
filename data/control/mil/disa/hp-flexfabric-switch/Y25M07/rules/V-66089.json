@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-66089",
+  "rule_id": "SV-80579r1_rule",
+  "stig_id": "HFFS-L2-000026",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The HP FlexFabric Switch must have the default VLAN pruned from all trunk ports that do not require it.",
+  "group_title": "SRG-NET-000512-L2S-000009",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-66733r1_chk",
+  "check_content": "Review the HP FlexFabric Switch configuration and verify that the default VLAN is pruned from trunk links that do not require it.\n\nIf the default VLAN is not pruned from trunk links that should not be transporting frames for the VLAN, this is a finding.\n\n<HP>display vlan 1\n\n VLAN ID: 1\n VLAN type: Static\n Route interface: Configured\n Description: VLAN 0001\n Name: VLAN 0001\n Tagged ports:   None\n Untagged ports:\n    GigabitEthernet1/0/1          GigabitEthernet1/0/2\n    GigabitEthernet1/0/3          GigabitEthernet1/0/4\n    GigabitEthernet1/0/5          GigabitEthernet1/0/6\n    GigabitEthernet1/0/7          GigabitEthernet1/0/8",
+  "fixtext": "Remove the native vlan from trunks that do not require it.\n\n[HP-interface GigabitEthernet1/0/1] undo port trunk permit vlan 1",
+  "fix_id": "F-72165r1_fix",
+  "VulnDiscussion": "The default VLAN (i.e., VLAN 1) is a special VLAN used for control plane traffic such as Spanning-Tree Protocol (STP), Dynamic Trunking Protocol (DTP), VLAN Trunking Protocol (VTP), and Port Aggregation Protocol (PAgP). VLAN 1 is enabled on all trunks and ports by default. With larger campus networks, care needs to be taken about the diameter of the STP domain for the default VLAN. Instability in one part of the network could affect the default VLAN, thereby influencing control-plane stability and therefore STP stability for all other VLANs.",
+  "Documentable": "false"
+}

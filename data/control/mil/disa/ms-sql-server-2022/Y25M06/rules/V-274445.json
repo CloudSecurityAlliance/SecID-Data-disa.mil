@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-274445",
+  "rule_id": "SV-274445r1111103_rule",
+  "stig_id": "SQLI-22-016300",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SQL Server default account [sa] must have its name changed.",
+  "group_title": "SRG-APP-000141-DB-000092",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-78538r1111102_chk",
+  "check_content": "Verify the SQL Server default [sa] (system administrator) account name has been changed by executing the following query:\nUSE master; \nGO \nSELECT * \nFROM sys.sql_logins \nWHERE [name] = 'sa' OR [principal_id] = 1; \nGO \n\nIf the login account name \"SA\" or \"sa\" appears in the query output, this is a finding.",
+  "fixtext": "Modify the SQL Server's [sa] (system administrator) account by running the following script:\n\nUSE master; \nGO \nALTER LOGIN [sa] WITH NAME = <new name> \nGO",
+  "fix_id": "F-78443r1109058_fix",
+  "VulnDiscussion": "SQL Server's [sa] account has special privileges required to administer the database. The [sa] account is a well-known SQL Server account name and is likely to be targeted by attackers, and is thus more prone to providing unauthorized access to the database. \n\nSince the SQL Server [sa] is administrative in nature, the compromise of a default account can have catastrophic consequences, including the complete loss of control over SQL Server. Since SQL Server needs for this account to exist and it should not be removed, one way to mitigate this risk is to change the [sa] account name.",
+  "Documentable": "false"
+}

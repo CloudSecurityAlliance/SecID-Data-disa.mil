@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-243506",
+  "rule_id": "SV-243506r1026208_rule",
+  "stig_id": "DS00.3140_AD",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "Update access to the directory schema must be restricted to appropriate accounts.",
+  "group_title": "SRG-OS-000324",
+  "idents": {
+    "legacy": [
+      "V-15372",
+      "SV-30999"
+    ],
+    "cci": [
+      "CCI-002235"
+    ]
+  },
+  "check_id": "C-46781r1026207_chk",
+  "check_content": "Start a Schema management console. (See supplemental notes.)\nSelect and then right-click on the Active Directory Schema entry in the left pane.\nSelect Permissions.\n\nIf any of the permissions for the Schema object are not at least as restrictive as those below, this is a finding. \n\nThe permissions shown are at the summary level.  More detailed permissions can be viewed by selecting the Advanced button, selecting the desired entry, and the Edit button.\n\nAuthenticated Users:\nRead\nSpecial Permissions\nThe Special permissions for Authenticated Users are List and Read type.  If detailed permissions include any additional Permissions or Properties this is a finding.\n\nSystem:\nFull Control\n\nEnterprise Read-only Domain Controllers:\nReplicating Directory Changes\nReplicating Directory Changes All\nReplicating Directory Changes In Filtered Set\n\nSchema Admins:\nRead\nWrite\nCreate all child objects\nChange schema master\nManage replication topology\nMonitor active directory replication\nRead only replication secret synchronization\nReanimate tombstones\nReplicating Directory Changes\nReplicating Directory Changes All\nReplicating Directory Changes In Filtered Set\nReplication synchronization\nUpdate schema cache\nSpecial permissions\n(Special permissions = all except Full, Delete, and Delete subtree when detailed permissions viewed.)\n\nAdministrators:\nManage replication topology\nReplicating Directory Changes\nReplicating Directory Changes All\nReplicating Directory Changes In Filtered Set\nReplication Synchronization\n\nEnterprise Domain Controllers:\nManage replication topology\nReplicating Directory Changes\nReplicating Directory Changes All\nReplicating Directory Changes In Filtered Set\nReplication Synchronization\n\nSupplemental Notes:\nIf the Schema management console has not already been configured on the computer, create a console by using the following:\n\nThe steps for adding the snap-in may vary depending on the Windows version.\nRegister the required DLL module by typing the following at a command line \"regsvr32 schmmgmt.dll\".\nRun \"mmc.exe\" to start a Microsoft Management Console. \nSelect Add/Remove Snap-in from the File menu.\nFrom the Available Standalone Snap-ins list, select Active Directory Schema\nSelect the Add button.\nSelect the OK button.\n\nWhen done using the console, select Exit from the File (or Console) menu.\nSelect the No button to the Save console settings... prompt (unless the SA wishes to retain this console). If the console is retained, the recommended name is schmmgmt.msc and the recommended location is the [systemroot]\\system32 directory.",
+  "fixtext": "Ensure the access control permissions for the AD Schema object conform to the required permissions as shown below.\n\nAuthenticated Users:\nRead\nSpecial Permissions\nThe Special permissions for Authenticated Users are List and Read type.  If detailed permissions include any additional Permissions or Properties this is a finding.\n\nSystem:\nFull Control\n\nEnterprise Read-only Domain Controllers:\nReplicating Directory Changes\nReplicating Directory Changes All\nReplicating Directory Changes In Filtered Set\n\nSchema Admins:\nRead\nWrite\nCreate all child objects\nChange schema master\nManage replication topology\nMonitor active directory replication\nRead only replication secret synchronization\nReanimate tombstones\nReplicating Directory Changes\nReplicating Directory Changes All\nReplicating Directory Changes In Filtered Set\nReplication synchronization\nUpdate schema cache\nSpecial permissions\n(Special permissions = all except Full, Delete, and Delete subtree when detailed permissions viewed.)\n\nAdministrators:\nManage replication topology\nReplicating Directory Changes\nReplicating Directory Changes All\nReplicating Directory Changes In Filtered Set\nReplication Synchronization\n\nEnterprise Domain Controllers:\nManage replication topology\nReplicating Directory Changes\nReplicating Directory Changes All\nReplicating Directory Changes In Filtered Set\nReplication Synchronization",
+  "fix_id": "F-46738r723552_fix",
+  "VulnDiscussion": "A failure to control update access to the AD Schema object could result in the creation of invalid directory objects and attributes. Applications that rely on AD could fail as a result of invalid formats and values. The presence of invalid directory objects and attributes could cause failures in Windows AD client functions and improper resource access decisions.",
+  "Documentable": "false"
+}

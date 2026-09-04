@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-273682",
+  "rule_id": "SV-273682r1111010_rule",
+  "stig_id": "RCKS-L2S-000140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The RUCKUS ICX switch must have IP Source Guard enabled on all user-facing or untrusted access switch ports.",
+  "group_title": "SRG-NET-000362-L2S-000026",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-77773r1111009_chk",
+  "check_content": "Review the configuration for source-guard enabled on user-facing or untrusted ports.  \n\ninterface ethernet 1/1/47\n port-name FlexAuth_port\n authentication source-guard-protection enable \n!                                                                 \ninterface ethernet 1/1/48                                          \n source-guard enable \n!\n\nIf all user-facing or untrusted switch ports are not configured for IP Source Guard, this is a finding.",
+  "fixtext": "Configure the switch to have source-guard enabled on all user-facing or untrusted access switch ports.\n\n1. Interface only:\ndevice# configure terminal\ndevice(config)# interface ethernet 1/1/4\ndevice(config-if-e10000-1/1/4)# source-guard enable\n\nOptional Step 2: Apply to range of interfaces:\ndevice# configure terminal\ndevice(config)# interface ethernet 1/1/1\ndevice(config-if-e10000-1/1/1)# interface ethernet 1/1/21 to 1/1/25\ndevice(config-mif-1/1/21-1/1/25)# source-guard enable\n\nOptional Step 2: Apply to VLAN single port:\ndevice# configure terminal\ndevice(config)# vlan 12\ndevice(config-vlan-12)# untagged ethernet 1/1/5 to 1/1/8\ndevice(config-vlan-12)# tagged ethernet 1/1/23 to 1/1/24\ndevice(config-vlan-12)# source-guard enable ethernet 1/1/23\n\nOptional Step 2: Apply to VLAN all ports:\ndevice# configure terminal\ndevice(config)# vlan 12\ndevice(config-vlan-12)# untagged ethernet 1/1/5 to 1/1/8\ndevice(config-vlan-12)# tagged ethernet 1/1/23 to 1/1/24\ndevice(config-vlan-12)# source-guard enable\n\nOptional Step 2: Apply to VLAN LAG port:\ndevice# configure terminal\ndevice(config)# vlan 12\ndevice(config-vlan-12)# tagged lag 9\ndevice(config-vlan-12)# source-guard enable lag 9\n\nNote: Ports with FlexAuth (802.1X/MAC Auth) will require the keyword \"authentication source-guard-protection enable\" to apply this feature.",
+  "fix_id": "F-77678r1110741_fix",
+  "VulnDiscussion": "IP Source Guard provides source IP address filtering on a layer 2 port to prevent a malicious host from impersonating a legitimate host by assuming the legitimate host's IP address. The feature uses dynamic DHCP snooping and static IP source binding to match IP addresses to hosts on untrusted layer 2 access ports. Initially, all IP traffic on the protected port is blocked except for DHCP packets. After a client receives an IP address from the DHCP server, or after static IP source binding is configured by the administrator, all traffic with that IP source address is permitted from that client. Traffic from other hosts is denied. This filtering limits a host's ability to attack the network by claiming a neighbor host's IP address.",
+  "Documentable": "false"
+}

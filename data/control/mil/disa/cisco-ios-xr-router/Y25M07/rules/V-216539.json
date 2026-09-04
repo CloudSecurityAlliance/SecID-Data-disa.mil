@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216539",
+  "rule_id": "SV-216539r961506_rule",
+  "stig_id": "CISC-ND-001140",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco router must be configured to encrypt SNMP messages using a FIPS 140-2 approved algorithm.",
+  "group_title": "SRG-APP-000395-NDM-000310",
+  "idents": {
+    "legacy": [
+      "SV-105603",
+      "V-96465"
+    ],
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-17774r288303_chk",
+  "check_content": "Review the Cisco router configuration to verify that it is compliant with this requirement as shown in the example below.\n\nsnmp-server host x.x.x.x traps version 3 auth V3USER\nsnmp-server user V3USER V3GROUP v3 auth sha encrypted 110B1607150B\nsnmp-server view V3READ iso included\nsnmp-server view V3WRITE iso included\nsnmp-server group V3GROUP v3 auth read V3READ write V3WRITE\n\nIf the Cisco router is not configured to encrypt SNMP messages using a FIPS 140-2 approved algorithm, this is a finding.",
+  "fixtext": "Configure the Cisco router to encrypt SNMP messages using a FIPS 140-2 approved algorithm as shown in the example below.\n\nRP/0/0/CPU0:R3(config)#snmp-server group V3GROUP v3 auth read V3READ write V3WRITE\nRP/0/0/CPU0:R3(config)#snmp-server user V3USER V3GROUP v3 auth sha xxxxxx priv aes 256 xxxxxx\nRP/0/0/CPU0:R3(config)#snmp-server view V3READ iso included\nRP/0/0/CPU0:R3(config)#snmp-server view V3WRITE iso included\nRP/0/0/CPU0:R3(config)#snmp-server host x.x.x.x version 3 auth V3USER",
+  "fix_id": "F-17771r288304_fix",
+  "VulnDiscussion": "Without the strong encryption that is provided by the SNMP Version 3 User-based Security Model (USM), an unauthorized user can gain access to network management information that can be used to create a network outage.",
+  "Documentable": "false"
+}

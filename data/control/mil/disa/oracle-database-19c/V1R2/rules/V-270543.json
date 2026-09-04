@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-270543",
+  "rule_id": "SV-270543r1064907_rule",
+  "stig_id": "O19C-00-011700",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Network client connections must be restricted to supported versions.",
+  "group_title": "SRG-APP-000516-DB-000363",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-74576r1064905_chk",
+  "check_content": "Note: The SQLNET.ALLOWED_LOGON_VERSION parameter is deprecated in earlier Oracle Database versions. This parameter has been replaced with two new Oracle Net Services parameters:\n\nSQLNET.ALLOWED_LOGON_VERSION_SERVER\nSQLNET.ALLOWED_LOGON_VERSION_CLIENT\n\nView the SQLNET.ORA file in the ORACLE_HOME/network/admin directory or the directory specified in the TNS_ADMIN environment variable. \n\nLocate the following entries:\n\nSQLNET.ALLOWED_LOGON_VERSION_SERVER = 12\nSQLNET.ALLOWED_LOGON_VERSION_CLIENT = 12\n\nIf the parameters do not exist, this is a finding.\n\nIf the parameters are not set to a value of 12 or 12a, this is a finding.\n\nNote: Attempting to connect with a client version lower than specified in these parameters may result in a misleading error:\nORA-01017: invalid username/password: logon denied",
+  "fixtext": "Edit the SQLNET.ORA file to add or edit the entries:\n\nSQLNET.ALLOWED_LOGON_VERSION_SERVER = 12\nSQLNET.ALLOWED_LOGON_VERSION_CLIENT = 12\n\nSet the value to 12 or higher.\nValid values for SQLNET.ALLOWED_LOGON_VERSION_SERVER are: 12 and 12a\n\nValid values for SQLNET.ALLOWED_LOGON_VERSION_CLIENT are: 12 and 12a\n\nFor more information on sqlnet.ora parameters refer to the following document:\nhttps://docs.oracle.com/en/database/oracle/oracle-database/19/netrf/parameters-for-the-sqlnet.ora.html",
+  "fix_id": "F-74477r1064906_fix",
+  "VulnDiscussion": "Unsupported Oracle network client installations may introduce vulnerabilities to the database. Restriction to use of supported versions helps to protect the database and helps to enforce newer, more robust security controls.",
+  "Documentable": "false"
+}

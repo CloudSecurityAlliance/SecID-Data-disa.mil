@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216184",
+  "rule_id": "SV-216184r959010_rule",
+  "stig_id": "SOL-11.1-070050",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "There must be no user .rhosts files.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48119",
+      "SV-60991"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17422r372934_chk",
+  "check_content": "The root role is required.\n\nCheck for the presence of .rhosts files.\n\n# for dir in \\\n`logins -ox | awk -F: '($8 == \"PS\") { print $6 }'`; do\nfind ${dir}/.rhosts -type f -ls 2>/dev/null\ndone\n\nIf output is produced, this is a finding.",
+  "fixtext": "The root role is required.\n\nRemove any .rhosts files found.\n\n# rm [file name]",
+  "fix_id": "F-17420r372935_fix",
+  "VulnDiscussion": "Even though the .rhosts files are ineffective if support is disabled in /etc/pam.conf, they may have been brought over from other systems and could contain information useful to an attacker for those other systems.",
+  "Documentable": "false"
+}

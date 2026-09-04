@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271484",
+  "rule_id": "SV-271484r1092624_rule",
+  "stig_id": "OL09-00-000252",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The OL 9 SSH daemon must be configured to use systemwide cryptographic policies.",
+  "group_title": "SRG-OS-000250-GPOS-00093",
+  "idents": {
+    "cci": [
+      "CCI-001453"
+    ]
+  },
+  "check_id": "C-75534r1092622_chk",
+  "check_content": "Verify that OL 9 is configured to implement systemwide cryptographic policies when the SSH daemon is invoked.\n\nVerify that systemwide cryptographic policies are in effect with the following command:\n\n$ sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*include'\n/etc/ssh/sshd_config:Include /etc/ssh/sshd_config.d/*.conf\n/etc/ssh/sshd_config.d/50-redhat.conf:Include /etc/crypto-policies/back-ends/opensshserver.config\n\nIf \"Include /etc/ssh/sshd_config.d/*.conf\" or \"Include /etc/crypto-policies/back-ends/opensshserver.config\" are not included in the system sshd config this is a finding. \n\nAdditionally, if the file /etc/ssh/sshd_config.d/50-redhat.conf is missing, this is a finding.",
+  "fixtext": "Configure the OL 9 SSH daemon to use systemwide cryptographic policies by running the following commands:\n\n$ sudo dnf reinstall -y openssh-server",
+  "fix_id": "F-75441r1092623_fix",
+  "VulnDiscussion": "Without cryptographic integrity protections, information can be altered by unauthorized users without detection.\n\nRemote access (e.g., RDP) is access to DOD nonpublic information systems by an authorized user (or an information system) communicating through an external, nonorganization-controlled network. Remote access methods include, for example, dial-up, broadband, and wireless.\n\nCryptographic mechanisms used for protecting the integrity of information include, for example, signed hash functions using asymmetric cryptography enabling distribution of the public key to verify the hash information while maintaining the confidentiality of the secret key used to generate the hash.\n\nOL 9 incorporates systemwide crypto policies by default. The SSH configuration file has no effect on the ciphers, MACs, or algorithms unless specifically defined in the /etc/sysconfig/sshd file. The employed algorithms can be viewed in the /etc/crypto-policies/back-ends/ directory.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216349",
+  "rule_id": "SV-216349r959010_rule",
+  "stig_id": "SOL-11.1-040316",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Access to a logical domain console must be restricted to authorized users.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "SV-86121",
+      "V-71497"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17585r371135_chk",
+  "check_content": "The root role is required. This action applies only to the control domain. \n\nDetermine the domain that you are currently securing.\n\n# virtinfo \nDomain role: LDoms control I/O service root\nThe current domain is the control domain, which is also an I/O domain, the service domain, and a root I/O domain.\n\nIf the current domain is not the control domain, this check does not apply.\n\nDetermine if the vntsd service is online.\n\n# pfexec svcs vntsd\n\nIf the service is not \"online\", this is not applicable.\n\nCheck the status of the vntsd authorization property.\n\n# svcprop -p vntsd/authorization vntsd\n\nIf the state is not true, this is a finding.",
+  "fixtext": "The root role is required. This action applies only to the control domain. \n\nDetermine the domain that you are currently securing.\n\n# virtinfo \nDomain role: LDoms control I/O service root\nThe current domain is the control domain, which is also an I/O domain, the service domain, and a root I/O domain.\n\nIf the current domain is not the control domain, this action does not apply.\n\nConfigure the vntsd service to require authorization.\n\n# svccfg -s vntsd setprop vntsd/authorization = true\n\nThe vntsd service must be restarted for the changes to take effect.\n\n# svcadm restart vntsd",
+  "fix_id": "F-17583r371136_fix",
+  "VulnDiscussion": "A logical domain is a discrete, logical grouping with its own operating system, resources, and identity within a single computer system.  Access to the logical domain console provides system-level access to the OBP of the domain.",
+  "Documentable": "false"
+}

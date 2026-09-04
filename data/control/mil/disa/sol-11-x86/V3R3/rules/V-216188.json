@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216188",
+  "rule_id": "SV-216188r959010_rule",
+  "stig_id": "SOL-11.1-070090",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "All home directories must be owned by the respective user assigned to it in /etc/passwd.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48097",
+      "SV-60969"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17426r372946_chk",
+  "check_content": "The root role is required.\n\nCheck that home directories are owned by the correct user.\n\n# export IFS=\":\"; logins -uxo | while read user uid group gid gecos home rest; do result=$(find ${home} -type d -prune \\! -user $user -print 2>/dev/null); \nif [ ! -z \"${result}\" ]; then \necho \"User: ${user}\\tOwner: $(ls -ld $home | awk '{ print $3 }')\";\nfi;\ndone\n\nIf any output is produced, this is a finding.",
+  "fixtext": "The root role is required.\n\nCorrect the owner of any directory that does not match the password file entry for that user.\n\n# chown [user] [home directory]",
+  "fix_id": "F-17424r372947_fix",
+  "VulnDiscussion": "Since the user is accountable for files stored in the user's home directory, the user must be the owner of the directory.",
+  "Documentable": "false"
+}

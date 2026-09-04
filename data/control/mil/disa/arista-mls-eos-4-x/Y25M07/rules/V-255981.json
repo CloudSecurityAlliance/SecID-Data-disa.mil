@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-255981",
+  "rule_id": "SV-255981r991775_rule",
+  "stig_id": "ARST-L2-000180",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Arista MLS layer 2 switch must not have the default VLAN assigned to any host-facing switch ports.",
+  "group_title": "SRG-NET-000512-L2S-000008",
+  "idents": {
+    "cci": [
+      "CCI-004891"
+    ]
+  },
+  "check_id": "C-59657r882283_chk",
+  "check_content": "Review the Arista MLS switch configurations and verify no access switch ports have been assigned membership to the default VLAN (i.e., VLAN 1).\n \nswitch(config)#sh vlan\nVLAN  Name                             Status    Ports\n----- -------------------------------- --------- -------------------------------\n1     default                                              \n8     VLAN0008                        active    Cpu\n25    VLAN0025                       active    Cpu\n100   VLAN0100                      active    Cpu\n1000  VLAN1000                     active    Eth1, Eth2\n\nIf access switch ports are assigned to the default VLAN, this is a finding.",
+  "fixtext": "Configure the Arista MLS switch to remove the assignment of the default VLAN from all access switch ports.\n\nStep 1: Configure the Default VLAN 1 to shut down by using the following command:\n\nswitch:(config#)interface vlan 1\nswitch(config-int-vlan1)#shutdown\n\nStep 2: Configure all access switch ports to be placed in a VLAN other than the default (1):\n\nswitch(config)#interface ethernet 8\nswitch(config-eth8)#switchport access vlan 1000\nswitch(config-eth8)#exit",
+  "fix_id": "F-59600r882284_fix",
+  "VulnDiscussion": "In a VLAN-based network, switches use the default VLAN (i.e., VLAN 1) for in-band management and to communicate with other networking devices using Spanning-Tree Protocol (STP), Dynamic Trunking Protocol (DTP), VLAN Trunking Protocol (VTP), and Port Aggregation Protocol (PAgP)—all untagged traffic. As a consequence, the default VLAN may unwisely span the entire network if not appropriately pruned. If its scope is large enough, the risk of compromise can increase significantly.",
+  "Documentable": "false"
+}

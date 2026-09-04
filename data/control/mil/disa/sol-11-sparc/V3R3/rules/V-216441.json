@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216441",
+  "rule_id": "SV-216441r959010_rule",
+  "stig_id": "SOL-11.1-070260",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The operator must document all file system objects that have non-standard access control list settings.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-48029",
+      "SV-60901"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-17677r371411_chk",
+  "check_content": "The root role is required.\n\nIdentify all file system objects that have non-standard access control lists enabled.\n\n# find / \\( -fstype nfs -o -fstype cachefs -o -fstype autofs \\\n-o -fstype ctfs -o -fstype mntfs -o -fstype objfs \\\n-o -fstype proc \\) -prune -o -acl -ls\n\nThis command should return no output. If output is created, this is a finding.\n\nIf the files are approved to have ACLs by organizational security policy, document the files and the reason that ACLs are required.",
+  "fixtext": "The root role is required.\n\nRemove ACLs that are not approved in the security policy.\n\nFor ZFS file systems, remove all extended ACLs with the following command:\n\n# chmod A- [filename]\n\nFor UFS file systems\n\nDetermine the ACLs that are set on a file:\n\n# getfacl [filename]\n\nRemove any ACL configurations that are set:\n\n# setfacl -d [ACL] [filename]",
+  "fix_id": "F-17675r371412_fix",
+  "VulnDiscussion": "Access Control Lists allow an object owner to expand permissions on an object to specific users and groups in addition to the standard permission model. Non-standard Access Control List settings can allow unauthorized users to modify critical files.",
+  "Documentable": "false"
+}

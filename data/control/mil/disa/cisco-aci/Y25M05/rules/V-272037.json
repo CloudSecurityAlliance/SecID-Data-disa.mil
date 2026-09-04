@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272037",
+  "rule_id": "SV-272037r1113943_rule",
+  "stig_id": "CACI-L2-000009",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco ACI layer 2 switch must enable port security.",
+  "group_title": "SRG-NET-000362-L2S-000027",
+  "idents": {
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-76087r1064133_chk",
+  "check_content": "Review the port security policies for compliance:\n1. In the GUI menu bar, click Fabric >> Access Policies.\n2. In the Navigation pane, expand Policies >> Interface >> Port Security.\n3. Select each port security policy used and verify the following:\n- Port Security Timeout is set to \"600 seconds\".\n- Violation Action is set to \"Protect mode\".\n- Maximum Endpoints is set to \"1\".\n\nVerify port security is active on all appropriate host-facing interfaces:\n1. In the Navigation pane, click Fabric >> Inventory >> Topology.\n2. Verify that each leaf has been configured to use a correctly configured port security policy.\n\nIf port security is not configured and enabled, this is a finding.",
+  "fixtext": "Create a port security policy. The port security policy can be created new or chosen from the list of available port security policies.\n1. In the GUI menu bar, click Fabric >> Access Policies.\n2. In the Navigation pane, expand Policies >> Interface >> Port Security.\n3. Right-click \"Port Security\" and click \"Create Port Security Policy\".\n4. In the Create Port Security Policy dialog box:\n- In the Port Security Timeout field, enter \"600\" before reenabling MAC learning on an interface.\n- In the Maximum Endpoints field, enter \"1\" for the maximum number of endpoints that can be learned on an interface.\n- In the Violation Action field, select \"Protect\". \n5. Click \"Submit\".\n\nConfigure each host-facing interface for the leaf switches: \n1. In the Navigation pane, click Fabric >> Inventory >> Topology, and navigate to the desired leaf switch. \n2. Choose the appropriate port to configure the interface.\n3. From the port security policy drop-down list, choose the desired port security policy to associate.",
+  "fix_id": "F-75994r1064134_fix",
+  "VulnDiscussion": "The port security feature protects the ACI fabric from being flooded with unknown MAC addresses by limiting the number of MAC addresses learned per port. The port security feature support is available for physical ports, port channels, and virtual port channels.",
+  "Documentable": "false"
+}

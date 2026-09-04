@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-243455",
+  "rule_id": "SV-243455r991589_rule",
+  "stig_id": "WPAW-00-001400",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "PAWs used to manage Active Directory must only allow groups specifically designated to manage Active Directory, such as Enterprise and Domain Admins and members of the local Administrators group, to log on locally.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-78171",
+      "SV-92877"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-46730r722934_chk",
+  "check_content": "Verify on the PAW the effective setting in Local Group Policy Editor.\n\nRun \"gpedit.msc\".\n\nNavigate to Local Computer Policy >> Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment.\n\nIf any groups or accounts other than the following are granted the \"Allow log on locally\" user right, this is a finding:\n\n- Administrators\n- Groups specifically designated to manage domain controllers and Active Directory",
+  "fixtext": "Configure the group policy that applies to the PAW.\n\nInstall only administrative accounts designated to be used to manage domain controllers and Active Directory remotely in the PAW User group on PAWs designated for the management of domain controllers and Active Directory.\n\nConfigure the policy value for Computer Configuration >> Windows Settings >> Security Settings >> Local Policies >> User Rights Assignment >> \"Allow log on locally\" to only include the following groups or accounts:\n\n- Administrators\n- Groups specifically designated to manage domain controllers and Active Directory",
+  "fix_id": "F-46687r722935_fix",
+  "VulnDiscussion": "PAW platforms are used for highly privileged activities. The accounts that have administrative privileges on domain-level PAW platforms must not be used on or used to manage any non-domain-level PAW platforms. Otherwise, there would be a clear path for privilege escalation to Enterprise Admin (EA)/Domain Admin (DA) privileges.",
+  "Documentable": "false"
+}

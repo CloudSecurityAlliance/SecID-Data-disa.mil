@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259678",
+  "rule_id": "SV-259678r961155_rule",
+  "stig_id": "EX19-MB-000125",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The Exchange Receive Connector Maximum Hop Count must be 60.",
+  "group_title": "SRG-APP-000247",
+  "idents": {
+    "cci": [
+      "CCI-001095"
+    ]
+  },
+  "check_id": "C-63417r942346_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP) or document that contains this information.\n\nDetermine the Max Hop Count value for Receive connectors.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-ReceiveConnector | Select-Object -Property Name, MaxHopCount\n\nFor each Receive connector, if the value of \"MaxHopCount\" is not set to \"60\", this is a finding.\n\nor\n\nIf the value of \"MaxHopCount\" is set to a value other than \"60\" and has signoff and risk acceptance in the EDSP, this is not a finding.",
+  "fixtext": "Update the EDSP to specify the \"MaxHopCount\" value or verify that this information is documented by the organization.\n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-ReceiveConnector -MaxHopCount 60\n\nor \n\nEnter the value as identified by the EDSP that has obtained a signoff with risk acceptance.\n\nRepeat the procedure for each Receive connector.",
+  "fix_id": "F-63325r942347_fix",
+  "VulnDiscussion": "Email system availability depends in part on best practice strategies for setting tuning configurations. This setting controls the maximum number of hops (email servers traversed) a message may take as it travels to its destination. Part of the original internet protocol implementation, the hop count limit prevents a message being passed in a routing loop indefinitely. Messages exceeding the maximum hop count are discarded undelivered.\n\nRecent studies indicate that virtually all messages can be delivered in fewer than 60 hops. If the hop count is set too low, messages may expire before they reach their destinations. If the hop count is set too high, an undeliverable message may cycle between servers, raising the risk of network congestion.",
+  "Documentable": "false"
+}

@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-218789",
+  "rule_id": "SV-218789r960906_rule",
+  "stig_id": "IIST-SV-000111",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The IIS 10.0 web server must produce log records containing sufficient information to establish the identity of any user/subject or process associated with an event.",
+  "group_title": "SRG-APP-000100-WSR-000064",
+  "idents": {
+    "legacy": [
+      "SV-109217",
+      "V-100113"
+    ],
+    "cci": [
+      "CCI-001487"
+    ]
+  },
+  "check_id": "C-20261r505276_chk",
+  "check_content": "Access the IIS 10.0 web server IIS Manager.\nClick the IIS 10.0 web server name.\nUnder \"IIS\", double-click the \"Logging\" icon.\nVerify the \"Format:\" under \"Log File\" is configured to \"W3C\".\nSelect the \"Fields\" button.\nUnder \"Standard Fields\", verify \"User Agent\", \"User Name\", and \"Referrer\" are selected.\nUnder \"Custom Fields\", verify the following field has been configured:\nRequest Header >> Authorization\nResponse Header >> Content-Type\nIf any of the above fields are not selected, this is a finding.",
+  "fixtext": "Access the IIS 10.0 web server IIS Manager.\nClick the IIS 10.0 web server name.\nUnder \"IIS\", double-click the \"Logging\" icon.\nVerify the \"Format:\" under \"Log File\" is configured to \"W3C\".\nSelect the \"Fields\" button.\nUnder \"Standard Fields\", select \"User Agent\", \"User Name\", and \"Referrer\".\nUnder \"Custom Fields\", select the following fields:\nClick on the \"Source Type\" drop-down list and select \"Request Header\".\nClick on the \"Source\" drop-down list and select \"Authorization\".\nClick \"OK\" to add.\n\nClick on the \"Source\" drop-down list and select \"Content-Type\".\nClick on the \"Source Type\" drop-down list and select \"Response Header\".\nClick \"OK\" to add.\nClick \"OK\".\nClick \"Apply\" under the \"Actions\" pane.",
+  "fix_id": "F-20259r505277_fix",
+  "VulnDiscussion": "Web server logging capability is critical for accurate forensic analysis. Without sufficient and accurate information, a correct replay of the events cannot be determined.\n\nDetermining user accounts, processes running on behalf of the user, and running process identifiers also enable a better understanding of the overall event. User tool identification is also helpful to determine if events are related to overall user access or specific client tools.\n\nLog record content that may be necessary to satisfy the requirement of this control includes: time stamps, source and destination addresses, user/process identifiers, event descriptions, success/fail indications, file names involved, and access control or flow control rules invoked.",
+  "Documentable": "false"
+}

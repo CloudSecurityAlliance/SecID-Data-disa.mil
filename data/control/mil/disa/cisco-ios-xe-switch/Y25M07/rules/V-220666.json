@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-220666",
+  "rule_id": "SV-220666r539671_rule",
+  "stig_id": "CISC-L2-000200",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco switch must have all trunk links enabled statically.",
+  "group_title": "SRG-NET-000512-L2S-000005",
+  "idents": {
+    "legacy": [
+      "SV-110307",
+      "V-101203"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-22381r507546_chk",
+  "check_content": "By default, Dynamic Trunking Protocol (DTP) is enabled on all Cisco switches. Review the switch configuration to verify that trunk links will not form trunk via negotiation as shown in the example below:\n\nSW2#show interfaces switchport \nName: Gi0/0\nSwitchport: Enabled\nAdministrative Mode: dynamic auto\nOperational Mode: static access\nAdministrative Trunking Encapsulation: negotiate\nOperational Trunking Encapsulation: native\nNegotiation of Trunking: On\n\nIf trunk negotiation is enabled on any interface, this is a finding.",
+  "fixtext": "Configure the switch to enable trunk links statically as shown in the configuration below:\n\nSW2(config-if)#switchport trunk encapsulation dot1q \nSW2(config-if)#switchport mode trunk\nSW2(config-if)#switchport nonegotiate",
+  "fix_id": "F-22370r507547_fix",
+  "VulnDiscussion": "When trunk negotiation is enabled via Dynamic Trunk Protocol (DTP), considerable time can be spent negotiating trunk settings (802.1q or ISL) when a node or interface is restored. While this negotiation is happening, traffic is dropped because the link is up from a layer 2 perspective. Packet loss can be eliminated by setting the interface statically to trunk mode, thereby avoiding dynamic trunk protocol negotiation and significantly reducing any outage when restoring a failed link or switch.",
+  "Documentable": "false"
+}

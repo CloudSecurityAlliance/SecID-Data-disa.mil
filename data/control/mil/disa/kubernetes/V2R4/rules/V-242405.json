@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242405",
+  "rule_id": "SV-242405r960960_rule",
+  "stig_id": "CNTR-K8-000860",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes manifests must be owned by root.",
+  "group_title": "SRG-APP-000133-CTR-000295",
+  "idents": {
+    "cci": [
+      "CCI-001499"
+    ]
+  },
+  "check_id": "C-45680r863812_chk",
+  "check_content": "On the Control Plane, change to the /etc/kubernetes/manifest directory. Run the command:\nls -l *\n\nEach manifest file must be owned by root:root.\n\nIf any manifest file is not owned by root:root, this is a finding.",
+  "fixtext": "On the Control Plane, change to the /etc/kubernetes/manifest directory. Run the command:\nchown root:root *\n\nTo verify the change took place, run the command:\nls -l *\n\nAll the manifest files should be owned by root:root.",
+  "fix_id": "F-45638r863813_fix",
+  "VulnDiscussion": "The manifest files contain the runtime configuration of the API server, proxy, scheduler, controller, and etcd. If an attacker can gain access to these files, changes can be made to open vulnerabilities and bypass user authorizations inherit within Kubernetes with RBAC implemented.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261333",
+  "rule_id": "SV-261333r996464_rule",
+  "stig_id": "SLEM-05-255040",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "SLEM 5 SSH daemon must disable forwarded remote X connections for interactive users, unless to fulfill documented and validated mission requirements.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65062r996463_chk",
+  "check_content": "Verify SLEM 5 SSH daemon remote X forwarded connections for interactive users are disabled with the following command:\n\n     > sudo /usr/sbin/sshd -dd 2>&1 | awk '/filename/ {print $4}' | tr -d '\\r' | tr '\\n' ' ' | xargs sudo grep -iH '^\\s*x11forwarding'\n     /etc/ssh/sshd_config:X11Forwarding no\n\nIf the \"X11Forwarding\" keyword is set to \"yes\" and is not documented with the information system security officer (ISSO) as an operational requirement, is commented out, or the line is missing, this is a finding.",
+  "fixtext": "Configure SLEM 5 SSH daemon to disable forwarded X connections for interactive users.\n\nAdd or modify the following line in the \"/etc/ssh/sshd_config\" file: \n\nX11Forwarding no",
+  "fix_id": "F-64970r995865_fix",
+  "VulnDiscussion": "The security risk of using X11 forwarding is that the client's X11 display server may be exposed to attack when the SSH client requests forwarding. A system administrator may have a stance in which they want to protect clients that may expose themselves to attack by unwittingly requesting X11 forwarding, which can warrant a ''no'' setting.\n\nX11 forwarding should be enabled with caution. Users with the ability to bypass file permissions on the remote host (for the user's X11 authorization database) can access the local X11 display through the forwarded connection. An attacker may then be able to perform activities such as keystroke monitoring if the ForwardX11Trusted option is also enabled.\n\nIf X11 services are not required for the system's intended function, they should be disabled or restricted as appropriate to the system's needs.",
+  "Documentable": "false"
+}

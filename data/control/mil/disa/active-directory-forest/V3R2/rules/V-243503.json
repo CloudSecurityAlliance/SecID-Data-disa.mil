@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-243503",
+  "rule_id": "SV-243503r1026201_rule",
+  "stig_id": "AD.0230",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Anonymous Access to AD forest data above the rootDSE level must be disabled.",
+  "group_title": "SRG-OS-000480",
+  "idents": {
+    "legacy": [
+      "V-8555",
+      "SV-9052"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-46778r1026199_chk",
+  "check_content": "1. At the command line prompt enter (on a single line): \ndsquery * \"cn=Directory Service,\ncn=Windows NT,cn=Services,cn=Configuration,dc=[forest-name]\" -scope base -attr * \n\n(Where dc=[forest-name] is the fully qualified LDAP name of the root of the domain being reviewed.)\n\nExample:\nThe following is an example of the dsquery command for the vcfn.ost.com forest.\n\ndsquery * \"cn=Directory Service,cn=Windows  NT,cn=Services,cn=Configuration,  dc=vcfn,dc=ost,dc=com -scope base -attr * \n\n2. If the dsHeuristics attribute is listed, note the assigned value.\n\n3. If the dsHeuristics attribute is defined and has a \"2\" as the 7th character, then this is a finding.\n\nExamples of values that would be a finding as follows:\n \"0000002\", \"0010002\", \"0000002000001\".\n(The 7th character controls anonymous access.)\n\nSupplementary Notes:\nDomain controllers have this option disabled by default. However, this check verifies that the option has not been enabled.\n\nThe dsHeuristics option can be configured with the Windows Support Tools Active Directory Service Interfaces Editor (ADSI Edit) console (adsiedit.msc).",
+  "fixtext": "Disable anonymous access to AD forest data above the rootDSE level.",
+  "fix_id": "F-46735r1026200_fix",
+  "VulnDiscussion": "For Windows Server 2003 or above, the dsHeuristics option can be configured to override the default restriction on anonymous access to AD data above the rootDSE level. Anonymous access to AD data could provide valuable account or configuration information to an intruder trying to determine the most effective attack strategies.",
+  "Documentable": "false"
+}

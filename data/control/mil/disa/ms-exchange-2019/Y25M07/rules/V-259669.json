@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259669",
+  "rule_id": "SV-259669r961095_rule",
+  "stig_id": "EX19-MB-000105",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange Mailbox databases must reside on a dedicated partition.",
+  "group_title": "SRG-APP-000211",
+  "idents": {
+    "cci": [
+      "CCI-001082"
+    ]
+  },
+  "check_id": "C-63408r942319_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP) or document that contains this information.\n\nDetermine the location where the Exchange Mailbox databases reside.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-MailboxDatabase | Select-Object -Property Name, Identity, EdbFilePath\n\nOpen Windows Explorer, navigate to the mailbox databases, and verify they are on a dedicated partition.\n\nIf the mailbox databases are not on a dedicated partition, this is a finding.",
+  "fixtext": "Update the EDSP to specify the location where the Exchange Mailbox databases reside or verify that this information is documented by the organization.\n\nConfigure the mailbox databases on a dedicated partition.\n\nEnsure the drive that its being moved to has enough space for the database and logs (if not moving the logs to their own partition). Consult the EDSP and ensure that this is done within a maintenance window as this will incur downtime for any users connected to this mailbox database. Ensure backups are not running at the time this needs to be done. If this server is in a Database Availability Group, this cannot be done until all replicated copies of that database are removed first. Then the move operation can be performed. Once completed, replicated copies can be recreated appropriately.\n\nIn an Exchange Management Shell, run the following (assuming copies of the database is removed if replicated or if it is a single copy database):\n\nMove-DatabasePath -Identity \"<name of database>\" -EdbFilePath \"<drive>:\\PathToDatabase\\<MailboxDatabase.edb>\" -LogFolderPath \"<drive>:\\LogFolderPath\\\"\n\nExample:\nMove-DatabasePath -Identity \"Database1\" -EdbFilePath \"D:\\MailboxDBs\\Database1.edb\" -LogFolderPath \"D:\\MailboxDBLogs\\\"",
+  "fix_id": "F-63316r945442_fix",
+  "VulnDiscussion": "In the same way that added security layers can provide a cumulative positive effect on security posture, multiple applications can provide a cumulative negative effect. A vulnerability and subsequent exploit to one application can lead to an exploit of other applications sharing the same security context. For example, an exploit to a web server process that leads to unauthorized administrative access to the host system can most likely lead to a compromise of all applications hosted by the same system.\n\nEmail services should be installed to a discrete set of directories on a partition that does not host other applications. Email services should never be installed on a Domain Controller/Directory Services server.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269450",
+  "rule_id": "SV-269450r1050333_rule",
+  "stig_id": "ALMA-09-044680",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must enable mitigations against processor-based vulnerabilities.",
+  "group_title": "SRG-OS-000433-GPOS-00192",
+  "idents": {
+    "cci": [
+      "CCI-002824"
+    ]
+  },
+  "check_id": "C-73481r1049727_chk",
+  "check_content": "Verify AlmaLinux OS 9 enables kernel page-table isolation with the following command:\n\n$ grubby --info=ALL | grep pti\n\nargs=\"ro audit=1 selinux=1 enforcing=1 audit_backlog_limit=8192 page_poison=1 vsyscall=none slub_debug=P pti=on iommu=force resume=/dev/mapper/luks-88bf0df8-547f-4613-af07-215e5f62e9a9 rd.luks.uuid=luks-8a7154ec-8eeb-47c8-9d75-66fd4b80d665 rd.lvm.lv=rootvg/root rd.luks.uuid=luks-89bf0df8-547f-4613-af07-215e5f62e9a9 rd.lvm.lv=rootvg/swap rd.shell=0 quiet splash fips=1 boot=UUID=eda01e9b-b7e1-431b-9549-16d5dcddf665\"\n\nIf the \"pti\" entry does not equal \"on\", or is missing, this is a finding.\n\nCheck that kernel page-table isolation is enabled by default to persist in kernel updates: \n\n$ grep pti /etc/default/grub\n\nGRUB_CMDLINE_LINUX=\"pti=on\"\n\nIf \"pti\" is not set to \"on\", is missing or commented out, this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to enable kernel page-table isolation with the following command:\n\n$ grubby --update-kernel=ALL --args=\"pti=on\"\n\nAdd or modify the following line in \"/etc/default/grub\" to ensure the configuration survives kernel updates:\n\nGRUB_CMDLINE_LINUX=\"pti=on\"",
+  "fix_id": "F-73382r1049728_fix",
+  "VulnDiscussion": "Kernel page-table isolation is a kernel feature that mitigates the Meltdown security vulnerability and hardens the kernel against attempts to bypass kernel address space layout randomization (KASLR).",
+  "Documentable": "false"
+}

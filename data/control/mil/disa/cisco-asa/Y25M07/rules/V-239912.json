@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-239912",
+  "rule_id": "SV-239912r1051115_rule",
+  "stig_id": "CASA-ND-000450",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco ASA must be configured with only one local account to be used as the account of last resort in the event the authentication server is unavailable.",
+  "group_title": "SRG-APP-000148-NDM-000346",
+  "idents": {
+    "cci": [
+      "CCI-001358",
+      "CCI-002111"
+    ]
+  },
+  "check_id": "C-43145r666097_chk",
+  "check_content": "Step 1: Review the Cisco ASA configuration to verify that a local account for last resort has been configured with a privilege level that will enable the administrator to troubleshoot connectivity to the authentication server.\n\nusername LAST_RESORT password $sha512$5000$tb2eaIcI/Q5Q==$ScFJI1ChS4gIjXw== pbkdf2 privilege 15\n\nStep 2: Verify the fallback to use local account has been configured as shown in the example below.\n\nuser-identity default-domain LOCAL\naaa authentication serial console RADIUS_GROUP LOCAL\naaa authentication ssh console RADIUS_GROUP LOCAL\n\nIf the Cisco ASA is not configured with only one local account to be used as the account of last resort in the event the authentication server is unavailable, this is a finding.",
+  "fixtext": "Step 1: Configure a local account with the necessary privilege level to troubleshoot network outage and restore operations as shown in the following example.\n\nASA(config)# username LAST_RESORT privilege 15\nASA(config)# username LAST_RESORT password xxxxxxxxxxxxx\n\nStep 2: Define the AAA server.\n\nASA(config)# aaa-server RADIUS_GROUP protocol radius \nASA(config-aaa-server-group)# exit\nASA(config)# aaa-server RADIUS_GROUP (NDM_INTERFACE) host 10.1.48.10\nASA(config-aaa-server-host)# key xxxxxxxxx\nASA(config-aaa-server-host)# exit\n\nStep 3: Configure the authentication to use an AAA server with the fallback to use the local account if the authentication server is not reachable as shown in the following example.\n\nASA(config)# aaa authentication serial console RADIUS_GROUP LOCAL\nASA(config)# aaa authentication ssh console RADIUS_GROUP LOCAL\nASA(config)# end",
+  "fix_id": "F-43104r666098_fix",
+  "VulnDiscussion": "Authentication for administrative (privileged level) access to the device is required at all times. An account can be created on the device's local database for use when the authentication server is down or connectivity between the device and the authentication server is not operable. This account is referred to as the account of last resort since it is intended to be used as a last resort and when immediate administrative access is absolutely necessary.\n\nThe account of last resort logon credentials must be stored in a sealed envelope and kept in a safe. The safe must be periodically audited to verify the envelope remains sealed. The signature of the auditor and the date of the audit should be added to the envelope as a record. Administrators should secure the credentials and disable the root account (if possible) when not needed for system administration functions.",
+  "Documentable": "false"
+}

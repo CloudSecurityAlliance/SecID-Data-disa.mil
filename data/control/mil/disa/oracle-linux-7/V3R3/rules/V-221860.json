@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221860",
+  "rule_id": "SV-221860r958796_rule",
+  "stig_id": "OL07-00-040430",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that the SSH daemon does not permit Generic Security Service Application Program Interface (GSSAPI) authentication unless needed.",
+  "group_title": "SRG-OS-000364-GPOS-00151",
+  "idents": {
+    "legacy": [
+      "V-99459",
+      "SV-108563"
+    ],
+    "cci": [
+      "CCI-001813"
+    ]
+  },
+  "check_id": "C-23575r419652_chk",
+  "check_content": "Verify the SSH daemon does not permit GSSAPI authentication unless approved.\n\nCheck that the SSH daemon does not permit GSSAPI authentication with the following command:\n\n# grep -i gssapiauth /etc/ssh/sshd_config\nGSSAPIAuthentication no\n\nIf the \"GSSAPIAuthentication\" keyword is missing, is set to \"yes\" and is not documented with the Information System Security Officer (ISSO), or the returned line is commented out, this is a finding.",
+  "fixtext": "Uncomment the \"GSSAPIAuthentication\" keyword in \"/etc/ssh/sshd_config\" (this file may be named differently or be in a different location if using a version of SSH that is provided by a third-party vendor) and set the value to \"no\": \n\nGSSAPIAuthentication no\n\nThe SSH service must be restarted for changes to take effect.\n\nIf GSSAPI authentication is required, it must be documented, to include the location of the configuration file, with the ISSO.",
+  "fix_id": "F-23564r419653_fix",
+  "VulnDiscussion": "GSSAPI authentication is used to provide additional authentication mechanisms to applications. Allowing GSSAPI authentication through SSH exposes the system's GSSAPI to remote hosts, increasing the attack surface of the system. GSSAPI authentication must be disabled unless needed.",
+  "Documentable": "false"
+}

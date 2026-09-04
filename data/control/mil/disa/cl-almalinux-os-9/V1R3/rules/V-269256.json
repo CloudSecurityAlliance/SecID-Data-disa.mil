@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-269256",
+  "rule_id": "SV-269256r1050138_rule",
+  "stig_id": "ALMA-09-019930",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "AlmaLinux OS 9 must not send Internet Control Message Protocol (ICMP) redirects.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-73287r1049395_chk",
+  "check_content": "Verify AlmaLinux OS 9 does not send ICMP redirects.\n\nCheck the value of the \"send_redirects\" variables with the following command:\n\n$ sysctl -a | grep send_redirects\n\nnet.ipv4.conf.all.send_redirects = 0\nnet.ipv4.conf.default.send_redirects = 0\nnet.ipv4.conf.enp1s0.send_redirects = 0\nnet.ipv4.conf.lo.send_redirects = 0\n\nIf the returned lines do not all have a value of \"0\", this is a finding.",
+  "fixtext": "Configure AlmaLinux OS 9 to not allow interfaces to perform ICMP redirects.\n\nCreate a numbered *.conf file in /etc/sysctl.d/ with the following content:\n\nnet.ipv4.conf.all.send_redirects = 0\nnet.ipv4.conf.default.send_redirects = 0\nnet.ipv4.conf.lo.send_redirects = 0\nEOF\n\nThe system configuration files need to be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sysctl –system",
+  "fix_id": "F-73188r1049396_fix",
+  "VulnDiscussion": "ICMP redirect messages are used by routers to inform hosts that a more direct route exists for a particular destination. These messages contain information from the system's route table possibly revealing portions of the network topology.\n\nThe ability to send ICMP redirects is only appropriate for systems acting as routers.",
+  "Documentable": "false"
+}

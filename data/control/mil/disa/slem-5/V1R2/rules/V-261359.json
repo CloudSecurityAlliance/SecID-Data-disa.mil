@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-261359",
+  "rule_id": "SV-261359r996526_rule",
+  "stig_id": "SLEM-05-411065",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "SLEM 5 root account must be the only account with unrestricted access to the system.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-65088r995942_chk",
+  "check_content": "Verify that SLEM 5 root account is the only account with unrestricted access to the system with the following command:\n\n     > awk -F: '$3 == 0 {print $1}' /etc/passwd\n     root\n\nIf any accounts other than root are listed, this is a finding.",
+  "fixtext": "Change the UID of any account on SLEM 5, other than the root account, that has a UID of \"0\". \n\nIf the account is associated with system commands or applications, the UID should be changed to one greater than \"0\" but less than \"1000\". \n\nIf the account is not associated with system commands or applications, assign a UID of greater than \"1000\" that has not already been assigned.",
+  "fix_id": "F-64996r996525_fix",
+  "VulnDiscussion": "If an account other than root also has a User Identifier (UID) of \"0\", it has root authority, giving that account unrestricted access to the entire SLEM 5. Multiple accounts with a UID of \"0\" afford an opportunity for potential intruders to guess a password for a privileged account.",
+  "Documentable": "false"
+}

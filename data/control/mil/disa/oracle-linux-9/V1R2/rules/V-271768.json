@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271768",
+  "rule_id": "SV-271768r1092016_rule",
+  "stig_id": "OL09-00-002430",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must enable hardening for the Berkeley Packet Filter (BPF) just-in-time compiler.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-75818r1092014_chk",
+  "check_content": "Verify that OL 9 enables hardening for the BPF JIT with the following commands:\n\n$ sudo sysctl net.core.bpf_jit_harden\nnet.core.bpf_jit_harden = 2\n\nIf the returned line does not have a value of \"2\", or a line is not returned, this is a finding.",
+  "fixtext": "Configure OL 9 to enable hardening for the BPF JIT compiler by adding the following line to a file, in the \"/etc/sysctl.d\" directory:\n\nnet.core.bpf_jit_harden = 2\n\nThe system configuration files need to be reloaded for the changes to take effect. To reload the contents of the files, run the following command:\n\n$ sudo sysctl --system",
+  "fix_id": "F-75725r1092015_fix",
+  "VulnDiscussion": "When hardened, the extended BPF just-in-time (JIT) compiler will randomize any kernel addresses in the BPF programs and maps and will not expose the JIT addresses in \"/proc/kallsyms\".",
+  "Documentable": "false"
+}

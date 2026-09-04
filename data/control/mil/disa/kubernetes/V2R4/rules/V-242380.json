@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242380",
+  "rule_id": "SV-242380r960759_rule",
+  "stig_id": "CNTR-K8-000190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Kubernetes etcd must use TLS to protect the confidentiality of sensitive data during electronic dissemination.",
+  "group_title": "SRG-APP-000014-CTR-000035",
+  "idents": {
+    "cci": [
+      "CCI-000068"
+    ]
+  },
+  "check_id": "C-45655r927072_chk",
+  "check_content": "Change to the /etc/kubernetes/manifests directory on the Kubernetes Control Plane. Run the command:\n\ngrep -I  peer-auto-tls * \n\nIf the setting \"--peer-auto-tls\" is not configured in the Kubernetes etcd manifest file or it is set to \"true\", this is a finding.",
+  "fixtext": "Edit the Kubernetes etcd manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Control Plane. \n\nSet the value of \"--peer-auto-tls\" to \"false\".",
+  "fix_id": "F-45613r927073_fix",
+  "VulnDiscussion": "The Kubernetes API Server will prohibit the use of SSL and unauthorized versions of TLS protocols to properly secure communication.\n\nThe use of unsupported protocol exposes vulnerabilities to the Kubernetes by rogue traffic interceptions, man-in-the-middle attacks, and impersonation of users or services from the container platform runtime, registry, and keystore. To enable the minimum version of TLS to be used by the Kubernetes API Server, the setting \"--peer-auto-tls\" must be set.",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-242421",
+  "rule_id": "SV-242421r1043178_rule",
+  "stig_id": "CNTR-K8-001430",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Kubernetes Controller Manager must have the SSL Certificate Authority set.",
+  "group_title": "SRG-APP-000219-CTR-000550",
+  "idents": {
+    "cci": [
+      "CCI-001184"
+    ]
+  },
+  "check_id": "C-45696r927107_chk",
+  "check_content": "Change to the /etc/kubernetes/manifests/ directory on the Kubernetes Control Plane. Run the command:\ngrep -i root-ca-file *\n\nIf the setting \"--root-ca-file\" is not set in the Kubernetes Controller Manager manifest file or contains no value, this is a finding.",
+  "fixtext": "Edit the Kubernetes Controller Manager manifest file in the /etc/kubernetes/manifests directory on the Kubernetes Control Plane. \n\nSet the value of \"--root-ca-file\" to path containing Approved Organizational Certificate.",
+  "fix_id": "F-45654r927108_fix",
+  "VulnDiscussion": "The Kubernetes Controller Manager is responsible for creating service accounts and tokens for the API Server, maintaining the correct number of pods for every replication controller and provides notifications when nodes are offline.  \n\nAnyone who gains access to the Controller Manager can generate backdoor accounts, take possession of, or diminish system performance without detection by disabling system notification. Using authenticity protection, the communication can be protected against man-in-the-middle attacks/session hijacking and the insertion of false information into sessions.\n\nThe communication session is protected by utilizing transport encryption protocols, such as TLS. TLS provides the Kubernetes Controller Manager with a means to be able to authenticate sessions and encrypt traffic.",
+  "Documentable": "false"
+}

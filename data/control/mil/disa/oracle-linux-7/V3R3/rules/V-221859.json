@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221859",
+  "rule_id": "SV-221859r991589_rule",
+  "stig_id": "OL07-00-040420",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so the SSH private host key files have mode 0640 or less permissive.",
+  "group_title": "SRG-OS-000480-GPOS-00227",
+  "idents": {
+    "legacy": [
+      "V-99457",
+      "SV-108561"
+    ],
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-23574r880577_chk",
+  "check_content": "Verify the SSH private host key files have mode 0640 or less permissive.\n\nThe following command will find all SSH private key files on the system and list their modes:\n\n     # find / -name '*ssh_host*key' | xargs ls -lL\n\n     -rw-r----- 1 root ssh_keys 112 Apr 1 11:59 ssh_host_dsa_key\n     -rw-r----- 1 root ssh_keys 202 Apr 1 11:59 ssh_host_key\n     -rw-r----- 1 root ssh_keys 352 Apr 1 11:59 ssh_host_rsa_key\n\nIf any file has a mode more permissive than 0640, this is a finding.",
+  "fixtext": "Configure the mode of SSH private host key files under \"/etc/ssh\" to \"0640\" with the following command:\n\n     # chmod 0640 /path/to/file/ssh_host*key",
+  "fix_id": "F-23563r880578_fix",
+  "VulnDiscussion": "If an unauthorized user obtains the private SSH host key file, the host could be impersonated.",
+  "Documentable": "false"
+}

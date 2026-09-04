@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259674",
+  "rule_id": "SV-259674r961152_rule",
+  "stig_id": "EX19-MB-000121",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Exchange mailbox stores must mount at startup.",
+  "group_title": "SRG-APP-000246",
+  "idents": {
+    "cci": [
+      "CCI-001094"
+    ]
+  },
+  "check_id": "C-63413r942334_chk",
+  "check_content": "Open the Exchange Management Shell and enter the following command:\n\nGet-MailboxDatabase | Select-Object -Property Name, Identity, MountAtStartup\n\nIf the value of \"MountAtStartup\" is not set to \"True\", this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-MailboxDatabase -Identity <'IdentityName'> -MountAtStartup $true\n\nNote: The <IdentityName> value must be in quotes.",
+  "fix_id": "F-63321r942335_fix",
+  "VulnDiscussion": "Administrator responsibilities include the ability to react to unplanned maintenance tasks or emergency situations that may require Mailbox data manipulation. Occasionally, there may be a need to start the server with \"unmounted\" data stores if manual maintenance is being performed on them. Failure to uncheck the \"do not mount on startup\" condition will result in unavailability of mail services.\n\nCorrect configuration of this control will prevent unplanned outages due to being enabled. When maintenance is being performed, care should be taken to clear the check box upon task completion so mail stores are available to users (unmounted mailbox stores are not available to users).",
+  "Documentable": "false"
+}

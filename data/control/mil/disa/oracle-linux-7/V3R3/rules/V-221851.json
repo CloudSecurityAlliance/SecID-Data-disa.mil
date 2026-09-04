@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-221851",
+  "rule_id": "SV-221851r970703_rule",
+  "stig_id": "OL07-00-040340",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Oracle Linux operating system must be configured so that all network connections associated with SSH traffic terminate after becoming unresponsive.",
+  "group_title": "SRG-OS-000163-GPOS-00072",
+  "idents": {
+    "legacy": [
+      "V-99441",
+      "SV-108545"
+    ],
+    "cci": [
+      "CCI-001133"
+    ]
+  },
+  "check_id": "C-23566r917858_chk",
+  "check_content": "Verify the SSH server automatically terminates a user session after the SSH client has become unresponsive.\n\nCheck for the value of the \"ClientAliveCountMax\" keyword with the following command:\n\n     # grep -i clientalivecount /etc/ssh/sshd_config\n     ClientAliveCountMax 0\n\nIf \"ClientAliveCountMax\" is not set to \"0\", this is a finding.",
+  "fixtext": "Note: This setting must be applied in conjunction with OL07-00-040320 to function correctly.\n\nConfigure the SSH server to terminate a user session automatically after the SSH client has become unresponsive.\n\nAdd the following line (or modify the line to have the required value) to the \"/etc/ssh/sshd_config\" file (this file may be named differently or be in a different location if using a version of SSH that is provided by a third-party vendor):\n\n     ClientAliveCountMax 0\n\nThe SSH service must be restarted for changes to take effect.",
+  "fix_id": "F-23555r917859_fix",
+  "VulnDiscussion": "Terminating an unresponsive SSH session within a short time period reduces the window of opportunity for unauthorized personnel to take control of a management session enabled on the console or console port that has been left unattended. In addition, quickly terminating an idle SSH session will also free up resources committed by the managed network element.\n\nTerminating network connections associated with communications sessions includes, for example, deallocating associated TCP/IP address/port pairs at the operating system level and deallocating networking assignments at the application level if multiple application sessions are using a single operating system-level network connection. This does not mean the operating system terminates all sessions or network access; it only ends the unresponsive session and releases the resources associated with that session.\n\nSatisfies: SRG-OS-000163-GPOS-00072, SRG-OS-000279-GPOS-00109",
+  "Documentable": "false"
+}

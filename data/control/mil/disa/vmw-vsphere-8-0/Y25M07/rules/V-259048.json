@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259048",
+  "rule_id": "SV-259048r961167_rule",
+  "stig_id": "VCLU-80-000067",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The vCenter Lookup service \"ErrorReportValve showServerInfo\" must be set to \"false\".",
+  "group_title": "SRG-APP-000266-AS-000169",
+  "idents": {
+    "cci": [
+      "CCI-001312"
+    ]
+  },
+  "check_id": "C-62788r934800_chk",
+  "check_content": "At the command prompt, run the following command:\n\n# xmllint --xpath '/Server/Service/Engine/Host/Valve[@className=\"org.apache.catalina.valves.ErrorReportValve\"]' /usr/lib/vmware-lookupsvc/conf/server.xml\n\nExample result:\n\n<Valve className=\"org.apache.catalina.valves.ErrorReportValve\" showServerInfo=\"false\" showReport=\"false\"/>\n\nIf the \"ErrorReportValve\" element is not defined or \"showServerInfo\" is not set to \"false\", this is a finding.",
+  "fixtext": "Navigate to and open:\n\n/usr/lib/vmware-lookupsvc/conf/server.xml\n\nLocate the following Host block:\n\n<Host ...>\n...\n</Host>\n\nInside this block, add or update the following on a new line:\n\n<Valve className=\"org.apache.catalina.valves.ErrorReportValve\" showServerInfo=\"false\" showReport=\"false\"/>\n\nRestart the service with the following command:\n\n# vmon-cli --restart lookupsvc",
+  "fix_id": "F-62697r934801_fix",
+  "VulnDiscussion": "The Error Report Valve is a simple error handler for HTTP status codes that will generate and return HTML error pages. It can also be configured to return predefined static HTML pages for specific status codes and/or exception types. Disabling \"showServerInfo\" will only return the HTTP status code and remove all CSS from the default nonerror-related HTTP responses.",
+  "Documentable": "false"
+}

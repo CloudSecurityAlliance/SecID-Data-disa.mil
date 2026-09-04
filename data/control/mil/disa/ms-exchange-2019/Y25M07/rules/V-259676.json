@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259676",
+  "rule_id": "SV-259676r961152_rule",
+  "stig_id": "EX19-MB-000123",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "Exchange mail quota settings must not restrict sending mail.",
+  "group_title": "SRG-APP-000246",
+  "idents": {
+    "cci": [
+      "CCI-001094"
+    ]
+  },
+  "check_id": "C-63415r942340_chk",
+  "check_content": "Review the Email Domain Security Plan (EDSP) or document that contains this information.\n\nDetermine the value for the Prohibit Send Quota limit.\n\nOpen the Exchange Management Shell and enter the following command:\n\nGet-MailboxDatabase | Select-Object -Property Name, Identity, ProhibitSendQuota\n\nIf the value of \"ProhibitSendQuota\" is not set to the site's Prohibit Send Quota limit, this is a finding.",
+  "fixtext": "Update the EDSP to specify the value for the Prohibit Send Quota limit or verify that this information is documented by the organization.\n\nOpen the Exchange Management Shell and enter the following command:\n\nSet-MailboxDatabase -Identity <'IdentityName'> -ProhibitSendQuota <'QuotaLimit'>\n\nNote: The <IdentityName> and <QuotaLimit> values must be in quotes.",
+  "fix_id": "F-63323r942341_fix",
+  "VulnDiscussion": "Mail quota settings control the maximum sizes of a user's mailbox and the system's response if these limits are exceeded. Mailbox data that is not monitored against a quota increases the risk of mail loss due to filled disk space, which can also render the system unavailable. Multiple controls supply graduated levels of opportunity to respond before risking email service loss. \n\nThis control prohibits the user from sending an email when the mailbox limit reaches the prohibit send quota value.\n\nNote: Best practice for this setting is to prohibit the user from sending email when the mailbox reaches 90 percent of capacity.",
+  "Documentable": "false"
+}

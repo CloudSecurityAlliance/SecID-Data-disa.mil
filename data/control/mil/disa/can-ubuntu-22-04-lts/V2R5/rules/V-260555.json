@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-260555",
+  "rule_id": "SV-260555r991590_rule",
+  "stig_id": "UBTU-22-412035",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Ubuntu 22.04 LTS default filesystem permissions must be defined in such a way that all authenticated users can read and modify only their own files.",
+  "group_title": "SRG-OS-000480-GPOS-00228",
+  "idents": {
+    "cci": [
+      "CCI-000366"
+    ]
+  },
+  "check_id": "C-64284r953476_chk",
+  "check_content": "Verify Ubuntu 22.04 LTS defines default permissions for all authenticated users in such a way that the user can read and modify only their own files by using the following command: \n  \n     $ grep -i '^\\s*umask' /etc/login.defs  \n     UMASK 077  \n  \nIf the \"UMASK\" variable is set to \"000\", this is a finding with the severity raised to a CAT I.\n\nIf \"UMASK\" is not set to \"077\", is commented out, or is missing, this is a finding.",
+  "fixtext": "Configure Ubuntu 22.04 LTS to define the default permissions for all authenticated users in such a way that the user can read and modify only their own files.  \n \nAdd or modify the following line in the \"/etc/login.defs\" file:  \n \nUMASK 077",
+  "fix_id": "F-64192r953477_fix",
+  "VulnDiscussion": "Setting the most restrictive default permissions ensures newly created accounts do not have unnecessary access.",
+  "Documentable": "false"
+}

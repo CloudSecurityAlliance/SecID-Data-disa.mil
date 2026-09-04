@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-216322",
+  "rule_id": "SV-216322r958364_rule",
+  "stig_id": "SOL-11.1-040020",
+  "severity": "low",
+  "severity_category": "CAT III",
+  "weight": "10.0",
+  "title": "The operating system must automatically terminate temporary accounts within 72 hours.",
+  "group_title": "SRG-OS-000002",
+  "idents": {
+    "legacy": [
+      "V-47949",
+      "SV-60821"
+    ],
+    "cci": [
+      "CCI-000016"
+    ]
+  },
+  "check_id": "C-17558r371054_chk",
+  "check_content": "The root role is required.\n\nDetermine if an expiration date is set for temporary accounts.\n\n# logins -aox |awk -F: '($14 == \"0\") {print}'\n\nThis command produces a list of accounts with no expiration date set. If any of these accounts are temporary accounts, this is a finding.\n\n# logins -aox |awk -F: '($14 != \"0\") {print}'\n\nThis command produces a list of accounts with an expiration date set as defined in the last field. If any accounts have a date that is not within 72 hours, this is a finding.",
+  "fixtext": "The User Security role is required.\n\nApply an expiration date to temporary users.\n\n# pfexec usermod -e \"[date]\" [username]\n\nEnter the date in the form mm/dd/yyyy such that it is within 72 hours.",
+  "fix_id": "F-17556r371055_fix",
+  "VulnDiscussion": "If temporary user accounts remain active when no longer needed or for an excessive period, these accounts may be used to gain unauthorized access. To mitigate this risk, automated termination of all temporary accounts must be set upon account creation. \n\nTemporary accounts are established as part of normal account activation procedures when there is a need for short-term accounts without the demand for immediacy in account activation. \n\nIf temporary accounts are used, the operating system must be configured to automatically terminate these types of accounts after a DoD-defined time period of 72 hours.\n\nWhen temporary and emergency accounts are created, there is a risk the temporary account may remain in place and active after the need for the account no longer exists.\n\nTo address this, in the event temporary accounts are required, accounts designated as temporary in nature must be automatically terminated after 72 hours. Such a process and capability greatly reduces the risk of accounts being misused, hijacked, or data compromised.",
+  "Documentable": "false"
+}

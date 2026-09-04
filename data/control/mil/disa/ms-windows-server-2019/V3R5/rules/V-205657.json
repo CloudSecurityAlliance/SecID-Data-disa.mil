@@ -1,0 +1,26 @@
+{
+  "vuln_id": "V-205657",
+  "rule_id": "SV-205657r1051065_rule",
+  "stig_id": "WN19-00-000020",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Windows Server 2019 passwords for the built-in Administrator account must be changed at least every 60 days.",
+  "group_title": "SRG-OS-000076-GPOS-00044",
+  "idents": {
+    "legacy": [
+      "SV-103559",
+      "V-93473"
+    ],
+    "cci": [
+      "CCI-004066",
+      "CCI-000199"
+    ]
+  },
+  "check_id": "C-5922r1016380_chk",
+  "check_content": "If there are no enabled local Administrator accounts, this is Not Applicable.\n\nReview the password last set date for the enabled local Administrator account.\n\nOn the stand alone or domain-joined workstation:\n\nOpen \"PowerShell\".\n\nEnter \"Get-LocalUser -Name * | Select-Object *\".\n\nIf the \"PasswordLastSet\" date is greater than \"60\" days old for the local Administrator account for administering the computer/domain, this is a finding.\n\nVerify LAPS is configured and operational. \n\nNavigate to Local Computer Policy >> Computer Configuration >> Administrative Templates >> System >> LAPS >> Password Settings >> Set to enabled. Password Complexity, large letters + small letters + numbers + special, Password Length 14, Password Age 60. If not configured as shown, this is a finding. \n \n\nVerify LAPS Operational logs >> Event Viewer >> Applications and Services Logs >> Microsoft >> Windows >> LAPS >> Operational. Verify LAPS policy process is completing. If it is not, this is a finding.",
+  "fixtext": "Change the enabled local Administrator account password at least every 60 days. Windows LAPS must be used to change the built-in Administrator account password. Domain-joined systems can configure this to occur more frequently. LAPS will change the password every 30 days by default. \n\nMore information is available at:\nhttps://techcommunity.microsoft.com/t5/windows-it-pro-blog/by-popular-demand-windows-laps-available-now/ba-p/3788747\nhttps://learn.microsoft.com/en-us/windows-server/identity/laps/laps-overview#windows-laps-supported-platforms-and-azure-ad-laps-preview-status",
+  "fix_id": "F-5922r951106_fix",
+  "VulnDiscussion": "The longer a password is in use, the greater the opportunity for someone to gain unauthorized knowledge of the password. The built-in Administrator account is not generally used and its password might not be changed as frequently as necessary. Changing the password for the built-in Administrator account on a regular basis will limit its exposure.\n\nWindows LAPS must be used to change the built-in Administrator account password.",
+  "Documentable": "false"
+}

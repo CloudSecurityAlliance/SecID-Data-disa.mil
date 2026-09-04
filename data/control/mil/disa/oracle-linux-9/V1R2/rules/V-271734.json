@@ -1,0 +1,22 @@
+{
+  "vuln_id": "V-271734",
+  "rule_id": "SV-271734r1091914_rule",
+  "stig_id": "OL09-00-002390",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must clear SLUB/SLAB objects to prevent use-after-free attacks.",
+  "group_title": "SRG-OS-000433-GPOS-00192",
+  "idents": {
+    "cci": [
+      "CCI-002824",
+      "CCI-001084"
+    ]
+  },
+  "check_id": "C-75784r1091912_chk",
+  "check_content": "Verify that OL 9 GRUB 2 is configured to enable poisoning of SLUB/SLAB objects to mitigate use-after-free vulnerabilities with the following commands:\n\nCheck that the current GRUB 2 configuration has poisoning of SLUB/SLAB objects enabled:\n\n$ sudo grubby --info=ALL | grep args | grep -v 'slub_debug=P' \nIf any output is returned, this is a finding.\n\nCheck that poisoning of SLUB/SLAB objects is enabled by default to persist in kernel updates: \n\n$ sudo grep slub_debug /etc/default/grub\nGRUB_CMDLINE_LINUX=\"slub_debug=P\"\n\nIf \"slub_debug\" is not set to \"P\", is missing or commented out, this is a finding.",
+  "fixtext": "Configure OL 9 to enable poisoning of SLUB/SLAB objects with the following commands:\n\n$ sudo grubby --update-kernel=ALL --args=\"slub_debug=P\"\n\nAdd or modify the following line in \"/etc/default/grub\" to ensure the configuration survives kernel updates:\n\nGRUB_CMDLINE_LINUX=\"slub_debug=P\"",
+  "fix_id": "F-75691r1091913_fix",
+  "VulnDiscussion": "Some adversaries launch attacks with the intent of executing code in nonexecutable regions of memory or in memory locations that are prohibited. Security safeguards employed to protect memory include, for example, data execution prevention and address space layout randomization. Data execution prevention safeguards can be either hardware-enforced or software-enforced with hardware providing the greater strength of mechanism.\n\nPoisoning writes an arbitrary value to freed pages, so any modification or reference to that page after being freed or before being initialized will be detected and prevented. This prevents many types of use-after-free vulnerabilities at little performance cost. Also prevents leak of data and detection of corrupted memory.\n\nSLAB objects are blocks of physically contiguous memory. SLUB is the unqueued SLAB allocator.\n\nSatisfies: SRG-OS-000433-GPOS-00192, SRG-OS-000134-GPOS-00068",
+  "Documentable": "false"
+}

@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259665",
+  "rule_id": "SV-259665r960963_rule",
+  "stig_id": "EX19-MB-000063",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "Exchange Send Fatal Errors to Microsoft must be disabled.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-63404r942307_chk",
+  "check_content": "Open the Exchange Management Shell and enter the following command:\n\nGet-ExchangeServer -status | Select-Object -Property Name, Identity, ErrorReportingEnabled\n\nFor each Exchange Server, if the value of \"ErrorReportingEnabled\" is not set to \"False\", this is a finding.",
+  "fixtext": "Open the Exchange Management Shell and enter the following command:\n\nSet-ExchangeServer -Identity <'IdentityName'> -ErrorReportingEnabled $false\n\nNote: The <IdentityName> value must be in quotes.\n\nRepeat the process for each Exchange Server.",
+  "fix_id": "F-63312r942308_fix",
+  "VulnDiscussion": "It is detrimental for applications to provide, or install by default, functionality exceeding requirements or mission objectives. These unnecessary capabilities or services are often overlooked and therefore may remain unsecured. They increase the risk to the platform by providing additional attack vectors.\n\nApplications are capable of providing a wide variety of functions and services. Some of the functions and services, provided by default, may not be necessary to support essential organizational operations (e.g., key missions, functions).\n\nExamples of nonessential capabilities include but are not limited to advertising software or browser plug-ins not related to requirements or providing a wide array of functionality not required for every mission but that cannot be disabled.\n\nAll system errors in Exchange will result in outbound traffic that may be identified by an eavesdropper. For this reason, the \"Report Fatal Errors to Microsoft\" feature must be disabled.",
+  "Documentable": "false"
+}

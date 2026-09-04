@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259932",
+  "rule_id": "SV-259932r948778_rule",
+  "stig_id": "SRG-VOIP-000520",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Session Border Controller (SBC) must drop all SIP and AS-SIP packets except those secured with TLS.",
+  "group_title": "SRG-VOIP-000520",
+  "idents": {
+    "cci": [
+      "CCI-001548"
+    ]
+  },
+  "check_id": "C-63663r946715_chk",
+  "check_content": "Verify the DISN NIPRNet IPVS SBC is configured to drop the following signaling packets:\n- SIP packets arriving on IP port 5060 or 5061.\n- SIP packets arriving on IP port 443 not secured with TLS.\n- AS-SIP packets arriving on IP port 5060.\n- AS-SIP packets arriving on IP port 5061 not secured with TLS.\n\nIf all SIP and AS-SIP packets are not dropped, except AS-SIP packets secured with TLS arriving on IP Port 5061 and SIP packets secured with TLS arriving on IP Port 443 secured with TLS, this is a finding.\n\nNOTE: The VVoIP system may allow SIP and SRTP traffic encrypted and encapsulated on port 443 from cloud service providers.",
+  "fixtext": "Ensure the DISN NIPRNet IPVS SBC is configured to drop the following signaling packets:\n- SIP packets arriving on IP port 5060 or 5061.\n- SIP packets arriving on IP port 443 not secured with TLS.\n- AS-SIP packets arriving on IP port 5060.\n- AS-SIP packets arriving on IP port 5061 not secured with TLS.\n\nNOTE: The VVoIP system may allow SIP and SRTP traffic encrypted and encapsulated on port 443 from Cloud service providers.",
+  "fix_id": "F-63570r946716_fix",
+  "VulnDiscussion": "DISN NIPRNet IPVS PMO and the Unified Capabilities Requirements (UCR) require all session signaling across the DISN WAN and between the Local Session Controller (LSC) and EBC to be secured with TLS. The standard IANA assigned IP port for SIP protected by TLS (SIP-TLS) is 5061. \n\nDOD PPSM requires that protocols traversing the DISN and DOD enclave boundaries use the standard IP ports for the specific protocol. Because AS-SIP is a standardized extension of the SIP protocol and AS-SIP must be protected by TLS, AS-SIP-TLS must use IP port 5061. The VVoIP system may allow SIP and SRTP traffic encrypted and encapsulated using TLS on port 443 from cloud service providers.",
+  "Documentable": "false"
+}

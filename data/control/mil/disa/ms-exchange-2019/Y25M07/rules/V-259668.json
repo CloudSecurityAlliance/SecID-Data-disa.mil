@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-259668",
+  "rule_id": "SV-259668r960963_rule",
+  "stig_id": "EX19-MB-000066",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Exchange Post Office Protocol 3 (POP3) service must be disabled.",
+  "group_title": "SRG-APP-000141",
+  "idents": {
+    "cci": [
+      "CCI-000381"
+    ]
+  },
+  "check_id": "C-63407r942316_chk",
+  "check_content": "Get-Service -Name MSExchangePop3,MSExchangePOP3BE |Select-Object -Property Name,StartType\n\nIf any of the POP3 services StartType is NOT set to \"Disabled\", this is a finding.",
+  "fixtext": "Open the Windows PowerShell in an Elevated Prompt and enter the following commands:\n\nGet-Service -Name MSExchangePop3,MSExchangePOP3BE |ForEach-Object {Set-Service -Name $_.Name -StartupType Disabled}",
+  "fix_id": "F-63315r942317_fix",
+  "VulnDiscussion": "POP3 is not approved for use within the DOD. It uses a clear-text-based user name and password and does not support the DOD standard for PKI for email access. User name and password could easily be captured from the network, allowing a malicious user to access other system features. Uninstalling or disabling the service will prevent the use of POP3.",
+  "Documentable": "false"
+}

@@ -1,0 +1,23 @@
+{
+  "vuln_id": "V-234888",
+  "rule_id": "SV-234888r1044810_rule",
+  "stig_id": "SLES-15-020190",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The SUSE operating system must employ FIPS 140-3 approved cryptographic hashing algorithms for all stored passwords.",
+  "group_title": "SRG-OS-000073-GPOS-00041",
+  "idents": {
+    "cci": [
+      "CCI-004062",
+      "CCI-000803",
+      "CCI-000196"
+    ]
+  },
+  "check_id": "C-38076r1044808_chk",
+  "check_content": "Verify the SUSE operating system configures the shadow password suite configuration to encrypt passwords using a strong cryptographic hash.\n\nCheck that a minimum number of hash rounds is configured by running the following command:\n\n> egrep \"^SHA_CRYPT_\" /etc/login.defs\n\nIf only one of \"SHA_CRYPT_MIN_ROUNDS\" or \"SHA_CRYPT_MAX_ROUNDS\" is set, and this value is below \"100000\", this is a finding.\n\nIf both \"SHA_CRYPT_MIN_ROUNDS\" and \"SHA_CRYPT_MAX_ROUNDS\" are set, and the highest value for either is below \"100000\", this is a finding.",
+  "fixtext": "Configure the SUSE operating system to encrypt all stored passwords with a strong cryptographic hash.\n\nEdit/modify the following line in the \"/etc/login.defs\" file and set \"SHA_CRYPT_MIN_ROUNDS\" to a value no lower than \"100000\":\n\nSHA_CRYPT_MIN_ROUNDS 100000",
+  "fix_id": "F-38039r1044809_fix",
+  "VulnDiscussion": "The system must use a strong hashing algorithm to store the password. The system must use a sufficient number of hashing rounds to ensure the required level of entropy.\n\nPasswords need to be protected at all times, and encryption is the standard method for protecting passwords. If passwords are not encrypted, they can be plainly read (i.e., clear text) and easily compromised.\n\nSatisfies: SRG-OS-000073-GPOS-00041, SRG-OS-000120-GPOS-00061",
+  "Documentable": "false"
+}

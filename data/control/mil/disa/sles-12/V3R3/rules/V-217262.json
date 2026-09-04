@@ -1,0 +1,25 @@
+{
+  "vuln_id": "V-217262",
+  "rule_id": "SV-217262r958902_rule",
+  "stig_id": "SLES-12-030040",
+  "severity": "high",
+  "severity_category": "CAT I",
+  "weight": "10.0",
+  "title": "SuSEfirewall2 must protect against or limit the effects of Denial-of-Service (DoS) attacks on the SUSE operating system by implementing rate-limiting measures on impacted network interfaces.",
+  "group_title": "SRG-OS-000420-GPOS-00186",
+  "idents": {
+    "legacy": [
+      "SV-92133",
+      "V-77437"
+    ],
+    "cci": [
+      "CCI-002385"
+    ]
+  },
+  "check_id": "C-18490r369942_chk",
+  "check_content": "Verify \"SuSEfirewall2\" is configured to protect the SUSE operating system against or limit the effects of DoS attacks. \n\nRun the following command:\n\n# grep -i fw_services_accept_ext /etc/sysconfig/SuSEfirewall2\nFW_SERVICES_ACCEPT_EXT=\"0/0,tcp,22,,hitcount=3,blockseconds=60,recentname=ssh\"\n\nIf the \"FW_SERVICES_ACCEPT_EXT\" rule does not contain both the \"hitcount\" and \"blockseconds\" parameters, this is a finding.",
+  "fixtext": "Configure \"SuSEfirewall2\" to protect the SUSE operating system against or limit the effects of DoS attacks by implementing rate-limiting measures on impacted network interfaces.\n\nAdd or replace the following line in \"/etc/sysconfig/SuSEfirewall2\":\n\nFW_SERVICES_ACCEPT_EXT=\"0/0,tcp,22,,hitcount=3,blockseconds=60,recentname=ssh\"\n\nThe firewall must be restarted in order for the changes to take effect.\n\n# sudo systemctl restart SuSEfirewall2.service",
+  "fix_id": "F-18488r369943_fix",
+  "VulnDiscussion": "DoS is a condition when a resource is not available for legitimate users. When this occurs, the organization either cannot accomplish its mission or must operate at degraded capacity.\n\nThis requirement addresses the configuration of the SUSE operating system to mitigate the impact on system availability of DoS attacks that have occurred or are ongoing. For each system, known and potential DoS attacks must be identified and solutions for each type implemented. A variety of technologies exist to limit or, in some cases, eliminate the effects of DoS attacks (e.g., limiting processes or establishing memory partitions). Employing increased capacity and bandwidth, combined with service redundancy, may reduce the susceptibility to some DoS attacks.",
+  "Documentable": "false"
+}

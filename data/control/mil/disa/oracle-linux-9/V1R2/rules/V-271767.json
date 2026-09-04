@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-271767",
+  "rule_id": "SV-271767r1092013_rule",
+  "stig_id": "OL09-00-002429",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "OL 9 must prevent system daemons from using Kerberos for authentication.",
+  "group_title": "SRG-OS-000120-GPOS-00061",
+  "idents": {
+    "cci": [
+      "CCI-000803"
+    ]
+  },
+  "check_id": "C-75817r1092011_chk",
+  "check_content": "Verify that OL 9 prevents system daemons from using Kerberos for authentication with the following command:\n\n$ ls -al /etc/*.keytab\nls: cannot access '/etc/*.keytab': No such file or directory \n\nIf this command produces any \"keytab\" file(s), this is a finding.",
+  "fixtext": "Configure OL 9 to prevent system daemons from using Kerberos for authentication.\n\nRemove any files with the .keytab extension from the operating system.\n\n$ sudo rm -f /etc/*.keytab",
+  "fix_id": "F-75724r1092012_fix",
+  "VulnDiscussion": "Unapproved mechanisms used for authentication to the cryptographic module are not verified; therefore, cannot be relied upon to provide confidentiality or integrity and DOD data may be compromised.\n\nOL 9 systems using encryption are required to use FIPS-compliant mechanisms for authenticating to cryptographic modules.\n\nThe key derivation function (KDF) in Kerberos is not FIPS compatible. Ensuring the system does not have any keytab files present prevents system daemons from using Kerberos for authentication. A keytab is a file containing pairs of Kerberos principals and encrypted keys.\n\nFIPS 140-3 is the current standard for validating that mechanisms used to access cryptographic modules use authentication that meets DOD requirements. This allows for Security Levels 1, 2, 3, or 4 for use on a general-purpose computing system.",
+  "Documentable": "false"
+}

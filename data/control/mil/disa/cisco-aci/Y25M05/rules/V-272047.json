@@ -1,0 +1,21 @@
+{
+  "vuln_id": "V-272047",
+  "rule_id": "SV-272047r1113953_rule",
+  "stig_id": "CACI-L2-000019",
+  "severity": "medium",
+  "severity_category": "CAT II",
+  "weight": "10.0",
+  "title": "The Cisco ACI layer 2 switch must establish organization-defined alternate communication paths for system operations organizational command and control.",
+  "group_title": "SRG-NET-000760-L2S-000160",
+  "idents": {
+    "cci": [
+      "CCI-004931"
+    ]
+  },
+  "check_id": "C-76097r1064154_chk",
+  "check_content": "If the connection type is remotely attached through a layer 3 network, this is not applicable.\n\nVerify the cluster status.\n\napic1# cluster_health\n\nIf the status of the clustered nodes is not \"OK\", this is a finding.",
+  "fixtext": "Configure a multi-pod ACI architecture with separate APIC clusters with redundancy across pods using external IP-routed networks (Interpod Network) to connect them, allowing management access even if one pod experiences a failure.\n\nDeploy at least two separate APIC clusters (pods).\n\napic1# conf t\napic1(config)# pod <pod_name>\napic1(config)# ip address <management_ip> <subnet_mask>\napic1(config)# ip route <destination_network> <next_hop_ip>",
+  "fix_id": "F-76004r1064155_fix",
+  "VulnDiscussion": "An incident, whether adversarial- or nonadversarial-based, can disrupt established communication paths used for system operations and organizational command and control. Alternate communication paths reduce the risk of all communication paths being affected by the same incident. To compound the problem, the inability of organizational officials to obtain timely information about disruptions or to provide timely direction to operational elements after a communication path incident, can impact the ability of the organization to respond to such incidents in a timely manner. Establishing alternate communication paths for command and control purposes, including designating alternative decision makers if primary decision makers are unavailable and establishing the extent and limitations of their actions, can greatly facilitate the organization's ability to continue to operate and take appropriate actions during an incident.\n\nTo establish alternate communication paths for system operations and organizational command and control within a Cisco ACI cluster using the CLI, configure a multi-pod ACI architecture with separate APIC clusters, ensuring redundancy across pods by using external IP-routed networks (Inter-Pod Network) to maintain connectivity even if one pod experiences a failure. This effectively creates diverse communication pathways for management and control functions.",
+  "Documentable": "false"
+}
