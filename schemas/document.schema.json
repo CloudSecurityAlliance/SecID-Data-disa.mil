@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/CloudSecurityAlliance/SecID-Data-disa.mil/schemas/document.schema.json",
+  "title": "DISA STIG/SRG document",
+  "type": "object",
+  "required": ["slug", "release", "kind", "secid", "provenance"],
+  "properties": {
+    "secid": {"type": "string", "description": "e.g. secid:control/disa.mil/rhel-9@V2R9"},
+    "slug": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+    "release": {"type": "string", "pattern": "^(V\\d+R\\d+|Y\\d{2}M\\d{2})$"},
+    "kind": {"enum": ["STIG", "SRG"]},
+    "benchmark_id": {"type": ["string", "null"]},
+    "xccdf_namespace": {"type": "string"},
+    "title": {"type": ["string", "null"]},
+    "version": {"type": ["string", "null"]},
+    "status": {"type": ["string", "null"]},
+    "status_date": {"type": ["string", "null"]},
+    "rule_count": {"type": "integer"},
+    "rule_index": {"type": "array", "items": {"type": "string", "pattern": "^V-\\d+$"}},
+    "profiles": {"type": "array", "items": {"type": "object"}},
+    "provenance": {
+      "type": "object",
+      "required": ["source_compilation", "inner_archive", "inner_sha256"],
+      "properties": {
+        "source_compilation": {"type": "string"},
+        "inner_archive": {"type": "string"},
+        "inner_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "extractor": {"type": "string"}
+      }
+    }
+  }
+}

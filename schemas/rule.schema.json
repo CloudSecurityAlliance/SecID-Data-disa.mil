@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/CloudSecurityAlliance/SecID-Data-disa.mil/schemas/rule.schema.json",
+  "title": "DISA STIG/SRG rule",
+  "type": "object",
+  "required": ["vuln_id", "rule_id", "severity", "title"],
+  "properties": {
+    "vuln_id": {"type": "string", "pattern": "^V-\\d+$",
+      "description": "Stable across revisions. Used as the SecID subpath."},
+    "rule_id": {"type": "string", "pattern": "^SV-\\d+r\\d+_rule$",
+      "description": "Carries a revision counter; changes when the rule changes."},
+    "stig_id": {"type": ["string", "null"], "description": "Human-facing per-benchmark ID, e.g. CNTR-OS-000010."},
+    "severity": {"enum": ["high", "medium", "low", null]},
+    "severity_category": {"enum": ["CAT I", "CAT II", "CAT III", null]},
+    "weight": {"type": ["string", "null"]},
+    "title": {"type": ["string", "null"]},
+    "group_title": {"type": ["string", "null"]},
+    "idents": {
+      "type": "object",
+      "description": "Identifier systems keyed by scheme, e.g. cci, legacy.",
+      "additionalProperties": {"type": "array", "items": {"type": "string"}}
+    },
+    "check_id": {"type": ["string", "null"]},
+    "check_content": {"type": ["string", "null"]},
+    "fixtext": {"type": ["string", "null"]},
+    "fix_id": {"type": ["string", "null"]},
+    "VulnDiscussion": {"type": "string"},
+    "FalsePositives": {"type": "string"},
+    "FalseNegatives": {"type": "string"},
+    "Documentable": {"type": "string"},
+    "Mitigations": {"type": "string"},
+    "SeverityOverrideGuidance": {"type": "string"},
+    "PotentialImpacts": {"type": "string"},
+    "ThirdPartyTools": {"type": "string"},
+    "MitigationControl": {"type": "string"},
+    "Responsibility": {"type": "string"},
+    "IAControls": {"type": "string"},
+    "description_other": {"type": "string"}
+  }
+}
