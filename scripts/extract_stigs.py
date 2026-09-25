@@ -19,10 +19,16 @@ STIGs and SRGs both live under control/ because that is the SecID type both reso
 "SRG" survives as the `kind` field, not as a directory. Structure follows the identifier,
 never the publisher's filing cabinet.
 
+Output must stay byte-identical to the committed records when DISA has not changed a
+document, or every ingest churns every file and `git diff v2026.04 v2026.07` stops meaning
+"what DISA changed". Key order, the `extractor` value and the JSON formatting are therefore
+part of the format: change them only in a commit that rewrites the data deliberately.
+
 Usage:
     python3 scripts/extract_stigs.py path/to/U_SRG-STIG_Library_July_2026.zip
+    python3 scripts/extract_stigs.py COMPILATION.zip --out /tmp/scratch   # write elsewhere
 """
-import hashlib, io, json, re, sys, zipfile
+import argparse, collections, hashlib, io, json, re, sys, zipfile
 import xml.etree.ElementTree as ET
 from pathlib import Path
 
@@ -127,11 +133,39 @@ def parse_xccdf(xml_bytes):
     return bench
 
 
+def dump(obj):
+    """The one serialisation used for every record. See the module docstring."""
+    return json.dumps(obj, indent=2, ensure_ascii=False) + "\n"
+
+
+def document_record(bench, rules, slug, version, kind, comp_name, archive, inner_sha):
+    """Assemble stig.json in the committed key order.
+
+    `secid` leads (the backfill commit put it there and every record has it there); the
+    XCCDF-derived fields follow in the order parse_xccdf produces them; provenance and the
+    path components come after; the rule list closes the record.
+    """
+    doc = {"secid": f"secid:{SECID_TYPE}/{NAMESPACE}/{slug}@{version}"}
+    doc.update(bench)
+    doc["provenance"] = {
+        "source_compilation": comp_name,
+        "inner_archive": archive,
+        "inner_sha256": inner_sha,
+        "extractor": "scripts/extract_stigs.py",
+    }
+    doc["slug"], doc["release"], doc["kind"] = slug, version, kind
+    doc["rule_count"] = len(rules)
+    doc["rule_index"] = [r["vuln_id"] for r in rules]
+    return doc
+
+
 def main():
-    if len(sys.argv) < 2:
-        sys.exit(__doc__)
-    comp = Path(sys.argv[1])
-    repo = Path(__file__).resolve().parent.parent
+    ap = argparse.ArgumentParser(description="Extract STIG/SRG rules from a DISA compilation.")
+    ap.add_argument("compilation", help="path to U_SRG-STIG_Library_<Month>_<Year>.zip")
+    ap.add_argument("--out", help="write data/ and indexes/ under this directory instead of the repository")
+    args = ap.parse_args()
+    comp = Path(args.compilation)
+    repo = Path(args.out) if args.out else Path(__file__).resolve().parent.parent
     comp_name = comp.name
 
     stats = {"documents": 0, "rules": 0, "skipped": [], "no_xccdf": []}
@@ -162,31 +196,31 @@ def main():
                 continue
 
             bench = parse_xccdf(xml_bytes)
-            bench["provenance"] = {
-                "source_compilation": comp_name,
-                "inner_archive": Path(info.filename).name,
-                "inner_sha256": inner_sha,
-                "extractor": "scripts/extract_stigs.py",
-            }
-            bench["slug"], bench["release"], bench["kind"] = slug, version, kind
-            bench["secid"] = f"secid:{SECID_TYPE}/{NAMESPACE}/{slug}@{version}"
+            rules = bench.pop("rules")
+            archive = Path(info.filename).name
+
+            # Rules are written one file per vuln_id, so a repeated ID would silently
+            # overwrite the earlier rule while rule_index still listed it twice.
+            counts = collections.Counter(r["vuln_id"] for r in rules)
+            dupes = sorted((v for v, c in counts.items() if c > 1), key=str)
+            if dupes:
+                sys.exit(f"{archive}: duplicate vuln IDs within one document, refusing to write: "
+                         f"{', '.join(map(str, dupes[:10]))}")
+
+            doc = document_record(bench, rules, slug, version, kind, comp_name, archive, inner_sha)
 
             # reverse-DNS the namespace exactly as registry/<type>/<tld>/<domain> does
             domain_path = Path(*reversed(NAMESPACE.split(".")))
             base = repo / "data" / SECID_TYPE / domain_path / slug / version
             (base / "rules").mkdir(parents=True, exist_ok=True)
-            rules = bench.pop("rules")
-            bench["rule_count"] = len(rules)
-            bench["rule_index"] = [r["vuln_id"] for r in rules]
-            (base / "stig.json").write_text(json.dumps(bench, indent=2, ensure_ascii=False) + "\n")
+            (base / "stig.json").write_text(dump(doc))
             for r in rules:
-                (base / "rules" / f'{r["vuln_id"]}.json').write_text(
-                    json.dumps(r, indent=2, ensure_ascii=False) + "\n")
+                (base / "rules" / f'{r["vuln_id"]}.json').write_text(dump(r))
 
             stats["documents"] += 1
             stats["rules"] += len(rules)
             manifest.append({"slug": slug, "release": version, "kind": kind,
-                             "rules": len(rules), "archive": Path(info.filename).name})
+                             "rules": len(rules), "archive": archive})
 
     (repo / "indexes").mkdir(exist_ok=True)
     (repo / "indexes" / "corpus.json").write_text(json.dumps(
