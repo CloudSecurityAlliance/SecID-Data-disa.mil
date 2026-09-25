@@ -1,0 +1,37 @@
+name: Validate records
+
+# Every record against schemas/ (JSON Schema Draft 2020-12), plus the layout checks a
+# schema cannot express: path vs slug/release, secid vs path, rule_index vs rules/ files,
+# rule_count, corpus.json, and the compilation ledger. See scripts/validate.py.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: "3.12"
+
+      - name: Install jsonschema
+        run: python -m pip install --disable-pip-version-check "jsonschema==4.26.0"
+
+      - name: Validate
+        run: python scripts/validate.py
