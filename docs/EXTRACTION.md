@@ -13,9 +13,16 @@ Salesforce Experience Cloud app: download URLs live in `data-link` attributes on
 
 ## Streaming
 
-The compilation is ~370 MB and is never fully unpacked. A ZIP's central directory sits at the
-end of the archive, so the manifest is readable with two range requests (~150 KB). Inner
-archives are then read into memory one at a time.
+The compilation is ~370 MB and is never fully unpacked. Two different tools rely on that, in
+different ways:
+
+- **`scripts/extract_stigs.py`** (this repository) works on a downloaded copy
+  (`scripts/fetch_compilation.py` fetches it and records its SHA-256). It reads inner archives
+  into memory one at a time and never writes them to disk.
+- **`scripts/sync-disa-stigs.py`** (in the [SecID](https://github.com/CloudSecurityAlliance/SecID)
+  registry repository) never downloads the payload. A ZIP's central directory sits at the end
+  of the archive, so it reads the manifest with two HTTP range requests (~150 KB). The
+  slug-collision and clean-slug refusals also live there.
 
 ## What is parsed
 
